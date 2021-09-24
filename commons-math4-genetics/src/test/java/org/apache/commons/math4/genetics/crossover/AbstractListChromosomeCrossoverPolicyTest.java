@@ -38,18 +38,10 @@ public class AbstractListChromosomeCrossoverPolicyTest {
                 return new ChromosomePair<>(first, second);
             }
         };
-        Chromosome<String> ch1 = new AbstractChromosome<String>(c -> {
-            return 0;
-        }, c -> {
-            return "0";
-        }) {
+        Chromosome<String> ch1 = new AbstractChromosome<String>(c -> 0, c -> "0") {
         };
 
-        Chromosome<String> ch2 = new AbstractChromosome<String>(c -> {
-            return 1;
-        }, c -> {
-            return "1";
-        }) {
+        Chromosome<String> ch2 = new AbstractChromosome<String>(c -> 1, c -> "1") {
         };
 
         crossoverPolicy.crossover(ch1, ch2, 1.0);

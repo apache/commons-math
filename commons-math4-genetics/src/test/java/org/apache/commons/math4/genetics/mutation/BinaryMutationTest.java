@@ -29,9 +29,8 @@ public class BinaryMutationTest {
 
         // stochastic testing for single gene mutation :)
         for (int i = 0; i < 20; i++) {
-            BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> {
-                return 0;
-            }, new DummyListChromosomeDecoder<>("0"));
+            BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> 0,
+                    new DummyListChromosomeDecoder<>("0"));
             BinaryChromosome<String> mutated = (BinaryChromosome<String>) mutation.mutate(original, .1);
 
             // one gene should be different
@@ -46,9 +45,8 @@ public class BinaryMutationTest {
 
         // stochastic testing for two gene mutation :)
         for (int i = 0; i < 20; i++) {
-            BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> {
-                return 0;
-            }, new DummyListChromosomeDecoder<>("0"));
+            BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> 0,
+                    new DummyListChromosomeDecoder<>("0"));
             BinaryChromosome<String> mutated = (BinaryChromosome<String>) mutation.mutate(original, .2);
 
             // one gene should be different
@@ -63,9 +61,8 @@ public class BinaryMutationTest {
 
         // stochastic testing for three gene mutation :)
         for (int i = 0; i < 20; i++) {
-            BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> {
-                return 0;
-            }, new DummyListChromosomeDecoder<>("0"));
+            BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> 0,
+                    new DummyListChromosomeDecoder<>("0"));
             BinaryChromosome<String> mutated = (BinaryChromosome<String>) mutation.mutate(original, .3);
 
             // one gene should be different

@@ -31,23 +31,11 @@ public class ListPopulationTest {
 
     @Test
     public void testGetFittestChromosome() {
-        AbstractChromosome<String> c1 = new AbstractChromosome<String>(chromosome -> {
-            return 0;
-        }, chromosome -> {
-            return "0";
-        }) {
+        AbstractChromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 0, chromosome -> "0") {
         };
-        AbstractChromosome<String> c2 = new AbstractChromosome<String>(chromosome -> {
-            return 10;
-        }, chromosome -> {
-            return "10";
-        }) {
+        AbstractChromosome<String> c2 = new AbstractChromosome<String>(chromosome -> 10, chromosome -> "10") {
         };
-        AbstractChromosome<String> c3 = new AbstractChromosome<String>(chromosome -> {
-            return 15;
-        }, chromosome -> {
-            return "15";
-        }) {
+        AbstractChromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 15, chromosome -> "15") {
         };
 
         ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
@@ -63,15 +51,9 @@ public class ListPopulationTest {
     @Test
     public void testChromosomes() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
 
         final ListPopulation<String> population = new ListPopulation<>(10);
 
@@ -98,24 +80,16 @@ public class ListPopulationTest {
     @Test(expected = GeneticException.class)
     public void testChromosomeListConstructorPopulationLimitNotPositive() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
         new ListPopulation<String>(chromosomes, -10);
     }
 
     @Test(expected = GeneticException.class)
     public void testConstructorListOfChromosomesBiggerThanPopulationSize() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
 
         new ListPopulation<String>(chromosomes, 1);
     }
@@ -123,15 +97,9 @@ public class ListPopulationTest {
     @Test(expected = GeneticException.class)
     public void testAddTooManyChromosomes() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
 
         final ListPopulation<String> population = new ListPopulation<>(2);
 
@@ -144,24 +112,17 @@ public class ListPopulationTest {
         final ListPopulation<String> population = new ListPopulation<>(2);
 
         for (int i = 0; i <= population.getPopulationLimit(); i++) {
-            population.addChromosome(BinaryChromosome.randomChromosome(3, chromosome -> {
-                return 0;
-            }, new DummyListChromosomeDecoder<>("0")));
+            population.addChromosome(
+                    BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
         }
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testIterator() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
 
         final ListPopulation<String> population = new ListPopulation<>(10);
 
@@ -177,15 +138,9 @@ public class ListPopulationTest {
     @Test(expected = GeneticException.class)
     public void testSetPopulationLimitTooSmall() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
-        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
 
         final ListPopulation<String> population = new ListPopulation<>(chromosomes, 3);
 

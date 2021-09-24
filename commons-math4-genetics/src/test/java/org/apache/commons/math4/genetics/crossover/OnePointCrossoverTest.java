@@ -31,12 +31,10 @@ public class OnePointCrossoverTest {
         @SuppressWarnings("boxing")
         Integer[] p2 = new Integer[] {0, 1, 1, 0, 1, 0, 1, 1, 1};
 
-        BinaryChromosome<String> p1c = new BinaryChromosome<>(p1, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
-        BinaryChromosome<String> p2c = new BinaryChromosome<>(p2, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
+        BinaryChromosome<String> p1c = new BinaryChromosome<>(p1, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
+        BinaryChromosome<String> p2c = new BinaryChromosome<>(p2, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
 
         OnePointCrossover<Integer, String> opc = new OnePointCrossover<>();
 

@@ -42,9 +42,8 @@ public class ChromosomeRepresentationUtilsTest {
         List<Double> identityPermutation = ChromosomeRepresentationUtils.identityPermutation(5);
         List<String> sequence = Arrays.asList(new String[] {"a", "b", "c", "d", "e"});
         RandomKeyDecoder<String> decoder = new RandomKeyDecoder<>(sequence);
-        RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(identityPermutation, c -> {
-            return 0;
-        }, decoder);
+        RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(identityPermutation, c -> 0,
+                decoder);
         List<String> decoded = decoder.decode(chromosome);
 
         Assert.assertEquals("a", decoded.get(0));
@@ -71,9 +70,7 @@ public class ChromosomeRepresentationUtilsTest {
         Assert.assertArrayEquals(new Double[] {0.6, 0.0, 0.4, 0.8, 0.2}, permArr);
 
         RandomKeyDecoder<String> decoder = new RandomKeyDecoder<>(sequence);
-        List<String> decodedData = decoder.decode(new RealValuedChromosome<>(permutation, c -> {
-            return 0;
-        }, decoder));
+        List<String> decodedData = decoder.decode(new RealValuedChromosome<>(permutation, c -> 0, decoder));
 
         Assert.assertEquals("b", decodedData.get(0));
         Assert.assertEquals("b", decodedData.get(1));
@@ -92,9 +89,7 @@ public class ChromosomeRepresentationUtilsTest {
 
         Assert.assertArrayEquals(new Double[] {0.2, 0.6, 0.4, 0.0, 0.8}, permArr);
 
-        decodedData = decoder.decode(new RealValuedChromosome<>(permutation, c -> {
-            return 0;
-        }, decoder));
+        decodedData = decoder.decode(new RealValuedChromosome<>(permutation, c -> 0, decoder));
 
         Assert.assertEquals("z", decodedData.get(0));
         Assert.assertEquals("x", decodedData.get(1));
@@ -110,9 +105,7 @@ public class ChromosomeRepresentationUtilsTest {
 
         RandomKeyDecoder<String> decoder = new RandomKeyDecoder<>(origData);
         RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(
-                ChromosomeRepresentationUtils.inducedPermutation(origData, permutedData), c -> {
-            return 0;
-        }, decoder);
+                ChromosomeRepresentationUtils.inducedPermutation(origData, permutedData), c -> 0, decoder);
         List<String> decoded = decoder.decode(chromosome);
 
         Assert.assertEquals("d", decoded.get(0));
@@ -140,9 +133,8 @@ public class ChromosomeRepresentationUtilsTest {
     @Test
     public void testEqualRepr() {
         RandomKeyDecoder<String> decoder = new RandomKeyDecoder<>(Arrays.asList(new String[] {"a", "b", "c"}));
-        RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(new Double[] {0.2, 0.2, 0.5}, c -> {
-            return 0;
-        }, decoder);
+        RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(new Double[] {0.2, 0.2, 0.5}, c -> 0,
+                decoder);
 
         List<String> decodedData = decoder.decode(chromosome);
         Assert.assertEquals("a", decodedData.get(0));

@@ -45,11 +45,7 @@ public class TournamentSelectionTest {
 
     private static class DummyChromosome extends AbstractChromosome<String> {
         DummyChromosome() {
-            super(c -> {
-                return counter++;
-            }, c -> {
-                    return "0";
-                });
+            super(c -> counter++, c -> "0");
         }
 
     }

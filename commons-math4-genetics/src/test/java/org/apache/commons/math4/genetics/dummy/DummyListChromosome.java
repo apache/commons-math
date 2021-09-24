@@ -28,21 +28,16 @@ import org.apache.commons.math4.genetics.utils.DummyListChromosomeDecoder;
 public class DummyListChromosome extends AbstractListChromosome<Integer, String> {
 
     public DummyListChromosome(final Integer[] representation) {
-        super(representation, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
+        super(representation, chromosome -> 0, new DummyListChromosomeDecoder<>("0"));
     }
 
     public DummyListChromosome() {
-        super(ChromosomeRepresentationUtils.randomBinaryRepresentation(10), chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
+        super(ChromosomeRepresentationUtils.randomBinaryRepresentation(10), chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
     }
 
     public DummyListChromosome(final List<Integer> representation) {
-        super(representation, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
+        super(representation, chromosome -> 0, new DummyListChromosomeDecoder<>("0"));
     }
 
     @Override

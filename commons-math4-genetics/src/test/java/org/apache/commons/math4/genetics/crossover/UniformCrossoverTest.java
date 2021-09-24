@@ -60,12 +60,10 @@ public class UniformCrossoverTest {
     }
 
     private void performCrossover(double ratio) {
-        final BinaryChromosome<String> p1c = new BinaryChromosome<>(p1, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
-        final BinaryChromosome<String> p2c = new BinaryChromosome<>(p2, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
+        final BinaryChromosome<String> p1c = new BinaryChromosome<>(p1, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
+        final BinaryChromosome<String> p2c = new BinaryChromosome<>(p2, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
 
         final CrossoverPolicy<String> cp = new UniformCrossover<Integer, String>(ratio);
 

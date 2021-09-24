@@ -33,12 +33,10 @@ public class NPointCrossoverTest {
         final Integer[] p1 = new Integer[] {1, 0, 1, 0, 0, 1, 0, 1, 1};
         final Integer[] p2 = new Integer[] {0, 1, 1, 0, 1, 0, 1, 1, 1};
 
-        final BinaryChromosome<String> p1c = new BinaryChromosome<String>(p1, c -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<Integer>("0"));
-        final BinaryChromosome<String> p2c = new BinaryChromosome<String>(p2, c -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<Integer>("0"));
+        final BinaryChromosome<String> p1c = new BinaryChromosome<String>(p1, c -> 0,
+                new DummyListChromosomeDecoder<Integer>("0"));
+        final BinaryChromosome<String> p2c = new BinaryChromosome<String>(p2, c -> 0,
+                new DummyListChromosomeDecoder<Integer>("0"));
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(15);
         cp.crossover(p1c, p2c, 1.0);
@@ -47,12 +45,10 @@ public class NPointCrossoverTest {
     @Test(expected = GeneticException.class)
     public void testCrossoverInvalidFixedLengthChromosomeFirst() {
         final Integer[] p1 = new Integer[] {1, 0, 1, 0, 0, 1, 0, 1, 1};
-        final BinaryChromosome<String> p1c = new BinaryChromosome<String>(p1, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
-        final AbstractChromosome<String> p2c = new AbstractChromosome<String>(chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")) {
+        final BinaryChromosome<String> p1c = new BinaryChromosome<String>(p1, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
+        final AbstractChromosome<String> p2c = new AbstractChromosome<String>(chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0")) {
         };
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);
@@ -62,12 +58,10 @@ public class NPointCrossoverTest {
     @Test(expected = GeneticException.class)
     public void testCrossoverInvalidFixedLengthChromosomeSecond() {
         final Integer[] p1 = new Integer[] {1, 0, 1, 0, 0, 1, 0, 1, 1};
-        final BinaryChromosome<String> p2c = new BinaryChromosome<String>(p1, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
-        final AbstractChromosome<String> p1c = new AbstractChromosome<String>(chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0")) {
+        final BinaryChromosome<String> p2c = new BinaryChromosome<String>(p1, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
+        final AbstractChromosome<String> p1c = new AbstractChromosome<String>(chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0")) {
         };
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);
@@ -79,12 +73,10 @@ public class NPointCrossoverTest {
         Integer[] p1 = new Integer[] {1, 0, 1, 0, 1, 0, 1, 0, 1};
         Integer[] p2 = new Integer[] {0, 1, 0, 1, 0, 1, 0, 1, 0};
 
-        BinaryChromosome<String> p1c = new BinaryChromosome<>(p1, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
-        BinaryChromosome<String> p2c = new BinaryChromosome<>(p2, chromosome -> {
-            return 0;
-        }, new DummyListChromosomeDecoder<>("0"));
+        BinaryChromosome<String> p1c = new BinaryChromosome<>(p1, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
+        BinaryChromosome<String> p2c = new BinaryChromosome<>(p2, chromosome -> 0,
+                new DummyListChromosomeDecoder<>("0"));
 
         final int order = 3;
         NPointCrossover<Integer, String> npc = new NPointCrossover<>(order);

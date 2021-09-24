@@ -25,18 +25,15 @@ public class RealValuedChromosomeTest {
     @Test
     public void testNewChromosome() {
         for (int i = 0; i < 10; i++) {
-            new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1), c1 -> {
-                return 1;
-            }, new DummyListChromosomeDecoder<>("1"));
+            new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1), c1 -> 1,
+                    new DummyListChromosomeDecoder<>("1"));
         }
     }
 
     @Test
     public void testRandomChromosome() {
         for (int i = 0; i < 10; i++) {
-            RealValuedChromosome.randomChromosome(5, c -> {
-                return 0;
-            }, new DummyListChromosomeDecoder<>("0"), 0, 2);
+            RealValuedChromosome.randomChromosome(5, c -> 0, new DummyListChromosomeDecoder<>("0"), 0, 2);
         }
     }
 

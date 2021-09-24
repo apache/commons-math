@@ -21,11 +21,7 @@ import org.apache.commons.math4.genetics.chromosome.AbstractChromosome;
 public class DummyChromosome extends AbstractChromosome<String> {
 
     public DummyChromosome() {
-        super(c -> {
-            return 0;
-        }, c -> {
-                return "0";
-            });
+        super(c -> 0, c -> "0");
     }
 
 }

@@ -29,9 +29,8 @@ public class RealValuedMutationTest {
         MutationPolicy<String> mutation = new RealValuedMutation<>();
         int l = 10;
         for (int i = 0; i < 20; i++) {
-            RealValuedChromosome<String> origRk = RealValuedChromosome.<String>randomChromosome(l, chromosome -> {
-                return 0;
-            }, new DummyListChromosomeDecoder<>("0"), 0d, 1d);
+            RealValuedChromosome<String> origRk = RealValuedChromosome.<String>randomChromosome(l, chromosome -> 0,
+                    new DummyListChromosomeDecoder<>("0"), 0d, 1d);
             AbstractChromosome<String> mutated = (AbstractChromosome<String>) mutation.mutate(origRk, .1);
             RealValuedChromosome<String> mutatedRk = (RealValuedChromosome<String>) mutated;
 

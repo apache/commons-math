@@ -23,45 +23,25 @@ public class AbstractChromosomeTest {
 
     @Test
     public void testGetFitness() {
-        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> {
-            return 1;
-        }, chromosome -> {
-            return "1";
-        }) {
+        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
         };
         Assert.assertEquals(1, c1.evaluate(), .001);
     }
 
     @Test
     public void testDecode() {
-        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> {
-            return 1;
-        }, chromosome -> {
-            return "1";
-        }) {
+        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
         };
         Assert.assertEquals("1", c1.decode());
     }
 
     @Test
     public void testCompareTo() {
-        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> {
-            return 0;
-        }, chromosome -> {
-            return "0";
-        }) {
+        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 0, chromosome -> "0") {
         };
-        Chromosome<String> c2 = new AbstractChromosome<String>(chromosome -> {
-            return 10;
-        }, chromosome -> {
-            return "10";
-        }) {
+        Chromosome<String> c2 = new AbstractChromosome<String>(chromosome -> 10, chromosome -> "10") {
         };
-        Chromosome<String> c3 = new AbstractChromosome<String>(chromosome -> {
-            return 10;
-        }, chromosome -> {
-            return "10";
-        }) {
+        Chromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 10, chromosome -> "10") {
         };
 
         Assert.assertTrue(c1.compareTo(c2) < 0);
@@ -72,23 +52,11 @@ public class AbstractChromosomeTest {
 
     @Test
     public void testIsSame() {
-        AbstractChromosome<String> c1 = new AbstractChromosome<String>(chromosome -> {
-            return 1;
-        }, chromosome -> {
-            return "1";
-        }) {
+        AbstractChromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
         };
-        AbstractChromosome<String> c2 = new AbstractChromosome<String>(chromosome -> {
-            return 2;
-        }, chromosome -> {
-            return "2";
-        }) {
+        AbstractChromosome<String> c2 = new AbstractChromosome<String>(chromosome -> 2, chromosome -> "2") {
         };
-        AbstractChromosome<String> c3 = new AbstractChromosome<String>(chromosome -> {
-            return 3;
-        }, chromosome -> {
-            return "1";
-        }) {
+        AbstractChromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 3, chromosome -> "1") {
         };
         Assert.assertTrue(c1.isSame(c3));
         Assert.assertFalse(c1.isSame(c2));

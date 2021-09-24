@@ -30,9 +30,8 @@ public class TransparentListChromosomeDecoderTest {
     @Test
     public void testDecode() {
         List<Integer> rp = ChromosomeRepresentationUtils.randomBinaryRepresentation(10);
-        Chromosome<List<Integer>> chromosome = new BinaryChromosome<>(rp, c -> {
-            return 0;
-        }, new TransparentListChromosomeDecoder<>());
+        Chromosome<List<Integer>> chromosome = new BinaryChromosome<>(rp, c -> 0,
+                new TransparentListChromosomeDecoder<>());
         List<Integer> decodedRp = chromosome.decode();
         Assert.assertTrue(Objects.equals(rp, decodedRp));
     }
