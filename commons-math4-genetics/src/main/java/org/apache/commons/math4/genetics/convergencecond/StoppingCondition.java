@@ -29,7 +29,7 @@ public interface StoppingCondition<P> {
     /**
      * Determine whether or not the given population satisfies the stopping
      * condition.
-     * @param population TODO
+     * @param population population of chromosome
      *
      * @return <code>true</code> if this stopping condition is met by the given
      *         population, <code>false</code> otherwise.

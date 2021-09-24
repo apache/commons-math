@@ -51,7 +51,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      * @param fitnessFunction The {@link FitnessFunction}
      * @param decoder         The {@link Decoder}
      */
-    public AbstractChromosome(final FitnessFunction<P> fitnessFunction, final Decoder<P> decoder) {
+    protected AbstractChromosome(final FitnessFunction<P> fitnessFunction, final Decoder<P> decoder) {
         ValidationUtils.checkForNull("fitness-function", fitnessFunction);
         ValidationUtils.checkForNull("decoder", decoder);
         this.fitnessFunction = fitnessFunction;

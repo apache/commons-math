@@ -104,7 +104,7 @@ public class IntegralValuedChromosome<P> extends AbstractListChromosome<Integer,
      */
     @Override
     public IntegralValuedChromosome<P> newChromosome(List<Integer> chromosomeRepresentation) {
-        return new IntegralValuedChromosome<P>(chromosomeRepresentation, getFitnessFunction(), getDecoder(), this.min,
+        return new IntegralValuedChromosome<>(chromosomeRepresentation, getFitnessFunction(), getDecoder(), this.min,
                 this.max);
     }
 

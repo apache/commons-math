@@ -197,7 +197,7 @@ public class ListPopulation<P> implements Population<P> {
 
         if (oldChromosomes.size() * elitismRate == 0) {
             // if no of elite chromosome is 0 crete and return an empty population instance.
-            return new ListPopulation<P>(getPopulationLimit());
+            return new ListPopulation<>(getPopulationLimit());
         } else {
             // create a new generation of chromosomes with same parameters and add the elit
             // individuals.

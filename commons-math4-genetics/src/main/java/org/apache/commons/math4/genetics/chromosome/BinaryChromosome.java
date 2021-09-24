@@ -56,7 +56,7 @@ public class BinaryChromosome<P> extends IntegralValuedChromosome<P> {
      */
     @Override
     public BinaryChromosome<P> newChromosome(List<Integer> chromosomeRepresentation) {
-        return new BinaryChromosome<P>(chromosomeRepresentation, getFitnessFunction(), getDecoder());
+        return new BinaryChromosome<>(chromosomeRepresentation, getFitnessFunction(), getDecoder());
     }
 
     /**

@@ -46,7 +46,7 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
      * @param decoder         An instance of {@link AbstractListChromosomeDecoder},
      *                        to decode list chromosome.
      */
-    public AbstractListChromosome(final List<T> representation, final FitnessFunction<P> fitnessFunction,
+    protected AbstractListChromosome(final List<T> representation, final FitnessFunction<P> fitnessFunction,
             final AbstractListChromosomeDecoder<T, P> decoder) {
         this(representation, true, fitnessFunction, decoder);
     }
@@ -59,7 +59,7 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
      * @param decoder         An instance of {@link AbstractListChromosomeDecoder},
      *                        to decode list chromosome.
      */
-    public AbstractListChromosome(final T[] representation, FitnessFunction<P> fitnessFunction,
+    protected AbstractListChromosome(final T[] representation, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<T, P> decoder) {
         this(Arrays.asList(representation), fitnessFunction, decoder);
     }
@@ -73,7 +73,7 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
      * @param fitnessFunction The {@link FitnessFunction}
      * @param decoder         The instance of {@link AbstractListChromosomeDecoder}
      */
-    public AbstractListChromosome(final List<T> representation, final boolean copyList,
+    protected AbstractListChromosome(final List<T> representation, final boolean copyList,
             final FitnessFunction<P> fitnessFunction, final AbstractListChromosomeDecoder<T, P> decoder) {
         super(fitnessFunction, decoder);
         ValidationUtils.checkForNull("representation", representation);

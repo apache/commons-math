@@ -45,9 +45,10 @@ public class ConvergenceListenerRegistryTest {
             if (!accessible) {
                 listenersField.setAccessible(true);
             }
+            @SuppressWarnings("unchecked")
             List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
                     .get(registry);
-            Assert.assertTrue(listeners.get(0) == convergenceListener);
+            Assert.assertSame(listeners.get(0), convergenceListener);
             listenersField.setAccessible(accessible);
         } catch (NoSuchFieldException | SecurityException e) {
             throw new GeneticException(e);

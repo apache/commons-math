@@ -129,7 +129,7 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
      */
     @Override
     public RealValuedChromosome<P> newChromosome(List<Double> chromosomeRepresentation) {
-        return new RealValuedChromosome<P>(chromosomeRepresentation, getFitnessFunction(), getDecoder(), this.min,
+        return new RealValuedChromosome<>(chromosomeRepresentation, getFitnessFunction(), getDecoder(), this.min,
                 this.max);
     }
 
@@ -146,7 +146,7 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
      */
     public static <P> RealValuedChromosome<P> randomChromosome(int length, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Double, P> decoder, double min, double max) {
-        return new RealValuedChromosome<P>(ChromosomeRepresentationUtils.randomDoubleRepresentation(length, min, max),
+        return new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(length, min, max),
                 fitnessFunction, decoder, min, max);
     }
 

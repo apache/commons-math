@@ -56,7 +56,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * @param mutationPolicy  The {@link MutationPolicy}
      * @param selectionPolicy The {@link SelectionPolicy}
      */
-    public AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
+    protected AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
             final SelectionPolicy<P> selectionPolicy) {
         this.crossoverPolicy = crossoverPolicy;
         this.mutationPolicy = mutationPolicy;
@@ -70,7 +70,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * @param selectionPolicy The {@link SelectionPolicy}
      * @param elitismRate     The elitism rate
      */
-    public AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
+    protected AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy, final MutationPolicy<P> mutationPolicy,
             final SelectionPolicy<P> selectionPolicy, double elitismRate) {
         this.crossoverPolicy = crossoverPolicy;
         this.mutationPolicy = mutationPolicy;
