@@ -25,6 +25,7 @@ import org.apache.commons.math4.genetics.utils.ConsoleLogger;
 /**
  * Logs population statistics during the convergence process.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public final class PopulationStatisticsLogger<P> implements ConvergenceListener<P> {
 

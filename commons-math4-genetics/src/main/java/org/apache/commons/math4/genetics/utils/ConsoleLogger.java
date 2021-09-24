@@ -25,6 +25,7 @@ import org.apache.commons.math4.genetics.exception.GeneticException;
 
 /**
  * This class is responsible for logging messages to console.
+ * @since 4.0
  */
 public final class ConsoleLogger {
 

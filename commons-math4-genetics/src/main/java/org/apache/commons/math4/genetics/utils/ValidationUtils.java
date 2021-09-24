@@ -20,6 +20,7 @@ import org.apache.commons.math4.genetics.exception.GeneticException;
 
 /**
  * This class contains common validation methods.
+ * @since 4.0
  */
 public interface ValidationUtils {
 

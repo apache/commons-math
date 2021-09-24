@@ -28,6 +28,7 @@ import org.apache.commons.math4.genetics.utils.ValidationUtils;
  * A concrete implementation of RandomKey decoder. This class is responsible for
  * decoding permutation chromosome encoded with random key.
  * @param <U> type of the permutation element
+ * @since 4.0
  */
 public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Double, List<U>> {
 

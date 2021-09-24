@@ -21,6 +21,7 @@ import org.apache.commons.math4.genetics.chromosome.Chromosome;
 /**
  * Decoder is responsible for converting chromosome genotype to phenotype.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public interface Decoder<P> {
 

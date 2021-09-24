@@ -24,6 +24,7 @@ import org.apache.commons.math4.genetics.chromosome.AbstractListChromosome;
  * A concrete implementation of transparent decoder for List Chromosome. Treats
  * the gentype as phenotype.
  * @param <T> the genotype of chromosome
+ * @since 4.0
  */
 public final class TransparentListChromosomeDecoder<T> extends AbstractListChromosomeDecoder<T, List<T>> {
 

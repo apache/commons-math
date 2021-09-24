@@ -23,6 +23,7 @@ import org.apache.commons.math4.genetics.population.Population;
  * This interface represents a convergence listener. Any implementation of the
  * same will be notified about the population statics.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public interface ConvergenceListener<P> {
 

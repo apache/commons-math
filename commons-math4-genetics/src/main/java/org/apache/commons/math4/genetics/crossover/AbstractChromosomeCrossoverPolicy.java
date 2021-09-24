@@ -24,6 +24,7 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
 /**
  * An abstraction to represent the base crossover policy.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverPolicy<P> {
 

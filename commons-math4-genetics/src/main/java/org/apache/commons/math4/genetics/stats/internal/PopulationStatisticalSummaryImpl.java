@@ -26,6 +26,7 @@ import org.apache.commons.math4.genetics.utils.ValidationUtils;
 /**
  * This class represents an implementation of population statistical summary.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public class PopulationStatisticalSummaryImpl<P> implements PopulationStatisticalSummary<P> {
 

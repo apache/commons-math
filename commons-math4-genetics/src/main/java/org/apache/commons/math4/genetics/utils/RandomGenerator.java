@@ -23,6 +23,7 @@ import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * An utility to generate per thread {@link UniformRandomProvider} instance.
+ * @since 4.0
  */
 public final class RandomGenerator {
 

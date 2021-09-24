@@ -27,6 +27,7 @@ import org.apache.commons.math4.genetics.population.Population;
  * will be responsible for registering the interested listeners and notifying
  * all when required.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public final class ConvergenceListenerRegistry<P> {
 
