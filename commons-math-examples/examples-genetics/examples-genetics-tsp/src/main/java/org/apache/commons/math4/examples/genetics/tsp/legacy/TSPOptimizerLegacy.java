@@ -53,7 +53,7 @@ public class TSPOptimizerLegacy {
 
             Thread.sleep(5000);
 
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
             throw new GeneticException(e);
         }
     }
@@ -62,9 +62,8 @@ public class TSPOptimizerLegacy {
      * Optimizes the tsp problem using legacy GA.
      * @param initial initial population
      * @param cities  cities
-     * @throws IOException throws {@link IOException}
      */
-    public void optimize(Population initial, List<City> cities) throws IOException {
+    public void optimize(Population initial, List<City> cities) {
 
         // initialize a new genetic algorithm
         final GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Integer>(), Constants.CROSSOVER_RATE,
