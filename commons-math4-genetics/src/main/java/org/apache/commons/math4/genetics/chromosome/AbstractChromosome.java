@@ -123,7 +123,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      * @param another chromosome to compare
      * @return true if <code>another</code> is equivalent to this chromosome
      */
-    protected boolean isSame(final AbstractChromosome<P> another) {
+    public boolean isSame(final AbstractChromosome<P> another) {
         final P decodedChromosome = decode();
         final P otherDecodedChromosome = another.decode();
         return decodedChromosome.equals(otherDecodedChromosome);
@@ -139,24 +139,6 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
     @Override
     public int hashCode() {
         return Objects.hash(decode());
-    }
-
-    /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AbstractChromosome<P> other = (AbstractChromosome<P>) obj;
-
-        return isSame(other);
     }
 
 }
