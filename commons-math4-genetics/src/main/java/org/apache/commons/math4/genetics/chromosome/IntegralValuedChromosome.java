@@ -117,7 +117,7 @@ public class IntegralValuedChromosome<P> extends AbstractListChromosome<Integer,
      * @param decoder         The {@link AbstractListChromosomeDecoder}
      * @param min             minimum inclusive value of allele
      * @param max             maximum exclusive value of allele
-     * @return a binary chromosome
+     * @return an integral-valued chromosome
      */
     public static <P> IntegralValuedChromosome<P> randomChromosome(int length, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Integer, P> decoder, int min, int max) {

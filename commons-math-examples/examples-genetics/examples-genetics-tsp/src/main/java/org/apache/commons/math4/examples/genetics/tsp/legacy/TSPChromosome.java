@@ -34,10 +34,6 @@ public class TSPChromosome extends RandomKey<City> {
      * constructor.
      * @param representation internal representation of chromosome
      * @param cities         list of cities
-     * @throws InvalidRepresentationException throws
-     *                                        {@link InvalidRepresentationException}
-     *                                        is the representation is not
-     *                                        acceptable
      */
     public TSPChromosome(List<Double> representation, List<City> cities) {
         super(representation);

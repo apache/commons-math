@@ -28,6 +28,7 @@ import org.apache.commons.math4.genetics.selection.SelectionPolicy;
  * This class represents an abstraction for all Genetic algorithm implementation
  * comprising the basic properties and operations.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public abstract class AbstractGeneticAlgorithm<P> {
 

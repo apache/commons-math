@@ -27,6 +27,7 @@ import org.apache.commons.rng.UniformRandomProvider;
 
 /**
  * This interface generates all random representations for chromosomes.
+ * @since 4.0
  */
 public interface ChromosomeRepresentationUtils {
 

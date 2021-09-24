@@ -26,6 +26,7 @@ import org.apache.commons.math4.genetics.exception.GeneticException;
  * An abstraction of crossover policy for list chromosomes.
  * @param <T> genetype of chromosome
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends AbstractChromosomeCrossoverPolicy<P> {
 

@@ -29,7 +29,7 @@ import org.apache.commons.math4.genetics.utils.Constants;
  * of the algorithm can be configured for a specific problem.
  *
  * @param <P> phenotype of chromosome
- * @since 2.0
+ * @since 4.0
  */
 public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 

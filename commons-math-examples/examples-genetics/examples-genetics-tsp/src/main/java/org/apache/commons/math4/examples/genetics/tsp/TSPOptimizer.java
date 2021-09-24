@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.examples.genetics.tsp;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.math4.examples.genetics.tsp.commons.City;
@@ -64,7 +63,7 @@ public class TSPOptimizer {
 
             Thread.sleep(5000);
 
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
             throw new GeneticException(e);
         }
     }
@@ -73,9 +72,8 @@ public class TSPOptimizer {
      * Optimizes the tsp problem.
      * @param initial initial population
      * @param cities  cities
-     * @throws IOException throws {@link IOException}
      */
-    public void optimizeSGA(Population<List<City>> initial, List<City> cities) throws IOException {
+    public void optimizeSGA(Population<List<City>> initial, List<City> cities) {
 
         // initialize a new genetic algorithm
         final GeneticAlgorithm<List<City>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<City>>(),

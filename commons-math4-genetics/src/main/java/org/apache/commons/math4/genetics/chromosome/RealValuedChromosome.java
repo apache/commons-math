@@ -142,7 +142,7 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
      * @param decoder         The {@link AbstractListChromosomeDecoder}
      * @param min             minimum inclusive value generated as allele
      * @param max             maximum exclusive value generated as allele
-     * @return chromosome phenotype
+     * @return A real-valued chromosome
      */
     public static <P> RealValuedChromosome<P> randomChromosome(int length, FitnessFunction<P> fitnessFunction,
             AbstractListChromosomeDecoder<Double, P> decoder, double min, double max) {

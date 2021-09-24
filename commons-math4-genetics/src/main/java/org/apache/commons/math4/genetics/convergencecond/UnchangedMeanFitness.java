@@ -25,6 +25,7 @@ import org.apache.commons.math4.genetics.population.Population;
  * Convergence will be stopped once mean fitness remains unchanged for
  * predefined number of generations.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public class UnchangedMeanFitness<P> implements StoppingCondition<P> {
 

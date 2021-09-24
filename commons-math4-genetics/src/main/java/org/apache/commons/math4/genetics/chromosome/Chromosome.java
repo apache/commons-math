@@ -20,6 +20,7 @@ package org.apache.commons.math4.genetics.chromosome;
 /**
  * This abstraction represents a chromosome.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public interface Chromosome<P> extends Comparable<Chromosome<P>> {
 

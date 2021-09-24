@@ -19,6 +19,7 @@ package org.apache.commons.math4.genetics.utils;
 
 /**
  * Contains all constants required for the library.
+ * @since 4.0
  */
 public final class Constants {
 

@@ -24,6 +24,7 @@ import org.apache.commons.math4.genetics.utils.RandomGenerator;
 /**
  * This class mutates real-valued chromosome.
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<Double, P> {
 

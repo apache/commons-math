@@ -24,6 +24,7 @@ import org.apache.commons.math4.genetics.exception.GeneticException;
  * An abstract Decoder of ListChromosome.
  * @param <T> genotype fo chromosome
  * @param <P> phenotype of chromosome
+ * @since 4.0
  */
 public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> {
 

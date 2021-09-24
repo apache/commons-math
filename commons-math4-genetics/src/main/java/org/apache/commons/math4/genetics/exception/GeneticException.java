@@ -21,6 +21,7 @@ import java.text.MessageFormat;
 
 /**
  * This class represents the Exception encountered during GA optimization.
+ * @since 4.0
  */
 public class GeneticException extends RuntimeException {
 
