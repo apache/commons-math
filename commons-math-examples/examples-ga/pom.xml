@@ -35,7 +35,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-math-ga</artifactId>
+			<artifactId>commons-math4-ga</artifactId>
 			<version>4.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>

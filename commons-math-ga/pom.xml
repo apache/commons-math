@@ -24,7 +24,7 @@
 		<artifactId>commons-math-parent</artifactId>
 		<version>4.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>commons-math-ga</artifactId>
+	<artifactId>commons-math4-ga</artifactId>
 	<name>genetic algorithm</name>
 
 	<description/>
