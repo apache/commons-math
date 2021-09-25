@@ -119,7 +119,7 @@
     <!-- 4. Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>
 
-    <module>commons-math4-genetics</module>
+    <module>commons-math-ga</module>
   </modules>
 
   <scm>

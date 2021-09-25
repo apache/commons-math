@@ -150,7 +150,7 @@
 
   <modules>
     <module>examples-sofm</module>
-    <module>examples-genetics</module>
+    <module>examples-ga</module>
   </modules>
 
 </project>
