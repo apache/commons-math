@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.genetics.chromosome;
 
-import java.util.Objects;
-
 import org.apache.commons.math4.genetics.decoder.Decoder;
 import org.apache.commons.math4.genetics.fitness.FitnessFunction;
 import org.apache.commons.math4.genetics.utils.ValidationUtils;
@@ -133,12 +131,6 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
     @Override
     public String toString() {
         return String.format("(f=%s %s)", evaluate(), decode());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int hashCode() {
-        return Objects.hash(decode());
     }
 
 }
