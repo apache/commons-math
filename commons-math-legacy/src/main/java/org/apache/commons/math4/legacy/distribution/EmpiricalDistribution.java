@@ -409,7 +409,8 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
             ++i;
         }
 
-        final ContinuousDistribution kernel = getKernel(binStats.get(i));
+        final SummaryStatistics stats = binStats.get(i);
+        final ContinuousDistribution kernel = getKernel(stats);
         final double kB = kB(i);
         final double[] binBounds = getUpperBounds();
         final double lower = i == 0 ? min : binBounds[i - 1];
@@ -546,7 +547,7 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
      */
     private static Function<SummaryStatistics, ContinuousDistribution> defaultKernel() {
         return stats -> {
-            if (stats.getN() <= 1 ||
+            if (stats.getN() <= 3 ||
                 stats.getVariance() == 0) {
                 return new ConstantContinuousDistribution(stats.getMean());
             } else {

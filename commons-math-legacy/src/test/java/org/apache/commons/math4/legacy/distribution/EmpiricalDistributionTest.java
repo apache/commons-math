@@ -489,13 +489,12 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             6212, 5961, 711
         };
 
-        final EmpiricalDistribution ed = EmpiricalDistribution.from(1000, data);
+        final double p = 0.32;
+        for (int i = 745; i <= 1100; i++) {
+            final EmpiricalDistribution ed = EmpiricalDistribution.from(i, data);
+            final double v = ed.inverseCumulativeProbability(p);
 
-        double v;
-        double p;
-
-        p = 0.32;
-        v = ed.inverseCumulativeProbability(p);
-        Assert.assertTrue("p=" + p + " => v=" + v, Double.isFinite(v));
+            Assert.assertTrue("p=" + p + " => v=" + v, Double.isFinite(v));
+        }
     }
 }
