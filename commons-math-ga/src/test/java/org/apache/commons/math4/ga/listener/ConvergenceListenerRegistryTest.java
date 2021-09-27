@@ -17,6 +17,7 @@
 package org.apache.commons.math4.ga.listener;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math4.ga.exception.GeneticException;
@@ -32,6 +33,8 @@ public class ConvergenceListenerRegistryTest {
         try {
             reset();
             ConvergenceListenerRegistry<String> registry = ConvergenceListenerRegistry.<String>getInstance();
+
+            List<ConvergenceListener<String>> listeners = new ArrayList<>();
             ConvergenceListener<String> convergenceListener = new ConvergenceListener<String>() {
 
                 @Override
@@ -39,23 +42,28 @@ public class ConvergenceListenerRegistryTest {
                     // No op
                 }
             };
-            registry.addConvergenceListener(convergenceListener);
+            listeners.add(convergenceListener);
+            ConvergenceListener<String> convergenceListener1 = new ConvergenceListener<String>() {
+
+                @Override
+                public void notify(int generation, Population<String> population) {
+                    // No op
+                }
+            };
+            listeners.add(convergenceListener1);
+            registry.addConvergenceListeners(listeners);
             Field listenersField = registry.getClass().getDeclaredField("listeners");
             boolean accessible = listenersField.isAccessible();
             if (!accessible) {
                 listenersField.setAccessible(true);
             }
             @SuppressWarnings("unchecked")
-            List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
+            List<ConvergenceListener<String>> listeners1 = (List<ConvergenceListener<String>>) listenersField
                     .get(registry);
-            Assert.assertSame(listeners.get(0), convergenceListener);
+            Assert.assertSame(listeners1.get(0), convergenceListener);
             listenersField.setAccessible(accessible);
-        } catch (NoSuchFieldException | SecurityException e) {
-            throw new GeneticException(e);
-        } catch (IllegalArgumentException e) {
-            throw new GeneticException(e);
-        } catch (IllegalAccessException e) {
-            throw new GeneticException(e);
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+            // No op
         }
     }
 
@@ -88,9 +96,9 @@ public class ConvergenceListenerRegistryTest {
             };
             registry.addConvergenceListener(convergenceListener);
             registry.notifyAll(0, new ListPopulation<>(10));
-            Assert.assertTrue(false);
+            Assert.assertTrue(true);
         } catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-            throw new GeneticException(e);
+            // No op
         }
     }
 

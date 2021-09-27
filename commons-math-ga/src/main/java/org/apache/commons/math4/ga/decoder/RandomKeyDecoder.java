@@ -53,19 +53,19 @@ public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Dou
         final List<Double> sortedRepresentation = new ArrayList<>(representation);
         Collections.sort(sortedRepresentation);
 
-        final int l = baseSequence.size();
+        final int sequenceLength = baseSequence.size();
 
         // the size of the three lists must be equal
-        if (representation.size() != l) {
-            throw new GeneticException(GeneticException.SIZE_MISMATCH, representation.size(), l);
+        if (representation.size() != sequenceLength) {
+            throw new GeneticException(GeneticException.SIZE_MISMATCH, representation.size(), sequenceLength);
         }
 
         // do not modify the original representation
         final List<Double> representationCopy = new ArrayList<>(representation);
 
         // now find the indices in the original repr and use them for permuting
-        final List<U> res = new ArrayList<>(l);
-        for (int i = 0; i < l; i++) {
+        final List<U> res = new ArrayList<>(sequenceLength);
+        for (int i = 0; i < sequenceLength; i++) {
             final int index = representationCopy.indexOf(sortedRepresentation.get(i));
             res.add(baseSequence.get(index));
             representationCopy.set(index, null);

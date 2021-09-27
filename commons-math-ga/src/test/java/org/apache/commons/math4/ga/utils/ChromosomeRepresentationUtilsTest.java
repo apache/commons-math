@@ -142,4 +142,22 @@ public class ChromosomeRepresentationUtilsTest {
         Assert.assertEquals("c", decodedData.get(2));
     }
 
+    @Test
+    public void testIntegralRepresentation() {
+        int min = 0;
+        int max = 10;
+        List<Integer> values = ChromosomeRepresentationUtils.randomIntegralRepresentation(100, min, max);
+        for (Integer value : values) {
+            Assert.assertTrue(min <= value && value < max);
+        }
+    }
+
+    @Test
+    public void testNormalizedDoubleRepresentation() {
+        List<Double> values = ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(100);
+        for (Double value : values) {
+            Assert.assertTrue(0 <= value && value < 1);
+        }
+    }
+
 }

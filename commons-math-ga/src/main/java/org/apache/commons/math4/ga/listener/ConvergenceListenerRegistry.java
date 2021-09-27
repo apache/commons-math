@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math4.ga.population.Population;
+import org.apache.commons.math4.ga.utils.ValidationUtils;
 
 /**
  * This class is the default implementation of ConvergenceListenerRegistry. It
@@ -72,10 +73,9 @@ public final class ConvergenceListenerRegistry<P> {
      * @param convergenceListeners list of {@link ConvergenceListener}
      */
     public void addConvergenceListeners(List<ConvergenceListener<P>> convergenceListeners) {
-        if (convergenceListeners != null) {
-            for (ConvergenceListener<P> convergenceListener : convergenceListeners) {
-                this.listeners.add(convergenceListener);
-            }
+        ValidationUtils.checkForNull("Null convergenceListeners", convergenceListeners);
+        for (ConvergenceListener<P> convergenceListener : convergenceListeners) {
+            addConvergenceListener(convergenceListener);
         }
     }
 

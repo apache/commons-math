@@ -20,6 +20,7 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.RandomGenerator;
+import org.apache.commons.math4.ga.utils.ValidationUtils;
 
 /**
  * This class mutates real-valued chromosome.
@@ -50,10 +51,7 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
     public RealValuedMutation(double min, double max) {
         this.min = min;
         this.max = max;
-
-        if (min > max) {
-            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
-        }
+        ValidationUtils.checkForMinMax(min, max);
     }
 
     /**

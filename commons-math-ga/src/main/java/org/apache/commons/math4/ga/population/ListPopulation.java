@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.Constants;
+import org.apache.commons.math4.ga.utils.ValidationUtils;
 
 /**
  * Population of chromosomes represented by a {@link List}.
@@ -60,9 +61,8 @@ public class ListPopulation<P> implements Population<P> {
      */
     public ListPopulation(final List<Chromosome<P>> chromosomes, final int populationLimit) {
 
-        if (chromosomes == null) {
-            throw new GeneticException(GeneticException.NULL_ARGUMENT, "chromosomes");
-        }
+        ValidationUtils.checkForNull("chromosomes", chromosomes);
+
         if (populationLimit <= 0) {
             throw new GeneticException(GeneticException.NOT_STRICTLY_POSITIVE, populationLimit);
         }
@@ -195,7 +195,7 @@ public class ListPopulation<P> implements Population<P> {
     public Population<P> nextGeneration(final double elitismRate) {
         final List<Chromosome<P>> oldChromosomes = getChromosomeList();
 
-        if (oldChromosomes.size() * elitismRate == 0) {
+        if ((int) (oldChromosomes.size() * elitismRate) == 0) {
             // if no of elite chromosome is 0 crete and return an empty population instance.
             return new ListPopulation<>(getPopulationLimit());
         } else {

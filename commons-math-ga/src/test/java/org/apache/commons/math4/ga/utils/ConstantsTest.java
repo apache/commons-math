@@ -14,31 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.ga.convergencecond;
+package org.apache.commons.math4.ga.utils;
 
-import org.apache.commons.math4.ga.exception.GeneticException;
-import org.apache.commons.math4.ga.population.ListPopulation;
-import org.apache.commons.math4.ga.population.Population;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class FixedGenerationCountTest {
+public class ConstantsTest {
 
     @Test
-    public void testIsSatisfied() {
-        FixedGenerationCount<String> fgc = new FixedGenerationCount<String>(20);
-
-        int cnt = 0;
-        Population<String> pop = new ListPopulation<>(10);
-
-        while (!fgc.isSatisfied(pop)) {
-            cnt++;
-        }
-        Assert.assertEquals(cnt, fgc.getNumGenerations());
+    public void test() {
+        Assert.assertNotNull(Constants.NEW_LINE);
     }
 
-    @Test(expected = GeneticException.class)
-    public void testNegativeGenerationCount() {
-        new FixedGenerationCount<String>(-1);
-    }
 }

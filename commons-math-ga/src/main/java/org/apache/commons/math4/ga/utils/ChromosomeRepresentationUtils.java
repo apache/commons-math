@@ -169,9 +169,7 @@ public interface ChromosomeRepresentationUtils {
      * @return representation as List of Double
      */
     static List<Double> randomDoubleRepresentation(final int l, double min, double max) {
-        if (max < min) {
-            throw new GeneticException(GeneticException.TOO_SMALL, max, min);
-        }
+        ValidationUtils.checkForMinMax(min, max);
         final double range = max - min;
         final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
         final List<Double> repr = new ArrayList<>(l);

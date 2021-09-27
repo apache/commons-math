@@ -25,13 +25,18 @@ import org.apache.commons.math4.ga.exception.GeneticException;
  * @param <P> phenotype of chromosome
  * @since 4.0
  */
-public class BinaryMutation<P> extends AbstractListChromosomeMutationPolicy<Integer, P> {
+public class BinaryMutation<P> extends IntegralValuedMutation<P> {
+
+    public BinaryMutation() {
+        super(0, 2);
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     protected void checkValidity(Chromosome<P> original) {
+        super.checkValidity(original);
         if (!BinaryChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }

@@ -17,11 +17,22 @@
 package org.apache.commons.math4.ga.mutation;
 
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
+import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
+import org.apache.commons.math4.ga.exception.GeneticException;
+import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class BinaryMutationTest {
+
+    @Test(expected = GeneticException.class)
+    public void testCheckValidity() {
+        BinaryMutation<String> mutation = new BinaryMutation<>();
+        mutation.checkValidity(
+                new RealValuedChromosome<>(ChromosomeRepresentationUtils
+                        .randomNormalizedDoubleRepresentation(0), c -> 0, new DummyListChromosomeDecoder<>("0")));
+    }
 
     @Test
     public void testMutate() {

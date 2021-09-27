@@ -23,6 +23,7 @@ import org.apache.commons.math4.ga.decoder.AbstractListChromosomeDecoder;
 import org.apache.commons.math4.ga.exception.GeneticException;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
+import org.apache.commons.math4.ga.utils.ValidationUtils;
 
 /**
  * DoubleEncodedChromosome is used for representing chromosome encoded as
@@ -114,9 +115,7 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
      * Asserts that <code>representation</code> can represent a valid chromosome.
      */
     private void checkValidity() {
-        if (min > max) {
-            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
-        }
+        ValidationUtils.checkForMinMax(min, max);
         for (double i : getRepresentation()) {
             if (i < min || i >= max) {
                 throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, i);

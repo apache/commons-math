@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
+import org.apache.commons.math4.ga.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
 import org.junit.Test;
@@ -23,10 +24,23 @@ import org.junit.Test;
 public class RealValuedChromosomeTest {
 
     @Test
-    public void testNewChromosome() {
+    public void test() {
         for (int i = 0; i < 10; i++) {
             new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1), c1 -> 1,
                     new DummyListChromosomeDecoder<>("1"));
+            new RealValuedChromosome<>(
+                    ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1).toArray(new Double[10]), c -> 0,
+                    new DummyListChromosomeDecoder<>("0"));
+        }
+    }
+
+    @Test
+    public void testNewChromosome() {
+        for (int i = 0; i < 10; i++) {
+            RealValuedChromosome<String> chromosome = new RealValuedChromosome<>(
+                    ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1), c1 -> 1,
+                    new DummyListChromosomeDecoder<>("1"));
+            chromosome.newChromosome(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1));
         }
     }
 
@@ -35,6 +49,23 @@ public class RealValuedChromosomeTest {
         for (int i = 0; i < 10; i++) {
             RealValuedChromosome.randomChromosome(5, c -> 0, new DummyListChromosomeDecoder<>("0"), 0, 2);
         }
+    }
+
+    @Test(expected = GeneticException.class)
+    public void testCheckValidity() {
+        int min = 0;
+        int max = 10;
+        new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min, max), c -> 0,
+                new DummyListChromosomeDecoder<>("0"), max, min);
+    }
+
+    @Test(expected = GeneticException.class)
+    public void testCheckValidity1() {
+        int min = 0;
+        int max = 10;
+        new RealValuedChromosome<>(ChromosomeRepresentationUtils
+                .randomDoubleRepresentation(10, min - 10, max + 10), c -> 0, new DummyListChromosomeDecoder<>("0"),
+                min, max);
     }
 
 }

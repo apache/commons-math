@@ -46,6 +46,7 @@ public class ListPopulationTest {
         ListPopulation<String> population = new ListPopulation<String>(chromosomes, 10);
 
         Assert.assertEquals(c3, population.getFittestChromosome());
+        Assert.assertNotNull(population.toString());
     }
 
     @Test
@@ -147,4 +148,16 @@ public class ListPopulationTest {
         population.setPopulationLimit(2);
     }
 
+    @Test
+    public void testNextGeneration() {
+        final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+        chromosomes.add(BinaryChromosome.randomChromosome(3, chromosome -> 0, new DummyListChromosomeDecoder<>("0")));
+
+        final ListPopulation<String> population = new ListPopulation<>(chromosomes, 3);
+
+        Assert.assertEquals(1, population.nextGeneration(.4).getPopulationSize());
+        Assert.assertEquals(0, population.nextGeneration(.1).getPopulationSize());
+    }
 }

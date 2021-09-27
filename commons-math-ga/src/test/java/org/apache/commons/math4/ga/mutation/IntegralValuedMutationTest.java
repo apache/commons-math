@@ -26,53 +26,53 @@ import org.apache.commons.math4.ga.utils.RandomGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class RealValuedMutationTest {
+public class IntegralValuedMutationTest {
 
     @Test(expected = GeneticException.class)
     public void testCheckValidity() {
         int min = 0;
         int max = 10;
-        Chromosome<String> chromosome = new IntegralValuedChromosome<>(
-                ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
-                new DummyListChromosomeDecoder<>("0"), min, max);
-        RealValuedMutation<String> mutation = new RealValuedMutation<>(min - 10, max);
+        Chromosome<String> chromosome = new RealValuedChromosome<>(
+                ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(10), c -> 0,
+                new DummyListChromosomeDecoder<>("0"));
+        IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
         mutation.checkValidity(chromosome);
     }
 
     @Test(expected = GeneticException.class)
     public void testCheckValidity1() {
-        double min = 0;
-        double max = 10;
-        RealValuedChromosome<String> chromosome = new RealValuedChromosome<>(
-                ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min, max), c -> 0,
+        int min = 0;
+        int max = 10;
+        IntegralValuedChromosome<String> chromosome = new IntegralValuedChromosome<>(
+                ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
-        RealValuedMutation<String> mutation = new RealValuedMutation<>(min - 10, max);
+        IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
         mutation.checkValidity(chromosome);
     }
 
     @Test(expected = GeneticException.class)
     public void testIntegralValuedMutation() {
-        new RealValuedMutation<>(10, 5);
+        new IntegralValuedMutation<>(10, 5);
     }
 
     @Test
     public void testGetMinMax() {
-        double min = 0;
-        double max = 10;
-        RealValuedMutation<String> mutation = new RealValuedMutation<>(min, max);
-        Assert.assertEquals(min, mutation.getMin(), .001);
-        Assert.assertEquals(max, mutation.getMax(), .001);
+        int min = 0;
+        int max = 10;
+        IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min, max);
+        Assert.assertEquals(min, mutation.getMin());
+        Assert.assertEquals(max, mutation.getMax());
     }
 
     @Test
     public void testMutateGene() {
-        double min = 0;
-        double max = 10;
-        RealValuedMutation<String> mutation = new RealValuedMutation<>(min, max);
+        int min = 0;
+        int max = 10;
+        IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min, max);
         for (int i = 0; i < 100; i++) {
-            double origValue = min + (max - min) * RandomGenerator.getRandomGenerator().nextDouble();
-            double mutatedValue = mutation.mutateGene(origValue);
-            Assert.assertTrue(min <= mutatedValue && mutatedValue < max);
+            int origValue = min + RandomGenerator.getRandomGenerator().nextInt(max - min);
+            int mutatedValued = mutation.mutateGene(origValue);
+            Assert.assertTrue(min <= mutatedValued && mutatedValued < max);
         }
     }
 

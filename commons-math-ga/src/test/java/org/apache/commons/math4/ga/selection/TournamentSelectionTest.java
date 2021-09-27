@@ -16,9 +16,14 @@
  */
 package org.apache.commons.math4.ga.selection;
 
+import java.util.Iterator;
+
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
+import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
+import org.apache.commons.math4.ga.exception.GeneticException;
 import org.apache.commons.math4.ga.population.ListPopulation;
+import org.apache.commons.math4.ga.population.Population;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,6 +34,9 @@ public class TournamentSelectionTest {
     @Test
     public void testSelect() {
         TournamentSelection<String> ts = new TournamentSelection<>(2);
+
+        Assert.assertEquals(2, ts.getArity());
+
         ListPopulation<String> pop = new ListPopulation<>(100);
 
         for (int i = 0; i < pop.getPopulationLimit(); i++) {
@@ -48,6 +56,49 @@ public class TournamentSelectionTest {
             super(c -> counter++, c -> "0");
         }
 
+    }
+
+    @Test(expected = GeneticException.class)
+    public void testNonListPopulation() {
+
+        Population<String> population = new Population<String>() {
+
+            @Override
+            public Iterator<Chromosome<String>> iterator() {
+                return null;
+            }
+
+            @Override
+            public int getPopulationSize() {
+                return 0;
+            }
+
+            @Override
+            public int getPopulationLimit() {
+                return 0;
+            }
+
+            @Override
+            public Population<String> nextGeneration(double elitismRate) {
+                return null;
+            }
+
+            @Override
+            public void addChromosome(Chromosome<String> chromosome) {
+            }
+
+            @Override
+            public Chromosome<String> getFittestChromosome() {
+                return null;
+            }
+        };
+        new TournamentSelection<String>(5).select(population);
+    }
+
+    @Test(expected = GeneticException.class)
+    public void testInvalidArity() {
+        Population<String> population = new ListPopulation<>(2);
+        new TournamentSelection<String>(2).select(population);
     }
 
 }

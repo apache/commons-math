@@ -38,6 +38,7 @@ public class AbstractListChromosomeMutationPolicyTest {
             }
         };
         Assert.assertEquals(1, chromosomeMutationPolicy.getMutableGeneIndexes(10, .1).size());
+        chromosomeMutationPolicy.getMutableGeneIndexes(10, .001);
     }
 
 }

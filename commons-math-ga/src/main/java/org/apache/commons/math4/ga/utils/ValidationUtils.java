@@ -34,4 +34,27 @@ public interface ValidationUtils {
             throw new GeneticException(GeneticException.NULL_ARGUMENT, name);
         }
     }
+
+    /**
+     * Checks for min and max, throws error if min is greater than or equals to max.
+     * @param min minimum value
+     * @param max maximum value
+     */
+    static void checkForMinMax(int min, int max) {
+        if (min >= max) {
+            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+        }
+    }
+
+    /**
+     * Checks for min and max, throws error if min is greater than or equals to max.
+     * @param min minimum value
+     * @param max maximum value
+     */
+    static void checkForMinMax(double min, double max) {
+        if (min >= max) {
+            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+        }
+    }
+
 }

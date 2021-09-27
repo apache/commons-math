@@ -47,7 +47,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
      */
     private int generationsEvolved;
 
-    /** The elitism rate haveing default value of .25. */
+    /** The elitism rate having default value of .25. */
     private double elitismRate = .25;
 
     /**

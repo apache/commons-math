@@ -52,12 +52,7 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
             final SelectionPolicy<P> selectionPolicy) {
         super(crossoverPolicy, mutationPolicy, selectionPolicy);
 
-        if (crossoverRate < 0 || crossoverRate > 1) {
-            throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
-        }
-        if (mutationRate < 0 || mutationRate > 1) {
-            throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
-        }
+        checkValidity(crossoverRate, mutationRate);
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
     }
@@ -76,32 +71,38 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
             final double elitismRate) {
         super(crossoverPolicy, mutationPolicy, selectionPolicy, elitismRate);
 
-        if (crossoverRate < 0 || crossoverRate > 1) {
-            throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRate, Constants.CROSSOVER_RATE, 0, 1);
-        }
-        if (mutationRate < 0 || mutationRate > 1) {
-            throw new GeneticException(GeneticException.OUT_OF_RANGE, mutationRate, Constants.MUTATION_RATE, 0, 1);
-        }
+        checkValidity(crossoverRate, mutationRate);
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
+    }
+
+    private void checkValidity(final double crossoverRateInput, final double inputMutationRate) {
+        if (crossoverRateInput < 0 || crossoverRateInput > 1) {
+            throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRateInput, Constants.CROSSOVER_RATE, 0,
+                    1);
+        }
+        if (inputMutationRate < 0 || inputMutationRate > 1) {
+            throw new GeneticException(GeneticException.OUT_OF_RANGE, inputMutationRate, Constants.MUTATION_RATE, 0, 1);
+        }
     }
 
     /**
      * Evolve the given population into the next generation.
      * <ol>
-     *  <li>Get nextGeneration population to fill from <code>current</code>
-     *      generation, using its nextGeneration method</li>
-     *  <li>Loop until new generation is filled:
-     *  <ul><li>Apply configured SelectionPolicy to select a pair of parents
-     *          from <code>current</code></li>
-     *      <li>With probability = {@link #getCrossoverRate()}, apply
-     *          configured {@link CrossoverPolicy} to parents</li>
-     *      <li>With probability = {@link #getMutationRate()}, apply
-     *          configured {@link MutationPolicy} to each of the offspring</li>
-     *      <li>Add offspring individually to nextGeneration,
-     *          space permitting</li>
-     *  </ul></li>
-     *  <li>Return nextGeneration</li>
+     * <li>Get nextGeneration population to fill from <code>current</code>
+     * generation, using its nextGeneration method</li>
+     * <li>Loop until new generation is filled:
+     * <ul>
+     * <li>Apply configured SelectionPolicy to select a pair of parents from
+     * <code>current</code></li>
+     * <li>With probability = {@link #getCrossoverRate()}, apply configured
+     * {@link CrossoverPolicy} to parents</li>
+     * <li>With probability = {@link #getMutationRate()}, apply configured
+     * {@link MutationPolicy} to each of the offspring</li>
+     * <li>Add offspring individually to nextGeneration, space permitting</li>
+     * </ul>
+     * </li>
+     * <li>Return nextGeneration</li>
      * </ol>
      *
      * @param current the current population.

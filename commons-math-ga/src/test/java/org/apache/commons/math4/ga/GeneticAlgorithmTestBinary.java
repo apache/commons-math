@@ -26,6 +26,7 @@ import org.apache.commons.math4.ga.convergencecond.FixedGenerationCount;
 import org.apache.commons.math4.ga.convergencecond.StoppingCondition;
 import org.apache.commons.math4.ga.crossover.OnePointCrossover;
 import org.apache.commons.math4.ga.decoder.TransparentListChromosomeDecoder;
+import org.apache.commons.math4.ga.exception.GeneticException;
 import org.apache.commons.math4.ga.listener.ConvergenceListener;
 import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
 import org.apache.commons.math4.ga.mutation.BinaryMutation;
@@ -131,6 +132,18 @@ public class GeneticAlgorithmTestBinary {
                 return val;
             }, new TransparentListChromosomeDecoder<>());
         }
+    }
+
+    @Test(expected = GeneticException.class)
+    public void testCrossoverRate() {
+        new GeneticAlgorithm<>(new OnePointCrossover<>(), 1.5, new BinaryMutation<>(), .01,
+                new TournamentSelection<>(10));
+    }
+
+    @Test(expected = GeneticException.class)
+    public void testMutationRate() {
+        new GeneticAlgorithm<>(new OnePointCrossover<>(), .5, new BinaryMutation<>(), 1.5,
+                new TournamentSelection<>(10));
     }
 
 }

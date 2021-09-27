@@ -18,6 +18,7 @@ package org.apache.commons.math4.ga.convergencecond;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.math4.ga.exception.GeneticException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.junit.Assert;
@@ -31,7 +32,7 @@ public class FixedElapsedTimeTest {
 
         final long start = System.nanoTime();
         final long duration = 3;
-        final FixedElapsedTime<String> tec = new FixedElapsedTime<String>(duration, TimeUnit.SECONDS);
+        final FixedElapsedTime<String> tec = new FixedElapsedTime<String>(duration);
 
         while (!tec.isSatisfied(pop)) {
             try {
@@ -46,5 +47,10 @@ public class FixedElapsedTimeTest {
         final long diff = Math.abs(elapsedTime - TimeUnit.SECONDS.toNanos(duration));
 
         Assert.assertTrue(diff < TimeUnit.MILLISECONDS.toNanos(100));
+    }
+
+    @Test(expected = GeneticException.class)
+    public void testNegativeTime() {
+        new FixedElapsedTime<>(-10);
     }
 }

@@ -105,13 +105,4 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
         return arity;
     }
 
-    /**
-     * Sets the arity (number of chromosomes drawn to the tournament).
-     *
-     * @param arity arity of the tournament
-     */
-    public void setArity(final int arity) {
-        this.arity = arity;
-    }
-
 }
