@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -179,8 +178,8 @@ public class AccurateMathStrictComparisonTest {
                 actual = ite.getCause();
             }
             if (expected instanceof ArithmeticException) {
-                Assert.assertEquals(MathArithmeticException.class, actual.getClass());
-            } else  if (!expected.equals(actual)) {
+                Assert.assertTrue(actual instanceof ArithmeticException);
+            } else if (!expected.equals(actual)) {
                 reportFailedResults(mathMethod, params, expected, actual, entries);
             }
         } catch (IllegalArgumentException e) {

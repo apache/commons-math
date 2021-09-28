@@ -37,7 +37,6 @@ import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.math4.legacy.core.dfp.Dfp;
 import org.apache.commons.math4.legacy.core.dfp.DfpField;
 import org.apache.commons.math4.legacy.core.dfp.DfpMath;
-import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
@@ -1585,7 +1584,7 @@ public class AccurateMathTest {
                 try {
                     AccurateMath.incrementExact(a);
                     Assert.fail("an exception should have been thrown");
-                } catch (MathArithmeticException mae) {
+                } catch (ArithmeticException mae) {
                     // expected
                 }
             } else {
@@ -1611,7 +1610,7 @@ public class AccurateMathTest {
                 try {
                     AccurateMath.decrementExact(a);
                     fail("an exception should have been thrown");
-                } catch (MathArithmeticException mae) {
+                } catch (ArithmeticException mae) {
                     // expected
                 }
             } else {
@@ -1639,7 +1638,7 @@ public class AccurateMathTest {
                     try {
                         AccurateMath.addExact(a, b);
                         fail("an exception should have been thrown");
-                    } catch (MathArithmeticException mae) {
+                    } catch (ArithmeticException mae) {
                         // expected
                     }
                 } else {
@@ -1668,7 +1667,7 @@ public class AccurateMathTest {
                     try {
                         AccurateMath.addExact(a, b);
                         fail("an exception should have been thrown");
-                    } catch (MathArithmeticException mae) {
+                    } catch (ArithmeticException mae) {
                         // expected
                     }
                 } else {
@@ -1697,7 +1696,7 @@ public class AccurateMathTest {
                     try {
                         AccurateMath.subtractExact(a, b);
                         fail("an exception should have been thrown");
-                    } catch (MathArithmeticException mae) {
+                    } catch (ArithmeticException mae) {
                         // expected
                     }
                 } else {
@@ -1726,7 +1725,7 @@ public class AccurateMathTest {
                     try {
                         AccurateMath.subtractExact(a, b);
                         fail("an exception should have been thrown");
-                    } catch (MathArithmeticException mae) {
+                    } catch (ArithmeticException mae) {
                         // expected
                     }
                 } else {
@@ -1755,7 +1754,7 @@ public class AccurateMathTest {
                     try {
                         AccurateMath.multiplyExact(a, b);
                         fail("an exception should have been thrown " + a + b);
-                    } catch (MathArithmeticException mae) {
+                    } catch (ArithmeticException mae) {
                         // expected
                     }
                 } else {
@@ -1784,7 +1783,7 @@ public class AccurateMathTest {
                     try {
                         AccurateMath.multiplyExact(a, b);
                         fail("an exception should have been thrown " + a + b);
-                    } catch (MathArithmeticException mae) {
+                    } catch (ArithmeticException mae) {
                         // expected
                     }
                 } else {
@@ -1794,12 +1793,12 @@ public class AccurateMathTest {
         }
     }
 
-    @Test(expected = MathArithmeticException.class)
+    @Test(expected = ArithmeticException.class)
     public void testToIntExactTooLow() {
         AccurateMath.toIntExact(-1L + Integer.MIN_VALUE);
     }
 
-    @Test(expected = MathArithmeticException.class)
+    @Test(expected = ArithmeticException.class)
     public void testToIntExactTooHigh() {
         AccurateMath.toIntExact(+1L + Integer.MAX_VALUE);
     }
@@ -1822,7 +1821,7 @@ public class AccurateMathTest {
         try {
             AccurateMath.floorDiv(1, 0);
             fail("an exception should have been thrown");
-        } catch (MathArithmeticException mae) {
+        } catch (ArithmeticException mae) {
             // expected
         }
         for (int a = -100; a <= 100; ++a) {
@@ -1843,7 +1842,7 @@ public class AccurateMathTest {
         try {
             AccurateMath.floorMod(1, 0);
             fail("an exception should have been thrown");
-        } catch (MathArithmeticException mae) {
+        } catch (ArithmeticException mae) {
             // expected
         }
         for (int a = -100; a <= 100; ++a) {
@@ -1865,7 +1864,7 @@ public class AccurateMathTest {
                 try {
                     AccurateMath.floorDiv(a, b);
                     fail("an exception should have been thrown");
-                } catch (MathArithmeticException mae) {
+                } catch (ArithmeticException mae) {
                     // expected
                 }
             } else {
@@ -1894,7 +1893,7 @@ public class AccurateMathTest {
         try {
             AccurateMath.floorDiv(1L, 0L);
             fail("an exception should have been thrown");
-        } catch (MathArithmeticException mae) {
+        } catch (ArithmeticException mae) {
             // expected
         }
         for (long a = -100L; a <= 100L; ++a) {
@@ -1915,7 +1914,7 @@ public class AccurateMathTest {
         try {
             AccurateMath.floorMod(1L, 0L);
             fail("an exception should have been thrown");
-        } catch (MathArithmeticException mae) {
+        } catch (ArithmeticException mae) {
             // expected
         }
         for (long a = -100L; a <= 100L; ++a) {
@@ -1937,7 +1936,7 @@ public class AccurateMathTest {
                 try {
                     AccurateMath.floorDiv(a, b);
                     fail("an exception should have been thrown");
-                } catch (MathArithmeticException mae) {
+                } catch (ArithmeticException mae) {
                     // expected
                 }
             } else {

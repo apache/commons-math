@@ -19,8 +19,6 @@ package org.apache.commons.math4.legacy.core.jdkmath;
 import java.io.PrintStream;
 
 import org.apache.commons.numbers.core.Precision;
-import org.apache.commons.math4.legacy.exception.MathArithmeticException;
-import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
 /**
  * Portable alternative to {@link Math} and {@link StrictMath}.
@@ -86,6 +84,10 @@ public final class AccurateMath {
     /** Exponential fractions table length. */
     static final int EXP_FRAC_TABLE_LEN = 1025; // 0, 1/1024, ... 1024/1024
 
+    /** Error message. */
+    private static final String ZERO_DENOMINATOR_MSG = "Division by zero";
+    /** Error message. */
+    private static final String OVERFLOW_MSG = "Overflow";
     /** StrictMath.log(Double.MAX_VALUE): {@value}. */
     private static final double LOG_MAX_VALUE = StrictMath.log(Double.MAX_VALUE);
 
@@ -3729,12 +3731,13 @@ public final class AccurateMath {
     /** Convert a long to integer, detecting overflows.
      * @param n number to convert to int
      * @return integer with same value as n if no overflows occur
-     * @exception MathArithmeticException if n cannot fit into an int
+     * @exception ArithmeticException if n cannot fit into an int
      * @since 3.4
      */
     public static int toIntExact(final long n) {
-        if (n < Integer.MIN_VALUE || n > Integer.MAX_VALUE) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
+        if (n < Integer.MIN_VALUE ||
+            n > Integer.MAX_VALUE) {
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
         return (int) n;
     }
@@ -3742,12 +3745,12 @@ public final class AccurateMath {
     /** Increment a number, detecting overflows.
      * @param n number to increment
      * @return n+1 if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static int incrementExact(final int n) {
         if (n == Integer.MAX_VALUE) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
         return n + 1;
     }
@@ -3755,12 +3758,12 @@ public final class AccurateMath {
     /** Increment a number, detecting overflows.
      * @param n number to increment
      * @return n+1 if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static long incrementExact(final long n) {
         if (n == Long.MAX_VALUE) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
         return n + 1;
     }
@@ -3768,12 +3771,12 @@ public final class AccurateMath {
     /** Decrement a number, detecting overflows.
      * @param n number to decrement
      * @return n-1 if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static int decrementExact(final int n) {
         if (n == Integer.MIN_VALUE) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
         return n - 1;
     }
@@ -3781,12 +3784,12 @@ public final class AccurateMath {
     /** Decrement a number, detecting overflows.
      * @param n number to decrement
      * @return n-1 if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static long decrementExact(final long n) {
         if (n == Long.MIN_VALUE) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
         return n - 1;
     }
@@ -3795,7 +3798,7 @@ public final class AccurateMath {
      * @param a first number to add
      * @param b second number to add
      * @return a+b if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static int addExact(final int a, final int b) {
@@ -3803,8 +3806,9 @@ public final class AccurateMath {
         final int sum = a + b;
 
         // check for overflow
-        if ((a ^ b) >= 0 && (sum ^ b) < 0) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, a, b);
+        if ((a ^ b) >= 0 &&
+            (sum ^ b) < 0) {
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
 
         return sum;
@@ -3814,7 +3818,7 @@ public final class AccurateMath {
      * @param a first number to add
      * @param b second number to add
      * @return a+b if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static long addExact(final long a, final long b) {
@@ -3822,8 +3826,9 @@ public final class AccurateMath {
         final long sum = a + b;
 
         // check for overflow
-        if ((a ^ b) >= 0 && (sum ^ b) < 0) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, a, b);
+        if ((a ^ b) >= 0 &&
+            (sum ^ b) < 0) {
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
 
         return sum;
@@ -3833,7 +3838,7 @@ public final class AccurateMath {
      * @param a first number
      * @param b second number to subtract from a
      * @return a-b if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static int subtractExact(final int a, final int b) {
@@ -3841,8 +3846,9 @@ public final class AccurateMath {
         final int sub = a - b;
 
         // check for overflow
-        if ((a ^ b) < 0 && (sub ^ b) >= 0) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, a, b);
+        if ((a ^ b) < 0 &&
+            (sub ^ b) >= 0) {
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
 
         return sub;
@@ -3852,7 +3858,7 @@ public final class AccurateMath {
      * @param a first number
      * @param b second number to subtract from a
      * @return a-b if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static long subtractExact(final long a, final long b) {
@@ -3860,8 +3866,9 @@ public final class AccurateMath {
         final long sub = a - b;
 
         // check for overflow
-        if ((a ^ b) < 0 && (sub ^ b) >= 0) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, a, b);
+        if ((a ^ b) < 0 &&
+            (sub ^ b) >= 0) {
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
 
         return sub;
@@ -3871,14 +3878,19 @@ public final class AccurateMath {
      * @param a first number to multiply
      * @param b second number to multiply
      * @return a*b if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static int multiplyExact(final int a, final int b) {
-        if (((b  >  0)  && (a > Integer.MAX_VALUE / b || a < Integer.MIN_VALUE / b)) ||
-            ((b  < -1)  && (a > Integer.MIN_VALUE / b || a < Integer.MAX_VALUE / b)) ||
-            ((b == -1)  && (a == Integer.MIN_VALUE))) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_MULTIPLICATION, a, b);
+        if (((b > 0) &&
+             (a > Integer.MAX_VALUE / b ||
+              a < Integer.MIN_VALUE / b)) ||
+            ((b < -1) &&
+             (a > Integer.MIN_VALUE / b ||
+              a < Integer.MAX_VALUE / b)) ||
+            ((b == -1) &&
+             (a == Integer.MIN_VALUE))) {
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
         return a * b;
     }
@@ -3887,14 +3899,19 @@ public final class AccurateMath {
      * @param a first number to multiply
      * @param b second number to multiply
      * @return a*b if no overflows occur
-     * @exception MathArithmeticException if an overflow occurs
+     * @exception ArithmeticException if an overflow occurs
      * @since 3.4
      */
     public static long multiplyExact(final long a, final long b) {
-        if (((b  >  0L)  && (a > Long.MAX_VALUE / b || a < Long.MIN_VALUE / b)) ||
-            ((b  < -1L)  && (a > Long.MIN_VALUE / b || a < Long.MAX_VALUE / b)) ||
-            ((b == -1L)  && (a == Long.MIN_VALUE))) {
-            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_MULTIPLICATION, a, b);
+        if (((b  >  0L) &&
+             (a > Long.MAX_VALUE / b ||
+              a < Long.MIN_VALUE / b)) ||
+            ((b  < -1L) &&
+             (a > Long.MIN_VALUE / b ||
+              a < Long.MAX_VALUE / b)) ||
+            ((b == -1L) &&
+             (a == Long.MIN_VALUE))) {
+            throw new ArithmeticException(OVERFLOW_MSG);
         }
         return a * b;
     }
@@ -3908,13 +3925,13 @@ public final class AccurateMath {
      * @param a dividend
      * @param b divisor
      * @return q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
-     * @exception MathArithmeticException if b == 0
+     * @exception ArithmeticException if b == 0
      * @see #floorMod(int, int)
      * @since 3.4
      */
     public static int floorDiv(final int a, final int b) {
         if (b == 0) {
-            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+            throw new ArithmeticException(ZERO_DENOMINATOR_MSG);
         }
 
         final int m = a % b;
@@ -3936,13 +3953,13 @@ public final class AccurateMath {
      * @param a dividend
      * @param b divisor
      * @return q such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
-     * @exception MathArithmeticException if b == 0
+     * @exception ArithmeticException if b == 0
      * @see #floorMod(long, long)
      * @since 3.4
      */
     public static long floorDiv(final long a, final long b) {
         if (b == 0L) {
-            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+            throw new ArithmeticException(ZERO_DENOMINATOR_MSG);
         }
 
         final long m = a % b;
@@ -3964,13 +3981,13 @@ public final class AccurateMath {
      * @param a dividend
      * @param b divisor
      * @return r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
-     * @exception MathArithmeticException if b == 0
+     * @exception ArithmeticException if b == 0
      * @see #floorDiv(int, int)
      * @since 3.4
      */
     public static int floorMod(final int a, final int b) {
         if (b == 0) {
-            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+            throw new ArithmeticException(ZERO_DENOMINATOR_MSG);
         }
 
         final int m = a % b;
@@ -3992,13 +4009,13 @@ public final class AccurateMath {
      * @param a dividend
      * @param b divisor
      * @return r such that a = q b + r with 0 &lt;= r &lt; b if b &gt; 0 and b &lt; r &lt;= 0 if b &lt; 0
-     * @exception MathArithmeticException if b == 0
+     * @exception ArithmeticException if b == 0
      * @see #floorDiv(long, long)
      * @since 3.4
      */
     public static long floorMod(final long a, final long b) {
         if (b == 0L) {
-            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+            throw new ArithmeticException(ZERO_DENOMINATOR_MSG);
         }
 
         final long m = a % b;
