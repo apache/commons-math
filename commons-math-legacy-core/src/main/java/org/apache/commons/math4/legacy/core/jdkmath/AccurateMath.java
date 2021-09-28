@@ -32,11 +32,9 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  * However, any change to this class should ensure that the current
  * accuracy is not lost.
  * <p>
- * AccurateMath is a drop-in replacement for both Math and StrictMath. This
- * means that for any method in Math (say {@code Math.sin(x)} or
- * {@code Math.cbrt(y)}), user can directly change the class and use the
- * methods as is (using {@code AccurateMath.sin(x)} or {@code AccurateMath.cbrt(y)}
- * in the previous example).
+ * AccurateMath is a drop-in replacement for both Math and StrictMath.
+ * For example, a call to {@code Math.sin(x)} can be replaced by a call
+ * to {@code AccurateMath.sin(x)}.
  * </p>
  * <p>
  * AccurateMath speed is achieved by relying heavily on optimizing compilers
@@ -45,44 +43,31 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  * time does not penalize methods that don't need them.
  * </p>
  * <p>
- * Note that AccurateMath is
- * extensively used inside Apache Commons Math, so by calling some algorithms,
- * the overhead when the tables need to be initialized will occur
- * regardless of the end-user calling AccurateMath methods directly or not.
+ * Note that AccurateMath is extensively used inside Apache Commons Math,
+ * so by calling some algorithms, the overhead when the tables need to be
+ * initialized will occur regardless of the end-user calling AccurateMath
+ * methods directly or not.
  * Performance figures for a specific JVM and hardware can be evaluated by
- * running the AccurateMathTestPerformance tests in the test directory of the source
- * distribution.
+ * running the AccurateMathTestPerformance tests in the test directory of
+ * the source distribution.
  * </p>
  * <p>
  * AccurateMath accuracy should be mostly independent of the JVM as it relies only
  * on IEEE-754 basic operations and on embedded tables. Almost all operations
  * are accurate to about 0.5 ulp throughout the domain range. This statement,
  * of course is only a rough global observed behavior, it is <em>not</em> a
- * guarantee for <em>every</em> double numbers input (see William Kahan's <a
- * href="http://en.wikipedia.org/wiki/Rounding#The_table-maker.27s_dilemma">Table
- * Maker's Dilemma</a>).
+ * guarantee for <em>every</em> double numbers input (see William Kahan's
+ * <a href="http://en.wikipedia.org/wiki/Rounding#The_table-maker.27s_dilemma">
+ * Table Maker's Dilemma</a>).
  * </p>
  * <p>
- * AccurateMath additionally implements the following methods not found in Math/StrictMath:
+ * AccurateMath implements the following methods not found in Math/StrictMath:
  * <ul>
  * <li>{@link #asinh(double)}</li>
  * <li>{@link #acosh(double)}</li>
  * <li>{@link #atanh(double)}</li>
  * </ul>
- * The following methods are found in Math/StrictMath since 1.6 only, they are provided
- * by AccurateMath even in 1.5 Java virtual machines
- * <ul>
- * <li>{@link #copySign(double, double)}</li>
- * <li>{@link #getExponent(double)}</li>
- * <li>{@link #nextAfter(double,double)}</li>
- * <li>{@link #nextUp(double)}</li>
- * <li>{@link #scalb(double, int)}</li>
- * <li>{@link #copySign(float, float)}</li>
- * <li>{@link #getExponent(float)}</li>
- * <li>{@link #nextAfter(float,double)}</li>
- * <li>{@link #nextUp(float)}</li>
- * <li>{@link #scalb(float, int)}</li>
- * </ul>
+ *
  * @since 2.2
  */
 public final class AccurateMath {
