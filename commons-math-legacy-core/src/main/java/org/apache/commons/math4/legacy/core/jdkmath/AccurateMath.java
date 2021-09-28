@@ -3732,7 +3732,7 @@ public final class AccurateMath {
      * @exception MathArithmeticException if n cannot fit into an int
      * @since 3.4
      */
-    public static int toIntExact(final long n) throws MathArithmeticException {
+    public static int toIntExact(final long n) {
         if (n < Integer.MIN_VALUE || n > Integer.MAX_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
         }
@@ -3745,7 +3745,7 @@ public final class AccurateMath {
      * @exception MathArithmeticException if an overflow occurs
      * @since 3.4
      */
-    public static int incrementExact(final int n) throws MathArithmeticException {
+    public static int incrementExact(final int n) {
         if (n == Integer.MAX_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
         }
@@ -3758,7 +3758,7 @@ public final class AccurateMath {
      * @exception MathArithmeticException if an overflow occurs
      * @since 3.4
      */
-    public static long incrementExact(final long n) throws MathArithmeticException {
+    public static long incrementExact(final long n) {
         if (n == Long.MAX_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
         }
@@ -3771,7 +3771,7 @@ public final class AccurateMath {
      * @exception MathArithmeticException if an overflow occurs
      * @since 3.4
      */
-    public static int decrementExact(final int n) throws MathArithmeticException {
+    public static int decrementExact(final int n) {
         if (n == Integer.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
         }
@@ -3784,7 +3784,7 @@ public final class AccurateMath {
      * @exception MathArithmeticException if an overflow occurs
      * @since 3.4
      */
-    public static long decrementExact(final long n) throws MathArithmeticException {
+    public static long decrementExact(final long n) {
         if (n == Long.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
         }
@@ -3798,7 +3798,7 @@ public final class AccurateMath {
      * @exception MathArithmeticException if an overflow occurs
      * @since 3.4
      */
-    public static int addExact(final int a, final int b) throws MathArithmeticException {
+    public static int addExact(final int a, final int b) {
         // compute sum
         final int sum = a + b;
 
@@ -3817,7 +3817,7 @@ public final class AccurateMath {
      * @exception MathArithmeticException if an overflow occurs
      * @since 3.4
      */
-    public static long addExact(final long a, final long b) throws MathArithmeticException {
+    public static long addExact(final long a, final long b) {
         // compute sum
         final long sum = a + b;
 
@@ -3912,7 +3912,7 @@ public final class AccurateMath {
      * @see #floorMod(int, int)
      * @since 3.4
      */
-    public static int floorDiv(final int a, final int b) throws MathArithmeticException {
+    public static int floorDiv(final int a, final int b) {
         if (b == 0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
@@ -3940,7 +3940,7 @@ public final class AccurateMath {
      * @see #floorMod(long, long)
      * @since 3.4
      */
-    public static long floorDiv(final long a, final long b) throws MathArithmeticException {
+    public static long floorDiv(final long a, final long b) {
         if (b == 0L) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
@@ -3968,7 +3968,7 @@ public final class AccurateMath {
      * @see #floorDiv(int, int)
      * @since 3.4
      */
-    public static int floorMod(final int a, final int b) throws MathArithmeticException {
+    public static int floorMod(final int a, final int b) {
         if (b == 0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
