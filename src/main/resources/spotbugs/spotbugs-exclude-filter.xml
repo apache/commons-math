@@ -64,4 +64,13 @@
     <BugPattern name="EI_EXPOSE_REP"/>
   </Match>
 
+  <!-- Disable checks for exposure of internal references.
+       TODO: Revise this to use more targeted exclusions. -->
+  <Match>
+    <Or>
+      <BugPattern name="EI_EXPOSE_REP"/>
+      <BugPattern name="EI_EXPOSE_REP2"/>
+    </Or>
+  </Match>
+
 </FindBugsFilter>

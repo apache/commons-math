@@ -84,7 +84,7 @@
     <commons.jxr.version>2.5</commons.jxr.version>
 
     <!-- Override CP 47 -->
-    <commons.spotbugs.version>3.1.8</commons.spotbugs.version>
+    <commons.spotbugs.version>4.3.0</commons.spotbugs.version>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
