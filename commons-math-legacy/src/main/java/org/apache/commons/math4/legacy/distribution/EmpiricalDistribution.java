@@ -551,8 +551,8 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
                 stats.getVariance() == 0) {
                 return new ConstantContinuousDistribution(stats.getMean());
             } else {
-                return new NormalDistribution(stats.getMean(),
-                                              stats.getStandardDeviation());
+                return NormalDistribution.of(stats.getMean(),
+                                             stats.getStandardDeviation());
             }
         };
     }

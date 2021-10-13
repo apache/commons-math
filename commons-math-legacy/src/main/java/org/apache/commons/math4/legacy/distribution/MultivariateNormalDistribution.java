@@ -181,7 +181,7 @@ public class MultivariateNormalDistribution
     public MultivariateRealDistribution.Sampler createSampler(final UniformRandomProvider rng) {
         return new MultivariateRealDistribution.Sampler() {
             /** Normal distribution. */
-            private final ContinuousDistribution.Sampler gauss = new NormalDistribution(0, 1).createSampler(rng);
+            private final ContinuousDistribution.Sampler gauss = NormalDistribution.of(0, 1).createSampler(rng);
 
             /** {@inheritDoc} */
             @Override

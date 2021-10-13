@@ -698,7 +698,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                                           alpha, 0, 1);
         }
         // No advertised NotStrictlyPositiveException here - will return NaN above
-        TDistribution distribution = new TDistribution(n - 2d);
+        TDistribution distribution = TDistribution.of(n - 2d);
         return getSlopeStdErr() *
             distribution.inverseCumulativeProbability(1d - alpha / 2d);
     }
@@ -730,7 +730,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             return Double.NaN;
         }
         // No advertised NotStrictlyPositiveException here - will return NaN above
-        TDistribution distribution = new TDistribution(n - 2d);
+        TDistribution distribution = TDistribution.of(n - 2d);
         return 2d * (1.0 - distribution.cumulativeProbability(
                     AccurateMath.abs(getSlope()) / getSlopeStdErr()));
     }

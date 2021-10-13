@@ -34,7 +34,7 @@ public class AgrestiCoullInterval implements BinomialConfidenceInterval {
     public ConfidenceInterval createInterval(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         IntervalUtils.checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
         final double alpha = (1.0 - confidenceLevel) / 2;
-        final NormalDistribution normalDistribution = new NormalDistribution(0, 1);
+        final NormalDistribution normalDistribution = NormalDistribution.of(0, 1);
         final double z = normalDistribution.inverseCumulativeProbability(1 - alpha);
         final double zSquared = AccurateMath.pow(z, 2);
         final double modifiedNumberOfTrials = numberOfTrials + zSquared;

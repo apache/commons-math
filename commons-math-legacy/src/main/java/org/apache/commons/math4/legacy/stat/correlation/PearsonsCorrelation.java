@@ -192,7 +192,7 @@ public class PearsonsCorrelation {
      * @throws NullPointerException if this instance was created with no data.
      */
     public RealMatrix getCorrelationPValues() {
-        TDistribution tDistribution = new TDistribution(nObs - 2);
+        TDistribution tDistribution = TDistribution.of(nObs - 2);
         int nVars = correlationMatrix.getColumnDimension();
         double[][] out = new double[nVars][nVars];
         for (int i = 0; i < nVars; i++) {

@@ -246,7 +246,7 @@ public class CMAESOptimizer
         this.isActiveCMA = isActiveCMA;
         this.diagonalOnly = diagonalOnly;
         this.checkFeasableCount = Math.max(0, checkFeasableCount);
-        this.random = new NormalDistribution(0, 1).createSampler(rng);
+        this.random = NormalDistribution.of(0, 1).createSampler(rng);
         this.generateStatistics = generateStatistics;
     }
 

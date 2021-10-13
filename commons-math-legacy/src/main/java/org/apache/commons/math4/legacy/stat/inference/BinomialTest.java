@@ -119,7 +119,7 @@ public class BinomialTest {
             throw new NullArgumentException();
         }
 
-        final BinomialDistribution distribution = new BinomialDistribution(numberOfTrials, probability);
+        final BinomialDistribution distribution = BinomialDistribution.of(numberOfTrials, probability);
         switch (alternativeHypothesis) {
         case GREATER_THAN:
             return 1 - distribution.cumulativeProbability(numberOfSuccesses - 1);

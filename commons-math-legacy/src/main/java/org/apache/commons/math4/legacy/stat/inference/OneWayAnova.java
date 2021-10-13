@@ -126,7 +126,7 @@ public class OneWayAnova {
         final AnovaStats a = anovaStats(categoryData);
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
-        final FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
+        final FDistribution fdist = FDistribution.of(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.f);
 
     }
@@ -168,7 +168,7 @@ public class OneWayAnova {
 
         final AnovaStats a = anovaStats(categoryData, allowOneElementData);
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
-        final FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
+        final FDistribution fdist = FDistribution.of(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.f);
 
     }
