@@ -64,8 +64,8 @@ public class RandomStraightLinePointGenerator {
         final UniformRandomProvider rng = RandomSource.WELL_44497_B.create(seed);
         slope = a;
         intercept = b;
-        error = new NormalDistribution(0, sigma).createSampler(rng);
-        x = new UniformContinuousDistribution(lo, hi).createSampler(rng);
+        error = NormalDistribution.of(0, sigma).createSampler(rng);
+        x = UniformContinuousDistribution.of(lo, hi).createSampler(rng);
     }
 
     /**

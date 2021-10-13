@@ -178,7 +178,7 @@ public abstract class UnivariateStatisticAbstractTest {
         // Fill weights array with random int values between 1 and 5
         int[] intWeights = new int[len];
         final DiscreteDistribution.Sampler weightDist =
-            new UniformDiscreteDistribution(1, 5).createSampler(RandomSource.WELL_512_A.create(234878544L));
+            UniformDiscreteDistribution.of(1, 5).createSampler(RandomSource.WELL_512_A.create(234878544L));
         for (int i = 0; i < len; i++) {
             intWeights[i] = weightDist.sample();
             weights[i] = intWeights[i];
@@ -188,7 +188,7 @@ public abstract class UnivariateStatisticAbstractTest {
         // and fill valuesList with values from values array with
         // values[i] repeated weights[i] times, each i
         final ContinuousDistribution.Sampler valueDist =
-            new NormalDistribution(mu, sigma).createSampler(RandomSource.WELL_512_A.create(64925784252L));
+            NormalDistribution.of(mu, sigma).createSampler(RandomSource.WELL_512_A.create(64925784252L));
         List<Double> valuesList = new ArrayList<>();
         for (int i = 0; i < len; i++) {
             double value = valueDist.sample();

@@ -34,7 +34,7 @@ public class SimpleCurveFitterTest {
     public void testPolynomialFit() {
         final Random randomizer = new Random(53882150042L);
         final ContinuousDistribution.Sampler rng
-            = new UniformContinuousDistribution(-100, 100).createSampler(RandomSource.WELL_512_A.create(64925784253L));
+            = UniformContinuousDistribution.of(-100, 100).createSampler(RandomSource.WELL_512_A.create(64925784253L));
 
         final double[] coeff = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2
         final PolynomialFunction f = new PolynomialFunction(coeff);

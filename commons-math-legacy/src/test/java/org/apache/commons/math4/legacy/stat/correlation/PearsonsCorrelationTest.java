@@ -228,7 +228,7 @@ public class PearsonsCorrelationTest {
      */
     @Test
     public void testStdErrorConsistency() {
-        TDistribution tDistribution = new TDistribution(45);
+        TDistribution tDistribution = TDistribution.of(45);
         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         RealMatrix rValues = corrInstance.getCorrelationMatrix();

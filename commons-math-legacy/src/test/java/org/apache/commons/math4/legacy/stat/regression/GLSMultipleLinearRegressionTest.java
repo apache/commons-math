@@ -223,7 +223,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     @Test
     public void testGLSEfficiency() {
         final UniformRandomProvider rg = RandomSource.MT.create();
-        final ContinuousDistribution.Sampler gauss = new NormalDistribution(0, 1).createSampler(rg);
+        final ContinuousDistribution.Sampler gauss = NormalDistribution.of(0, 1).createSampler(rg);
 
         // Assume model has 16 observations (will use Longley data).  Start by generating
         // non-constant variances for the 16 error terms.

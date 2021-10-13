@@ -220,7 +220,7 @@ public class AkimaSplineInterpolatorTest {
 
         final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1234567L); // "tol" depends on the seed.
         final ContinuousDistribution.Sampler distX =
-            new UniformContinuousDistribution(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
+            UniformContinuousDistribution.of(xValues[0], xValues[xValues.length - 1]).createSampler(rng);
 
         double sumError = 0;
         for (int i = 0; i < numberOfSamples; i++) {

@@ -104,7 +104,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testOneSampleGaussianGaussian() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
+        final NormalDistribution unitNormal = NormalDistribution.of(0d, 1d);
         // Uncomment to run exact test - takes about a minute. Same value is used in R tests and for
         // approx.
         // Assert.assertEquals(0.3172069207622391, test.kolmogorovSmirnovTest(unitNormal, gaussian,
@@ -118,7 +118,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testOneSampleGaussianGaussianSmallSample() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
+        final NormalDistribution unitNormal = NormalDistribution.of(0d, 1d);
         final double[] shortGaussian = new double[50];
         System.arraycopy(gaussian, 0, shortGaussian, 0, 50);
         Assert.assertEquals(0.683736463728347, test.kolmogorovSmirnovTest(unitNormal, shortGaussian, false), TOLERANCE);
@@ -130,7 +130,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testOneSampleGaussianUniform() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
+        final NormalDistribution unitNormal = NormalDistribution.of(0d, 1d);
         // Uncomment to run exact test - takes a long time. Same value is used in R tests and for
         // approx.
         // Assert.assertEquals(0.3172069207622391, test.kolmogorovSmirnovTest(unitNormal, uniform,
@@ -144,7 +144,7 @@ public class KolmogorovSmirnovTestTest {
     // @Test - takes about 6 seconds, uncomment for
     public void testOneSampleUniformUniform() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformContinuousDistribution unif = new UniformContinuousDistribution(-0.5, 0.5);
+        final UniformContinuousDistribution unif = UniformContinuousDistribution.of(-0.5, 0.5);
         Assert.assertEquals(8.881784197001252E-16, test.kolmogorovSmirnovTest(unif, uniform, false), TOLERANCE);
         Assert.assertTrue(test.kolmogorovSmirnovTest(unif, uniform, 0.05));
         Assert.assertEquals(0.5400666982352942, test.kolmogorovSmirnovStatistic(unif, uniform), TOLERANCE);
@@ -154,7 +154,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testOneSampleUniformUniformSmallSample() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformContinuousDistribution unif = new UniformContinuousDistribution(-0.5, 0.5);
+        final UniformContinuousDistribution unif = UniformContinuousDistribution.of(-0.5, 0.5);
         final double[] shortUniform = new double[20];
         System.arraycopy(uniform, 0, shortUniform, 0, 20);
         Assert.assertEquals(4.117594598618268E-9, test.kolmogorovSmirnovTest(unif, shortUniform, false), TOLERANCE);
@@ -166,7 +166,7 @@ public class KolmogorovSmirnovTestTest {
     @Test
     public void testOneSampleUniformGaussian() {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-        final UniformContinuousDistribution unif = new UniformContinuousDistribution(-0.5, 0.5);
+        final UniformContinuousDistribution unif = UniformContinuousDistribution.of(-0.5, 0.5);
         // Value was obtained via exact test, validated against R. Running exact test takes a long
         // time.
         Assert.assertEquals(4.9405812774239166E-11, test.kolmogorovSmirnovTest(unif, gaussian, false), TOLERANCE);

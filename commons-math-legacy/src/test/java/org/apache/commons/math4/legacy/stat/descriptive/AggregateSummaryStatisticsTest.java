@@ -283,9 +283,9 @@ public class AggregateSummaryStatisticsTest {
      */
     private double[] generateSample() {
         final DiscreteDistribution.Sampler size =
-            new UniformDiscreteDistribution(10, 100).createSampler(RandomSource.WELL_512_A.create(327652));
+            UniformDiscreteDistribution.of(10, 100).createSampler(RandomSource.WELL_512_A.create(327652));
         final ContinuousDistribution.Sampler randomData
-            = new UniformContinuousDistribution(-100, 100).createSampler(RandomSource.WELL_512_A.create(64925784252L));
+            = UniformContinuousDistribution.of(-100, 100).createSampler(RandomSource.WELL_512_A.create(64925784252L));
         final int sampleSize = size.sample();
         final double[] out = AbstractRealDistribution.sample(sampleSize, randomData);
         return out;
@@ -313,7 +313,7 @@ public class AggregateSummaryStatisticsTest {
                 next = length - 1;
             } else {
                 final DiscreteDistribution.Sampler sampler =
-                    new UniformDiscreteDistribution(cur, length - 1).createSampler(RandomSource.WELL_512_A.create());
+                    UniformDiscreteDistribution.of(cur, length - 1).createSampler(RandomSource.WELL_512_A.create());
                 next = sampler.sample();
             }
             final int subLength = next - cur + 1;

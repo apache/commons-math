@@ -590,7 +590,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testStoredVsDirect() {
         final ContinuousDistribution.Sampler sampler =
-            new NormalDistribution(4000, 50).createSampler(RandomSource.JDK.create(Long.MAX_VALUE));
+            NormalDistribution.of(4000, 50).createSampler(RandomSource.JDK.create(Long.MAX_VALUE));
 
         for (final int sampleSize : sampleSizes) {
             final double[] data = AbstractRealDistribution.sample(sampleSize, sampler);

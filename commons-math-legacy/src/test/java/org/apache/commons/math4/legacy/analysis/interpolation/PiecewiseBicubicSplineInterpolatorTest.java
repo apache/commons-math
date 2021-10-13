@@ -160,8 +160,8 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double y;
 
         final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1234567L);
-        final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
-        final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distX = UniformContinuousDistribution.of(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distY = UniformContinuousDistribution.of(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         final int numSamples = 50;
         final double tol = 2e-14;
@@ -213,8 +213,8 @@ public final class PiecewiseBicubicSplineInterpolatorTest {
         double y;
 
         final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1234567L);
-        final ContinuousDistribution.Sampler distX = new UniformContinuousDistribution(xval[0], xval[xval.length - 1]).createSampler(rng);
-        final ContinuousDistribution.Sampler distY = new UniformContinuousDistribution(yval[0], yval[yval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distX = UniformContinuousDistribution.of(xval[0], xval[xval.length - 1]).createSampler(rng);
+        final ContinuousDistribution.Sampler distY = UniformContinuousDistribution.of(yval[0], yval[yval.length - 1]).createSampler(rng);
 
         final int numSamples = 50;
         final double tol = 5e-13;

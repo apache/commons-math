@@ -144,7 +144,7 @@ public class MultivariateNormalDistributionTest {
 
         final MultivariateNormalDistribution multi = new MultivariateNormalDistribution(mu, sigma);
 
-        final NormalDistribution uni = new NormalDistribution(mu[0], sigma[0][0]);
+        final NormalDistribution uni = NormalDistribution.of(mu[0], sigma[0][0]);
         final Random rng = new Random();
         final int numCases = 100;
         final double tol = Math.ulp(1d);

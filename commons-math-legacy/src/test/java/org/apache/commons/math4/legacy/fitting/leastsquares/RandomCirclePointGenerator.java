@@ -51,9 +51,9 @@ public class RandomCirclePointGenerator {
                                       double ySigma) {
         final UniformRandomProvider rng = RandomSource.WELL_44497_B.create();
         this.radius = radius;
-        cX = new NormalDistribution(x, xSigma).createSampler(rng);
-        cY = new NormalDistribution(y, ySigma).createSampler(rng);
-        tP = new UniformContinuousDistribution(0, 2 * Math.PI).createSampler(rng);
+        cX = NormalDistribution.of(x, xSigma).createSampler(rng);
+        cY = NormalDistribution.of(y, ySigma).createSampler(rng);
+        tP = UniformContinuousDistribution.of(0, 2 * Math.PI).createSampler(rng);
     }
 
     /**

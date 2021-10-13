@@ -527,7 +527,7 @@ public class InferenceTestUtilsTest {
 
     @Test
     public void testKSOneSample() throws Exception {
-       final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
+       final NormalDistribution unitNormal = NormalDistribution.of(0d, 1d);
        final double[] sample = KolmogorovSmirnovTestTest.gaussian;
        final double tol = 1e-10;
        Assert.assertEquals(0.3172069207622391, InferenceTestUtils.kolmogorovSmirnovTest(unitNormal, sample), tol);

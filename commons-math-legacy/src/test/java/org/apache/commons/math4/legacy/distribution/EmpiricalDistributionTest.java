@@ -381,9 +381,9 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      */
     private ContinuousDistribution findKernel(double lower, double upper) {
         if (lower < 1) {
-            return new NormalDistribution(5d, 3.3166247903554);
+            return NormalDistribution.of(5d, 3.3166247903554);
         } else {
-            return new NormalDistribution((upper + lower + 1) / 2d, 3.0276503540974917);
+            return NormalDistribution.of((upper + lower + 1) / 2d, 3.0276503540974917);
         }
     }
 
@@ -392,7 +392,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         final double[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
         final EmpiricalDistribution dist =
             EmpiricalDistribution.from(5, data,
-                                       s -> new UniformContinuousDistribution(s.getMin(), s.getMax()));
+                                       s -> UniformContinuousDistribution.of(s.getMin(), s.getMax()));
         final ContinuousDistribution.Sampler sampler
             = dist.createSampler(RandomSource.WELL_19937_C.create(1000));
         // Kernels are uniform distributions on [1,3], [4,6], [7,9], [10,12], [13,15]
@@ -424,7 +424,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     public void testMath1431() {
         final UniformRandomProvider rng = RandomSource.WELL_19937_C.create(1000);
         final ContinuousDistribution.Sampler exponentialDistributionSampler
-            = new ExponentialDistribution(0.05).createSampler(rng);
+            = ExponentialDistribution.of(0.05).createSampler(rng);
         final double[] empiricalDataPoints = new double[3000];
         for (int i = 0; i < empiricalDataPoints.length; i++) {
             empiricalDataPoints[i] = exponentialDistributionSampler.sample();
