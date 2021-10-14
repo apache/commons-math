@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.ode.TestProblemHandler;
 import org.apache.commons.math4.legacy.ode.events.EventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -73,7 +73,7 @@ public class DormandPrince853IntegratorTest {
       double finalT = integrator.integrate(ode, t0, y0, tEvent, y);
       Assert.assertEquals(tEvent, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * AccurateMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * JdkMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
       integrator.setInitialStepSize(60.0);
@@ -101,7 +101,7 @@ public class DormandPrince853IntegratorTest {
       finalT = integrator.integrate(ode, t0, y0, tEvent + 120, y);
       Assert.assertEquals(tEvent + 120, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * AccurateMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * JdkMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
   }
@@ -168,7 +168,7 @@ public class DormandPrince853IntegratorTest {
       TestProblem1 pb = new TestProblem1();
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
-      double scalAbsoluteTolerance = AccurateMath.pow(10.0, i);
+      double scalAbsoluteTolerance = JdkMath.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
       integ.setStepSizeControl(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
@@ -211,8 +211,8 @@ public class DormandPrince853IntegratorTest {
 
           @Override
         public void computeDerivatives(double t, double[] y, double[] yDot) {
-              Assert.assertTrue(t >= AccurateMath.nextAfter(start, Double.NEGATIVE_INFINITY));
-              Assert.assertTrue(t <= AccurateMath.nextAfter(end,   Double.POSITIVE_INFINITY));
+              Assert.assertTrue(t >= JdkMath.nextAfter(start, Double.NEGATIVE_INFINITY));
+              Assert.assertTrue(t <= JdkMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
           }
 
@@ -369,7 +369,7 @@ public class DormandPrince853IntegratorTest {
       integ.addEventHandler(cosChecker, 0.01, 1.0e-7, 100);
       integ.addStepHandler(cosChecker);
       double   t0 = 0.5;
-      double[] y0 = new double[] { AccurateMath.sin(t0), AccurateMath.cos(t0) };
+      double[] y0 = new double[] { JdkMath.sin(t0), JdkMath.cos(t0) };
       double   t  = 10.0;
       double[] y  = new double[2];
       integ.integrate(sincos, t0, y0, t, y);
@@ -471,10 +471,10 @@ public class DormandPrince853IntegratorTest {
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 
-      double step = AccurateMath.abs(interpolator.getCurrentTime()
+      double step = JdkMath.abs(interpolator.getCurrentTime()
                              - interpolator.getPreviousTime());
       if (firstTime) {
-        minStep   = AccurateMath.abs(step);
+        minStep   = JdkMath.abs(step);
         maxStep   = minStep;
         firstTime = false;
       } else {

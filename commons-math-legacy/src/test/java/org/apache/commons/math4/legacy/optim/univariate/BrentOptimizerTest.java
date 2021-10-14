@@ -29,7 +29,7 @@ import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -212,7 +212,7 @@ public final class BrentOptimizerTest {
         final UnivariateFunction f = new UnivariateFunction() {
                 @Override
                 public double value(double x) {
-                    final double sqrtX = AccurateMath.sqrt(x);
+                    final double sqrtX = JdkMath.sqrt(x);
                     final double a = 1e2 * sqrtX;
                     final double b = 1e6 / x;
                     final double c = 1e4 / sqrtX;

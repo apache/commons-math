@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class implements the <a href="http://mathworld.wolfram.com/MullersMethod.html">
@@ -94,15 +94,15 @@ public class MullerSolver extends AbstractUnivariateSolver {
 
         // check for zeros before verifying bracketing
         final double fMin = computeObjectiveValue(min);
-        if (AccurateMath.abs(fMin) < functionValueAccuracy) {
+        if (JdkMath.abs(fMin) < functionValueAccuracy) {
             return min;
         }
         final double fMax = computeObjectiveValue(max);
-        if (AccurateMath.abs(fMax) < functionValueAccuracy) {
+        if (JdkMath.abs(fMax) < functionValueAccuracy) {
             return max;
         }
         final double fInitial = computeObjectiveValue(initial);
-        if (AccurateMath.abs(fInitial) <  functionValueAccuracy) {
+        if (JdkMath.abs(fInitial) <  functionValueAccuracy) {
             return initial;
         }
 
@@ -156,17 +156,17 @@ public class MullerSolver extends AbstractUnivariateSolver {
             final double d012 = (d12 - d01) / (x2 - x0);
             final double c1 = d01 + (x1 - x0) * d012;
             final double delta = c1 * c1 - 4 * y1 * d012;
-            final double xplus = x1 + (-2.0 * y1) / (c1 + AccurateMath.sqrt(delta));
-            final double xminus = x1 + (-2.0 * y1) / (c1 - AccurateMath.sqrt(delta));
+            final double xplus = x1 + (-2.0 * y1) / (c1 + JdkMath.sqrt(delta));
+            final double xminus = x1 + (-2.0 * y1) / (c1 - JdkMath.sqrt(delta));
             // xplus and xminus are two roots of parabola and at least
             // one of them should lie in (x0, x2)
             final double x = isSequence(x0, xplus, x2) ? xplus : xminus;
             final double y = computeObjectiveValue(x);
 
             // check for convergence
-            final double tolerance = AccurateMath.max(relativeAccuracy * AccurateMath.abs(x), absoluteAccuracy);
-            if (AccurateMath.abs(x - oldx) <= tolerance ||
-                AccurateMath.abs(y) <= functionValueAccuracy) {
+            final double tolerance = JdkMath.max(relativeAccuracy * JdkMath.abs(x), absoluteAccuracy);
+            if (JdkMath.abs(x - oldx) <= tolerance ||
+                JdkMath.abs(y) <= functionValueAccuracy) {
                 return x;
             }
 
@@ -188,7 +188,7 @@ public class MullerSolver extends AbstractUnivariateSolver {
             } else {
                 double xm = 0.5 * (x0 + x2);
                 double ym = computeObjectiveValue(xm);
-                if (AccurateMath.signum(y0) + AccurateMath.signum(ym) == 0.0) {
+                if (JdkMath.signum(y0) + JdkMath.signum(ym) == 0.0) {
                     x2 = xm; y2 = ym;
                 } else {
                     x0 = xm; y0 = ym;

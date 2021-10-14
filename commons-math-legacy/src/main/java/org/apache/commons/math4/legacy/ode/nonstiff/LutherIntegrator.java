@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -56,7 +56,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
 public class LutherIntegrator extends RungeKuttaIntegrator {
 
     /** Square root. */
-    private static final double Q = AccurateMath.sqrt(21);
+    private static final double Q = JdkMath.sqrt(21);
 
     /** Time steps Butcher array. */
     private static final double[] STATIC_C = {

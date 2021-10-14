@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -49,7 +49,7 @@ public final class RegulaFalsiSolverTest extends BaseSecantSolverAbstractTest {
                 /** {@inheritDoc} */
                 @Override
                 public double value(double x) {
-                    return AccurateMath.exp(x) - AccurateMath.pow(Math.PI, 3.0);
+                    return JdkMath.exp(x) - JdkMath.pow(Math.PI, 3.0);
                 }
             };
 

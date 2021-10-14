@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -145,7 +145,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
                               E4 * yDotK[3][j] +  E5 * yDotK[4][j] +
                               E6 * yDotK[5][j] +  E7 * yDotK[6][j];
 
-        final double yScale = AccurateMath.max(AccurateMath.abs(y0[j]), AccurateMath.abs(y1[j]));
+        final double yScale = JdkMath.max(JdkMath.abs(y0[j]), JdkMath.abs(y1[j]));
         final double tol = (vecAbsoluteTolerance == null) ?
                            (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                                (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
@@ -154,7 +154,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
 
     }
 
-    return AccurateMath.sqrt(error / mainSetDimension);
+    return JdkMath.sqrt(error / mainSetDimension);
 
   }
 

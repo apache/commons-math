@@ -37,7 +37,7 @@ import org.apache.commons.math4.legacy.ode.events.EventHandler;
 import org.apache.commons.math4.legacy.ode.events.EventState;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.IntegerSequence;
 import org.apache.commons.numbers.core.Precision;
 
@@ -458,9 +458,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     protected void sanityChecks(final ExpandableStatefulODE equations, final double t)
         throws NumberIsTooSmallException, DimensionMismatchException {
 
-        final double threshold = 1000 * AccurateMath.ulp(AccurateMath.max(AccurateMath.abs(equations.getTime()),
-                                                                  AccurateMath.abs(t)));
-        final double dt = AccurateMath.abs(equations.getTime() - t);
+        final double threshold = 1000 * JdkMath.ulp(JdkMath.max(JdkMath.abs(equations.getTime()),
+                                                                  JdkMath.abs(t)));
+        final double dt = JdkMath.abs(equations.getTime() - t);
         if (dt <= threshold) {
             throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
                                                 dt, threshold, false);

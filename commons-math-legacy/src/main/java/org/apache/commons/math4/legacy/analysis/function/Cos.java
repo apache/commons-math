@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Cosine function.
@@ -30,7 +30,7 @@ public class Cos implements UnivariateDifferentiableFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x) {
-        return AccurateMath.cos(x);
+        return JdkMath.cos(x);
     }
 
     /** {@inheritDoc}

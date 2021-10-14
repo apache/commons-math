@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /*
  * plot 'logGamma.dat' binary format="%double%double" endian=big u 1:2 w l
@@ -298,11 +298,11 @@ public class RealFunctionValidation {
                                                                types[i]);
                 }
                 final double expected = in.readDouble();
-                if (AccurateMath.abs(expected) > 1E-16) {
+                if (JdkMath.abs(expected) > 1E-16) {
                     final Object value = method.invoke(null, parameters);
                     final double actual = ((Double) value).doubleValue();
-                    final double err = AccurateMath.abs(actual - expected);
-                    final double ulps = err / AccurateMath.ulp(expected);
+                    final double err = JdkMath.abs(actual - expected);
+                    final double ulps = err / JdkMath.ulp(expected);
                     out.writeDouble(expected);
                     out.writeDouble(actual);
                     out.writeDouble(ulps);

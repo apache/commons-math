@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.stat.regression;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -258,7 +258,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             if (di != 0.0) {
                 dpi = smartAdd(di, wxi * xi);
                 final double tmp = wxi * xi / di;
-                if (AccurateMath.abs(tmp) > Precision.EPSILON) {
+                if (JdkMath.abs(tmp) > Precision.EPSILON) {
                     w = (di * w) / dpi;
                 }
             } else {
@@ -295,8 +295,8 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @return the sum of the a and b
      */
     private double smartAdd(double a, double b) {
-        final double aa = AccurateMath.abs(a);
-        final double ba = AccurateMath.abs(b);
+        final double aa = JdkMath.abs(a);
+        final double ba = JdkMath.abs(b);
         if (aa > ba) {
             final double eps = aa * Precision.EPSILON;
             if (ba > eps) {
@@ -346,14 +346,14 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         double total;
         final double eps = this.epsilon;
         for (int i = 0; i < nvars; i++) {
-            this.workTolset[i] = AccurateMath.sqrt(d[i]);
+            this.workTolset[i] = JdkMath.sqrt(d[i]);
         }
         tol[0] = eps * this.workTolset[0];
         for (int col = 1; col < nvars; col++) {
             pos = col - 1;
             total = workTolset[col];
             for (int row = 0; row < col; row++) {
-                total += AccurateMath.abs(r[pos]) * workTolset[row];
+                total += JdkMath.abs(r[pos]) * workTolset[row];
                 pos += nvars - row - 2;
             }
             tol[col] = eps * total;
@@ -387,7 +387,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         final double[] ret = new double[nreq];
         boolean rankProblem = false;
         for (int i = nreq - 1; i > -1; i--) {
-            if (AccurateMath.sqrt(d[i]) < tol[i]) {
+            if (JdkMath.sqrt(d[i]) < tol[i]) {
                 ret[i] = 0.0;
                 d[i] = 0.0;
                 rankProblem = true;
@@ -417,7 +417,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     private void singcheck() {
         int pos;
         for (int i = 0; i < nvars; i++) {
-            workSing[i] = AccurateMath.sqrt(d[i]);
+            workSing[i] = JdkMath.sqrt(d[i]);
         }
         for (int col = 0; col < nvars; col++) {
             // Set elements within R to zero if they are less than tol(col) in
@@ -426,7 +426,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             final double temp = tol[col];
             pos = col - 1;
             for (int row = 0; row < col - 1; row++) {
-                if (AccurateMath.abs(r[pos]) * workSing[row] < temp) {
+                if (JdkMath.abs(r[pos]) * workSing[row] < temp) {
                     r[pos] = 0.0;
                 }
                 pos += nvars - row - 2;
@@ -629,7 +629,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         final int nvm = nvars - 1;
         final int basePos = r.length - (nvm - in) * (nvm - in + 1) / 2;
         if (d[in] > 0.0) {
-            rms[in + rmsOff] = 1.0 / AccurateMath.sqrt(d[in]);
+            rms[in + rmsOff] = 1.0 / JdkMath.sqrt(d[in]);
         }
         for (int col = in + 1; col < nvars; col++) {
             pos = basePos + col - 1 - in;
@@ -639,7 +639,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                 pos += nvars - row - 2;
             }
             if (sumxx > 0.0) {
-                rms[col + rmsOff] = 1.0 / AccurateMath.sqrt(sumxx);
+                rms[col + rmsOff] = 1.0 / JdkMath.sqrt(sumxx);
             } else {
                 rms[col + rmsOff] = 0.0;
             }
@@ -649,7 +649,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             sumyy += d[row] * rhs[row] * rhs[row];
         }
         if (sumyy > 0.0) {
-            sumyy = 1.0 / AccurateMath.sqrt(sumyy);
+            sumyy = 1.0 / JdkMath.sqrt(sumyy);
         }
         pos = 0;
         for (int col1 = in; col1 < nvars; col1++) {
@@ -733,10 +733,10 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             // Special cases.
             if (d1 > this.epsilon || d2 > this.epsilon) {
                 x = r[m1];
-                if (AccurateMath.abs(x) * AccurateMath.sqrt(d1) < tol[mp1]) {
+                if (JdkMath.abs(x) * JdkMath.sqrt(d1) < tol[mp1]) {
                     x = 0.0;
                 }
-                if (d1 < this.epsilon || AccurateMath.abs(x) < this.epsilon) {
+                if (d1 < this.epsilon || JdkMath.abs(x) < this.epsilon) {
                     d[m] = d2;
                     d[mp1] = d1;
                     r[m1] = 0.0;
@@ -872,7 +872,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         }
         double hii = 0.0;
         for (int col = 0; col < xrow.length; col++) {
-            if (AccurateMath.sqrt(d[col]) < tol[col]) {
+            if (JdkMath.sqrt(d[col]) < tol[col]) {
                 wk[col] = 0.0;
             } else {
                 pos = col - 1;

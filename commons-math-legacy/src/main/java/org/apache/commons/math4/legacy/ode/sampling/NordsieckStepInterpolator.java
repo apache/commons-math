@@ -25,7 +25,7 @@ import java.util.Arrays;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class implements an interpolator for integrators using Nordsieck representation.
@@ -200,7 +200,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         for (int i = nData.length - 1; i >= 0; --i) {
             final int order = i + 2;
             final double[] nDataI = nData[i];
-            final double power = AccurateMath.pow(normalizedAbscissa, order);
+            final double power = JdkMath.pow(normalizedAbscissa, order);
             for (int j = 0; j < nDataI.length; ++j) {
                 final double d = nDataI[j] * power;
                 stateVariation[j]          += d;

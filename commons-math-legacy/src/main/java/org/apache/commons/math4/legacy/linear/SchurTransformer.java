@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -159,17 +159,17 @@ class SchurTransformer {
                 matrixT[iu - 1][iu - 1] += shift.exShift;
 
                 if (q >= 0) {
-                    double z = AccurateMath.sqrt(AccurateMath.abs(q));
+                    double z = JdkMath.sqrt(JdkMath.abs(q));
                     if (p >= 0) {
                         z = p + z;
                     } else {
                         z = p - z;
                     }
                     final double x = matrixT[iu][iu - 1];
-                    final double s = AccurateMath.abs(x) + AccurateMath.abs(z);
+                    final double s = JdkMath.abs(x) + JdkMath.abs(z);
                     p = x / s;
                     q = z / s;
-                    final double r = AccurateMath.sqrt(p * p + q * q);
+                    final double r = JdkMath.sqrt(p * p + q * q);
                     p /= r;
                     q /= r;
 
@@ -224,8 +224,8 @@ class SchurTransformer {
         double norm = 0.0;
         for (int i = 0; i < matrixT.length; i++) {
             // as matrix T is (quasi-)triangular, also take the sub-diagonal element into account
-            for (int j = AccurateMath.max(i - 1, 0); j < matrixT.length; j++) {
-                norm += AccurateMath.abs(matrixT[i][j]);
+            for (int j = JdkMath.max(i - 1, 0); j < matrixT.length; j++) {
+                norm += JdkMath.abs(matrixT[i][j]);
             }
         }
         return norm;
@@ -241,11 +241,11 @@ class SchurTransformer {
     private int findSmallSubDiagonalElement(final int startIdx, final double norm) {
         int l = startIdx;
         while (l > 0) {
-            double s = AccurateMath.abs(matrixT[l - 1][l - 1]) + AccurateMath.abs(matrixT[l][l]);
+            double s = JdkMath.abs(matrixT[l - 1][l - 1]) + JdkMath.abs(matrixT[l][l]);
             if (s == 0.0) {
                 s = norm;
             }
-            if (AccurateMath.abs(matrixT[l][l - 1]) < epsilon * s) {
+            if (JdkMath.abs(matrixT[l][l - 1]) < epsilon * s) {
                 break;
             }
             l--;
@@ -276,7 +276,7 @@ class SchurTransformer {
             for (int i = 0; i <= idx; i++) {
                 matrixT[i][i] -= shift.x;
             }
-            final double s = AccurateMath.abs(matrixT[idx][idx - 1]) + AccurateMath.abs(matrixT[idx - 1][idx - 2]);
+            final double s = JdkMath.abs(matrixT[idx][idx - 1]) + JdkMath.abs(matrixT[idx - 1][idx - 2]);
             shift.x = 0.75 * s;
             shift.y = 0.75 * s;
             shift.w = -0.4375 * s * s;
@@ -287,7 +287,7 @@ class SchurTransformer {
             double s = (shift.y - shift.x) / 2.0;
             s = s * s + shift.w;
             if (s > 0.0) {
-                s = AccurateMath.sqrt(s);
+                s = JdkMath.sqrt(s);
                 if (shift.y < shift.x) {
                     s = -s;
                 }
@@ -325,10 +325,10 @@ class SchurTransformer {
                 break;
             }
 
-            final double lhs = AccurateMath.abs(matrixT[im][im - 1]) * (AccurateMath.abs(hVec[1]) + AccurateMath.abs(hVec[2]));
-            final double rhs = AccurateMath.abs(hVec[0]) * (AccurateMath.abs(matrixT[im - 1][im - 1]) +
-                                                        AccurateMath.abs(z) +
-                                                        AccurateMath.abs(matrixT[im + 1][im + 1]));
+            final double lhs = JdkMath.abs(matrixT[im][im - 1]) * (JdkMath.abs(hVec[1]) + JdkMath.abs(hVec[2]));
+            final double rhs = JdkMath.abs(hVec[0]) * (JdkMath.abs(matrixT[im - 1][im - 1]) +
+                                                        JdkMath.abs(z) +
+                                                        JdkMath.abs(matrixT[im + 1][im + 1]));
 
             if (lhs < epsilon * rhs) {
                 break;
@@ -362,7 +362,7 @@ class SchurTransformer {
                 p = matrixT[k][k - 1];
                 q = matrixT[k + 1][k - 1];
                 r = notlast ? matrixT[k + 2][k - 1] : 0.0;
-                shift.x = AccurateMath.abs(p) + AccurateMath.abs(q) + AccurateMath.abs(r);
+                shift.x = JdkMath.abs(p) + JdkMath.abs(q) + JdkMath.abs(r);
                 if (Precision.equals(shift.x, 0.0, epsilon)) {
                     continue;
                 }
@@ -370,7 +370,7 @@ class SchurTransformer {
                 q /= shift.x;
                 r /= shift.x;
             }
-            double s = AccurateMath.sqrt(p * p + q * q + r * r);
+            double s = JdkMath.sqrt(p * p + q * q + r * r);
             if (p < 0.0) {
                 s = -s;
             }
@@ -399,7 +399,7 @@ class SchurTransformer {
                 }
 
                 // Column modification
-                for (int i = 0; i <= AccurateMath.min(iu, k + 3); i++) {
+                for (int i = 0; i <= JdkMath.min(iu, k + 3); i++) {
                     p = shift.x * matrixT[i][k] + shift.y * matrixT[i][k + 1];
                     if (notlast) {
                         p += z * matrixT[i][k + 2];

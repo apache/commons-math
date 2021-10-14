@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -261,7 +261,7 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
             currentY = distY.sample();
             expected = f.value(currentX, currentY);
             actual = interpolation.value(currentX, currentY);
-            sumError += AccurateMath.abs(actual - expected);
+            sumError += JdkMath.abs(actual - expected);
             Assert.assertEquals(expected, actual, maxTolerance);
         }
 

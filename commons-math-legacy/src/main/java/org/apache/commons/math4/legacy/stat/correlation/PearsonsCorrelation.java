@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.stat.regression.SimpleRegression;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Computes Pearson's product-moment correlation coefficients for pairs of arrays
@@ -165,7 +165,7 @@ public class PearsonsCorrelation {
         for (int i = 0; i < nVars; i++) {
             for (int j = 0; j < nVars; j++) {
                 double r = correlationMatrix.getEntry(i, j);
-                out[i][j] = AccurateMath.sqrt((1 - r * r) /(nObs - 2));
+                out[i][j] = JdkMath.sqrt((1 - r * r) /(nObs - 2));
             }
         }
         return new BlockRealMatrix(out);
@@ -201,7 +201,7 @@ public class PearsonsCorrelation {
                     out[i][j] = 0d;
                 } else {
                     double r = correlationMatrix.getEntry(i, j);
-                    double t = AccurateMath.abs(r * AccurateMath.sqrt((nObs - 2)/(1 - r * r)));
+                    double t = JdkMath.abs(r * JdkMath.sqrt((nObs - 2)/(1 - r * r)));
                     out[i][j] = 2 * tDistribution.cumulativeProbability(-t);
                 }
             }
@@ -300,11 +300,11 @@ public class PearsonsCorrelation {
         int nVars = covarianceMatrix.getColumnDimension();
         RealMatrix outMatrix = new BlockRealMatrix(nVars, nVars);
         for (int i = 0; i < nVars; i++) {
-            double sigma = AccurateMath.sqrt(covarianceMatrix.getEntry(i, i));
+            double sigma = JdkMath.sqrt(covarianceMatrix.getEntry(i, i));
             outMatrix.setEntry(i, i, 1d);
             for (int j = 0; j < i; j++) {
                 double entry = covarianceMatrix.getEntry(i, j) /
-                       (sigma * AccurateMath.sqrt(covarianceMatrix.getEntry(j, j)));
+                       (sigma * JdkMath.sqrt(covarianceMatrix.getEntry(j, j)));
                 outMatrix.setEntry(i, j, entry);
                 outMatrix.setEntry(j, i, entry);
             }

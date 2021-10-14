@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math4.legacy.linear.DiagonalMatrix;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -117,11 +117,11 @@ public class MinpackTest {
     @Test
     public void testMinpackRosenbrok() {
         minpackTest(new RosenbrockFunction(new double[] { -1.2, 1.0 },
-                                           AccurateMath.sqrt(24.2)), false);
+                                           JdkMath.sqrt(24.2)), false);
         minpackTest(new RosenbrockFunction(new double[] { -12.0, 10.0 },
-                                           AccurateMath.sqrt(1795769.0)), false);
+                                           JdkMath.sqrt(1795769.0)), false);
         minpackTest(new RosenbrockFunction(new double[] { -120.0, 100.0 },
-                                           11.0 * AccurateMath.sqrt(169000121.0)), false);
+                                           11.0 * JdkMath.sqrt(169000121.0)), false);
     }
 
     @Test
@@ -498,7 +498,7 @@ public class MinpackTest {
 
     private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
         final double tol = 2.22044604926e-16;
-        final double sqrtTol = AccurateMath.sqrt(tol);
+        final double sqrtTol = JdkMath.sqrt(tol);
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer()
             .withCostRelativeTolerance(sqrtTol)
@@ -577,7 +577,7 @@ public class MinpackTest {
 
         public void checkTheoreticalMinCost(double rms) {
             double threshold = costAccuracy * (1.0 + theoreticalMinCost);
-            Assert.assertEquals(theoreticalMinCost, AccurateMath.sqrt(m) * rms, threshold);
+            Assert.assertEquals(theoreticalMinCost, JdkMath.sqrt(m) * rms, threshold);
         }
 
         public void checkTheoreticalMinParams(double[] params) {
@@ -585,7 +585,7 @@ public class MinpackTest {
                 for (int i = 0; i < theoreticalMinParams.length; ++i) {
                     double mi = theoreticalMinParams[i];
                     double vi = params[i];
-                    Assert.assertEquals(mi, vi, paramsAccuracy * (1.0 + AccurateMath.abs(mi)));
+                    Assert.assertEquals(mi, vi, paramsAccuracy * (1.0 + JdkMath.abs(mi)));
                 }
             }
         }
@@ -688,7 +688,7 @@ public class MinpackTest {
 
         LinearRank1ZeroColsAndRowsFunction(int m, int n, double x0) {
             super(m, buildArray(n, x0),
-                  AccurateMath.sqrt((m * (m + 3) - 6) / (2.0 * (2 * m - 3))),
+                  JdkMath.sqrt((m * (m + 3) - 6) / (2.0 * (2 * m - 3))),
                   null);
         }
 
@@ -758,7 +758,7 @@ public class MinpackTest {
             double x2 = variables[1];
             double tmpSquare = x1 * x1 + x2 * x2;
             double tmp1 = twoPi * tmpSquare;
-            double tmp2 = AccurateMath.sqrt(tmpSquare);
+            double tmp2 = JdkMath.sqrt(tmpSquare);
             return new double[][] {
                 {  100 * x2 / tmp1, -100 * x1 / tmp1, 10 },
                 { 10 * x1 / tmp2, 10 * x2 / tmp2, 0 },
@@ -775,12 +775,12 @@ public class MinpackTest {
             if (x1 == 0) {
                 tmp1 = (x2 >= 0) ? 0.25 : -0.25;
             } else {
-                tmp1 = AccurateMath.atan(x2 / x1) / twoPi;
+                tmp1 = JdkMath.atan(x2 / x1) / twoPi;
                 if (x1 < 0) {
                     tmp1 += 0.5;
                 }
             }
-            double tmp2 = AccurateMath.sqrt(x1 * x1 + x2 * x2);
+            double tmp2 = JdkMath.sqrt(x1 * x1 + x2 * x2);
             return new double[] {
                 10.0 * (x3 - 10 * tmp1),
                 10.0 * (tmp2 - 1),
@@ -788,7 +788,7 @@ public class MinpackTest {
             };
         }
 
-        private static final double twoPi = 2.0 * AccurateMath.PI;
+        private static final double twoPi = 2.0 * JdkMath.PI;
     }
 
     private static class PowellSingularFunction extends MinpackFunction {
@@ -826,8 +826,8 @@ public class MinpackTest {
             };
         }
 
-        private static final double sqrt5  = AccurateMath.sqrt( 5.0);
-        private static final double sqrt10 = AccurateMath.sqrt(10.0);
+        private static final double sqrt5  = JdkMath.sqrt( 5.0);
+        private static final double sqrt10 = JdkMath.sqrt(10.0);
   }
 
     private static class FreudensteinRothFunction extends MinpackFunction {
@@ -986,7 +986,7 @@ public class MinpackTest {
             for (int i = 0; i < m; ++i) {
                 double temp = 5.0 * (i + 1) + 45.0 + x3;
                 double tmp1 = x2 / temp;
-                double tmp2 = AccurateMath.exp(tmp1);
+                double tmp2 = JdkMath.exp(tmp1);
                 double tmp3 = x1 * tmp2 / temp;
                 jacobian[i] = new double[] { tmp2, tmp3, -tmp1 * tmp3 };
             }
@@ -1000,7 +1000,7 @@ public class MinpackTest {
             double x3 = variables[2];
             double[] f = new double[m];
             for (int i = 0; i < m; ++i) {
-                f[i] = x1 * AccurateMath.exp(x2 / (5.0 * (i + 1) + 45.0 + x3)) - y[i];
+                f[i] = x1 * JdkMath.exp(x2 / (5.0 * (i + 1) + 45.0 + x3)) - y[i];
             }
             return f;
         }
@@ -1099,9 +1099,9 @@ public class MinpackTest {
             for (int i = 0; i < m; ++i) {
                 double tmp = (i + 1) / 10.0;
                 jacobian[i] = new double[] {
-                    -tmp * AccurateMath.exp(-tmp * x1),
-                    tmp * AccurateMath.exp(-tmp * x2),
-                    AccurateMath.exp(-i - 1) - AccurateMath.exp(-tmp)
+                    -tmp * JdkMath.exp(-tmp * x1),
+                    tmp * JdkMath.exp(-tmp * x2),
+                    JdkMath.exp(-i - 1) - JdkMath.exp(-tmp)
                 };
             }
             return jacobian;
@@ -1115,8 +1115,8 @@ public class MinpackTest {
             double[] f = new double[m];
             for (int i = 0; i < m; ++i) {
                 double tmp = (i + 1) / 10.0;
-                f[i] = AccurateMath.exp(-tmp * x1) - AccurateMath.exp(-tmp * x2)
-                    + (AccurateMath.exp(-i - 1) - AccurateMath.exp(-tmp)) * x3;
+                f[i] = JdkMath.exp(-tmp * x1) - JdkMath.exp(-tmp * x2)
+                    + (JdkMath.exp(-i - 1) - JdkMath.exp(-tmp)) * x3;
             }
             return f;
         }
@@ -1139,7 +1139,7 @@ public class MinpackTest {
             double[][] jacobian = new double[m][];
             for (int i = 0; i < m; ++i) {
                 double t = i + 1;
-                jacobian[i] = new double[] { -t * AccurateMath.exp(t * x1), -t * AccurateMath.exp(t * x2) };
+                jacobian[i] = new double[] { -t * JdkMath.exp(t * x1), -t * JdkMath.exp(t * x2) };
             }
             return jacobian;
         }
@@ -1151,7 +1151,7 @@ public class MinpackTest {
             double[] f = new double[m];
             for (int i = 0; i < m; ++i) {
                 double temp = i + 1;
-                f[i] = 2 + 2 * temp - AccurateMath.exp(temp * x1) - AccurateMath.exp(temp * x2);
+                f[i] = 2 + 2 * temp - JdkMath.exp(temp * x1) - JdkMath.exp(temp * x2);
             }
             return f;
         }
@@ -1177,9 +1177,9 @@ public class MinpackTest {
             double[][] jacobian = new double[m][];
             for (int i = 0; i < m; ++i) {
                 double temp = (i + 1) / 5.0;
-                double ti   = AccurateMath.sin(temp);
-                double tmp1 = x1 + temp * x2 - AccurateMath.exp(temp);
-                double tmp2 = x3 + ti   * x4 - AccurateMath.cos(temp);
+                double ti   = JdkMath.sin(temp);
+                double tmp1 = x1 + temp * x2 - JdkMath.exp(temp);
+                double tmp2 = x3 + ti   * x4 - JdkMath.cos(temp);
                 jacobian[i] = new double[] {
                     2 * tmp1, 2 * temp * tmp1, 2 * tmp2, 2 * ti * tmp2
                 };
@@ -1196,8 +1196,8 @@ public class MinpackTest {
             double[] f = new double[m];
             for (int i = 0; i < m; ++i) {
                 double temp = (i + 1) / 5.0;
-                double tmp1 = x1 + temp * x2 - AccurateMath.exp(temp);
-                double tmp2 = x3 + AccurateMath.sin(temp) * x4 - AccurateMath.cos(temp);
+                double tmp1 = x1 + temp * x2 - JdkMath.exp(temp);
+                double tmp2 = x3 + JdkMath.sin(temp) * x4 - JdkMath.cos(temp);
                 f[i] = tmp1 * tmp1 + tmp2 * tmp2;
             }
             return f;
@@ -1360,8 +1360,8 @@ public class MinpackTest {
             double[][] jacobian = new double[m][];
             for (int i = 0; i < m; ++i) {
                 double temp = 10.0 * i;
-                double tmp1 = AccurateMath.exp(-temp * x4);
-                double tmp2 = AccurateMath.exp(-temp * x5);
+                double tmp1 = JdkMath.exp(-temp * x4);
+                double tmp2 = JdkMath.exp(-temp * x5);
                 jacobian[i] = new double[] {
                     -1, -tmp1, -tmp2, temp * x2 * tmp1, temp * x3 * tmp2
                 };
@@ -1379,8 +1379,8 @@ public class MinpackTest {
             double[] f = new double[m];
             for (int i = 0; i < m; ++i) {
                 double temp = 10.0 * i;
-                double tmp1 = AccurateMath.exp(-temp * x4);
-                double tmp2 = AccurateMath.exp(-temp * x5);
+                double tmp1 = JdkMath.exp(-temp * x4);
+                double tmp2 = JdkMath.exp(-temp * x5);
                 f[i] = y[i] - (x1 + x2 * tmp1 + x3 * tmp2);
             }
             return f;
@@ -1419,10 +1419,10 @@ public class MinpackTest {
             double[][] jacobian = new double[m][];
             for (int i = 0; i < m; ++i) {
                 double temp = i / 10.0;
-                double tmp1 = AccurateMath.exp(-x05 * temp);
-                double tmp2 = AccurateMath.exp(-x06 * (temp - x09) * (temp - x09));
-                double tmp3 = AccurateMath.exp(-x07 * (temp - x10) * (temp - x10));
-                double tmp4 = AccurateMath.exp(-x08 * (temp - x11) * (temp - x11));
+                double tmp1 = JdkMath.exp(-x05 * temp);
+                double tmp2 = JdkMath.exp(-x06 * (temp - x09) * (temp - x09));
+                double tmp3 = JdkMath.exp(-x07 * (temp - x10) * (temp - x10));
+                double tmp4 = JdkMath.exp(-x08 * (temp - x11) * (temp - x11));
                 jacobian[i] = new double[] {
                     -tmp1,
                     -tmp2,
@@ -1456,10 +1456,10 @@ public class MinpackTest {
             double[] f = new double[m];
             for (int i = 0; i < m; ++i) {
                 double temp = i / 10.0;
-                double tmp1 = AccurateMath.exp(-x05 * temp);
-                double tmp2 = AccurateMath.exp(-x06 * (temp - x09) * (temp - x09));
-                double tmp3 = AccurateMath.exp(-x07 * (temp - x10) * (temp - x10));
-                double tmp4 = AccurateMath.exp(-x08 * (temp - x11) * (temp - x11));
+                double tmp1 = JdkMath.exp(-x05 * temp);
+                double tmp2 = JdkMath.exp(-x06 * (temp - x09) * (temp - x09));
+                double tmp3 = JdkMath.exp(-x07 * (temp - x10) * (temp - x10));
+                double tmp4 = JdkMath.exp(-x08 * (temp - x11) * (temp - x11));
                 f[i] = y[i] - (x01 * tmp1 + x02 * tmp2 + x03 * tmp3 + x04 * tmp4);
             }
             return f;

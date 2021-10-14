@@ -22,7 +22,7 @@ import java.util.Collection;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Test of the {@link HermiteRuleFactory}.
@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
  */
 @RunWith(value=Parameterized.class)
 public class HermiteParametricTest extends GaussianQuadratureAbstractTest {
-    private static final double SQRT_PI = AccurateMath.sqrt(Math.PI);
+    private static final double SQRT_PI = JdkMath.sqrt(Math.PI);
     private static final GaussIntegratorFactory factory = new GaussIntegratorFactory();
 
     /**

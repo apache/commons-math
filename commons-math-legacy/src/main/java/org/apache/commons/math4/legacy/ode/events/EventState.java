@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
 import org.apache.commons.math4.legacy.ode.ExpandableStatefulODE;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /** This class handles the state for one {@link EventHandler
  * event handler} during integration steps.
@@ -106,7 +106,7 @@ public class EventState {
                       final UnivariateSolver solver) {
         this.handler           = handler;
         this.maxCheckInterval  = maxCheckInterval;
-        this.convergence       = AccurateMath.abs(convergence);
+        this.convergence       = JdkMath.abs(convergence);
         this.maxIterationCount = maxIterationCount;
         this.solver            = solver;
 
@@ -183,8 +183,8 @@ public class EventState {
 
             // extremely rare case: there is a zero EXACTLY at interval start
             // we will use the sign slightly after step beginning to force ignoring this zero
-            final double epsilon = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                                                AccurateMath.abs(solver.getRelativeAccuracy() * t0));
+            final double epsilon = JdkMath.max(solver.getAbsoluteAccuracy(),
+                                                JdkMath.abs(solver.getRelativeAccuracy() * t0));
             final double tStart = t0 + 0.5 * epsilon;
             interpolator.setInterpolatedTime(tStart);
             g0 = handler.g(tStart, getCompleteState(interpolator));
@@ -228,11 +228,11 @@ public class EventState {
             forward = interpolator.isForward();
             final double t1 = interpolator.getCurrentTime();
             final double dt = t1 - t0;
-            if (AccurateMath.abs(dt) < convergence) {
+            if (JdkMath.abs(dt) < convergence) {
                 // we cannot do anything on such a small step, don't trigger any events
                 return false;
             }
-            final int    n = AccurateMath.max(1, (int) AccurateMath.ceil(AccurateMath.abs(dt) / maxCheckInterval));
+            final int    n = JdkMath.max(1, (int) JdkMath.ceil(JdkMath.abs(dt) / maxCheckInterval));
             final double h = dt / n;
 
             final UnivariateFunction f = new UnivariateFunction() {
@@ -288,8 +288,8 @@ public class EventState {
                     }
 
                     if ((!Double.isNaN(previousEventTime)) &&
-                        (AccurateMath.abs(root - ta) <= convergence) &&
-                        (AccurateMath.abs(root - previousEventTime) <= convergence)) {
+                        (JdkMath.abs(root - ta) <= convergence) &&
+                        (JdkMath.abs(root - previousEventTime) <= convergence)) {
                         // we have either found nothing or found (again ?) a past event,
                         // retry the substep excluding this value, and taking care to have the
                         // required sign in case the g function is noisy around its zero and
@@ -311,7 +311,7 @@ public class EventState {
                             return true;
                         }
                     } else if (Double.isNaN(previousEventTime) ||
-                               (AccurateMath.abs(previousEventTime - root) > convergence)) {
+                               (JdkMath.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;
                         pendingEvent = true;
                         return true;
@@ -361,7 +361,7 @@ public class EventState {
         t0 = t;
         g0 = handler.g(t, y);
 
-        if (pendingEvent && (AccurateMath.abs(pendingEventTime - t) <= convergence)) {
+        if (pendingEvent && (JdkMath.abs(pendingEventTime - t) <= convergence)) {
             // force the sign to its value "just after the event"
             previousEventTime = t;
             g0Positive        = increasing;
@@ -389,7 +389,7 @@ public class EventState {
      */
     public boolean reset(final double t, final double[] y) {
 
-        if (!(pendingEvent && (AccurateMath.abs(pendingEventTime - t) <= convergence))) {
+        if (!(pendingEvent && (JdkMath.abs(pendingEventTime - t) <= convergence))) {
             return false;
         }
 

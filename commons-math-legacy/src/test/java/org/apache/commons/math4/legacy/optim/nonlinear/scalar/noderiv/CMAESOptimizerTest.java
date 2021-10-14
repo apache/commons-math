@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.PopulationSize;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class CMAESOptimizerTest {
 
     static final int DIM = 13;
-    static final int LAMBDA = 4 + (int)(3.*AccurateMath.log(DIM));
+    static final int LAMBDA = 4 + (int)(3.*JdkMath.log(DIM));
 
     @Test(expected = NumberIsTooLargeException.class)
     public void testInitOutofbounds1() {
@@ -338,10 +338,10 @@ public class CMAESOptimizerTest {
         PointValuePair expected =
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
         doTest(TestFunction.RASTRIGIN.withDimension(DIM), startPoint, insigma, boundaries,
-                GoalType.MINIMIZE, (int)(200*AccurateMath.sqrt(DIM)), true, 0, 1e-13,
+                GoalType.MINIMIZE, (int)(200*JdkMath.sqrt(DIM)), true, 0, 1e-13,
                 1e-13, 1e-6, 200000, expected);
         doTest(TestFunction.RASTRIGIN.withDimension(DIM), startPoint, insigma, boundaries,
-                GoalType.MINIMIZE, (int)(200*AccurateMath.sqrt(DIM)), false, 0, 1e-13,
+                GoalType.MINIMIZE, (int)(200*JdkMath.sqrt(DIM)), false, 0, 1e-13,
                 1e-13, 1e-6, 200000, expected);
     }
 

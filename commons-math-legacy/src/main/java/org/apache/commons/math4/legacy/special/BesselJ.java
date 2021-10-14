@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class provides computation methods related to Bessel
@@ -165,7 +165,7 @@ public class BesselJ
             return res.vals[n];
         } else if (res.nVals < 0) {
             throw new MathIllegalArgumentException(LocalizedFormats.BESSEL_FUNCTION_BAD_ARGUMENT,order, x);
-        } else if (AccurateMath.abs(res.vals[res.nVals - 1]) < 1e-100) {
+        } else if (JdkMath.abs(res.vals[res.nVals - 1]) < 1e-100) {
             return res.vals[n]; // underflow; return value (will be zero)
         }
         throw new ConvergenceException(LocalizedFormats.BESSEL_FUNCTION_FAILED_CONVERGENCE, order, x);
@@ -283,7 +283,7 @@ public class BesselJ
                     halfx = 0.5 * x;
                 }
                 if (alpha != 0) {
-                    tempa = AccurateMath.pow(halfx, alpha) /
+                    tempa = JdkMath.pow(halfx, alpha) /
                             (alpha * Gamma.value(alpha));
                 }
                 tempb = 0;
@@ -323,7 +323,7 @@ public class BesselJ
                 // ---------------------------------------------------------------------
                 // Asymptotic series for X > 25
                 // ---------------------------------------------------------------------
-                final double xc = AccurateMath.sqrt(PI2 / x);
+                final double xc = JdkMath.sqrt(PI2 / x);
                 final double mul = 0.125 / x;
                 final double xin = mul * mul;
                 int m = 0;
@@ -341,8 +341,8 @@ public class BesselJ
                 // ---------------------------------------------------------------------
                 double t = (double) ((int) ((x / TWOPI) + 0.5));
                 final double z = x - t * TOWPI1 - t * TWOPI2 - (alpha + 0.5) / PI2;
-                double vsin = AccurateMath.sin(z);
-                double vcos = AccurateMath.cos(z);
+                double vsin = JdkMath.sin(z);
+                double vcos = JdkMath.cos(z);
                 double gnu = 2 * alpha;
                 double capq;
                 double capp;
@@ -457,7 +457,7 @@ public class BesselJ
                             p = plast * tover;
                             n -= 1;
                             en -= 2.0;
-                            nend = AccurateMath.min(nb, n);
+                            nend = JdkMath.min(nb, n);
                             for (int l = nstart; l <= nend; l++) {
                                 pold = psavel;
                                 psavel = psave;
@@ -479,8 +479,8 @@ public class BesselJ
                         // ---------------------------------------------------------------------
                         // Calculate special significance test for NBMX > 2.
                         // ---------------------------------------------------------------------
-                        test = AccurateMath.max(test, AccurateMath.sqrt(plast * ENSIG) *
-                                                  AccurateMath.sqrt(2 * p));
+                        test = JdkMath.max(test, JdkMath.sqrt(plast * ENSIG) *
+                                                  JdkMath.sqrt(2 * p));
                     }
                 }
                 // ---------------------------------------------------------------------
@@ -620,8 +620,8 @@ public class BesselJ
                 // Normalize. Divide all B(N) by sum.
                 // ---------------------------------------------------------------------
 
-                if (AccurateMath.abs(alpha) > 1e-16) {
-                    sum *= Gamma.value(alpha) * AccurateMath.pow(x * 0.5, -alpha);
+                if (JdkMath.abs(alpha) > 1e-16) {
+                    sum *= Gamma.value(alpha) * JdkMath.pow(x * 0.5, -alpha);
                 }
                 tempa = ENMTEN;
                 if (sum > 1) {
@@ -629,7 +629,7 @@ public class BesselJ
                 }
 
                 for (n = 0; n < nb; n++) {
-                    if (AccurateMath.abs(b[n]) < tempa) {
+                    if (JdkMath.abs(b[n]) < tempa) {
                         b[n] = 0;
                     }
                     b[n] /= sum;
@@ -642,7 +642,7 @@ public class BesselJ
             if (b.length > 0) {
                 b[0] = 0;
             }
-            ncalc = AccurateMath.min(nb, 0) - 1;
+            ncalc = JdkMath.min(nb, 0) - 1;
         }
         return new BesselJResult(Arrays.copyOf(b, b.length), ncalc);
     }

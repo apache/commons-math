@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.integration;
 
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
@@ -146,9 +146,9 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
             final int i = iterations.getCount();
             final double t = stage(this, i);
             if (i >= getMinimalIterationCount()) {
-                final double delta = AccurateMath.abs(t - oldt);
+                final double delta = JdkMath.abs(t - oldt);
                 final double rLimit =
-                    getRelativeAccuracy() * (AccurateMath.abs(oldt) + AccurateMath.abs(t)) * 0.5;
+                    getRelativeAccuracy() * (JdkMath.abs(oldt) + JdkMath.abs(t)) * 0.5;
                 if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
                     return t;
                 }

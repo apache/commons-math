@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.ode.nonstiff.AdaptiveStepsizeFieldIntegra
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince853FieldIntegrator;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -139,7 +139,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(AccurateMath.pow(2.0, -exp));
+        setMaxGrowth(JdkMath.pow(2.0, -exp));
 
     }
 
@@ -179,7 +179,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(AccurateMath.pow(2.0, -exp));
+        setMaxGrowth(JdkMath.pow(2.0, -exp));
 
     }
 

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode.events;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 
@@ -80,7 +80,7 @@ enum Transformer {
         /**  {@inheritDoc} */
         @Override
         protected double transformed(final double g) {
-            return AccurateMath.min(-Precision.SAFE_MIN, AccurateMath.min(-g, +g));
+            return JdkMath.min(-Precision.SAFE_MIN, JdkMath.min(-g, +g));
         }
     },
 
@@ -94,7 +94,7 @@ enum Transformer {
         /**  {@inheritDoc} */
         @Override
         protected double transformed(final double g) {
-            return AccurateMath.max(+Precision.SAFE_MIN, AccurateMath.max(-g, +g));
+            return JdkMath.max(+Precision.SAFE_MIN, JdkMath.max(-g, +g));
         }
     };
 

@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ode.JacobianMatrices.MismatchedEquations;
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -215,7 +215,7 @@ public class JacobianMatricesTest {
 
         integ.setMaxEvaluations(5000);
 
-        double t = 18 * AccurateMath.PI;
+        double t = 18 * JdkMath.PI;
         integ.integrate(efode, t);
         y = efode.getPrimaryState();
         for (int i = 0; i < y.length; ++i) {
@@ -279,7 +279,7 @@ public class JacobianMatricesTest {
 
         integ.setMaxEvaluations(50000);
 
-        double t = 18 * AccurateMath.PI;
+        double t = 18 * JdkMath.PI;
         integ.integrate(efode, t);
         y = efode.getPrimaryState();
         for (int i = 0; i < y.length; ++i) {
@@ -473,8 +473,8 @@ public class JacobianMatricesTest {
         }
 
         public double[] exactY(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             double dx0 = y0[0] - cx;
             double dy0 = y0[1] - cy;
             return new double[] {
@@ -484,8 +484,8 @@ public class JacobianMatricesTest {
         }
 
         public double[][] exactDyDy0(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             return new double[][] {
                 { cos, -sin },
                 { sin,  cos }
@@ -493,20 +493,20 @@ public class JacobianMatricesTest {
         }
 
         public double[] exactDyDcx(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             return new double[] {1 - cos, -sin};
         }
 
         public double[] exactDyDcy(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             return new double[] {sin, 1 - cos};
         }
 
         public double[] exactDyDom(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             double dx0 = y0[0] - cx;
             double dy0 = y0[1] - cy;
             return new double[] { -t * (sin * dx0 + cos * dy0) , t * (cos * dx0 - sin * dy0) };
@@ -575,8 +575,8 @@ public class JacobianMatricesTest {
         }
 
         public double[] exactY(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             double dx0 = y0[0] - cx;
             double dy0 = y0[1] - cy;
             return new double[] {
@@ -586,8 +586,8 @@ public class JacobianMatricesTest {
         }
 
         public double[][] exactDyDy0(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             return new double[][] {
                 { cos, -sin },
                 { sin,  cos }
@@ -595,20 +595,20 @@ public class JacobianMatricesTest {
         }
 
         public double[] exactDyDcx(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             return new double[] {1 - cos, -sin};
         }
 
         public double[] exactDyDcy(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             return new double[] {sin, 1 - cos};
         }
 
         public double[] exactDyDom(double t) {
-            double cos = AccurateMath.cos(omega * t);
-            double sin = AccurateMath.sin(omega * t);
+            double cos = JdkMath.cos(omega * t);
+            double sin = JdkMath.sin(omega * t);
             double dx0 = y0[0] - cx;
             double dy0 = y0[1] - cy;
             return new double[] { -t * (sin * dx0 + cos * dy0) , t * (cos * dx0 - sin * dy0) };

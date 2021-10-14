@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
 import org.apache.commons.math4.legacy.ode.ExpandableStatefulODE;
 import org.apache.commons.math4.legacy.ode.sampling.NordsieckStepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -207,7 +207,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
         double error = 0;
         for (int i = 0; i < mainSetDimension; ++i) {
-            final double yScale = AccurateMath.abs(predictedState[i]);
+            final double yScale = JdkMath.abs(predictedState[i]);
             final double tol = (vecAbsoluteTolerance == null) ?
                                (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                                (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
@@ -227,7 +227,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
         }
 
-        return AccurateMath.sqrt(error / mainSetDimension);
+        return JdkMath.sqrt(error / mainSetDimension);
 
     }
 

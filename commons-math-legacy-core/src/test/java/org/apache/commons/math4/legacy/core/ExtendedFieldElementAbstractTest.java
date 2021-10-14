@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElement<T>> {
 
@@ -113,7 +113,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testRemainderField() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3; y < 3; y += 0.2) {
-                checkRelative(AccurateMath.IEEEremainder(x, y), build(x).remainder(build(y)));
+                checkRelative(JdkMath.IEEEremainder(x, y), build(x).remainder(build(y)));
             }
         }
     }
@@ -122,7 +122,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testRemainderDouble() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3.2; y < 3.2; y += 0.25) {
-                checkRelative(AccurateMath.IEEEremainder(x, y), build(x).remainder(y));
+                checkRelative(JdkMath.IEEEremainder(x, y), build(x).remainder(y));
             }
         }
     }
@@ -130,42 +130,42 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     @Test
     public void testCos() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.cos(x), build(x).cos());
+            checkRelative(JdkMath.cos(x), build(x).cos());
         }
     }
 
     @Test
     public void testAcos() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.acos(x), build(x).acos());
+            checkRelative(JdkMath.acos(x), build(x).acos());
         }
     }
 
     @Test
     public void testSin() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.sin(x), build(x).sin());
+            checkRelative(JdkMath.sin(x), build(x).sin());
         }
     }
 
     @Test
     public void testAsin() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.asin(x), build(x).asin());
+            checkRelative(JdkMath.asin(x), build(x).asin());
         }
     }
 
     @Test
     public void testTan() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.tan(x), build(x).tan());
+            checkRelative(JdkMath.tan(x), build(x).tan());
         }
     }
 
     @Test
     public void testAtan() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.atan(x), build(x).atan());
+            checkRelative(JdkMath.atan(x), build(x).atan());
         }
     }
 
@@ -173,7 +173,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testAtan2() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3; y < 3; y += 0.2) {
-                checkRelative(AccurateMath.atan2(x, y), build(x).atan2(build(y)));
+                checkRelative(JdkMath.atan2(x, y), build(x).atan2(build(y)));
             }
         }
     }
@@ -181,56 +181,56 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     @Test
     public void testCosh() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.cosh(x), build(x).cosh());
+            checkRelative(JdkMath.cosh(x), build(x).cosh());
         }
     }
 
     @Test
     public void testAcosh() {
         for (double x = 1.1; x < 5.0; x += 0.05) {
-            checkRelative(AccurateMath.acosh(x), build(x).acosh());
+            checkRelative(JdkMath.acosh(x), build(x).acosh());
         }
     }
 
     @Test
     public void testSinh() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.sinh(x), build(x).sinh());
+            checkRelative(JdkMath.sinh(x), build(x).sinh());
         }
     }
 
     @Test
     public void testAsinh() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.asinh(x), build(x).asinh());
+            checkRelative(JdkMath.asinh(x), build(x).asinh());
         }
     }
 
     @Test
     public void testTanh() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.tanh(x), build(x).tanh());
+            checkRelative(JdkMath.tanh(x), build(x).tanh());
         }
     }
 
     @Test
     public void testAtanh() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.atanh(x), build(x).atanh());
+            checkRelative(JdkMath.atanh(x), build(x).atanh());
         }
     }
 
     @Test
     public void testSqrt() {
         for (double x = 0.01; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.sqrt(x), build(x).sqrt());
+            checkRelative(JdkMath.sqrt(x), build(x).sqrt());
         }
     }
 
     @Test
     public void testCbrt() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.cbrt(x), build(x).cbrt());
+            checkRelative(JdkMath.cbrt(x), build(x).cbrt());
         }
     }
 
@@ -238,7 +238,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testHypot() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3; y < 3; y += 0.2) {
-                checkRelative(AccurateMath.hypot(x, y), build(x).hypot(build(y)));
+                checkRelative(JdkMath.hypot(x, y), build(x).hypot(build(y)));
             }
         }
     }
@@ -249,10 +249,10 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
             for (int n = 1; n < 5; ++n) {
                 if (x < 0) {
                     if (n % 2 == 1) {
-                        checkRelative(-AccurateMath.pow(-x, 1.0 / n), build(x).rootN(n));
+                        checkRelative(-JdkMath.pow(-x, 1.0 / n), build(x).rootN(n));
                     }
                 } else {
-                    checkRelative(AccurateMath.pow(x, 1.0 / n), build(x).rootN(n));
+                    checkRelative(JdkMath.pow(x, 1.0 / n), build(x).rootN(n));
                 }
             }
         }
@@ -262,7 +262,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testPowField() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
             for (double y = 0.1; y < 4; y += 0.2) {
-                checkRelative(AccurateMath.pow(x, y), build(x).pow(build(y)));
+                checkRelative(JdkMath.pow(x, y), build(x).pow(build(y)));
             }
         }
     }
@@ -271,7 +271,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testPowDouble() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
             for (double y = 0.1; y < 4; y += 0.2) {
-                checkRelative(AccurateMath.pow(x, y), build(x).pow(y));
+                checkRelative(JdkMath.pow(x, y), build(x).pow(y));
             }
         }
     }
@@ -280,7 +280,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testPowInt() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
             for (int n = 0; n < 5; ++n) {
-                checkRelative(AccurateMath.pow(x, n), build(x).pow(n));
+                checkRelative(JdkMath.pow(x, n), build(x).pow(n));
             }
         }
     }
@@ -288,77 +288,77 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     @Test
     public void testExp() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.exp(x), build(x).exp());
+            checkRelative(JdkMath.exp(x), build(x).exp());
         }
     }
 
     @Test
     public void testExpm1() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.expm1(x), build(x).expm1());
+            checkRelative(JdkMath.expm1(x), build(x).expm1());
         }
     }
 
     @Test
     public void testLog() {
         for (double x = 0.01; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.log(x), build(x).log());
+            checkRelative(JdkMath.log(x), build(x).log());
         }
     }
 
     @Test
     public void testLog1p() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.log1p(x), build(x).log1p());
+            checkRelative(JdkMath.log1p(x), build(x).log1p());
         }
     }
 
     @Test
     public void testLog10() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.log10(x), build(x).log10());
+            checkRelative(JdkMath.log10(x), build(x).log10());
         }
     }
 
     @Test
     public void testAbs() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.abs(x), build(x).abs());
+            checkRelative(JdkMath.abs(x), build(x).abs());
         }
     }
 
     @Test
     public void testCeil() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.ceil(x), build(x).ceil());
+            checkRelative(JdkMath.ceil(x), build(x).ceil());
         }
     }
 
     @Test
     public void testFloor() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.floor(x), build(x).floor());
+            checkRelative(JdkMath.floor(x), build(x).floor());
         }
     }
 
     @Test
     public void testRint() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.rint(x), build(x).rint());
+            checkRelative(JdkMath.rint(x), build(x).rint());
         }
     }
 
     @Test
     public void testRound() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            Assert.assertEquals(AccurateMath.round(x), build(x).round());
+            Assert.assertEquals(JdkMath.round(x), build(x).round());
         }
     }
 
     @Test
     public void testSignum() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
-            checkRelative(AccurateMath.signum(x), build(x).signum());
+            checkRelative(JdkMath.signum(x), build(x).signum());
         }
     }
 
@@ -366,7 +366,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testCopySignField() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3; y < 3; y += 0.2) {
-                checkRelative(AccurateMath.copySign(x, y), build(x).copySign(build(y)));
+                checkRelative(JdkMath.copySign(x, y), build(x).copySign(build(y)));
             }
         }
     }
@@ -375,7 +375,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testCopySignDouble() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3; y < 3; y += 0.2) {
-                checkRelative(AccurateMath.copySign(x, y), build(x).copySign(y));
+                checkRelative(JdkMath.copySign(x, y), build(x).copySign(y));
             }
         }
     }
@@ -384,7 +384,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     public void testScalb() {
         for (double x = -0.9; x < 0.9; x += 0.05) {
             for (int n = -100; n < 100; ++n) {
-                checkRelative(AccurateMath.scalb(x, n), build(x).scalb(n));
+                checkRelative(JdkMath.scalb(x, n), build(x).scalb(n));
             }
         }
     }
@@ -514,7 +514,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
     }
 
     private void checkRelative(double expected, T obtained) {
-        Assert.assertEquals(expected, obtained.getReal(), 1.0e-15 * (1 + AccurateMath.abs(expected)));
+        Assert.assertEquals(expected, obtained.getReal(), 1.0e-15 * (1 + JdkMath.abs(expected)));
     }
 
     @Test

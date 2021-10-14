@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,10 +32,10 @@ public class UnivariateDifferentiableFunctionTest {
     @Test
     public void testAcos() {
         Acos acos = new Acos();
-        Assert.assertEquals(AccurateMath.PI/3, acos.value(0.5), EPS);
-        Assert.assertEquals(AccurateMath.PI/4, acos.value(Double.valueOf(1/AccurateMath.sqrt(2))), EPS);
+        Assert.assertEquals(JdkMath.PI/3, acos.value(0.5), EPS);
+        Assert.assertEquals(JdkMath.PI/4, acos.value(Double.valueOf(1/JdkMath.sqrt(2))), EPS);
         double a = 0.5;
-        Assert.assertEquals(-1/AccurateMath.sqrt(1-AccurateMath.pow(a,2)), acos.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(-1/JdkMath.sqrt(1-JdkMath.pow(a,2)), acos.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
@@ -43,48 +43,48 @@ public class UnivariateDifferentiableFunctionTest {
         Acosh acosh = new Acosh();
         Assert.assertEquals(0,acosh.value(1), EPS);
         double a = 1.2345;
-        Assert.assertEquals(a,acosh.value(AccurateMath.cosh(a)), EPS);
-        Assert.assertEquals(1/(AccurateMath.sqrt(a-1)*AccurateMath.sqrt(a+1)),acosh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a,acosh.value(JdkMath.cosh(a)), EPS);
+        Assert.assertEquals(1/(JdkMath.sqrt(a-1)*JdkMath.sqrt(a+1)),acosh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testAsin() {
         Asin asin = new Asin();
         double a = 1.2345;
-        Assert.assertEquals(a, asin.value(AccurateMath.sin(a)), EPS);
-        Assert.assertEquals(1/AccurateMath.sqrt(1 - AccurateMath.pow(a,2)), asin.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, asin.value(JdkMath.sin(a)), EPS);
+        Assert.assertEquals(1/JdkMath.sqrt(1 - JdkMath.pow(a,2)), asin.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testAsinh() {
         Asinh asinh = new Asinh();
         double a = 1.2345;
-        Assert.assertEquals(a, asinh.value(AccurateMath.sinh(a)), EPS);
-        Assert.assertEquals(1/AccurateMath.sqrt(AccurateMath.pow(a,2.0) + 1), asinh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, asinh.value(JdkMath.sinh(a)), EPS);
+        Assert.assertEquals(1/JdkMath.sqrt(JdkMath.pow(a,2.0) + 1), asinh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testAtan() {
         Atan atan = new Atan();
         double a = 1.2345;
-        Assert.assertEquals(a, atan.value(AccurateMath.tan(a)), EPS);
-        Assert.assertEquals(1/(AccurateMath.pow(a,2.0) + 1), atan.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, atan.value(JdkMath.tan(a)), EPS);
+        Assert.assertEquals(1/(JdkMath.pow(a,2.0) + 1), atan.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testAtanh() {
         Atanh atanh = new Atanh();
         double a = 1.2345;
-        Assert.assertEquals(a, atanh.value(AccurateMath.tanh(a)), EPS);
-        Assert.assertEquals(1/(1 - AccurateMath.pow(a,2.0)), atanh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, atanh.value(JdkMath.tanh(a)), EPS);
+        Assert.assertEquals(1/(1 - JdkMath.pow(a,2.0)), atanh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testCbrt() {
         Cbrt cbrt = new Cbrt();
         double a = 1.2345;
-        Assert.assertEquals(a, cbrt.value(AccurateMath.pow(a,3)), EPS);
-        Assert.assertEquals(1.0/(3.0*AccurateMath.pow(a, 2.0/3.0)), cbrt.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, cbrt.value(JdkMath.pow(a,3)), EPS);
+        Assert.assertEquals(1.0/(3.0*JdkMath.pow(a, 2.0/3.0)), cbrt.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
@@ -105,23 +105,23 @@ public class UnivariateDifferentiableFunctionTest {
     public void testCos() {
         Cos cos = new Cos();
         double a = 0.987;
-        Assert.assertEquals(a, cos.value(AccurateMath.acos(a)), EPS);
-        Assert.assertEquals(-AccurateMath.sin(a), cos.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, cos.value(JdkMath.acos(a)), EPS);
+        Assert.assertEquals(-JdkMath.sin(a), cos.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testCosh() {
         Cosh cosh = new Cosh();
         double a = 1.2345;
-        Assert.assertEquals(a, cosh.value(AccurateMath.acosh(a)), EPS);
-        Assert.assertEquals(AccurateMath.sinh(a), cosh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, cosh.value(JdkMath.acosh(a)), EPS);
+        Assert.assertEquals(JdkMath.sinh(a), cosh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testExp() {
         Exp exp= new Exp();
         double a = 1.2345;
-        Assert.assertEquals(a, exp.value(AccurateMath.log(a)), EPS);
+        Assert.assertEquals(a, exp.value(JdkMath.log(a)), EPS);
         Assert.assertEquals(exp.value(a), exp.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
@@ -129,8 +129,8 @@ public class UnivariateDifferentiableFunctionTest {
     public void testExpm1() {
         Expm1 expm1 = new Expm1();
         double a = 1.2345;
-        Assert.assertEquals(a-1, expm1.value(AccurateMath.log(a)), EPS);
-        Assert.assertEquals(AccurateMath.exp(a), expm1.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a-1, expm1.value(JdkMath.log(a)), EPS);
+        Assert.assertEquals(JdkMath.exp(a), expm1.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
@@ -146,7 +146,7 @@ public class UnivariateDifferentiableFunctionTest {
         Inverse inverse = new Inverse();
         double a = 123.456;
         Assert.assertEquals(1/a, inverse.value(a), EPS);
-        Assert.assertEquals(-1/AccurateMath.pow(a,2), inverse.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(-1/JdkMath.pow(a,2), inverse.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
@@ -161,15 +161,15 @@ public class UnivariateDifferentiableFunctionTest {
     public void testLog10() {
         Log10 log10 = new Log10();
         double a =1.2345;
-        Assert.assertEquals(a, log10.value(AccurateMath.pow(10, a)), EPS);
-        Assert.assertEquals(1/(a*AccurateMath.log(10)), log10.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, log10.value(JdkMath.pow(10, a)), EPS);
+        Assert.assertEquals(1/(a*JdkMath.log(10)), log10.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testLog1p() {
         Log1p log1p = new Log1p();
         double a = 1.2345;
-        Assert.assertEquals(a+1,AccurateMath.exp(log1p.value(a)), EPS);
+        Assert.assertEquals(a+1,JdkMath.exp(log1p.value(a)), EPS);
         Assert.assertEquals(1/(1+a), log1p.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
@@ -186,42 +186,42 @@ public class UnivariateDifferentiableFunctionTest {
         Power squared = new Power(2);
         Power power2_5 = new Power(2.5);
         double a = 123.456;
-        Assert.assertEquals(AccurateMath.pow(a,2), squared.value(a), EPS);
-        Assert.assertEquals(AccurateMath.pow(a, 2.5), power2_5.value(a), EPS);
+        Assert.assertEquals(JdkMath.pow(a,2), squared.value(a), EPS);
+        Assert.assertEquals(JdkMath.pow(a, 2.5), power2_5.value(a), EPS);
         Assert.assertEquals(2*a, squared.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
-        Assert.assertEquals(2.5*AccurateMath.pow(a,1.5), power2_5.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(2.5*JdkMath.pow(a,1.5), power2_5.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testSin() {
         Sin sin = new Sin();
         double a = 0.987;
-        Assert.assertEquals(a, sin.value(AccurateMath.asin(a)), EPS);
-        Assert.assertEquals(AccurateMath.cos(a), sin.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, sin.value(JdkMath.asin(a)), EPS);
+        Assert.assertEquals(JdkMath.cos(a), sin.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testSinh() {
         Sinh sinh = new Sinh();
         double a = 1.2345;
-        Assert.assertEquals(a, sinh.value(AccurateMath.asinh(a)), EPS);
-        Assert.assertEquals(AccurateMath.cosh(a), sinh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, sinh.value(JdkMath.asinh(a)), EPS);
+        Assert.assertEquals(JdkMath.cosh(a), sinh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testTan() {
         Tan tan = new Tan();
         double a = 0.987;
-        Assert.assertEquals(a, tan.value(AccurateMath.atan(a)), EPS);
-        Assert.assertEquals(1/(AccurateMath.pow(AccurateMath.cos(a),2)), tan.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, tan.value(JdkMath.atan(a)), EPS);
+        Assert.assertEquals(1/(JdkMath.pow(JdkMath.cos(a),2)), tan.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
     @Test
     public void testTanh() {
         Tanh tanh = new Tanh();
         double a = 0.987;
-        Assert.assertEquals(a, tanh.value(AccurateMath.atanh(a)), EPS);
-        Assert.assertEquals(1/AccurateMath.pow(AccurateMath.cosh(a),2), tanh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(a, tanh.value(JdkMath.atanh(a)), EPS);
+        Assert.assertEquals(1/JdkMath.pow(JdkMath.cosh(a),2), tanh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
 
 }

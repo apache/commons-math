@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -313,7 +313,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
      */
     private void ensureZero(final double value) throws NumberIsTooLargeException {
         if (!Precision.equals(0.0, value, 1)) {
-            throw new NumberIsTooLargeException(AccurateMath.abs(value), 0, true);
+            throw new NumberIsTooLargeException(JdkMath.abs(value), 0, true);
         }
     }
 

@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.ode.AbstractFieldIntegrator;
 import org.apache.commons.math4.legacy.ode.FieldEquationsMapper;
 import org.apache.commons.math4.legacy.ode.FieldODEState;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -159,8 +159,8 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
                                    final double absoluteTolerance,
                                    final double relativeTolerance) {
 
-        minStep     = getField().getZero().add(AccurateMath.abs(minimalStep));
-        maxStep     = getField().getZero().add(AccurateMath.abs(maximalStep));
+        minStep     = getField().getZero().add(JdkMath.abs(minimalStep));
+        maxStep     = getField().getZero().add(JdkMath.abs(maximalStep));
         initialStep = getField().getOne().negate();
 
         scalAbsoluteTolerance = absoluteTolerance;
@@ -188,8 +188,8 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
                                    final double[] absoluteTolerance,
                                    final double[] relativeTolerance) {
 
-        minStep     = getField().getZero().add(AccurateMath.abs(minimalStep));
-        maxStep     = getField().getZero().add(AccurateMath.abs(maximalStep));
+        minStep     = getField().getZero().add(JdkMath.abs(minimalStep));
+        maxStep     = getField().getZero().add(JdkMath.abs(maximalStep));
         initialStep = getField().getOne().negate();
 
         scalAbsoluteTolerance = 0;

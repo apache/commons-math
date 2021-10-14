@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfLogs;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
@@ -108,7 +108,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     @Override
     public double getResult() {
         if (sumOfLogs.getN() > 0) {
-            return AccurateMath.exp(sumOfLogs.getResult() / sumOfLogs.getN());
+            return JdkMath.exp(sumOfLogs.getResult() / sumOfLogs.getN());
         } else {
             return Double.NaN;
         }
@@ -141,7 +141,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     @Override
     public double evaluate(final double[] values, final int begin, final int length)
         throws MathIllegalArgumentException {
-        return AccurateMath.exp(sumOfLogs.evaluate(values, begin, length) / length);
+        return JdkMath.exp(sumOfLogs.evaluate(values, begin, length) / length);
     }
 
     /**

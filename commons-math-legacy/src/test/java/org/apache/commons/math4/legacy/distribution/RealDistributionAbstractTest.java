@@ -33,7 +33,7 @@ import org.apache.commons.math4.legacy.analysis.integration.IterativeLegendreGau
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -117,7 +117,7 @@ public abstract class RealDistributionAbstractTest {
         final double[] densityTestValues = makeDensityTestValues();
         final double[] logDensityTestValues = new double[densityTestValues.length];
         for (int i = 0; i < densityTestValues.length; i++) {
-            logDensityTestValues[i] = AccurateMath.log(densityTestValues[i]);
+            logDensityTestValues[i] = JdkMath.log(densityTestValues[i]);
         }
         return logDensityTestValues;
     }
@@ -285,8 +285,8 @@ public abstract class RealDistributionAbstractTest {
                  (cumulativeTestPoints[i], cumulativeTestPoints[i]), tolerance);
 
             // check that P(a < X <= b) = P(X <= b) - P(X <= a)
-            double upper = AccurateMath.max(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
-            double lower = AccurateMath.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
+            double upper = JdkMath.max(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
+            double lower = JdkMath.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double diff = distribution.cumulativeProbability(upper) -
                 distribution.cumulativeProbability(lower);
             double direct = distribution.probability(lower, upper);

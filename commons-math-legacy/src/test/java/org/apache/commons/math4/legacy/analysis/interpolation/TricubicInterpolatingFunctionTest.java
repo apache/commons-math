@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -393,7 +393,7 @@ public final class TricubicInterpolatingFunctionTest {
             expected = f.value(currentX, currentY, currentZ);
 
             actual = interpolation.value(currentX, currentY, currentZ);
-            final double relativeError = AccurateMath.abs(actual - expected) / AccurateMath.max(AccurateMath.abs(actual), AccurateMath.abs(expected));
+            final double relativeError = JdkMath.abs(actual - expected) / JdkMath.max(JdkMath.abs(actual), JdkMath.abs(expected));
             sumError += relativeError;
 
             if (print) {
@@ -579,56 +579,56 @@ public final class TricubicInterpolatingFunctionTest {
         final TrivariateFunction f = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return a * AccurateMath.cos(arg.value(x, y, z));
+                    return a * JdkMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction dfdx = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return kx * a * AccurateMath.sin(arg.value(x, y, z));
+                    return kx * a * JdkMath.sin(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction dfdy = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return ky * a * AccurateMath.sin(arg.value(x, y, z));
+                    return ky * a * JdkMath.sin(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction dfdz = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return -omega * a * AccurateMath.sin(arg.value(x, y, z));
+                    return -omega * a * JdkMath.sin(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d2fdxdy = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return -ky * kx * a * AccurateMath.cos(arg.value(x, y, z));
+                    return -ky * kx * a * JdkMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d2fdxdz = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return omega * kx * a * AccurateMath.cos(arg.value(x, y, z));
+                    return omega * kx * a * JdkMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d2fdydz = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return omega * ky * a * AccurateMath.cos(arg.value(x, y, z));
+                    return omega * ky * a * JdkMath.cos(arg.value(x, y, z));
                 }
             };
 
         final TrivariateFunction d3fdxdydz = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return omega * ky * kx * a * AccurateMath.sin(arg.value(x, y, z));
+                    return omega * ky * kx * a * JdkMath.sin(arg.value(x, y, z));
                 }
             };
 

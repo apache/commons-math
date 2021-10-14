@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <code>e<sup>x</sup>-1</code> function.
@@ -30,7 +30,7 @@ public class Expm1 implements UnivariateDifferentiableFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x) {
-        return AccurateMath.expm1(x);
+        return JdkMath.expm1(x);
     }
 
     /** {@inheritDoc}

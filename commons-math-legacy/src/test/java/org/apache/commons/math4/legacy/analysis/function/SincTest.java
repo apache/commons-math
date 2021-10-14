@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStruct
 import org.apache.commons.math4.legacy.core.dfp.Dfp;
 import org.apache.commons.math4.legacy.core.dfp.DfpField;
 import org.apache.commons.math4.legacy.core.dfp.DfpMath;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -68,7 +68,7 @@ public class SincTest {
        double prod = 1;
        double xOverPow2 = x / 2;
        while (xOverPow2 > 0) {
-           prod *= AccurateMath.cos(xOverPow2);
+           prod *= JdkMath.cos(xOverPow2);
            xOverPow2 /= 2;
        }
        Assert.assertEquals(prod, s.value(x), 1e-13);

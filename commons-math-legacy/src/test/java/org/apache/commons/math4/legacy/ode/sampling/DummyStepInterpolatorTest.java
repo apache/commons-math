@@ -25,7 +25,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class DummyStepInterpolatorTest {
 
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-      Assert.assertTrue(AccurateMath.abs(result[i] - y[i]) < 1.0e-10);
+      Assert.assertTrue(JdkMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -59,13 +59,13 @@ public class DummyStepInterpolatorTest {
     interpolator.setInterpolatedTime(0.1);
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        Assert.assertTrue(AccurateMath.abs(result[i] - y[i]) < 1.0e-10);
+        Assert.assertTrue(JdkMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
     interpolator.setInterpolatedTime(0.5);
     result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        Assert.assertTrue(AccurateMath.abs(result[i] - y[i]) < 1.0e-10);
+        Assert.assertTrue(JdkMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -94,7 +94,7 @@ public class DummyStepInterpolatorTest {
     dsi.setInterpolatedTime(0.5);
     double[] result = dsi.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        Assert.assertTrue(AccurateMath.abs(result[i] - y[i]) < 1.0e-10);
+        Assert.assertTrue(JdkMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }

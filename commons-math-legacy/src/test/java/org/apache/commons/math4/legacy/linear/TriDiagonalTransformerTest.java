@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -132,7 +132,7 @@ public class TriDiagonalTransformerTest {
                                 { 0.0, -0.2581988897471611,  0.6364346693566009,  -0.027289660803112598, -0.7263191580755246 }
                             },
                             new double[] { 1, 4.4, 1.433099579242636, -0.89537362758743, 2.062274048344794 },
-                            new double[] { -AccurateMath.sqrt(15), -3.0832882879592476, 0.6082710842351517, 1.1786086405912128 });
+                            new double[] { -JdkMath.sqrt(15), -3.0832882879592476, 0.6082710842351517, 1.1786086405912128 });
     }
 
     @Test

@@ -29,7 +29,7 @@
   <suppress checks="LineLength" files=".*[/\\]Dfp\.java" />
   <suppress checks="MethodLength" files=".*[/\\]Dfp.*\.java" />
   <suppress checks="MethodLength" files=".*[/\\]AccurateMath\.java" />
-  <suppress checks="MethodName" files=".*[/\\]AccurateMath\.java" />
+  <suppress checks="MethodName" files=".*[/\\]jdkmath[/\\].*Math\.java" />
   <suppress checks="LocalFinalVariableName" files=".*[/\\]AccurateMath\.java" />
   <suppress checks="ParameterNumber" files=".*[/\\]RealFieldElement\.java" />
   <suppress checks="ParameterNumber" files=".*[/\\]Dfp\.java" />

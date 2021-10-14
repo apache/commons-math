@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ode.AbstractIntegrator;
 import org.apache.commons.math4.legacy.ode.ExpandableStatefulODE;
 import org.apache.commons.math4.legacy.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class implements the common part of all fixed step Runge-Kutta
@@ -86,7 +86,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     this.a          = a;
     this.b          = b;
     this.prototype  = prototype;
-    this.step       = AccurateMath.abs(step);
+    this.step       = JdkMath.abs(step);
   }
 
   /** {@inheritDoc} */

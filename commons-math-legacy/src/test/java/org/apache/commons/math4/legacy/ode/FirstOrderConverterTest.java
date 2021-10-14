@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ode.nonstiff.ClassicalRungeKuttaIntegrator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,11 +45,11 @@ public class FirstOrderConverterTest {
     double previousError = Double.NaN;
     for (int i = 0; i < 10; ++i) {
 
-      double step  = AccurateMath.pow(2.0, -(i + 1));
+      double step  = JdkMath.pow(2.0, -(i + 1));
       double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, step)
-                   - AccurateMath.sin(4.0);
+                   - JdkMath.sin(4.0);
       if (i > 0) {
-        Assert.assertTrue(AccurateMath.abs(error) < AccurateMath.abs(previousError));
+        Assert.assertTrue(JdkMath.abs(error) < JdkMath.abs(previousError));
       }
       previousError = error;
 
@@ -60,16 +60,16 @@ public class FirstOrderConverterTest {
   public void testSmallStep()
       throws DimensionMismatchException, NumberIsTooSmallException, MaxCountExceededException, NoBracketingException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 1.0e-4)
-                   - AccurateMath.sin(4.0);
-    Assert.assertTrue(AccurateMath.abs(error) < 1.0e-10);
+                   - JdkMath.sin(4.0);
+    Assert.assertTrue(JdkMath.abs(error) < 1.0e-10);
   }
 
   @Test
   public void testBigStep()
       throws DimensionMismatchException, NumberIsTooSmallException, MaxCountExceededException, NoBracketingException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 0.5)
-                   - AccurateMath.sin(4.0);
-    Assert.assertTrue(AccurateMath.abs(error) > 0.1);
+                   - JdkMath.sin(4.0);
+    Assert.assertTrue(JdkMath.abs(error) > 0.1);
   }
 
   private static class Equations
@@ -103,8 +103,8 @@ public class FirstOrderConverterTest {
                                             double t0, double t,
                                             double step) throws DimensionMismatchException, NumberIsTooSmallException, MaxCountExceededException, NoBracketingException {
     double[] y0 = new double[2];
-    y0[0] = AccurateMath.sin(omega * t0);
-    y0[1] = omega * AccurateMath.cos(omega * t0);
+    y0[0] = JdkMath.sin(omega * t0);
+    y0[1] = omega * JdkMath.cos(omega * t0);
     ClassicalRungeKuttaIntegrator i = new ClassicalRungeKuttaIntegrator(step);
     double[] y = new double[2];
     i.integrate(new FirstOrderConverter(new Equations(1, omega)), t0, y0, t, y);

@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Order 1 Crossover [OX1] builds offspring from <b>ordered</b> chromosomes by copying a
@@ -111,8 +111,8 @@ public class OrderedCrossover<T> implements CrossoverPolicy {
             b = random.nextInt(length);
         } while (a == b);
         // determine the lower and upper bounds
-        final int lb = AccurateMath.min(a, b);
-        final int ub = AccurateMath.max(a, b);
+        final int lb = JdkMath.min(a, b);
+        final int ub = JdkMath.max(a, b);
 
         // add the subLists that are between lb and ub
         child1.addAll(parent1Rep.subList(lb, ub + 1));

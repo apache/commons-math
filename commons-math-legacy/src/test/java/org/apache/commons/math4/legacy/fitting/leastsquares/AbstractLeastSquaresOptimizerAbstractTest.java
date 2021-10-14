@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.SimpleVectorValueChecker;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.Pair;
 import org.junit.Assert;
 import org.junit.Test;
@@ -132,12 +132,12 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                         return new Pair<RealVector, RealMatrix>(
                                 new ArrayRealVector(
                                         new double[]{
-                                                AccurateMath.pow(point.getEntry(0), 4)
+                                                JdkMath.pow(point.getEntry(0), 4)
                                         },
                                         false),
                                 new Array2DRowRealMatrix(
                                         new double[][]{
-                                                {0.25 * AccurateMath.pow(point.getEntry(0), 3)}
+                                                {0.25 * JdkMath.pow(point.getEntry(0), 3)}
                                         },
                                         false)
                         );
@@ -406,7 +406,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertTrue(optimum.getEvaluations() < 10);
 
         double rms = optimum.getRMS();
-        Assert.assertEquals(1.768262623567235, AccurateMath.sqrt(circle.getN()) * rms, TOL);
+        Assert.assertEquals(1.768262623567235, JdkMath.sqrt(circle.getN()) * rms, TOL);
 
         Vector2D center = Vector2D.of(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
         Assert.assertEquals(69.96016176931406, circle.getRadius(center), 1e-6);
@@ -421,8 +421,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         // add perfect measurements and check formal errors are reduced
         double r = circle.getRadius(center);
-        for (double d = 0; d < 2 * AccurateMath.PI; d += 0.01) {
-            circle.addPoint(center.getX() + r * AccurateMath.cos(d), center.getY() + r * AccurateMath.sin(d));
+        for (double d = 0; d < 2 * JdkMath.PI; d += 0.01) {
+            circle.addPoint(center.getX() + r * JdkMath.cos(d), center.getY() + r * JdkMath.sin(d));
         }
 
         double[] weights = new double[circle.getN()];
@@ -519,7 +519,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         final RealVector actual = optimum.getPoint();
         for (int i = 0; i < actual.getDimension(); i++) {
             double expected = dataset.getParameter(i);
-            double delta = AccurateMath.abs(errParams * expected);
+            double delta = JdkMath.abs(errParams * expected);
             Assert.assertEquals(dataset.getName() + ", param #" + i,
                     expected, actual.getEntry(i), delta);
         }

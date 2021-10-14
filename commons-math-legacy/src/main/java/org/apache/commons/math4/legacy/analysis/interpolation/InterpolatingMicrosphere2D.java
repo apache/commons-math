@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Utility class for the {@link MicrosphereProjectionInterpolator} algorithm.
@@ -60,8 +60,8 @@ public class InterpolatingMicrosphere2D extends InterpolatingMicrosphere {
         for (int i = 0; i < size; i++) {
             final double angle = i * twopi / size;
 
-            add(new double[] { AccurateMath.cos(angle),
-                               AccurateMath.sin(angle) },
+            add(new double[] { JdkMath.cos(angle),
+                               JdkMath.sin(angle) },
                 false);
         }
     }

@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.commons.math4.legacy.exception.TooManyIterationsException;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -256,7 +256,7 @@ public class SimplexSolver extends LinearOptimizer {
             // only consider pivot elements larger than the cutOff threshold
             // selecting others may lead to degeneracy or numerical instabilities
             if (Precision.compareTo(entry, 0d, cutOff) > 0) {
-                final double ratio = AccurateMath.abs(rhs / entry);
+                final double ratio = JdkMath.abs(rhs / entry);
                 // check if the entry is strictly equal to the current min ratio
                 // do not use a ulp/epsilon check
                 final int cmp = Double.compare(ratio, minRatio);

@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Hyperbolic cosine function.
@@ -30,7 +30,7 @@ public class Cosh implements UnivariateDifferentiableFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x) {
-        return AccurateMath.cosh(x);
+        return JdkMath.cosh(x);
     }
 
     /** {@inheritDoc}

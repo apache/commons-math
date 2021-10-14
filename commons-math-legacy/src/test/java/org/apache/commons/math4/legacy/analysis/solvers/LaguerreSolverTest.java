@@ -20,7 +20,7 @@ import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -52,8 +52,8 @@ public final class LaguerreSolverTest {
         LaguerreSolver solver = new LaguerreSolver();
 
         min = 0.0; max = 1.0; expected = 0.25;
-        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
     }
@@ -75,14 +75,14 @@ public final class LaguerreSolverTest {
         LaguerreSolver solver = new LaguerreSolver();
 
         min = 0.0; max = 2.0; expected = 0.5;
-        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -4.0; max = -1.0; expected = -3.0;
-        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
     }
@@ -104,20 +104,20 @@ public final class LaguerreSolverTest {
         LaguerreSolver solver = new LaguerreSolver();
 
         min = -2.0; max = 2.0; expected = -1.0;
-        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -5.0; max = -2.5; expected = -3.0;
-        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
         min = 3.0; max = 6.0; expected = 4.0;
-        tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                    AccurateMath.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                    JdkMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(100, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
     }
@@ -135,11 +135,11 @@ public final class LaguerreSolverTest {
 
         for (Complex expected : new Complex[] { Complex.ofCartesian(0, -2),
                                                 Complex.ofCartesian(0, 2),
-                                                Complex.ofCartesian(0.5, 0.5 * AccurateMath.sqrt(3)),
+                                                Complex.ofCartesian(0.5, 0.5 * JdkMath.sqrt(3)),
                                                 Complex.ofCartesian(-1, 0),
-                                                Complex.ofCartesian(0.5, -0.5 * AccurateMath.sqrt(3.0)) }) {
-            final double tolerance = AccurateMath.max(solver.getAbsoluteAccuracy(),
-                                                  AccurateMath.abs(expected.abs() * solver.getRelativeAccuracy()));
+                                                Complex.ofCartesian(0.5, -0.5 * JdkMath.sqrt(3.0)) }) {
+            final double tolerance = JdkMath.max(solver.getAbsoluteAccuracy(),
+                                                  JdkMath.abs(expected.abs() * solver.getRelativeAccuracy()));
             TestUtils.assertContains(result, expected, tolerance);
         }
     }

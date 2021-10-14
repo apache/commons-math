@@ -20,7 +20,7 @@ import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -99,7 +99,7 @@ public abstract class IntegerDistributionAbstractTest {
         final double[] densityTestValues = makeDensityTestValues();
         final double[] logDensityTestValues = new double[densityTestValues.length];
         for (int i = 0; i < densityTestValues.length; i++) {
-            logDensityTestValues[i] = AccurateMath.log(densityTestValues[i]);
+            logDensityTestValues[i] = JdkMath.log(densityTestValues[i]);
         }
         return logDensityTestValues;
     }

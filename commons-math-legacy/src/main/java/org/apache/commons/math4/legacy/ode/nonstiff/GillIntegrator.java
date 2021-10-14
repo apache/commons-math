@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -54,13 +54,13 @@ public class GillIntegrator extends RungeKuttaIntegrator {
   /** Internal weights Butcher array. */
   private static final double[][] STATIC_A = {
     { 1.0 / 2.0 },
-    { (AccurateMath.sqrt(2.0) - 1.0) / 2.0, (2.0 - AccurateMath.sqrt(2.0)) / 2.0 },
-    { 0.0, -AccurateMath.sqrt(2.0) / 2.0, (2.0 + AccurateMath.sqrt(2.0)) / 2.0 }
+    { (JdkMath.sqrt(2.0) - 1.0) / 2.0, (2.0 - JdkMath.sqrt(2.0)) / 2.0 },
+    { 0.0, -JdkMath.sqrt(2.0) / 2.0, (2.0 + JdkMath.sqrt(2.0)) / 2.0 }
   };
 
   /** Propagation weights Butcher array. */
   private static final double[] STATIC_B = {
-    1.0 / 6.0, (2.0 - AccurateMath.sqrt(2.0)) / 6.0, (2.0 + AccurateMath.sqrt(2.0)) / 6.0, 1.0 / 6.0
+    1.0 / 6.0, (2.0 - JdkMath.sqrt(2.0)) / 6.0, (2.0 + JdkMath.sqrt(2.0)) / 6.0, 1.0 / 6.0
   };
 
   /** Simple constructor.

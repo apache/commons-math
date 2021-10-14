@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,15 +49,15 @@ public final class RombergIntegratorTest {
         double result;
         double tolerance;
 
-        min = 0; max = AccurateMath.PI; expected = 2;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        min = 0; max = JdkMath.PI; expected = 2;
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(100, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 50);
         Assert.assertTrue(integrator.getIterations()  < 10);
         Assert.assertEquals(expected, result, tolerance);
 
-        min = -AccurateMath.PI/3; max = 0; expected = -0.5;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        min = -JdkMath.PI/3; max = 0; expected = -0.5;
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(100, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 50);
         Assert.assertTrue(integrator.getIterations()  < 10);
@@ -78,21 +78,21 @@ public final class RombergIntegratorTest {
         double tolerance;
 
         min = 0; max = 1; expected = -1.0/48;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(100, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 10);
         Assert.assertTrue(integrator.getIterations()  < 5);
         Assert.assertEquals(expected, result, tolerance);
 
         min = 0; max = 0.5; expected = 11.0/768;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(100, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 10);
         Assert.assertTrue(integrator.getIterations()  < 5);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -1; max = 4; expected = 2048/3.0 - 78 + 1.0/48;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(100, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 10);
         Assert.assertTrue(integrator.getIterations()  < 5);

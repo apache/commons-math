@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Basic implementation of RealMatrix methods regardless of the underlying storage.
@@ -270,9 +270,9 @@ public abstract class AbstractRealMatrix
             /** {@inheritDoc} */
             @Override
             public void visit(final int row, final int column, final double value) {
-                columnSum += AccurateMath.abs(value);
+                columnSum += JdkMath.abs(value);
                 if (row == endRow) {
-                    maxColSum = AccurateMath.max(maxColSum, columnSum);
+                    maxColSum = JdkMath.max(maxColSum, columnSum);
                     columnSum = 0;
                 }
             }
@@ -310,7 +310,7 @@ public abstract class AbstractRealMatrix
             /** {@inheritDoc} */
             @Override
             public double end() {
-                return AccurateMath.sqrt(sum);
+                return JdkMath.sqrt(sum);
             }
         });
     }

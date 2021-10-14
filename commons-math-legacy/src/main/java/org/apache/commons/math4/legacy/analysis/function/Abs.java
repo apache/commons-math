@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Absolute value function.
@@ -29,6 +29,6 @@ public class Abs implements UnivariateFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x) {
-        return AccurateMath.abs(x);
+        return JdkMath.abs(x);
     }
 }

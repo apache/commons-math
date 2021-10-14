@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Arc-cosine function.
@@ -30,7 +30,7 @@ public class Acos implements UnivariateDifferentiableFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x) {
-        return AccurateMath.acos(x);
+        return JdkMath.acos(x);
     }
 
     /** {@inheritDoc}

@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.linear.SingularMatrixException;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -85,7 +85,7 @@ public class LevenbergMarquardtOptimizerTest
                     problem.getBuilder().maxIterations(20).build());
 
             //TODO check that it is a bad fit? Why the extra conditions?
-            Assert.assertTrue(AccurateMath.sqrt(problem.getTarget().length) * optimum.getRMS() > 0.6);
+            Assert.assertTrue(JdkMath.sqrt(problem.getTarget().length) * optimum.getRMS() > 0.6);
 
             optimum.getCovariances(1.5e-14);
 
@@ -209,7 +209,7 @@ public class LevenbergMarquardtOptimizerTest
 
         // Check that the computed solution is within the reference error range.
         for (int i = 0; i < numParams; i++) {
-            final double error = AccurateMath.sqrt(expectedCovarMatrix[i][i]);
+            final double error = JdkMath.sqrt(expectedCovarMatrix[i][i]);
             Assert.assertEquals("Parameter " + i, expectedSolution[i], solution.getEntry(i), error);
         }
 
@@ -220,7 +220,7 @@ public class LevenbergMarquardtOptimizerTest
                 Assert.assertEquals("Covariance matrix [" + i + "][" + j + "]",
                                     expectedCovarMatrix[i][j],
                                     covarMatrix.getEntry(i, j),
-                                    AccurateMath.abs(0.1 * expectedCovarMatrix[i][j]));
+                                    JdkMath.abs(0.1 * expectedCovarMatrix[i][j]));
             }
         }
 

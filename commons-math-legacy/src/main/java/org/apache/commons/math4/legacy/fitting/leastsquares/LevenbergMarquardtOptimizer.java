@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresProblem.
 import org.apache.commons.math4.legacy.linear.ArrayRealVector;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.IntegerSequence;
 import org.apache.commons.numbers.core.Precision;
 
@@ -305,7 +305,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         final ConvergenceChecker<Evaluation> checker = problem.getConvergenceChecker();
 
         // arrays shared with the other private methods
-        final int solvedCols  = AccurateMath.min(nR, nC);
+        final int solvedCols  = JdkMath.min(nR, nC);
         /* Parameters evolution direction associated with lmPar. */
         double[] lmDir = new double[nC];
         /* Levenberg-Marquardt parameter. */
@@ -375,7 +375,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                     xNorm  += xk * xk;
                     diag[k] = dk;
                 }
-                xNorm = AccurateMath.sqrt(xNorm);
+                xNorm = JdkMath.sqrt(xNorm);
 
                 // initialize the step bound delta
                 delta = (xNorm == 0) ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);
@@ -392,7 +392,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                         for (int i = 0; i <= j; ++i) {
                             sum += weightedJacobian[i][pj] * qtf[i];
                         }
-                        maxCosine = AccurateMath.max(maxCosine, AccurateMath.abs(sum) / (s * currentCost));
+                        maxCosine = JdkMath.max(maxCosine, JdkMath.abs(sum) / (s * currentCost));
                     }
                 }
             }
@@ -406,7 +406,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // rescale if necessary
             for (int j = 0; j < nC; ++j) {
-                diag[j] = AccurateMath.max(diag[j], jacNorm[j]);
+                diag[j] = JdkMath.max(diag[j], jacNorm[j]);
             }
 
             // Inner loop.
@@ -436,10 +436,10 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                     double s = diag[pj] * lmDir[pj];
                     lmNorm  += s * s;
                 }
-                lmNorm = AccurateMath.sqrt(lmNorm);
+                lmNorm = JdkMath.sqrt(lmNorm);
                 // on the first iteration, adjust the initial step bound.
                 if (firstIteration) {
-                    delta = AccurateMath.min(delta, lmNorm);
+                    delta = JdkMath.min(delta, lmNorm);
                 }
 
                 // Evaluate the function at x + p and calculate its norm.
@@ -486,7 +486,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                         if ((0.1 * currentCost >= previousCost) || (tmp < 0.1)) {
                             tmp = 0.1;
                         }
-                        delta = tmp * AccurateMath.min(delta, 10.0 * lmNorm);
+                        delta = tmp * JdkMath.min(delta, 10.0 * lmNorm);
                         lmPar /= tmp;
                 } else if ((lmPar == 0) || (ratio >= 0.75)) {
                     delta = 2 * lmNorm;
@@ -502,7 +502,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                         double xK = diag[k] * currentPoint[k];
                         xNorm += xK * xK;
                     }
-                    xNorm = AccurateMath.sqrt(xNorm);
+                    xNorm = JdkMath.sqrt(xNorm);
 
                     // tests for convergence.
                     if (checker != null && checker.converged(iterationCounter.getCount(), previous, current)) {
@@ -523,7 +523,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 }
 
                 // Default convergence criteria.
-                if ((AccurateMath.abs(actRed) <= costRelativeTolerance &&
+                if ((JdkMath.abs(actRed) <= costRelativeTolerance &&
                      preRed <= costRelativeTolerance &&
                      ratio <= 2.0) ||
                     delta <= parRelativeTolerance * xNorm) {
@@ -531,7 +531,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 }
 
                 // tests for termination and stringent tolerances
-                if (AccurateMath.abs(actRed) <= TWO_EPS &&
+                if (JdkMath.abs(actRed) <= TWO_EPS &&
                     preRed <= TWO_EPS &&
                     ratio <= 2.0) {
                     throw new ConvergenceException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,
@@ -655,7 +655,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
             work1[pj] = s;
             dxNorm += s * s;
         }
-        dxNorm = AccurateMath.sqrt(dxNorm);
+        dxNorm = JdkMath.sqrt(dxNorm);
         double fp = dxNorm - delta;
         if (fp <= 0.1 * delta) {
             lmPar = 0;
@@ -697,15 +697,15 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
             sum /= diag[pj];
             sum2 += sum * sum;
         }
-        double gNorm = AccurateMath.sqrt(sum2);
+        double gNorm = JdkMath.sqrt(sum2);
         double paru = gNorm / delta;
         if (paru == 0) {
-            paru = Precision.SAFE_MIN / AccurateMath.min(delta, 0.1);
+            paru = Precision.SAFE_MIN / JdkMath.min(delta, 0.1);
         }
 
         // if the input par lies outside of the interval (parl,paru),
         // set par to the closer endpoint
-        lmPar = AccurateMath.min(paru, AccurateMath.max(lmPar, parl));
+        lmPar = JdkMath.min(paru, JdkMath.max(lmPar, parl));
         if (lmPar == 0) {
             lmPar = gNorm / dxNorm;
         }
@@ -714,9 +714,9 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // evaluate the function at the current value of lmPar
             if (lmPar == 0) {
-                lmPar = AccurateMath.max(Precision.SAFE_MIN, 0.001 * paru);
+                lmPar = JdkMath.max(Precision.SAFE_MIN, 0.001 * paru);
             }
-            double sPar = AccurateMath.sqrt(lmPar);
+            double sPar = JdkMath.sqrt(lmPar);
             for (int j = 0; j < solvedCols; ++j) {
                 int pj = permutation[j];
                 work1[pj] = sPar * diag[pj];
@@ -730,13 +730,13 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 work3[pj] = s;
                 dxNorm += s * s;
             }
-            dxNorm = AccurateMath.sqrt(dxNorm);
+            dxNorm = JdkMath.sqrt(dxNorm);
             double previousFP = fp;
             fp = dxNorm - delta;
 
             // if the function is small enough, accept the current value
             // of lmPar, also test for the exceptional cases where parl is zero
-            if (AccurateMath.abs(fp) <= 0.1 * delta ||
+            if (JdkMath.abs(fp) <= 0.1 * delta ||
                 (parl == 0 &&
                  fp <= previousFP &&
                  previousFP < 0)) {
@@ -765,13 +765,13 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // depending on the sign of the function, update parl or paru.
             if (fp > 0) {
-                parl = AccurateMath.max(parl, lmPar);
+                parl = JdkMath.max(parl, lmPar);
             } else if (fp < 0) {
-                paru = AccurateMath.min(paru, lmPar);
+                paru = JdkMath.min(paru, lmPar);
             }
 
             // compute an improved estimate for lmPar
-            lmPar = AccurateMath.max(parl, lmPar + correction);
+            lmPar = JdkMath.max(parl, lmPar + correction);
         }
 
         return lmPar;
@@ -847,13 +847,13 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                     final double sin;
                     final double cos;
                     double rkk = weightedJacobian[k][pk];
-                    if (AccurateMath.abs(rkk) < AccurateMath.abs(lmDiag[k])) {
+                    if (JdkMath.abs(rkk) < JdkMath.abs(lmDiag[k])) {
                         final double cotan = rkk / lmDiag[k];
-                        sin   = 1.0 / AccurateMath.sqrt(1.0 + cotan * cotan);
+                        sin   = 1.0 / JdkMath.sqrt(1.0 + cotan * cotan);
                         cos   = sin * cotan;
                     } else {
                         final double tan = lmDiag[k] / rkk;
-                        cos = 1.0 / AccurateMath.sqrt(1.0 + tan * tan);
+                        cos = 1.0 / JdkMath.sqrt(1.0 + tan * tan);
                         sin = cos * tan;
                     }
 
@@ -956,7 +956,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 double akk = weightedJacobian[i][k];
                 norm2 += akk * akk;
             }
-            jacNorm[k] = AccurateMath.sqrt(norm2);
+            jacNorm[k] = JdkMath.sqrt(norm2);
         }
 
         // transform the matrix column after column
@@ -989,7 +989,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // choose alpha such that Hk.u = alpha ek
             double akk = weightedJacobian[k][pk];
-            double alpha = (akk > 0) ? -AccurateMath.sqrt(ak2) : AccurateMath.sqrt(ak2);
+            double alpha = (akk > 0) ? -JdkMath.sqrt(ak2) : JdkMath.sqrt(ak2);
             double betak = 1.0 / (ak2 - akk * alpha);
             beta[pk] = betak;
 

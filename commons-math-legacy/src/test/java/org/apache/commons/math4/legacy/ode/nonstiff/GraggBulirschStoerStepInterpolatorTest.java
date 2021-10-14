@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.ode.TestProblem3;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolatorTestUtils;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -128,13 +128,13 @@ public class GraggBulirschStoerStepInterpolatorTest {
             StepInterpolator cloned = interpolator.copy();
             double tA = cloned.getPreviousTime();
             double tB = cloned.getCurrentTime();
-            double halfStep = AccurateMath.abs(tB - tA) / 2;
+            double halfStep = JdkMath.abs(tB - tA) / 2;
             Assert.assertEquals(interpolator.getPreviousTime(), tA, 1.0e-12);
             Assert.assertEquals(interpolator.getCurrentTime(), tB, 1.0e-12);
             for (int i = 0; i < 10; ++i) {
                 double t = (i * tB + (9 - i) * tA) / 9;
                 interpolator.setInterpolatedTime(t);
-                Assert.assertTrue(AccurateMath.abs(cloned.getInterpolatedTime() - t) > (halfStep / 10));
+                Assert.assertTrue(JdkMath.abs(cloned.getInterpolatedTime() - t) > (halfStep / 10));
                 cloned.setInterpolatedTime(t);
                 Assert.assertEquals(t, cloned.getInterpolatedTime(), 1.0e-12);
                 double[] referenceState = interpolator.getInterpolatedState();

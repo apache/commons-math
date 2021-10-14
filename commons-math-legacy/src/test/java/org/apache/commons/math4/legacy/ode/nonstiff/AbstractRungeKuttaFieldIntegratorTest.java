@@ -44,7 +44,7 @@ import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolatorTestUtils;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
@@ -108,7 +108,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
             if (regularArray[i] == 0) {
                 Assert.assertEquals(0.0, fieldArray[i].getReal(), 0.0);
             } else {
-                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), AccurateMath.ulp(regularArray[i]));
+                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), JdkMath.ulp(regularArray[i]));
             }
         }
     }
@@ -250,7 +250,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
             T previousTimeError  = null;
             for (int i = 4; i < 10; ++i) {
 
-                T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(AccurateMath.pow(2.0, -i));
+                T step = pb.getFinalTime().subtract(pb.getInitialState().getTime()).multiply(JdkMath.pow(2.0, -i));
 
                 RungeKuttaFieldIntegrator<T> integ = createIntegrator(field, step);
                 TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
@@ -497,8 +497,8 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
 
             @Override
             public T[] computeDerivatives(T t, T[] y) {
-                Assert.assertTrue(t.getReal() >= AccurateMath.nextAfter(t0.getReal(), Double.NEGATIVE_INFINITY));
-                Assert.assertTrue(t.getReal() <= AccurateMath.nextAfter(t.getReal(),   Double.POSITIVE_INFINITY));
+                Assert.assertTrue(t.getReal() >= JdkMath.nextAfter(t0.getReal(), Double.NEGATIVE_INFINITY));
+                Assert.assertTrue(t.getReal() <= JdkMath.nextAfter(t.getReal(),   Double.POSITIVE_INFINITY));
                 T[] yDot = MathArrays.buildArray(field, 1);
                 yDot[0] = y[0].multiply(-100.0);
                 return yDot;
@@ -643,7 +643,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         public double[] theoreticalY(final double t) {
             final double theta = omega.getReal() * t + alpha.getReal();
             return new double[] {
-                r.getReal() * AccurateMath.sin(theta), r.getReal() * AccurateMath.cos(theta)
+                r.getReal() * JdkMath.sin(theta), r.getReal() * JdkMath.cos(theta)
             };
         }
 
@@ -651,8 +651,8 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
 
             // intermediate angle and state
             final double theta        = omega.getReal() * t + alpha.getReal();
-            final double sin          = AccurateMath.sin(theta);
-            final double cos          = AccurateMath.cos(theta);
+            final double sin          = JdkMath.sin(theta);
+            final double cos          = JdkMath.cos(theta);
             final double y0           = r.getReal() * sin;
             final double y1           = r.getReal() * cos;
 

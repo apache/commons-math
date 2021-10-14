@@ -29,7 +29,7 @@ import org.apache.commons.math4.legacy.analysis.function.Sqrt;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -56,13 +56,13 @@ public final class BrentSolverTest {
         result = solver.solve(100, f, 3, 4);
         // System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
-        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, JdkMath.PI, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 7);
         // Larger and somewhat less benign interval. The function is grows first.
         result = solver.solve(100, f, 1, 4);
         // System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
-        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, JdkMath.PI, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 8);
     }
 
@@ -166,17 +166,17 @@ public final class BrentSolverTest {
         BrentSolver solver = new BrentSolver();
 
         // endpoint is root
-        double result = solver.solve(100, f, AccurateMath.PI, 4);
-        Assert.assertEquals(AccurateMath.PI, result, solver.getAbsoluteAccuracy());
+        double result = solver.solve(100, f, JdkMath.PI, 4);
+        Assert.assertEquals(JdkMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(100, f, 3, AccurateMath.PI);
-        Assert.assertEquals(AccurateMath.PI, result, solver.getAbsoluteAccuracy());
+        result = solver.solve(100, f, 3, JdkMath.PI);
+        Assert.assertEquals(JdkMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(100, f, AccurateMath.PI, 4, 3.5);
-        Assert.assertEquals(AccurateMath.PI, result, solver.getAbsoluteAccuracy());
+        result = solver.solve(100, f, JdkMath.PI, 4, 3.5);
+        Assert.assertEquals(JdkMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(100, f, 3, AccurateMath.PI, 3.07);
-        Assert.assertEquals(AccurateMath.PI, result, solver.getAbsoluteAccuracy());
+        result = solver.solve(100, f, 3, JdkMath.PI, 3.07);
+        Assert.assertEquals(JdkMath.PI, result, solver.getAbsoluteAccuracy());
     }
 
     @Test

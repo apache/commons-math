@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Expm1;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -59,7 +59,7 @@ public final class NevilleInterpolatorTest {
         // 6 interpolating points on interval [0, 2*PI]
         int n = 6;
         double min = 0.0;
-        double max = 2 * AccurateMath.PI;
+        double max = 2 * JdkMath.PI;
         x = new double[n];
         y = new double[n];
         for (int i = 0; i < n; i++) {
@@ -69,12 +69,12 @@ public final class NevilleInterpolatorTest {
         double derivativebound = 1.0;
         UnivariateFunction p = interpolator.interpolate(x, y);
 
-        z = AccurateMath.PI / 4; expected = f.value(z); result = p.value(z);
-        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
+        z = JdkMath.PI / 4; expected = f.value(z); result = p.value(z);
+        tolerance = JdkMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
 
-        z = AccurateMath.PI * 1.5; expected = f.value(z); result = p.value(z);
-        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
+        z = JdkMath.PI * 1.5; expected = f.value(z); result = p.value(z);
+        tolerance = JdkMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
     }
 
@@ -104,19 +104,19 @@ public final class NevilleInterpolatorTest {
             x[i] = min + i * (max - min) / n;
             y[i] = f.value(x[i]);
         }
-        double derivativebound = AccurateMath.E;
+        double derivativebound = JdkMath.E;
         UnivariateFunction p = interpolator.interpolate(x, y);
 
         z = 0.0; expected = f.value(z); result = p.value(z);
-        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
+        tolerance = JdkMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
 
         z = 0.5; expected = f.value(z); result = p.value(z);
-        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
+        tolerance = JdkMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
 
         z = -0.5; expected = f.value(z); result = p.value(z);
-        tolerance = AccurateMath.abs(derivativebound * partialerror(x, z));
+        tolerance = JdkMath.abs(derivativebound * partialerror(x, z));
         Assert.assertEquals(expected, result, tolerance);
     }
 

@@ -35,7 +35,7 @@ import org.apache.commons.math4.legacy.ode.TestProblemAbstract;
 import org.apache.commons.math4.legacy.ode.TestProblemHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -85,7 +85,7 @@ public class AdamsMoultonIntegratorTest {
             TestProblem1 pb = new TestProblem1();
             double minStep = 0;
             double maxStep = pb.getFinalTime() - pb.getInitialTime();
-            double scalAbsoluteTolerance = AccurateMath.pow(10.0, i);
+            double scalAbsoluteTolerance = JdkMath.pow(10.0, i);
             double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
             FirstOrderIntegrator integ = new AdamsMoultonIntegrator(4, minStep, maxStep,
@@ -137,7 +137,7 @@ public class AdamsMoultonIntegratorTest {
             MaxCountExceededException, NoBracketingException {
 
         TestProblem5 pb = new TestProblem5();
-        double range = AccurateMath.abs(pb.getFinalTime() - pb.getInitialTime());
+        double range = JdkMath.abs(pb.getFinalTime() - pb.getInitialTime());
 
         FirstOrderIntegrator integ = new AdamsMoultonIntegrator(4, 0, range, 1.0e-12, 1.0e-12);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -156,7 +156,7 @@ public class AdamsMoultonIntegratorTest {
             throws DimensionMismatchException, NumberIsTooSmallException,
             MaxCountExceededException, NoBracketingException {
         TestProblem6 pb = new TestProblem6();
-        double range = AccurateMath.abs(pb.getFinalTime() - pb.getInitialTime());
+        double range = JdkMath.abs(pb.getFinalTime() - pb.getInitialTime());
 
         for (int nSteps = 2; nSteps < 8; ++nSteps) {
             AdamsMoultonIntegrator integ =

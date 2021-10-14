@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class represents an interpolator over the last step during an
@@ -38,7 +38,7 @@ class LutherStepInterpolator extends RungeKuttaStepInterpolator {
     private static final long serialVersionUID = 20140416L;
 
     /** Square root. */
-    private static final double Q = AccurateMath.sqrt(21);
+    private static final double Q = JdkMath.sqrt(21);
 
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the

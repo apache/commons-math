@@ -25,7 +25,7 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -46,7 +46,7 @@ public class UnivariatePeriodicInterpolatorTest {
         for (int i = 0; i < n; i++) {
             delta += rng.nextDouble() * period / n;
             xval[i] = offset + delta;
-            yval[i] = AccurateMath.sin(xval[i]);
+            yval[i] = JdkMath.sin(xval[i]);
         }
 
         final UnivariateInterpolator inter = new LinearInterpolator();
@@ -91,7 +91,7 @@ public class UnivariatePeriodicInterpolatorTest {
         for (int i = 0; i < n; i++) {
             delta += period / (2 * n) * rng.nextDouble();
             xval[i] = offset + delta;
-            yval[i] = AccurateMath.sin(xval[i]);
+            yval[i] = JdkMath.sin(xval[i]);
         }
 
         final UnivariateInterpolator interP
@@ -122,7 +122,7 @@ public class UnivariatePeriodicInterpolatorTest {
         for (int i = 0; i < n; i++) {
             delta += 10 * period / n * rng.nextDouble();
             xval[i] = offset + delta;
-            yval[i] = AccurateMath.sin(xval[i]);
+            yval[i] = JdkMath.sin(xval[i]);
         }
 
         final UnivariateInterpolator interP

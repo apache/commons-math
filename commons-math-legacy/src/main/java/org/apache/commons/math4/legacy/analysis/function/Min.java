@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Minimum function.
@@ -29,6 +29,6 @@ public class Min implements BivariateFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x, double y) {
-        return AccurateMath.min(x, y);
+        return JdkMath.min(x, y);
     }
 }

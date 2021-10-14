@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.fitting.leastsquares.GaussNewtonOptimizer.Decomposition;
 import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math4.legacy.optim.SimpleVectorValueChecker;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -141,7 +141,7 @@ public class GaussNewtonOptimizerWithSVDTest
 
         Plane span = Planes.fromPoints(Vector3D.ZERO, Vector3D.of(1, 2, -3), Vector3D.of(2, 1, 0),
                                        Precision.doubleEquivalenceOfEpsilon(TOL));
-        double expected = AccurateMath.abs(span.offset(Vector3D.of(1, 1, 1)));
+        double expected = JdkMath.abs(span.offset(Vector3D.of(1, 1, 1)));
         double actual = optimum.getResiduals().getNorm();
 
         //verify

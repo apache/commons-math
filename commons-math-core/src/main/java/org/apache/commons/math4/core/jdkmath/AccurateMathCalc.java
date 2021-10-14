@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy.core.jdkmath;
+package org.apache.commons.math4.core.jdkmath;
 
 import java.io.PrintStream;
 
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 
 /** Class used to compute the classical functions tables.
  * @since 3.0
@@ -647,12 +646,11 @@ final class AccurateMathCalc {
      * Check two lengths are equal.
      * @param expectedLen expected length
      * @param actual actual length
-     * @exception DimensionMismatchException if the two lengths are not equal
+     * @throws IllegalStateException if the two lengths are not equal
      */
-    private static void checkLen(int expectedLen, int actual)
-        throws DimensionMismatchException {
+    private static void checkLen(int expectedLen, int actual) {
         if (expectedLen != actual) {
-            throw new DimensionMismatchException(actual, expectedLen);
+            throw new IllegalStateException(actual + " != " + expectedLen);
         }
     }
 }

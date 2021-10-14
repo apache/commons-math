@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.legacy.core.jdkmath;
+package org.apache.commons.math4.core.jdkmath;
 
 /**
  * Utility class for loading tabulated data used by {@link AccurateMath}.

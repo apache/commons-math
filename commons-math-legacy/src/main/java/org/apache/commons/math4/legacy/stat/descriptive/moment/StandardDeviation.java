@@ -21,7 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Computes the sample standard deviation.  The standard deviation
@@ -125,7 +125,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double getResult() {
-        return AccurateMath.sqrt(variance.getResult());
+        return JdkMath.sqrt(variance.getResult());
     }
 
     /**
@@ -152,7 +152,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double evaluate(final double[] values) throws MathIllegalArgumentException  {
-        return AccurateMath.sqrt(variance.evaluate(values));
+        return JdkMath.sqrt(variance.evaluate(values));
     }
 
     /**
@@ -176,7 +176,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     @Override
     public double evaluate(final double[] values, final int begin, final int length)
         throws MathIllegalArgumentException  {
-        return AccurateMath.sqrt(variance.evaluate(values, begin, length));
+        return JdkMath.sqrt(variance.evaluate(values, begin, length));
     }
 
     /**
@@ -205,7 +205,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     public double evaluate(final double[] values, final double mean,
                            final int begin, final int length) throws MathIllegalArgumentException  {
-        return AccurateMath.sqrt(variance.evaluate(values, mean, begin, length));
+        return JdkMath.sqrt(variance.evaluate(values, mean, begin, length));
     }
 
     /**
@@ -231,7 +231,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     public double evaluate(final double[] values, final double mean)
         throws MathIllegalArgumentException  {
-        return AccurateMath.sqrt(variance.evaluate(values, mean));
+        return JdkMath.sqrt(variance.evaluate(values, mean));
     }
 
     /**

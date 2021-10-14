@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -224,13 +224,13 @@ public class InterpolatingMicrosphere {
             final double[] diff = MathArrays.ebeSubtract(samplePoints[i], point);
             final double diffNorm = Norm.L2.of(diff);
 
-            if (AccurateMath.abs(diffNorm) < noInterpolationTolerance) {
+            if (JdkMath.abs(diffNorm) < noInterpolationTolerance) {
                 // No need to interpolate, as the interpolation point is
                 // actually (very close to) one of the sampled points.
                 return sampleValues[i];
             }
 
-            final double weight = AccurateMath.pow(diffNorm, -exponent);
+            final double weight = JdkMath.pow(diffNorm, -exponent);
             illuminate(diff, sampleValues[i], weight);
         }
 

@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.ode.FirstOrderIntegrator;
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,15 +37,15 @@ public class EventFilterTest {
 
         // start point: g > 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
-                    0.5 * AccurateMath.PI, 30.5 * AccurateMath.PI, AccurateMath.PI, -1);
+                    0.5 * JdkMath.PI, 30.5 * JdkMath.PI, JdkMath.PI, -1);
 
         // start point: g = 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
-                    0, 30.5 * AccurateMath.PI, AccurateMath.PI, -1);
+                    0, 30.5 * JdkMath.PI, JdkMath.PI, -1);
 
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
-                    1.5 * AccurateMath.PI, 30.5 * AccurateMath.PI, AccurateMath.PI, +1);
+                    1.5 * JdkMath.PI, 30.5 * JdkMath.PI, JdkMath.PI, +1);
 
     }
 
@@ -54,15 +54,15 @@ public class EventFilterTest {
 
         // start point: g > 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
-                    0.5 * AccurateMath.PI, -30.5 * AccurateMath.PI, AccurateMath.PI, -1);
+                    0.5 * JdkMath.PI, -30.5 * JdkMath.PI, JdkMath.PI, -1);
 
         // start point: g = 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
-                    0, -30.5 * AccurateMath.PI, AccurateMath.PI, +1);
+                    0, -30.5 * JdkMath.PI, JdkMath.PI, +1);
 
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
-                    1.5 * AccurateMath.PI, -30.5 * AccurateMath.PI, AccurateMath.PI, -1);
+                    1.5 * JdkMath.PI, -30.5 * JdkMath.PI, JdkMath.PI, -1);
 
     }
 
@@ -71,15 +71,15 @@ public class EventFilterTest {
 
         // start point: g > 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
-                    0.5 * AccurateMath.PI, 30.5 * AccurateMath.PI, 0, +1);
+                    0.5 * JdkMath.PI, 30.5 * JdkMath.PI, 0, +1);
 
         // start point: g = 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
-                    0, 30.5 * AccurateMath.PI, 0, +1);
+                    0, 30.5 * JdkMath.PI, 0, +1);
 
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
-                    1.5 * AccurateMath.PI, 30.5 * AccurateMath.PI, 0, +1);
+                    1.5 * JdkMath.PI, 30.5 * JdkMath.PI, 0, +1);
 
     }
 
@@ -88,15 +88,15 @@ public class EventFilterTest {
 
         // start point: g > 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
-                    0.5 * AccurateMath.PI, -30.5 * AccurateMath.PI, 0, -1);
+                    0.5 * JdkMath.PI, -30.5 * JdkMath.PI, 0, -1);
 
         // start point: g = 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
-                    0, -30.5 * AccurateMath.PI, 0, -1);
+                    0, -30.5 * JdkMath.PI, 0, -1);
 
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
-                    1.5 * AccurateMath.PI, -30.5 * AccurateMath.PI, 0, +1);
+                    1.5 * JdkMath.PI, -30.5 * JdkMath.PI, 0, +1);
 
     }
 
@@ -107,23 +107,23 @@ public class EventFilterTest {
         eventFilter.init(t0, new double[] {1.0,  0.0}, t1);
 
         // first pass to set up switches history for a long period
-        double h = AccurateMath.copySign(0.05, t1 - t0);
-        double n = (int) AccurateMath.floor((t1 - t0) / h);
+        double h = JdkMath.copySign(0.05, t1 - t0);
+        double n = (int) JdkMath.floor((t1 - t0) / h);
         for (int i = 0; i < n; ++i) {
             double t = t0 + i * h;
-            eventFilter.g(t, new double[] { AccurateMath.sin(t), AccurateMath.cos(t) });
+            eventFilter.g(t, new double[] { JdkMath.sin(t), JdkMath.cos(t) });
         }
 
         // verify old events are preserved, even if randomly accessed
         UniformRandomProvider rng = RandomSource.TWO_CMRES.create(0xb0e7401265af8cd3L);
         for (int i = 0; i < 5000; i++) {
             double t = t0 + (t1 - t0) * rng.nextDouble();
-            double g = eventFilter.g(t, new double[] { AccurateMath.sin(t), AccurateMath.cos(t) });
-            int turn = (int) AccurateMath.floor((t - refSwitch) / (2 * AccurateMath.PI));
+            double g = eventFilter.g(t, new double[] { JdkMath.sin(t), JdkMath.cos(t) });
+            int turn = (int) JdkMath.floor((t - refSwitch) / (2 * JdkMath.PI));
             if (turn % 2 == 0) {
-                Assert.assertEquals( signEven * AccurateMath.sin(t), g, 1.0e-10);
+                Assert.assertEquals( signEven * JdkMath.sin(t), g, 1.0e-10);
             } else {
-                Assert.assertEquals(-signEven * AccurateMath.sin(t), g, 1.0e-10);
+                Assert.assertEquals(-signEven * JdkMath.sin(t), g, 1.0e-10);
             }
         }
 
@@ -144,8 +144,8 @@ public class EventFilterTest {
                                                    FilterType.TRIGGER_ONLY_INCREASING_EVENTS),
                                    0.1, e, 100,
                                    new BracketingNthOrderBrentSolver(1.0e-7, 5));
-        double t0 = 0.5 * AccurateMath.PI;
-        double tEnd = 5.5 * AccurateMath.PI;
+        double t0 = 0.5 * JdkMath.PI;
+        double tEnd = 5.5 * JdkMath.PI;
         double[] y = { 0.0, 1.0 };
         Assert.assertEquals(tEnd,
                             integrator.integrate(new SineCosine(), t0, y, tEnd, y),
@@ -171,8 +171,8 @@ public class EventFilterTest {
                                                    FilterType.TRIGGER_ONLY_DECREASING_EVENTS),
                                    0.1, e, 1000,
                                    new BracketingNthOrderBrentSolver(1.0e-7, 5));
-        double t0 = 0.5 * AccurateMath.PI;
-        double tEnd = 5.5 * AccurateMath.PI;
+        double t0 = 0.5 * JdkMath.PI;
+        double tEnd = 5.5 * JdkMath.PI;
         double[] y = { 0.0, 1.0 };
         Assert.assertEquals(tEnd,
                             integrator.integrate(new SineCosine(), t0, y, tEnd, y),
@@ -203,8 +203,8 @@ public class EventFilterTest {
                                                    FilterType.TRIGGER_ONLY_DECREASING_EVENTS),
                                    0.1, e, 1000,
                                    new BracketingNthOrderBrentSolver(1.0e-7, 5));
-        double t0 = 0.5 * AccurateMath.PI;
-        double tEnd = 5.5 * AccurateMath.PI;
+        double t0 = 0.5 * JdkMath.PI;
+        double tEnd = 5.5 * JdkMath.PI;
         double[] y = { 0.0, 1.0 };
         Assert.assertEquals(tEnd,
                             integrator.integrate(new SineCosine(), t0, y, tEnd, y),

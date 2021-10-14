@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.ode;
 
 import org.apache.commons.math4.legacy.ode.events.EventHandler;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class is used in the junit tests for the ODE integrators.
@@ -48,7 +48,7 @@ public class TestProblem4
   public TestProblem4() {
     super();
     a = 1.2;
-    double[] y0 = { AccurateMath.sin(a), AccurateMath.cos(a) };
+    double[] y0 = { JdkMath.sin(a), JdkMath.cos(a) };
     setInitialConditions(0.0, y0);
     setFinalConditions(15);
     double[] errorScale = { 1.0, 0.0 };
@@ -68,10 +68,10 @@ public class TestProblem4
   @Override
   public double[] getTheoreticalEventsTimes() {
       return new double[] {
-          1 * AccurateMath.PI - a,
-          2 * AccurateMath.PI - a,
-          3 * AccurateMath.PI - a,
-          4 * AccurateMath.PI - a,
+          1 * JdkMath.PI - a,
+          2 * JdkMath.PI - a,
+          3 * JdkMath.PI - a,
+          4 * JdkMath.PI - a,
           12.0
       };
   }
@@ -84,9 +84,9 @@ public class TestProblem4
 
   @Override
   public double[] computeTheoreticalState(double t) {
-    double sin = AccurateMath.sin(t + a);
-    double cos = AccurateMath.cos(t + a);
-    y[0] = AccurateMath.abs(sin);
+    double sin = JdkMath.sin(t + a);
+    double cos = JdkMath.cos(t + a);
+    y[0] = JdkMath.abs(sin);
     y[1] = (sin >= 0) ? cos : -cos;
     return y;
   }

@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Test cases for the {@link Array2DRowRealMatrix} class.
@@ -163,8 +163,8 @@ public final class Array2DRowRealMatrixTest {
     public void testFrobeniusNorm() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         Array2DRowRealMatrix m2 = new Array2DRowRealMatrix(testData2);
-        Assert.assertEquals("testData Frobenius norm", AccurateMath.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
-        Assert.assertEquals("testData2 Frobenius norm", AccurateMath.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
+        Assert.assertEquals("testData Frobenius norm", JdkMath.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
+        Assert.assertEquals("testData2 Frobenius norm", JdkMath.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
 
      /** test m-n = m + -n */

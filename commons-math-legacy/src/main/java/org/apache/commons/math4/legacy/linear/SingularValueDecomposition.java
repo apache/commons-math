@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -107,16 +107,16 @@ public class SingularValueDecomposition {
         final double[] work = new double[m];
         // Reduce A to bidiagonal form, storing the diagonal elements
         // in s and the super-diagonal elements in e.
-        final int nct = AccurateMath.min(m - 1, n);
-        final int nrt = AccurateMath.max(0, n - 2);
-        for (int k = 0; k < AccurateMath.max(nct, nrt); k++) {
+        final int nct = JdkMath.min(m - 1, n);
+        final int nrt = JdkMath.max(0, n - 2);
+        for (int k = 0; k < JdkMath.max(nct, nrt); k++) {
             if (k < nct) {
                 // Compute the transformation for the k-th column and
                 // place the k-th diagonal in s[k].
                 // Compute 2-norm of k-th column without under/overflow.
                 singularValues[k] = 0;
                 for (int i = k; i < m; i++) {
-                    singularValues[k] = AccurateMath.hypot(singularValues[k], A[i][k]);
+                    singularValues[k] = JdkMath.hypot(singularValues[k], A[i][k]);
                 }
                 if (singularValues[k] != 0) {
                     if (A[k][k] < 0) {
@@ -159,7 +159,7 @@ public class SingularValueDecomposition {
                 // Compute 2-norm without under/overflow.
                 e[k] = 0;
                 for (int i = k + 1; i < n; i++) {
-                    e[k] = AccurateMath.hypot(e[k], e[i]);
+                    e[k] = JdkMath.hypot(e[k], e[i]);
                 }
                 if (e[k] != 0) {
                     if (e[k + 1] < 0) {
@@ -281,16 +281,16 @@ public class SingularValueDecomposition {
             // kase = 4     if e(p-1) is negligible (convergence).
             for (k = p - 2; k >= 0; k--) {
                 final double threshold
-                    = TINY + EPS * (AccurateMath.abs(singularValues[k]) +
-                                    AccurateMath.abs(singularValues[k + 1]));
+                    = TINY + EPS * (JdkMath.abs(singularValues[k]) +
+                                    JdkMath.abs(singularValues[k + 1]));
 
                 // the following condition is written this way in order
                 // to break out of the loop when NaN occurs, writing it
-                // as "if (AccurateMath.abs(e[k]) <= threshold)" would loop
+                // as "if (JdkMath.abs(e[k]) <= threshold)" would loop
                 // indefinitely in case of NaNs because comparison on NaNs
                 // always return false, regardless of what is checked
                 // see issue MATH-947
-                if (!(AccurateMath.abs(e[k]) > threshold)) {
+                if (!(JdkMath.abs(e[k]) > threshold)) {
                     e[k] = 0;
                     break;
                 }
@@ -305,9 +305,9 @@ public class SingularValueDecomposition {
                     if (ks == k) {
                         break;
                     }
-                    final double t = (ks != p ? AccurateMath.abs(e[ks]) : 0) +
-                        (ks != k + 1 ? AccurateMath.abs(e[ks - 1]) : 0);
-                    if (AccurateMath.abs(singularValues[ks]) <= TINY + EPS * t) {
+                    final double t = (ks != p ? JdkMath.abs(e[ks]) : 0) +
+                        (ks != k + 1 ? JdkMath.abs(e[ks - 1]) : 0);
+                    if (JdkMath.abs(singularValues[ks]) <= TINY + EPS * t) {
                         singularValues[ks] = 0;
                         break;
                     }
@@ -330,7 +330,7 @@ public class SingularValueDecomposition {
                     f = e[p - 2];
                     e[p - 2] = 0;
                     for (int j = p - 2; j >= k; j--) {
-                        double t = AccurateMath.hypot(singularValues[j], f);
+                        double t = JdkMath.hypot(singularValues[j], f);
                         final double cs = singularValues[j] / t;
                         final double sn = f / t;
                         singularValues[j] = t;
@@ -351,7 +351,7 @@ public class SingularValueDecomposition {
                     f = e[k - 1];
                     e[k - 1] = 0;
                     for (int j = k; j < p; j++) {
-                        double t = AccurateMath.hypot(singularValues[j], f);
+                        double t = JdkMath.hypot(singularValues[j], f);
                         final double cs = singularValues[j] / t;
                         final double sn = f / t;
                         singularValues[j] = t;
@@ -368,12 +368,12 @@ public class SingularValueDecomposition {
                 // Perform one qr step.
                 case 3:
                     // Calculate the shift.
-                    final double maxPm1Pm2 = AccurateMath.max(AccurateMath.abs(singularValues[p - 1]),
-                                                          AccurateMath.abs(singularValues[p - 2]));
-                    final double scale = AccurateMath.max(AccurateMath.max(AccurateMath.max(maxPm1Pm2,
-                                                                                AccurateMath.abs(e[p - 2])),
-                                                                   AccurateMath.abs(singularValues[k])),
-                                                      AccurateMath.abs(e[k]));
+                    final double maxPm1Pm2 = JdkMath.max(JdkMath.abs(singularValues[p - 1]),
+                                                          JdkMath.abs(singularValues[p - 2]));
+                    final double scale = JdkMath.max(JdkMath.max(JdkMath.max(maxPm1Pm2,
+                                                                                JdkMath.abs(e[p - 2])),
+                                                                   JdkMath.abs(singularValues[k])),
+                                                      JdkMath.abs(e[k]));
                     final double sp = singularValues[p - 1] / scale;
                     final double spm1 = singularValues[p - 2] / scale;
                     final double epm1 = e[p - 2] / scale;
@@ -384,7 +384,7 @@ public class SingularValueDecomposition {
                     double shift = 0;
                     if (b != 0 ||
                         c != 0) {
-                        shift = AccurateMath.sqrt(b * b + c);
+                        shift = JdkMath.sqrt(b * b + c);
                         if (b < 0) {
                             shift = -shift;
                         }
@@ -394,7 +394,7 @@ public class SingularValueDecomposition {
                     double g = sk * ek;
                     // Chase zeros.
                     for (int j = k; j < p - 1; j++) {
-                        double t = AccurateMath.hypot(f, g);
+                        double t = JdkMath.hypot(f, g);
                         double cs = f / t;
                         double sn = g / t;
                         if (j != k) {
@@ -410,7 +410,7 @@ public class SingularValueDecomposition {
                             V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
                             V[i][j] = t;
                         }
-                        t = AccurateMath.hypot(f, g);
+                        t = JdkMath.hypot(f, g);
                         cs = f / t;
                         sn = g / t;
                         singularValues[j] = t;
@@ -468,8 +468,8 @@ public class SingularValueDecomposition {
         }
 
         // Set the small value tolerance used to calculate rank and pseudo-inverse
-        tol = AccurateMath.max(m * singularValues[0] * EPS,
-                           AccurateMath.sqrt(Precision.SAFE_MIN));
+        tol = JdkMath.max(m * singularValues[0] * EPS,
+                           JdkMath.sqrt(Precision.SAFE_MIN));
 
         if (!transposed) {
             cachedU = MatrixUtils.createRealMatrix(U);

@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class implements the <a href="http://mathworld.wolfram.com/MullersMethod.html">
@@ -99,12 +99,12 @@ public class MullerSolver2 extends AbstractUnivariateSolver {
 
         double x0 = min;
         double y0 = computeObjectiveValue(x0);
-        if (AccurateMath.abs(y0) < functionValueAccuracy) {
+        if (JdkMath.abs(y0) < functionValueAccuracy) {
             return x0;
         }
         double x1 = max;
         double y1 = computeObjectiveValue(x1);
-        if (AccurateMath.abs(y1) < functionValueAccuracy) {
+        if (JdkMath.abs(y1) < functionValueAccuracy) {
             return x1;
         }
 
@@ -127,12 +127,12 @@ public class MullerSolver2 extends AbstractUnivariateSolver {
             final double denominator;
             if (delta >= 0.0) {
                 // choose a denominator larger in magnitude
-                double dplus = b + AccurateMath.sqrt(delta);
-                double dminus = b - AccurateMath.sqrt(delta);
-                denominator = AccurateMath.abs(dplus) > AccurateMath.abs(dminus) ? dplus : dminus;
+                double dplus = b + JdkMath.sqrt(delta);
+                double dminus = b - JdkMath.sqrt(delta);
+                denominator = JdkMath.abs(dplus) > JdkMath.abs(dminus) ? dplus : dminus;
             } else {
-                // take the modulus of (B +/- AccurateMath.sqrt(delta))
-                denominator = AccurateMath.sqrt(b * b - delta);
+                // take the modulus of (B +/- JdkMath.sqrt(delta))
+                denominator = JdkMath.sqrt(b * b - delta);
             }
             if (denominator != 0) {
                 x = x2 - 2.0 * c * (x2 - x1) / denominator;
@@ -143,15 +143,15 @@ public class MullerSolver2 extends AbstractUnivariateSolver {
                 }
             } else {
                 // extremely rare case, get a random number to skip it
-                x = min + AccurateMath.random() * (max - min);
+                x = min + JdkMath.random() * (max - min);
                 oldx = Double.POSITIVE_INFINITY;
             }
             final double y = computeObjectiveValue(x);
 
             // check for convergence
-            final double tolerance = AccurateMath.max(relativeAccuracy * AccurateMath.abs(x), absoluteAccuracy);
-            if (AccurateMath.abs(x - oldx) <= tolerance ||
-                AccurateMath.abs(y) <= functionValueAccuracy) {
+            final double tolerance = JdkMath.max(relativeAccuracy * JdkMath.abs(x), absoluteAccuracy);
+            if (JdkMath.abs(x - oldx) <= tolerance ||
+                JdkMath.abs(y) <= functionValueAccuracy) {
                 return x;
             }
 

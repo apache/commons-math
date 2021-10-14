@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Fits points to a {@link
@@ -173,7 +173,7 @@ public final class GaussianCurveFitter extends SimpleCurveFitter {
                 // TODO: Exceptions should not be used for flow control.
                 fwhmApprox = points[points.length - 1].getX() - points[0].getX();
             }
-            final double s = fwhmApprox / (2 * AccurateMath.sqrt(2 * AccurateMath.log(2)));
+            final double s = fwhmApprox / (2 * JdkMath.sqrt(2 * JdkMath.log(2)));
 
             return new double[] { n, points[maxYIdx].getX(), s };
         }

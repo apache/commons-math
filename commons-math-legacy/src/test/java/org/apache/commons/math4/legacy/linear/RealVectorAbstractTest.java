@@ -53,7 +53,7 @@ import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationExcepti
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -612,7 +612,7 @@ public abstract class RealVectorAbstractTest {
             final double delta = data2[i] - data1[i];
             expected += delta * delta;
         }
-        expected = AccurateMath.sqrt(expected);
+        expected = JdkMath.sqrt(expected);
         Assert.assertEquals("", expected, actual, 0d);
     }
 
@@ -641,7 +641,7 @@ public abstract class RealVectorAbstractTest {
         for (int i = 0; i < data.length; i++) {
             expected += data[i] * data[i];
         }
-        expected = AccurateMath.sqrt(expected);
+        expected = JdkMath.sqrt(expected);
         Assert.assertEquals("", expected, actual, 0d);
     }
 
@@ -660,7 +660,7 @@ public abstract class RealVectorAbstractTest {
         double expected = 0d;
         for (int i = 0; i < data1.length; i++) {
             final double delta = data2[i] - data1[i];
-            expected += AccurateMath.abs(delta);
+            expected += JdkMath.abs(delta);
         }
         Assert.assertEquals("", expected, actual, 0d);
     }
@@ -688,7 +688,7 @@ public abstract class RealVectorAbstractTest {
         final double actual = v.getL1Norm();
         double expected = 0d;
         for (int i = 0; i < data.length; i++) {
-            expected += AccurateMath.abs(data[i]);
+            expected += JdkMath.abs(data[i]);
         }
         Assert.assertEquals("", expected, actual, 0d);
 
@@ -709,7 +709,7 @@ public abstract class RealVectorAbstractTest {
         double expected = 0d;
         for (int i = 0; i < data1.length; i++) {
             final double delta = data2[i] - data1[i];
-            expected = AccurateMath.max(expected, AccurateMath.abs(delta));
+            expected = JdkMath.max(expected, JdkMath.abs(delta));
         }
         Assert.assertEquals("", expected, actual, 0d);
     }
@@ -737,7 +737,7 @@ public abstract class RealVectorAbstractTest {
         final double actual = v.getLInfNorm();
         double expected = 0d;
         for (int i = 0; i < data.length; i++) {
-            expected = AccurateMath.max(expected, AccurateMath.abs(data[i]));
+            expected = JdkMath.max(expected, JdkMath.abs(data[i]));
         }
         Assert.assertEquals("", expected, actual, 0d);
 
@@ -850,10 +850,10 @@ public abstract class RealVectorAbstractTest {
         final boolean inPlace) {
         final double[] data = new double[values.length + 6];
         System.arraycopy(values, 0, data, 0, values.length);
-        data[values.length + 0] = 0.5 * AccurateMath.PI;
-        data[values.length + 1] = -0.5 * AccurateMath.PI;
-        data[values.length + 2] = AccurateMath.E;
-        data[values.length + 3] = -AccurateMath.E;
+        data[values.length + 0] = 0.5 * JdkMath.PI;
+        data[values.length + 1] = -0.5 * JdkMath.PI;
+        data[values.length + 2] = JdkMath.E;
+        data[values.length + 3] = -JdkMath.E;
         data[values.length + 4] = 1.0;
         data[values.length + 5] = -1.0;
         final double[] expected = new double[data.length];
@@ -1018,7 +1018,7 @@ public abstract class RealVectorAbstractTest {
         for (int i = 0; i < data.length; i++) {
             norm += data[i] * data[i];
         }
-        norm = AccurateMath.sqrt(norm);
+        norm = JdkMath.sqrt(norm);
         final double[] expected = new double[data.length];
         for (int i = 0; i < expected.length; i++) {
             expected[i] = data[i] / norm;
@@ -1287,8 +1287,8 @@ public abstract class RealVectorAbstractTest {
             norm2 += data2[i] * data2[i];
             dotProduct += data1[i] * data2[i];
         }
-        norm1 = AccurateMath.sqrt(norm1);
-        norm2 = AccurateMath.sqrt(norm2);
+        norm1 = JdkMath.sqrt(norm1);
+        norm2 = JdkMath.sqrt(norm2);
         final double expected = dotProduct / (norm1 * norm2);
         final RealVector v1 = create(data1);
         final RealVector v2;

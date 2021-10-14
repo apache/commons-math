@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Calculates the rectangular Cholesky decomposition of a matrix.
@@ -138,7 +138,7 @@ public class RectangularCholeskyDecomposition {
             } else {
 
                 // transform the matrix
-                final double sqrt = AccurateMath.sqrt(c[ir][ir]);
+                final double sqrt = JdkMath.sqrt(c[ir][ir]);
                 b[r][r] = sqrt;
                 final double inverse  = 1 / sqrt;
                 final double inverse2 = 1 / c[ir][ir];

@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/RiddersMethod.html">
@@ -95,28 +95,28 @@ public class RiddersSolver extends AbstractUnivariateSolver {
             // calculate the new root approximation
             final double x3 = 0.5 * (x1 + x2);
             final double y3 = computeObjectiveValue(x3);
-            if (AccurateMath.abs(y3) <= functionValueAccuracy) {
+            if (JdkMath.abs(y3) <= functionValueAccuracy) {
                 return x3;
             }
             final double delta = 1 - (y1 * y2) / (y3 * y3);  // delta > 1 due to bracketing
-            final double correction = (AccurateMath.signum(y2) * AccurateMath.signum(y3)) *
-                                      (x3 - x1) / AccurateMath.sqrt(delta);
+            final double correction = (JdkMath.signum(y2) * JdkMath.signum(y3)) *
+                                      (x3 - x1) / JdkMath.sqrt(delta);
             final double x = x3 - correction;                // correction != 0
             final double y = computeObjectiveValue(x);
 
             // check for convergence
-            final double tolerance = AccurateMath.max(relativeAccuracy * AccurateMath.abs(x), absoluteAccuracy);
-            if (AccurateMath.abs(x - oldx) <= tolerance) {
+            final double tolerance = JdkMath.max(relativeAccuracy * JdkMath.abs(x), absoluteAccuracy);
+            if (JdkMath.abs(x - oldx) <= tolerance) {
                 return x;
             }
-            if (AccurateMath.abs(y) <= functionValueAccuracy) {
+            if (JdkMath.abs(y) <= functionValueAccuracy) {
                 return x;
             }
 
             // prepare the new interval for next iteration
             // Ridders' method guarantees x1 < x < x2
             if (correction > 0.0) {             // x1 < x < x3
-                if (AccurateMath.signum(y1) + AccurateMath.signum(y) == 0.0) {
+                if (JdkMath.signum(y1) + JdkMath.signum(y) == 0.0) {
                     x2 = x;
                     y2 = y;
                 } else {
@@ -126,7 +126,7 @@ public class RiddersSolver extends AbstractUnivariateSolver {
                     y2 = y3;
                 }
             } else {                            // x3 < x < x2
-                if (AccurateMath.signum(y2) + AccurateMath.signum(y) == 0.0) {
+                if (JdkMath.signum(y2) + JdkMath.signum(y) == 0.0) {
                     x1 = x;
                     y1 = y;
                 } else {

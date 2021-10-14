@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
 import org.apache.commons.math4.legacy.TestUtils;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -56,10 +56,10 @@ public class JacobianFunctionTest {
 
         @Override
         public double[] value(double[] point) {
-            final double cLat = AccurateMath.cos(point[0]);
-            final double sLat = AccurateMath.sin(point[0]);
-            final double cLon = AccurateMath.cos(point[1]);
-            final double sLon = AccurateMath.sin(point[1]);
+            final double cLat = JdkMath.cos(point[0]);
+            final double sLat = JdkMath.sin(point[0]);
+            final double cLon = JdkMath.cos(point[1]);
+            final double sLon = JdkMath.sin(point[1]);
             return new double[] {
                 radius * cLon * cLat,
                 radius * sLon * cLat,
@@ -81,10 +81,10 @@ public class JacobianFunctionTest {
         }
 
         public double[][] jacobian(double[] point) {
-            final double cLat = AccurateMath.cos(point[0]);
-            final double sLat = AccurateMath.sin(point[0]);
-            final double cLon = AccurateMath.cos(point[1]);
-            final double sLon = AccurateMath.sin(point[1]);
+            final double cLat = JdkMath.cos(point[0]);
+            final double sLat = JdkMath.sin(point[0]);
+            final double cLon = JdkMath.cos(point[1]);
+            final double sLon = JdkMath.sin(point[1]);
             return new double[][] {
                 { -radius * cLon * sLat, -radius * sLon * cLat },
                 { -radius * sLon * sLat,  radius * cLon * cLat },

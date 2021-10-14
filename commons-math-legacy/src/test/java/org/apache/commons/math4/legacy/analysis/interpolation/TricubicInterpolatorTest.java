@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.interpolation;
 import org.apache.commons.math4.legacy.analysis.TrivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -190,7 +190,7 @@ public final class TricubicInterpolatorTest {
         TrivariateFunction f = new TrivariateFunction() {
                 @Override
                 public double value(double x, double y, double z) {
-                    return a * AccurateMath.cos(omega * z - kx * x - ky * y);
+                    return a * JdkMath.cos(omega * z - kx * x - ky * y);
                 }
             };
 

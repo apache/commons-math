@@ -36,7 +36,7 @@ import org.apache.commons.math4.legacy.ode.TestFieldProblemAbstract;
 import org.apache.commons.math4.legacy.ode.TestFieldProblemHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -81,7 +81,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
             TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
             double minStep = 0;
             double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
-            double scalAbsoluteTolerance = AccurateMath.pow(10.0, i);
+            double scalAbsoluteTolerance = JdkMath.pow(10.0, i);
             double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
             FirstOrderFieldIntegrator<T> integ = createIntegrator(field, 4, minStep, maxStep,

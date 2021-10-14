@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.StatUtils;
 import org.apache.commons.math4.legacy.stat.descriptive.StatisticalSummary;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * An implementation for Student's t-tests.
@@ -999,7 +999,7 @@ public class TTest {
      */
     protected double t(final double m, final double mu,
                        final double v, final double n) {
-        return (m - mu) / AccurateMath.sqrt(v / n);
+        return (m - mu) / JdkMath.sqrt(v / n);
     }
 
     /**
@@ -1018,7 +1018,7 @@ public class TTest {
     protected double t(final double m1, final double m2,
                        final double v1, final double v2,
                        final double n1, final double n2)  {
-        return (m1 - m2) / AccurateMath.sqrt((v1 / n1) + (v2 / n2));
+        return (m1 - m2) / JdkMath.sqrt((v1 / n1) + (v2 / n2));
     }
 
     /**
@@ -1037,7 +1037,7 @@ public class TTest {
                                     final double v1, final double v2,
                                     final double n1, final double n2)  {
         final double pooledVariance = ((n1  - 1) * v1 + (n2 -1) * v2 ) / (n1 + n2 - 2);
-        return (m1 - m2) / AccurateMath.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+        return (m1 - m2) / JdkMath.sqrt(pooledVariance * (1d / n1 + 1d / n2));
     }
 
     /**
@@ -1055,7 +1055,7 @@ public class TTest {
                            final double v, final double n)
         throws MaxCountExceededException, MathIllegalArgumentException {
 
-        final double t = AccurateMath.abs(t(m, mu, v, n));
+        final double t = JdkMath.abs(t(m, mu, v, n));
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = TDistribution.of(n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
@@ -1084,7 +1084,7 @@ public class TTest {
                            final double n1, final double n2)
         throws MaxCountExceededException, NotStrictlyPositiveException {
 
-        final double t = AccurateMath.abs(t(m1, m2, v1, v2, n1, n2));
+        final double t = JdkMath.abs(t(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = df(v1, v2, n1, n2);
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = TDistribution.of(degreesOfFreedom);
@@ -1114,7 +1114,7 @@ public class TTest {
                                         double n1, double n2)
         throws MaxCountExceededException, NotStrictlyPositiveException {
 
-        final double t = AccurateMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
+        final double t = JdkMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = n1 + n2 - 2;
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = TDistribution.of(degreesOfFreedom);

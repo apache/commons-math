@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class is used in the junit tests for the ODE integrators.
@@ -52,7 +52,7 @@ public class TestProblem3
   public TestProblem3(double e) {
     super();
     this.e = e;
-    double[] y0 = { 1 - e, 0, 0, AccurateMath.sqrt((1+e)/(1-e)) };
+    double[] y0 = { 1 - e, 0, 0, JdkMath.sqrt((1+e)/(1-e)) };
     setInitialConditions(0.0, y0);
     setFinalConditions(20.0);
     double[] errorScale = { 1.0, 1.0, 1.0, 1.0 };
@@ -72,7 +72,7 @@ public class TestProblem3
 
     // current radius
     double r2 = y[0] * y[0] + y[1] * y[1];
-    double invR3 = 1 / (r2 * AccurateMath.sqrt(r2));
+    double invR3 = 1 / (r2 * JdkMath.sqrt(r2));
 
     // compute the derivatives
     yDot[0] = y[2];
@@ -89,23 +89,23 @@ public class TestProblem3
     double E = t;
     double d = 0;
     double corr = 999.0;
-    for (int i = 0; (i < 50) && (AccurateMath.abs(corr) > 1.0e-12); ++i) {
-      double f2  = e * AccurateMath.sin(E);
+    for (int i = 0; (i < 50) && (JdkMath.abs(corr) > 1.0e-12); ++i) {
+      double f2  = e * JdkMath.sin(E);
       double f0  = d - f2;
-      double f1  = 1 - e * AccurateMath.cos(E);
+      double f1  = 1 - e * JdkMath.cos(E);
       double f12 = f1 + f1;
       corr  = f0 * f12 / (f1 * f12 - f0 * f2);
       d -= corr;
       E = t + d;
     }
 
-    double cosE = AccurateMath.cos(E);
-    double sinE = AccurateMath.sin(E);
+    double cosE = JdkMath.cos(E);
+    double sinE = JdkMath.sin(E);
 
     y[0] = cosE - e;
-    y[1] = AccurateMath.sqrt(1 - e * e) * sinE;
+    y[1] = JdkMath.sqrt(1 - e * e) * sinE;
     y[2] = -sinE / (1 - e * cosE);
-    y[3] = AccurateMath.sqrt(1 - e * e) * cosE / (1 - e * cosE);
+    y[3] = JdkMath.sqrt(1 - e * e) * cosE / (1 - e * cosE);
 
     return y;
   }

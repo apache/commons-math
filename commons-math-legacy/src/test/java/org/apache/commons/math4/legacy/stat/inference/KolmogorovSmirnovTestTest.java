@@ -26,7 +26,7 @@ import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.exception.InsufficientDataException;
@@ -261,7 +261,7 @@ public class KolmogorovSmirnovTestTest {
                 n = k[i];
                 m = k[j];
                 for (int l = 0; l < alpha.length; l++) {
-                    final double dCrit = c[l] * AccurateMath.sqrt((n + m) / (n * m));
+                    final double dCrit = c[l] * JdkMath.sqrt((n + m) / (n * m));
                     checkApproximateTable(k[i], k[j], dCrit, alpha[l], tol);
                 }
             }

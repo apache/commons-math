@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.analysis.integration.gauss.GaussIntegrato
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This algorithm divides the integration interval into equally-sized
@@ -122,10 +122,10 @@ public class IterativeLegendreGaussIntegrator
             final double t = stage(n);
 
             // Estimate the error.
-            final double delta = AccurateMath.abs(t - oldt);
+            final double delta = JdkMath.abs(t - oldt);
             final double limit =
-                AccurateMath.max(getAbsoluteAccuracy(),
-                             getRelativeAccuracy() * (AccurateMath.abs(oldt) + AccurateMath.abs(t)) * 0.5);
+                JdkMath.max(getAbsoluteAccuracy(),
+                             getRelativeAccuracy() * (JdkMath.abs(oldt) + JdkMath.abs(t)) * 0.5);
 
             // check convergence
             if (iterations.getCount() + 1 >= getMinimalIterationCount() &&
@@ -134,8 +134,8 @@ public class IterativeLegendreGaussIntegrator
             }
 
             // Prepare next iteration.
-            final double ratio = AccurateMath.min(4, AccurateMath.pow(delta / limit, 0.5 / numberOfPoints));
-            n = AccurateMath.max((int) (ratio * n), n + 1);
+            final double ratio = JdkMath.min(4, JdkMath.pow(delta / limit, 0.5 / numberOfPoints));
+            n = JdkMath.max((int) (ratio * n), n + 1);
             oldt = t;
             iterations.increment();
         }

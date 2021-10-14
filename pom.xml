@@ -113,6 +113,7 @@
   <modules> <!-- Do not change the ordering of the 4 blocks below. -->
 
     <!-- 1. Modules that do not depend on "legacy" codes. -->
+    <module>commons-math-core</module>
     <module>commons-math-neuralnet</module>
     <module>commons-math-transform</module>
 
@@ -148,6 +149,12 @@
 
   <dependencyManagement>
     <dependencies>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math4-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>org.apache.commons</groupId>

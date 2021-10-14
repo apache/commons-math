@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class is the base class for multistep integrators for Ordinary
@@ -133,7 +133,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(AccurateMath.pow(2.0, -exp));
+        setMaxGrowth(JdkMath.pow(2.0, -exp));
 
     }
 
@@ -172,7 +172,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(AccurateMath.pow(2.0, -exp));
+        setMaxGrowth(JdkMath.pow(2.0, -exp));
 
     }
 
@@ -331,7 +331,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @return grow/shrink factor for next step
      */
     protected double computeStepGrowShrinkFactor(final double error) {
-        return AccurateMath.min(maxGrowth, AccurateMath.max(minReduction, safety * AccurateMath.pow(error, exp)));
+        return JdkMath.min(maxGrowth, JdkMath.max(minReduction, safety * JdkMath.pow(error, exp)));
     }
 
     /** Transformer used to convert the first step to Nordsieck representation.

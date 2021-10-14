@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.linear.NonSquareMatrixException;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
@@ -292,7 +292,7 @@ public abstract class AbstractMultipleLinearRegression implements
         int length = betaVariance[0].length;
         double[] result = new double[length];
         for (int i = 0; i < length; i++) {
-            result[i] = AccurateMath.sqrt(sigma * betaVariance[i][i]);
+            result[i] = JdkMath.sqrt(sigma * betaVariance[i][i]);
         }
         return result;
     }
@@ -323,7 +323,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @since 2.2
      */
     public double estimateRegressionStandardError() {
-        return AccurateMath.sqrt(estimateErrorVariance());
+        return JdkMath.sqrt(estimateErrorVariance());
     }
 
     /**

@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.ml.distance;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -41,7 +41,7 @@ public class EarthMoversDistance implements DistanceMeasure {
         double totalDistance = 0;
         for (int i = 0; i < a.length; i++) {
             final double currentDistance = (a[i] + lastDistance) - b[i];
-            totalDistance += AccurateMath.abs(currentDistance);
+            totalDistance += JdkMath.abs(currentDistance);
             lastDistance = currentDistance;
         }
         return totalDistance;

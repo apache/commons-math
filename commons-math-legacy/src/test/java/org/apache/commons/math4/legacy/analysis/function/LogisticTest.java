@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStruct
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -70,7 +70,7 @@ public class LogisticTest {
 
         double x;
         x = m;
-        Assert.assertEquals("x=" + x, a + (k - a) / AccurateMath.sqrt(1 + q), f.value(x), EPS);
+        Assert.assertEquals("x=" + x, a + (k - a) / JdkMath.sqrt(1 + q), f.value(x), EPS);
 
         x = Double.NEGATIVE_INFINITY;
         Assert.assertEquals("x=" + x, a, f.value(x), EPS);
@@ -161,7 +161,7 @@ public class LogisticTest {
         final double k = 3.4;
         final double a = 2.3;
         final double q = 0.567;
-        final double b = -AccurateMath.log(q);
+        final double b = -JdkMath.log(q);
         final double n = 3.4;
 
         final Logistic.Parametric f = new Logistic.Parametric();
@@ -171,7 +171,7 @@ public class LogisticTest {
 
         final double[] gf = f.gradient(x, new double[] {k, m, b, q, a, n});
 
-        Assert.assertEquals((k - a) * AccurateMath.log(qExp1) / (n * n * AccurateMath.pow(qExp1, 1 / n)),
+        Assert.assertEquals((k - a) * JdkMath.log(qExp1) / (n * n * JdkMath.pow(qExp1, 1 / n)),
                             gf[5], EPS);
     }
 
@@ -181,7 +181,7 @@ public class LogisticTest {
         final double k = 3.4;
         final double a = 2.3;
         final double b = 0.567;
-        final double q = 1 / AccurateMath.exp(b * m);
+        final double q = 1 / JdkMath.exp(b * m);
         final double n = 3.4;
 
         final Logistic.Parametric f = new Logistic.Parametric();
@@ -191,7 +191,7 @@ public class LogisticTest {
 
         final double[] gf = f.gradient(x, new double[] {k, m, b, q, a, n});
 
-        final double factor = (a - k) / (n * AccurateMath.pow(qExp1, 1 / n + 1));
+        final double factor = (a - k) / (n * JdkMath.pow(qExp1, 1 / n + 1));
         Assert.assertEquals(factor * b, gf[1], EPS);
         Assert.assertEquals(factor * m, gf[2], EPS);
         Assert.assertEquals(factor / q, gf[3], EPS);

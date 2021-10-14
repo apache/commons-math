@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.function.Inverse;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,15 +51,15 @@ public final class SimpsonIntegratorTest {
         double result;
         double tolerance;
 
-        min = 0; max = AccurateMath.PI; expected = 2;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        min = 0; max = JdkMath.PI; expected = 2;
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(1000, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 100);
         Assert.assertTrue(integrator.getIterations()  < 10);
         Assert.assertEquals(expected, result, tolerance);
 
-        min = -AccurateMath.PI/3; max = 0; expected = -0.5;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        min = -JdkMath.PI/3; max = 0; expected = -0.5;
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(1000, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 50);
         Assert.assertTrue(integrator.getIterations()  < 10);
@@ -80,21 +80,21 @@ public final class SimpsonIntegratorTest {
         double tolerance;
 
         min = 0; max = 1; expected = -1.0/48;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(1000, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 150);
         Assert.assertTrue(integrator.getIterations()  < 10);
         Assert.assertEquals(expected, result, tolerance);
 
         min = 0; max = 0.5; expected = 11.0/768;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(1000, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 100);
         Assert.assertTrue(integrator.getIterations()  < 10);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -1; max = 4; expected = 2048/3.0 - 78 + 1.0/48;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(1000, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < 150);
         Assert.assertTrue(integrator.getIterations()  < 10);
@@ -173,7 +173,7 @@ public final class SimpsonIntegratorTest {
         double tolerance;
 
         min = 0; max = 1; expected = 0.5;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(1000, f, min, max);
         // MATH-1458: No iterations were performed when minimalIterationCount==1
         Assert.assertTrue("Iteration is not above 0",
@@ -259,7 +259,7 @@ public final class SimpsonIntegratorTest {
         double f01 = f.value(a + 1 * h);
         double f0n = f.value(b);
         expected = (b_a / 6) * (f00 + 4 * f01 + f0n);
-        tolerance = AccurateMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
+        tolerance = JdkMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         result = computeSimpsonIteration(f, a, b, 0);
         Assert.assertEquals("Result", expected, result, tolerance);
 
@@ -268,7 +268,7 @@ public final class SimpsonIntegratorTest {
         double f11 = f.value(a + 1 * h);
         double f13 = f.value(a + 3 * h);
         expected = (h / 3) * (f00 + 4 * f11 + 2 * f01 + 4 * f13 + f0n);
-        tolerance = AccurateMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
+        tolerance = JdkMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         result = computeSimpsonIteration(f, a, b, 1);
         Assert.assertEquals("Result", expected, result, tolerance);
 
@@ -280,7 +280,7 @@ public final class SimpsonIntegratorTest {
         double f27 = f.value(a + 7 * h);
         expected = (h / 3) * (f00 + 4 * f21 + 2 * f11 + 4 * f23 + 2 * f01 + 4 * f25 +
                 2 * f13 + 4 * f27 + f0n);
-        tolerance = AccurateMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
+        tolerance = JdkMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         result = computeSimpsonIteration(f, a, b, 2);
         Assert.assertEquals("Result", expected, result, tolerance);
     }
@@ -314,7 +314,7 @@ public final class SimpsonIntegratorTest {
 
         // Check the sum is as expected
         expected = computeSimpsonIteration(f, min, max, 1);
-        tolerance = AccurateMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
+        tolerance = JdkMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         Assert.assertEquals("Result", expected, result, tolerance);
     }
 
@@ -344,7 +344,7 @@ public final class SimpsonIntegratorTest {
 
         // This is the expected sum.
         // Each iteration will monotonically converge to this.
-        expected = AccurateMath.log(max) - AccurateMath.log(min);
+        expected = JdkMath.log(max) - JdkMath.log(min);
 
         // Test convergence at the given iteration
         minIteration = 2;
@@ -368,7 +368,7 @@ public final class SimpsonIntegratorTest {
         }
 
         // Check the test function is correct.
-        tolerance = AccurateMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
+        tolerance = JdkMath.abs(expected * SimpsonIntegrator.DEFAULT_RELATIVE_ACCURACY);
         Assert.assertEquals("Expected result", expected, sums[maxIteration], tolerance);
 
         // Set-up to test convergence at a specific iteration.
@@ -398,9 +398,9 @@ public final class SimpsonIntegratorTest {
             // MATH-1458: minimalIterationCount>1 computes incorrect Simpson sum
             // for the iteration. Check it is the correct sum.
             // It should be closer to this one than the previous or next.
-            final double dp = AccurateMath.abs(sums[i-1] - result);
-            final double d  = AccurateMath.abs(sums[i]   - result);
-            final double dn = AccurateMath.abs(sums[i+1] - result);
+            final double dp = JdkMath.abs(sums[i-1] - result);
+            final double d  = JdkMath.abs(sums[i]   - result);
+            final double dn = JdkMath.abs(sums[i+1] - result);
 
             Assert.assertTrue("Result closer to sum expected from previous iteration: " + i, d < dp);
             Assert.assertTrue("Result closer to sum expected from next iteration: " + i, d < dn);

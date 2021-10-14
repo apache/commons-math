@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ode.FirstOrderIntegrator;
 import org.apache.commons.math4.legacy.ode.TestProblem3;
 import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -101,7 +101,7 @@ public class StepNormalizerTest {
   }
 
   public void checkValue(double value, double reference) {
-    Assert.assertTrue(AccurateMath.abs(value - reference) < 1.0e-10);
+    Assert.assertTrue(JdkMath.abs(value - reference) < 1.0e-10);
   }
 
   public void setLastSeen(boolean lastSeen) {

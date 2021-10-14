@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.integration;
 
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/RombergIntegration.html">
@@ -120,8 +120,8 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
             }
             final double s = currentRow[i];
             if (i >= getMinimalIterationCount()) {
-                final double delta  = AccurateMath.abs(s - olds);
-                final double rLimit = getRelativeAccuracy() * (AccurateMath.abs(olds) + AccurateMath.abs(s)) * 0.5;
+                final double delta  = JdkMath.abs(s - olds);
+                final double rLimit = getRelativeAccuracy() * (JdkMath.abs(olds) + JdkMath.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
                     return s;
                 }

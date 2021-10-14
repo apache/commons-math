@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.ode.nonstiff.DormandPrince853FieldIntegra
 import org.apache.commons.math4.legacy.ode.sampling.DummyFieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
 import org.apache.commons.math4.legacy.ode.nonstiff.Decimal64Field;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
@@ -123,7 +123,7 @@ public class ContinuousOutputFieldModelTest {
         FirstOrderFieldIntegrator<T> integ1 =
                         new DormandPrince853FieldIntegrator<>(field, 0, 1.0, 1.0e-8, 1.0e-8);
         integ1.addStepHandler(cm1);
-        T t0 = field.getZero().add(AccurateMath.PI);
+        T t0 = field.getZero().add(JdkMath.PI);
         T[] y0 = MathArrays.buildArray(field, 2);
         y0[0] = field.getOne().negate();
         y0[1] = field.getZero();
@@ -136,12 +136,12 @@ public class ContinuousOutputFieldModelTest {
         FirstOrderFieldIntegrator<T> integ2 =
                         new DormandPrince853FieldIntegrator<>(field, 0, 0.1, 1.0e-12, 1.0e-12);
         integ2.addStepHandler(cm2);
-        t0 = field.getZero().add(2.0 * AccurateMath.PI);
+        t0 = field.getZero().add(2.0 * JdkMath.PI);
         y0[0] = field.getOne();
         y0[1] = field.getZero();
         integ2.integrate(new FieldExpandableODE<>(problem),
                          new FieldODEState<>(t0, y0),
-                         field.getZero().add(AccurateMath.PI));
+                         field.getZero().add(JdkMath.PI));
 
         // merge the two half circles
         ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<>();
@@ -150,12 +150,12 @@ public class ContinuousOutputFieldModelTest {
         cm.append(cm1);
 
         // check circle
-        Assert.assertEquals(2.0 * AccurateMath.PI, cm.getInitialTime().getReal(), 1.0e-12);
+        Assert.assertEquals(2.0 * JdkMath.PI, cm.getInitialTime().getReal(), 1.0e-12);
         Assert.assertEquals(0, cm.getFinalTime().getReal(), 1.0e-12);
-        for (double t = 0; t < 2.0 * AccurateMath.PI; t += 0.1) {
+        for (double t = 0; t < 2.0 * JdkMath.PI; t += 0.1) {
             FieldODEStateAndDerivative<T> interpolated = cm.getInterpolatedState(field.getZero().add(t));
-            Assert.assertEquals(AccurateMath.cos(t), interpolated.getState()[0].getReal(), 1.0e-7);
-            Assert.assertEquals(AccurateMath.sin(t), interpolated.getState()[1].getReal(), 1.0e-7);
+            Assert.assertEquals(JdkMath.cos(t), interpolated.getState()[0].getReal(), 1.0e-7);
+            Assert.assertEquals(JdkMath.sin(t), interpolated.getState()[1].getReal(), 1.0e-7);
         }
 
     }
@@ -222,7 +222,7 @@ public class ContinuousOutputFieldModelTest {
     }
 
     public void checkValue(double value, double reference) {
-        Assert.assertTrue(AccurateMath.abs(value - reference) < 1.0e-10);
+        Assert.assertTrue(JdkMath.abs(value - reference) < 1.0e-10);
     }
 
 }

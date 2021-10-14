@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -169,7 +169,7 @@ public class RRQRDecomposition extends QRDecomposition {
         int rank        = 1;
         double lastNorm = r.getFrobeniusNorm();
         double rNorm    = lastNorm;
-        while (rank < AccurateMath.min(rows, columns)) {
+        while (rank < JdkMath.min(rows, columns)) {
             double thisNorm = r.getSubMatrix(rank, rows - 1, rank, columns - 1).getFrobeniusNorm();
             if (thisNorm == 0 || (thisNorm / lastNorm) * rNorm < dropThreshold) {
                 break;

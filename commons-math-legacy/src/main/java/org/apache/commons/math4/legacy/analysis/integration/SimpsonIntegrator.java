@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.integration;
 
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
@@ -113,8 +113,8 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
             final double t = qtrap.stage(this, i + 1); // 1-stage ahead of the iteration
             final double s = (4 * t - oldt) / 3.0;
             if (i >= getMinimalIterationCount()) {
-                final double delta = AccurateMath.abs(s - olds);
-                final double rLimit = getRelativeAccuracy() * (AccurateMath.abs(olds) + AccurateMath.abs(s)) * 0.5;
+                final double delta = JdkMath.abs(s - olds);
+                final double rLimit = getRelativeAccuracy() * (JdkMath.abs(olds) + JdkMath.abs(s)) * 0.5;
                 if (delta <= rLimit ||
                     delta <= getAbsoluteAccuracy()) {
                     return s;

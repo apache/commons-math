@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,8 +60,8 @@ public class MultiStartUnivariateOptimizerTest {
                            new SearchInterval(-100.0, 100.0));
         UnivariatePointValuePair[] optima = optimizer.getOptima();
         for (int i = 1; i < optima.length; ++i) {
-            double d = (optima[i].getPoint() - optima[i-1].getPoint()) / (2 * AccurateMath.PI);
-            Assert.assertTrue(AccurateMath.abs(d - AccurateMath.rint(d)) < 1.0e-8);
+            double d = (optima[i].getPoint() - optima[i-1].getPoint()) / (2 * JdkMath.PI);
+            Assert.assertTrue(JdkMath.abs(d - JdkMath.rint(d)) < 1.0e-8);
             Assert.assertEquals(-1.0, f.value(optima[i].getPoint()), 1.0e-10);
             Assert.assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1.0e-10);
         }

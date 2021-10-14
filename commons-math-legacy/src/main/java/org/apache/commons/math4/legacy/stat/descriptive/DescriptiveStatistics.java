@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -272,7 +272,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         double stdDev = Double.NaN;
         if (getN() > 0) {
             if (getN() > 1) {
-                stdDev = AccurateMath.sqrt(getVariance());
+                stdDev = JdkMath.sqrt(getVariance());
             } else {
                 stdDev = 0.0;
             }
@@ -289,7 +289,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     public double getQuadraticMean() {
         final long n = getN();
-        return n > 0 ? AccurateMath.sqrt(getSumsq() / n) : Double.NaN;
+        return n > 0 ? JdkMath.sqrt(getSumsq() / n) : Double.NaN;
     }
 
     /**

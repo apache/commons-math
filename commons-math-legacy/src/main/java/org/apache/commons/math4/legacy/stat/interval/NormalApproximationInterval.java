@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.stat.interval;
 
 import org.apache.commons.statistics.distribution.NormalDistribution;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implements the normal approximation method for creating a binomial proportion confidence interval.
@@ -38,7 +38,7 @@ public class NormalApproximationInterval implements BinomialConfidenceInterval {
         final double alpha = (1.0 - confidenceLevel) / 2;
         final NormalDistribution normalDistribution = NormalDistribution.of(0, 1);
         final double difference = normalDistribution.inverseCumulativeProbability(1 - alpha) *
-                                  AccurateMath.sqrt(1.0 / numberOfTrials * mean * (1 - mean));
+                                  JdkMath.sqrt(1.0 / numberOfTrials * mean * (1 - mean));
         return new ConfidenceInterval(mean - difference, mean + difference, confidenceLevel);
     }
 

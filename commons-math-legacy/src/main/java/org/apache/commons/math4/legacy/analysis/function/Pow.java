@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Power function.
@@ -29,6 +29,6 @@ public class Pow implements BivariateFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x, double y) {
-        return AccurateMath.pow(x, y);
+        return JdkMath.pow(x, y);
     }
 }

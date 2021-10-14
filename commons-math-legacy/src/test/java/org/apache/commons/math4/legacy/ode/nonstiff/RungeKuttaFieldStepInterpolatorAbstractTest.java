@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.ode.FieldExpandableODE;
 import org.apache.commons.math4.legacy.ode.FirstOrderFieldDifferentialEquations;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractFieldStepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
@@ -88,8 +88,8 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                   add(interpolator.getCurrentState().getTime().multiply(i)).
                   divide(n);
             FieldODEStateAndDerivative<T> state = interpolator.getInterpolatedState(t);
-            maxErrorSin = AccurateMath.max(maxErrorSin, state.getState()[0].subtract(t.sin()).abs().getReal());
-            maxErrorCos = AccurateMath.max(maxErrorCos, state.getState()[1].subtract(t.cos()).abs().getReal());
+            maxErrorSin = JdkMath.max(maxErrorSin, state.getState()[0].subtract(t.sin()).abs().getReal());
+            maxErrorCos = JdkMath.max(maxErrorCos, state.getState()[1].subtract(t.cos()).abs().getReal());
         }
         Assert.assertEquals(0.0, maxErrorSin, epsilonSin);
         Assert.assertEquals(0.0, maxErrorCos, epsilonCos);
@@ -127,10 +127,10 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
             double[] regularY     = regularInterpolator.getInterpolatedState();
             double[] regularYDot  = regularInterpolator.getInterpolatedDerivatives();
 
-            maxErrorSin    = AccurateMath.max(maxErrorSin,    fieldY[0].subtract(regularY[0]).abs().getReal());
-            maxErrorCos    = AccurateMath.max(maxErrorCos,    fieldY[1].subtract(regularY[1]).abs().getReal());
-            maxErrorSinDot = AccurateMath.max(maxErrorSinDot, fieldYDot[0].subtract(regularYDot[0]).abs().getReal());
-            maxErrorCosDot = AccurateMath.max(maxErrorCosDot, fieldYDot[1].subtract(regularYDot[1]).abs().getReal());
+            maxErrorSin    = JdkMath.max(maxErrorSin,    fieldY[0].subtract(regularY[0]).abs().getReal());
+            maxErrorCos    = JdkMath.max(maxErrorCos,    fieldY[1].subtract(regularY[1]).abs().getReal());
+            maxErrorSinDot = JdkMath.max(maxErrorSinDot, fieldYDot[0].subtract(regularYDot[0]).abs().getReal());
+            maxErrorCosDot = JdkMath.max(maxErrorCosDot, fieldYDot[1].subtract(regularYDot[1]).abs().getReal());
 
         }
         Assert.assertEquals(0.0, maxErrorSin,    epsilonSin);

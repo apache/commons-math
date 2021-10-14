@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * {@code floor} function.
@@ -29,6 +29,6 @@ public class Floor implements UnivariateFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double x) {
-        return AccurateMath.floor(x);
+        return JdkMath.floor(x);
     }
 }

@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDiffer
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -76,7 +76,7 @@ public class Gaussian implements UnivariateDifferentiableFunction {
     public Gaussian(double mean,
                     double sigma)
         throws NotStrictlyPositiveException {
-        this(1 / (sigma * AccurateMath.sqrt(2 * Math.PI)), mean, sigma);
+        this(1 / (sigma * JdkMath.sqrt(2 * Math.PI)), mean, sigma);
     }
 
     /**
@@ -194,7 +194,7 @@ public class Gaussian implements UnivariateDifferentiableFunction {
     private static double value(double xMinusMean,
                                 double norm,
                                 double i2s2) {
-        return norm * AccurateMath.exp(-xMinusMean * xMinusMean * i2s2);
+        return norm * JdkMath.exp(-xMinusMean * xMinusMean * i2s2);
     }
 
     /** {@inheritDoc}
@@ -217,7 +217,7 @@ public class Gaussian implements UnivariateDifferentiableFunction {
         final double[] p = new double[f.length];
         p[0] = 1;
         final double u2 = u * u;
-        double coeff = norm * AccurateMath.exp(-0.5 * u2);
+        double coeff = norm * JdkMath.exp(-0.5 * u2);
         if (coeff <= Precision.SAFE_MIN) {
             Arrays.fill(f, 0.0);
         } else {

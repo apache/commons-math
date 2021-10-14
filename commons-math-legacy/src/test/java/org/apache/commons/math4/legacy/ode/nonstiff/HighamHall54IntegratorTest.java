@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.ode.TestProblem4;
 import org.apache.commons.math4.legacy.ode.TestProblem5;
 import org.apache.commons.math4.legacy.ode.TestProblemHandler;
 import org.apache.commons.math4.legacy.ode.events.EventHandler;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -108,7 +108,7 @@ public class HighamHall54IntegratorTest {
       TestProblem1 pb = new TestProblem1();
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
-      double scalAbsoluteTolerance = AccurateMath.pow(10.0, i);
+      double scalAbsoluteTolerance = JdkMath.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
       FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,

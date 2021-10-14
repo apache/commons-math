@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.analysis.integration.BaseAbstractUnivaria
 import org.apache.commons.math4.legacy.analysis.integration.IterativeLegendreGaussIntegrator;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -366,10 +366,10 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      */
     private int findBin(double x) {
         // Number of bins below x should be trunc(x/10)
-        final double nMinus = AccurateMath.floor(x / 10);
-        final int bin =  (int) AccurateMath.round(nMinus);
+        final double nMinus = JdkMath.floor(x / 10);
+        final int bin =  (int) JdkMath.round(nMinus);
         // If x falls on a bin boundary, it is in the lower bin
-        return AccurateMath.floor(x / 10) == x / 10 ? bin - 1 : bin;
+        return JdkMath.floor(x / 10) == x / 10 ? bin - 1 : bin;
     }
 
     /**

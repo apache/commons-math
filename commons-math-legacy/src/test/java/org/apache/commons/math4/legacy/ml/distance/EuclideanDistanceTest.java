@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.ml.distance;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Tests for {@link EuclideanDistance} class.
@@ -36,7 +36,7 @@ public class EuclideanDistanceTest {
     public void test() {
         final double[] a = { 1, -2, 3, 4 };
         final double[] b = { -5, -6, 7, 8 };
-        final double expected = AccurateMath.sqrt(84);
+        final double expected = JdkMath.sqrt(84);
         Assert.assertEquals(expected, distance.compute(a, b), 0d);
         Assert.assertEquals(expected, distance.compute(b, a), 0d);
     }

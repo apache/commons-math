@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.ode.sampling;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -156,7 +156,7 @@ public class FieldStepNormalizer<T extends RealFieldElement<T>> implements Field
      */
     public FieldStepNormalizer(final double h, final FieldFixedStepHandler<T> handler,
                                final StepNormalizerMode mode, final StepNormalizerBounds bounds) {
-        this.h       = AccurateMath.abs(h);
+        this.h       = JdkMath.abs(h);
         this.handler = handler;
         this.mode    = mode;
         this.bounds  = bounds;
@@ -210,7 +210,7 @@ public class FieldStepNormalizer<T extends RealFieldElement<T>> implements Field
         // Calculate next normalized step time.
         T nextTime = (mode == StepNormalizerMode.INCREMENT) ?
                      last.getTime().add(h) :
-                     last.getTime().getField().getZero().add((AccurateMath.floor(last.getTime().getReal() / h) + 1) * h);
+                     last.getTime().getField().getZero().add((JdkMath.floor(last.getTime().getReal() / h) + 1) * h);
         if (mode == StepNormalizerMode.MULTIPLES &&
             Precision.equals(nextTime.getReal(), last.getTime().getReal(), 1)) {
             nextTime = nextTime.add(h);

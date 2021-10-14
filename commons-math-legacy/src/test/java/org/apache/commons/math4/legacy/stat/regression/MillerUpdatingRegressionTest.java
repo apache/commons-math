@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.stat.correlation.PearsonsCorrelation;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -68,10 +68,10 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             xAll[i] = new double[3];
-            xAll[i][0] = AccurateMath.log(airdata[3][i]);
-            xAll[i][1] = AccurateMath.log(airdata[4][i]);
+            xAll[i][0] = JdkMath.log(airdata[3][i]);
+            xAll[i][1] = JdkMath.log(airdata[4][i]);
             xAll[i][2] = airdata[5][i];
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
         instance.addObservations(xAll, y);
         if (instance.getN() != xAll.length) {
@@ -170,10 +170,10 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[4];
             x[i][0] = 1.0;
-            x[i][1] = AccurateMath.log(airdata[3][i]);
-            x[i][2] = AccurateMath.log(airdata[4][i]);
+            x[i][1] = JdkMath.log(airdata[3][i]);
+            x[i][2] = JdkMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -202,10 +202,10 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[3];
-            x[i][0] = AccurateMath.log(airdata[3][i]);
-            x[i][1] = AccurateMath.log(airdata[4][i]);
+            x[i][0] = JdkMath.log(airdata[3][i]);
+            x[i][1] = JdkMath.log(airdata[4][i]);
             x[i][2] = airdata[5][i];
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -723,10 +723,10 @@ public class MillerUpdatingRegressionTest {
 //        for (int i = 0; i < airdata[0].length; i++) {
 //            x[i] = new double[4];
 //            x[i][0] = 1.0;
-//            x[i][1] = AccurateMath.log(airdata[3][i]);
-//            x[i][2] = AccurateMath.log(airdata[4][i]);
+//            x[i][1] = JdkMath.log(airdata[3][i]);
+//            x[i][2] = JdkMath.log(airdata[4][i]);
 //            x[i][3] = airdata[5][i];
-//            y[i] = AccurateMath.log(airdata[2][i]);
+//            y[i] = JdkMath.log(airdata[2][i]);
 //        }
 //
 //        instance.addObservations(x, y);
@@ -740,16 +740,16 @@ public class MillerUpdatingRegressionTest {
 //
 //        double[] beta = result.getParameterEstimates();
 //        double[] betar = resultInverse.getParameterEstimates();
-//        if (AccurateMath.abs(beta[0] - betar[0]) > 1.0e-14) {
+//        if (JdkMath.abs(beta[0] - betar[0]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (0,3)");
 //        }
-//        if (AccurateMath.abs(beta[1] - betar[1]) > 1.0e-14) {
+//        if (JdkMath.abs(beta[1] - betar[1]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (1,2)");
 //        }
-//        if (AccurateMath.abs(beta[2] - betar[2]) > 1.0e-14) {
+//        if (JdkMath.abs(beta[2] - betar[2]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (2,1)");
 //        }
-//        if (AccurateMath.abs(beta[3] - betar[3]) > 1.0e-14) {
+//        if (JdkMath.abs(beta[3] - betar[3]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (3,0)");
 //        }
 //    }
@@ -765,8 +765,8 @@ public class MillerUpdatingRegressionTest {
             x[i] = new double[4];
             x2[i] = new double[5];
             x[i][0] = 1.0;
-            x[i][1] = AccurateMath.log(airdata[3][i]);
-            x[i][2] = AccurateMath.log(airdata[4][i]);
+            x[i][1] = JdkMath.log(airdata[3][i]);
+            x[i][2] = JdkMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
 
             x2[i][0] = x[i][0];
@@ -775,7 +775,7 @@ public class MillerUpdatingRegressionTest {
             x2[i][3] = x[i][3];
             x2[i][4] = x[i][3];
 
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -791,14 +791,14 @@ public class MillerUpdatingRegressionTest {
         double[] ser = resultRedundant.getStdErrorOfEstimates();
 
         for (int i = 0; i < beta.length; i++) {
-            if (AccurateMath.abs(beta[i] - betar[i]) > 1.0e-8) {
+            if (JdkMath.abs(beta[i] - betar[i]) > 1.0e-8) {
                 Assert.fail("Parameters not correctly estimated");
             }
-            if (AccurateMath.abs(se[i] - ser[i]) > 1.0e-8) {
+            if (JdkMath.abs(se[i] - ser[i]) > 1.0e-8) {
                 Assert.fail("Standard errors not correctly estimated");
             }
             for (int j = 0; j < i; j++) {
-                if (AccurateMath.abs(result.getCovarianceOfParameters(i, j)
+                if (JdkMath.abs(result.getCovarianceOfParameters(i, j)
                         - resultRedundant.getCovarianceOfParameters(i, j)) > 1.0e-8) {
                     Assert.fail("Variance Covariance not correct");
                 }
@@ -825,8 +825,8 @@ public class MillerUpdatingRegressionTest {
             x[i] = new double[4];
             x2[i] = new double[7];
             x[i][0] = 1.0;
-            x[i][1] = AccurateMath.log(airdata[3][i]);
-            x[i][2] = AccurateMath.log(airdata[4][i]);
+            x[i][1] = JdkMath.log(airdata[3][i]);
+            x[i][2] = JdkMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
 
             x2[i][0] = x[i][0];
@@ -837,7 +837,7 @@ public class MillerUpdatingRegressionTest {
             x2[i][5] = x[i][3];
             x2[i][6] = x[i][2];
 
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -852,71 +852,71 @@ public class MillerUpdatingRegressionTest {
         double[] se = result.getStdErrorOfEstimates();
         double[] ser = resultRedundant.getStdErrorOfEstimates();
 
-        if (AccurateMath.abs(beta[0] - betar[0]) > 1.0e-8) {
+        if (JdkMath.abs(beta[0] - betar[0]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (0,3)");
         }
-        if (AccurateMath.abs(beta[1] - betar[2]) > 1.0e-8) {
+        if (JdkMath.abs(beta[1] - betar[2]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (1,2)");
         }
-        if (AccurateMath.abs(beta[2] - betar[3]) > 1.0e-8) {
+        if (JdkMath.abs(beta[2] - betar[3]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (2,1)");
         }
-        if (AccurateMath.abs(beta[3] - betar[5]) > 1.0e-8) {
+        if (JdkMath.abs(beta[3] - betar[5]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (3,0)");
         }
 
-        if (AccurateMath.abs(se[0] - ser[0]) > 1.0e-8) {
+        if (JdkMath.abs(se[0] - ser[0]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (0,3)");
         }
-        if (AccurateMath.abs(se[1] - ser[2]) > 1.0e-8) {
+        if (JdkMath.abs(se[1] - ser[2]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (1,2)");
         }
-        if (AccurateMath.abs(se[2] - ser[3]) > 1.0e-8) {
+        if (JdkMath.abs(se[2] - ser[3]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (2,1)");
         }
-        if (AccurateMath.abs(se[3] - ser[5]) > 1.0e-8) {
+        if (JdkMath.abs(se[3] - ser[5]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (3,0)");
         }
 
-        if (AccurateMath.abs(result.getCovarianceOfParameters(0, 0)
+        if (JdkMath.abs(result.getCovarianceOfParameters(0, 0)
                 - resultRedundant.getCovarianceOfParameters(0, 0)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,0)");
         }
-        if (AccurateMath.abs(result.getCovarianceOfParameters(0, 1)
+        if (JdkMath.abs(result.getCovarianceOfParameters(0, 1)
                 - resultRedundant.getCovarianceOfParameters(0, 2)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,1)<->(0,2)");
         }
-        if (AccurateMath.abs(result.getCovarianceOfParameters(0, 2)
+        if (JdkMath.abs(result.getCovarianceOfParameters(0, 2)
                 - resultRedundant.getCovarianceOfParameters(0, 3)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,2)<->(0,1)");
         }
-        if (AccurateMath.abs(result.getCovarianceOfParameters(0, 3)
+        if (JdkMath.abs(result.getCovarianceOfParameters(0, 3)
                 - resultRedundant.getCovarianceOfParameters(0, 5)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,3)<->(0,3)");
         }
-        if (AccurateMath.abs(result.getCovarianceOfParameters(1, 0)
+        if (JdkMath.abs(result.getCovarianceOfParameters(1, 0)
                 - resultRedundant.getCovarianceOfParameters(2, 0)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (1,0)<->(2,0)");
         }
-        if (AccurateMath.abs(result.getCovarianceOfParameters(1, 1)
+        if (JdkMath.abs(result.getCovarianceOfParameters(1, 1)
                 - resultRedundant.getCovarianceOfParameters(2, 2)) > 1.0e-8) {
             Assert.fail("VCV not correct  (1,1)<->(2,1)");
         }
-        if (AccurateMath.abs(result.getCovarianceOfParameters(1, 2)
+        if (JdkMath.abs(result.getCovarianceOfParameters(1, 2)
                 - resultRedundant.getCovarianceOfParameters(2, 3)) > 1.0e-8) {
             Assert.fail("VCV not correct  (1,2)<->(2,2)");
         }
 
-        if (AccurateMath.abs(result.getCovarianceOfParameters(2, 0)
+        if (JdkMath.abs(result.getCovarianceOfParameters(2, 0)
                 - resultRedundant.getCovarianceOfParameters(3, 0)) > 1.0e-8) {
             Assert.fail("VCV not correct  (2,0)<->(1,0)");
         }
-        if (AccurateMath.abs(result.getCovarianceOfParameters(2, 1)
+        if (JdkMath.abs(result.getCovarianceOfParameters(2, 1)
                 - resultRedundant.getCovarianceOfParameters(3, 2)) > 1.0e-8) {
             Assert.fail("VCV not correct  (2,1)<->(1,2)");
         }
 
-        if (AccurateMath.abs(result.getCovarianceOfParameters(3, 3)
+        if (JdkMath.abs(result.getCovarianceOfParameters(3, 3)
                 - resultRedundant.getCovarianceOfParameters(5, 5)) > 1.0e-8) {
             Assert.fail("VCV not correct  (3,3)<->(3,2)");
         }
@@ -941,10 +941,10 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[4];
             x[i][0] = 1.0;
-            x[i][1] = AccurateMath.log(airdata[3][i]);
-            x[i][2] = AccurateMath.log(airdata[4][i]);
+            x[i][1] = JdkMath.log(airdata[3][i]);
+            x[i][2] = JdkMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
             off = 0;
             for (int j = 0; j < 4; j++) {
                 double tmp = x[i][j];
@@ -959,7 +959,7 @@ public class MillerUpdatingRegressionTest {
         RealMatrix corr = pearson.getCorrelationMatrix();
         off = 0;
         for (int i = 0; i < 4; i++, off += i + 1) {
-            diag[i] = AccurateMath.sqrt(cp[off]);
+            diag[i] = JdkMath.sqrt(cp[off]);
         }
 
         instance.addObservations(x, y);
@@ -969,14 +969,14 @@ public class MillerUpdatingRegressionTest {
         int off2 = 6;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < i; j++) {
-                if (AccurateMath.abs(pc[idx] - cp[off] / (diag[i] * diag[j])) > 1.0e-8) {
+                if (JdkMath.abs(pc[idx] - cp[off] / (diag[i] * diag[j])) > 1.0e-8) {
                     Assert.fail("Failed cross products... i = " + i + " j = " + j);
                 }
                 ++idx;
                 ++off;
             }
             ++off;
-            if (AccurateMath.abs(pc[i+off2] - yxcorr[ i] / (AccurateMath.sqrt(sumysq) * diag[i])) > 1.0e-8) {
+            if (JdkMath.abs(pc[i+off2] - yxcorr[ i] / (JdkMath.sqrt(sumysq) * diag[i])) > 1.0e-8) {
                 Assert.fail("Assert.failed cross product i = " + i + " y");
             }
         }
@@ -986,7 +986,7 @@ public class MillerUpdatingRegressionTest {
 
         for (int i = 1; i < 4; i++) {
             for (int j = 1; j < i; j++) {
-                if (AccurateMath.abs(pc2[idx] - corr.getEntry(j, i)) > 1.0e-8) {
+                if (JdkMath.abs(pc2[idx] - corr.getEntry(j, i)) > 1.0e-8) {
                     Assert.fail("Failed cross products... i = " + i + " j = " + j);
                 }
                 ++idx;
@@ -1007,10 +1007,10 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[4];
             x[i][0] = 1.0;
-            x[i][1] = AccurateMath.log(airdata[3][i]);
-            x[i][2] = AccurateMath.log(airdata[4][i]);
+            x[i][1] = JdkMath.log(airdata[3][i]);
+            x[i][2] = JdkMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
         instance.addObservations(x, y);
         OLSMultipleLinearRegression ols = new OLSMultipleLinearRegression();
@@ -1030,10 +1030,10 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[3];
-            x[i][0] = AccurateMath.log(airdata[3][i]);
-            x[i][1] = AccurateMath.log(airdata[4][i]);
+            x[i][0] = JdkMath.log(airdata[3][i]);
+            x[i][1] = JdkMath.log(airdata[4][i]);
             x[i][2] = airdata[5][i];
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
         instance.addObservations(x, y);
         OLSMultipleLinearRegression ols = new OLSMultipleLinearRegression();
@@ -1066,15 +1066,15 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[3];
-            x[i][i0] = AccurateMath.log(airdata[3][i]);
-            x[i][i1] = AccurateMath.log(airdata[4][i]);
+            x[i][i0] = JdkMath.log(airdata[3][i]);
+            x[i][i1] = JdkMath.log(airdata[4][i]);
             x[i][iExclude] = airdata[5][i];
 
             xReduced[i] = new double[2];
-            xReduced[i][0] = AccurateMath.log(airdata[3][i]);
-            xReduced[i][1] = AccurateMath.log(airdata[4][i]);
+            xReduced[i][0] = JdkMath.log(airdata[3][i]);
+            xReduced[i][1] = JdkMath.log(airdata[4][i]);
 
-            y[i] = AccurateMath.log(airdata[2][i]);
+            y[i] = JdkMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);

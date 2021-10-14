@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.analysis.function;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Sinc_function">Sinc</a> function,
@@ -81,14 +81,14 @@ public class Sinc implements UnivariateDifferentiableFunction {
     /** {@inheritDoc} */
     @Override
     public double value(final double x) {
-        final double scaledX = normalized ? AccurateMath.PI * x : x;
-        if (AccurateMath.abs(scaledX) <= SHORTCUT) {
+        final double scaledX = normalized ? JdkMath.PI * x : x;
+        if (JdkMath.abs(scaledX) <= SHORTCUT) {
             // use Taylor series
             final double scaledX2 = scaledX * scaledX;
             return ((scaledX2 - 20) * scaledX2 + 120) / 120;
         } else {
             // use definition expression
-            return AccurateMath.sin(scaledX) / scaledX;
+            return JdkMath.sin(scaledX) / scaledX;
         }
     }
 
@@ -99,12 +99,12 @@ public class Sinc implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t)
         throws DimensionMismatchException {
 
-        final double scaledX  = (normalized ? AccurateMath.PI : 1) * t.getValue();
+        final double scaledX  = (normalized ? JdkMath.PI : 1) * t.getValue();
         final double scaledX2 = scaledX * scaledX;
 
         double[] f = new double[t.getOrder() + 1];
 
-        if (AccurateMath.abs(scaledX) <= SHORTCUT) {
+        if (JdkMath.abs(scaledX) <= SHORTCUT) {
 
             for (int i = 0; i < f.length; ++i) {
                 final int k = i / 2;
@@ -122,8 +122,8 @@ public class Sinc implements UnivariateDifferentiableFunction {
         } else {
 
             final double inv = 1 / scaledX;
-            final double cos = AccurateMath.cos(scaledX);
-            final double sin = AccurateMath.sin(scaledX);
+            final double cos = JdkMath.cos(scaledX);
+            final double sin = JdkMath.sin(scaledX);
 
             f[0] = inv * sin;
 
@@ -182,10 +182,10 @@ public class Sinc implements UnivariateDifferentiableFunction {
         }
 
         if (normalized) {
-            double scale = AccurateMath.PI;
+            double scale = JdkMath.PI;
             for (int i = 1; i < f.length; ++i) {
                 f[i]  *= scale;
-                scale *= AccurateMath.PI;
+                scale *= JdkMath.PI;
             }
         }
 

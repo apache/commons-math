@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractUnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -965,7 +965,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             protected double estimate(final double[] values,
                                       final int[] pivotsHeap, final double pos,
                                       final int length, final KthSelector selector) {
-                return super.estimate(values, pivotsHeap, AccurateMath.ceil(pos - 0.5), length, selector);
+                return super.estimate(values, pivotsHeap, JdkMath.ceil(pos - 0.5), length, selector);
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
@@ -1002,9 +1002,9 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                                       final int[] pivotsHeap, final double pos,
                                       final int length, final KthSelector selector) {
                 final double low =
-                        super.estimate(values, pivotsHeap, AccurateMath.ceil(pos - 0.5), length, selector);
+                        super.estimate(values, pivotsHeap, JdkMath.ceil(pos - 0.5), length, selector);
                 final double high =
-                        super.estimate(values, pivotsHeap,AccurateMath.floor(pos + 0.5), length, selector);
+                        super.estimate(values, pivotsHeap,JdkMath.floor(pos + 0.5), length, selector);
                 return (low + high) / 2;
             }
             @Override
@@ -1026,7 +1026,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             protected double index(final double p, final int length) {
                 final double minLimit = 1d/2 / length;
                 return Double.compare(p, minLimit) <= 0 ?
-                        0 : AccurateMath.rint(length * p);
+                        0 : JdkMath.rint(length * p);
             }
             @Override
             public double evaluate(final double[] work, final double[] sampleWeights,
@@ -1272,7 +1272,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                                   final double pos, final int length,
                                   final KthSelector selector) {
 
-            final double fpos = AccurateMath.floor(pos);
+            final double fpos = JdkMath.floor(pos);
             final int intPos = (int) fpos;
             final double dif = pos - fpos;
 

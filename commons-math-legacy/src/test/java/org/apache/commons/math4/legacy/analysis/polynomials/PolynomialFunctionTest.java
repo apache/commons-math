@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.polynomials;
 
 import org.apache.commons.math4.legacy.TestUtils;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -148,8 +148,8 @@ public final class PolynomialFunctionTest {
         Assert.assertEquals(f.polynomialDerivative().value(-3.25), g.value(-3.25), tolerance);
 
         // compare g' = h
-        Assert.assertEquals(g.polynomialDerivative().value(AccurateMath.PI), h.value(AccurateMath.PI), tolerance);
-        Assert.assertEquals(g.polynomialDerivative().value(AccurateMath.E),  h.value(AccurateMath.E),  tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(JdkMath.PI), h.value(JdkMath.PI), tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(JdkMath.E),  h.value(JdkMath.E),  tolerance);
     }
 
     @Test
@@ -247,8 +247,8 @@ public final class PolynomialFunctionTest {
         Assert.assertEquals(f.polynomialDerivative().value(-3.25), g.value(-3.25), tolerance);
 
         // compare g' = h
-        Assert.assertEquals(g.polynomialDerivative().value(AccurateMath.PI), h.value(AccurateMath.PI), tolerance);
-        Assert.assertEquals(g.polynomialDerivative().value(AccurateMath.E),  h.value(AccurateMath.E),  tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(JdkMath.PI), h.value(JdkMath.PI), tolerance);
+        Assert.assertEquals(g.polynomialDerivative().value(JdkMath.E),  h.value(JdkMath.E),  tolerance);
     }
 
     public void checkPolynomial(PolynomialFunction p, String reference) {

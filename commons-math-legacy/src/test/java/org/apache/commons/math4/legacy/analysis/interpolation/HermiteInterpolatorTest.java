@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStruct
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -86,7 +86,7 @@ public class HermiteInterpolatorTest {
             for (int k = 0; k < p.length; ++k) {
                 int degree = random.nextInt(7);
                 p[k] = randomPolynomial(degree, random);
-                maxDegree = AccurateMath.max(maxDegree, degree);
+                maxDegree = JdkMath.max(maxDegree, degree);
             }
 
             HermiteInterpolator interpolator = new HermiteInterpolator();
@@ -103,7 +103,7 @@ public class HermiteInterpolatorTest {
                 double[] values = interpolator.value(x);
                 Assert.assertEquals(p.length, values.length);
                 for (int k = 0; k < p.length; ++k) {
-                    Assert.assertEquals(p[k].value(x), values[k], 1.0e-8 * AccurateMath.abs(p[k].value(x)));
+                    Assert.assertEquals(p[k].value(x), values[k], 1.0e-8 * JdkMath.abs(p[k].value(x)));
                 }
             }
 
@@ -129,7 +129,7 @@ public class HermiteInterpolatorTest {
                 int degree = random.nextInt(7);
                 p[k]      = randomPolynomial(degree, random);
                 pPrime[k] = p[k].polynomialDerivative();
-                maxDegree = AccurateMath.max(maxDegree, degree);
+                maxDegree = JdkMath.max(maxDegree, degree);
             }
 
             HermiteInterpolator interpolator = new HermiteInterpolator();
@@ -148,8 +148,8 @@ public class HermiteInterpolatorTest {
                 DerivativeStructure[] y = interpolator.value(new DerivativeStructure(1, 1, 0, x));
                 Assert.assertEquals(p.length, y.length);
                 for (int k = 0; k < p.length; ++k) {
-                    Assert.assertEquals(p[k].value(x), y[k].getValue(), 1.0e-8 * AccurateMath.abs(p[k].value(x)));
-                    Assert.assertEquals(pPrime[k].value(x), y[k].getPartialDerivative(1), 4.0e-8 * AccurateMath.abs(p[k].value(x)));
+                    Assert.assertEquals(p[k].value(x), y[k].getValue(), 1.0e-8 * JdkMath.abs(p[k].value(x)));
+                    Assert.assertEquals(pPrime[k].value(x), y[k].getPartialDerivative(1), 4.0e-8 * JdkMath.abs(p[k].value(x)));
                 }
             }
 
@@ -164,14 +164,14 @@ public class HermiteInterpolatorTest {
     @Test
     public void testSine() {
         HermiteInterpolator interpolator = new HermiteInterpolator();
-        for (double x = 0; x < AccurateMath.PI; x += 0.5) {
-            interpolator.addSamplePoint(x, new double[] { AccurateMath.sin(x) });
+        for (double x = 0; x < JdkMath.PI; x += 0.5) {
+            interpolator.addSamplePoint(x, new double[] { JdkMath.sin(x) });
         }
         for (double x = 0.1; x <= 2.9; x += 0.01) {
             DerivativeStructure y = interpolator.value(new DerivativeStructure(1, 2, 0, x))[0];
-            Assert.assertEquals( AccurateMath.sin(x), y.getValue(), 3.5e-5);
-            Assert.assertEquals( AccurateMath.cos(x), y.getPartialDerivative(1), 1.3e-4);
-            Assert.assertEquals(-AccurateMath.sin(x), y.getPartialDerivative(2), 2.9e-3);
+            Assert.assertEquals( JdkMath.sin(x), y.getValue(), 3.5e-5);
+            Assert.assertEquals( JdkMath.cos(x), y.getPartialDerivative(1), 1.3e-4);
+            Assert.assertEquals(-JdkMath.sin(x), y.getPartialDerivative(2), 2.9e-3);
         }
     }
 
@@ -179,12 +179,12 @@ public class HermiteInterpolatorTest {
     public void testSquareRoot() {
         HermiteInterpolator interpolator = new HermiteInterpolator();
         for (double x = 1.0; x < 3.6; x += 0.5) {
-            interpolator.addSamplePoint(x, new double[] { AccurateMath.sqrt(x) });
+            interpolator.addSamplePoint(x, new double[] { JdkMath.sqrt(x) });
         }
         for (double x = 1.1; x < 3.5; x += 0.01) {
             DerivativeStructure y = interpolator.value(new DerivativeStructure(1, 1, 0, x))[0];
-            Assert.assertEquals(AccurateMath.sqrt(x), y.getValue(), 1.5e-4);
-            Assert.assertEquals(0.5 / AccurateMath.sqrt(x), y.getPartialDerivative(1), 8.5e-4);
+            Assert.assertEquals(JdkMath.sqrt(x), y.getValue(), 1.5e-4);
+            Assert.assertEquals(0.5 / JdkMath.sqrt(x), y.getPartialDerivative(1), 8.5e-4);
         }
     }
 
@@ -246,7 +246,7 @@ public class HermiteInterpolatorTest {
         double[] cE = expected.getCoefficients();
         double[] cR = result.getCoefficients();
         for (int i = 0; i < cE.length; ++i) {
-            Assert.assertEquals(cE[i], cR[i], 1.0e-8 * AccurateMath.abs(cE[i]));
+            Assert.assertEquals(cE[i], cR[i], 1.0e-8 * JdkMath.abs(cE[i]));
         }
         for (int i = cE.length; i < cR.length; ++i) {
             Assert.assertEquals(0.0, cR[i], 1.0e-9);

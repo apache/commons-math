@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.analysis.function.Gaussian;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,15 +42,15 @@ public class IterativeLegendreGaussIntegratorTest {
         double result;
         double tolerance;
 
-        min = 0; max = AccurateMath.PI; expected = 2;
-        tolerance = AccurateMath.max(integrator.getAbsoluteAccuracy(),
-                             AccurateMath.abs(expected * integrator.getRelativeAccuracy()));
+        min = 0; max = JdkMath.PI; expected = 2;
+        tolerance = JdkMath.max(integrator.getAbsoluteAccuracy(),
+                             JdkMath.abs(expected * integrator.getRelativeAccuracy()));
         result = integrator.integrate(10000, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
 
-        min = -AccurateMath.PI/3; max = 0; expected = -0.5;
-        tolerance = AccurateMath.max(integrator.getAbsoluteAccuracy(),
-                AccurateMath.abs(expected * integrator.getRelativeAccuracy()));
+        min = -JdkMath.PI/3; max = 0; expected = -0.5;
+        tolerance = JdkMath.max(integrator.getAbsoluteAccuracy(),
+                JdkMath.abs(expected * integrator.getRelativeAccuracy()));
         result = integrator.integrate(10000, f, min, max);
         Assert.assertEquals(expected, result, tolerance);
     }
@@ -103,7 +103,7 @@ public class IterativeLegendreGaussIntegratorTest {
                     PolynomialFunction p = new PolynomialFunction(coeff);
                     double result    = integrator.integrate(10000, p, -5.0, 15.0);
                     double reference = exactIntegration(p, -5.0, 15.0);
-                    Assert.assertEquals(n + " " + degree + " " + i, reference, result, 1.0e-12 * (1.0 + AccurateMath.abs(reference)));
+                    Assert.assertEquals(n + " " + degree + " " + i, reference, result, 1.0e-12 * (1.0 + JdkMath.abs(reference)));
                 }
             }
 
@@ -115,7 +115,7 @@ public class IterativeLegendreGaussIntegratorTest {
     public void testNormalDistributionWithLargeSigma() {
         final double sigma = 1000;
         final double mean = 0;
-        final double factor = 1 / (sigma * AccurateMath.sqrt(2 * AccurateMath.PI));
+        final double factor = 1 / (sigma * JdkMath.sqrt(2 * JdkMath.PI));
         final UnivariateFunction normal = new Gaussian(factor, mean, sigma);
 
         final double tol = 1e-2;

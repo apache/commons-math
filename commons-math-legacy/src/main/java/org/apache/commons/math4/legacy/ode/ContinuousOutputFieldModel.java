@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class stores all information provided by an ODE integrator
@@ -292,12 +292,12 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
                                      subtract(dt1.multiply(dt3).multiply(d13).multiply(iMed)).
                                      add(     dt1.multiply(dt2).multiply(d12).multiply(iMin)).
                                      divide(d12.multiply(d23).multiply(d13));
-                index = (int) AccurateMath.rint(iLagrange.getReal());
+                index = (int) JdkMath.rint(iLagrange.getReal());
             }
 
             // force the next size reduction to be at least one tenth
-            final int low  = AccurateMath.max(iMin + 1, (9 * iMin + iMax) / 10);
-            final int high = AccurateMath.min(iMax - 1, (iMin + 9 * iMax) / 10);
+            final int low  = JdkMath.max(iMin + 1, (9 * iMin + iMax) / 10);
+            final int high = JdkMath.min(iMax - 1, (iMin + 9 * iMax) / 10);
             if (index < low) {
                 index = low;
             } else if (index > high) {

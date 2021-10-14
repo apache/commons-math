@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.stat.interval;
 
 import org.apache.commons.statistics.distribution.NormalDistribution;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implements the Agresti-Coull method for creating a binomial proportion confidence interval.
@@ -36,11 +36,11 @@ public class AgrestiCoullInterval implements BinomialConfidenceInterval {
         final double alpha = (1.0 - confidenceLevel) / 2;
         final NormalDistribution normalDistribution = NormalDistribution.of(0, 1);
         final double z = normalDistribution.inverseCumulativeProbability(1 - alpha);
-        final double zSquared = AccurateMath.pow(z, 2);
+        final double zSquared = JdkMath.pow(z, 2);
         final double modifiedNumberOfTrials = numberOfTrials + zSquared;
         final double modifiedSuccessesRatio = (1.0 / modifiedNumberOfTrials) * (numberOfSuccesses + 0.5 * zSquared);
         final double difference = z *
-                                  AccurateMath.sqrt(1.0 / modifiedNumberOfTrials * modifiedSuccessesRatio *
+                                  JdkMath.sqrt(1.0 / modifiedNumberOfTrials * modifiedSuccessesRatio *
                                                 (1 - modifiedSuccessesRatio));
         return new ConfidenceInterval(modifiedSuccessesRatio - difference, modifiedSuccessesRatio + difference,
                                       confidenceLevel);

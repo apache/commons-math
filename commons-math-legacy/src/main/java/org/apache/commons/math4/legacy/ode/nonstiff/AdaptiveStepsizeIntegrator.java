@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.ode.AbstractIntegrator;
 import org.apache.commons.math4.legacy.ode.ExpandableStatefulODE;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This abstract class holds the common part of all adaptive
@@ -153,8 +153,8 @@ public abstract class AdaptiveStepsizeIntegrator
                                  final double absoluteTolerance,
                                  final double relativeTolerance) {
 
-      minStep     = AccurateMath.abs(minimalStep);
-      maxStep     = AccurateMath.abs(maximalStep);
+      minStep     = JdkMath.abs(minimalStep);
+      maxStep     = JdkMath.abs(maximalStep);
       initialStep = -1;
 
       scalAbsoluteTolerance = absoluteTolerance;
@@ -182,8 +182,8 @@ public abstract class AdaptiveStepsizeIntegrator
                                  final double[] absoluteTolerance,
                                  final double[] relativeTolerance) {
 
-      minStep     = AccurateMath.abs(minimalStep);
-      maxStep     = AccurateMath.abs(maximalStep);
+      minStep     = JdkMath.abs(minimalStep);
+      maxStep     = JdkMath.abs(maximalStep);
       initialStep = -1;
 
       scalAbsoluteTolerance = 0;
@@ -267,7 +267,7 @@ public abstract class AdaptiveStepsizeIntegrator
     }
 
     double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?
-               1.0e-6 : (0.01 * AccurateMath.sqrt(yOnScale2 / yDotOnScale2));
+               1.0e-6 : (0.01 * JdkMath.sqrt(yOnScale2 / yDotOnScale2));
     if (! forward) {
       h = -h;
     }
@@ -284,16 +284,16 @@ public abstract class AdaptiveStepsizeIntegrator
       ratio         = (yDot1[j] - yDot0[j]) / scale[j];
       yDDotOnScale += ratio * ratio;
     }
-    yDDotOnScale = AccurateMath.sqrt(yDDotOnScale) / h;
+    yDDotOnScale = JdkMath.sqrt(yDDotOnScale) / h;
 
     // step size is computed such that
     // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
-    final double maxInv2 = AccurateMath.max(AccurateMath.sqrt(yDotOnScale2), yDDotOnScale);
+    final double maxInv2 = JdkMath.max(JdkMath.sqrt(yDotOnScale2), yDDotOnScale);
     final double h1 = (maxInv2 < 1.0e-15) ?
-                      AccurateMath.max(1.0e-6, 0.001 * AccurateMath.abs(h)) :
-                      AccurateMath.pow(0.01 / maxInv2, 1.0 / order);
-    h = AccurateMath.min(100.0 * AccurateMath.abs(h), h1);
-    h = AccurateMath.max(h, 1.0e-12 * AccurateMath.abs(t0));  // avoids cancellation when computing t1 - t0
+                      JdkMath.max(1.0e-6, 0.001 * JdkMath.abs(h)) :
+                      JdkMath.pow(0.01 / maxInv2, 1.0 / order);
+    h = JdkMath.min(100.0 * JdkMath.abs(h), h1);
+    h = JdkMath.max(h, 1.0e-12 * JdkMath.abs(t0));  // avoids cancellation when computing t1 - t0
     if (h < getMinStep()) {
       h = getMinStep();
     }
@@ -321,12 +321,12 @@ public abstract class AdaptiveStepsizeIntegrator
     throws NumberIsTooSmallException {
 
       double filteredH = h;
-      if (AccurateMath.abs(h) < minStep) {
+      if (JdkMath.abs(h) < minStep) {
           if (acceptSmall) {
               filteredH = forward ? minStep : -minStep;
           } else {
               throw new NumberIsTooSmallException(LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
-                                                  AccurateMath.abs(h), minStep, true);
+                                                  JdkMath.abs(h), minStep, true);
           }
       }
 
@@ -355,7 +355,7 @@ public abstract class AdaptiveStepsizeIntegrator
   /** Reset internal state to dummy values. */
   protected void resetInternalState() {
     stepStart = Double.NaN;
-    stepSize  = AccurateMath.sqrt(minStep * maxStep);
+    stepSize  = JdkMath.sqrt(minStep * maxStep);
   }
 
   /** Get the minimal step.

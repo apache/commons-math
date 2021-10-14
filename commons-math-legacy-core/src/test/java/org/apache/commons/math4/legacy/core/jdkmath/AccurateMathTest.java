@@ -40,9 +40,13 @@ import org.apache.commons.math4.legacy.core.dfp.DfpMath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
+// Unit test should be moved to module "commons-math-core".
+// [Currently, it can't be because it depends on "legacy" classes.]
+import org.apache.commons.math4.core.jdkmath.AccurateMath;
+
 public class AccurateMathTest {
     // CHECKSTYLE: stop Regexp
-    // The above comment allowa System.out.print
+    // The above comment allows System.out.print
 
     private static final double MAX_ERROR_ULP = 0.51;
     private static final int NUMBER_OF_TRIALS = 1000;

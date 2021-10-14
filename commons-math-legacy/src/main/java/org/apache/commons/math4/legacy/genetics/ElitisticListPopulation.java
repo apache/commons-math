@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Population of chromosomes which uses elitism (certain percentage of the best
@@ -87,7 +87,7 @@ public class ElitisticListPopulation extends ListPopulation {
         Collections.sort(oldChromosomes);
 
         // index of the last "not good enough" chromosome
-        int boundIndex = (int) AccurateMath.ceil((1.0 - getElitismRate()) * oldChromosomes.size());
+        int boundIndex = (int) JdkMath.ceil((1.0 - getElitismRate()) * oldChromosomes.size());
         for (int i = boundIndex; i < oldChromosomes.size(); i++) {
             nextGeneration.addChromosome(oldChromosomes.get(i));
         }

@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -153,7 +153,7 @@ public class PowellOptimizerTest {
                 public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
-                    return a * a * AccurateMath.sqrt(AccurateMath.abs(a)) + b * b + 1;
+                    return a * a * JdkMath.sqrt(JdkMath.abs(a)) + b * b + 1;
                 }
             };
 

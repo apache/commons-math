@@ -24,7 +24,7 @@ import org.apache.commons.statistics.distribution.DiscreteDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformDiscreteDistribution;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public abstract class UnivariateStatisticAbstractTest {
     protected double geoMean = 12.070589161633011d;
 
     protected double var = 10.00235930735931d;
-    protected double std = AccurateMath.sqrt(var);
+    protected double std = JdkMath.sqrt(var);
     protected double skew = 1.437423729196190d;
     protected double kurt = 2.377191264804700d;
 
@@ -59,7 +59,7 @@ public abstract class UnivariateStatisticAbstractTest {
 
     protected double weightedMean = 12.366995073891626d;
     protected double weightedVar =   9.974760968886391d;
-    protected double weightedStd = AccurateMath.sqrt(weightedVar);
+    protected double weightedStd = JdkMath.sqrt(weightedVar);
     protected double weightedProduct = 8517647448765288000000d;
     protected double weightedSum = 251.05d;
 

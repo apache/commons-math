@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.numbers.core.Precision;
 
@@ -123,11 +123,11 @@ public class AkimaSplineInterpolator
             for (int i = 1; i < weights.length; i++) {
                 final double a = differences[i];
                 final double b = differences[i - 1];
-                weights[i] = AccurateMath.abs(a - b) + 0.5 * AccurateMath.abs(a + b);
+                weights[i] = JdkMath.abs(a - b) + 0.5 * JdkMath.abs(a + b);
             }
         } else {
             for (int i = 1; i < weights.length; i++) {
-                weights[i] = AccurateMath.abs(differences[i] - differences[i - 1]);
+                weights[i] = JdkMath.abs(differences[i] - differences[i - 1]);
             }
         }
 

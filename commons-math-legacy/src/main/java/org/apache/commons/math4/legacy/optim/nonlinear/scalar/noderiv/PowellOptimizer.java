@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LineSearch;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math4.legacy.optim.univariate.UnivariatePointValuePair;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Powell's algorithm.
@@ -59,7 +59,7 @@ public class PowellOptimizer
     /**
      * Minimum relative tolerance.
      */
-    private static final double MIN_RELATIVE_TOLERANCE = 2 * AccurateMath.ulp(1d);
+    private static final double MIN_RELATIVE_TOLERANCE = 2 * JdkMath.ulp(1d);
     /**
      * Relative threshold.
      */
@@ -90,7 +90,7 @@ public class PowellOptimizer
     public PowellOptimizer(double rel,
                            double abs,
                            ConvergenceChecker<PointValuePair> checker) {
-        this(rel, abs, AccurateMath.sqrt(rel), AccurateMath.sqrt(abs), checker);
+        this(rel, abs, JdkMath.sqrt(rel), JdkMath.sqrt(abs), checker);
     }
 
     /**
@@ -210,7 +210,7 @@ public class PowellOptimizer
 
             // Default convergence check.
             boolean stop = 2 * (fX - fVal) <=
-                (relativeThreshold * (AccurateMath.abs(fX) + AccurateMath.abs(fVal)) +
+                (relativeThreshold * (JdkMath.abs(fX) + JdkMath.abs(fVal)) +
                  absoluteThreshold);
 
             final PointValuePair previous = new PointValuePair(x1, fX);

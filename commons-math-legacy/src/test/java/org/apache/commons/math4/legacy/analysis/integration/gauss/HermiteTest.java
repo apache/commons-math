@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.integration.gauss;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -30,7 +30,7 @@ public class HermiteTest {
 
     @Test
     public void testNormalDistribution() {
-        final double oneOverSqrtPi = 1 / AccurateMath.sqrt(Math.PI);
+        final double oneOverSqrtPi = 1 / JdkMath.sqrt(Math.PI);
 
         // By definition, Gauss-Hermite quadrature readily provides the
         // integral of the normal distribution density.
@@ -57,8 +57,8 @@ public class HermiteTest {
 
     @Test
     public void testNormalMean() {
-        final double sqrtTwo = AccurateMath.sqrt(2);
-        final double oneOverSqrtPi = 1 / AccurateMath.sqrt(Math.PI);
+        final double sqrtTwo = JdkMath.sqrt(2);
+        final double oneOverSqrtPi = 1 / JdkMath.sqrt(Math.PI);
 
         final double mu = 12345.6789;
         final double sigma = 987.654321;
@@ -85,7 +85,7 @@ public class HermiteTest {
 
     @Test
     public void testNormalVariance() {
-        final double twoOverSqrtPi = 2 / AccurateMath.sqrt(Math.PI);
+        final double twoOverSqrtPi = 2 / JdkMath.sqrt(Math.PI);
 
         final double sigma = 987.654321;
         final double sigma2 = sigma * sigma;

@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -438,7 +438,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         if (n < 2) {
             return Double.NaN; //not enough data
         }
-        if (AccurateMath.abs(sumXX) < 10 * Double.MIN_VALUE) {
+        if (JdkMath.abs(sumXX) < 10 * Double.MIN_VALUE) {
             return Double.NaN; //not enough variation in x
         }
         return sumXY / sumXX;
@@ -474,7 +474,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @return sum of squared errors associated with the regression model
      */
     public double getSumSquaredErrors() {
-        return AccurateMath.max(0d, sumYY - sumXY * sumXY / sumXX);
+        return JdkMath.max(0d, sumYY - sumXY * sumXY / sumXX);
     }
 
     /**
@@ -570,7 +570,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      */
     public double getR() {
         double b1 = getSlope();
-        double result = AccurateMath.sqrt(getRSquare());
+        double result = JdkMath.sqrt(getRSquare());
         if (b1 < 0) {
             result = -result;
         }
@@ -612,7 +612,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         if( !hasIntercept ){
             return Double.NaN;
         }
-        return AccurateMath.sqrt(
+        return JdkMath.sqrt(
             getMeanSquareError() * ((1d / n) + (xbar * xbar) / sumXX));
     }
 
@@ -628,7 +628,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @return standard error associated with slope estimate
      */
     public double getSlopeStdErr() {
-        return AccurateMath.sqrt(getMeanSquareError() / sumXX);
+        return JdkMath.sqrt(getMeanSquareError() / sumXX);
     }
 
     /**
@@ -732,7 +732,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         // No advertised NotStrictlyPositiveException here - will return NaN above
         TDistribution distribution = TDistribution.of(n - 2d);
         return 2d * (1.0 - distribution.cumulativeProbability(
-                    AccurateMath.abs(getSlope()) / getSlopeStdErr()));
+                    JdkMath.abs(getSlope()) / getSlopeStdErr()));
     }
 
     // ---------------------Private methods-----------------------------------
@@ -780,7 +780,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             if (n < 3) {
                 throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
             }
-            if (AccurateMath.abs(sumXX) > Precision.SAFE_MIN) {
+            if (JdkMath.abs(sumXX) > Precision.SAFE_MIN) {
                 final double[] params = new double[] { getIntercept(), getSlope() };
                 final double mse = getMeanSquareError();
                 final double syy = sumYY + sumY * sumY / n;
@@ -860,7 +860,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                     //final double _syy = sumYY + sumY * sumY / ((double) n);
                     final double sxx = sumXX + sumX * sumX / n;
                     final double sxy = sumXY + sumX * sumY / n;
-                    final double sse = AccurateMath.max(0d, syy - sxy * sxy / sxx);
+                    final double sse = JdkMath.max(0d, syy - sxy * sxy / sxx);
                     final double mse = sse/((n-1));
                     if( !Double.isNaN(sxx) ){
                         final double[] vcv = new double[]{ mse / sxx };

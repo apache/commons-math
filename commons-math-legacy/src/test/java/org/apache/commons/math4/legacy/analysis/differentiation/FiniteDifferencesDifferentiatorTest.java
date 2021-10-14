@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -112,8 +112,8 @@ public class FiniteDifferencesDifferentiatorTest {
             DerivativeStructure y    = f.value(dsX);
             Assert.assertEquals(f.value(dsX.getValue()), f.value(dsX).getValue(), 1.0e-15);
             for (int order = 0; order <= yRef.getOrder(); ++order) {
-                maxError[order] = AccurateMath.max(maxError[order],
-                                        AccurateMath.abs(yRef.getPartialDerivative(order) -
+                maxError[order] = JdkMath.max(maxError[order],
+                                        JdkMath.abs(yRef.getPartialDerivative(order) -
                                                      y.getPartialDerivative(order)));
             }
         }
@@ -137,11 +137,11 @@ public class FiniteDifferencesDifferentiatorTest {
             DerivativeStructure yGood = goodStep.value(dsX);
             DerivativeStructure yBad  = badStep.value(dsX);
             for (int order = 0; order <= 6; ++order) {
-                maxErrorGood[order] = AccurateMath.max(maxErrorGood[order],
-                                                   AccurateMath.abs(yRef.getPartialDerivative(order) -
+                maxErrorGood[order] = JdkMath.max(maxErrorGood[order],
+                                                   JdkMath.abs(yRef.getPartialDerivative(order) -
                                                                 yGood.getPartialDerivative(order)));
-                maxErrorBad[order]  = AccurateMath.max(maxErrorBad[order],
-                                                   AccurateMath.abs(yRef.getPartialDerivative(order) -
+                maxErrorBad[order]  = JdkMath.max(maxErrorBad[order],
+                                                   JdkMath.abs(yRef.getPartialDerivative(order) -
                                                                 yBad.getPartialDerivative(order)));
             }
         }
@@ -276,17 +276,17 @@ public class FiniteDifferencesDifferentiatorTest {
         UnivariateDifferentiableFunction sqrt = differentiator.differentiate(new UnivariateFunction() {
             @Override
             public double value(double x) {
-                return AccurateMath.sqrt(x);
+                return JdkMath.sqrt(x);
             }
         });
 
         // we are able to compute derivative near 0, but the accuracy is much poorer there
         DerivativeStructure t001 = new DerivativeStructure(1, 1, 0, 0.01);
-        Assert.assertEquals(0.5 / AccurateMath.sqrt(t001.getValue()), sqrt.value(t001).getPartialDerivative(1), 1.6);
+        Assert.assertEquals(0.5 / JdkMath.sqrt(t001.getValue()), sqrt.value(t001).getPartialDerivative(1), 1.6);
         DerivativeStructure t01 = new DerivativeStructure(1, 1, 0, 0.1);
-        Assert.assertEquals(0.5 / AccurateMath.sqrt(t01.getValue()), sqrt.value(t01).getPartialDerivative(1), 7.0e-3);
+        Assert.assertEquals(0.5 / JdkMath.sqrt(t01.getValue()), sqrt.value(t01).getPartialDerivative(1), 7.0e-3);
         DerivativeStructure t03 = new DerivativeStructure(1, 1, 0, 0.3);
-        Assert.assertEquals(0.5 / AccurateMath.sqrt(t03.getValue()), sqrt.value(t03).getPartialDerivative(1), 2.1e-7);
+        Assert.assertEquals(0.5 / JdkMath.sqrt(t03.getValue()), sqrt.value(t03).getPartialDerivative(1), 2.1e-7);
 
     }
 
@@ -300,7 +300,7 @@ public class FiniteDifferencesDifferentiatorTest {
 
             @Override
             public double[] value(double x) {
-                return new double[] { AccurateMath.cos(x), AccurateMath.sin(x) };
+                return new double[] { JdkMath.cos(x), JdkMath.sin(x) };
             }
 
         });
@@ -308,8 +308,8 @@ public class FiniteDifferencesDifferentiatorTest {
         for (double x = -10; x < 10; x += 0.1) {
             DerivativeStructure dsX = new DerivativeStructure(1, 2, 0, x);
             DerivativeStructure[] y = f.value(dsX);
-            double cos = AccurateMath.cos(x);
-            double sin = AccurateMath.sin(x);
+            double cos = JdkMath.cos(x);
+            double sin = JdkMath.sin(x);
             double[] f1 = f.value(dsX.getValue());
             DerivativeStructure[] f2 = f.value(dsX);
             Assert.assertEquals(f1.length, f2.length);
@@ -337,8 +337,8 @@ public class FiniteDifferencesDifferentiatorTest {
             @Override
             public double[][] value(double x) {
                 return new double[][] {
-                    { AccurateMath.cos(x),  AccurateMath.sin(x)  },
-                    { AccurateMath.cosh(x), AccurateMath.sinh(x) }
+                    { JdkMath.cos(x),  JdkMath.sin(x)  },
+                    { JdkMath.cosh(x), JdkMath.sinh(x) }
                 };
             }
 
@@ -347,10 +347,10 @@ public class FiniteDifferencesDifferentiatorTest {
         for (double x = -1; x < 1; x += 0.02) {
             DerivativeStructure dsX = new DerivativeStructure(1, 2, 0, x);
             DerivativeStructure[][] y = f.value(dsX);
-            double cos = AccurateMath.cos(x);
-            double sin = AccurateMath.sin(x);
-            double cosh = AccurateMath.cosh(x);
-            double sinh = AccurateMath.sinh(x);
+            double cos = JdkMath.cos(x);
+            double sin = JdkMath.sin(x);
+            double cosh = JdkMath.cosh(x);
+            double sinh = JdkMath.sinh(x);
             double[][] f1 = f.value(dsX.getValue());
             DerivativeStructure[][] f2 = f.value(dsX);
             Assert.assertEquals(f1.length, f2.length);
@@ -397,8 +397,8 @@ public class FiniteDifferencesDifferentiatorTest {
                for (int xOrder = 0; xOrder <= sRef.getOrder(); ++xOrder) {
                    for (int yOrder = 0; yOrder <= sRef.getOrder(); ++yOrder) {
                        if (xOrder + yOrder <= sRef.getOrder()) {
-                           maxError[xOrder +yOrder] = AccurateMath.max(maxError[xOrder + yOrder],
-                                                                    AccurateMath.abs(sRef.getPartialDerivative(xOrder, yOrder) -
+                           maxError[xOrder +yOrder] = JdkMath.max(maxError[xOrder + yOrder],
+                                                                    JdkMath.abs(sRef.getPartialDerivative(xOrder, yOrder) -
                                                                                  s.getPartialDerivative(xOrder, yOrder)));
                        }
                    }

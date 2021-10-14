@@ -35,7 +35,7 @@ import org.apache.commons.math4.legacy.ode.TestProblemHandler;
 import org.apache.commons.math4.legacy.ode.events.EventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -66,7 +66,7 @@ public class EulerIntegratorTest {
       double previousTimeError = Double.NaN;
       for (int i = 4; i < 8; ++i) {
 
-        double step = (pb.getFinalTime() - pb.getInitialTime()) * AccurateMath.pow(2.0, -i);
+        double step = (pb.getFinalTime() - pb.getInitialTime()) * JdkMath.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new EulerIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -84,13 +84,13 @@ public class EulerIntegratorTest {
 
         double valueError = handler.getMaximalValueError();
         if (i > 4) {
-          Assert.assertTrue(valueError < AccurateMath.abs(previousValueError));
+          Assert.assertTrue(valueError < JdkMath.abs(previousValueError));
         }
         previousValueError = valueError;
 
         double timeError = handler.getMaximalTimeError();
         if (i > 4) {
-          Assert.assertTrue(timeError <= AccurateMath.abs(previousTimeError));
+          Assert.assertTrue(timeError <= JdkMath.abs(previousTimeError));
         }
         previousTimeError = timeError;
 
@@ -149,7 +149,7 @@ public class EulerIntegratorTest {
              MaxCountExceededException, NoBracketingException {
 
       TestProblem5 pb = new TestProblem5();
-      double step = AccurateMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+      double step = JdkMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
 
       FirstOrderIntegrator integ = new EulerIntegrator(step);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);

@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDiffer
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Generalised_logistic_function">
@@ -147,10 +147,10 @@ public class Logistic implements UnivariateDifferentiableFunction {
 
             final double mMinusX = param[1] - x;
             final double oneOverN = 1 / param[5];
-            final double exp = AccurateMath.exp(b * mMinusX);
+            final double exp = JdkMath.exp(b * mMinusX);
             final double qExp = q * exp;
             final double qExp1 = qExp + 1;
-            final double factor1 = (param[0] - param[4]) * oneOverN / AccurateMath.pow(qExp1, oneOverN);
+            final double factor1 = (param[0] - param[4]) * oneOverN / JdkMath.pow(qExp1, oneOverN);
             final double factor2 = -factor1 / qExp1;
 
             // Components of the gradient.
@@ -159,7 +159,7 @@ public class Logistic implements UnivariateDifferentiableFunction {
             final double gb = factor2 * mMinusX * qExp;
             final double gq = factor2 * exp;
             final double ga = Logistic.value(mMinusX, 0, b, q, 1, oneOverN);
-            final double gn = factor1 * AccurateMath.log(qExp1) * oneOverN;
+            final double gn = factor1 * JdkMath.log(qExp1) * oneOverN;
 
             return new double[] { gk, gm, gb, gq, ga, gn };
         }
@@ -207,7 +207,7 @@ public class Logistic implements UnivariateDifferentiableFunction {
                                 double q,
                                 double a,
                                 double oneOverN) {
-        return a + (k - a) / AccurateMath.pow(1 + q * AccurateMath.exp(b * mMinusX), oneOverN);
+        return a + (k - a) / JdkMath.pow(1 + q * JdkMath.exp(b * mMinusX), oneOverN);
     }
 
     /** {@inheritDoc}

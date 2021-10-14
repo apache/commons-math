@@ -20,7 +20,7 @@ package org.apache.commons.math4.legacy.analysis.differentiation;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Test;
 
 
@@ -63,7 +63,7 @@ public class GradientFunctionTest {
             for (double x : point) {
                 d2 += x * x;
             }
-            return AccurateMath.sqrt(d2);
+            return JdkMath.sqrt(d2);
         }
 
         @Override

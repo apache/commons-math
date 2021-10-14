@@ -35,7 +35,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Arrays utilities.
@@ -192,7 +192,7 @@ public final class MathArrays {
         checkEqualLength(p1, p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
-            sum += AccurateMath.abs(p1[i] - p2[i]);
+            sum += JdkMath.abs(p1[i] - p2[i]);
         }
         return sum;
     }
@@ -209,7 +209,7 @@ public final class MathArrays {
         checkEqualLength(p1, p2);
         int sum = 0;
         for (int i = 0; i < p1.length; i++) {
-            sum += AccurateMath.abs(p1[i] - p2[i]);
+            sum += JdkMath.abs(p1[i] - p2[i]);
         }
         return sum;
     }
@@ -229,7 +229,7 @@ public final class MathArrays {
             final double dp = p1[i] - p2[i];
             sum += dp * dp;
         }
-        return AccurateMath.sqrt(sum);
+        return JdkMath.sqrt(sum);
     }
 
     /**
@@ -247,7 +247,7 @@ public final class MathArrays {
             final double dp = (double) p1[i] - p2[i];
             sum += dp * dp;
         }
-        return AccurateMath.sqrt(sum);
+        return JdkMath.sqrt(sum);
     }
 
     /**
@@ -262,7 +262,7 @@ public final class MathArrays {
         checkEqualLength(p1, p2);
         double max = 0;
         for (int i = 0; i < p1.length; i++) {
-            max = AccurateMath.max(max, AccurateMath.abs(p1[i] - p2[i]));
+            max = JdkMath.max(max, JdkMath.abs(p1[i] - p2[i]));
         }
         return max;
     }
@@ -279,7 +279,7 @@ public final class MathArrays {
         checkEqualLength(p1, p2);
         int max = 0;
         for (int i = 0; i < p1.length; i++) {
-            max = AccurateMath.max(max, AccurateMath.abs(p1[i] - p2[i]));
+            max = JdkMath.max(max, JdkMath.abs(p1[i] - p2[i]));
         }
         return max;
     }
@@ -845,7 +845,7 @@ public final class MathArrays {
         // straightforward implementation of the convolution sum
         for (int n = 0; n < totalLength; n++) {
             double yn = 0;
-            int k = AccurateMath.max(0, n + 1 - xLen);
+            int k = JdkMath.max(0, n + 1 - xLen);
             int j = n - k;
             while (k < hLen && j >= 0) {
                 yn += x[j--] * h[k++];

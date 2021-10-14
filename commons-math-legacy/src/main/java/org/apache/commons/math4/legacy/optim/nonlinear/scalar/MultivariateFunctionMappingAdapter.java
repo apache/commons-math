@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.function.Sigmoid;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <p>Adapter for mapping bounded {@link MultivariateFunction} to unbounded ones.</p>
@@ -232,13 +232,13 @@ public class MultivariateFunctionMappingAdapter
         /** {@inheritDoc} */
         @Override
         public double unboundedToBounded(final double y) {
-            return lower + AccurateMath.exp(y);
+            return lower + JdkMath.exp(y);
         }
 
         /** {@inheritDoc} */
         @Override
         public double boundedToUnbounded(final double x) {
-            return AccurateMath.log(x - lower);
+            return JdkMath.log(x - lower);
         }
 
     }
@@ -259,13 +259,13 @@ public class MultivariateFunctionMappingAdapter
         /** {@inheritDoc} */
         @Override
         public double unboundedToBounded(final double y) {
-            return upper - AccurateMath.exp(-y);
+            return upper - JdkMath.exp(-y);
         }
 
         /** {@inheritDoc} */
         @Override
         public double boundedToUnbounded(final double x) {
-            return -AccurateMath.log(upper - x);
+            return -JdkMath.log(upper - x);
         }
 
     }

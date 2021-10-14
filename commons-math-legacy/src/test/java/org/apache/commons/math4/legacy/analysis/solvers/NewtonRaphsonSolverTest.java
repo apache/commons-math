@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 import org.apache.commons.math4.legacy.analysis.QuinticFunction;
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,10 +37,10 @@ public final class NewtonRaphsonSolverTest {
 
         NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
         result = solver.solve(100, f, 3, 4);
-        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, JdkMath.PI, solver.getAbsoluteAccuracy());
 
         result = solver.solve(100, f, 1, 4);
-        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, JdkMath.PI, solver.getAbsoluteAccuracy());
 
         Assert.assertTrue(solver.getEvaluations() > 0);
     }

@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Fits points to a {@link
@@ -288,8 +288,8 @@ public final class HarmonicCurveFitter extends SimpleCurveFitter {
                     throw new MathIllegalStateException(LocalizedFormats.ZERO_DENOMINATOR);
                 }
 
-                aOmega[0] = AccurateMath.sqrt(c1 / c2);
-                aOmega[1] = AccurateMath.sqrt(c2 / c3);
+                aOmega[0] = JdkMath.sqrt(c1 / c2);
+                aOmega[1] = JdkMath.sqrt(c2 / c3);
             }
 
             return aOmega;
@@ -319,13 +319,13 @@ public final class HarmonicCurveFitter extends SimpleCurveFitter {
                 final double currentYPrime = (currentY - previousY) / (currentX - previousX);
 
                 double omegaX = omega * currentX;
-                double cosine = AccurateMath.cos(omegaX);
-                double sine = AccurateMath.sin(omegaX);
+                double cosine = JdkMath.cos(omegaX);
+                double sine = JdkMath.sin(omegaX);
                 fcMean += omega * currentY * cosine - currentYPrime * sine;
                 fsMean += omega * currentY * sine + currentYPrime * cosine;
             }
 
-            return AccurateMath.atan2(-fsMean, fcMean);
+            return JdkMath.atan2(-fsMean, fcMean);
         }
     }
 }

@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -216,7 +216,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
             c[i] = y[i];
             d[i] = y[i];
             // find out the abscissa closest to z
-            final double dist = AccurateMath.abs(z - x[i]);
+            final double dist = JdkMath.abs(z - x[i]);
             if (dist < minDist) {
                 nearest = i;
                 minDist = dist;

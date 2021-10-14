@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.polynomials;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.integration.IterativeLegendreGaussIntegrator;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class PolynomialsUtilsTest {
         for (int k = 0; k < 12; ++k) {
             PolynomialFunction Tk = PolynomialsUtils.createChebyshevPolynomial(k);
             for (double x = -1; x <= 1; x += 0.02) {
-                Assert.assertTrue(k + " " + Tk.value(x), AccurateMath.abs(Tk.value(x)) < (1 + 1e-12));
+                Assert.assertTrue(k + " " + Tk.value(x), JdkMath.abs(Tk.value(x)) < (1 + 1e-12));
             }
         }
     }
@@ -80,7 +80,7 @@ public class PolynomialsUtilsTest {
         UnivariateFunction weight = new UnivariateFunction() {
             @Override
             public double value(double x) {
-                return 1 / AccurateMath.sqrt(1 - x * x);
+                return 1 / JdkMath.sqrt(1 - x * x);
             }
         };
         for (int i = 0; i < 10; ++i) {
@@ -132,7 +132,7 @@ public class PolynomialsUtilsTest {
         UnivariateFunction weight = new UnivariateFunction() {
             @Override
             public double value(double x) {
-                return AccurateMath.exp(-x * x);
+                return JdkMath.exp(-x * x);
             }
         };
         for (int i = 0; i < 10; ++i) {
@@ -190,7 +190,7 @@ public class PolynomialsUtilsTest {
         UnivariateFunction weight = new UnivariateFunction() {
             @Override
             public double value(double x) {
-                return AccurateMath.exp(-x);
+                return JdkMath.exp(-x);
             }
         };
         for (int i = 0; i < 10; ++i) {
@@ -270,7 +270,7 @@ public class PolynomialsUtilsTest {
         for (int i = 0; i < l40.length; ++i) {
             if (i % 2 == 0) {
                 double ci = numerators[i / 2] / denominator;
-                Assert.assertEquals(ci, l40[i], AccurateMath.abs(ci) * 1e-15);
+                Assert.assertEquals(ci, l40[i], JdkMath.abs(ci) * 1e-15);
             } else {
                 Assert.assertEquals(0, l40[i], 0);
             }
@@ -308,7 +308,7 @@ public class PolynomialsUtilsTest {
                 UnivariateFunction weight = new UnivariateFunction() {
                     @Override
                     public double value(double x) {
-                        return AccurateMath.pow(1 - x, vv) * AccurateMath.pow(1 + x, ww);
+                        return JdkMath.pow(1 - x, vv) * JdkMath.pow(1 + x, ww);
                     }
                 };
                 for (int i = 0; i < 10; ++i) {
@@ -384,11 +384,11 @@ public class PolynomialsUtilsTest {
         if (p1.degree() == p2.degree()) {
             // integral should be non-zero
             Assert.assertTrue("I(" + p1.degree() + ", " + p2.degree() + ") = "+ dotProduct,
-                              AccurateMath.abs(dotProduct) > nonZeroThreshold);
+                              JdkMath.abs(dotProduct) > nonZeroThreshold);
         } else {
             // integral should be zero
             Assert.assertEquals("I(" + p1.degree() + ", " + p2.degree() + ") = "+ dotProduct,
-                                0.0, AccurateMath.abs(dotProduct), zeroThreshold);
+                                0.0, JdkMath.abs(dotProduct), zeroThreshold);
         }
     }
 }

@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.ode.FieldODEState;
 import org.apache.commons.math4.legacy.ode.FieldODEStateAndDerivative;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /** This class handles the state for one {@link EventHandler
  * event handler} during integration steps.
@@ -171,8 +171,8 @@ public class FieldEventState<T extends RealFieldElement<T>> {
 
             // extremely rare case: there is a zero EXACTLY at interval start
             // we will use the sign slightly after step beginning to force ignoring this zero
-            final double epsilon = AccurateMath.max(solver.getAbsoluteAccuracy().getReal(),
-                                                AccurateMath.abs(solver.getRelativeAccuracy().multiply(t0).getReal()));
+            final double epsilon = JdkMath.max(solver.getAbsoluteAccuracy().getReal(),
+                                                JdkMath.abs(solver.getRelativeAccuracy().multiply(t0).getReal()));
             final T tStart = t0.add(0.5 * epsilon);
             g0 = handler.g(interpolator.getInterpolatedState(tStart));
         }
@@ -199,7 +199,7 @@ public class FieldEventState<T extends RealFieldElement<T>> {
             // we cannot do anything on such a small step, don't trigger any events
             return false;
         }
-        final int n = AccurateMath.max(1, (int) AccurateMath.ceil(AccurateMath.abs(dt.getReal()) / maxCheckInterval));
+        final int n = JdkMath.max(1, (int) JdkMath.ceil(JdkMath.abs(dt.getReal()) / maxCheckInterval));
         final T   h = dt.divide(n);
 
         final RealFieldUnivariateFunction<T> f = new RealFieldUnivariateFunction<T>() {

@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.Pair;
 
 /**
@@ -208,9 +208,9 @@ public class KendallsCorrelation {
         for (int segmentSize = 1; segmentSize < n; segmentSize <<= 1) {
             for (int offset = 0; offset < n; offset += 2 * segmentSize) {
                 int i = offset;
-                final int iEnd = AccurateMath.min(i + segmentSize, n);
+                final int iEnd = JdkMath.min(i + segmentSize, n);
                 int j = iEnd;
-                final int jEnd = AccurateMath.min(j + segmentSize, n);
+                final int jEnd = JdkMath.min(j + segmentSize, n);
 
                 int copyLocation = offset;
                 while (i < iEnd || j < jEnd) {
@@ -257,7 +257,7 @@ public class KendallsCorrelation {
 
         final long concordantMinusDiscordant = numPairs - tiedXPairs - tiedYPairs + tiedXYPairs - 2 * swaps;
         final double nonTiedPairsMultiplied = (numPairs - tiedXPairs) * (double) (numPairs - tiedYPairs);
-        return concordantMinusDiscordant / AccurateMath.sqrt(nonTiedPairsMultiplied);
+        return concordantMinusDiscordant / JdkMath.sqrt(nonTiedPairsMultiplied);
     }
 
     /**

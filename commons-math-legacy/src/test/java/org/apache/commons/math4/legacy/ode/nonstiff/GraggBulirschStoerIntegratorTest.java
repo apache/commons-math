@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.ode.TestProblemHandler;
 import org.apache.commons.math4.legacy.ode.events.EventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -69,8 +69,8 @@ public class GraggBulirschStoerIntegratorTest {
              MaxCountExceededException, NoBracketingException {
 
       TestProblem5 pb  = new TestProblem5();
-      double minStep   = 0.1 * AccurateMath.abs(pb.getFinalTime() - pb.getInitialTime());
-      double maxStep   = AccurateMath.abs(pb.getFinalTime() - pb.getInitialTime());
+      double minStep   = 0.1 * JdkMath.abs(pb.getFinalTime() - pb.getInitialTime());
+      double maxStep   = JdkMath.abs(pb.getFinalTime() - pb.getInitialTime());
       double[] vecAbsoluteTolerance = { 1.0e-20, 1.0e-21 };
       double[] vecRelativeTolerance = { 1.0e-20, 1.0e-21 };
 
@@ -120,7 +120,7 @@ public class GraggBulirschStoerIntegratorTest {
       TestProblem1 pb     = new TestProblem1();
       double minStep      = 0;
       double maxStep      = pb.getFinalTime() - pb.getInitialTime();
-      double absTolerance = AccurateMath.pow(10.0, i);
+      double absTolerance = JdkMath.pow(10.0, i);
       double relTolerance = absTolerance;
 
       FirstOrderIntegrator integ =
@@ -288,8 +288,8 @@ public class GraggBulirschStoerIntegratorTest {
 
           @Override
         public void computeDerivatives(double t, double[] y, double[] yDot) {
-              Assert.assertTrue(t >= AccurateMath.nextAfter(start, Double.NEGATIVE_INFINITY));
-              Assert.assertTrue(t <= AccurateMath.nextAfter(end,   Double.POSITIVE_INFINITY));
+              Assert.assertTrue(t >= JdkMath.nextAfter(start, Double.NEGATIVE_INFINITY));
+              Assert.assertTrue(t <= JdkMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
           }
 
@@ -408,10 +408,10 @@ public class GraggBulirschStoerIntegratorTest {
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 
-      double step = AccurateMath.abs(interpolator.getCurrentTime()
+      double step = JdkMath.abs(interpolator.getCurrentTime()
                              - interpolator.getPreviousTime());
       if (firstTime) {
-        minStep   = AccurateMath.abs(step);
+        minStep   = JdkMath.abs(step);
         maxStep   = minStep;
         firstTime = false;
       } else {

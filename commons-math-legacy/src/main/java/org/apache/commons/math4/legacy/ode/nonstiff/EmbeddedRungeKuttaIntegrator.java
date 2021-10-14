@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ode.ExpandableStatefulODE;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class implements the common part of all embedded Runge-Kutta
@@ -235,11 +235,11 @@ public abstract class EmbeddedRungeKuttaIntegrator
           final double[] scale = new double[mainSetDimension];
           if (vecAbsoluteTolerance == null) {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * AccurateMath.abs(y[i]);
+                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * JdkMath.abs(y[i]);
               }
           } else {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * AccurateMath.abs(y[i]);
+                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * JdkMath.abs(y[i]);
               }
           }
           hNew = initializeStep(forward, getOrder(), scale,
@@ -287,8 +287,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
         if (error >= 1.0) {
           // reject the step and attempt to reduce error by stepsize control
           final double factor =
-              AccurateMath.min(maxGrowth,
-                           AccurateMath.max(minReduction, safety * AccurateMath.pow(error, exp)));
+              JdkMath.min(maxGrowth,
+                           JdkMath.max(minReduction, safety * JdkMath.pow(error, exp)));
           hNew = filterStep(stepSize * factor, forward, false);
         }
 
@@ -313,7 +313,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
           // stepsize control for next step
           final double factor =
-              AccurateMath.min(maxGrowth, AccurateMath.max(minReduction, safety * AccurateMath.pow(error, exp)));
+              JdkMath.min(maxGrowth, JdkMath.max(minReduction, safety * JdkMath.pow(error, exp)));
           final double  scaledH    = stepSize * factor;
           final double  nextT      = stepStart + scaledH;
           final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);

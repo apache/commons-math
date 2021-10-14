@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.SingularMatrixException;
 import org.apache.commons.math4.legacy.stat.correlation.Covariance;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.core.Pair;
 
@@ -166,7 +166,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
         fittedModel = new MixtureMultivariateNormalDistribution(initialMixture.getComponents());
 
         while (numIterations++ <= maxIterations &&
-               AccurateMath.abs(previousLogLikelihood - logLikelihood) > threshold) {
+               JdkMath.abs(previousLogLikelihood - logLikelihood) > threshold) {
             previousLogLikelihood = logLikelihood;
             double sumLogLikelihood = 0d;
 
@@ -198,7 +198,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
 
             for (int i = 0; i < n; i++) {
                 final double rowDensity = fittedModel.density(data[i]);
-                sumLogLikelihood += AccurateMath.log(rowDensity);
+                sumLogLikelihood += JdkMath.log(rowDensity);
 
                 for (int j = 0; j < k; j++) {
                     gamma[i][j] = weights[j] * mvns[j].density(data[i]) / rowDensity;
@@ -252,7 +252,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
                                                                     newCovMatArrays);
         }
 
-        if (AccurateMath.abs(previousLogLikelihood - logLikelihood) > threshold) {
+        if (JdkMath.abs(previousLogLikelihood - logLikelihood) > threshold) {
             // Did not converge before the maximum number of iterations
             throw new ConvergenceException();
         }

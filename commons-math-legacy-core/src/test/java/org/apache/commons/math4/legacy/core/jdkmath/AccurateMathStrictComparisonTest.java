@@ -31,6 +31,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+// Unit test should be moved to module "commons-math-core".
+// [Currently, it can't be because it depends on "legacy" classes.]
+import org.apache.commons.math4.core.jdkmath.AccurateMath;
+
 /**
  * Test to compare AccurateMath results against StrictMath results for boundary values.
  * <p>

@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <p>Adapter extending bounded {@link MultivariateFunction} to an unbouded
@@ -174,7 +174,7 @@ public class MultivariateFunctionPenaltyAdapter
                     } else {
                         overshoot = 0;
                     }
-                    sum += AccurateMath.sqrt(overshoot);
+                    sum += JdkMath.sqrt(overshoot);
                 }
                 return offset + sum;
             }

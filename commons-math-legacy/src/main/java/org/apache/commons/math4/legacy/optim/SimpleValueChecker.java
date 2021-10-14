@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.optim;
 
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using
@@ -117,8 +117,8 @@ public class SimpleValueChecker
 
         final double p = previous.getValue();
         final double c = current.getValue();
-        final double difference = AccurateMath.abs(p - c);
-        final double size = AccurateMath.max(AccurateMath.abs(p), AccurateMath.abs(c));
+        final double difference = JdkMath.abs(p - c);
+        final double size = JdkMath.max(JdkMath.abs(p), JdkMath.abs(c));
         return difference <= size * getRelativeThreshold() ||
             difference <= getAbsoluteThreshold();
     }

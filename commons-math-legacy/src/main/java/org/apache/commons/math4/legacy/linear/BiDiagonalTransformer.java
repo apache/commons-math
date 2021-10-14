@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
 /**
@@ -62,7 +62,7 @@ class BiDiagonalTransformer {
 
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
-        final int p = AccurateMath.min(m, n);
+        final int p = JdkMath.min(m, n);
         householderVectors = matrix.getData();
         main      = new double[p];
         secondary = new double[p - 1];
@@ -266,7 +266,7 @@ class BiDiagonalTransformer {
                 xNormSqr += c * c;
             }
             final double[] hK = householderVectors[k];
-            final double a = (hK[k] > 0) ? -AccurateMath.sqrt(xNormSqr) : AccurateMath.sqrt(xNormSqr);
+            final double a = (hK[k] > 0) ? -JdkMath.sqrt(xNormSqr) : JdkMath.sqrt(xNormSqr);
             main[k] = a;
             if (a != 0.0) {
                 hK[k] -= a;
@@ -291,7 +291,7 @@ class BiDiagonalTransformer {
                     final double c = hK[j];
                     xNormSqr += c * c;
                 }
-                final double b = (hK[k + 1] > 0) ? -AccurateMath.sqrt(xNormSqr) : AccurateMath.sqrt(xNormSqr);
+                final double b = (hK[k + 1] > 0) ? -JdkMath.sqrt(xNormSqr) : JdkMath.sqrt(xNormSqr);
                 secondary[k] = b;
                 if (b != 0.0) {
                     hK[k + 1] -= b;
@@ -330,7 +330,7 @@ class BiDiagonalTransformer {
                 final double c = hK[j];
                 xNormSqr += c * c;
             }
-            final double a = (hK[k] > 0) ? -AccurateMath.sqrt(xNormSqr) : AccurateMath.sqrt(xNormSqr);
+            final double a = (hK[k] > 0) ? -JdkMath.sqrt(xNormSqr) : JdkMath.sqrt(xNormSqr);
             main[k] = a;
             if (a != 0.0) {
                 hK[k] -= a;
@@ -355,7 +355,7 @@ class BiDiagonalTransformer {
                     final double c = householderVectors[i][k];
                     xNormSqr += c * c;
                 }
-                final double b = (hKp1[k] > 0) ? -AccurateMath.sqrt(xNormSqr) : AccurateMath.sqrt(xNormSqr);
+                final double b = (hKp1[k] > 0) ? -JdkMath.sqrt(xNormSqr) : JdkMath.sqrt(xNormSqr);
                 secondary[k] = b;
                 if (b != 0.0) {
                     hKp1[k] -= b;

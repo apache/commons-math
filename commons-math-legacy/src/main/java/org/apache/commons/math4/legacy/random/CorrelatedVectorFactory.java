@@ -24,7 +24,7 @@ import org.apache.commons.rng.sampling.distribution.ContinuousSampler;
 import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
 import org.apache.commons.rng.sampling.distribution.ZigguratNormalizedGaussianSampler;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RectangularCholeskyDecomposition;
 
@@ -62,7 +62,7 @@ import org.apache.commons.math4.legacy.linear.RectangularCholeskyDecomposition;
  */
 public class CorrelatedVectorFactory {
     /** Square root of three. */
-    private static final double SQRT3 = AccurateMath.sqrt(3);
+    private static final double SQRT3 = JdkMath.sqrt(3);
     /** Mean vector. */
     private final double[] mean;
     /** Root of the covariance matrix. */

@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStruct
 import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Sigmoid_function">
@@ -114,7 +114,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
                    DimensionMismatchException {
             validateParameters(param);
 
-            final double invExp1 = 1 / (1 + AccurateMath.exp(-x));
+            final double invExp1 = 1 / (1 + JdkMath.exp(-x));
 
             return new double[] { 1 - invExp1, invExp1 };
         }
@@ -150,7 +150,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
     private static double value(double x,
                                 double lo,
                                 double hi) {
-        return lo + (hi - lo) / (1 + AccurateMath.exp(-x));
+        return lo + (hi - lo) / (1 + JdkMath.exp(-x));
     }
 
     /** {@inheritDoc}
@@ -161,7 +161,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
         throws DimensionMismatchException {
 
         double[] f = new double[t.getOrder() + 1];
-        final double exp = AccurateMath.exp(-t.getValue());
+        final double exp = JdkMath.exp(-t.getValue());
         if (Double.isInfinite(exp)) {
 
             // special handling near lower boundary, to avoid NaN

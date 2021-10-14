@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.linear.DiagonalMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.optim.SimpleVectorValueChecker;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -80,7 +80,7 @@ public class DifferentiatorVectorMultivariateJacobianFunctionTest {
 
         // Check that the automatic solution is within the reference error range.
         for (int i = 0; i < numParams; i++) {
-            final double error = AccurateMath.sqrt(analyticalCovarianceMatrix.getEntry(i, i));
+            final double error = JdkMath.sqrt(analyticalCovarianceMatrix.getEntry(i, i));
             Assert.assertEquals("Parameter " + i, analyticalSolution.getEntry(i), automaticSolution.getEntry(i), error);
         }
 
@@ -91,7 +91,7 @@ public class DifferentiatorVectorMultivariateJacobianFunctionTest {
                 Assert.assertEquals("Covariance matrix [" + i + "][" + j + "]",
                         analyticalCovarianceMatrix.getEntry(i, j),
                         automaticCovarianceMatrix.getEntry(i, j),
-                        AccurateMath.abs(0.01 * analyticalCovarianceMatrix.getEntry(i, j)));
+                        JdkMath.abs(0.01 * analyticalCovarianceMatrix.getEntry(i, j)));
             }
         }
 

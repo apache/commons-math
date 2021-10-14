@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.optim;
 
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.Pair;
 
 /**
@@ -121,8 +121,8 @@ public class SimplePointChecker<PAIR extends Pair<double[], ? extends Object>>
         for (int i = 0; i < p.length; ++i) {
             final double pi = p[i];
             final double ci = c[i];
-            final double difference = AccurateMath.abs(pi - ci);
-            final double size = AccurateMath.max(AccurateMath.abs(pi), AccurateMath.abs(ci));
+            final double difference = JdkMath.abs(pi - ci);
+            final double size = JdkMath.max(JdkMath.abs(pi), JdkMath.abs(ci));
             if (difference > size * getRelativeThreshold() &&
                 difference > getAbsoluteThreshold()) {
                 return false;

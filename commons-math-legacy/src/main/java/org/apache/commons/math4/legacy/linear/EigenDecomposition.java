@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Calculates the eigen decomposition of a real matrix.
@@ -349,7 +349,7 @@ public class EigenDecomposition {
             if (eigen <= 0) {
                 throw new MathUnsupportedOperationException();
             }
-            sqrtEigenValues[i] = AccurateMath.sqrt(eigen);
+            sqrtEigenValues[i] = JdkMath.sqrt(eigen);
         }
         final RealMatrix sqrtEigen = MatrixUtils.createRealDiagonalMatrix(sqrtEigenValues);
         final RealMatrix v = getV();
@@ -487,7 +487,7 @@ public class EigenDecomposition {
             // Looping over all values (in case they are not sorted in decreasing
             // order of their norm).
             for (int i = 0; i < realEigenvalues.length; ++i) {
-                largestEigenvalueNorm = AccurateMath.max(largestEigenvalueNorm, eigenvalueNorm(i));
+                largestEigenvalueNorm = JdkMath.max(largestEigenvalueNorm, eigenvalueNorm(i));
             }
             // Corner case: zero matrix, all exactly 0 eigenvalues
             if (largestEigenvalueNorm == 0.0) {
@@ -510,7 +510,7 @@ public class EigenDecomposition {
         private double eigenvalueNorm(int i) {
             final double re = realEigenvalues[i];
             final double im = imagEigenvalues[i];
-            return AccurateMath.sqrt(re * re + im * im);
+            return JdkMath.sqrt(re * re + im * im);
         }
 
         /**
@@ -577,20 +577,20 @@ public class EigenDecomposition {
         // Determine the largest main and secondary value in absolute term.
         double maxAbsoluteValue = 0;
         for (int i = 0; i < n; i++) {
-            if (AccurateMath.abs(realEigenvalues[i]) > maxAbsoluteValue) {
-                maxAbsoluteValue = AccurateMath.abs(realEigenvalues[i]);
+            if (JdkMath.abs(realEigenvalues[i]) > maxAbsoluteValue) {
+                maxAbsoluteValue = JdkMath.abs(realEigenvalues[i]);
             }
-            if (AccurateMath.abs(e[i]) > maxAbsoluteValue) {
-                maxAbsoluteValue = AccurateMath.abs(e[i]);
+            if (JdkMath.abs(e[i]) > maxAbsoluteValue) {
+                maxAbsoluteValue = JdkMath.abs(e[i]);
             }
         }
         // Make null any main and secondary value too small to be significant
         if (maxAbsoluteValue != 0) {
             for (int i=0; i < n; i++) {
-                if (AccurateMath.abs(realEigenvalues[i]) <= Precision.EPSILON * maxAbsoluteValue) {
+                if (JdkMath.abs(realEigenvalues[i]) <= Precision.EPSILON * maxAbsoluteValue) {
                     realEigenvalues[i] = 0;
                 }
-                if (AccurateMath.abs(e[i]) <= Precision.EPSILON * maxAbsoluteValue) {
+                if (JdkMath.abs(e[i]) <= Precision.EPSILON * maxAbsoluteValue) {
                     e[i]=0;
                 }
             }
@@ -601,9 +601,9 @@ public class EigenDecomposition {
             int m;
             do {
                 for (m = j; m < n - 1; m++) {
-                    double delta = AccurateMath.abs(realEigenvalues[m]) +
-                        AccurateMath.abs(realEigenvalues[m + 1]);
-                    if (AccurateMath.abs(e[m]) + delta == delta) {
+                    double delta = JdkMath.abs(realEigenvalues[m]) +
+                        JdkMath.abs(realEigenvalues[m + 1]);
+                    if (JdkMath.abs(e[m]) + delta == delta) {
                         break;
                     }
                 }
@@ -614,7 +614,7 @@ public class EigenDecomposition {
                     }
                     its++;
                     double q = (realEigenvalues[j + 1] - realEigenvalues[j]) / (2 * e[j]);
-                    double t = AccurateMath.sqrt(1 + q * q);
+                    double t = JdkMath.sqrt(1 + q * q);
                     if (q < 0.0) {
                         q = realEigenvalues[m] - realEigenvalues[j] + e[j] / (q - t);
                     } else {
@@ -627,15 +627,15 @@ public class EigenDecomposition {
                     for (i = m - 1; i >= j; i--) {
                         double p = s * e[i];
                         double h = c * e[i];
-                        if (AccurateMath.abs(p) >= AccurateMath.abs(q)) {
+                        if (JdkMath.abs(p) >= JdkMath.abs(q)) {
                             c = q / p;
-                            t = AccurateMath.sqrt(c * c + 1.0);
+                            t = JdkMath.sqrt(c * c + 1.0);
                             e[i + 1] = p * t;
                             s = 1.0 / t;
                             c *= s;
                         } else {
                             s = p / q;
-                            t = AccurateMath.sqrt(s * s + 1.0);
+                            t = JdkMath.sqrt(s * s + 1.0);
                             e[i + 1] = q * t;
                             c = 1.0 / t;
                             s *= c;
@@ -690,14 +690,14 @@ public class EigenDecomposition {
         // Determine the largest eigen value in absolute term.
         maxAbsoluteValue = 0;
         for (int i = 0; i < n; i++) {
-            if (AccurateMath.abs(realEigenvalues[i]) > maxAbsoluteValue) {
-                maxAbsoluteValue=AccurateMath.abs(realEigenvalues[i]);
+            if (JdkMath.abs(realEigenvalues[i]) > maxAbsoluteValue) {
+                maxAbsoluteValue=JdkMath.abs(realEigenvalues[i]);
             }
         }
         // Make null any eigen value too small to be significant
         if (maxAbsoluteValue != 0.0) {
             for (int i=0; i < n; i++) {
-                if (AccurateMath.abs(realEigenvalues[i]) < Precision.EPSILON * maxAbsoluteValue) {
+                if (JdkMath.abs(realEigenvalues[i]) < Precision.EPSILON * maxAbsoluteValue) {
                     realEigenvalues[i] = 0;
                 }
             }
@@ -732,7 +732,7 @@ public class EigenDecomposition {
             } else {
                 final double x = matT[i + 1][i + 1];
                 final double p = 0.5 * (matT[i][i] - x);
-                final double z = AccurateMath.sqrt(AccurateMath.abs(p * p + matT[i + 1][i] * matT[i][i + 1]));
+                final double z = JdkMath.sqrt(JdkMath.abs(p * p + matT[i + 1][i] * matT[i][i + 1]));
                 realEigenvalues[i] = x + p;
                 imagEigenvalues[i] = z;
                 realEigenvalues[i + 1] = x + p;
@@ -773,8 +773,8 @@ public class EigenDecomposition {
         // compute matrix norm
         double norm = 0.0;
         for (int i = 0; i < n; i++) {
-           for (int j = AccurateMath.max(i - 1, 0); j < n; j++) {
-               norm += AccurateMath.abs(matrixT[i][j]);
+           for (int j = JdkMath.max(i - 1, 0); j < n; j++) {
+               norm += JdkMath.abs(matrixT[i][j]);
            }
         }
 
@@ -822,7 +822,7 @@ public class EigenDecomposition {
                                 imagEigenvalues[i] * imagEigenvalues[i];
                             double t = (x * s - z * r) / q;
                             matrixT[i][idx] = t;
-                            if (AccurateMath.abs(x) > AccurateMath.abs(z)) {
+                            if (JdkMath.abs(x) > JdkMath.abs(z)) {
                                 matrixT[i + 1][idx] = (-r - w * t) / x;
                             } else {
                                 matrixT[i + 1][idx] = (-s - y * t) / z;
@@ -830,7 +830,7 @@ public class EigenDecomposition {
                         }
 
                         // Overflow control
-                        double t = AccurateMath.abs(matrixT[i][idx]);
+                        double t = JdkMath.abs(matrixT[i][idx]);
                         if ((Precision.EPSILON * t) * t > 1) {
                             for (int j = i; j <= idx; j++) {
                                 matrixT[j][idx] /= t;
@@ -843,7 +843,7 @@ public class EigenDecomposition {
                 int l = idx - 1;
 
                 // Last vector component imaginary so matrix is triangular
-                if (AccurateMath.abs(matrixT[idx][idx - 1]) > AccurateMath.abs(matrixT[idx - 1][idx])) {
+                if (JdkMath.abs(matrixT[idx][idx - 1]) > JdkMath.abs(matrixT[idx - 1][idx])) {
                     matrixT[idx - 1][idx - 1] = q / matrixT[idx][idx - 1];
                     matrixT[idx - 1][idx]     = -(matrixT[idx][idx] - p) / matrixT[idx][idx - 1];
                 } else {
@@ -884,15 +884,15 @@ public class EigenDecomposition {
                             final double vi = (realEigenvalues[i] - p) * 2.0 * q;
                             if (Precision.equals(vr, 0.0) && Precision.equals(vi, 0.0)) {
                                 vr = Precision.EPSILON * norm *
-                                     (AccurateMath.abs(w) + AccurateMath.abs(q) + AccurateMath.abs(x) +
-                                      AccurateMath.abs(y) + AccurateMath.abs(z));
+                                     (JdkMath.abs(w) + JdkMath.abs(q) + JdkMath.abs(x) +
+                                      JdkMath.abs(y) + JdkMath.abs(z));
                             }
                             final Complex c     = cdiv(x * r - z * ra + q * sa,
                                                        x * s - z * sa - q * ra, vr, vi);
                             matrixT[i][idx - 1] = c.getReal();
                             matrixT[i][idx]     = c.getImaginary();
 
-                            if (AccurateMath.abs(x) > (AccurateMath.abs(z) + AccurateMath.abs(q))) {
+                            if (JdkMath.abs(x) > (JdkMath.abs(z) + JdkMath.abs(q))) {
                                 matrixT[i + 1][idx - 1] = (-ra - w * matrixT[i][idx - 1] +
                                                            q * matrixT[i][idx]) / x;
                                 matrixT[i + 1][idx]     = (-sa - w * matrixT[i][idx] -
@@ -906,8 +906,8 @@ public class EigenDecomposition {
                         }
 
                         // Overflow control
-                        double t = AccurateMath.max(AccurateMath.abs(matrixT[i][idx - 1]),
-                                                AccurateMath.abs(matrixT[i][idx]));
+                        double t = JdkMath.max(JdkMath.abs(matrixT[i][idx - 1]),
+                                                JdkMath.abs(matrixT[i][idx]));
                         if ((Precision.EPSILON * t) * t > 1) {
                             for (int j = i; j <= idx; j++) {
                                 matrixT[j][idx - 1] /= t;
@@ -923,7 +923,7 @@ public class EigenDecomposition {
         for (int j = n - 1; j >= 0; j--) {
             for (int i = 0; i <= n - 1; i++) {
                 z = 0.0;
-                for (int k = 0; k <= AccurateMath.min(j, n - 1); k++) {
+                for (int k = 0; k <= JdkMath.min(j, n - 1); k++) {
                     z += matrixP[i][k] * matrixT[k][j];
                 }
                 matrixP[i][j] = z;

@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -296,7 +296,7 @@ public class LoessInterpolator
                 double sumXSquared = 0;
                 double sumY = 0;
                 double sumXY = 0;
-                double denom = AccurateMath.abs(1.0 / (xval[edge] - x));
+                double denom = JdkMath.abs(1.0 / (xval[edge] - x));
                 for (int k = ileft; k <= iright; ++k) {
                     final double xk   = xval[k];
                     final double yk   = yval[k];
@@ -316,7 +316,7 @@ public class LoessInterpolator
                 final double meanXSquared = sumXSquared / sumWeights;
 
                 final double beta;
-                if (AccurateMath.sqrt(AccurateMath.abs(meanXSquared - meanX * meanX)) < accuracy) {
+                if (JdkMath.sqrt(JdkMath.abs(meanXSquared - meanX * meanX)) < accuracy) {
                     beta = 0;
                 } else {
                     beta = (meanXY - meanX * meanY) / (meanXSquared - meanX * meanX);
@@ -325,7 +325,7 @@ public class LoessInterpolator
                 final double alpha = meanY - beta * meanX;
 
                 res[i] = beta * x + alpha;
-                residuals[i] = AccurateMath.abs(yval[i] - res[i]);
+                residuals[i] = JdkMath.abs(yval[i] - res[i]);
             }
 
             // No need to recompute the robustness weights at the last
@@ -343,7 +343,7 @@ public class LoessInterpolator
             Arrays.sort(sortedResiduals);
             final double medianResidual = sortedResiduals[n / 2];
 
-            if (AccurateMath.abs(medianResidual) < accuracy) {
+            if (JdkMath.abs(medianResidual) < accuracy) {
                 break;
             }
 
@@ -454,7 +454,7 @@ public class LoessInterpolator
      * @return <code>(1 - |x|<sup>3</sup>)<sup>3</sup></code> for |x| &lt; 1, 0 otherwise.
      */
     private static double tricube(final double x) {
-        final double absX = AccurateMath.abs(x);
+        final double absX = JdkMath.abs(x);
         if (absX >= 1.0) {
             return 0.0;
         }

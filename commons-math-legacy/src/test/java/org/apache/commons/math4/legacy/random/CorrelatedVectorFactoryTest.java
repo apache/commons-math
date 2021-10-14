@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.stat.correlation.StorelessCovariance;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.VectorialMean;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 public class CorrelatedVectorFactoryTest {
     private double[] mean;
@@ -84,8 +84,8 @@ public class CorrelatedVectorFactoryTest {
         for (int i = 0; i < 10; i++) {
             double[] generated = sg.get();
             for (int j = 0; j < generated.length; ++j) {
-                min[j] = AccurateMath.min(min[j], generated[j]);
-                max[j] = AccurateMath.max(max[j], generated[j]);
+                min[j] = JdkMath.min(min[j], generated[j]);
+                max[j] = JdkMath.max(max[j], generated[j]);
             }
         }
         for (int j = 0; j < min.length; ++j) {
@@ -110,7 +110,7 @@ public class CorrelatedVectorFactoryTest {
             for (int j = 0; j <= i; ++j) {
                 Assert.assertEquals(covariance.getEntry(i, j),
                                     estimatedCovariance.getEntry(i, j),
-                                    1e-1 * (1 + AccurateMath.abs(mean[i])) * (1 + AccurateMath.abs(mean[j])));
+                                    1e-1 * (1 + JdkMath.abs(mean[i])) * (1 + JdkMath.abs(mean[j])));
             }
         }
     }

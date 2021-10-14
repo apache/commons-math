@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.linear.OpenIntToDoubleHashMap.Iterator;
 
 /**
@@ -225,7 +225,7 @@ public class OpenMapRealVector extends SparseRealVector
      * @since 2.1
      */
     protected boolean isDefaultValue(double value) {
-        return AccurateMath.abs(value) < epsilon;
+        return JdkMath.abs(value) < epsilon;
     }
 
     /** {@inheritDoc} */
@@ -401,7 +401,7 @@ public class OpenMapRealVector extends SparseRealVector
                 res += value * value;
             }
         }
-        return AccurateMath.sqrt(res);
+        return JdkMath.sqrt(res);
     }
 
     /** {@inheritDoc} */
@@ -439,7 +439,7 @@ public class OpenMapRealVector extends SparseRealVector
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            double delta = AccurateMath.abs(iter.value() - v.getEntry(iter.key()));
+            double delta = JdkMath.abs(iter.value() - v.getEntry(iter.key()));
             max += delta;
         }
         iter = v.getEntries().iterator();
@@ -447,8 +447,8 @@ public class OpenMapRealVector extends SparseRealVector
             iter.advance();
             int key = iter.key();
             if (!entries.containsKey(key)) {
-                double delta = AccurateMath.abs(iter.value());
-                max +=  AccurateMath.abs(delta);
+                double delta = JdkMath.abs(iter.value());
+                max +=  JdkMath.abs(delta);
             }
         }
         return max;
@@ -480,7 +480,7 @@ public class OpenMapRealVector extends SparseRealVector
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
-            double delta = AccurateMath.abs(iter.value() - v.getEntry(iter.key()));
+            double delta = JdkMath.abs(iter.value() - v.getEntry(iter.key()));
             if (delta > max) {
                 max = delta;
             }

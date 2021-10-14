@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.function;
 
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Arc-tangent function.
@@ -29,6 +29,6 @@ public class Atan2 implements BivariateFunction {
     /** {@inheritDoc} */
     @Override
     public double value(double y, double x) {
-        return AccurateMath.atan2(y, x);
+        return JdkMath.atan2(y, x);
     }
 }

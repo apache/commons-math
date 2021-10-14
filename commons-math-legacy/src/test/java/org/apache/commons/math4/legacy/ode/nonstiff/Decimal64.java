@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.numbers.core.Sum;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -358,7 +358,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 remainder(final double a) {
-        return new Decimal64(AccurateMath.IEEEremainder(value, a));
+        return new Decimal64(JdkMath.IEEEremainder(value, a));
     }
 
     /** {@inheritDoc}
@@ -366,7 +366,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 remainder(final Decimal64 a) {
-        return new Decimal64(AccurateMath.IEEEremainder(value, a.value));
+        return new Decimal64(JdkMath.IEEEremainder(value, a.value));
     }
 
     /** {@inheritDoc}
@@ -374,7 +374,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 abs() {
-        return new Decimal64(AccurateMath.abs(value));
+        return new Decimal64(JdkMath.abs(value));
     }
 
     /** {@inheritDoc}
@@ -382,7 +382,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 ceil() {
-        return new Decimal64(AccurateMath.ceil(value));
+        return new Decimal64(JdkMath.ceil(value));
     }
 
     /** {@inheritDoc}
@@ -390,7 +390,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 floor() {
-        return new Decimal64(AccurateMath.floor(value));
+        return new Decimal64(JdkMath.floor(value));
     }
 
     /** {@inheritDoc}
@@ -398,7 +398,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 rint() {
-        return new Decimal64(AccurateMath.rint(value));
+        return new Decimal64(JdkMath.rint(value));
     }
 
     /** {@inheritDoc}
@@ -406,7 +406,7 @@ public class Decimal64 extends Number
      */
     @Override
     public long round() {
-        return AccurateMath.round(value);
+        return JdkMath.round(value);
     }
 
     /** {@inheritDoc}
@@ -414,7 +414,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 signum() {
-        return new Decimal64(AccurateMath.signum(value));
+        return new Decimal64(JdkMath.signum(value));
     }
 
     /** {@inheritDoc}
@@ -422,7 +422,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 copySign(final Decimal64 sign) {
-        return new Decimal64(AccurateMath.copySign(value, sign.value));
+        return new Decimal64(JdkMath.copySign(value, sign.value));
     }
 
     /** {@inheritDoc}
@@ -430,7 +430,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 copySign(final double sign) {
-        return new Decimal64(AccurateMath.copySign(value, sign));
+        return new Decimal64(JdkMath.copySign(value, sign));
     }
 
     /** {@inheritDoc}
@@ -438,7 +438,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 scalb(final int n) {
-        return new Decimal64(AccurateMath.scalb(value, n));
+        return new Decimal64(JdkMath.scalb(value, n));
     }
 
     /** {@inheritDoc}
@@ -446,7 +446,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 hypot(final Decimal64 y) {
-        return new Decimal64(AccurateMath.hypot(value, y.value));
+        return new Decimal64(JdkMath.hypot(value, y.value));
     }
 
     /** {@inheritDoc}
@@ -454,7 +454,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 sqrt() {
-        return new Decimal64(AccurateMath.sqrt(value));
+        return new Decimal64(JdkMath.sqrt(value));
     }
 
     /** {@inheritDoc}
@@ -462,7 +462,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 cbrt() {
-        return new Decimal64(AccurateMath.cbrt(value));
+        return new Decimal64(JdkMath.cbrt(value));
     }
 
     /** {@inheritDoc}
@@ -471,9 +471,9 @@ public class Decimal64 extends Number
     @Override
     public Decimal64 rootN(final int n) {
         if (value < 0) {
-            return new Decimal64(-AccurateMath.pow(-value, 1.0 / n));
+            return new Decimal64(-JdkMath.pow(-value, 1.0 / n));
         } else {
-            return new Decimal64(AccurateMath.pow(value, 1.0 / n));
+            return new Decimal64(JdkMath.pow(value, 1.0 / n));
         }
     }
 
@@ -482,7 +482,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 pow(final double p) {
-        return new Decimal64(AccurateMath.pow(value, p));
+        return new Decimal64(JdkMath.pow(value, p));
     }
 
     /** {@inheritDoc}
@@ -490,7 +490,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 pow(final int n) {
-        return new Decimal64(AccurateMath.pow(value, n));
+        return new Decimal64(JdkMath.pow(value, n));
     }
 
     /** {@inheritDoc}
@@ -498,7 +498,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 pow(final Decimal64 e) {
-        return new Decimal64(AccurateMath.pow(value, e.value));
+        return new Decimal64(JdkMath.pow(value, e.value));
     }
 
     /** {@inheritDoc}
@@ -506,7 +506,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 exp() {
-        return new Decimal64(AccurateMath.exp(value));
+        return new Decimal64(JdkMath.exp(value));
     }
 
     /** {@inheritDoc}
@@ -514,7 +514,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 expm1() {
-        return new Decimal64(AccurateMath.expm1(value));
+        return new Decimal64(JdkMath.expm1(value));
     }
 
     /** {@inheritDoc}
@@ -522,7 +522,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 log() {
-        return new Decimal64(AccurateMath.log(value));
+        return new Decimal64(JdkMath.log(value));
     }
 
     /** {@inheritDoc}
@@ -530,7 +530,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 log1p() {
-        return new Decimal64(AccurateMath.log1p(value));
+        return new Decimal64(JdkMath.log1p(value));
     }
 
     /** Base 10 logarithm.
@@ -539,7 +539,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 log10() {
-        return new Decimal64(AccurateMath.log10(value));
+        return new Decimal64(JdkMath.log10(value));
     }
 
     /** {@inheritDoc}
@@ -547,7 +547,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 cos() {
-        return new Decimal64(AccurateMath.cos(value));
+        return new Decimal64(JdkMath.cos(value));
     }
 
     /** {@inheritDoc}
@@ -555,7 +555,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 sin() {
-        return new Decimal64(AccurateMath.sin(value));
+        return new Decimal64(JdkMath.sin(value));
     }
 
     /** {@inheritDoc}
@@ -563,7 +563,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 tan() {
-        return new Decimal64(AccurateMath.tan(value));
+        return new Decimal64(JdkMath.tan(value));
     }
 
     /** {@inheritDoc}
@@ -571,7 +571,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 acos() {
-        return new Decimal64(AccurateMath.acos(value));
+        return new Decimal64(JdkMath.acos(value));
     }
 
     /** {@inheritDoc}
@@ -579,7 +579,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 asin() {
-        return new Decimal64(AccurateMath.asin(value));
+        return new Decimal64(JdkMath.asin(value));
     }
 
     /** {@inheritDoc}
@@ -587,7 +587,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 atan() {
-        return new Decimal64(AccurateMath.atan(value));
+        return new Decimal64(JdkMath.atan(value));
     }
 
     /** {@inheritDoc}
@@ -595,7 +595,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 atan2(final Decimal64 x) {
-        return new Decimal64(AccurateMath.atan2(value, x.value));
+        return new Decimal64(JdkMath.atan2(value, x.value));
     }
 
     /** {@inheritDoc}
@@ -603,7 +603,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 cosh() {
-        return new Decimal64(AccurateMath.cosh(value));
+        return new Decimal64(JdkMath.cosh(value));
     }
 
     /** {@inheritDoc}
@@ -611,7 +611,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 sinh() {
-        return new Decimal64(AccurateMath.sinh(value));
+        return new Decimal64(JdkMath.sinh(value));
     }
 
     /** {@inheritDoc}
@@ -619,7 +619,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 tanh() {
-        return new Decimal64(AccurateMath.tanh(value));
+        return new Decimal64(JdkMath.tanh(value));
     }
 
     /** {@inheritDoc}
@@ -627,7 +627,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 acosh() {
-        return new Decimal64(AccurateMath.acosh(value));
+        return new Decimal64(JdkMath.acosh(value));
     }
 
     /** {@inheritDoc}
@@ -635,7 +635,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 asinh() {
-        return new Decimal64(AccurateMath.asinh(value));
+        return new Decimal64(JdkMath.asinh(value));
     }
 
     /** {@inheritDoc}
@@ -643,7 +643,7 @@ public class Decimal64 extends Number
      */
     @Override
     public Decimal64 atanh() {
-        return new Decimal64(AccurateMath.atanh(value));
+        return new Decimal64(JdkMath.atanh(value));
     }
 
     /** {@inheritDoc}

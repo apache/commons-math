@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Utility routines for {@link UnivariateSolver} objects.
@@ -111,11 +111,11 @@ public final class UnivariateSolverUtils {
         }
 
         // find a very small interval bracketing the root
-        final double step = AccurateMath.max(bracketing.getAbsoluteAccuracy(),
-                                         AccurateMath.abs(baseRoot * bracketing.getRelativeAccuracy()));
-        double xLo        = AccurateMath.max(min, baseRoot - step);
+        final double step = JdkMath.max(bracketing.getAbsoluteAccuracy(),
+                                         JdkMath.abs(baseRoot * bracketing.getRelativeAccuracy()));
+        double xLo        = JdkMath.max(min, baseRoot - step);
         double fLo        = f.value(xLo);
-        double xHi        = AccurateMath.min(max, baseRoot + step);
+        double xHi        = JdkMath.min(max, baseRoot + step);
         double fHi        = f.value(xHi);
         int remainingEval = maxEval - 2;
         while (remainingEval > 0) {
@@ -150,14 +150,14 @@ public final class UnivariateSolverUtils {
 
             // update the lower bound
             if (changeLo) {
-                xLo = AccurateMath.max(min, xLo - step);
+                xLo = JdkMath.max(min, xLo - step);
                 fLo  = f.value(xLo);
                 remainingEval--;
             }
 
             // update the higher bound
             if (changeHi) {
-                xHi = AccurateMath.min(max, xHi + step);
+                xHi = JdkMath.min(max, xHi + step);
                 fHi  = f.value(xHi);
                 remainingEval--;
             }
@@ -325,8 +325,8 @@ public final class UnivariateSolverUtils {
             final double previousFb = fb;
 
             delta = r * delta + q;
-            a     = AccurateMath.max(initial - delta, lowerBound);
-            b     = AccurateMath.min(initial + delta, upperBound);
+            a     = JdkMath.max(initial - delta, lowerBound);
+            b     = JdkMath.min(initial + delta, upperBound);
             fa    = function.value(a);
             fb    = function.value(b);
 

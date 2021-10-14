@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.core.dfp;
 
 import org.apache.commons.math4.legacy.core.ExtendedFieldElementAbstractTest;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.After;
 import org.junit.Assert;
@@ -1570,8 +1570,8 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         DfpField localField = new DfpField(100);
         Assert.assertEquals(0.0, localField.getZero().toDouble(), Precision.SAFE_MIN);
         Assert.assertEquals(0.0, localField.newDfp(0.0).toDouble(), Precision.SAFE_MIN);
-        Assert.assertEquals(-1, AccurateMath.copySign(1, localField.newDfp(-0.0).toDouble()), Precision.EPSILON);
-        Assert.assertEquals(+1, AccurateMath.copySign(1, localField.newDfp(+0.0).toDouble()), Precision.EPSILON);
+        Assert.assertEquals(-1, JdkMath.copySign(1, localField.newDfp(-0.0).toDouble()), Precision.EPSILON);
+        Assert.assertEquals(+1, JdkMath.copySign(1, localField.newDfp(+0.0).toDouble()), Precision.EPSILON);
     }
 
     @Test

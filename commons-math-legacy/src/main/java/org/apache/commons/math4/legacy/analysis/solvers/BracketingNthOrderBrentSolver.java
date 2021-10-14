@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -199,11 +199,11 @@ public class BracketingNthOrderBrentSolver
         // current tightest bracketing of the root
         double xA    = x[signChangeIndex - 1];
         double yA    = y[signChangeIndex - 1];
-        double absYA = AccurateMath.abs(yA);
+        double absYA = JdkMath.abs(yA);
         int agingA   = 0;
         double xB    = x[signChangeIndex];
         double yB    = y[signChangeIndex];
-        double absYB = AccurateMath.abs(yB);
+        double absYB = JdkMath.abs(yB);
         int agingB   = 0;
 
         // search loop
@@ -211,8 +211,8 @@ public class BracketingNthOrderBrentSolver
 
             // check convergence of bracketing interval
             final double xTol = getAbsoluteAccuracy() +
-                                getRelativeAccuracy() * AccurateMath.max(AccurateMath.abs(xA), AccurateMath.abs(xB));
-            if (((xB - xA) <= xTol) || (AccurateMath.max(absYA, absYB) < getFunctionValueAccuracy())) {
+                                getRelativeAccuracy() * JdkMath.max(JdkMath.abs(xA), JdkMath.abs(xB));
+            if (((xB - xA) <= xTol) || (JdkMath.max(absYA, absYB) < getFunctionValueAccuracy())) {
                 switch (allowed) {
                 case ANY_SIDE :
                     return absYA < absYB ? xA : xB;
@@ -332,14 +332,14 @@ public class BracketingNthOrderBrentSolver
                 // the sign change occurs before the inserted point
                 xB = nextX;
                 yB = nextY;
-                absYB = AccurateMath.abs(yB);
+                absYB = JdkMath.abs(yB);
                 ++agingA;
                 agingB = 0;
             } else {
                 // the sign change occurs after the inserted point
                 xA = nextX;
                 yA = nextY;
-                absYA = AccurateMath.abs(yA);
+                absYA = JdkMath.abs(yA);
                 agingA = 0;
                 ++agingB;
 

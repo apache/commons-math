@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.analysis.solvers;
 
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
@@ -82,7 +82,7 @@ public class BisectionSolver extends AbstractUnivariateSolver {
                 max = m;
             }
 
-            if (AccurateMath.abs(max - min) <= absoluteAccuracy) {
+            if (JdkMath.abs(max - min) <= absoluteAccuracy) {
                 m = UnivariateSolverUtils.midpoint(min, max);
                 return m;
             }

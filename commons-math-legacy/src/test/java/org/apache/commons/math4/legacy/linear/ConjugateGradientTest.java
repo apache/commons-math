@@ -21,7 +21,7 @@ import java.util.Arrays;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -89,7 +89,7 @@ public class ConjugateGradientTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-10 * AccurateMath.abs(expected);
+                final double delta = 1E-10 * JdkMath.abs(expected);
                 final String msg = String.format("entry[%d][%d]", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -115,7 +115,7 @@ public class ConjugateGradientTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-10 * AccurateMath.abs(expected);
+                final double delta = 1E-10 * JdkMath.abs(expected);
                 final String msg = String.format("entry[%d][%d)", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -141,7 +141,7 @@ public class ConjugateGradientTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-10 * AccurateMath.abs(expected);
+                final double delta = 1E-10 * JdkMath.abs(expected);
                 final String msg = String.format("entry[%d][%d]", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
                 Assert.assertEquals(msg, x0.getEntry(i), 1., Math.ulp(1.));
@@ -206,7 +206,7 @@ public class ConjugateGradientTest {
                 for (int i = 0; i < n; i++) {
                     final double actual = b.getEntry(i) - y.getEntry(i);
                     final double expected = r.getEntry(i);
-                    final double delta = 1E-6 * AccurateMath.abs(expected);
+                    final double delta = 1E-6 * JdkMath.abs(expected);
                     final String msg = String
                         .format("column %d, residual %d", i, j);
                     Assert.assertEquals(msg, expected, actual, delta);
@@ -322,7 +322,7 @@ public class ConjugateGradientTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * AccurateMath.abs(expected);
+                final double delta = 1E-6 * JdkMath.abs(expected);
                 final String msg = String.format("coefficient (%d, %d)", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -382,7 +382,7 @@ public class ConjugateGradientTest {
                 for (int i = 0; i < n; i++) {
                     final double actual = b.getEntry(i) - y.getEntry(i);
                     final double expected = r.getEntry(i);
-                    final double delta = 1E-6 * AccurateMath.abs(expected);
+                    final double delta = 1E-6 * JdkMath.abs(expected);
                     final String msg = String.format("column %d, residual %d", i, j);
                     Assert.assertEquals(msg, expected, actual, delta);
                 }
@@ -430,7 +430,7 @@ public class ConjugateGradientTest {
                 msg = String.format("row %d, column %d", i, j);
                 final double expected = x.getEntry(i);
                 final double actual = px.getEntry(i);
-                final double delta = 1E-6 * AccurateMath.abs(expected);
+                final double delta = 1E-6 * JdkMath.abs(expected);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
         }
@@ -533,7 +533,7 @@ public class ConjugateGradientTest {
                 final double rnorm = r.getNorm();
                 Assert.assertEquals("iteration performed (residual)",
                     rnorm, evt.getNormOfResidual(),
-                    AccurateMath.max(1E-5 * rnorm, 1E-10));
+                    JdkMath.max(1E-5 * rnorm, 1E-10));
             }
 
             @Override
@@ -584,7 +584,7 @@ public class ConjugateGradientTest {
                 final double rnorm = r.getNorm();
                 Assert.assertEquals("iteration performed (residual)",
                     rnorm, evt.getNormOfResidual(),
-                    AccurateMath.max(1E-5 * rnorm, 1E-10));
+                    JdkMath.max(1E-5 * rnorm, 1E-10));
             }
 
             @Override

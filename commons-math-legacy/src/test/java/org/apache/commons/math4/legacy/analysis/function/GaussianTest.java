@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDiffer
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class GaussianTest {
     public void testSomeValues() {
         final UnivariateFunction f = new Gaussian();
 
-        Assert.assertEquals(1 / AccurateMath.sqrt(2 * Math.PI), f.value(0), EPS);
+        Assert.assertEquals(1 / JdkMath.sqrt(2 * Math.PI), f.value(0), EPS);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class GaussianTest {
         final double x = 1;
         final double[] grad = f.gradient(1, new double[] {norm, mean, sigma});
         final double diff = x - mean;
-        final double n = AccurateMath.exp(-diff * diff / (2 * sigma * sigma));
+        final double n = JdkMath.exp(-diff * diff / (2 * sigma * sigma));
         Assert.assertEquals(n, grad[0], EPS);
         final double m = norm * n * diff / (sigma * sigma);
         Assert.assertEquals(m, grad[1], EPS);

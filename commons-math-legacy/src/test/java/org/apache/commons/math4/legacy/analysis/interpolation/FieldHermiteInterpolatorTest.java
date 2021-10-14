@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.core.dfp.DfpField;
 import org.apache.commons.math4.legacy.linear.Dfp25;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -101,7 +101,7 @@ public class FieldHermiteInterpolatorTest {
             for (int k = 0; k < p.length; ++k) {
                 int degree = random.nextInt(7);
                 p[k] = randomPolynomial(degree, random);
-                maxDegree = AccurateMath.max(maxDegree, degree);
+                maxDegree = JdkMath.max(maxDegree, degree);
             }
 
             DfpField field = new DfpField(30);
@@ -123,7 +123,7 @@ public class FieldHermiteInterpolatorTest {
                 for (int k = 0; k < p.length; ++k) {
                     Assert.assertEquals(p[k].value(x.getReal()),
                                         values[k].getReal(),
-                                        1.0e-8 * AccurateMath.abs(p[k].value(x.getReal())));
+                                        1.0e-8 * JdkMath.abs(p[k].value(x.getReal())));
                 }
             }
 
@@ -145,7 +145,7 @@ public class FieldHermiteInterpolatorTest {
                 int degree = random.nextInt(7);
                 p[k]      = randomPolynomial(degree, random);
                 pPrime[k] = p[k].polynomialDerivative();
-                maxDegree = AccurateMath.max(maxDegree, degree);
+                maxDegree = JdkMath.max(maxDegree, degree);
             }
 
             DfpField field = new DfpField(30);
@@ -172,10 +172,10 @@ public class FieldHermiteInterpolatorTest {
                 for (int k = 0; k < p.length; ++k) {
                     Assert.assertEquals(p[k].value(x.getReal()),
                                         y[k].getReal(),
-                                        1.0e-8 * AccurateMath.abs(p[k].value(x.getReal())));
+                                        1.0e-8 * JdkMath.abs(p[k].value(x.getReal())));
                     Assert.assertEquals(pPrime[k].value(x.getReal()),
                                         yP[k].subtract(yM[k]).divide(h.multiply(2)).getReal(),
-                                        4.0e-8 * AccurateMath.abs(p[k].value(x.getReal())));
+                                        4.0e-8 * JdkMath.abs(p[k].value(x.getReal())));
                 }
             }
 
@@ -186,7 +186,7 @@ public class FieldHermiteInterpolatorTest {
     public void testSine() {
         DfpField field = new DfpField(30);
         FieldHermiteInterpolator<Dfp> interpolator = new FieldHermiteInterpolator<>();
-        for (Dfp x = field.getZero(); x.getReal() < AccurateMath.PI; x = x.add(0.5)) {
+        for (Dfp x = field.getZero(); x.getReal() < JdkMath.PI; x = x.add(0.5)) {
             interpolator.addSamplePoint(x, new Dfp[] { x.sin() });
         }
         for (Dfp x = field.newDfp(0.1); x.getReal() < 2.9; x = x.add(0.01)) {

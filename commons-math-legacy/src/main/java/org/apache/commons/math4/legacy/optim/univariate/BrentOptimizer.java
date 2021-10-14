@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
@@ -44,11 +44,11 @@ public class BrentOptimizer extends UnivariateOptimizer {
     /**
      * Golden section.
      */
-    private static final double GOLDEN_SECTION = 0.5 * (3 - AccurateMath.sqrt(5));
+    private static final double GOLDEN_SECTION = 0.5 * (3 - JdkMath.sqrt(5));
     /**
      * Minimum relative tolerance.
      */
-    private static final double MIN_RELATIVE_TOLERANCE = 2 * AccurateMath.ulp(1d);
+    private static final double MIN_RELATIVE_TOLERANCE = 2 * JdkMath.ulp(1d);
     /**
      * Relative threshold.
      */
@@ -151,18 +151,18 @@ public class BrentOptimizer extends UnivariateOptimizer {
 
         while (true) {
             final double m = 0.5 * (a + b);
-            final double tol1 = relativeThreshold * AccurateMath.abs(x) + absoluteThreshold;
+            final double tol1 = relativeThreshold * JdkMath.abs(x) + absoluteThreshold;
             final double tol2 = 2 * tol1;
 
             // Default stopping criterion.
-            final boolean stop = AccurateMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+            final boolean stop = JdkMath.abs(x - m) <= tol2 - 0.5 * (b - a);
             if (!stop) {
                 double p = 0;
                 double q = 0;
                 double r = 0;
                 double u = 0;
 
-                if (AccurateMath.abs(e) > tol1) { // Fit parabola.
+                if (JdkMath.abs(e) > tol1) { // Fit parabola.
                     r = (x - w) * (fx - fv);
                     q = (x - v) * (fx - fw);
                     p = (x - v) * q - (x - w) * r;
@@ -179,7 +179,7 @@ public class BrentOptimizer extends UnivariateOptimizer {
 
                     if (p > q * (a - x) &&
                         p < q * (b - x) &&
-                        AccurateMath.abs(p) < AccurateMath.abs(0.5 * q * r)) {
+                        JdkMath.abs(p) < JdkMath.abs(0.5 * q * r)) {
                         // Parabolic interpolation step.
                         d = p / q;
                         u = x + d;
@@ -212,7 +212,7 @@ public class BrentOptimizer extends UnivariateOptimizer {
                 }
 
                 // Update by at least "tol1".
-                if (AccurateMath.abs(d) < tol1) {
+                if (JdkMath.abs(d) < tol1) {
                     if (d >= 0) {
                         u = x + tol1;
                     } else {

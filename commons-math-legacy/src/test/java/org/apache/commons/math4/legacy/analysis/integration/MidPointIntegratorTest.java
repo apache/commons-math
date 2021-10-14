@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public final class MidPointIntegratorTest {
      * (3^(n + 1) - 1) / 2 evaluations; just under 50% more.
      */
     private long expectedEvaluations(int iterations) {
-        return (long) AccurateMath.pow(3, iterations);
+        return (long) JdkMath.pow(3, iterations);
     }
 
     /**
@@ -65,7 +65,7 @@ public final class MidPointIntegratorTest {
         double min = -10;
         double max =  -9;
         double expected = -3697001.0 / 48.0;
-        double tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        double tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         double result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
@@ -83,19 +83,19 @@ public final class MidPointIntegratorTest {
         UnivariateIntegrator integrator = new MidPointIntegrator();
 
         double min = 0;
-        double max = AccurateMath.PI;
+        double max = JdkMath.PI;
         double expected = 2;
-        double tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        double tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         double result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
         Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
 
-        min = -AccurateMath.PI/3;
+        min = -JdkMath.PI/3;
         max = 0;
         expected = -0.5;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
@@ -115,7 +115,7 @@ public final class MidPointIntegratorTest {
         double min = 0;
         double max = 1;
         double expected = -1.0 / 48;
-        double tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        double tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         double result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
@@ -125,7 +125,7 @@ public final class MidPointIntegratorTest {
         min = 0;
         max = 0.5;
         expected = 11.0 / 768;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
@@ -134,7 +134,7 @@ public final class MidPointIntegratorTest {
         min = -1;
         max = 4;
         expected = 2048 / 3.0 - 78 + 1.0 / 48;
-        tolerance = AccurateMath.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = JdkMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
         Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 3);
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);

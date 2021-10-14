@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class is used in the junit tests for the ODE integrators.
@@ -64,7 +64,7 @@ public class TestProblem1
 
   @Override
   public double[] computeTheoreticalState(double t) {
-    double c = AccurateMath.exp (getInitialTime() - t);
+    double c = JdkMath.exp (getInitialTime() - t);
     for (int i = 0; i < getDimension(); ++i) {
       y[i] = c * getInitialState()[i];
     }

@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.numbers.fraction.BigFraction;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * A collection of static methods that operate on or return polynomials.
@@ -341,7 +341,7 @@ public final class PolynomialsUtils {
 
         // First polynomial coefficient.
         for (int i = 0; i < dp1; i++){
-            newCoefficients[0] += coefficients[i] * AccurateMath.pow(shift, i);
+            newCoefficients[0] += coefficients[i] * JdkMath.pow(shift, i);
         }
 
         // Superior order.
@@ -349,7 +349,7 @@ public final class PolynomialsUtils {
         for (int i = 0; i < d; i++) {
             for (int j = i; j < d; j++){
                 newCoefficients[i + 1] += coeff[j + 1][j - i] *
-                    coefficients[j + 1] * AccurateMath.pow(shift, j - i);
+                    coefficients[j + 1] * JdkMath.pow(shift, j - i);
             }
         }
 
@@ -370,7 +370,7 @@ public final class PolynomialsUtils {
         // case, the lock object is an immutable field that belongs to this
         // class.
         synchronized (coefficients) {
-            final int maxDegree = (int) AccurateMath.floor(AccurateMath.sqrt(2.0 * coefficients.size())) - 1;
+            final int maxDegree = (int) JdkMath.floor(JdkMath.sqrt(2.0 * coefficients.size())) - 1;
             if (degree > maxDegree) {
                 computeUpToDegree(degree, maxDegree, generator, coefficients);
             }

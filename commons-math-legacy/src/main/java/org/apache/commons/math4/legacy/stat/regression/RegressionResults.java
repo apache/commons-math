@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Results of a Multiple Linear Regression model fit.
@@ -192,7 +192,7 @@ public class RegressionResults implements Serializable {
         }
         double var = this.getVcvElement(index, index);
         if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
-            return AccurateMath.sqrt(var);
+            return JdkMath.sqrt(var);
         }
         return Double.NaN;
     }
@@ -216,7 +216,7 @@ public class RegressionResults implements Serializable {
         for (int i = 0; i < this.parameters.length; i++) {
             double var = this.getVcvElement(i, i);
             if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
-                se[i] = AccurateMath.sqrt(var);
+                se[i] = JdkMath.sqrt(var);
                 continue;
             }
             se[i] = Double.NaN;

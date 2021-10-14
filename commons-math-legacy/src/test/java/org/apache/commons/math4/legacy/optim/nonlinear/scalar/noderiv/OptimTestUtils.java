@@ -23,7 +23,7 @@ import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 import org.apache.commons.rng.sampling.distribution.MarsagliaNormalizedGaussianSampler;
 import org.apache.commons.rng.sampling.distribution.ContinuousUniformSampler;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Utilities for testing the optimizers.
@@ -51,7 +51,7 @@ final class OptimTestUtils {
             double f = 0;
             x = B.Rotate(x);
             for (int i = 0; i < x.length; ++i) {
-                f += AccurateMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
+                f += JdkMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
             }
             return f;
         }
@@ -73,7 +73,7 @@ final class OptimTestUtils {
             final double x = variables[0];
             final double y = variables[1];
             return (x == 0 || y == 0) ? 0 :
-                AccurateMath.atan(x) * AccurateMath.atan(x + 2) * AccurateMath.atan(y) * AccurateMath.atan(y) / (x * y);
+                JdkMath.atan(x) * JdkMath.atan(x + 2) * JdkMath.atan(y) * JdkMath.atan(y) / (x * y);
         }
     }
 
@@ -164,7 +164,7 @@ final class OptimTestUtils {
                     sp += basis[i][k] * basis[i][k]; /* squared norm */
                 }
                 for (k = 0; k < dim; ++k) {
-                    basis[i][k] /= AccurateMath.sqrt(sp);
+                    basis[i][k] /= JdkMath.sqrt(sp);
                 }
             }
         }

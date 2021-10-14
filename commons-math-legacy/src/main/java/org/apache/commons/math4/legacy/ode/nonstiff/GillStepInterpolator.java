@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * This class implements a step interpolator for the Gill fourth
@@ -55,10 +55,10 @@ class GillStepInterpolator
   extends RungeKuttaStepInterpolator {
 
     /** First Gill coefficient. */
-    private static final double ONE_MINUS_INV_SQRT_2 = 1 - AccurateMath.sqrt(0.5);
+    private static final double ONE_MINUS_INV_SQRT_2 = 1 - JdkMath.sqrt(0.5);
 
     /** Second Gill coefficient. */
-    private static final double ONE_PLUS_INV_SQRT_2 = 1 + AccurateMath.sqrt(0.5);
+    private static final double ONE_PLUS_INV_SQRT_2 = 1 + JdkMath.sqrt(0.5);
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20111120L;

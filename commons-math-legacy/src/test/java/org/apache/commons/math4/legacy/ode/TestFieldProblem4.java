@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.ode.events.Action;
 import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -79,10 +79,10 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
     @Override
     public T[] getTheoreticalEventsTimes() {
         T[] array = MathArrays.buildArray(getField(), 5);
-        array[0] = a.negate().add(1 * AccurateMath.PI);
-        array[1] = a.negate().add(2 * AccurateMath.PI);
-        array[2] = a.negate().add(3 * AccurateMath.PI);
-        array[3] = a.negate().add(4 * AccurateMath.PI);
+        array[0] = a.negate().add(1 * JdkMath.PI);
+        array[1] = a.negate().add(2 * JdkMath.PI);
+        array[2] = a.negate().add(3 * JdkMath.PI);
+        array[3] = a.negate().add(4 * JdkMath.PI);
         array[4] = convert(120.0);
         return array;
     }

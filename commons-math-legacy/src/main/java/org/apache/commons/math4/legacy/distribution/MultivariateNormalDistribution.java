@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.linear.NonPositiveDefiniteMatrixException
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.SingularMatrixException;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Implementation of the multivariate normal (Gaussian) distribution.
@@ -120,7 +120,7 @@ public class MultivariateNormalDistribution
 
         // Scale each eigenvector by the square root of its eigenvalue.
         for (int row = 0; row < dim; row++) {
-            final double factor = AccurateMath.sqrt(covMatEigenvalues[row]);
+            final double factor = JdkMath.sqrt(covMatEigenvalues[row]);
             for (int col = 0; col < dim; col++) {
                 tmpMatrix.multiplyEntry(row, col, factor);
             }
@@ -155,8 +155,8 @@ public class MultivariateNormalDistribution
             throw new DimensionMismatchException(vals.length, dim);
         }
 
-        return AccurateMath.pow(2 * AccurateMath.PI, -0.5 * dim) *
-            AccurateMath.pow(covarianceMatrixDeterminant, -0.5) *
+        return JdkMath.pow(2 * JdkMath.PI, -0.5 * dim) *
+            JdkMath.pow(covarianceMatrixDeterminant, -0.5) *
             getExponentTerm(vals);
     }
 
@@ -171,7 +171,7 @@ public class MultivariateNormalDistribution
         final double[] std = new double[dim];
         final double[][] s = covarianceMatrix.getData();
         for (int i = 0; i < dim; i++) {
-            std[i] = AccurateMath.sqrt(s[i][i]);
+            std[i] = JdkMath.sqrt(s[i][i]);
         }
         return std;
     }
@@ -220,6 +220,6 @@ public class MultivariateNormalDistribution
         for (int i = 0; i < preMultiplied.length; i++) {
             sum += preMultiplied[i] * centered[i];
         }
-        return AccurateMath.exp(-0.5 * sum);
+        return JdkMath.exp(-0.5 * sum);
     }
 }

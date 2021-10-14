@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialSplineFunc
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -113,14 +113,14 @@ public class SplineInterpolatorTest {
         double x[] =
             {
                 0.0,
-                AccurateMath.PI / 6d,
-                AccurateMath.PI / 2d,
-                5d * AccurateMath.PI / 6d,
-                AccurateMath.PI,
-                7d * AccurateMath.PI / 6d,
-                3d * AccurateMath.PI / 2d,
-                11d * AccurateMath.PI / 6d,
-                2.d * AccurateMath.PI };
+                JdkMath.PI / 6d,
+                JdkMath.PI / 2d,
+                5d * JdkMath.PI / 6d,
+                JdkMath.PI,
+                7d * JdkMath.PI / 6d,
+                3d * JdkMath.PI / 2d,
+                11d * JdkMath.PI / 6d,
+                2.d * JdkMath.PI };
         double y[] = { 0d, 0.5d, 1d, 0.5d, 0d, -0.5d, -1d, -0.5d, 0d };
         UnivariateInterpolator i = new SplineInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
@@ -155,8 +155,8 @@ public class SplineInterpolatorTest {
         TestUtils.assertEquals(polynomials[7].getCoefficients(), target, sineCoefficientTolerance);
 
         //Check interpolation
-        Assert.assertEquals(AccurateMath.sqrt(2d) / 2d,f.value(AccurateMath.PI/4d),sineInterpolationTolerance);
-        Assert.assertEquals(AccurateMath.sqrt(2d) / 2d,f.value(3d*AccurateMath.PI/4d),sineInterpolationTolerance);
+        Assert.assertEquals(JdkMath.sqrt(2d) / 2d,f.value(JdkMath.PI/4d),sineInterpolationTolerance);
+        Assert.assertEquals(JdkMath.sqrt(2d) / 2d,f.value(3d*JdkMath.PI/4d),sineInterpolationTolerance);
     }
 
     @Test

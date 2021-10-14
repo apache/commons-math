@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.fitting.leastsquares;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +45,8 @@ class BevingtonProblem {
                 for (int i = 0; i < values.length; ++i) {
                     final double t = time.get(i);
                     values[i] = params[0] +
-                        params[1] * AccurateMath.exp(-t / params[3]) +
-                        params[2] * AccurateMath.exp(-t / params[4]);
+                        params[1] * JdkMath.exp(-t / params[3]) +
+                        params[2] * JdkMath.exp(-t / params[4]);
                 }
                 return values;
             }
@@ -67,10 +67,10 @@ class BevingtonProblem {
                     final double p4 =  params[4];
                     final double tOp3 = t / p3;
                     final double tOp4 = t / p4;
-                    jacobian[i][1] = AccurateMath.exp(-tOp3);
-                    jacobian[i][2] = AccurateMath.exp(-tOp4);
-                    jacobian[i][3] = params[1] * AccurateMath.exp(-tOp3) * tOp3 / p3;
-                    jacobian[i][4] = params[2] * AccurateMath.exp(-tOp4) * tOp4 / p4;
+                    jacobian[i][1] = JdkMath.exp(-tOp3);
+                    jacobian[i][2] = JdkMath.exp(-tOp4);
+                    jacobian[i][3] = params[1] * JdkMath.exp(-tOp3) * tOp3 / p3;
+                    jacobian[i][4] = params[2] * JdkMath.exp(-tOp4) * tOp4 / p4;
                 }
                 return jacobian;
             }

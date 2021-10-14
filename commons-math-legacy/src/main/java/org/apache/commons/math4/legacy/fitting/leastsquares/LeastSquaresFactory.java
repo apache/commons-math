@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.optim.AbstractOptimizationProblem;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.PointVectorValuePair;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.IntegerSequence;
 import org.apache.commons.math4.legacy.core.Pair;
 
@@ -278,7 +278,7 @@ public final class LeastSquaresFactory {
             final int dim = m.getRowDimension();
             final RealMatrix sqrtM = new DiagonalMatrix(dim);
             for (int i = 0; i < dim; i++) {
-                sqrtM.setEntry(i, i, AccurateMath.sqrt(m.getEntry(i, i)));
+                sqrtM.setEntry(i, i, JdkMath.sqrt(m.getEntry(i, i)));
             }
             return sqrtM;
         } else {

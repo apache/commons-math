@@ -39,7 +39,7 @@ import org.apache.commons.math4.legacy.ode.events.Action;
 import org.apache.commons.math4.legacy.ode.events.FieldEventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.FieldStepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
@@ -122,7 +122,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
             if (regularArray[i] == 0) {
                 Assert.assertEquals(0.0, fieldArray[i].getReal(), 0.0);
             } else {
-                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), AccurateMath.ulp(regularArray[i]));
+                Assert.assertEquals(regularArray[i], fieldArray[i].getReal(), JdkMath.ulp(regularArray[i]));
             }
         }
     }
@@ -212,7 +212,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
             TestFieldProblem1<T> pb = new TestFieldProblem1<>(field);
             double minStep = 0;
             double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
-            double scalAbsoluteTolerance = AccurateMath.pow(10.0, i);
+            double scalAbsoluteTolerance = JdkMath.pow(10.0, i);
             double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
             FirstOrderFieldIntegrator<T> integ = createIntegrator(field, minStep, maxStep,
@@ -577,7 +577,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
         public double[] theoreticalY(final double t) {
             final double theta = omega.getReal() * t + alpha.getReal();
             return new double[] {
-                r.getReal() * AccurateMath.sin(theta), r.getReal() * AccurateMath.cos(theta)
+                r.getReal() * JdkMath.sin(theta), r.getReal() * JdkMath.cos(theta)
             };
         }
 
@@ -585,8 +585,8 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
 
             // intermediate angle and state
             final double theta        = omega.getReal() * t + alpha.getReal();
-            final double sin          = AccurateMath.sin(theta);
-            final double cos          = AccurateMath.cos(theta);
+            final double sin          = JdkMath.sin(theta);
+            final double cos          = JdkMath.cos(theta);
             final double y0           = r.getReal() * sin;
             final double y1           = r.getReal() * cos;
 

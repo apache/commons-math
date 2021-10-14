@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -198,7 +198,7 @@ public class SimplexOptimizerMultiDirectionalTest {
             final double x = point[0];
             final double y = point[1];
             final double twoS2 = 2.0 * std * std;
-            return 1.0 / (twoS2 * AccurateMath.PI) * AccurateMath.exp(-(x * x + y * y) / twoS2);
+            return 1.0 / (twoS2 * JdkMath.PI) * JdkMath.exp(-(x * x + y * y) / twoS2);
         }
     }
 }

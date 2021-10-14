@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -151,7 +151,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
         if (expectedSize == 0) {
             return 1;
         }
-        final int capacity   = (int) AccurateMath.ceil(expectedSize / LOAD_FACTOR);
+        final int capacity   = (int) JdkMath.ceil(expectedSize / LOAD_FACTOR);
         final int powerOfTwo = Integer.highestOneBit(capacity);
         if (powerOfTwo == capacity) {
             return capacity;

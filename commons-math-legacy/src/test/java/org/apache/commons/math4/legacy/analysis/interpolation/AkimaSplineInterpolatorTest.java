@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -227,7 +227,7 @@ public class AkimaSplineInterpolatorTest {
             currentX = distX.sample();
             expected = f.value(currentX);
             actual = interpolation.value( currentX );
-            sumError += AccurateMath.abs( actual - expected );
+            sumError += JdkMath.abs( actual - expected );
             assertEquals( expected, actual, maxTolerance );
         }
 

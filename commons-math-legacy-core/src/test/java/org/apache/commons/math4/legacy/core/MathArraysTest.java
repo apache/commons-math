@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Test cases for the {@link MathArrays} class.
@@ -394,7 +394,7 @@ public class MathArraysTest {
                                      -Double.MAX_VALUE,
                                      -1, 0,
                                      Double.MIN_VALUE,
-                                     AccurateMath.ulp(1d),
+                                     JdkMath.ulp(1d),
                                      1, 3, 113, 4769,
                                      Double.MAX_VALUE,
                                      Double.POSITIVE_INFINITY };
@@ -403,7 +403,7 @@ public class MathArraysTest {
                                   -Double.MAX_VALUE,
                                   -1, 0,
                                   Double.MIN_VALUE,
-                                  AccurateMath.ulp(1d),
+                                  JdkMath.ulp(1d),
                                   1, 3, 113, 4769,
                                   Double.MAX_VALUE,
                                   Double.POSITIVE_INFINITY,
@@ -458,7 +458,7 @@ public class MathArraysTest {
         Assert.assertFalse(MathArrays.equals(new double[] {Double.POSITIVE_INFINITY},
                                              new double[] {Double.NEGATIVE_INFINITY}));
         Assert.assertFalse(MathArrays.equals(new double[] {1d},
-                                             new double[] {AccurateMath.nextAfter(AccurateMath.nextAfter(1d, 2d), 2d)}));
+                                             new double[] {JdkMath.nextAfter(JdkMath.nextAfter(1d, 2d), 2d)}));
 
     }
 
@@ -477,7 +477,7 @@ public class MathArraysTest {
         Assert.assertFalse(MathArrays.equalsIncludingNaN(new double[] {Double.POSITIVE_INFINITY},
                                                          new double[] {Double.NEGATIVE_INFINITY}));
         Assert.assertFalse(MathArrays.equalsIncludingNaN(new double[] {1d},
-                                                         new double[] {AccurateMath.nextAfter(AccurateMath.nextAfter(1d, 2d), 2d)}));
+                                                         new double[] {JdkMath.nextAfter(JdkMath.nextAfter(1d, 2d), 2d)}));
     }
 
     @Test

@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 import org.apache.commons.math4.legacy.analysis.QuinticFunction;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,10 +33,10 @@ public final class BisectionSolverTest {
 
         BisectionSolver solver = new BisectionSolver();
         result = solver.solve(100, f, 3, 4);
-        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, JdkMath.PI, solver.getAbsoluteAccuracy());
 
         result = solver.solve(100, f, 1, 4);
-        Assert.assertEquals(result, AccurateMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, JdkMath.PI, solver.getAbsoluteAccuracy());
     }
 
     @Test
@@ -85,6 +85,6 @@ public final class BisectionSolverTest {
     public void testMath369() {
         UnivariateFunction f = new Sin();
         BisectionSolver solver = new BisectionSolver();
-        Assert.assertEquals(AccurateMath.PI, solver.solve(100, f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
+        Assert.assertEquals(JdkMath.PI, solver.solve(100, f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
     }
 }

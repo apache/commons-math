@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.IntegerSequence.Incrementor;
 
 /**
@@ -143,7 +143,7 @@ public class BracketFinder {
             double tmp2 = (xB - xC) * (fB - fA);
 
             double val = tmp2 - tmp1;
-            double denom = AccurateMath.abs(val) < EPS_MIN ? 2 * EPS_MIN : 2 * val;
+            double denom = JdkMath.abs(val) < EPS_MIN ? 2 * EPS_MIN : 2 * val;
 
             double w = xB - ((xB - xC) * tmp2 - (xB - xA) * tmp1) / denom;
             double wLim = xB + growLimit * (xC - xB);

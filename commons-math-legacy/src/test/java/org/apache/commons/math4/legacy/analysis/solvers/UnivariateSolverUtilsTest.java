@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class UnivariateSolverUtilsTest {
     @Test
     public void testSolveSin() {
         double x = UnivariateSolverUtils.solve(sin, 1.0, 4.0);
-        Assert.assertEquals(AccurateMath.PI, x, 1.0e-4);
+        Assert.assertEquals(JdkMath.PI, x, 1.0e-4);
     }
 
     @Test(expected=NullArgumentException.class)
@@ -71,7 +71,7 @@ public class UnivariateSolverUtilsTest {
         double accuracy = 1.0e-6;
         double x = UnivariateSolverUtils.solve(sin, 1.0,
                 4.0, accuracy);
-        Assert.assertEquals(AccurateMath.PI, x, accuracy);
+        Assert.assertEquals(JdkMath.PI, x, accuracy);
     }
 
     @Test(expected=MathIllegalArgumentException.class)

@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class HarmonicOscillatorTest {
         final double d = 0.12345;
         for (int i = 0; i < 10; i++) {
             final double v = i * d;
-            Assert.assertEquals(a * AccurateMath.cos(w * v + p), f.value(v), 0);
+            Assert.assertEquals(a * JdkMath.cos(w * v + p), f.value(v), 0);
         }
     }
 
@@ -62,19 +62,19 @@ public class HarmonicOscillatorTest {
                     final double trigo;
                     switch (k % 4) {
                         case 0:
-                            trigo = +AccurateMath.cos(w * v + p);
+                            trigo = +JdkMath.cos(w * v + p);
                             break;
                         case 1:
-                            trigo = -AccurateMath.sin(w * v + p);
+                            trigo = -JdkMath.sin(w * v + p);
                             break;
                         case 2:
-                            trigo = -AccurateMath.cos(w * v + p);
+                            trigo = -JdkMath.cos(w * v + p);
                             break;
                         default:
-                            trigo = +AccurateMath.sin(w * v + p);
+                            trigo = +JdkMath.sin(w * v + p);
                             break;
                     }
-                    Assert.assertEquals(a * AccurateMath.pow(w, k) * trigo,
+                    Assert.assertEquals(a * JdkMath.pow(w, k) * trigo,
                                         h.getPartialDerivative(k),
                                         Precision.EPSILON);
                 }
@@ -129,11 +129,11 @@ public class HarmonicOscillatorTest {
         final double x = 1;
         final double[] grad = f.gradient(1, new double[] {amplitude, omega, phase});
         final double xTimesOmegaPlusPhase = omega * x + phase;
-        final double a = AccurateMath.cos(xTimesOmegaPlusPhase);
+        final double a = JdkMath.cos(xTimesOmegaPlusPhase);
         Assert.assertEquals(a, grad[0], EPS);
-        final double w = -amplitude * x * AccurateMath.sin(xTimesOmegaPlusPhase);
+        final double w = -amplitude * x * JdkMath.sin(xTimesOmegaPlusPhase);
         Assert.assertEquals(w, grad[1], EPS);
-        final double p = -amplitude * AccurateMath.sin(xTimesOmegaPlusPhase);
+        final double p = -amplitude * JdkMath.sin(xTimesOmegaPlusPhase);
         Assert.assertEquals(p, grad[2], EPS);
     }
 }

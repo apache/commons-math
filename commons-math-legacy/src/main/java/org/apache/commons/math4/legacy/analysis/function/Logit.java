@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.analysis.differentiation.UnivariateDiffer
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Logit">
@@ -153,7 +153,7 @@ public class Logit implements UnivariateDifferentiableFunction {
         if (x < lo || x > hi) {
             throw new OutOfRangeException(x, lo, hi);
         }
-        return AccurateMath.log((x - lo) / (hi - x));
+        return JdkMath.log((x - lo) / (hi - x));
     }
 
     /** {@inheritDoc}
@@ -170,7 +170,7 @@ public class Logit implements UnivariateDifferentiableFunction {
         double[] f = new double[t.getOrder() + 1];
 
         // function value
-        f[0] = AccurateMath.log((x - lo) / (hi - x));
+        f[0] = JdkMath.log((x - lo) / (hi - x));
 
         if (Double.isInfinite(f[0])) {
 

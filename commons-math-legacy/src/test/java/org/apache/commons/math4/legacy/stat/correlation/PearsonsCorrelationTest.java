@@ -21,7 +21,7 @@ import org.apache.commons.statistics.distribution.TDistribution;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -236,7 +236,7 @@ public class PearsonsCorrelationTest {
         RealMatrix stdErrors = corrInstance.getCorrelationStandardErrors();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < i; j++) {
-                double t = AccurateMath.abs(rValues.getEntry(i, j)) / stdErrors.getEntry(i, j);
+                double t = JdkMath.abs(rValues.getEntry(i, j)) / stdErrors.getEntry(i, j);
                 double p = 2 * (1 - tDistribution.cumulativeProbability(t));
                 Assert.assertEquals(p, pValues.getEntry(i, j), 10E-15);
             }

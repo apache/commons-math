@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.genetics;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -73,7 +73,7 @@ public class FixedElapsedTimeTest {
 
         final long end = System.nanoTime();
         final long elapsedTime = end - start;
-        final long diff = AccurateMath.abs(elapsedTime - TimeUnit.SECONDS.toNanos(duration));
+        final long diff = JdkMath.abs(elapsedTime - TimeUnit.SECONDS.toNanos(duration));
 
         Assert.assertTrue(diff < TimeUnit.MILLISECONDS.toNanos(100));
     }

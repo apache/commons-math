@@ -29,7 +29,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * <p>Represents an <a href="http://en.wikipedia.org/wiki/Empirical_distribution_function">
@@ -207,7 +207,7 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
      * @return the index of the bin containing the value.
      */
     private int findBin(double value) {
-        return Math.min(Math.max((int) AccurateMath.ceil((value - min) / delta) - 1,
+        return Math.min(Math.max((int) JdkMath.ceil((value - min) / delta) - 1,
                                  0),
                         binCount - 1);
     }

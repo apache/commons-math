@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.numbers.combinatorics.FactorialDouble;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /** Class holding "compiled" computation rules for derivative structures.
  * <p>This class implements the computation rules described in Dan Kalman's paper <a
@@ -199,8 +199,8 @@ public final class DSCompiler {
         }
 
         // we need to create more compilers
-        final int maxParameters = AccurateMath.max(parameters, cache == null ? 0 : cache.length);
-        final int maxOrder      = AccurateMath.max(order,     cache == null ? 0 : cache[0].length);
+        final int maxParameters = JdkMath.max(parameters, cache == null ? 0 : cache.length);
+        final int maxOrder      = JdkMath.max(order,     cache == null ? 0 : cache[0].length);
         final DSCompiler[][] newCache = new DSCompiler[maxParameters + 1][maxOrder + 1];
 
         if (cache != null) {
@@ -212,7 +212,7 @@ public final class DSCompiler {
 
         // create the array in increasing diagonal order
         for (int diag = 0; diag <= parameters + order; ++diag) {
-            for (int o = AccurateMath.max(0, diag - parameters); o <= AccurateMath.min(order, diag); ++o) {
+            for (int o = JdkMath.max(0, diag - parameters); o <= JdkMath.min(order, diag); ++o) {
                 final int p = diag - o;
                 if (newCache[p][o] == null) {
                     final DSCompiler valueCompiler      = (p == 0) ? null : newCache[p - 1][o];
@@ -610,7 +610,7 @@ public final class DSCompiler {
                                     final int destP, final int destO, final int[][] destSizes)
         throws NumberIsTooLargeException {
         int[] orders = new int[destP];
-        System.arraycopy(srcDerivativesIndirection[index], 0, orders, 0, AccurateMath.min(srcP, destP));
+        System.arraycopy(srcDerivativesIndirection[index], 0, orders, 0, JdkMath.min(srcP, destP));
         return getPartialDerivativeIndex(destP, destO, destSizes, orders);
     }
 
@@ -822,8 +822,8 @@ public final class DSCompiler {
                           final double[] result, final int resultOffset) {
 
         // compute k such that lhs % rhs = lhs - k rhs
-        final double rem = AccurateMath.IEEEremainder(lhs[lhsOffset], rhs[rhsOffset]);
-        final double k   = AccurateMath.rint((lhs[lhsOffset] - rem) / rhs[rhsOffset]);
+        final double rem = JdkMath.IEEEremainder(lhs[lhsOffset], rhs[rhsOffset]);
+        final double k   = JdkMath.rint((lhs[lhsOffset] - rem) / rhs[rhsOffset]);
 
         // set up value
         result[resultOffset] = rem;
@@ -864,8 +864,8 @@ public final class DSCompiler {
                 Arrays.fill(function, Double.NaN);
             }
         } else {
-            function[0] = AccurateMath.pow(a, operand[operandOffset]);
-            final double lnA = AccurateMath.log(a);
+            function[0] = JdkMath.pow(a, operand[operandOffset]);
+            final double lnA = JdkMath.log(a);
             for (int i = 1; i < function.length; ++i) {
                 function[i] = lnA * function[i - 1];
             }
@@ -905,7 +905,7 @@ public final class DSCompiler {
         // create the function value and derivatives
         // [x^p, px^(p-1), p(p-1)x^(p-2), ... ]
         double[] function = new double[1 + order];
-        double xk = AccurateMath.pow(operand[operandOffset], p - order);
+        double xk = JdkMath.pow(operand[operandOffset], p - order);
         for (int i = order; i > 0; --i) {
             function[i] = xk;
             xk *= operand[operandOffset];
@@ -947,8 +947,8 @@ public final class DSCompiler {
 
         if (n > 0) {
             // strictly positive power
-            final int maxOrder = AccurateMath.min(order, n);
-            double xk = AccurateMath.pow(operand[operandOffset], n - maxOrder);
+            final int maxOrder = JdkMath.min(order, n);
+            double xk = JdkMath.pow(operand[operandOffset], n - maxOrder);
             for (int i = maxOrder; i > 0; --i) {
                 function[i] = xk;
                 xk *= operand[operandOffset];
@@ -957,7 +957,7 @@ public final class DSCompiler {
         } else {
             // strictly negative power
             final double inv = 1.0 / operand[operandOffset];
-            double xk = AccurateMath.pow(inv, -n);
+            double xk = JdkMath.pow(inv, -n);
             for (int i = 0; i <= order; ++i) {
                 function[i] = xk;
                 xk *= inv;
@@ -1012,14 +1012,14 @@ public final class DSCompiler {
         double[] function = new double[1 + order];
         double xk;
         if (n == 2) {
-            function[0] = AccurateMath.sqrt(operand[operandOffset]);
+            function[0] = JdkMath.sqrt(operand[operandOffset]);
             xk          = 0.5 / function[0];
         } else if (n == 3) {
-            function[0] = AccurateMath.cbrt(operand[operandOffset]);
+            function[0] = JdkMath.cbrt(operand[operandOffset]);
             xk          = 1.0 / (3.0 * function[0] * function[0]);
         } else {
-            function[0] = AccurateMath.pow(operand[operandOffset], 1.0 / n);
-            xk          = 1.0 / (n * AccurateMath.pow(function[0], n - 1));
+            function[0] = JdkMath.pow(operand[operandOffset], 1.0 / n);
+            xk          = 1.0 / (n * JdkMath.pow(function[0], n - 1));
         }
         final double nReciprocal = 1.0 / n;
         final double xReciprocal = 1.0 / operand[operandOffset];
@@ -1046,7 +1046,7 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        Arrays.fill(function, AccurateMath.exp(operand[operandOffset]));
+        Arrays.fill(function, JdkMath.exp(operand[operandOffset]));
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
@@ -1066,8 +1066,8 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.expm1(operand[operandOffset]);
-        Arrays.fill(function, 1, 1 + order, AccurateMath.exp(operand[operandOffset]));
+        function[0] = JdkMath.expm1(operand[operandOffset]);
+        Arrays.fill(function, 1, 1 + order, JdkMath.exp(operand[operandOffset]));
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
@@ -1087,7 +1087,7 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.log(operand[operandOffset]);
+        function[0] = JdkMath.log(operand[operandOffset]);
         if (order > 0) {
             double inv = 1.0 / operand[operandOffset];
             double xk  = inv;
@@ -1114,7 +1114,7 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.log1p(operand[operandOffset]);
+        function[0] = JdkMath.log1p(operand[operandOffset]);
         if (order > 0) {
             double inv = 1.0 / (1.0 + operand[operandOffset]);
             double xk  = inv;
@@ -1141,10 +1141,10 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.log10(operand[operandOffset]);
+        function[0] = JdkMath.log10(operand[operandOffset]);
         if (order > 0) {
             double inv = 1.0 / operand[operandOffset];
-            double xk  = inv / AccurateMath.log(10.0);
+            double xk  = inv / JdkMath.log(10.0);
             for (int i = 1; i <= order; ++i) {
                 function[i] = xk;
                 xk *= -i * inv;
@@ -1169,9 +1169,9 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.cos(operand[operandOffset]);
+        function[0] = JdkMath.cos(operand[operandOffset]);
         if (order > 0) {
-            function[1] = -AccurateMath.sin(operand[operandOffset]);
+            function[1] = -JdkMath.sin(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = -function[i - 2];
             }
@@ -1195,9 +1195,9 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.sin(operand[operandOffset]);
+        function[0] = JdkMath.sin(operand[operandOffset]);
         if (order > 0) {
-            function[1] = AccurateMath.cos(operand[operandOffset]);
+            function[1] = JdkMath.cos(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = -function[i - 2];
             }
@@ -1221,7 +1221,7 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         final double[] function = new double[1 + order];
-        final double t = AccurateMath.tan(operand[operandOffset]);
+        final double t = JdkMath.tan(operand[operandOffset]);
         function[0] = t;
 
         if (order > 0) {
@@ -1277,7 +1277,7 @@ public final class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = AccurateMath.acos(x);
+        function[0] = JdkMath.acos(x);
         if (order > 0) {
             // the nth order derivative of acos has the form:
             // dn(acos(x)/dxn = P_n(x) / [1 - x^2]^((2n-1)/2)
@@ -1290,7 +1290,7 @@ public final class DSCompiler {
             p[0] = -1;
             final double x2    = x * x;
             final double f     = 1.0 / (1 - x2);
-            double coeff = AccurateMath.sqrt(f);
+            double coeff = JdkMath.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1334,7 +1334,7 @@ public final class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = AccurateMath.asin(x);
+        function[0] = JdkMath.asin(x);
         if (order > 0) {
             // the nth order derivative of asin has the form:
             // dn(asin(x)/dxn = P_n(x) / [1 - x^2]^((2n-1)/2)
@@ -1347,7 +1347,7 @@ public final class DSCompiler {
             p[0] = 1;
             final double x2    = x * x;
             final double f     = 1.0 / (1 - x2);
-            double coeff = AccurateMath.sqrt(f);
+            double coeff = JdkMath.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1391,7 +1391,7 @@ public final class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = AccurateMath.atan(x);
+        function[0] = JdkMath.atan(x);
         if (order > 0) {
             // the nth order derivative of atan has the form:
             // dn(atan(x)/dxn = Q_n(x) / (1 + x^2)^n
@@ -1473,7 +1473,7 @@ public final class DSCompiler {
             divide(y, yOffset, tmp2, 0, tmp1, 0);       // y /(r - x)
             atan(tmp1, 0, tmp2, 0);                     // atan(y / (r - x))
             result[resultOffset] =
-                    ((tmp2[0] <= 0) ? -AccurateMath.PI : AccurateMath.PI) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))
+                    ((tmp2[0] <= 0) ? -JdkMath.PI : JdkMath.PI) - 2 * tmp2[0]; // +/-pi - 2 * atan(y / (r - x))
             for (int i = 1; i < tmp2.length; ++i) {
                 result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))
             }
@@ -1481,7 +1481,7 @@ public final class DSCompiler {
         }
 
         // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly
-        result[resultOffset] = AccurateMath.atan2(y[yOffset], x[xOffset]);
+        result[resultOffset] = JdkMath.atan2(y[yOffset], x[xOffset]);
 
     }
 
@@ -1498,9 +1498,9 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.cosh(operand[operandOffset]);
+        function[0] = JdkMath.cosh(operand[operandOffset]);
         if (order > 0) {
-            function[1] = AccurateMath.sinh(operand[operandOffset]);
+            function[1] = JdkMath.sinh(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = function[i - 2];
             }
@@ -1524,9 +1524,9 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
-        function[0] = AccurateMath.sinh(operand[operandOffset]);
+        function[0] = JdkMath.sinh(operand[operandOffset]);
         if (order > 0) {
-            function[1] = AccurateMath.cosh(operand[operandOffset]);
+            function[1] = JdkMath.cosh(operand[operandOffset]);
             for (int i = 2; i <= order; ++i) {
                 function[i] = function[i - 2];
             }
@@ -1550,7 +1550,7 @@ public final class DSCompiler {
 
         // create the function value and derivatives
         final double[] function = new double[1 + order];
-        final double t = AccurateMath.tanh(operand[operandOffset]);
+        final double t = JdkMath.tanh(operand[operandOffset]);
         function[0] = t;
 
         if (order > 0) {
@@ -1606,7 +1606,7 @@ public final class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = AccurateMath.acosh(x);
+        function[0] = JdkMath.acosh(x);
         if (order > 0) {
             // the nth order derivative of acosh has the form:
             // dn(acosh(x)/dxn = P_n(x) / [x^2 - 1]^((2n-1)/2)
@@ -1619,7 +1619,7 @@ public final class DSCompiler {
             p[0] = 1;
             final double x2  = x * x;
             final double f   = 1.0 / (x2 - 1);
-            double coeff = AccurateMath.sqrt(f);
+            double coeff = JdkMath.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1663,7 +1663,7 @@ public final class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = AccurateMath.asinh(x);
+        function[0] = JdkMath.asinh(x);
         if (order > 0) {
             // the nth order derivative of asinh has the form:
             // dn(asinh(x)/dxn = P_n(x) / [x^2 + 1]^((2n-1)/2)
@@ -1676,7 +1676,7 @@ public final class DSCompiler {
             p[0] = 1;
             final double x2    = x * x;
             final double f     = 1.0 / (1 + x2);
-            double coeff = AccurateMath.sqrt(f);
+            double coeff = JdkMath.sqrt(f);
             function[1] = coeff * p[0];
             for (int n = 2; n <= order; ++n) {
 
@@ -1720,7 +1720,7 @@ public final class DSCompiler {
         // create the function value and derivatives
         double[] function = new double[1 + order];
         final double x = operand[operandOffset];
-        function[0] = AccurateMath.atanh(x);
+        function[0] = JdkMath.atanh(x);
         if (order > 0) {
             // the nth order derivative of atanh has the form:
             // dn(atanh(x)/dxn = Q_n(x) / (1 - x^2)^n
@@ -1806,7 +1806,7 @@ public final class DSCompiler {
             for (int k = 0; k < orders.length; ++k) {
                 if (orders[k] > 0) {
                     try {
-                        term *= AccurateMath.pow(delta[k], orders[k]) / FACTORIAL.value(orders[k]);
+                        term *= JdkMath.pow(delta[k], orders[k]) / FACTORIAL.value(orders[k]);
                     } catch (NotPositiveException e) {
                         // this cannot happen
                         throw new MathInternalError(e);

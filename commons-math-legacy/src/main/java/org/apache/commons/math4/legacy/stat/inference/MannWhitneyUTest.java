@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.legacy.stat.ranking.NaturalRanking;
 import org.apache.commons.math4.legacy.stat.ranking.TiesStrategy;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 import java.util.stream.IntStream;
 
@@ -150,7 +150,7 @@ public class MannWhitneyUTest {
          */
         final double u2 = (long) x.length * y.length - u1;
 
-        return AccurateMath.min(u1, u2);
+        return JdkMath.min(u1, u2);
     }
 
     /**
@@ -177,7 +177,7 @@ public class MannWhitneyUTest {
         final double eU = n1n2prod / 2.0;
         final double varU = n1n2prod * (n1 + n2 + 1) / 12.0;
 
-        final double z = (umin - eU) / AccurateMath.sqrt(varU);
+        final double z = (umin - eU) / JdkMath.sqrt(varU);
 
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution

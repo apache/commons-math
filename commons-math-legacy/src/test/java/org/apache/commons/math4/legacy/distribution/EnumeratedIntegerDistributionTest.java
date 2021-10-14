@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
@@ -169,7 +169,7 @@ public class EnumeratedIntegerDistributionTest {
         Assert.assertEquals(testDistribution.getMean(),
                             sum / n, 1e-2);
         Assert.assertEquals(testDistribution.getVariance(),
-                            sumOfSquares / n - AccurateMath.pow(sum / n, 2), 1e-2);
+                            sumOfSquares / n - JdkMath.pow(sum / n, 2), 1e-2);
     }
 
     @Test

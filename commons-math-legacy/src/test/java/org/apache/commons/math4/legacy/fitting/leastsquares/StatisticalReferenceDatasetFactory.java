@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * A factory to create instances of {@link StatisticalReferenceDataset} from
@@ -130,8 +130,8 @@ public final class StatisticalReferenceDatasetFactory {
 
                 @Override
                 public double getModelValue(final double x, final double[] a) {
-                    return a[0] + a[1] * AccurateMath.exp(-a[3] * x) + a[2] *
-                           AccurateMath.exp(-a[4] * x);
+                    return a[0] + a[1] * JdkMath.exp(-a[3] * x) + a[2] *
+                           JdkMath.exp(-a[4] * x);
                 }
 
                 @Override
@@ -139,8 +139,8 @@ public final class StatisticalReferenceDatasetFactory {
                                                     final double[] a) {
                     final double[] dy = new double[5];
                     dy[0] = 1.0;
-                    dy[1] = AccurateMath.exp(-x * a[3]);
-                    dy[2] = AccurateMath.exp(-x * a[4]);
+                    dy[1] = JdkMath.exp(-x * a[3]);
+                    dy[2] = JdkMath.exp(-x * a[4]);
                     dy[3] = -x * a[1] * dy[1];
                     dy[4] = -x * a[2] * dy[2];
                     return dy;
@@ -163,18 +163,18 @@ public final class StatisticalReferenceDatasetFactory {
                 @Override
                 public double getModelValue(final double x, final double[] a) {
                     System.out.println(a[0]+", "+a[1]+", "+a[2]+", "+a[3]+", "+a[4]+", "+a[5]);
-                    return a[0] * AccurateMath.exp(-a[3] * x) +
-                           a[1] * AccurateMath.exp(-a[4] * x) +
-                           a[2] * AccurateMath.exp(-a[5] * x);
+                    return a[0] * JdkMath.exp(-a[3] * x) +
+                           a[1] * JdkMath.exp(-a[4] * x) +
+                           a[2] * JdkMath.exp(-a[5] * x);
                 }
 
                 @Override
                 public double[] getModelDerivatives(final double x,
                     final double[] a) {
                     final double[] dy = new double[6];
-                    dy[0] = AccurateMath.exp(-x * a[3]);
-                    dy[1] = AccurateMath.exp(-x * a[4]);
-                    dy[2] = AccurateMath.exp(-x * a[5]);
+                    dy[0] = JdkMath.exp(-x * a[3]);
+                    dy[1] = JdkMath.exp(-x * a[4]);
+                    dy[2] = JdkMath.exp(-x * a[5]);
                     dy[3] = -x * a[0] * dy[0];
                     dy[4] = -x * a[1] * dy[1];
                     dy[5] = -x * a[2] * dy[2];

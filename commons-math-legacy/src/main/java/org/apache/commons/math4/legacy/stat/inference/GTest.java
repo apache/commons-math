@@ -24,7 +24,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -94,15 +94,15 @@ public class GTest {
         }
         double ratio = 1d;
         boolean rescale = false;
-        if (AccurateMath.abs(sumExpected - sumObserved) > 10E-6) {
+        if (JdkMath.abs(sumExpected - sumObserved) > 10E-6) {
             ratio = sumObserved / sumExpected;
             rescale = true;
         }
         double sum = 0d;
         for (int i = 0; i < observed.length; i++) {
             final double dev = rescale ?
-                    AccurateMath.log((double) observed[i] / (ratio * expected[i])) :
-                        AccurateMath.log((double) observed[i] / expected[i]);
+                    JdkMath.log((double) observed[i] / (ratio * expected[i])) :
+                        JdkMath.log((double) observed[i] / expected[i]);
             sum += ((double) observed[i]) * dev;
         }
         return 2d * sum;
@@ -269,7 +269,7 @@ public class GTest {
             for (int j = 0; j < k[i].length; j++) {
                 if (k[i][j] != 0) {
                     final double pIJ = (double) k[i][j] / sumK;
-                    h += pIJ * AccurateMath.log(pIJ);
+                    h += pIJ * JdkMath.log(pIJ);
                 }
             }
         }
@@ -296,7 +296,7 @@ public class GTest {
         for (int i = 0; i < k.length; i++) {
             if (k[i] != 0) {
                 final double pI = (double) k[i] / sumK;
-                h += pI * AccurateMath.log(pI);
+                h += pI * JdkMath.log(pI);
             }
         }
         return -h;
@@ -421,7 +421,7 @@ public class GTest {
             final long k21, final long k22) {
         final double llr = gDataSetsComparison(
                 new long[]{k11, k12}, new long[]{k21, k22});
-        double sqrt = AccurateMath.sqrt(llr);
+        double sqrt = JdkMath.sqrt(llr);
         if ((double) k11 / (k11 + k12) < (double) k21 / (k21 + k22)) {
             sqrt = -sqrt;
         }

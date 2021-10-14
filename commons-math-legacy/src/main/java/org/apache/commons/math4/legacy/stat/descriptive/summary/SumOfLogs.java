@@ -21,13 +21,13 @@ import java.io.Serializable;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Returns the sum of the natural logs for this collection of values.
  * <p>
- * Uses {@link org.apache.commons.math4.legacy.core.jdkmath.AccurateMath#log(double)} to compute the logs.
+ * Uses {@link org.apache.commons.math4.core.jdkmath.JdkMath#log(double)} to compute the logs.
  * Therefore,
  * <ul>
  * <li>If any of values are &lt; 0, the result is <code>NaN.</code></li>
@@ -81,7 +81,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      */
     @Override
     public void increment(final double d) {
-        value += AccurateMath.log(d);
+        value += JdkMath.log(d);
         n++;
     }
 
@@ -135,7 +135,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
         if (MathArrays.verifyValues(values, begin, length, true)) {
             sumLog = 0.0;
             for (int i = begin; i < begin + length; i++) {
-                sumLog += AccurateMath.log(values[i]);
+                sumLog += JdkMath.log(values[i]);
             }
         }
         return sumLog;

@@ -35,7 +35,7 @@ import org.apache.commons.math4.legacy.ode.TestProblemHandler;
 import org.apache.commons.math4.legacy.ode.events.EventHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepHandler;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,7 +74,7 @@ public class ClassicalRungeKuttaIntegratorTest {
       double finalT = integrator.integrate(ode, t0, y0, tEvent, y);
       Assert.assertEquals(tEvent, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * AccurateMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * JdkMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
       integrator.addEventHandler(new EventHandler() {
@@ -101,7 +101,7 @@ public class ClassicalRungeKuttaIntegratorTest {
       finalT = integrator.integrate(ode, t0, y0, tEvent + 120, y);
       Assert.assertEquals(tEvent + 120, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * AccurateMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * JdkMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
   }
@@ -150,7 +150,7 @@ public class ClassicalRungeKuttaIntegratorTest {
       double previousTimeError = Double.NaN;
       for (int i = 4; i < 10; ++i) {
 
-        double step = (pb.getFinalTime() - pb.getInitialTime()) * AccurateMath.pow(2.0, -i);
+        double step = (pb.getFinalTime() - pb.getInitialTime()) * JdkMath.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -169,13 +169,13 @@ public class ClassicalRungeKuttaIntegratorTest {
 
         double error = handler.getMaximalValueError();
         if (i > 4) {
-          Assert.assertTrue(error < 1.01 * AccurateMath.abs(previousValueError));
+          Assert.assertTrue(error < 1.01 * JdkMath.abs(previousValueError));
         }
         previousValueError = error;
 
         double timeError = handler.getMaximalTimeError();
         if (i > 4) {
-          Assert.assertTrue(timeError <= AccurateMath.abs(previousTimeError));
+          Assert.assertTrue(timeError <= JdkMath.abs(previousTimeError));
         }
         previousTimeError = timeError;
 
@@ -233,7 +233,7 @@ public class ClassicalRungeKuttaIntegratorTest {
              MaxCountExceededException, NoBracketingException {
 
     TestProblem5 pb = new TestProblem5();
-    double step = AccurateMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+    double step = JdkMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
 
     FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -340,8 +340,8 @@ public class ClassicalRungeKuttaIntegratorTest {
 
           @Override
         public void computeDerivatives(double t, double[] y, double[] yDot) {
-              Assert.assertTrue(t >= AccurateMath.nextAfter(start, Double.NEGATIVE_INFINITY));
-              Assert.assertTrue(t <= AccurateMath.nextAfter(end,   Double.POSITIVE_INFINITY));
+              Assert.assertTrue(t >= JdkMath.nextAfter(start, Double.NEGATIVE_INFINITY));
+              Assert.assertTrue(t <= JdkMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
           }
 

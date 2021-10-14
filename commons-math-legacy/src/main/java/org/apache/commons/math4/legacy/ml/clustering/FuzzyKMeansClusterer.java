@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.legacy.core.jdkmath.AccurateMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -244,7 +244,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             int j = 0;
             for (final CentroidCluster<T> cluster : clusters) {
                 final double dist = distance(point, cluster.getCenter());
-                objFunction += (dist * dist) * AccurateMath.pow(membershipMatrix[i][j], fuzziness);
+                objFunction += (dist * dist) * JdkMath.pow(membershipMatrix[i][j], fuzziness);
                 j++;
             }
             i++;
@@ -318,7 +318,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             double[] arr = new double[center.getPoint().length];
             double sum = 0.0;
             for (final T point : points) {
-                final double u = AccurateMath.pow(membershipMatrix[i][j], fuzziness);
+                final double u = JdkMath.pow(membershipMatrix[i][j], fuzziness);
                 final double[] pointArr = point.getPoint();
                 for (int idx = 0; idx < arr.length; idx++) {
                     arr[idx] += u * pointArr[idx];
@@ -345,16 +345,16 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             int newCluster = -1;
             for (int j = 0; j < clusters.size(); j++) {
                 double sum = 0.0;
-                final double distA = AccurateMath.abs(distance(point, clusters.get(j).getCenter()));
+                final double distA = JdkMath.abs(distance(point, clusters.get(j).getCenter()));
 
                 if (distA != 0.0) {
                     for (final CentroidCluster<T> c : clusters) {
-                        final double distB = AccurateMath.abs(distance(point, c.getCenter()));
+                        final double distB = JdkMath.abs(distance(point, c.getCenter()));
                         if (distB == 0.0) {
                             sum = Double.POSITIVE_INFINITY;
                             break;
                         }
-                        sum += AccurateMath.pow(distA / distB, 2.0 / (fuzziness - 1.0));
+                        sum += JdkMath.pow(distA / distB, 2.0 / (fuzziness - 1.0));
                     }
                 }
 
@@ -400,8 +400,8 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
         double maxMembership = 0.0;
         for (int i = 0; i < points.size(); i++) {
             for (int j = 0; j < clusters.size(); j++) {
-                double v = AccurateMath.abs(membershipMatrix[i][j] - matrix[i][j]);
-                maxMembership = AccurateMath.max(v, maxMembership);
+                double v = JdkMath.abs(membershipMatrix[i][j] - matrix[i][j]);
+                maxMembership = JdkMath.max(v, maxMembership);
             }
         }
         return maxMembership;
