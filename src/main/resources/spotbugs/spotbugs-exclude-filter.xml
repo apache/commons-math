@@ -48,13 +48,13 @@
   </Match>
   <Match>
     <!-- The constant is inlined resulting in a dead-local-store error -->
-    <Class name="org.apache.commons.math4.legacy.core.jdkmath.AccurateMath"/>
+    <Class name="org.apache.commons.math4.core.jdkmath.AccurateMath"/>
     <Method name="atan"/>
     <BugPattern name="DLS_DEAD_LOCAL_STORE"/>
   </Match>
   <Match>
     <!-- The constant is intentionally close to but not exactly pi/2 -->
-    <Class name="org.apache.commons.math4.legacy.core.jdkmath.AccurateMath$CodyWaite"/>
+    <Class name="org.apache.commons.math4.core.jdkmath.AccurateMath$CodyWaite"/>
     <BugPattern name="CNT_ROUGH_CONSTANT_VALUE"/>
   </Match>
 
