@@ -29,10 +29,6 @@ import org.apache.commons.numbers.core.Precision;
  * to the various JVM optimizations that have appeared since Java 5).
  * However, any change to this class should ensure that the current
  * accuracy is not lost.
- * <p>
- * AccurateMath is a drop-in replacement for both Math and StrictMath.
- * For example, a call to {@code Math.sin(x)} can be replaced by a call
- * to {@code AccurateMath.sin(x)}.
  * </p>
  * <p>
  * AccurateMath speed is achieved by relying heavily on optimizing compilers

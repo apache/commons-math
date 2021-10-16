@@ -29,7 +29,17 @@ import java.util.function.DoubleSupplier;
 
 /**
  * Wrapper for alternative implementations of {@link Math} functions.
+ * For example, a call to {@code Math.sin(x)} can be replaced by a call
+ * to {@code JdkMath.sin(x)}.
  *
+ * <p>
+ * This class is a "drop-in" replacement for both Math and StrictMath,
+ * up to the <em>minimal</em> JDK version required by this library
+ * (meaning that, although the library can be used on <em>more</em>
+ * recent JVMs, the {@code JdkMath} class may be missing the methods
+ * that were absent in older JDKs).
+ *
+ * <p>
  * Based on the value, at class initialization, of the system property
  * {@code org.apache.commons.math.jdkmath}, this class redirects to a
  * specific implementation:

@@ -20,16 +20,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.apache.commons.numbers.core.ArithmeticUtils;
@@ -1294,34 +1290,6 @@ public class AccurateMathTest {
         assertEquals(Float.NEGATIVE_INFINITY, AccurateMath.scalb(-1.1e-7f, 152), 0F);
         assertEquals(Float.POSITIVE_INFINITY, AccurateMath.scalb(3.4028235E38f, 2147483647), 0F);
         assertEquals(Float.NEGATIVE_INFINITY, AccurateMath.scalb(-3.4028235E38f, 2147483647), 0F);
-    }
-
-    private boolean compareClassMethods(Class<?> class1, Class<?> class2) {
-        boolean allfound = true;
-        for (Method method1 : class1.getDeclaredMethods()) {
-            if (Modifier.isPublic(method1.getModifiers())) {
-                Type[] params = method1.getGenericParameterTypes();
-                try {
-                    class2.getDeclaredMethod(method1.getName(), (Class[]) params);
-                } catch (NoSuchMethodException e) {
-                    allfound = false;
-                    System.out.println(class2.getSimpleName() + " does not implement: " + method1);
-                }
-            }
-        }
-        return allfound;
-    }
-
-    @Test
-    public void checkMissingAccurateMathClasses() {
-        boolean ok = compareClassMethods(StrictMath.class, AccurateMath.class);
-        assertTrue("AccurateMath should implement all StrictMath methods", ok);
-    }
-
-    @Ignore
-    @Test
-    public void checkExtraAccurateMathClasses() {
-        compareClassMethods(AccurateMath.class, StrictMath.class);
     }
 
     @Test
