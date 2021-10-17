@@ -284,7 +284,7 @@ public final class JdkMath {
             NEXTUP_FLOAT = AccurateMath::nextUp;
             NEXTUP_DOUBLE = AccurateMath::nextUp;
             POW = AccurateMath::pow;
-            RANDOM = AccurateMath::random;
+            RANDOM = Math::random; // Not implemented.
             RINT = AccurateMath::rint;
             ROUND_DOUBLE = AccurateMath::round;
             ROUND_FLOAT = AccurateMath::round;
@@ -292,7 +292,7 @@ public final class JdkMath {
             SCALB_FLOAT = AccurateMath::scalb;
             SIGNUM_DOUBLE = AccurateMath::signum;
             SIGNUM_FLOAT = AccurateMath::signum;
-            SQRT = AccurateMath::sqrt;
+            SQRT = Math::sqrt; // Not implemented.
             SIN = AccurateMath::sin;
             SINH = AccurateMath::sinh;
             SUBTRACTEXACT_INT = AccurateMath::subtractExact;

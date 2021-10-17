@@ -375,15 +375,6 @@ public final class AccurateMath {
         return Double.longBitsToDouble(xl);
     }
 
-    /** Compute the square root of a number.
-     * <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt}
-     * @param a number on which evaluation is done
-     * @return square root of a
-     */
-    public static double sqrt(final double a) {
-        return Math.sqrt(a);
-    }
-
     /** Compute the hyperbolic cosine of a number.
      * @param x number on which evaluation is done
      * @return hyperbolic cosine of x
@@ -705,7 +696,7 @@ public final class AccurateMath {
      * @return inverse hyperbolic cosine of a
      */
     public static double acosh(final double a) {
-        return AccurateMath.log(a + AccurateMath.sqrt(a * a - 1));
+        return AccurateMath.log(a + Math.sqrt(a * a - 1));
     }
 
     /** Compute the inverse hyperbolic sine of a number.
@@ -721,7 +712,7 @@ public final class AccurateMath {
 
         double absAsinh;
         if (a > 0.167) {
-            absAsinh = AccurateMath.log(AccurateMath.sqrt(a * a + 1) + a);
+            absAsinh = AccurateMath.log(Math.sqrt(a * a + 1) + a);
         } else {
             final double a2 = a * a;
             if (a > 0.097) {
@@ -818,14 +809,6 @@ public final class AccurateMath {
      */
     public static float nextDown(final float a) {
         return nextAfter(a, Float.NEGATIVE_INFINITY);
-    }
-
-    /** Returns a pseudo-random number between 0.0 and 1.0.
-     * <p><b>Note:</b> this implementation currently delegates to {@link Math#random}
-     * @return a random number between 0.0 and 1.0
-     */
-    public static double random() {
-        return Math.random();
     }
 
     /**
@@ -2801,7 +2784,7 @@ public final class AccurateMath {
 
         /* Square root */
         double y;
-        y = sqrt(za);
+        y = Math.sqrt(za);
         temp = y * HEX_40000000;
         ya = y + temp - temp;
         yb = y - ya;
@@ -2876,7 +2859,7 @@ public final class AccurateMath {
         za = temp;
 
         /* Square root */
-        double y = sqrt(za);
+        double y = Math.sqrt(za);
         temp = y * HEX_40000000;
         ya = y + temp - temp;
         yb = y - ya;
@@ -3682,7 +3665,7 @@ public final class AccurateMath {
                 final double scaledY = scalb(y, -middleExp);
 
                 // compute scaled hypotenuse
-                final double scaledH = sqrt(scaledX * scaledX + scaledY * scaledY);
+                final double scaledH = Math.sqrt(scaledX * scaledX + scaledY * scaledY);
 
                 // remove scaling
                 return scalb(scaledH, middleExp);
