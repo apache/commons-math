@@ -19,7 +19,7 @@ package org.apache.commons.math4.ga.crossover;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
 
 /**
  * An abstraction to represent the base crossover policy.
@@ -35,7 +35,7 @@ public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverP
     public ChromosomePair<P> crossover(final Chromosome<P> first,
             final Chromosome<P> second,
             final double crossoverRate) {
-        if (RandomGenerator.getRandomGenerator().nextDouble() < crossoverRate) {
+        if (RandomNumberGenerator.getRandomGenerator().nextDouble() < crossoverRate) {
             return crossover(first, second);
         } else {
             return new ChromosomePair<>(first, second);

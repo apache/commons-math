@@ -17,13 +17,13 @@
 package org.apache.commons.math4.ga.mutation.rategenerator;
 
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.stats.PopulationStatisticalSummary;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AdaptiveLinearMutationRateGeneratorTest {
 
@@ -54,8 +54,8 @@ public class AdaptiveLinearMutationRateGeneratorTest {
         MutationRateGenerator<String> mutationRateGenerator = new AdaptiveLinearMutationRateGenerator<>(minMutationRate,
                 maxMutationRate);
 
-        Assert.assertEquals(maxMutationRate, mutationRateGenerator.generate(chromosome1, stats, 1), .00000001);
-        Assert.assertEquals(minMutationRate, mutationRateGenerator.generate(chromosome5, stats, 1), .00000001);
+        Assertions.assertEquals(maxMutationRate, mutationRateGenerator.generate(chromosome1, stats, 1), .00000001);
+        Assertions.assertEquals(minMutationRate, mutationRateGenerator.generate(chromosome5, stats, 1), .00000001);
     }
 
 }

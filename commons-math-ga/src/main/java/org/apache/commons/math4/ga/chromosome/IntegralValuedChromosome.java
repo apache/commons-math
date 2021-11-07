@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.commons.math4.ga.decoder.AbstractListChromosomeDecoder;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.internal.utils.ValidationUtils;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 
 /**
@@ -94,7 +93,9 @@ public class IntegralValuedChromosome<P> extends AbstractListChromosome<Integer,
      * Asserts that <code>representation</code> can represent a valid chromosome.
      */
     private void checkValidity() {
-        ValidationUtils.checkForMinMax(min, max);
+        if (min >= max) {
+            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+        }
         for (int i : getRepresentation()) {
             if (i < min || i >= max) {
                 throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, i);

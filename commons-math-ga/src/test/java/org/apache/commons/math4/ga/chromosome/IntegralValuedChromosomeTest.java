@@ -16,11 +16,12 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
+
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class IntegralValuedChromosomeTest {
 
@@ -31,31 +32,36 @@ public class IntegralValuedChromosomeTest {
         IntegralValuedChromosome<String> chromosome = new IntegralValuedChromosome<>(
                 ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
-        Assert.assertEquals(min, chromosome.getMin());
-        Assert.assertEquals(max, chromosome.getMax());
+        Assertions.assertEquals(min, chromosome.getMin());
+        Assertions.assertEquals(max, chromosome.getMax());
 
         IntegralValuedChromosome<String> chromosome1 = new IntegralValuedChromosome<>(
-                ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max)
-                .toArray(new Integer[10]), c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
-        Assert.assertEquals(min, chromosome1.getMin());
-        Assert.assertEquals(max, chromosome1.getMax());
+                ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max).toArray(new Integer[10]),
+                c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
+        Assertions.assertEquals(min, chromosome1.getMin());
+        Assertions.assertEquals(max, chromosome1.getMax());
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity() {
         int min = 0;
         int max = 10;
-        new IntegralValuedChromosome<>(ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
-                new DummyListChromosomeDecoder<>("0"), max, min);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new IntegralValuedChromosome<>(ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max),
+                    c -> 0, new DummyListChromosomeDecoder<>("0"), max, min);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity1() {
         int min = 0;
         int max = 10;
-        IntegralValuedChromosome<String> chromosome = new IntegralValuedChromosome<>(
-                ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min - 10, max + 10), c -> 0,
-                new DummyListChromosomeDecoder<>("0"), min, max);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new IntegralValuedChromosome<>(
+                    ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min - 10, max + 10), c -> 0,
+                    new DummyListChromosomeDecoder<>("0"), min, max);
+        });
+
     }
 
     @Test
@@ -67,10 +73,10 @@ public class IntegralValuedChromosomeTest {
                 new DummyListChromosomeDecoder<>("0"), min, max);
         IntegralValuedChromosome<String> newChromosome = chromosome
                 .newChromosome(ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max));
-        Assert.assertEquals(chromosome.getMin(), newChromosome.getMin());
-        Assert.assertEquals(chromosome.getMax(), newChromosome.getMax());
-        Assert.assertEquals(chromosome.getDecoder(), newChromosome.getDecoder());
-        Assert.assertEquals(chromosome.getFitnessFunction(), newChromosome.getFitnessFunction());
+        Assertions.assertEquals(chromosome.getMin(), newChromosome.getMin());
+        Assertions.assertEquals(chromosome.getMax(), newChromosome.getMax());
+        Assertions.assertEquals(chromosome.getDecoder(), newChromosome.getDecoder());
+        Assertions.assertEquals(chromosome.getFitnessFunction(), newChromosome.getFitnessFunction());
 
     }
 
@@ -80,8 +86,8 @@ public class IntegralValuedChromosomeTest {
         int max = 10;
         IntegralValuedChromosome<String> chromosome = IntegralValuedChromosome.<String>randomChromosome(10, c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
-        Assert.assertEquals(min, chromosome.getMin());
-        Assert.assertEquals(max, chromosome.getMax());
+        Assertions.assertEquals(min, chromosome.getMin());
+        Assertions.assertEquals(max, chromosome.getMax());
     }
 
 }

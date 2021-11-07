@@ -17,6 +17,7 @@
 package org.apache.commons.math4.ga.convergencecond;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
@@ -26,8 +27,8 @@ import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class UnchangedBestFitnessTest {
 
@@ -60,8 +61,8 @@ public class UnchangedBestFitnessTest {
 
         double maxFitnessAfterConvergence = new PopulationStatisticalSummaryImpl<>(pop).getMaxFitness();
 
-        Assert.assertEquals(initialMaxFitness, maxFitnessAfterConvergence, .001);
-        Assert.assertEquals(noOfGenerationsWithUnchangedBestFitness, counter);
+        Assertions.assertEquals(initialMaxFitness, maxFitnessAfterConvergence, .001);
+        Assertions.assertEquals(noOfGenerationsWithUnchangedBestFitness, counter);
     }
 
 }

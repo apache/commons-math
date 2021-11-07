@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class RandomKeyDecoderTest {
 
@@ -36,21 +36,23 @@ public class RandomKeyDecoderTest {
         RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(keys, c -> 0, decoder);
         List<String> decodedSequence = chromosome.decode();
 
-        Assert.assertEquals("b", decodedSequence.get(0));
-        Assert.assertEquals("e", decodedSequence.get(1));
-        Assert.assertEquals("a", decodedSequence.get(2));
-        Assert.assertEquals("c", decodedSequence.get(3));
-        Assert.assertEquals("d", decodedSequence.get(4));
+        Assertions.assertEquals("b", decodedSequence.get(0));
+        Assertions.assertEquals("e", decodedSequence.get(1));
+        Assertions.assertEquals("a", decodedSequence.get(2));
+        Assertions.assertEquals("c", decodedSequence.get(3));
+        Assertions.assertEquals("d", decodedSequence.get(4));
 
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testSequenceLength() {
         List<String> sequence = Arrays.asList(new String[] {"a", "b", "c", "d", "e", "f"});
         Double[] keys = new Double[] {0.4, 0.1, 0.5, 0.8, 0.2};
 
         RandomKeyDecoder<String> decoder = new RandomKeyDecoder<>(sequence);
         RealValuedChromosome<List<String>> chromosome = new RealValuedChromosome<>(keys, c -> 0, decoder);
-        chromosome.decode();
+        Assertions.assertThrows(GeneticException.class, () -> {
+            chromosome.decode();
+        });
     }
 }

@@ -24,8 +24,8 @@ import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class TournamentSelectionTest {
 
@@ -35,7 +35,7 @@ public class TournamentSelectionTest {
     public void testSelect() {
         TournamentSelection<String> ts = new TournamentSelection<>(2);
 
-        Assert.assertEquals(2, ts.getArity());
+        Assertions.assertEquals(2, ts.getArity());
 
         ListPopulation<String> pop = new ListPopulation<>(100);
 
@@ -46,8 +46,8 @@ public class TournamentSelectionTest {
         for (int i = 0; i < 20; i++) {
             ChromosomePair<String> pair = ts.select(pop);
             // the worst chromosome should NEVER be selected
-            Assert.assertTrue(pair.getFirst().evaluate() > 0);
-            Assert.assertTrue(pair.getSecond().evaluate() > 0);
+            Assertions.assertTrue(pair.getFirst().evaluate() > 0);
+            Assertions.assertTrue(pair.getSecond().evaluate() > 0);
         }
     }
 
@@ -58,7 +58,7 @@ public class TournamentSelectionTest {
 
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testNonListPopulation() {
 
         Population<String> population = new Population<String>() {
@@ -92,13 +92,18 @@ public class TournamentSelectionTest {
                 return null;
             }
         };
-        new TournamentSelection<String>(5).select(population);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new TournamentSelection<String>(5).select(population);
+        });
+
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testInvalidArity() {
         Population<String> population = new ListPopulation<>(2);
-        new TournamentSelection<String>(2).select(population);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new TournamentSelection<String>(2).select(population);
+        });
     }
 
 }

@@ -22,8 +22,8 @@ import org.apache.commons.math4.ga.convergence.FixedElapsedTime;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FixedElapsedTimeTest {
 
@@ -47,11 +47,13 @@ public class FixedElapsedTimeTest {
         final long elapsedTime = end - start;
         final long diff = Math.abs(elapsedTime - TimeUnit.SECONDS.toNanos(duration));
 
-        Assert.assertTrue(diff < TimeUnit.MILLISECONDS.toNanos(100));
+        Assertions.assertTrue(diff < TimeUnit.MILLISECONDS.toNanos(100));
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testNegativeTime() {
-        new FixedElapsedTime<>(-10);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new FixedElapsedTime<>(-10);
+        });
     }
 }

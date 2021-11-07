@@ -17,13 +17,13 @@
 package org.apache.commons.math4.ga.crossover.rategenerator;
 
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.stats.PopulationStatisticalSummary;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AdaptiveLinearMaximumRankBasedCrossoverRateGeneratorTest {
 
@@ -54,13 +54,13 @@ public class AdaptiveLinearMaximumRankBasedCrossoverRateGeneratorTest {
         CrossoverRateGenerator<String> crossoverRateGenerator = new AdaptiveLinearMaximumRankBasedCrossoverRateGenerator<>(
                 minCrossoverRate, maxCrossoverRate);
 
-        Assert.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome1, chromosome5, stats, 1),
+        Assertions.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome1, chromosome5, stats, 1),
                 .00000001);
-        Assert.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome5, chromosome2, stats, 1),
+        Assertions.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome5, chromosome2, stats, 1),
                 .00000001);
-        Assert.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome3, chromosome5, stats, 1),
+        Assertions.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome3, chromosome5, stats, 1),
                 .00000001);
-        Assert.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome4, chromosome5, stats, 1),
+        Assertions.assertEquals(minCrossoverRate, crossoverRateGenerator.generate(chromosome4, chromosome5, stats, 1),
                 .00000001);
 
     }

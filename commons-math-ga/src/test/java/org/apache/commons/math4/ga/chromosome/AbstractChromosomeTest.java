@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AbstractChromosomeTest {
 
@@ -25,14 +25,14 @@ public class AbstractChromosomeTest {
     public void testGetFitness() {
         Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
         };
-        Assert.assertEquals(1, c1.evaluate(), .001);
+        Assertions.assertEquals(1, c1.evaluate(), .001);
     }
 
     @Test
     public void testDecode() {
         Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
         };
-        Assert.assertEquals("1", c1.decode());
+        Assertions.assertEquals("1", c1.decode());
     }
 
     @Test
@@ -44,10 +44,10 @@ public class AbstractChromosomeTest {
         Chromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 10, chromosome -> "10") {
         };
 
-        Assert.assertTrue(c1.compareTo(c2) < 0);
-        Assert.assertTrue(c2.compareTo(c1) > 0);
-        Assert.assertEquals(0, c3.compareTo(c2));
-        Assert.assertEquals(0, c2.compareTo(c3));
+        Assertions.assertTrue(c1.compareTo(c2) < 0);
+        Assertions.assertTrue(c2.compareTo(c1) > 0);
+        Assertions.assertEquals(0, c3.compareTo(c2));
+        Assertions.assertEquals(0, c2.compareTo(c3));
     }
 
     @Test
@@ -58,8 +58,8 @@ public class AbstractChromosomeTest {
         };
         AbstractChromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 3, chromosome -> "1") {
         };
-        Assert.assertTrue(c1.isSame(c3));
-        Assert.assertFalse(c1.isSame(c2));
+        Assertions.assertTrue(c1.isSame(c3));
+        Assertions.assertFalse(c1.isSame(c2));
     }
 
 }

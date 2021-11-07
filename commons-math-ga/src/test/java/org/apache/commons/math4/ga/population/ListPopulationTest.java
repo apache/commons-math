@@ -22,10 +22,10 @@ import java.util.Iterator;
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ListPopulationTest {
 
@@ -45,8 +45,8 @@ public class ListPopulationTest {
 
         ListPopulation<String> population = new ListPopulation<String>(chromosomes, 10);
 
-        Assert.assertEquals(c3, population.getFittestChromosome());
-        Assert.assertNotNull(population.toString());
+        Assertions.assertEquals(c3, population.getFittestChromosome());
+        Assertions.assertNotNull(population.toString());
     }
 
     @Test
@@ -63,33 +63,40 @@ public class ListPopulationTest {
 
         population.addChromosomes(chromosomes);
 
-        Assert.assertEquals(chromosomes, population.getChromosomes());
+        Assertions.assertEquals(chromosomes, population.getChromosomes());
 
         population.setPopulationLimit(50);
-        Assert.assertEquals(50, population.getPopulationLimit());
+        Assertions.assertEquals(50, population.getPopulationLimit());
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testSetPopulationLimit() {
         final ListPopulation<String> population = new ListPopulation<>(10);
 
-        population.setPopulationLimit(-50);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            population.setPopulationLimit(-50);
+        });
+
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testConstructorPopulationLimitNotPositive() {
-        new ListPopulation<String>(-10);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new ListPopulation<String>(-10);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testChromosomeListConstructorPopulationLimitNotPositive() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
                 new DummyListChromosomeDecoder<>("0"), 0, 2));
-        new ListPopulation<String>(chromosomes, -10);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new ListPopulation<String>(chromosomes, -10);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testConstructorListOfChromosomesBiggerThanPopulationSize() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
@@ -99,10 +106,13 @@ public class ListPopulationTest {
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
                 new DummyListChromosomeDecoder<>("0"), 0, 2));
 
-        new ListPopulation<String>(chromosomes, 1);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new ListPopulation<String>(chromosomes, 1);
+        });
+
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testAddTooManyChromosomes() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
@@ -114,21 +124,26 @@ public class ListPopulationTest {
 
         final ListPopulation<String> population = new ListPopulation<>(2);
 
-        population.addChromosomes(chromosomes);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            population.addChromosomes(chromosomes);
+        });
+
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testAddTooManyChromosomesSingleCall() {
 
         final ListPopulation<String> population = new ListPopulation<>(2);
 
-        for (int i = 0; i <= population.getPopulationLimit(); i++) {
-            population.addChromosome(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
-                    new DummyListChromosomeDecoder<>("0"), 0, 2));
-        }
+        Assertions.assertThrows(GeneticException.class, () -> {
+            for (int i = 0; i <= population.getPopulationLimit(); i++) {
+                population.addChromosome(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
+                        new DummyListChromosomeDecoder<>("0"), 0, 2));
+            }
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testIterator() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
@@ -143,13 +158,15 @@ public class ListPopulationTest {
         population.addChromosomes(chromosomes);
 
         final Iterator<Chromosome<String>> iter = population.iterator();
-        while (iter.hasNext()) {
-            iter.next();
-            iter.remove();
-        }
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> {
+            while (iter.hasNext()) {
+                iter.next();
+                iter.remove();
+            }
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testSetPopulationLimitTooSmall() {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
@@ -161,7 +178,10 @@ public class ListPopulationTest {
 
         final ListPopulation<String> population = new ListPopulation<>(chromosomes, 3);
 
-        population.setPopulationLimit(2);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            population.setPopulationLimit(2);
+        });
+
     }
 
     @Test
@@ -176,7 +196,7 @@ public class ListPopulationTest {
 
         final ListPopulation<String> population = new ListPopulation<>(chromosomes, 3);
 
-        Assert.assertEquals(1, population.nextGeneration(.4).getPopulationSize());
-        Assert.assertEquals(0, population.nextGeneration(.1).getPopulationSize());
+        Assertions.assertEquals(1, population.nextGeneration(.4).getPopulationSize());
+        Assertions.assertEquals(0, population.nextGeneration(.1).getPopulationSize());
     }
 }

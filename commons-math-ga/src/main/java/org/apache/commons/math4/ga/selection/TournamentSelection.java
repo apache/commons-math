@@ -25,7 +25,7 @@ import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
 
 /**
  * Tournament selection scheme. Each of the two selected chromosomes is selected
@@ -86,7 +86,7 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
 
         for (int i = 0; i < this.arity; i++) {
             // select a random individual and add it to the tournament
-            final int rind = RandomGenerator.getRandomGenerator().nextInt(chromosomes.size());
+            final int rind = RandomNumberGenerator.getRandomGenerator().nextInt(chromosomes.size());
             selectedChromosomes.add(chromosomes.get(rind));
             // do not select it again
             chromosomes.remove(rind);

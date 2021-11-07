@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
 
 /**
  * Implementation of ListChromosome for testing purposes

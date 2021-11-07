@@ -17,9 +17,9 @@
 package org.apache.commons.math4.ga.mutation;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AbstractListChromosomeMutationPolicyTest {
 
@@ -29,7 +29,7 @@ public class AbstractListChromosomeMutationPolicyTest {
 
             @Override
             protected Integer mutateGene(Integer originalValue) {
-                return RandomGenerator.getRandomGenerator().nextInt(2);
+                return RandomNumberGenerator.getRandomGenerator().nextInt(2);
             }
 
             @Override
@@ -37,7 +37,7 @@ public class AbstractListChromosomeMutationPolicyTest {
                 // No Op
             }
         };
-        Assert.assertEquals(1, chromosomeMutationPolicy.getMutableGeneIndexes(10, .1).size());
+        Assertions.assertEquals(1, chromosomeMutationPolicy.getMutableGeneIndexes(10, .1).size());
         chromosomeMutationPolicy.getMutableGeneIndexes(10, .001);
     }
 

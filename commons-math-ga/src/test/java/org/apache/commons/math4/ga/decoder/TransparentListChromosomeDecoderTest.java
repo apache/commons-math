@@ -22,8 +22,8 @@ import java.util.Objects;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class TransparentListChromosomeDecoderTest {
 
@@ -33,7 +33,7 @@ public class TransparentListChromosomeDecoderTest {
         Chromosome<List<Integer>> chromosome = new IntegralValuedChromosome<>(rp, c -> 0,
                 new TransparentListChromosomeDecoder<>(), 0, 2);
         List<Integer> decodedRp = chromosome.decode();
-        Assert.assertTrue(Objects.equals(rp, decodedRp));
+        Assertions.assertTrue(Objects.equals(rp, decodedRp));
     }
 
 }

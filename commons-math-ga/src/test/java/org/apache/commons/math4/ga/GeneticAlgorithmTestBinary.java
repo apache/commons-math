@@ -34,9 +34,9 @@ import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.selection.TournamentSelection;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * This is also an example of usage.
@@ -51,31 +51,16 @@ public class GeneticAlgorithmTestBinary {
     private static final double MUTATION_RATE = 0.1;
     private static final int TOURNAMENT_ARITY = 2;
 
-    @Before
-    public void reset()
-            throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        ConvergenceListenerRegistry<String> registry = ConvergenceListenerRegistry.<String>getInstance();
-        Field listenersField = registry.getClass().getDeclaredField("listeners");
-        boolean accessible = listenersField.isAccessible();
-        if (!accessible) {
-            listenersField.setAccessible(true);
-        }
-        @SuppressWarnings("unchecked")
-        List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
-                .get(ConvergenceListenerRegistry.getInstance());
-        listeners.clear();
-        listenersField.setAccessible(accessible);
-    }
-
     @Test
     public void test() {
+        removeListeners();
 
         // initialize a new genetic algorithm
         GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<Integer>>(),
                 CROSSOVER_RATE, new BinaryMutation<List<Integer>>(), MUTATION_RATE,
                 new TournamentSelection<List<Integer>>(TOURNAMENT_ARITY));
 
-        Assert.assertEquals(0, ga.getGenerationsEvolved());
+        Assertions.assertEquals(0, ga.getGenerationsEvolved());
 
         // initial population
         Population<List<Integer>> initial = randomPopulation();
@@ -95,9 +80,31 @@ public class GeneticAlgorithmTestBinary {
         // the initial one
         // however, for some implementations of GA, this need not be true :)
 
-        Assert.assertTrue(bestFinal.compareTo(bestInitial) > 0);
-        Assert.assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
+        Assertions.assertTrue(bestFinal.compareTo(bestInitial) > 0);
+        Assertions.assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
 
+    }
+
+    private void removeListeners() {
+        try {
+            ConvergenceListenerRegistry<String> registry = ConvergenceListenerRegistry.<String>getInstance();
+            Field listenersField = registry.getClass().getDeclaredField("listeners");
+            boolean accessible = listenersField.isAccessible();
+            if (!accessible) {
+                listenersField.setAccessible(true);
+            }
+            @SuppressWarnings("unchecked")
+            List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
+                    .get(ConvergenceListenerRegistry.getInstance());
+            listeners.clear();
+            listenersField.setAccessible(accessible);
+        } catch (NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -132,16 +139,20 @@ public class GeneticAlgorithmTestBinary {
         }
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCrossoverRate() {
-        new GeneticAlgorithm<>(new OnePointCrossover<>(), 1.5, new BinaryMutation<>(), .01,
-                new TournamentSelection<>(10));
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new GeneticAlgorithm<>(new OnePointCrossover<>(), 1.5, new BinaryMutation<>(), .01,
+                    new TournamentSelection<>(10));
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testMutationRate() {
-        new GeneticAlgorithm<>(new OnePointCrossover<>(), .5, new BinaryMutation<>(), 1.5,
-                new TournamentSelection<>(10));
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new GeneticAlgorithm<>(new OnePointCrossover<>(), .5, new BinaryMutation<>(), 1.5,
+                    new TournamentSelection<>(10));
+        });
     }
 
 }

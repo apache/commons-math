@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.internal.utils.ValidationUtils;
 import org.apache.commons.rng.UniformRandomProvider;
 
 /**
@@ -40,7 +39,7 @@ public interface ChromosomeRepresentationUtils {
      * @return representation of a random permutation
      */
     static List<Double> randomPermutation(final int l) {
-        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add(randomProvider.nextDouble());
@@ -127,7 +126,7 @@ public interface ChromosomeRepresentationUtils {
      * @return a random binary array of length <code>length</code>
      */
     static List<Integer> randomIntegralRepresentation(final int length, final int min, final int max) {
-        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
         final List<Integer> rList = new ArrayList<>(length);
         for (int j = 0; j < length; j++) {
             rList.add(min + randomProvider.nextInt(max - min));
@@ -142,7 +141,7 @@ public interface ChromosomeRepresentationUtils {
      * @return a random binary array of length <code>length</code>
      */
     static List<Integer> randomBinaryRepresentation(final int length) {
-        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
         // random binary list
         final List<Integer> rList = new ArrayList<>(length);
         for (int j = 0; j < length; j++) {
@@ -170,9 +169,11 @@ public interface ChromosomeRepresentationUtils {
      * @return representation as List of Double
      */
     static List<Double> randomDoubleRepresentation(final int l, double min, double max) {
-        ValidationUtils.checkForMinMax(min, max);
+        if (min >= max) {
+            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+        }
         final double range = max - min;
-        final UniformRandomProvider randomProvider = RandomGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add(min + randomProvider.nextDouble() * range);

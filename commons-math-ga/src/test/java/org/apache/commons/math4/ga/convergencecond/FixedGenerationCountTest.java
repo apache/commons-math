@@ -17,11 +17,12 @@
 package org.apache.commons.math4.ga.convergencecond;
 
 import org.apache.commons.math4.ga.convergence.FixedGenerationCount;
+
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FixedGenerationCountTest {
 
@@ -35,11 +36,13 @@ public class FixedGenerationCountTest {
         while (!fgc.isSatisfied(pop)) {
             cnt++;
         }
-        Assert.assertEquals(cnt, fgc.getNumGenerations());
+        Assertions.assertEquals(cnt, fgc.getNumGenerations());
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testNegativeGenerationCount() {
-        new FixedGenerationCount<String>(-1);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new FixedGenerationCount<String>(-1);
+        });
     }
 }

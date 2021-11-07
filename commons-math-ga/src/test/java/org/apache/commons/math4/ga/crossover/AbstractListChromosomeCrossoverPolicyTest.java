@@ -23,11 +23,12 @@ import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.dummy.DummyListChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AbstractListChromosomeCrossoverPolicyTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCrossoverWithNonListChromosome() {
 
         CrossoverPolicy<String> crossoverPolicy = new AbstractListChromosomeCrossoverPolicy<Integer, String>() {
@@ -44,10 +45,13 @@ public class AbstractListChromosomeCrossoverPolicyTest {
         Chromosome<String> ch2 = new AbstractChromosome<String>(c -> 1, c -> "1") {
         };
 
-        crossoverPolicy.crossover(ch1, ch2, 1.0);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            crossoverPolicy.crossover(ch1, ch2, 1.0);
+        });
+
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCrossoverWithUnEqualLengthChromosome() {
 
         CrossoverPolicy<String> crossoverPolicy = new AbstractListChromosomeCrossoverPolicy<Integer, String>() {
@@ -62,7 +66,10 @@ public class AbstractListChromosomeCrossoverPolicyTest {
 
         Chromosome<String> ch2 = new DummyListChromosome(ChromosomeRepresentationUtils.randomBinaryRepresentation(20));
 
-        crossoverPolicy.crossover(ch1, ch2, 1.0);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            crossoverPolicy.crossover(ch1, ch2, 1.0);
+        });
+
     }
 
 }

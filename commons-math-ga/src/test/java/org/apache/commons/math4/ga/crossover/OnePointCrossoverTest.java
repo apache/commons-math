@@ -18,9 +18,9 @@ package org.apache.commons.math4.ga.crossover;
 
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class OnePointCrossoverTest {
 
@@ -49,17 +49,17 @@ public class OnePointCrossoverTest {
             c2 = ((IntegralValuedChromosome<String>) pair.getSecond()).getRepresentation().toArray(c2);
 
             // first and last values will be the same
-            Assert.assertEquals(p1[0], c1[0]);
-            Assert.assertEquals(p2[0], c2[0]);
-            Assert.assertEquals(p1[p1.length - 1], c1[c1.length - 1]);
-            Assert.assertEquals(p2[p2.length - 1], c2[c2.length - 1]);
+            Assertions.assertEquals(p1[0], c1[0]);
+            Assertions.assertEquals(p2[0], c2[0]);
+            Assertions.assertEquals(p1[p1.length - 1], c1[c1.length - 1]);
+            Assertions.assertEquals(p2[p2.length - 1], c2[c2.length - 1]);
             // moreover, in the above setting, the 2nd, 3rd and 7th values will be the same
-            Assert.assertEquals(p1[2], c1[2]);
-            Assert.assertEquals(p2[2], c2[2]);
-            Assert.assertEquals(p1[3], c1[3]);
-            Assert.assertEquals(p2[3], c2[3]);
-            Assert.assertEquals(p1[7], c1[7]);
-            Assert.assertEquals(p2[7], c2[7]);
+            Assertions.assertEquals(p1[2], c1[2]);
+            Assertions.assertEquals(p2[2], c2[2]);
+            Assertions.assertEquals(p1[3], c1[3]);
+            Assertions.assertEquals(p2[3], c2[3]);
+            Assertions.assertEquals(p1[7], c1[7]);
+            Assertions.assertEquals(p2[7], c2[7]);
         }
     }
 

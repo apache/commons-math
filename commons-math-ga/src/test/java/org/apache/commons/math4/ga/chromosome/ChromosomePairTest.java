@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 public class ChromosomePairTest {
 
@@ -29,10 +29,10 @@ public class ChromosomePairTest {
         };
         ChromosomePair<String> chromosomePair = new ChromosomePair<>(chromosome1, chromosome2);
 
-        Assert.assertEquals(chromosomePair.getFirst(), chromosome1);
-        Assert.assertEquals(chromosomePair.getSecond(), chromosome2);
+        Assertions.assertEquals(chromosomePair.getFirst(), chromosome1);
+        Assertions.assertEquals(chromosomePair.getSecond(), chromosome2);
 
-        Assert.assertNotNull(chromosomePair.toString());
+        Assertions.assertNotNull(chromosomePair.toString());
     }
 
 }

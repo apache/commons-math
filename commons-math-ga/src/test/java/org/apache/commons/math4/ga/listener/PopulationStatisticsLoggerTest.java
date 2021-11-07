@@ -17,12 +17,12 @@
 package org.apache.commons.math4.ga.listener;
 
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class PopulationStatisticsLoggerTest {
 
@@ -39,7 +39,7 @@ public class PopulationStatisticsLoggerTest {
                         0, 10));
         PopulationStatisticsLogger<String> logger = new PopulationStatisticsLogger<>();
         logger.notify(1, population);
-        Assert.assertTrue(true);
+        Assertions.assertTrue(true);
     }
 
 }

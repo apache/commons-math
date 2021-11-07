@@ -31,8 +31,8 @@ import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.selection.TournamentSelection;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * This is also an example of usage.
@@ -87,7 +87,7 @@ public class GeneticAlgorithmTestPermutations {
         // the initial one
         // however, for some implementations of GA, this need not be true :)
 
-        Assert.assertTrue(bestFinal.compareTo(bestInitial) > 0);
+        Assertions.assertTrue(bestFinal.compareTo(bestInitial) > 0);
 
     }
 

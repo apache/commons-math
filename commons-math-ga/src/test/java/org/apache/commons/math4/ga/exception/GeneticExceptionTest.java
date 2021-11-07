@@ -17,18 +17,23 @@
 package org.apache.commons.math4.ga.exception;
 
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class GeneticExceptionTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testGeneticExceptionThrowable() {
-        throw new GeneticException(new NullPointerException());
+        Assertions.assertThrows(GeneticException.class, () -> {
+            throw new GeneticException(new NullPointerException());
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testGeneticExceptionStringThrowableObjectArray() {
-        throw new GeneticException("Nullpointer Exception", new NullPointerException());
+        Assertions.assertThrows(GeneticException.class, () -> {
+            throw new GeneticException("Nullpointer Exception", new NullPointerException());
+        });
     }
 
 }

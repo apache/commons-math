@@ -18,20 +18,22 @@ package org.apache.commons.math4.ga.mutation;
 
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class BinaryMutationTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity() {
         BinaryMutation<String> mutation = new BinaryMutation<>();
-        mutation.checkValidity(
-                new RealValuedChromosome<>(ChromosomeRepresentationUtils
-                        .randomNormalizedDoubleRepresentation(0), c -> 0, new DummyListChromosomeDecoder<>("0")));
+        Assertions.assertThrows(GeneticException.class, () -> {
+            mutation.checkValidity(
+                    new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(0),
+                            c -> 0, new DummyListChromosomeDecoder<>("0")));
+        });
     }
 
     @Test
@@ -51,7 +53,7 @@ public class BinaryMutationTest {
                     numDifferent++;
                 }
             }
-            Assert.assertEquals(1, numDifferent);
+            Assertions.assertEquals(1, numDifferent);
         }
 
         // stochastic testing for two gene mutation :)
@@ -67,7 +69,7 @@ public class BinaryMutationTest {
                     numDifferent++;
                 }
             }
-            Assert.assertEquals(2, numDifferent);
+            Assertions.assertEquals(2, numDifferent);
         }
 
         // stochastic testing for three gene mutation :)
@@ -83,7 +85,7 @@ public class BinaryMutationTest {
                     numDifferent++;
                 }
             }
-            Assert.assertEquals(3, numDifferent);
+            Assertions.assertEquals(3, numDifferent);
         }
     }
 

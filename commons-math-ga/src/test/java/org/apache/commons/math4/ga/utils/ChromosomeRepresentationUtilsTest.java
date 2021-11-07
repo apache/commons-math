@@ -23,8 +23,8 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.decoder.RandomKeyDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ChromosomeRepresentationUtilsTest {
 
@@ -33,7 +33,7 @@ public class ChromosomeRepresentationUtilsTest {
         // never generate an invalid one
         for (int i = 0; i < 10; i++) {
             List<Double> representation = ChromosomeRepresentationUtils.randomPermutation(10);
-            Assert.assertNotNull(representation);
+            Assertions.assertNotNull(representation);
         }
     }
 
@@ -46,11 +46,11 @@ public class ChromosomeRepresentationUtilsTest {
                 decoder);
         List<String> decoded = decoder.decode(chromosome);
 
-        Assert.assertEquals("a", decoded.get(0));
-        Assert.assertEquals("b", decoded.get(1));
-        Assert.assertEquals("c", decoded.get(2));
-        Assert.assertEquals("d", decoded.get(3));
-        Assert.assertEquals("e", decoded.get(4));
+        Assertions.assertEquals("a", decoded.get(0));
+        Assertions.assertEquals("b", decoded.get(1));
+        Assertions.assertEquals("c", decoded.get(2));
+        Assertions.assertEquals("d", decoded.get(3));
+        Assertions.assertEquals("e", decoded.get(4));
     }
 
     @Test
@@ -67,16 +67,16 @@ public class ChromosomeRepresentationUtilsTest {
         Double[] permArr = new Double[sequence.size()];
         permArr = permutation.toArray(permArr);
 
-        Assert.assertArrayEquals(new Double[] {0.6, 0.0, 0.4, 0.8, 0.2}, permArr);
+        Assertions.assertArrayEquals(new Double[] {0.6, 0.0, 0.4, 0.8, 0.2}, permArr);
 
         RandomKeyDecoder<String> decoder = new RandomKeyDecoder<>(sequence);
         List<String> decodedData = decoder.decode(new RealValuedChromosome<>(permutation, c -> 0, decoder));
 
-        Assert.assertEquals("b", decodedData.get(0));
-        Assert.assertEquals("b", decodedData.get(1));
-        Assert.assertEquals("c", decodedData.get(2));
-        Assert.assertEquals("x", decodedData.get(3));
-        Assert.assertEquals("z", decodedData.get(4));
+        Assertions.assertEquals("b", decodedData.get(0));
+        Assertions.assertEquals("b", decodedData.get(1));
+        Assertions.assertEquals("c", decodedData.get(2));
+        Assertions.assertEquals("x", decodedData.get(3));
+        Assertions.assertEquals("z", decodedData.get(4));
 
         permutation = ChromosomeRepresentationUtils.comparatorPermutation(sequence, new Comparator<String>() {
             @Override
@@ -87,15 +87,15 @@ public class ChromosomeRepresentationUtilsTest {
         permArr = new Double[sequence.size()];
         permArr = permutation.toArray(permArr);
 
-        Assert.assertArrayEquals(new Double[] {0.2, 0.6, 0.4, 0.0, 0.8}, permArr);
+        Assertions.assertArrayEquals(new Double[] {0.2, 0.6, 0.4, 0.0, 0.8}, permArr);
 
         decodedData = decoder.decode(new RealValuedChromosome<>(permutation, c -> 0, decoder));
 
-        Assert.assertEquals("z", decodedData.get(0));
-        Assert.assertEquals("x", decodedData.get(1));
-        Assert.assertEquals("c", decodedData.get(2));
-        Assert.assertEquals("b", decodedData.get(3));
-        Assert.assertEquals("b", decodedData.get(4));
+        Assertions.assertEquals("z", decodedData.get(0));
+        Assertions.assertEquals("x", decodedData.get(1));
+        Assertions.assertEquals("c", decodedData.get(2));
+        Assertions.assertEquals("b", decodedData.get(3));
+        Assertions.assertEquals("b", decodedData.get(4));
     }
 
     @Test
@@ -108,23 +108,23 @@ public class ChromosomeRepresentationUtilsTest {
                 ChromosomeRepresentationUtils.inducedPermutation(origData, permutedData), c -> 0, decoder);
         List<String> decoded = decoder.decode(chromosome);
 
-        Assert.assertEquals("d", decoded.get(0));
-        Assert.assertEquals("b", decoded.get(1));
-        Assert.assertEquals("c", decoded.get(2));
-        Assert.assertEquals("a", decoded.get(3));
-        Assert.assertEquals("d", decoded.get(4));
+        Assertions.assertEquals("d", decoded.get(0));
+        Assertions.assertEquals("b", decoded.get(1));
+        Assertions.assertEquals("c", decoded.get(2));
+        Assertions.assertEquals("a", decoded.get(3));
+        Assertions.assertEquals("d", decoded.get(4));
 
         try {
             ChromosomeRepresentationUtils.inducedPermutation(Arrays.asList(new String[] {"a", "b", "c", "d", "d"}),
                     Arrays.asList(new String[] {"a", "b", "c", "d"}));
-            Assert.fail("Uncaught exception");
+            Assertions.fail("Uncaught exception");
         } catch (GeneticException e) {
             // no-op
         }
         try {
             ChromosomeRepresentationUtils.inducedPermutation(Arrays.asList(new String[] {"a", "b", "c", "d", "d"}),
                     Arrays.asList(new String[] {"a", "b", "c", "d", "f"}));
-            Assert.fail("Uncaught exception");
+            Assertions.fail("Uncaught exception");
         } catch (GeneticException e) {
             // no-op
         }
@@ -137,9 +137,9 @@ public class ChromosomeRepresentationUtilsTest {
                 decoder);
 
         List<String> decodedData = decoder.decode(chromosome);
-        Assert.assertEquals("a", decodedData.get(0));
-        Assert.assertEquals("b", decodedData.get(1));
-        Assert.assertEquals("c", decodedData.get(2));
+        Assertions.assertEquals("a", decodedData.get(0));
+        Assertions.assertEquals("b", decodedData.get(1));
+        Assertions.assertEquals("c", decodedData.get(2));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class ChromosomeRepresentationUtilsTest {
         int max = 10;
         List<Integer> values = ChromosomeRepresentationUtils.randomIntegralRepresentation(100, min, max);
         for (Integer value : values) {
-            Assert.assertTrue(min <= value && value < max);
+            Assertions.assertTrue(min <= value && value < max);
         }
     }
 
@@ -156,7 +156,7 @@ public class ChromosomeRepresentationUtilsTest {
     public void testNormalizedDoubleRepresentation() {
         List<Double> values = ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(100);
         for (Double value : values) {
-            Assert.assertTrue(0 <= value && value < 1);
+            Assertions.assertTrue(0 <= value && value < 1);
         }
     }
 

@@ -19,16 +19,16 @@ package org.apache.commons.math4.ga.mutation;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class IntegralValuedMutationTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity() {
         int min = 0;
         int max = 10;
@@ -36,10 +36,12 @@ public class IntegralValuedMutationTest {
                 ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(10), c -> 0,
                 new DummyListChromosomeDecoder<>("0"));
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
-        mutation.checkValidity(chromosome);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            mutation.checkValidity(chromosome);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity1() {
         int min = 0;
         int max = 10;
@@ -47,12 +49,16 @@ public class IntegralValuedMutationTest {
                 ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
-        mutation.checkValidity(chromosome);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            mutation.checkValidity(chromosome);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testIntegralValuedMutation() {
-        new IntegralValuedMutation<>(10, 5);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new IntegralValuedMutation<>(10, 5);
+        });
     }
 
     @Test
@@ -60,8 +66,8 @@ public class IntegralValuedMutationTest {
         int min = 0;
         int max = 10;
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min, max);
-        Assert.assertEquals(min, mutation.getMin());
-        Assert.assertEquals(max, mutation.getMax());
+        Assertions.assertEquals(min, mutation.getMin());
+        Assertions.assertEquals(max, mutation.getMax());
     }
 
     @Test
@@ -70,9 +76,9 @@ public class IntegralValuedMutationTest {
         int max = 10;
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min, max);
         for (int i = 0; i < 100; i++) {
-            int origValue = min + RandomGenerator.getRandomGenerator().nextInt(max - min);
+            int origValue = min + RandomNumberGenerator.getRandomGenerator().nextInt(max - min);
             int mutatedValued = mutation.mutateGene(origValue);
-            Assert.assertTrue(min <= mutatedValued && mutatedValued < max);
+            Assertions.assertTrue(min <= mutatedValued && mutatedValued < max);
         }
     }
 

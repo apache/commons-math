@@ -21,11 +21,11 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class UniformCrossoverTest {
     private static final int LEN = 10000;
@@ -33,7 +33,7 @@ public class UniformCrossoverTest {
     private static final List<Integer> p2 = new ArrayList<>(LEN);
 
     @SuppressWarnings("boxing")
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         for (int i = 0; i < LEN; i++) {
             p1.add(0);
@@ -41,14 +41,18 @@ public class UniformCrossoverTest {
         }
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testRatioTooLow() {
-        new UniformCrossover<Integer, String>(-0.5d);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new UniformCrossover<Integer, String>(-0.5d);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testRatioTooHigh() {
-        new UniformCrossover<Integer, String>(1.5d);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new UniformCrossover<Integer, String>(1.5d);
+        });
     }
 
     @Test
@@ -86,8 +90,8 @@ public class UniformCrossoverTest {
                 }
             }
 
-            Assert.assertEquals(1.0 - ratio, (double) from1 / LEN, 0.1);
-            Assert.assertEquals(ratio, (double) from2 / LEN, 0.1);
+            Assertions.assertEquals(1.0 - ratio, (double) from1 / LEN, 0.1);
+            Assertions.assertEquals(ratio, (double) from2 / LEN, 0.1);
 
             from1 = 0;
             from2 = 0;
@@ -101,8 +105,8 @@ public class UniformCrossoverTest {
                 }
             }
 
-            Assert.assertEquals(ratio, (double) from1 / LEN, 0.1);
-            Assert.assertEquals(1.0 - ratio, (double) from2 / LEN, 0.1);
+            Assertions.assertEquals(ratio, (double) from1 / LEN, 0.1);
+            Assertions.assertEquals(1.0 - ratio, (double) from2 / LEN, 0.1);
         }
     }
 

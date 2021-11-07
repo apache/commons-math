@@ -19,8 +19,8 @@ package org.apache.commons.math4.ga.crossover;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.dummy.DummyChromosome;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AbstractChromosomeCrossoverPolicyTest {
 
@@ -38,8 +38,8 @@ public class AbstractChromosomeCrossoverPolicyTest {
 
         Chromosome<String> ch2 = new DummyChromosome();
 
-        Assert.assertNull(crossoverPolicy.crossover(ch1, ch2, 1.0));
-        Assert.assertNotNull(crossoverPolicy.crossover(ch1, ch2, 0.0));
+        Assertions.assertNull(crossoverPolicy.crossover(ch1, ch2, 1.0));
+        Assertions.assertNotNull(crossoverPolicy.crossover(ch1, ch2, 0.0));
     }
 
 }

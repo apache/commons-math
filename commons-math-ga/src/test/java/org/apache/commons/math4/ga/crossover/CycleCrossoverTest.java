@@ -18,8 +18,8 @@ package org.apache.commons.math4.ga.crossover;
 
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.dummy.DummyListChromosome;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CycleCrossoverTest {
 
@@ -43,8 +43,8 @@ public class CycleCrossoverTest {
         final Integer[] c1e = new Integer[] {8, 1, 2, 3, 4, 5, 6, 7, 9, 0};
         final Integer[] c2e = new Integer[] {0, 4, 7, 3, 6, 2, 5, 1, 8, 9};
 
-        Assert.assertArrayEquals(c1e, c1);
-        Assert.assertArrayEquals(c2e, c2);
+        Assertions.assertArrayEquals(c1e, c1);
+        Assertions.assertArrayEquals(c2e, c2);
     }
 
     @Test
@@ -66,8 +66,8 @@ public class CycleCrossoverTest {
         final Integer[] c1e = new Integer[] {1, 3, 7, 4, 2, 6, 5, 8, 9};
         final Integer[] c2e = new Integer[] {9, 2, 3, 8, 5, 6, 7, 1, 4};
 
-        Assert.assertArrayEquals(c1e, c1);
-        Assert.assertArrayEquals(c2e, c2);
+        Assertions.assertArrayEquals(c1e, c1);
+        Assertions.assertArrayEquals(c2e, c2);
     }
 
     @Test
@@ -92,9 +92,9 @@ public class CycleCrossoverTest {
             // not it comes from the second parent.
             for (final Integer j : c1) {
                 if (!p1[index].equals(j)) {
-                    Assert.assertEquals(j, p2[index]);
+                    Assertions.assertEquals(j, p2[index]);
                 } else {
-                    Assert.assertEquals(j, p1[index]);
+                    Assertions.assertEquals(j, p1[index]);
                 }
                 index++;
             }
@@ -103,9 +103,9 @@ public class CycleCrossoverTest {
             index = 0;
             for (final Integer k : c2) {
                 if (p2[index] != k) {
-                    Assert.assertEquals(k, p1[index]);
+                    Assertions.assertEquals(k, p1[index]);
                 } else {
-                    Assert.assertEquals(k, p2[index]);
+                    Assertions.assertEquals(k, p2[index]);
                 }
                 index++;
             }

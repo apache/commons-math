@@ -20,11 +20,12 @@ import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.dummy.DummyChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AbstractListChromosomeDecoderTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testDecodeWithInvalidChromosomeInstance() {
         Decoder<String> decoder = new AbstractListChromosomeDecoder<Integer, String>() {
 
@@ -34,7 +35,10 @@ public class AbstractListChromosomeDecoderTest {
             }
         };
         Chromosome<String> ch = new DummyChromosome();
-        decoder.decode(ch);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            decoder.decode(ch);
+        });
+
     }
 
 }

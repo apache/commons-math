@@ -19,8 +19,7 @@ package org.apache.commons.math4.ga.mutation;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.internal.utils.ValidationUtils;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
 
 /**
  * This class mutates real-valued chromosome.
@@ -51,7 +50,9 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
     public RealValuedMutation(double min, double max) {
         this.min = min;
         this.max = max;
-        ValidationUtils.checkForMinMax(min, max);
+        if (min >= max) {
+            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+        }
     }
 
     /**
@@ -90,7 +91,7 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
      */
     @Override
     protected Double mutateGene(Double originalValue) {
-        return min + RandomGenerator.getRandomGenerator().nextDouble() * (max - min);
+        return min + RandomNumberGenerator.getRandomGenerator().nextDouble() * (max - min);
     }
 
 }

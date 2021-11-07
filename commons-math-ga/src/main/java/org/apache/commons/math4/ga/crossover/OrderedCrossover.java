@@ -17,15 +17,15 @@
 package org.apache.commons.math4.ga.crossover;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
+import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
 import org.apache.commons.rng.UniformRandomProvider;
 
 /**
@@ -84,7 +84,7 @@ public class OrderedCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
         final Set<T> child1Set = new HashSet<>(length);
         final Set<T> child2Set = new HashSet<>(length);
 
-        final UniformRandomProvider random = RandomGenerator.getRandomGenerator();
+        final UniformRandomProvider random = RandomNumberGenerator.getRandomGenerator();
         // choose random points, making sure that lb < ub.
         final int a = random.nextInt(length);
         int b;

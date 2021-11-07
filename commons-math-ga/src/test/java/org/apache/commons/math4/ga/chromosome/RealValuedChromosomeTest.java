@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class RealValuedChromosomeTest {
 
@@ -51,21 +52,24 @@ public class RealValuedChromosomeTest {
         }
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity() {
         int min = 0;
         int max = 10;
-        new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min, max), c -> 0,
-                new DummyListChromosomeDecoder<>("0"), max, min);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min, max), c -> 0,
+                    new DummyListChromosomeDecoder<>("0"), max, min);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity1() {
         int min = 0;
         int max = 10;
-        new RealValuedChromosome<>(ChromosomeRepresentationUtils
-                .randomDoubleRepresentation(10, min - 10, max + 10), c -> 0, new DummyListChromosomeDecoder<>("0"),
-                min, max);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min - 10, max + 10),
+                    c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
+        });
     }
 
 }

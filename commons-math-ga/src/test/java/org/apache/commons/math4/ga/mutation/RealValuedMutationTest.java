@@ -19,16 +19,16 @@ package org.apache.commons.math4.ga.mutation;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class RealValuedMutationTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity() {
         int min = 0;
         int max = 10;
@@ -36,10 +36,12 @@ public class RealValuedMutationTest {
                 ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min - 10, max);
-        mutation.checkValidity(chromosome);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            mutation.checkValidity(chromosome);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCheckValidity1() {
         double min = 0;
         double max = 10;
@@ -47,12 +49,16 @@ public class RealValuedMutationTest {
                 ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min, max), c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min - 10, max);
-        mutation.checkValidity(chromosome);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            mutation.checkValidity(chromosome);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testIntegralValuedMutation() {
-        new RealValuedMutation<>(10, 5);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new RealValuedMutation<>(10, 5);
+        });
     }
 
     @Test
@@ -60,8 +66,8 @@ public class RealValuedMutationTest {
         double min = 0;
         double max = 10;
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min, max);
-        Assert.assertEquals(min, mutation.getMin(), .001);
-        Assert.assertEquals(max, mutation.getMax(), .001);
+        Assertions.assertEquals(min, mutation.getMin(), .001);
+        Assertions.assertEquals(max, mutation.getMax(), .001);
     }
 
     @Test
@@ -70,9 +76,9 @@ public class RealValuedMutationTest {
         double max = 10;
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min, max);
         for (int i = 0; i < 100; i++) {
-            double origValue = min + (max - min) * RandomGenerator.getRandomGenerator().nextDouble();
+            double origValue = min + (max - min) * RandomNumberGenerator.getRandomGenerator().nextDouble();
             double mutatedValue = mutation.mutateGene(origValue);
-            Assert.assertTrue(min <= mutatedValue && mutatedValue < max);
+            Assertions.assertTrue(min <= mutatedValue && mutatedValue < max);
         }
     }
 

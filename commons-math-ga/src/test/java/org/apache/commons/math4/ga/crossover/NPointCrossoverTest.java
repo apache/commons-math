@@ -21,14 +21,14 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class NPointCrossoverTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testNumberIsTooLargeException() {
         final Integer[] p1 = new Integer[] {1, 0, 1, 0, 0, 1, 0, 1, 1};
         final Integer[] p2 = new Integer[] {0, 1, 1, 0, 1, 0, 1, 1, 1};
@@ -39,10 +39,12 @@ public class NPointCrossoverTest {
                 new DummyListChromosomeDecoder<Integer>("0"), 0, 2);
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(15);
-        cp.crossover(p1c, p2c, 1.0);
+        Assertions.assertThrows(GeneticException.class, () -> {
+            cp.crossover(p1c, p2c, 1.0);
+        });
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCrossoverInvalidFixedLengthChromosomeFirst() {
         final Integer[] p1 = new Integer[] {1, 0, 1, 0, 0, 1, 0, 1, 1};
         final IntegralValuedChromosome<String> p1c = new IntegralValuedChromosome<String>(p1, chromosome -> 0,
@@ -52,10 +54,14 @@ public class NPointCrossoverTest {
         };
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);
-        cp.crossover(p1c, p2c, 1.0);
+
+        Assertions.assertThrows(GeneticException.class, () -> {
+            cp.crossover(p1c, p2c, 1.0);
+        });
+
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testCrossoverInvalidFixedLengthChromosomeSecond() {
         final Integer[] p1 = new Integer[] {1, 0, 1, 0, 0, 1, 0, 1, 1};
         final IntegralValuedChromosome<String> p2c = new IntegralValuedChromosome<String>(p1, chromosome -> 0,
@@ -65,7 +71,11 @@ public class NPointCrossoverTest {
         };
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);
-        cp.crossover(p1c, p2c, 1.0);
+
+        Assertions.assertThrows(GeneticException.class, () -> {
+            cp.crossover(p1c, p2c, 1.0);
+        });
+
     }
 
     @Test
@@ -86,9 +96,9 @@ public class NPointCrossoverTest {
         // the number of crossovers that happened for each child
         for (int i = 0; i < 20; i++) {
             ChromosomePair<String> pair = npc.crossover(p1c, p2c, 1.0);
-            Assert.assertEquals(order,
+            Assertions.assertEquals(order,
                     detectCrossoverPoints(p1c, p2c, (IntegralValuedChromosome<String>) pair.getFirst()));
-            Assert.assertEquals(order,
+            Assertions.assertEquals(order,
                     detectCrossoverPoints(p2c, p1c, (IntegralValuedChromosome<String>) pair.getSecond()));
         }
     }

@@ -16,20 +16,21 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class BinaryChromosomeTest {
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testInvalidConstructor() {
         Integer[][] reprs = new Integer[][] {new Integer[] {0, 1, 0, 1, 2}, new Integer[] {0, 1, 0, 1, -1}};
 
         for (Integer[] repr : reprs) {
-            new BinaryChromosome<>(repr, c -> 0, new DummyListChromosomeDecoder<>("0"));
-            Assert.fail("Exception not caught");
+            Assertions.assertThrows(GeneticException.class, () -> {
+                new BinaryChromosome<>(repr, c -> 0, new DummyListChromosomeDecoder<>("0"));
+            });
         }
     }
 

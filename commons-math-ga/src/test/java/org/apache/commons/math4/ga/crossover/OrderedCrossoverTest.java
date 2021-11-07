@@ -22,8 +22,8 @@ import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.dummy.DummyListChromosome;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class OrderedCrossoverTest {
 
@@ -47,14 +47,14 @@ public class OrderedCrossoverTest {
             final Integer[] c2 = ((DummyListChromosome) pair.getSecond()).getRepresentation()
                     .toArray(new Integer[p2.length]);
 
-            Assert.assertNotSame(p1c, pair.getFirst());
-            Assert.assertNotSame(p2c, pair.getSecond());
+            Assertions.assertNotSame(p1c, pair.getFirst());
+            Assertions.assertNotSame(p2c, pair.getSecond());
 
             // make sure that the children have exactly the same elements as their parents
             for (int j = 0; j < c1.length; j++) {
-                Assert.assertTrue(parentSet1.contains(c1[j]));
+                Assertions.assertTrue(parentSet1.contains(c1[j]));
                 parentSet1.remove(c1[j]);
-                Assert.assertTrue(parentSet2.contains(c2[j]));
+                Assertions.assertTrue(parentSet2.contains(c2[j]));
                 parentSet2.remove(c2[j]);
             }
         }

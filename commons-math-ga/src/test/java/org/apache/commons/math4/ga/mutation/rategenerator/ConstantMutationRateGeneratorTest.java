@@ -17,26 +17,26 @@
 package org.apache.commons.math4.ga.mutation.rategenerator;
 
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.apache.commons.math4.ga.utils.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.utils.RandomGenerator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ConstantMutationRateGeneratorTest {
 
     @Test
     public void testGenerate() {
         for (int i = 0; i < 100; i++) {
-            double mutationRate = RandomGenerator.getRandomGenerator().nextDouble();
+            double mutationRate = RandomNumberGenerator.getRandomGenerator().nextDouble();
             MutationRateGenerator<String> mutationRateGenerator = new ConstantMutationRateGenerator<>(mutationRate);
             IntegralValuedChromosome<String> chromosome = IntegralValuedChromosome.randomChromosome(10, c -> 0,
                     new DummyListChromosomeDecoder<>("Fixed"), 0, 2);
             Population<String> population = new ListPopulation<>(1);
             population.addChromosome(chromosome);
-            Assert.assertEquals(mutationRate,
+            Assertions.assertEquals(mutationRate,
                     mutationRateGenerator.generate(chromosome, new PopulationStatisticalSummaryImpl<>(population), i),
                     .0000001);
         }

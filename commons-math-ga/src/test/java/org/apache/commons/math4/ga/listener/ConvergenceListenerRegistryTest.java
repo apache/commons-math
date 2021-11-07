@@ -23,8 +23,8 @@ import java.util.List;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ConvergenceListenerRegistryTest {
 
@@ -60,7 +60,7 @@ public class ConvergenceListenerRegistryTest {
             @SuppressWarnings("unchecked")
             List<ConvergenceListener<String>> listeners1 = (List<ConvergenceListener<String>>) listenersField
                     .get(registry);
-            Assert.assertSame(listeners1.get(0), convergenceListener);
+            Assertions.assertSame(listeners1.get(0), convergenceListener);
             listenersField.setAccessible(accessible);
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
             // No op
@@ -82,7 +82,7 @@ public class ConvergenceListenerRegistryTest {
         listenersField.setAccessible(accessible);
     }
 
-    @Test(expected = GeneticException.class)
+    @Test
     public void testNotifyAll() {
         try {
             reset();
@@ -95,8 +95,10 @@ public class ConvergenceListenerRegistryTest {
                 }
             };
             registry.addConvergenceListener(convergenceListener);
-            registry.notifyAll(0, new ListPopulation<>(10));
-            Assert.assertTrue(true);
+            Assertions.assertThrows(GeneticException.class, () -> {
+                registry.notifyAll(0, new ListPopulation<>(10));
+            });
+            Assertions.assertTrue(true);
         } catch (SecurityException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
             // No op
         }
