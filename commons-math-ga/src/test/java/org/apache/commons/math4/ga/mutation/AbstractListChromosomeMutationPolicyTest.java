@@ -17,7 +17,7 @@
 package org.apache.commons.math4.ga.mutation;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ public class AbstractListChromosomeMutationPolicyTest {
 
             @Override
             protected Integer mutateGene(Integer originalValue) {
-                return RandomNumberGenerator.getRandomGenerator().nextInt(2);
+                return RandomProviderManager.getRandomProvider().nextInt(2);
             }
 
             @Override

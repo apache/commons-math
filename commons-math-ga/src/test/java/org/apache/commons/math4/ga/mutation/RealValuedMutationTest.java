@@ -22,7 +22,7 @@ import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -76,7 +76,7 @@ public class RealValuedMutationTest {
         double max = 10;
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min, max);
         for (int i = 0; i < 100; i++) {
-            double origValue = min + (max - min) * RandomNumberGenerator.getRandomGenerator().nextDouble();
+            double origValue = min + (max - min) * RandomProviderManager.getRandomProvider().nextDouble();
             double mutatedValue = mutation.mutateGene(origValue);
             Assertions.assertTrue(min <= mutatedValue && mutatedValue < max);
         }

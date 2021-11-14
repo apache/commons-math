@@ -37,7 +37,7 @@ public class IntegralValuedChromosomeTest {
 
         IntegralValuedChromosome<String> chromosome1 = new IntegralValuedChromosome<>(
                 ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max).toArray(new Integer[10]),
-                c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
+            c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
         Assertions.assertEquals(min, chromosome1.getMin());
         Assertions.assertEquals(max, chromosome1.getMax());
     }
@@ -48,7 +48,7 @@ public class IntegralValuedChromosomeTest {
         int max = 10;
         Assertions.assertThrows(GeneticException.class, () -> {
             new IntegralValuedChromosome<>(ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max),
-                    c -> 0, new DummyListChromosomeDecoder<>("0"), max, min);
+                c -> 0, new DummyListChromosomeDecoder<>("0"), max, min);
         });
     }
 

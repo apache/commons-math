@@ -21,7 +21,7 @@ import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ public class ConstantMutationRateGeneratorTest {
     @Test
     public void testGenerate() {
         for (int i = 0; i < 100; i++) {
-            double mutationRate = RandomNumberGenerator.getRandomGenerator().nextDouble();
+            double mutationRate = RandomProviderManager.getRandomProvider().nextDouble();
             MutationRateGenerator<String> mutationRateGenerator = new ConstantMutationRateGenerator<>(mutationRate);
             IntegralValuedChromosome<String> chromosome = IntegralValuedChromosome.randomChromosome(10, c -> 0,
                     new DummyListChromosomeDecoder<>("Fixed"), 0, 2);

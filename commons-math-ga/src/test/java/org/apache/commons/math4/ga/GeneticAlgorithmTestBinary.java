@@ -17,6 +17,7 @@
 package org.apache.commons.math4.ga;
 
 import java.lang.reflect.Field;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,7 +36,6 @@ import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.selection.TournamentSelection;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**

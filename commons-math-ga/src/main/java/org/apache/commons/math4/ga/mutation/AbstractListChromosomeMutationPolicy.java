@@ -24,7 +24,7 @@ import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
  * This abstraction represents an abstract mutation policy for ListChromosomes.
@@ -80,10 +80,10 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
         if (chromosomeMutationRate >= 1) {
             final int noOfMutation = (int) Math.round(chromosomeMutationRate);
             while (indexSet.size() < noOfMutation) {
-                indexSet.add(RandomNumberGenerator.getRandomGenerator().nextInt(length));
+                indexSet.add(RandomProviderManager.getRandomProvider().nextInt(length));
             }
-        } else if (RandomNumberGenerator.getRandomGenerator().nextDouble() < chromosomeMutationRate) {
-            indexSet.add(RandomNumberGenerator.getRandomGenerator().nextInt(length));
+        } else if (RandomProviderManager.getRandomProvider().nextDouble() < chromosomeMutationRate) {
+            indexSet.add(RandomProviderManager.getRandomProvider().nextInt(length));
         }
 
         return indexSet;

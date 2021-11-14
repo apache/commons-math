@@ -17,14 +17,14 @@
 package org.apache.commons.math4.ga.crossover;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
-import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
  * Cycle Crossover [CX] builds offspring from <b>ordered</b> chromosomes by
@@ -124,7 +124,7 @@ public class CycleCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<
         final List<Integer> indices = new ArrayList<>(length);
 
         // determine the starting index
-        int idx = randomStart ? RandomNumberGenerator.getRandomGenerator().nextInt(length) : 0;
+        int idx = randomStart ? RandomProviderManager.getRandomProvider().nextInt(length) : 0;
         int cycle = 1;
 
         while (visitedIndices.size() < length) {

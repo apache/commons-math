@@ -17,13 +17,13 @@
 package org.apache.commons.math4.ga.crossover;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
-import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
 
 /**
@@ -104,7 +104,7 @@ public class UniformCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
         final List<T> child1Rep = new ArrayList<>(length);
         final List<T> child2Rep = new ArrayList<>(length);
 
-        final UniformRandomProvider random = RandomNumberGenerator.getRandomGenerator();
+        final UniformRandomProvider random = RandomProviderManager.getRandomProvider();
 
         for (int index = 0; index < length; index++) {
 

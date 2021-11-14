@@ -25,31 +25,23 @@ import org.apache.commons.rng.simple.ThreadLocalRandomSource;
  * An utility to generate per thread {@link UniformRandomProvider} instance.
  * @since 4.0
  */
-public final class RandomNumberGenerator {
+public final class RandomProviderManager {
 
     /** The default RandomSource for random number generation. **/
     private static RandomSource randomSource = RandomSource.XO_RO_SHI_RO_128_PP;
 
     /**
-     * Sets the random source for this random generator.
-     * @param randomSource
-     */
-    public static void configure(RandomSource randomSource) {
-        RandomNumberGenerator.randomSource = randomSource;
-    }
-
-    /**
      * constructs the singleton instance.
      */
-    private RandomNumberGenerator() {
+    private RandomProviderManager() {
     }
 
     /**
      * Returns the (static) random generator.
      * @return the static random generator shared by GA implementation classes
      */
-    public static UniformRandomProvider getRandomGenerator() {
-        return ThreadLocalRandomSource.current(RandomNumberGenerator.randomSource);
+    public static UniformRandomProvider getRandomProvider() {
+        return ThreadLocalRandomSource.current(RandomProviderManager.randomSource);
     }
 
 }

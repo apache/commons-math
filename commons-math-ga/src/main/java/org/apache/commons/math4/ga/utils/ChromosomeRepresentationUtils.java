@@ -39,7 +39,7 @@ public interface ChromosomeRepresentationUtils {
      * @return representation of a random permutation
      */
     static List<Double> randomPermutation(final int l) {
-        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add(randomProvider.nextDouble());
@@ -126,7 +126,7 @@ public interface ChromosomeRepresentationUtils {
      * @return a random binary array of length <code>length</code>
      */
     static List<Integer> randomIntegralRepresentation(final int length, final int min, final int max) {
-        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
         final List<Integer> rList = new ArrayList<>(length);
         for (int j = 0; j < length; j++) {
             rList.add(min + randomProvider.nextInt(max - min));
@@ -141,7 +141,7 @@ public interface ChromosomeRepresentationUtils {
      * @return a random binary array of length <code>length</code>
      */
     static List<Integer> randomBinaryRepresentation(final int length) {
-        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
         // random binary list
         final List<Integer> rList = new ArrayList<>(length);
         for (int j = 0; j < length; j++) {
@@ -173,7 +173,7 @@ public interface ChromosomeRepresentationUtils {
             throw new GeneticException(GeneticException.TOO_LARGE, min, max);
         }
         final double range = max - min;
-        final UniformRandomProvider randomProvider = RandomNumberGenerator.getRandomGenerator();
+        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add(min + randomProvider.nextDouble() * range);

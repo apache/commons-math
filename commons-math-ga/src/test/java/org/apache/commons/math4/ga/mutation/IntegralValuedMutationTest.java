@@ -22,7 +22,7 @@ import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -76,7 +76,7 @@ public class IntegralValuedMutationTest {
         int max = 10;
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min, max);
         for (int i = 0; i < 100; i++) {
-            int origValue = min + RandomNumberGenerator.getRandomGenerator().nextInt(max - min);
+            int origValue = min + RandomProviderManager.getRandomProvider().nextInt(max - min);
             int mutatedValued = mutation.mutateGene(origValue);
             Assertions.assertTrue(min <= mutatedValued && mutatedValued < max);
         }

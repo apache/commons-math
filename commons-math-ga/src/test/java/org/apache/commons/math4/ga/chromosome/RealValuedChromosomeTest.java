@@ -68,7 +68,7 @@ public class RealValuedChromosomeTest {
         int max = 10;
         Assertions.assertThrows(GeneticException.class, () -> {
             new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min - 10, max + 10),
-                    c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
+                c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
         });
     }
 

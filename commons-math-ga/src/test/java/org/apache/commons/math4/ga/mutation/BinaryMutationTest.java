@@ -32,7 +32,7 @@ public class BinaryMutationTest {
         Assertions.assertThrows(GeneticException.class, () -> {
             mutation.checkValidity(
                     new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(0),
-                            c -> 0, new DummyListChromosomeDecoder<>("0")));
+                        c -> 0, new DummyListChromosomeDecoder<>("0")));
         });
     }
 

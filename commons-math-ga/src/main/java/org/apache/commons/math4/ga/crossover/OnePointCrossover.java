@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomNumberGenerator;
+import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
  * One point crossover policy. A random crossover point is selected and the
@@ -83,7 +83,7 @@ public class OnePointCrossover<T, P> extends AbstractListChromosomeCrossoverPoli
         final List<T> child2Rep = new ArrayList<>(length);
 
         // select a crossover point at random (0 and length makes no sense)
-        final int crossoverIndex = 1 + (RandomNumberGenerator.getRandomGenerator().nextInt(length - 2));
+        final int crossoverIndex = 1 + (RandomProviderManager.getRandomProvider().nextInt(length - 2));
 
         // copy the first part
         for (int i = 0; i < crossoverIndex; i++) {
