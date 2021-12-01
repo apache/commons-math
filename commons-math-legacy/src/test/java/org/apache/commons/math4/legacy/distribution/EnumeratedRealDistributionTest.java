@@ -163,14 +163,6 @@ public class EnumeratedRealDistributionTest {
     }
 
     /**
-     * Tests if the distribution returns properly that the support is connected.
-     */
-    @Test
-    public void testIsSupportConnected() {
-        Assert.assertTrue(testDistribution.isSupportConnected());
-    }
-
-    /**
      * Tests sampling.
      */
     @Test
