@@ -26,12 +26,14 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 
 public class AkimaSplineInterpolatorTest {
     @Test
@@ -158,6 +160,35 @@ public class AkimaSplineInterpolatorTest {
 
         testInterpolation( minimumX, maximumX, numberOfElements, numberOfSamples, f, interpolationTolerance,
                            maxTolerance );
+    }
+
+    // Test currently fails but it is not clear whether
+    //   https://issues.apache.org/jira/browse/MATH-1635
+    // actually describes a bug, or a limitation of the algorithm.
+    @Ignore
+    @Test
+    public void testMath1635() {
+        final double[] x = {
+            5994, 6005, 6555, 6588, 6663,
+            6760, 6770, 6792, 6856, 6964,
+            7028, 7233, 7426, 7469, 7619,
+            7910, 8038, 8178, 8414, 8747,
+            8983, 9316, 9864, 9875
+        };
+
+        final double[] y = {
+            3.0, 2.0, 2.0, 2.0, 2.0,
+            2.0, 2.0, 2.0, 2.0, 2.0,
+            2.0, 2.0, 2.0, 2.0, 2.0,
+            2.0, 2.0, 2.0, 2.0, 2.0,
+            2.0, 2.0, 2.0, 3.0
+        };
+
+        final AkimaSplineInterpolator interpolator = new AkimaSplineInterpolator(true);
+        final PolynomialSplineFunction interpolate = interpolator.interpolate(x, y);
+        final double value = interpolate.value(9584);
+        final double expected = 2;
+        Assert.assertEquals(expected, value, 1e-4);
     }
 
     @Test
