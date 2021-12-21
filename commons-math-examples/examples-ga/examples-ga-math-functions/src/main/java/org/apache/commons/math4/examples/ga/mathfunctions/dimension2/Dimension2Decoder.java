@@ -16,36 +16,31 @@
  */
 package org.apache.commons.math4.examples.ga.mathfunctions.dimension2;
 
-import java.util.List;
-
-import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
-import org.apache.commons.math4.ga.decoder.AbstractListChromosomeDecoder;
+import org.apache.commons.math4.ga.chromosome.Chromosome;
+import org.apache.commons.math4.ga.decoder.Decoder;
 
 /**
  * Decoder to convert chromosome's binary genotype to phenotype
  * {@link Dimension2Coordinate}.
  */
-public class Dimension2Decoder extends AbstractListChromosomeDecoder<Integer, Dimension2Coordinate> {
+public class Dimension2Decoder implements Decoder<Dimension2Coordinate> {
 
     /**
-     * decode the binary representation of chromosome to
+     * Decode the binary representation of chromosome to
      * {@link Dimension2Coordinate}.
-     * @param chromosome The {@link AbstractListChromosome}
+     * @param chromosome The {@link Chromosome}
      */
     @Override
-    protected Dimension2Coordinate decode(AbstractListChromosome<Integer, Dimension2Coordinate> chromosome) {
-        final BinaryChromosome<Dimension2Coordinate> binaryChromosome =
-                (BinaryChromosome<Dimension2Coordinate>) chromosome;
-        final List<Integer> alleles = binaryChromosome.getRepresentation();
+    public Dimension2Coordinate decode(Chromosome<Dimension2Coordinate> chromosome) {
+        final BinaryChromosome<Dimension2Coordinate> binaryChromosome = (BinaryChromosome<Dimension2Coordinate>) chromosome;
+        final long alleles = binaryChromosome.getRepresentation()[0];
 
-        final StringBuilder allelesStr = new StringBuilder();
-        for (Integer allele : alleles) {
-            allelesStr.append(Integer.toBinaryString(allele));
-        }
+        long mask1 = ~(Long.MAX_VALUE << 12);
+        long mask2 = ~(Long.MAX_VALUE << 24) ^ mask1;
 
-        final double x = Integer.parseInt(allelesStr.substring(0, 12), 2) / 100.0;
-        final double y = Integer.parseInt(allelesStr.substring(12, 24), 2) / 100.0;
+        double x = (alleles & mask1) / 100d;
+        double y = ((alleles & mask2) >> 12) / 100d;
 
         return new Dimension2Coordinate(x, y);
     }

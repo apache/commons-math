@@ -79,6 +79,12 @@ public class GeneticException extends RuntimeException {
      */
     public static final String DIFFERENT_ORIG_AND_PERMUTED_DATA = "Different original and permuted data";
 
+    /**
+     * Error message for chromosome length larger than expected.
+     */
+    public static final String LENGTH_TOO_LARGE = "Chromosome length larger than {0} not supported for" +
+            " string representation.";
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20210516L;
 

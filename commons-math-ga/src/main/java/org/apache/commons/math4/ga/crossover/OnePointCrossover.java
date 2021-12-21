@@ -83,7 +83,7 @@ public class OnePointCrossover<T, P> extends AbstractListChromosomeCrossoverPoli
         final List<T> child2Rep = new ArrayList<>(length);
 
         // select a crossover point at random (0 and length makes no sense)
-        final int crossoverIndex = 1 + (RandomProviderManager.getRandomProvider().nextInt(length - 2));
+        final int crossoverIndex = 1 + (RandomProviderManager.getRandomProvider().nextInt(length - 1));
 
         // copy the first part
         for (int i = 0; i < crossoverIndex; i++) {

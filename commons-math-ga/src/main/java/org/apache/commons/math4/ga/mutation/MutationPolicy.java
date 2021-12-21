@@ -32,4 +32,5 @@ public interface MutationPolicy<P> {
      * @return the mutated chromosome.
      */
     Chromosome<P> mutate(Chromosome<P> original, double mutationRate);
+
 }

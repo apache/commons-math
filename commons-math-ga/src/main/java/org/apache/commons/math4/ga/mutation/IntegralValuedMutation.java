@@ -70,7 +70,7 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
         if (!IntegralValuedChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
-        IntegralValuedChromosome<P> chromosome = (IntegralValuedChromosome<P>) original;
+        final IntegralValuedChromosome<P> chromosome = (IntegralValuedChromosome<P>) original;
         if (chromosome.getMin() != this.min || chromosome.getMax() != this.max) {
             throw new GeneticException(GeneticException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
                     chromosome.getMax());

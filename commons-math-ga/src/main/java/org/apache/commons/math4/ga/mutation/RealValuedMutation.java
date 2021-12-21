@@ -79,7 +79,7 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
         if (!RealValuedChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
-        RealValuedChromosome<P> chromosome = (RealValuedChromosome<P>) original;
+        final RealValuedChromosome<P> chromosome = (RealValuedChromosome<P>) original;
         if (chromosome.getMin() != this.min || chromosome.getMax() != this.max) {
             throw new GeneticException(GeneticException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
                     chromosome.getMax());

@@ -17,7 +17,7 @@
 package org.apache.commons.math4.ga;
 
 import java.lang.reflect.Field;
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,8 +25,10 @@ import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.convergence.FixedGenerationCount;
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
+import org.apache.commons.math4.ga.crossover.OnePointBinaryCrossover;
 import org.apache.commons.math4.ga.crossover.OnePointCrossover;
-import org.apache.commons.math4.ga.decoder.TransparentListChromosomeDecoder;
+import org.apache.commons.math4.ga.decoder.Decoder;
+import org.apache.commons.math4.ga.fitness.FitnessFunction;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.listener.ConvergenceListener;
 import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
@@ -41,7 +43,7 @@ import org.junit.jupiter.api.Test;
 /**
  * This is also an example of usage.
  */
-public class GeneticAlgorithmTestBinary {
+public class GeneticAlgorithmTestBinaryOneMax {
 
     // parameters for the GA
     private static final int DIMENSION = 50;
@@ -56,7 +58,7 @@ public class GeneticAlgorithmTestBinary {
         removeListeners();
 
         // initialize a new genetic algorithm
-        GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<Integer>>(),
+        GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointBinaryCrossover<List<Integer>>(),
                 CROSSOVER_RATE, new BinaryMutation<List<Integer>>(), MUTATION_RATE,
                 new TournamentSelection<List<Integer>>(TOURNAMENT_ARITY));
 
@@ -110,12 +112,12 @@ public class GeneticAlgorithmTestBinary {
     /**
      * Initializes a random population.
      */
-    private static ListPopulation<List<Integer>> randomPopulation() {
+    private ListPopulation<List<Integer>> randomPopulation() {
         List<Chromosome<List<Integer>>> popList = new LinkedList<>();
 
         for (int i = 0; i < POPULATION_SIZE; i++) {
             BinaryChromosome<List<Integer>> randChrom = new FindOnes(
-                    ChromosomeRepresentationUtils.randomBinaryRepresentation(DIMENSION));
+                    ChromosomeRepresentationUtils.randomBinaryRepresentation(DIMENSION), DIMENSION);
             popList.add(randChrom);
         }
         return new ListPopulation<>(popList, popList.size());
@@ -126,16 +128,43 @@ public class GeneticAlgorithmTestBinary {
      *
      * The goal is to set all bits (genes) to 1.
      */
-    private static class FindOnes extends BinaryChromosome<List<Integer>> {
+    private class FindOnes extends BinaryChromosome<List<Integer>> {
 
-        FindOnes(List<Integer> representation) {
-            super(representation, phenotype -> {
-                Integer val = 0;
-                for (Integer num : phenotype) {
-                    val += num;
+        FindOnes(long[] representation, long length) {
+            super(representation, length, new OneMaxFitnessFunction(), new OneMaxDecoder());
+        }
+    }
+
+    private class OneMaxFitnessFunction implements FitnessFunction<List<Integer>> {
+
+        @Override
+        public double compute(List<Integer> decodedChromosome) {
+            double value = 0;
+            for (Integer allele : decodedChromosome) {
+                value += allele;
+            }
+            return value;
+        }
+
+    }
+
+    private class OneMaxDecoder implements Decoder<List<Integer>> {
+
+        @Override
+        public List<Integer> decode(Chromosome<List<Integer>> chromosome) {
+            BinaryChromosome<List<Integer>> binaryChromosome = (BinaryChromosome<List<Integer>>) chromosome;
+            List<Integer> phenotype = new ArrayList<>();
+            long[] representation = binaryChromosome.getRepresentation();
+            for (int i = 0; i < representation.length; i++) {
+                String value = Long.toUnsignedString(representation[i], 2);
+                for (int j = 64 - value.length(); j > 0; j--) {
+                    phenotype.add(Integer.valueOf(0));
                 }
-                return val;
-            }, new TransparentListChromosomeDecoder<>());
+                for (int j = 0; j < value.length(); j++) {
+                    phenotype.add(Integer.parseInt("" + value.charAt(j)));
+                }
+            }
+            return phenotype;
         }
     }
 

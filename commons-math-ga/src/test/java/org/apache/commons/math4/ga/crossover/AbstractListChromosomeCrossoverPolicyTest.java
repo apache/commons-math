@@ -62,9 +62,11 @@ public class AbstractListChromosomeCrossoverPolicyTest {
                 return new ChromosomePair<>(first, second);
             }
         };
-        Chromosome<String> ch1 = new DummyListChromosome(ChromosomeRepresentationUtils.randomBinaryRepresentation(10));
+        Chromosome<String> ch1 = new DummyListChromosome(
+                ChromosomeRepresentationUtils.randomIntegralRepresentation(10, 0, 2));
 
-        Chromosome<String> ch2 = new DummyListChromosome(ChromosomeRepresentationUtils.randomBinaryRepresentation(20));
+        Chromosome<String> ch2 = new DummyListChromosome(
+                ChromosomeRepresentationUtils.randomIntegralRepresentation(12, 0, 2));
 
         Assertions.assertThrows(GeneticException.class, () -> {
             crossoverPolicy.crossover(ch1, ch2, 1.0);

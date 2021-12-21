@@ -168,7 +168,7 @@ public class ListPopulation<P> implements Population<P> {
      */
     @Override
     public String toString() {
-        StringBuilder populationStrRepr = new StringBuilder();
+        final StringBuilder populationStrRepr = new StringBuilder();
         for (Chromosome<P> chromosome : chromosomes) {
             populationStrRepr.append(chromosome.toString());
             populationStrRepr.append(NEW_LINE);

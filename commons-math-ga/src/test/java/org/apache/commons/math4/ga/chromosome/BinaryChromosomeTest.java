@@ -18,6 +18,7 @@ package org.apache.commons.math4.ga.chromosome;
 
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,19 +26,66 @@ public class BinaryChromosomeTest {
 
     @Test
     public void testInvalidConstructor() {
-        Integer[][] reprs = new Integer[][] {new Integer[] {0, 1, 0, 1, 2}, new Integer[] {0, 1, 0, 1, -1}};
-
-        for (Integer[] repr : reprs) {
-            Assertions.assertThrows(GeneticException.class, () -> {
-                new BinaryChromosome<>(repr, c -> 0, new DummyListChromosomeDecoder<>("0"));
-            });
-        }
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new BinaryChromosome<String>(ChromosomeRepresentationUtils.randomBinaryRepresentation(10), Long.MAX_VALUE,
+                c -> 0, c -> "0");
+        });
+        Assertions.assertThrows(GeneticException.class, () -> {
+            new BinaryChromosome<String>(ChromosomeRepresentationUtils.randomBinaryRepresentation(10), 100, c -> 0,
+                c -> "0");
+        });
     }
 
     @Test
     public void testRandomConstructor() {
         for (int i = 0; i < 20; i++) {
             BinaryChromosome.<String>randomChromosome(10, c -> 1, new DummyListChromosomeDecoder<>("1"));
+        }
+    }
+
+    @Test
+    public void testGetStringRepresentation() {
+        int length = 10;
+        int startToEndGap = 1;
+        testStringRepresentationWithRanges(length, startToEndGap);
+
+        length = 64;
+        startToEndGap = 10;
+        testStringRepresentationWithRanges(length, startToEndGap);
+
+        length = 100;
+        startToEndGap = 50;
+        testStringRepresentationWithRanges(length, startToEndGap);
+
+        length = 128;
+        startToEndGap = 70;
+        testStringRepresentationWithRanges(length, startToEndGap);
+
+        length = 250;
+        startToEndGap = 128;
+        testStringRepresentationWithRanges(length, startToEndGap);
+
+        length = 350;
+        startToEndGap = 228;
+        testStringRepresentationWithRanges(length, startToEndGap);
+
+        length = 450;
+        startToEndGap = 108;
+        testStringRepresentationWithRanges(length, startToEndGap);
+
+    }
+
+    private void testStringRepresentationWithRanges(int length, int startToEndGap) {
+        for (int i = 0; i < 50; i++) {
+            String representationStr = ChromosomeRepresentationUtils.randomStringRepresentation(new char[] {'0', '1'},
+                    length);
+            BinaryChromosome<String> chromosome = new BinaryChromosome<>(representationStr, c -> 0, c -> "0");
+            Assertions.assertEquals(representationStr, chromosome.getStringRepresentation());
+            for (int j = 0; j < length - startToEndGap; j++) {
+                int index = (int) ((length + 1 - startToEndGap) * Math.random());
+                Assertions.assertEquals(representationStr.substring(index, index + startToEndGap),
+                        chromosome.getStringRepresentation(index, index + startToEndGap));
+            }
         }
     }
 

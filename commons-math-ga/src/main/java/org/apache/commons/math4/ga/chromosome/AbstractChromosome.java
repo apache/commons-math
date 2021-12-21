@@ -71,7 +71,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      * Returns the decoder instance.
      * @return decoder
      */
-    protected Decoder<P> getDecoder() {
+    public Decoder<P> getDecoder() {
         return decoder;
     }
 

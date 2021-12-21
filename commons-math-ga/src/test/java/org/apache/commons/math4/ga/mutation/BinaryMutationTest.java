@@ -17,7 +17,7 @@
 package org.apache.commons.math4.ga.mutation;
 
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
-import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
+import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
@@ -30,9 +30,9 @@ public class BinaryMutationTest {
     public void testCheckValidity() {
         BinaryMutation<String> mutation = new BinaryMutation<>();
         Assertions.assertThrows(GeneticException.class, () -> {
-            mutation.checkValidity(
-                    new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(0),
-                        c -> 0, new DummyListChromosomeDecoder<>("0")));
+            mutation.checkValidity(new IntegralValuedChromosome<String>(
+                    ChromosomeRepresentationUtils.randomIntegralRepresentation(10, 0, 2), c -> 0,
+                    new DummyListChromosomeDecoder<>("0"), 0, 2));
         });
     }
 
@@ -47,46 +47,44 @@ public class BinaryMutationTest {
             BinaryChromosome<String> mutated = (BinaryChromosome<String>) mutation.mutate(original, .1);
 
             // one gene should be different
-            int numDifferent = 0;
-            for (int j = 0; j < original.getRepresentation().size(); j++) {
-                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
-                    numDifferent++;
-                }
-            }
-            Assertions.assertEquals(1, numDifferent);
+            Assertions.assertEquals(1, calculateNoOfMutatedBits(original, mutated));
         }
 
         // stochastic testing for two gene mutation :)
         for (int i = 0; i < 20; i++) {
             BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> 0,
-                    new DummyListChromosomeDecoder<>("0"));
+                c -> "0");
             BinaryChromosome<String> mutated = (BinaryChromosome<String>) mutation.mutate(original, .2);
 
             // one gene should be different
-            int numDifferent = 0;
-            for (int j = 0; j < original.getRepresentation().size(); j++) {
-                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
-                    numDifferent++;
-                }
-            }
-            Assertions.assertEquals(2, numDifferent);
+            Assertions.assertEquals(2, calculateNoOfMutatedBits(original, mutated));
         }
 
         // stochastic testing for three gene mutation :)
         for (int i = 0; i < 20; i++) {
             BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> 0,
-                    new DummyListChromosomeDecoder<>("0"));
+                c -> "0");
             BinaryChromosome<String> mutated = (BinaryChromosome<String>) mutation.mutate(original, .3);
 
-            // one gene should be different
-            int numDifferent = 0;
-            for (int j = 0; j < original.getRepresentation().size(); j++) {
-                if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j)) {
+            // three genes should be different
+            Assertions.assertEquals(3, calculateNoOfMutatedBits(original, mutated));
+        }
+    }
+
+    private int calculateNoOfMutatedBits(BinaryChromosome<String> original, BinaryChromosome<String> mutated) {
+        int numDifferent = 0;
+        long[] originalReps = original.getRepresentation();
+        long[] mutatedReps = mutated.getRepresentation();
+        for (int j = 0; j < originalReps.length; j++) {
+            long xORValue = originalReps[j] ^ mutatedReps[j];
+            String xORValueStr = Long.toBinaryString(xORValue);
+            for (int k = 0; k < xORValueStr.length(); k++) {
+                if (xORValueStr.charAt(k) == '1') {
                     numDifferent++;
                 }
             }
-            Assertions.assertEquals(3, numDifferent);
         }
+        return numDifferent;
     }
 
 }

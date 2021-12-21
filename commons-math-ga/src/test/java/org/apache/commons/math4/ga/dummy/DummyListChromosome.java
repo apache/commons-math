@@ -31,7 +31,7 @@ public class DummyListChromosome extends AbstractListChromosome<Integer, String>
     }
 
     public DummyListChromosome() {
-        super(ChromosomeRepresentationUtils.randomBinaryRepresentation(10), chromosome -> 0,
+        super(ChromosomeRepresentationUtils.randomIntegralRepresentation(10, 0, 2), chromosome -> 0,
                 new DummyListChromosomeDecoder<>("0"));
     }
 

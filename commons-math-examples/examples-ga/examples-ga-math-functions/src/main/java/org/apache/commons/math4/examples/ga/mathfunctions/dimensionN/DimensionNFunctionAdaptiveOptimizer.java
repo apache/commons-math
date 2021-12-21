@@ -24,7 +24,7 @@ import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
-import org.apache.commons.math4.ga.crossover.OnePointCrossover;
+import org.apache.commons.math4.ga.crossover.OnePointBinaryCrossover;
 import org.apache.commons.math4.ga.crossover.rategenerator.AdaptiveLinearMaximumRankBasedCrossoverRateGenerator;
 import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
 import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
@@ -60,8 +60,8 @@ public class DimensionNFunctionAdaptiveOptimizer {
 
         final DimensionNFunctionAdaptiveOptimizer optimizer = new DimensionNFunctionAdaptiveOptimizer();
 
-        final ConvergenceListenerRegistry<DimensionNCoordinate> convergenceListenerRegistry =
-                ConvergenceListenerRegistry.getInstance();
+        final ConvergenceListenerRegistry<DimensionNCoordinate> convergenceListenerRegistry = ConvergenceListenerRegistry
+                .getInstance();
         convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<DimensionNCoordinate>());
         convergenceListenerRegistry
                 .addConvergenceListener(new DimNGraphPlotter("Adaptive Convergence Stats", "generation", "fitness"));
@@ -73,7 +73,7 @@ public class DimensionNFunctionAdaptiveOptimizer {
 
         // initialize a new genetic algorithm
         final AbstractGeneticAlgorithm<DimensionNCoordinate> ga = new AdaptiveGeneticAlgorithm<DimensionNCoordinate>(
-                new OnePointCrossover<Integer, DimensionNCoordinate>(),
+                new OnePointBinaryCrossover<DimensionNCoordinate>(),
                 new AdaptiveLinearMaximumRankBasedCrossoverRateGenerator<>(Constants.CROSSOVER_RATE / 2,
                         Constants.CROSSOVER_RATE),
                 new BinaryMutation<>(), new AdaptiveLinearMutationRateGenerator<>(0, Constants.AVERAGE_MUTATION_RATE),

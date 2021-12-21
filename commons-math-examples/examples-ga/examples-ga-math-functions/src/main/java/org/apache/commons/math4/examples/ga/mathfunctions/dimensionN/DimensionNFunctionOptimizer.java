@@ -23,7 +23,7 @@ import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
-import org.apache.commons.math4.ga.crossover.OnePointCrossover;
+import org.apache.commons.math4.ga.crossover.OnePointBinaryCrossover;
 import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
 import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
 import org.apache.commons.math4.ga.mutation.BinaryMutation;
@@ -74,7 +74,7 @@ public class DimensionNFunctionOptimizer {
 
         // initialize a new genetic algorithm
         final GeneticAlgorithm<DimensionNCoordinate> ga = new GeneticAlgorithm<>(
-                new OnePointCrossover<Integer, DimensionNCoordinate>(), Constants.CROSSOVER_RATE,
+                new OnePointBinaryCrossover<DimensionNCoordinate>(), Constants.CROSSOVER_RATE,
                 new BinaryMutation<DimensionNCoordinate>(), Constants.AVERAGE_MUTATION_RATE,
                 new TournamentSelection<>(TOURNAMENT_SIZE), Constants.ELITISM_RATE);
 

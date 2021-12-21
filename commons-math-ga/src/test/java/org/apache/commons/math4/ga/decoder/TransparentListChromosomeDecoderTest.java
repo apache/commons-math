@@ -29,7 +29,7 @@ public class TransparentListChromosomeDecoderTest {
 
     @Test
     public void testDecode() {
-        List<Integer> rp = ChromosomeRepresentationUtils.randomBinaryRepresentation(10);
+        List<Integer> rp = ChromosomeRepresentationUtils.randomIntegralRepresentation(10, 0, 2);
         Chromosome<List<Integer>> chromosome = new IntegralValuedChromosome<>(rp, c -> 0,
                 new TransparentListChromosomeDecoder<>(), 0, 2);
         List<Integer> decodedRp = chromosome.decode();

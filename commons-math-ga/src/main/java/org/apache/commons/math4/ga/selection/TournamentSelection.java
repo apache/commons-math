@@ -38,7 +38,7 @@ import org.apache.commons.math4.ga.utils.RandomProviderManager;
 public class TournamentSelection<P> implements SelectionPolicy<P> {
 
     /** number of chromosomes included in the tournament selections. */
-    private int arity;
+    private final int arity;
 
     /**
      * Creates a new TournamentSelection instance.

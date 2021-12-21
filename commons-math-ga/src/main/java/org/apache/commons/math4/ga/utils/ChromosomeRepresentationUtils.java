@@ -21,7 +21,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
+import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.rng.UniformRandomProvider;
 
@@ -140,14 +142,39 @@ public interface ChromosomeRepresentationUtils {
      * @param length length of the array
      * @return a random binary array of length <code>length</code>
      */
-    static List<Integer> randomBinaryRepresentation(final int length) {
-        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
-        // random binary list
-        final List<Integer> rList = new ArrayList<>(length);
-        for (int j = 0; j < length; j++) {
-            rList.add(randomProvider.nextInt(2));
+    static long[] randomBinaryRepresentation(final long length) {
+        if (length > BinaryChromosome.MAX_LENGTH) {
+            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+                    "length exceeded the max length " + BinaryChromosome.MAX_LENGTH);
         }
-        return rList;
+        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
+        int elementCount = (int) Math.ceil(length / 64d);
+        // random binary list
+        final long[] representation = new long[elementCount];
+        int remainder = (int) (length % 64);
+        representation[0] = remainder == 0 ? randomProvider.nextLong() :
+                randomProvider.nextLong((long) Math.pow(2, remainder));
+        for (int i = 1; i < elementCount; i++) {
+            representation[i] = randomProvider.nextLong();
+        }
+        return representation;
+    }
+
+    /**
+     * Generates a random string representation of chromosome with specified
+     * characters.
+     * @param alleles characters representing alleles
+     * @param length  length of chromosome
+     * @return returns chromosome representation as string
+     */
+    static String randomStringRepresentation(char[] alleles, final long length) {
+        Objects.requireNonNull(alleles);
+        final StringBuilder representationStr = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            representationStr
+                    .append(alleles[(int) (RandomProviderManager.getRandomProvider().nextInt(alleles.length))]);
+        }
+        return representationStr.toString();
     }
 
     /**
