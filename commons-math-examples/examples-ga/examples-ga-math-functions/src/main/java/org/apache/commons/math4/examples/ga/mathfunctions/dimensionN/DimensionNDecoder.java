@@ -36,7 +36,8 @@ public class DimensionNDecoder implements Decoder<DimensionNCoordinate> {
      */
     @Override
     public DimensionNCoordinate decode(Chromosome<DimensionNCoordinate> chromosome) {
-        final BinaryChromosome<DimensionNCoordinate> binaryChromosome = (BinaryChromosome<DimensionNCoordinate>) chromosome;
+        final BinaryChromosome<DimensionNCoordinate> binaryChromosome =
+                (BinaryChromosome<DimensionNCoordinate>) chromosome;
         final long length = binaryChromosome.getLength();
         List<Double> coordinates = new ArrayList<>();
 

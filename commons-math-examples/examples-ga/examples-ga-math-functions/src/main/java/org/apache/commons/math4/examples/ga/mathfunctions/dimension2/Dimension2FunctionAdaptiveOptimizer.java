@@ -59,8 +59,8 @@ public class Dimension2FunctionAdaptiveOptimizer {
 
         final Dimension2FunctionAdaptiveOptimizer optimizer = new Dimension2FunctionAdaptiveOptimizer();
 
-        final ConvergenceListenerRegistry<Dimension2Coordinate> convergenceListenerRegistry = ConvergenceListenerRegistry
-                .getInstance();
+        final ConvergenceListenerRegistry<Dimension2Coordinate> convergenceListenerRegistry =
+                ConvergenceListenerRegistry.getInstance();
         convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Dimension2Coordinate>());
         convergenceListenerRegistry
                 .addConvergenceListener(new Dim2GraphPlotter("Adaptive Convergence Stats", "generation", "fitness"));

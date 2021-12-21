@@ -60,8 +60,8 @@ public class DimensionNFunctionAdaptiveOptimizer {
 
         final DimensionNFunctionAdaptiveOptimizer optimizer = new DimensionNFunctionAdaptiveOptimizer();
 
-        final ConvergenceListenerRegistry<DimensionNCoordinate> convergenceListenerRegistry = ConvergenceListenerRegistry
-                .getInstance();
+        final ConvergenceListenerRegistry<DimensionNCoordinate> convergenceListenerRegistry =
+                ConvergenceListenerRegistry.getInstance();
         convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<DimensionNCoordinate>());
         convergenceListenerRegistry
                 .addConvergenceListener(new DimNGraphPlotter("Adaptive Convergence Stats", "generation", "fitness"));
