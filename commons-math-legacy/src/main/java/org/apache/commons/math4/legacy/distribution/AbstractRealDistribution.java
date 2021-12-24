@@ -164,31 +164,10 @@ public abstract class AbstractRealDistribution
             }
         };
 
-        double x = UnivariateSolverUtils.solve(toSolve,
-                                                   lowerBound,
-                                                   upperBound,
-                                                   getSolverAbsoluteAccuracy());
-
-        if (!isSupportConnected()) {
-            /* Test for plateau. */
-            final double dx = getSolverAbsoluteAccuracy();
-            if (x - dx >= getSupportLowerBound()) {
-                double px = cumulativeProbability(x);
-                if (cumulativeProbability(x - dx) == px) {
-                    upperBound = x;
-                    while (upperBound - lowerBound > dx) {
-                        final double midPoint = 0.5 * (lowerBound + upperBound);
-                        if (cumulativeProbability(midPoint) < px) {
-                            lowerBound = midPoint;
-                        } else {
-                            upperBound = midPoint;
-                        }
-                    }
-                    return upperBound;
-                }
-            }
-        }
-        return x;
+        return UnivariateSolverUtils.solve(toSolve,
+                                           lowerBound,
+                                           upperBound,
+                                           getSolverAbsoluteAccuracy());
     }
 
     /**

@@ -52,7 +52,7 @@ TABLET, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 2e-4, 3400, true
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 150,  true
 SUM_POW, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 1e-2, 2500,  true
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 250, true
-ACKLEY, 6, 0 0 0 0 0 0, 2, 4, 1e-6, 1600, true
+#ACKLEY, 6, 0 0 0 0 0 0, 2, 4, 1e-6, 1600, true
 #RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 170, true
 GRIEWANK, 2, 0 0, 2, 3, 1e-1, 140, true
 GRIEWANK, 11, 0 0 0 0 0 0 0 0 0 0 0, 2, 3, 1e-1, 2200, true

@@ -466,15 +466,6 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
     }
 
     /**
-     * {@inheritDoc}
-     * @since 3.1
-     */
-    @Override
-    public boolean isSupportConnected() {
-        return true;
-    }
-
-    /**
      * The probability of bin i.
      *
      * @param i the index of the bin
@@ -618,12 +609,6 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
         @Override
         public double getSupportUpperBound() {
             return value;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public boolean isSupportConnected() {
-            return true;
         }
 
         /**
