@@ -148,10 +148,10 @@ public interface ChromosomeRepresentationUtils {
                     "length exceeded the max length " + BinaryChromosome.MAX_LENGTH);
         }
         final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
-        int elementCount = (int) Math.ceil(length / 64d);
+        int elementCount = (int) Math.ceil(length / (double)Long.SIZE);
         // random binary list
         final long[] representation = new long[elementCount];
-        int remainder = (int) (length % 64);
+        int remainder = (int) (length % Long.SIZE);
         representation[0] = remainder == 0 ? randomProvider.nextLong() :
                 randomProvider.nextLong((long) Math.pow(2, remainder));
         for (int i = 1; i < elementCount; i++) {
