@@ -17,8 +17,6 @@
 
 package org.apache.commons.math4.legacy.optim.univariate;
 
-import java.io.Serializable;
-
 /**
  * This class holds a point and the value of an objective function at this
  * point.
@@ -26,9 +24,7 @@ import java.io.Serializable;
  *
  * @since 3.0
  */
-public class UnivariatePointValuePair implements Serializable {
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1003888396256744753L;
+public class UnivariatePointValuePair {
     /** Point. */
     private final double point;
     /** Value of the objective function at the point. */
