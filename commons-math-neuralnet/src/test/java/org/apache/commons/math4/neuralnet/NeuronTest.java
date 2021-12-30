@@ -111,29 +111,4 @@ public class NeuronTest {
         Assert.assertNotEquals(n.getNumberOfSuccessfulUpdates(),
                                copy.getNumberOfSuccessfulUpdates());
     }
-
-    @Test
-    public void testSerialize()
-        throws IOException,
-               ClassNotFoundException {
-        final Neuron out = new Neuron(123, new double[] {-98.76, -1, 0, 1e-23, 543.21, 1e234});
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(out);
-
-        final ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        final ObjectInputStream ois = new ObjectInputStream(bis);
-        final Neuron in = (Neuron) ois.readObject();
-
-        // Same identifier.
-        Assert.assertEquals(out.getIdentifier(),
-                            in.getIdentifier());
-        // Same values.
-        final double[] outF = out.getFeatures();
-        final double[] inF = in.getFeatures();
-        Assert.assertEquals(outF.length, inF.length);
-        for (int i = 0; i < outF.length; i++) {
-            Assert.assertEquals(outF[i], inF[i], 0d);
-        }
-    }
 }

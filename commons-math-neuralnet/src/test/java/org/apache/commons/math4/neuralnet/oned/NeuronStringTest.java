@@ -150,40 +150,4 @@ public class NeuronStringTest {
         Assert.assertTrue(neighbours.contains(net.getNeuron(4)));
         Assert.assertEquals(1, neighbours.size());
     }
-
-    @Test
-    public void testSerialize()
-        throws IOException,
-               ClassNotFoundException {
-        final FeatureInitializer[] initArray = {init};
-        final NeuronString out = new NeuronString(4, false, initArray);
-
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(out);
-
-        final ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        final ObjectInputStream ois = new ObjectInputStream(bis);
-        final NeuronString in = (NeuronString) ois.readObject();
-
-        for (Neuron nOut : out.getNetwork()) {
-            final Neuron nIn = in.getNetwork().getNeuron(nOut.getIdentifier());
-
-            // Same values.
-            final double[] outF = nOut.getFeatures();
-            final double[] inF = nIn.getFeatures();
-            Assert.assertEquals(outF.length, inF.length);
-            for (int i = 0; i < outF.length; i++) {
-                Assert.assertEquals(outF[i], inF[i], 0d);
-            }
-
-            // Same neighbours.
-            final Collection<Neuron> outNeighbours = out.getNetwork().getNeighbours(nOut);
-            final Collection<Neuron> inNeighbours = in.getNetwork().getNeighbours(nIn);
-            Assert.assertEquals(outNeighbours.size(), inNeighbours.size());
-            for (Neuron oN : outNeighbours) {
-                Assert.assertTrue(inNeighbours.contains(in.getNetwork().getNeuron(oN.getIdentifier())));
-            }
-        }
-    }
 }

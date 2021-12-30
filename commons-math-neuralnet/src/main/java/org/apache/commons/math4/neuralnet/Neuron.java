@@ -17,8 +17,6 @@
 
 package org.apache.commons.math4.neuralnet;
 
-import java.io.Serializable;
-import java.io.ObjectInputStream;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -32,9 +30,7 @@ import org.apache.commons.math4.neuralnet.internal.NeuralNetException;
  *
  * @since 3.3
  */
-public class Neuron implements Serializable {
-    /** Serializable. */
-    private static final long serialVersionUID = 20130207L;
+public class Neuron {
     /** Identifier. */
     private final long identifier;
     /** Length of the feature set. */
@@ -218,56 +214,5 @@ public class Neuron implements Serializable {
             }
         }
         return true;
-    }
-
-    /**
-     * Prevents proxy bypass.
-     *
-     * @param in Input stream.
-     */
-    private void readObject(ObjectInputStream in) {
-        throw new IllegalStateException();
-    }
-
-    /**
-     * Custom serialization.
-     *
-     * @return the proxy instance that will be actually serialized.
-     */
-    private Object writeReplace() {
-        return new SerializationProxy(identifier,
-                                      features.get());
-    }
-
-    /**
-     * Serialization.
-     */
-    private static class SerializationProxy implements Serializable {
-        /** Serializable. */
-        private static final long serialVersionUID = 20130207L;
-        /** Features. */
-        private final double[] features;
-        /** Identifier. */
-        private final long identifier;
-
-        /**
-         * @param identifier Identifier.
-         * @param features Features.
-         */
-        SerializationProxy(long identifier,
-                           double[] features) {
-            this.identifier = identifier;
-            this.features = features;
-        }
-
-        /**
-         * Custom serialization.
-         *
-         * @return the {@link Neuron} for which this instance is the proxy.
-         */
-        private Object readResolve() {
-            return new Neuron(identifier,
-                              features);
-        }
     }
 }

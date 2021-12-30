@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.neuralnet.oned;
 
-import java.io.Serializable;
-import java.io.ObjectInputStream;
-
 import org.apache.commons.math4.neuralnet.internal.NeuralNetException;
 import org.apache.commons.math4.neuralnet.FeatureInitializer;
 import org.apache.commons.math4.neuralnet.Network;
@@ -30,9 +27,7 @@ import org.apache.commons.math4.neuralnet.Network;
  *
  * @since 3.3
  */
-public class NeuronString implements Serializable {
-    /** Serial version ID. */
-    private static final long serialVersionUID = 1L;
+public class NeuronString {
     /** Minimal number of neurons. */
     private static final int MIN_NEURONS = 2;
     /** Underlying network. */
@@ -178,63 +173,6 @@ public class NeuronString implements Serializable {
         if (wrap) {
             network.addLink(network.getNeuron(0), network.getNeuron(size - 1));
             network.addLink(network.getNeuron(size - 1), network.getNeuron(0));
-        }
-    }
-
-    /**
-     * Prevents proxy bypass.
-     *
-     * @param in Input stream.
-     */
-    private void readObject(ObjectInputStream in) {
-        throw new IllegalStateException();
-    }
-
-    /**
-     * Custom serialization.
-     *
-     * @return the proxy instance that will be actually serialized.
-     */
-    private Object writeReplace() {
-        final double[][] featuresList = new double[size][];
-        for (int i = 0; i < size; i++) {
-            featuresList[i] = getFeatures(i);
-        }
-
-        return new SerializationProxy(wrap,
-                                      featuresList);
-    }
-
-    /**
-     * Serialization.
-     */
-    private static class SerializationProxy implements Serializable {
-        /** Serializable. */
-        private static final long serialVersionUID = 20130226L;
-        /** Wrap. */
-        private final boolean wrap;
-        /** Neurons' features. */
-        private final double[][] featuresList;
-
-        /**
-         * @param wrap Whether the dimension is wrapped.
-         * @param featuresList List of neurons features.
-         * {@code neuronList}.
-         */
-        SerializationProxy(boolean wrap,
-                           double[][] featuresList) {
-            this.wrap = wrap;
-            this.featuresList = featuresList;
-        }
-
-        /**
-         * Custom serialization.
-         *
-         * @return the {@link NeuronString} for which this instance is the proxy.
-         */
-        private Object readResolve() {
-            return new NeuronString(wrap,
-                                    featuresList);
         }
     }
 }
