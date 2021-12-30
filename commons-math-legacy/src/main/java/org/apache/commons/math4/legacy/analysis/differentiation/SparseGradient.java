@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,11 +39,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  *
  * @since 3.3
  */
-public final class SparseGradient implements RealFieldElement<SparseGradient>, Serializable {
-
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20131025L;
-
+public final class SparseGradient implements RealFieldElement<SparseGradient> {
     /** Value of the calculation. */
     private double value;
 

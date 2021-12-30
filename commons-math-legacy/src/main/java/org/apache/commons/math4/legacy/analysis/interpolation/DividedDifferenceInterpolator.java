@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunctionNewtonForm;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -37,10 +35,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
  * @since 1.2
  */
 public class DividedDifferenceInterpolator
-    implements UnivariateInterpolator, Serializable {
-    /** serializable version identifier. */
-    private static final long serialVersionUID = 107049519551235069L;
-
+    implements UnivariateInterpolator {
     /**
      * Compute an interpolating function for the dataset.
      *

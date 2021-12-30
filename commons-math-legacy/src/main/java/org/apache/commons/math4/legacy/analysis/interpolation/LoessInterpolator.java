@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialSplineFunction;
@@ -47,7 +46,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @since 2.0
  */
 public class LoessInterpolator
-    implements UnivariateInterpolator, Serializable {
+    implements UnivariateInterpolator {
     /** Default value of the bandwidth parameter. */
     public static final double DEFAULT_BANDWIDTH = 0.3;
     /** Default value of the number of robustness iterations. */
@@ -57,8 +56,6 @@ public class LoessInterpolator
      * @since 2.1
      */
     public static final double DEFAULT_ACCURACY = 1e-12;
-    /** serializable version identifier. */
-    private static final long serialVersionUID = 5204927143605193821L;
     /**
      * The bandwidth parameter: when computing the loess fit at
      * a particular point, this fraction of source points closest

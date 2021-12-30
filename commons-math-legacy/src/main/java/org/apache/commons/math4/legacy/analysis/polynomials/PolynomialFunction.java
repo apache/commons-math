@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.polynomials;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.analysis.ParametricUnivariateFunction;
@@ -34,11 +33,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * is used to evaluate the function.</p>
  *
  */
-public class PolynomialFunction implements UnivariateDifferentiableFunction, Serializable {
-    /**
-     * Serialization identifier.
-     */
-    private static final long serialVersionUID = -7726511984200295583L;
+public class PolynomialFunction implements UnivariateDifferentiableFunction {
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.,
      * coefficients[0] is the constant term and coefficients[n] is the

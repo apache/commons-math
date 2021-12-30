@@ -48,16 +48,6 @@ public class FiniteDifferencesDifferentiatorTest {
     }
 
     @Test
-    public void testSerialization() {
-        FiniteDifferencesDifferentiator differentiator =
-                new FiniteDifferencesDifferentiator(3, 1.0e-3);
-        FiniteDifferencesDifferentiator recovered =
-                (FiniteDifferencesDifferentiator) TestUtils.serializeAndRecover(differentiator);
-        Assert.assertEquals(differentiator.getNbPoints(), recovered.getNbPoints());
-        Assert.assertEquals(differentiator.getStepSize(), recovered.getStepSize(), 1.0e-15);
-    }
-
-    @Test
     public void testConstant() {
         FiniteDifferencesDifferentiator differentiator =
                 new FiniteDifferencesDifferentiator(5, 0.01);

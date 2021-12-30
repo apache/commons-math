@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +50,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStati
  * {@link Percentile} should be used.</p>
  */
 public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
-        implements StorelessUnivariateStatistic, Serializable {
+    implements StorelessUnivariateStatistic {
 
     /**
      * The maximum array size used for psquare algorithm.
@@ -65,11 +62,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * argument constructor.
      */
     private static final double DEFAULT_QUANTILE_DESIRED = 50d;
-
-    /**
-     * Serial ID.
-     */
-    private static final long serialVersionUID = 20150412L;
 
     /**
      * A decimal formatter for print convenience.
@@ -311,12 +303,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * Markers is an encapsulation of the five markers/buckets as indicated in
      * the original works.
      */
-    private static final class Markers implements PSquareMarkers, Serializable {
-        /**
-         * Serial version id.
-         */
-        private static final long serialVersionUID = 1L;
-
+    private static final class Markers implements PSquareMarkers {
         /** Low marker index. */
         private static final int LOW = 2;
 
@@ -525,25 +512,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Sets previous and next markers after default read is done.
-         *
-         * @param anInputStream the input stream to be deserialized
-         * @throws ClassNotFoundException thrown when a desired class not found
-         * @throws IOException thrown due to any io errors
-         */
-        private void readObject(ObjectInputStream anInputStream)
-                throws ClassNotFoundException, IOException {
-            // always perform the default de-serialization first
-            anInputStream.defaultReadObject();
-            // Build links
-            for (int i = 1; i < PSQUARE_CONSTANT; i++) {
-                markerArray[i].previous(markerArray[i - 1]).next(markerArray[i + 1]).index(i);
-            }
-            markerArray[0].previous(markerArray[0]).next(markerArray[1]).index(0);
-            markerArray[5].previous(markerArray[4]).next(markerArray[5]).index(5);
-        }
-
-        /**
          * Return marker height given index.
          *
          * @param markerIndex index of marker within (1,6)
@@ -591,13 +559,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     /**
      * The class modeling the attributes of the marker of the P-square algorithm.
      */
-    private static final class Marker implements Serializable {
-
-        /**
-         * Serial Version ID.
-         */
-        private static final long serialVersionUID = -3575879478288538431L;
-
+    private static final class Marker {
         /**
          * The marker index which is just a serial number for the marker in the
          * marker array of 5+1.
@@ -833,20 +795,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * Read Object to deserialize.
-         *
-         * @param anInstream Stream Object data
-         * @throws IOException thrown for IO Errors
-         * @throws ClassNotFoundException thrown for class not being found
-         */
-        private void readObject(ObjectInputStream anInstream)
-                throws ClassNotFoundException, IOException {
-            anInstream.defaultReadObject();
-            previous=next=this;
-            linear = new LinearInterpolator();
-        }
-
-        /**
          * Copy this instance.
          *
          * @return a new instance.
@@ -877,12 +825,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      *
      * @param <E> type for fixed capacity list
      */
-    private static class FixedCapacityList<E> extends ArrayList<E> implements Serializable {
-
-        /**
-         * Serialization Version Id.
-         */
-        private static final long serialVersionUID = 2283952083075725479L;
+    private static class FixedCapacityList<E> extends ArrayList<E> {
         /**
          * Capacity of the list.
          */

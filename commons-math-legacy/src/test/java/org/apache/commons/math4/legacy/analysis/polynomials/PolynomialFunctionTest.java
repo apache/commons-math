@@ -216,12 +216,6 @@ public final class PolynomialFunctionTest {
         }
     }
 
-    @Test
-    public void testSerial() {
-        PolynomialFunction p2 = new PolynomialFunction(new double[] { 3, 2, 1 });
-        Assert.assertEquals(p2, TestUtils.serializeAndRecover(p2));
-    }
-
     /**
      * tests the firstDerivative function by comparison
      *

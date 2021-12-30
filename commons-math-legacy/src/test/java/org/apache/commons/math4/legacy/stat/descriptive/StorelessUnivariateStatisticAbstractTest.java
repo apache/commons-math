@@ -76,33 +76,6 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     }
 
     @Test
-    public void testSerialization() {
-
-        StorelessUnivariateStatistic statistic =
-            (StorelessUnivariateStatistic) getUnivariateStatistic();
-
-        TestUtils.checkSerializedEquality(statistic);
-
-        statistic.clear();
-
-        for (int i = 0; i < testArray.length; i++) {
-            statistic.increment(testArray[i]);
-            if(i % 5 == 0) {
-                statistic = (StorelessUnivariateStatistic)TestUtils.serializeAndRecover(statistic);
-            }
-        }
-
-        TestUtils.checkSerializedEquality(statistic);
-
-        Assert.assertEquals(expectedValue(), statistic.getResult(), getTolerance());
-
-        statistic.clear();
-
-        checkClearValue(statistic);
-
-    }
-
-    @Test
     public void testEqualsAndHashCode() {
         StorelessUnivariateStatistic statistic =
             (StorelessUnivariateStatistic) getUnivariateStatistic();
@@ -208,13 +181,6 @@ public abstract class StorelessUnivariateStatisticAbstractTest
                 (int) index, (int) (testArray.length - index));
         Assert.assertEquals(replica, master);
         Assert.assertEquals(master, replica);
-    }
-
-    @Test
-    public void testSerial() {
-        StorelessUnivariateStatistic s =
-            (StorelessUnivariateStatistic) getUnivariateStatistic();
-        Assert.assertEquals(s, TestUtils.serializeAndRecover(s));
     }
 
     /**

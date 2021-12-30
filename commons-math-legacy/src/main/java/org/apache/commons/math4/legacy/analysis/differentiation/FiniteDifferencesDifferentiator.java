@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.UnivariateMatrixFunction;
 import org.apache.commons.math4.legacy.analysis.UnivariateVectorFunction;
@@ -69,12 +67,9 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * @since 3.1
  */
 public class FiniteDifferencesDifferentiator
-    implements UnivariateFunctionDifferentiator, UnivariateVectorFunctionDifferentiator,
-               UnivariateMatrixFunctionDifferentiator, Serializable {
-
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20120917L;
-
+    implements UnivariateFunctionDifferentiator,
+               UnivariateVectorFunctionDifferentiator,
+               UnivariateMatrixFunctionDifferentiator {
     /** Number of points to use. */
     private final int nbPoints;
 

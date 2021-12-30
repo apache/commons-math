@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
@@ -34,12 +32,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
  *
  * @since 1.2
  */
-public class NevilleInterpolator implements UnivariateInterpolator,
-    Serializable {
-
-    /** serializable version identifier. */
-    static final long serialVersionUID = 3003707660147873733L;
-
+public class NevilleInterpolator implements UnivariateInterpolator {
     /**
      * Computes an interpolating function for the data set.
      *

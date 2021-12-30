@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
 import java.util.Arrays;
-import java.io.Serializable;
 
 import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.math4.legacy.core.Field;
@@ -59,11 +58,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @see DSCompiler
  * @since 3.1
  */
-public class DerivativeStructure implements RealFieldElement<DerivativeStructure>, Serializable {
-
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20120730L;
-
+public class DerivativeStructure implements RealFieldElement<DerivativeStructure> {
     /** Compiler for the current dimensions. */
     private transient DSCompiler compiler;
 
@@ -1205,54 +1200,4 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     public int hashCode() {
         return 227 + 229 * getFreeParameters() + 233 * getOrder() + 239 * Arrays.hashCode(data);
     }
-
-    /**
-     * Replace the instance with a data transfer object for serialization.
-     * @return data transfer object that will be serialized
-     */
-    private Object writeReplace() {
-        return new DataTransferObject(compiler.getFreeParameters(), compiler.getOrder(), data);
-    }
-
-    /** Internal class used only for serialization. */
-    private static class DataTransferObject implements Serializable {
-
-        /** Serializable UID. */
-        private static final long serialVersionUID = 20120730L;
-
-        /** Number of variables.
-         * @serial
-         */
-        private final int variables;
-
-        /** Derivation order.
-         * @serial
-         */
-        private final int order;
-
-        /** Partial derivatives.
-         * @serial
-         */
-        private final double[] data;
-
-        /** Simple constructor.
-         * @param variables number of variables
-         * @param order derivation order
-         * @param data partial derivatives
-         */
-        DataTransferObject(final int variables, final int order, final double[] data) {
-            this.variables = variables;
-            this.order     = order;
-            this.data      = data;
-        }
-
-        /** Replace the deserialized data transfer object with a {@link DerivativeStructure}.
-         * @return replacement {@link DerivativeStructure}
-         */
-        private Object readResolve() {
-            return new DerivativeStructure(variables, order, data);
-        }
-
-    }
-
 }

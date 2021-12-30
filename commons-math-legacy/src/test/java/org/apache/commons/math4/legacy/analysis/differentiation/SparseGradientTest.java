@@ -1107,13 +1107,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         }
     }
 
-    @Test
-    public void testSerialization() {
-        SparseGradient a = SparseGradient.createVariable(0, 1.3);
-        SparseGradient b = (SparseGradient) TestUtils.serializeAndRecover(a);
-        Assert.assertEquals(a, b);
-    }
-
     private void checkF0F1(SparseGradient sg, double value, double...derivatives) {
 
         // check value
