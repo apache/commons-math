@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.optim;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.core.Pair;
 
 /**
@@ -28,10 +26,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  * @see org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction
  * @since 3.0
  */
-public class PointVectorValuePair extends Pair<double[], double[]> implements Serializable {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20120513L;
-
+public class PointVectorValuePair extends Pair<double[], double[]> {
     /**
      * Builds a point/objective function value pair.
      *
@@ -103,45 +98,5 @@ public class PointVectorValuePair extends Pair<double[], double[]> implements Se
      */
     public double[] getValueRef() {
         return super.getValue();
-    }
-
-    /**
-     * Replace the instance with a data transfer object for serialization.
-     * @return data transfer object that will be serialized
-     */
-    private Object writeReplace() {
-        return new DataTransferObject(getKey(), getValue());
-    }
-
-    /** Internal class used only for serialization. */
-    private static class DataTransferObject implements Serializable {
-        /** Serializable UID. */
-        private static final long serialVersionUID = 20120513L;
-        /**
-         * Point coordinates.
-         * @Serial
-         */
-        private final double[] point;
-        /**
-         * Value of the objective function at the point.
-         * @Serial
-         */
-        private final double[] value;
-
-        /** Simple constructor.
-         * @param point Point coordinates.
-         * @param value Value of the objective function at the point.
-         */
-        DataTransferObject(final double[] point, final double[] value) {
-            this.point = point.clone();
-            this.value = value.clone();
-        }
-
-        /** Replace the deserialized data transfer object with a {@link PointValuePair}.
-         * @return replacement {@link PointValuePair}
-         */
-        private Object readResolve() {
-            return new PointVectorValuePair(point, value, false);
-        }
     }
 }
