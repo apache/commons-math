@@ -26,10 +26,6 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @since 3.2
  */
 public class CanberraDistance implements DistanceMeasure {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -6972277381587032228L;
-
     /** {@inheritDoc} */
     @Override
     public double compute(double[] a, double[] b)
@@ -43,5 +39,4 @@ public class CanberraDistance implements DistanceMeasure {
         }
         return sum;
     }
-
 }

@@ -26,10 +26,6 @@ package org.apache.commons.math4.legacy.ml.clustering;
  * @since 3.2
  */
 public class CentroidCluster<T extends Clusterable> extends Cluster<T> {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -3075288519071812288L;
-
     /** Center of the cluster. */
     private final Clusterable center;
 

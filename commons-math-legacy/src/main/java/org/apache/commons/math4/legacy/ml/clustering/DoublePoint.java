@@ -17,18 +17,13 @@
 
 package org.apache.commons.math4.legacy.ml.clustering;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * A simple implementation of {@link Clusterable} for points with double coordinates.
  * @since 3.2
  */
-public class DoublePoint implements Clusterable, Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 3946024775784901369L;
-
+public class DoublePoint implements Clusterable {
     /** Point coordinates. */
     private final double[] point;
 

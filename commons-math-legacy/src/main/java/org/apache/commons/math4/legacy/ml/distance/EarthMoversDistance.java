@@ -28,10 +28,6 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @since 3.3
  */
 public class EarthMoversDistance implements DistanceMeasure {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -5406732779747414922L;
-
     /** {@inheritDoc} */
     @Override
     public double compute(double[] a, double[] b)

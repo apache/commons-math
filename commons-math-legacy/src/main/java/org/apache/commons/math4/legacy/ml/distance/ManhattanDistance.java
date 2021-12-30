@@ -25,15 +25,10 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @since 3.2
  */
 public class ManhattanDistance implements DistanceMeasure {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -9108154600539125566L;
-
     /** {@inheritDoc} */
     @Override
     public double compute(double[] a, double[] b)
     throws DimensionMismatchException {
         return MathArrays.distance1(a, b);
     }
-
 }

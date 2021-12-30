@@ -25,15 +25,10 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @since 3.2
  */
 public class EuclideanDistance implements DistanceMeasure {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1717556319784040040L;
-
     /** {@inheritDoc} */
     @Override
     public double compute(double[] a, double[] b)
     throws DimensionMismatchException {
         return MathArrays.distance(a, b);
     }
-
 }

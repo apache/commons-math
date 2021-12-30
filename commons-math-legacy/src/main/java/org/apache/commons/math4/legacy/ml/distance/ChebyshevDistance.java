@@ -25,15 +25,10 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @since 3.2
  */
 public class ChebyshevDistance implements DistanceMeasure {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -4694868171115238296L;
-
     /** {@inheritDoc} */
     @Override
     public double compute(double[] a, double[] b)
     throws DimensionMismatchException {
         return MathArrays.distanceInf(a, b);
     }
-
 }
