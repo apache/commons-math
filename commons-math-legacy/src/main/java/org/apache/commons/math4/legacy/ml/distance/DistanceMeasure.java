@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.ml.distance;
 
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-
 /**
  * Interface for distance measures of n-dimensional vectors.
  *
@@ -33,7 +31,8 @@ public interface DistanceMeasure {
      * @param a the first vector
      * @param b the second vector
      * @return the distance between the two vectors
-     * @throws DimensionMismatchException if the array lengths differ.
+     * @throws org.apache.commons.math4.legacy.exception.DimensionMismatchException
+     * if the array lengths differ.
      */
-    double compute(double[] a, double[] b) throws DimensionMismatchException;
+    double compute(double[] a, double[] b);
 }

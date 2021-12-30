@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.ml.distance;
 
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
@@ -28,8 +27,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 public class CanberraDistance implements DistanceMeasure {
     /** {@inheritDoc} */
     @Override
-    public double compute(double[] a, double[] b)
-    throws DimensionMismatchException {
+    public double compute(double[] a, double[] b) {
         MathArrays.checkEqualLength(a, b);
         double sum = 0;
         for (int i = 0; i < a.length; i++) {

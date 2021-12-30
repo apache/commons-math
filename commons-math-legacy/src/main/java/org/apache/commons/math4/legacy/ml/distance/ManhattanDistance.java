@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.ml.distance;
 
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
@@ -27,8 +26,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 public class ManhattanDistance implements DistanceMeasure {
     /** {@inheritDoc} */
     @Override
-    public double compute(double[] a, double[] b)
-    throws DimensionMismatchException {
+    public double compute(double[] a, double[] b) {
         return MathArrays.distance1(a, b);
     }
 }
