@@ -18,7 +18,6 @@ package org.apache.commons.math4.legacy.fitting;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.io.Serializable;
 
 /**
  * Simple container for weighted observed points used
@@ -26,10 +25,7 @@ import java.io.Serializable;
  *
  * @since 3.3
  */
-public class WeightedObservedPoints implements Serializable {
-    /** Serializable version id. */
-    private static final long serialVersionUID = 20130813L;
-
+public class WeightedObservedPoints {
     /** Observed points. */
     private final List<WeightedObservedPoint> observations
         = new ArrayList<>();

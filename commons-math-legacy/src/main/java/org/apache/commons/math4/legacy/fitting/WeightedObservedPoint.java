@@ -16,17 +16,13 @@
  */
 package org.apache.commons.math4.legacy.fitting;
 
-import java.io.Serializable;
-
 /**
  * This class is a simple container for weighted observed point in
  * {@link AbstractCurveFitter curve fitting}.
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @since 2.0
  */
-public class WeightedObservedPoint implements Serializable {
-    /** Serializable version id. */
-    private static final long serialVersionUID = 5306874947404636157L;
+public class WeightedObservedPoint {
     /** Weight of the measurement in the fitting process. */
     private final double weight;
     /** Abscissa of the point. */
@@ -73,6 +69,4 @@ public class WeightedObservedPoint implements Serializable {
     public double getY() {
         return y;
     }
-
 }
-
