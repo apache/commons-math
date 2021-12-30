@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -68,11 +67,7 @@ import org.apache.commons.numbers.core.Precision;
  * @since 1.2
  */
 public class MultivariateSummaryStatistics
-    implements StatisticalMultivariateSummary, Serializable {
-
-    /** Serialization UID. */
-    private static final long serialVersionUID = 2271900808994826718L;
-
+    implements StatisticalMultivariateSummary {
     /** Dimension of the data. */
     private final int k;
 

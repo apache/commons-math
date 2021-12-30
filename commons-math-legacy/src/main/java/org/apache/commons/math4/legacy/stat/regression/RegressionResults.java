@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.regression;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
@@ -27,7 +26,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  *
  * @since 3.0
  */
-public class RegressionResults implements Serializable {
+public class RegressionResults {
 
     /** INDEX of Sum of Squared Errors. */
     private static final int SSE_IDX = 0;

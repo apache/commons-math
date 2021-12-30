@@ -17,8 +17,6 @@
 
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractUnivariateStatistic;
@@ -51,7 +49,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  *
  * @since 2.1
  */
-public class SemiVariance extends AbstractUnivariateStatistic implements Serializable {
+public class SemiVariance extends AbstractUnivariateStatistic {
 
     /**
      * The UPSIDE Direction is used to specify that the observations above the
@@ -64,9 +62,6 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      * the cutoff point will be used to calculate SemiVariance
      */
     public static final Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 20150412L;
 
     /**
      * Determines whether or not bias correction is applied when computing the

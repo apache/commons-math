@@ -33,10 +33,6 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
  */
 public class SynchronizedMultivariateSummaryStatistics
     extends MultivariateSummaryStatistics {
-
-    /** Serialization UID. */
-    private static final long serialVersionUID = 7099834153347155363L;
-
     /**
      * Construct a SynchronizedMultivariateSummaryStatistics instance.
      * @param k dimension of the data

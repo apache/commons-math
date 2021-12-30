@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -27,11 +26,7 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
  * Returns the covariance matrix of the available vectors.
  * @since 1.2
  */
-public class VectorialCovariance implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 4118372414238930270L;
-
+public class VectorialCovariance {
     /** Sums for each component. */
     private final double[] sums;
 

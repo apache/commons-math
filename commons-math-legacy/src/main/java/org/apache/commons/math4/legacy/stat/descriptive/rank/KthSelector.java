@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
@@ -28,10 +27,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * numbers.
  * @since 3.4
  */
-public class KthSelector implements Serializable {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20140713L;
-
+public class KthSelector {
     /** Minimum selection size for insertion sort rather than selection. */
     private static final int MIN_SELECT_SIZE = 15;
 

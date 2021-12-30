@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import java.io.Serializable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
@@ -30,9 +29,7 @@ import org.apache.commons.rng.core.RandomProviderDefaultState;
  *
  * @since 3.4
  */
-public class RandomPivotingStrategy implements PivotingStrategy, Serializable {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20160517L;
+public class RandomPivotingStrategy implements PivotingStrategy {
     /** Source of randomness. */
     private final RandomSource randomSource;
     /** Random generator to use for selecting pivot. */
@@ -65,36 +62,5 @@ public class RandomPivotingStrategy implements PivotingStrategy, Serializable {
     public int pivotIndex(final double[] work, final int begin, final int end) {
         MathArrays.verifyValues(work, begin, end - begin);
         return begin + random.nextInt(end - begin - 1);
-    }
-
-    /**
-     * @param out Output stream.
-     * @throws IOException if an error occurs.
-     */
-    private void writeObject(ObjectOutputStream out)
-        throws IOException {
-        // Write non-transient fields.
-        out.defaultWriteObject();
-
-        // Save current state.
-        out.writeObject(((RandomProviderDefaultState) random.saveState()).getState());
-   }
-
-    /**
-     * @param in Input stream.
-     * @throws IOException if an error occurs.
-     * @throws ClassNotFoundException if an error occurs.
-     */
-    private void readObject(ObjectInputStream in)
-        throws IOException,
-               ClassNotFoundException {
-        // Read non-transient fields.
-        in.defaultReadObject();
-
-        // Recreate the "delegate" from serialized info.
-        random = randomSource.create();
-        // And restore its state.
-        final RandomProviderDefaultState state = new RandomProviderDefaultState((byte[]) in.readObject());
-        random.restoreState(state);
     }
 }

@@ -195,14 +195,6 @@ public final class FrequencyTest {
     }
 
     @Test
-    public void testSerial() {
-        Frequency<Integer> f = new Frequency<>();
-        f.addValue(ONE);
-        f.addValue(TWO);
-        Assert.assertEquals(f, TestUtils.serializeAndRecover(f));
-    }
-
-    @Test
     public void testGetUniqueCount() {
         Frequency<Long> f = new Frequency<>();
         Assert.assertEquals(0, f.getUniqueCount());

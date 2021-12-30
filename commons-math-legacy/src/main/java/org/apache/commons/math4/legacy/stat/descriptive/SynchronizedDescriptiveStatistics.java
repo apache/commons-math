@@ -32,10 +32,6 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  * @since 1.2
  */
 public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
-
-    /** Serialization UID. */
-    private static final long serialVersionUID = 1L;
-
     /**
      * Construct an instance with infinite window.
      */

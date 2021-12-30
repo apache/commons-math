@@ -74,13 +74,4 @@ public class VectorialMeanTest {
         }
 
     }
-
-    @Test
-    public void testSerial() {
-        VectorialMean stat = new VectorialMean(points[0].length);
-        for (int i = 0; i < points.length; ++i) {
-            stat.increment(points[i]);
-        }
-        Assert.assertEquals(stat, TestUtils.serializeAndRecover(stat));
-    }
 }

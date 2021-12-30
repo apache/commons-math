@@ -30,14 +30,6 @@ import org.junit.Test;
 public final class StatisticalSummaryValuesTest {
 
     @Test
-    public void testSerialization() {
-        StatisticalSummaryValues u = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
-        TestUtils.checkSerializedEquality(u);
-        StatisticalSummaryValues t = (StatisticalSummaryValues) TestUtils.serializeAndRecover(u);
-        verifyEquality(u, t);
-    }
-
-    @Test
     public void testEqualsAndHashCode() {
         StatisticalSummaryValues u  = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
         StatisticalSummaryValues t = null;

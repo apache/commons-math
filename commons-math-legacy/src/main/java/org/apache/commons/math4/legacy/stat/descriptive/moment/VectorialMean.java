@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -25,11 +24,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
  * Returns the arithmetic mean of the available vectors.
  * @since 1.2
  */
-public class VectorialMean implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 8223009086481006892L;
-
+public class VectorialMean {
     /** Means for each component. */
     private final Mean[] means;
 

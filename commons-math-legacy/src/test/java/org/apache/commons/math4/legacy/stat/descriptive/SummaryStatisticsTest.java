@@ -156,30 +156,6 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testSerialization() {
-        SummaryStatistics u = createSummaryStatistics();
-        // Empty test
-        TestUtils.checkSerializedEquality(u);
-        SummaryStatistics s = (SummaryStatistics) TestUtils.serializeAndRecover(u);
-        StatisticalSummary summary = s.getSummary();
-        verifySummary(u, summary);
-
-        // Add some data
-        u.addValue(2d);
-        u.addValue(1d);
-        u.addValue(3d);
-        u.addValue(4d);
-        u.addValue(5d);
-
-        // Test again
-        TestUtils.checkSerializedEquality(u);
-        s = (SummaryStatistics) TestUtils.serializeAndRecover(u);
-        summary = s.getSummary();
-        verifySummary(u, summary);
-
-    }
-
-    @Test
     public void testEqualsAndHashCode() {
         SummaryStatistics u = createSummaryStatistics();
         SummaryStatistics t = null;

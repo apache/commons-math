@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.BitSet;
 
@@ -90,10 +89,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
  */
-public class Percentile extends AbstractUnivariateStatistic implements Serializable {
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 20150412L;
-
+public class Percentile extends AbstractUnivariateStatistic {
     /** Maximum number of partitioning pivots cached (each level double the number of pivots). */
     private static final int MAX_CACHED_LEVELS = 10;
 

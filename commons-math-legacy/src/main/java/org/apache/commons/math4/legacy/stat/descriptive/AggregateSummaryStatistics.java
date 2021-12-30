@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -50,13 +49,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  * @since 2.0
  *
  */
-public class AggregateSummaryStatistics implements StatisticalSummary,
-        Serializable {
-
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -8207112444016386906L;
-
+public class AggregateSummaryStatistics implements StatisticalSummary {
     /**
      * A SummaryStatistics serving as a prototype for creating SummaryStatistics.
      * contributing to this aggregate

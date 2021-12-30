@@ -16,7 +16,6 @@
  */
 
 package org.apache.commons.math4.legacy.stat.regression;
-import java.io.Serializable;
 
 import org.apache.commons.statistics.distribution.TDistribution;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
@@ -60,11 +59,7 @@ import org.apache.commons.numbers.core.Precision;
  * </ul>
  *
  */
-public class SimpleRegression implements Serializable, UpdatingMultipleLinearRegression {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -3004689053607543335L;
-
+public class SimpleRegression implements UpdatingMultipleLinearRegression {
     /** sum of x values. */
     private double sumX;
 

@@ -82,10 +82,4 @@ public class VectorialCovarianceTest {
         }
 
     }
-
-    @Test
-    public void testSerial(){
-        VectorialCovariance stat = new VectorialCovariance(points[0].length, true);
-        Assert.assertEquals(stat, TestUtils.serializeAndRecover(stat));
-    }
 }

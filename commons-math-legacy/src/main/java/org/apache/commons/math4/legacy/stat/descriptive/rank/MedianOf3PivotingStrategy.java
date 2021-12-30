@@ -16,18 +16,13 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Classic median of 3 strategy given begin and end indices.
  * @since 3.4
  */
-public class MedianOf3PivotingStrategy implements PivotingStrategy, Serializable {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20140713L;
-
+public class MedianOf3PivotingStrategy implements PivotingStrategy {
     /**{@inheritDoc}
      * This in specific makes use of median of 3 pivoting.
      * @return The index corresponding to a pivot chosen between the

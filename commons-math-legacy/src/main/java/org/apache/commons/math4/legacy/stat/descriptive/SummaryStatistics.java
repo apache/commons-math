@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
@@ -56,11 +54,7 @@ import org.apache.commons.numbers.core.Precision;
  * threads is required.
  * </p>
  */
-public class SummaryStatistics implements StatisticalSummary, Serializable {
-
-    /** Serialization UID. */
-    private static final long serialVersionUID = -2021321786743555871L;
-
+public class SummaryStatistics implements StatisticalSummary {
     /** count of values that have been added. */
     private long n;
 

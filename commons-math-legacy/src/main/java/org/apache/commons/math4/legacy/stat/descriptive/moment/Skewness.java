@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -44,11 +42,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally. </p>
  */
-public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 20150412L;
-
+public class Skewness extends AbstractStorelessUnivariateStatistic {
     /** The value below which the variance is considered zero and thus skewness is zero. */
     private static final double ZERO_VARIANCE_THRESHOLD = 10E-20;
 

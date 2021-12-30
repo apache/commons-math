@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
@@ -56,7 +55,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * {@link SynchronizedDescriptiveStatistics} if concurrent access from multiple
  * threads is required.
  */
-public class DescriptiveStatistics implements StatisticalSummary, Serializable {
+public class DescriptiveStatistics implements StatisticalSummary {
 
     /**
      * Represents an infinite window size.  When the {@link #getWindowSize()}
@@ -64,9 +63,6 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * that can be stored in the dataset.
      */
     public static final int INFINITE_WINDOW = -1;
-
-    /** Serialization UID. */
-    private static final long serialVersionUID = 4133067267405273064L;
 
     /** Name of the setQuantile method. */
     private static final String SET_QUANTILE_METHOD_NAME = "setQuantile";

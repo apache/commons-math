@@ -32,10 +32,6 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  * @since 1.2
  */
 public class SynchronizedSummaryStatistics extends SummaryStatistics {
-
-    /** Serialization UID. */
-    private static final long serialVersionUID = 1909861009042253704L;
-
     /**
      * Construct a SynchronizedSummaryStatistics instance.
      */

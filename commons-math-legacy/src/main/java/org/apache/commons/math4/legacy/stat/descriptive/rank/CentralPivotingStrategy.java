@@ -16,18 +16,13 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * A mid point strategy based on the average of begin and end indices.
  * @since 3.4
  */
-public class CentralPivotingStrategy implements PivotingStrategy, Serializable {
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20140713L;
-
+public class CentralPivotingStrategy implements PivotingStrategy {
     /**
      * {@inheritDoc}
      * This in particular picks a average of begin and end indices

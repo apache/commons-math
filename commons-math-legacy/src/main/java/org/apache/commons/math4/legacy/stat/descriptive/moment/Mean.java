@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -60,11 +58,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * <code>clear()</code> method, it must be synchronized externally.
  */
 public class Mean extends AbstractStorelessUnivariateStatistic
-    implements Serializable, WeightedEvaluation {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 20150412L;
-
+    implements WeightedEvaluation {
     /** First moment on which this statistic is based. */
     protected FirstMoment moment;
 

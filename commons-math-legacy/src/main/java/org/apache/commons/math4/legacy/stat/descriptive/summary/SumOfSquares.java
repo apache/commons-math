@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.summary;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -35,11 +33,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
  */
-public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 20150412L;
-
+public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
     /** Number of values that have been added. */
     private long n;
 

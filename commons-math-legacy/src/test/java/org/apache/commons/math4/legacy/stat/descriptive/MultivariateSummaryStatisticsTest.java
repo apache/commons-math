@@ -256,28 +256,6 @@ public class MultivariateSummaryStatisticsTest {
     }
 
     @Test
-    public void testSerialization() {
-        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
-        // Empty test
-        TestUtils.checkSerializedEquality(u);
-        MultivariateSummaryStatistics s = (MultivariateSummaryStatistics) TestUtils.serializeAndRecover(u);
-        Assert.assertEquals(u, s);
-
-        // Add some data
-        u.addValue(new double[] { 2d, 1d });
-        u.addValue(new double[] { 1d, 1d });
-        u.addValue(new double[] { 3d, 1d });
-        u.addValue(new double[] { 4d, 1d });
-        u.addValue(new double[] { 5d, 1d });
-
-        // Test again
-        TestUtils.checkSerializedEquality(u);
-        s = (MultivariateSummaryStatistics) TestUtils.serializeAndRecover(u);
-        Assert.assertEquals(u, s);
-
-    }
-
-    @Test
     public void testEqualsAndHashCode() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         MultivariateSummaryStatistics t = null;

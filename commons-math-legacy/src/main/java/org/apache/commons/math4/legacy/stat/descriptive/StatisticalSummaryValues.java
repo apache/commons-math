@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
@@ -25,12 +23,8 @@ import org.apache.commons.numbers.core.Precision;
  *  Value object representing the results of a univariate statistical summary.
  *
  */
-public class StatisticalSummaryValues implements Serializable,
-    StatisticalSummary {
-
-    /** Serialization id. */
-    private static final long serialVersionUID = -5108854841843722536L;
-
+public class StatisticalSummaryValues
+    implements StatisticalSummary {
     /** The sample mean. */
     private final double mean;
 
@@ -188,5 +182,4 @@ public class StatisticalSummaryValues implements Serializable,
         outBuffer.append("sum: ").append(getSum()).append(endl);
         return outBuffer.toString();
     }
-
 }

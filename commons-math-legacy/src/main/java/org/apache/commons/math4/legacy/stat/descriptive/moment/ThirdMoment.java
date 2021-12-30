@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 
 
@@ -47,11 +45,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
  * <code>clear()</code> method, it must be synchronized externally.</p>
  *
  */
-class ThirdMoment extends SecondMoment implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 20150412L;
-
+class ThirdMoment extends SecondMoment {
     /** third moment of values that have been added. */
     protected double m3;
 
