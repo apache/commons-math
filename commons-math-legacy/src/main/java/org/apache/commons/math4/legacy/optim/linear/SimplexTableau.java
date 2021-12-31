@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math4.legacy.optim.linear;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,14 +65,10 @@ import org.apache.commons.numbers.core.Precision;
  *
  * @since 2.0
  */
-class SimplexTableau implements Serializable {
+class SimplexTableau {
 
     /** Column label for negative vars. */
     private static final String NEGATIVE_VAR_COLUMN_LABEL = "x-";
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -1369660067587938365L;
-
     /** bit mask for IEEE double exponent. */
     private static final long EXPN = 0x7ff0000000000000L;
     /** bit mask for IEEE double mantissa and sign. */
@@ -888,28 +880,5 @@ class SimplexTableau implements Serializable {
                f.hashCode() ^
                constraints.hashCode() ^
                tableau.hashCode();
-    }
-
-    /**
-     * Serialize the instance.
-     * @param oos stream where object should be written
-     * @throws IOException if object cannot be written to stream
-     */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
-        oos.defaultWriteObject();
-        MatrixUtils.serializeRealMatrix(tableau, oos);
-    }
-
-    /**
-     * Deserialize the instance.
-     * @param ois stream from which the object should be read
-     * @throws ClassNotFoundException if a class in the stream cannot be found
-     * @throws IOException if object cannot be read from the stream
-     */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
-        MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
     }
 }

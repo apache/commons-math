@@ -16,11 +16,6 @@
  */
 package org.apache.commons.math4.legacy.optim.linear;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.linear.ArrayRealVector;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
@@ -41,10 +36,7 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
  */
 public class LinearObjectiveFunction
     implements MultivariateFunction,
-               OptimizationData,
-               Serializable {
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -4531815507568396090L;
+               OptimizationData {
     /** Coefficients of the linear equation (c<sub>i</sub>). */
     private final transient RealVector coefficients;
     /** Constant term of the linear equation. */
@@ -124,28 +116,5 @@ public class LinearObjectiveFunction
     @Override
     public int hashCode() {
         return Double.valueOf(constantTerm).hashCode() ^ coefficients.hashCode();
-    }
-
-    /**
-     * Serialize the instance.
-     * @param oos stream where object should be written
-     * @throws IOException if object cannot be written to stream
-     */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
-        oos.defaultWriteObject();
-        MatrixUtils.serializeRealVector(coefficients, oos);
-    }
-
-    /**
-     * Deserialize the instance.
-     * @param ois stream from which the object should be read
-     * @throws ClassNotFoundException if a class in the stream cannot be found
-     * @throws IOException if object cannot be read from the stream
-     */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
-        MatrixUtils.deserializeRealVector(this, "coefficients", ois);
     }
 }

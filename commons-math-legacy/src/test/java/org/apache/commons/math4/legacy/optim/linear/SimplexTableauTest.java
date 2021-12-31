@@ -76,15 +76,6 @@ public class SimplexTableauTest {
         assertMatrixEquals(initialTableau, tableau.getData());
     }
 
-    @Test
-    public void testSerial() {
-        LinearObjectiveFunction f = createFunction();
-        Collection<LinearConstraint> constraints = createConstraints();
-        SimplexTableau tableau =
-            new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
-        Assert.assertEquals(tableau, TestUtils.serializeAndRecover(tableau));
-    }
-
     private LinearObjectiveFunction createFunction() {
         return new LinearObjectiveFunction(new double[] {15, 10}, 0);
     }
