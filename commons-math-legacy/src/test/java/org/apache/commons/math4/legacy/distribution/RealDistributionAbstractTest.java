@@ -471,25 +471,4 @@ public abstract class RealDistributionAbstractTest {
     protected void setTolerance(double tolerance) {
         this.tolerance = tolerance;
     }
-
-    /**
-     * Serialization and deserialization loop of the {@link #distribution}.
-     */
-    private ContinuousDistribution deepClone()
-        throws IOException,
-               ClassNotFoundException {
-        // Serialize to byte array.
-        final ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-        final ObjectOutputStream oOut = new ObjectOutputStream(bOut);
-        oOut.writeObject(distribution);
-        final byte[] data = bOut.toByteArray();
-
-        // Deserialize from byte array.
-        final ByteArrayInputStream bIn = new ByteArrayInputStream(data);
-        final ObjectInputStream oIn = new ObjectInputStream(bIn);
-        final Object clone = oIn.readObject();
-        oIn.close();
-
-        return (ContinuousDistribution) clone;
-    }
 }
