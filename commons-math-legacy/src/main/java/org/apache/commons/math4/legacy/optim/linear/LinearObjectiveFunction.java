@@ -18,7 +18,6 @@ package org.apache.commons.math4.legacy.optim.linear;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.linear.ArrayRealVector;
-import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
 

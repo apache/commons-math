@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.junit.Test;

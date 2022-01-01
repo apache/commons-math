@@ -19,7 +19,6 @@ package org.apache.commons.math4.legacy.optim.linear;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.junit.Assert;
 import org.junit.Test;

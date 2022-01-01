@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.optim;
 
-import org.apache.commons.math4.legacy.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

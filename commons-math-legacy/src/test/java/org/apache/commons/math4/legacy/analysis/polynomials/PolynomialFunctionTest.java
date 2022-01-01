@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.analysis.polynomials;
 
-import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;

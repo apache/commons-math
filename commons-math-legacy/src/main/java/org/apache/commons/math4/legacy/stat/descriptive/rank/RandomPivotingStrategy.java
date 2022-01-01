@@ -16,13 +16,9 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.rng.RestorableUniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.rng.core.RandomProviderDefaultState;
 
 /**
  * A strategy of selecting random index between begin and end indices.

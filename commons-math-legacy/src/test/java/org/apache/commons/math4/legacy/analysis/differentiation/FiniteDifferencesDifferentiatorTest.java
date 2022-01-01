@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
-import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.analysis.QuinticFunction;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.UnivariateMatrixFunction;

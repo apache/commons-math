@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math4.legacy.field.ExtendedFieldElementAbstractTest;
-import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
