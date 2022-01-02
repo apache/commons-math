@@ -127,7 +127,6 @@
 
     <!-- 4. Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>
-
   </modules>
 
   <scm>

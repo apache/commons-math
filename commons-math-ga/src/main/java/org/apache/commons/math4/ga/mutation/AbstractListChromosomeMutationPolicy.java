@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
+import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
 
@@ -43,8 +44,9 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
      * @return the mutated chromosome.
      */
     @Override
-    public Chromosome<P> mutate(Chromosome<P> original, double mutationRate) {
-        // check for validity.
+    public AbstractListChromosome<T, P> mutate(Chromosome<P> original, double mutationRate) {
+
+        // check for validity
         checkValidity(original);
 
         @SuppressWarnings("unchecked")
@@ -60,10 +62,14 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
     }
 
     /**
-     * Checks input chromosome validity.
-     * @param original chromosome to be mutated
+     * This method validates input chromosome.
+     * @param original chromosome
      */
-    protected abstract void checkValidity(Chromosome<P> original);
+    private void checkValidity(Chromosome<P> original) {
+        if (!AbstractListChromosome.class.isAssignableFrom(original.getClass())) {
+            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+        }
+    }
 
     /**
      * Selects and returns mutable gene indexes based on mutation rate.
@@ -71,7 +77,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
      * @param mutationRate mutation rate of the allele/gene
      * @return mutable gene indexes
      */
-    protected Set<Integer> getMutableGeneIndexes(int length, double mutationRate) {
+    private Set<Integer> getMutableGeneIndexes(int length, double mutationRate) {
 
         // calculate the total mutation rate of all the alleles i.e. chromosome.
         final double chromosomeMutationRate = mutationRate * length;

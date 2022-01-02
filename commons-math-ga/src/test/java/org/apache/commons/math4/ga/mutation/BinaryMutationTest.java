@@ -30,9 +30,9 @@ public class BinaryMutationTest {
     public void testCheckValidity() {
         BinaryMutation<String> mutation = new BinaryMutation<>();
         Assertions.assertThrows(GeneticException.class, () -> {
-            mutation.checkValidity(new IntegralValuedChromosome<String>(
+            mutation.mutate(new IntegralValuedChromosome<String>(
                     ChromosomeRepresentationUtils.randomIntegralRepresentation(10, 0, 2), c -> 0,
-                    new DummyListChromosomeDecoder<>("0"), 0, 2));
+                    new DummyListChromosomeDecoder<>("0"), 0, 2), .1);
         });
     }
 

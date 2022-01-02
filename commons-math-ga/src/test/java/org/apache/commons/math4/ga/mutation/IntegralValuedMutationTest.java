@@ -37,7 +37,7 @@ public class IntegralValuedMutationTest {
                 new DummyListChromosomeDecoder<>("0"));
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
         Assertions.assertThrows(GeneticException.class, () -> {
-            mutation.checkValidity(chromosome);
+            mutation.mutate(chromosome, .1);
         });
     }
 
@@ -50,7 +50,7 @@ public class IntegralValuedMutationTest {
                 new DummyListChromosomeDecoder<>("0"), min, max);
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
         Assertions.assertThrows(GeneticException.class, () -> {
-            mutation.checkValidity(chromosome);
+            mutation.mutate(chromosome, .1);
         });
     }
 
@@ -79,6 +79,7 @@ public class IntegralValuedMutationTest {
             int origValue = min + RandomProviderManager.getRandomProvider().nextInt(max - min);
             int mutatedValued = mutation.mutateGene(origValue);
             Assertions.assertTrue(min <= mutatedValued && mutatedValued < max);
+            Assertions.assertNotEquals(origValue, mutatedValued);
         }
     }
 

@@ -35,6 +35,7 @@
   <suppress checks="ParameterNumber" files=".*[/\\]Dfp\.java" />
   <suppress checks="TypeName" files=".*[/\\]AccurateMath\.java" />
   <suppress checks="ParameterName" files=".*[/\\]AccurateMathCalc\.java" />
+  <suppress checks="ParameterNumber" files=".*[/\\]AdaptiveMathFunctionOptimizer\.java"/>
 
   <!-- Be more lenient on tests. -->
   <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />

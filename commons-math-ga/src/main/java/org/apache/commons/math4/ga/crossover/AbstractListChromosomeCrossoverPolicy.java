@@ -51,7 +51,7 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends Abstra
      * @param second second chromosome
      */
     @SuppressWarnings("unchecked")
-    protected void checkValidity(final Chromosome<P> first, final Chromosome<P> second) {
+    private void checkValidity(final Chromosome<P> first, final Chromosome<P> second) {
         if (!(first instanceof AbstractListChromosome<?, ?> && second instanceof AbstractListChromosome<?, ?>)) {
             throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
         }

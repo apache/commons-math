@@ -17,7 +17,6 @@
 package org.apache.commons.math4.ga.dummy;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
-import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.decoder.AbstractListChromosomeDecoder;
 
 public class DummyListChromosomeDecoder<T> extends AbstractListChromosomeDecoder<T, String> {
@@ -31,11 +30,6 @@ public class DummyListChromosomeDecoder<T> extends AbstractListChromosomeDecoder
     @Override
     protected String decode(AbstractListChromosome<T, String> chromosome) {
         return value;
-    }
-
-    @Override
-    protected void checkValidity(Chromosome<String> chromosome) {
-        // No op
     }
 
 }

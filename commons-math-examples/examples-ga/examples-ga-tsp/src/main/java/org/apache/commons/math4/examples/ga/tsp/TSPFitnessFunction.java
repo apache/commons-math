@@ -18,9 +18,6 @@ package org.apache.commons.math4.examples.ga.tsp;
 
 import java.util.List;
 
-
-import org.apache.commons.math4.examples.ga.tsp.commons.City;
-import org.apache.commons.math4.examples.ga.tsp.commons.DistanceMatrix;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
 
 /**
@@ -33,20 +30,16 @@ public class TSPFitnessFunction implements FitnessFunction<List<City>> {
      */
     @Override
     public double compute(List<City> cities) {
+        final DistanceMatrix distanceMatrix = DistanceMatrix.getInstance(cities);
         double totalDistance = 0.0;
         int index1 = 0;
         int index2 = 0;
         for (int i = 0; i < cities.size(); i++) {
             index1 = i;
             index2 = (i == cities.size() - 1) ? 0 : i + 1;
-            totalDistance += calculateNodeDistance(cities.get(index1), cities.get(index2));
+            totalDistance += distanceMatrix.getDistance(cities.get(index1), cities.get(index2));
         }
         return -totalDistance;
-    }
-
-    private double calculateNodeDistance(City node1, City node2) {
-        final DistanceMatrix distanceMatrix = DistanceMatrix.getInstance();
-        return distanceMatrix.getDistance(node1, node2);
     }
 
 }
