@@ -158,6 +158,7 @@
 
   <modules>
     <module>examples-sofm</module>
+	<module>examples-ga</module>
   </modules>
 
 </project>
