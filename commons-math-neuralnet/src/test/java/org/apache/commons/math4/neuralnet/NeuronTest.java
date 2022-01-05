@@ -17,12 +17,6 @@
 
 package org.apache.commons.math4.neuralnet;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-
 import org.junit.Test;
 import org.junit.Assert;
 

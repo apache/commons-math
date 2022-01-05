@@ -17,11 +17,6 @@
 
 package org.apache.commons.math4.neuralnet.twod;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
