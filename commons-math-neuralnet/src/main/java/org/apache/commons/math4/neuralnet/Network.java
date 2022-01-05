@@ -92,6 +92,7 @@ public class Network
      * @param neighbourIdList Links associated to each of the neurons in
      * {@code idList}.
      * @throws IllegalArgumentException if an inconsistency is detected.
+     * @return a new instance.
      */
     public static Network from(int featureSize,
                                long[] idList,
