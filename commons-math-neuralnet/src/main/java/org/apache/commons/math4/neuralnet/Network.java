@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Comparator;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,23 +53,6 @@ public class Network
     /** Links. */
     private final ConcurrentHashMap<Long, Set<Long>> linkMap
         = new ConcurrentHashMap<>();
-
-    /**
-     * Comparator that prescribes an order of the neurons according
-     * to the increasing order of their identifier.
-     */
-    public static class NeuronIdentifierComparator
-        implements Comparator<Neuron> {
-        /** {@inheritDoc} */
-        @Override
-        public int compare(Neuron a,
-                           Neuron b) {
-            final long aId = a.getIdentifier();
-            final long bId = b.getIdentifier();
-            return aId < bId ? -1 :
-                aId > bId ? 1 : 0;
-        }
-    }
 
     /**
      * @param firstId Identifier of the first neuron that will be added
@@ -162,19 +144,10 @@ public class Network
     }
 
     /**
-     * Creates a list of the neurons, sorted in a custom order.
-     *
-     * @param comparator {@link Comparator} used for sorting the neurons.
-     * @return a list of neurons, sorted in the order prescribed by the
-     * given {@code comparator}.
-     * @see NeuronIdentifierComparator
+     * @return a shallow copy of the network's neurons.
      */
-    public Collection<Neuron> getNeurons(Comparator<Neuron> comparator) {
-        final List<Neuron> neurons = new ArrayList<>(neuronMap.values());
-
-        Collections.sort(neurons, comparator);
-
-        return neurons;
+    public Collection<Neuron> getNeurons() {
+        return Collections.unmodifiableCollection(neuronMap.values());
     }
 
     /**

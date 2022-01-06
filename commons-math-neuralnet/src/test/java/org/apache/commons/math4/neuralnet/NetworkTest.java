@@ -118,7 +118,7 @@ public class NetworkTest {
         // Check that the comparator provides a specific order.
         boolean isUnspecifiedOrder = false;
         long previousId = Long.MIN_VALUE;
-        for (Neuron n : net.getNeurons(new Network.NeuronIdentifierComparator())) {
+        for (Neuron n : net.getNeurons()) {
             final long currentId = n.getIdentifier();
             if (currentId < previousId) {
                 isUnspecifiedOrder = true;
