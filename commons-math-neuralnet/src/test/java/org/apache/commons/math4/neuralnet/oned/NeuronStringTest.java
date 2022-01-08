@@ -47,8 +47,10 @@ public class NeuronStringTest {
     @Test
     public void testSegmentNetwork() {
         final FeatureInitializer[] initArray = {init};
-        final Network net = new NeuronString(4, false, initArray).getNetwork();
+        final NeuronString line = new NeuronString(4, false, initArray);
+        Assert.assertFalse(line.isWrapped());
 
+        final Network net = line.getNetwork();
         Collection<Neuron> neighbours;
 
         // Neuron 0.
@@ -92,8 +94,10 @@ public class NeuronStringTest {
     @Test
     public void testCircleNetwork() {
         final FeatureInitializer[] initArray = {init};
-        final Network net = new NeuronString(4, true, initArray).getNetwork();
+        final NeuronString line = new NeuronString(4, true, initArray);
+        Assert.assertTrue(line.isWrapped());
 
+        final Network net = line.getNetwork();
         Collection<Neuron> neighbours;
 
         // Neuron 0.

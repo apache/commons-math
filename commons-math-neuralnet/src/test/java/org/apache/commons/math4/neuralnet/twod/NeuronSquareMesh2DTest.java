@@ -75,6 +75,23 @@ public class NeuronSquareMesh2DTest {
         Assert.assertEquals(3, net.getFeaturesSize());
     }
 
+    @Test
+    public void testAccessors() {
+        final FeatureInitializer[] initArray = {init};
+        NeuronSquareMesh2D map;
+
+        for (SquareNeighbourhood type : SquareNeighbourhood.values()) {
+            map = new NeuronSquareMesh2D(4, false, 2, true, type, initArray);
+            Assert.assertFalse(map.isWrappedRow());
+            Assert.assertTrue(map.isWrappedColumn());
+            Assert.assertEquals(type, map.getSquareNeighbourhood());
+
+            map = new NeuronSquareMesh2D(3, true, 4, false, type, initArray);
+            Assert.assertTrue(map.isWrappedRow());
+            Assert.assertFalse(map.isWrappedColumn());
+            Assert.assertEquals(type, map.getSquareNeighbourhood());
+        }
+    }
 
     /*
      * Test assumes that the network is

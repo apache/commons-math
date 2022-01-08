@@ -144,6 +144,15 @@ public class NeuronString {
     }
 
     /**
+     * Indicates whether the line of neurons is wrapped.
+     *
+     * @return {@code true} if the last neuron is linked to the first neuron.
+     */
+    public boolean isWrapped() {
+        return wrap;
+    }
+
+    /**
      * Retrieves the features set from the neuron at location
      * {@code i} in the map.
      *

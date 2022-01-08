@@ -285,6 +285,36 @@ public class NeuronSquareMesh2D
     }
 
     /**
+     * Indicates whether the map is wrapped along the first dimension.
+     *
+     * @return {@code true} if the last neuron of a row is linked to
+     * the first neuron of that row.
+     */
+    public boolean isWrappedRow() {
+        return wrapRows;
+    }
+
+    /**
+     * Indicates whether the map is wrapped along the second dimension.
+     *
+     * @return {@code true} if the last neuron of a column is linked to
+     * the first neuron of that column.
+     */
+    public boolean isWrappedColumn() {
+        return wrapColumns;
+    }
+
+    /**
+     * Indicates the {@link SquareNeighbourhood type of connectivity}
+     * between neurons.
+     *
+     * @return the neighbourhood type.
+     */
+    public SquareNeighbourhood getSquareNeighbourhood() {
+        return neighbourhood;
+    }
+
+    /**
      * Retrieves the neuron at location {@code (i, j)} in the map.
      * The neuron at position {@code (0, 0)} is located at the upper-left
      * corner of the map.
