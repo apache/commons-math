@@ -48,11 +48,11 @@ TWO_AXES, 2, 0 0, 3, 4, 1e-4, 120, false
 CIG_TAB, 2, 0 0, 3, 4, 1e-3, 100, false
 #CIG_TAB, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 1e-3, 100, false
 TABLET, 2, 0 0, 3, 4, 2e-4, 100, false
-TABLET, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 2e-4, 3000, false
+TABLET, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 2e-4, 3500, false
 SUM_POW, 2, 0 0, 3, 4, 1e-2, 75, false
 #SUM_POW, 11, 0 0 0 0 0 0 0 0 0 0 0, 3, 4, 1e-2, 75, false
 ACKLEY, 2, 0 0, 2, 4, 1e-6, 145, false
-ACKLEY, 6, 0 0 0 0 0 0, 2, 4, 1e-6, 660, false
+ACKLEY, 6, 0 0 0 0 0 0, 2, 4, 1e-6, 700, false
 RASTRIGIN, 2, 0 0, 6, 10, 5e-5, 105, false
 GRIEWANK, 2, 0 0, 2, 3, 1e-1, 80, false
 GRIEWANK, 11, 0 0 0 0 0 0 0 0 0 0 0, 2, 3, 1e-1, 1200, false
