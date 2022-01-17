@@ -18,7 +18,7 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.NotPositiveException;
+import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
@@ -28,6 +28,7 @@ import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.SimpleBounds;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.PopulationSize;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.Sigma;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.TestFunction;
 import org.apache.commons.rng.simple.RandomSource;
@@ -81,7 +82,7 @@ public class CMAESOptimizerTest {
                 1e-13, 1e-6, 100000, expected);
     }
 
-    @Test(expected = NotPositiveException.class)
+    @Test(expected = NotStrictlyPositiveException.class)
     public void testInputSigmaNegative() {
         final int dim = 12;
         double[] startPoint = OptimTestUtils.point(dim, 0.5);
@@ -175,7 +176,7 @@ public class CMAESOptimizerTest {
                                                    SimpleBounds.unbounded(1),
                                                    GoalType.MINIMIZE,
                                                    new PopulationSize(5),
-                                                   new CMAESOptimizer.Sigma(sigma),
+                                                   new Sigma(sigma),
                                                    new InitialGuess(start)).getPoint();
         Assert.assertEquals(0, result[0], 1e-7);
     }
@@ -396,7 +397,7 @@ public class CMAESOptimizerTest {
                                                    new ObjectiveFunction(fitnessFunction),
                                                    GoalType.MINIMIZE,
                                                    new PopulationSize(5),
-                                                   new CMAESOptimizer.Sigma(sigma),
+                                                   new Sigma(sigma),
                                                    new InitialGuess(start),
                                                    new SimpleBounds(lower, upper)).getPoint();
         Assert.assertTrue("Out of bounds (" + result[0] + " > " + upper[0] + ")",
@@ -428,7 +429,7 @@ public class CMAESOptimizerTest {
                                                    GoalType.MINIMIZE,
                                                    SimpleBounds.unbounded(1),
                                                    new PopulationSize(5),
-                                                   new CMAESOptimizer.Sigma(new double[] { 1e-1 }),
+                                                   new Sigma(new double[] { 1e-1 }),
                                                    new InitialGuess(start));
         final double resNoBound = result.getPoint()[0];
 
@@ -440,7 +441,7 @@ public class CMAESOptimizerTest {
                                     new ObjectiveFunction(fitnessFunction),
                                     GoalType.MINIMIZE,
                                     new PopulationSize(5),
-                                    new CMAESOptimizer.Sigma(sigma),
+                                    new Sigma(sigma),
                                     new InitialGuess(start),
                                     new SimpleBounds(lower, upper));
         final double resNearLo = result.getPoint()[0];
@@ -452,7 +453,7 @@ public class CMAESOptimizerTest {
                                     new ObjectiveFunction(fitnessFunction),
                                     GoalType.MINIMIZE,
                                     new PopulationSize(5),
-                                    new CMAESOptimizer.Sigma(sigma),
+                                    new Sigma(sigma),
                                     new InitialGuess(start),
                                     new SimpleBounds(lower, upper));
         final double resNearHi = result.getPoint()[0];
@@ -505,7 +506,7 @@ public class CMAESOptimizerTest {
                            goal,
                            new InitialGuess(startPoint),
                            SimpleBounds.unbounded(dim),
-                           new CMAESOptimizer.Sigma(inSigma),
+                           new Sigma(inSigma),
                            new PopulationSize(lambda)) :
             optim.optimize(new MaxEval(maxEvaluations),
                            new ObjectiveFunction(func),
@@ -513,7 +514,7 @@ public class CMAESOptimizerTest {
                            new SimpleBounds(boundaries[0],
                                             boundaries[1]),
                            new InitialGuess(startPoint),
-                           new CMAESOptimizer.Sigma(inSigma),
+                           new Sigma(inSigma),
                            new PopulationSize(lambda));
 
         Assert.assertEquals(expected.getValue(), result.getValue(), fTol);
