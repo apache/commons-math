@@ -32,8 +32,6 @@ import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
  * href="http://www.netlib.org/minpack/ex/file17">file17</a> and <a
@@ -339,8 +337,7 @@ public class LevenbergMarquardtOptimizerTest
 
         //verify
         //check iterations and evaluations are not switched.
-        Assert.assertThat(optimum.getIterations(), is(1));
-        Assert.assertThat(optimum.getEvaluations(), is(2));
+        Assert.assertEquals(1, optimum.getIterations());
+        Assert.assertEquals(2, optimum.getEvaluations());
     }
-
 }

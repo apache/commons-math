@@ -26,7 +26,6 @@ import org.apache.commons.math4.legacy.ml.distance.CanberraDistance;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -101,8 +100,8 @@ public class FuzzyKMeansClustererTest {
         Assert.assertEquals(2.0, clusterer.getFuzziness(), 1e-6);
         Assert.assertEquals(100, clusterer.getMaxIterations());
         Assert.assertEquals(1e-6, clusterer.getEpsilon(), 1e-12);
-        Assert.assertThat(clusterer.getDistanceMeasure(), CoreMatchers.is(measure));
-        Assert.assertThat(clusterer.getRandomGenerator(), CoreMatchers.is(random));
+        Assert.assertEquals(measure, clusterer.getDistanceMeasure());
+        Assert.assertEquals(random, clusterer.getRandomGenerator());
     }
 
     @Test
