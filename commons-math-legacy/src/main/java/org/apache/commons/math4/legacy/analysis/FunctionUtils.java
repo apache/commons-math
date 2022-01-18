@@ -416,7 +416,7 @@ public final class FunctionUtils {
                 final double[] partials = new double[point.length];
                 final double[] packed = new double[parameters + 1];
                 packed[0] = v;
-                final int orders[] = new int[parameters];
+                final int[] orders = new int[parameters];
                 for (int i = 0; i < parameters; ++i) {
 
                     // we differentiate once with respect to parameter i

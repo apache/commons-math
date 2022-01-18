@@ -48,7 +48,7 @@ public class DividedDifferenceInterpolator
      * strictly increasing order.
      */
     @Override
-    public PolynomialFunctionNewtonForm interpolate(double x[], double y[])
+    public PolynomialFunctionNewtonForm interpolate(double[] x, double[] y)
         throws DimensionMismatchException,
                NumberIsTooSmallException,
                NonMonotonicSequenceException {
@@ -93,7 +93,7 @@ public class DividedDifferenceInterpolator
      * @throws NonMonotonicSequenceException
      * if {@code x} is not sorted in strictly increasing order.
      */
-    protected static double[] computeDividedDifference(final double x[], final double y[])
+    protected static double[] computeDividedDifference(final double[] x, final double[] y)
         throws DimensionMismatchException,
                NumberIsTooSmallException,
                NonMonotonicSequenceException {

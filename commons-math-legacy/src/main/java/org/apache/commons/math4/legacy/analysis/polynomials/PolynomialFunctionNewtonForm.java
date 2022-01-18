@@ -42,18 +42,18 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
-    private double coefficients[];
+    private double[] coefficients;
 
     /**
      * Centers of the Newton polynomial.
      */
-    private final double c[];
+    private final double[] c;
 
     /**
      * When all c[i] = 0, a[] becomes normal polynomial coefficients,
      * i.e. a[i] = coefficients[i].
      */
-    private final double a[];
+    private final double[] a;
 
     /**
      * Whether the polynomial coefficients are available.
@@ -74,7 +74,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @throws DimensionMismatchException if the size difference between
      * {@code a} and {@code c} is not equal to 1.
      */
-    public PolynomialFunctionNewtonForm(double a[], double c[])
+    public PolynomialFunctionNewtonForm(double[] a, double[] c)
         throws NullArgumentException, NoDataException, DimensionMismatchException {
 
         verifyInputArray(a, c);
@@ -179,7 +179,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @throws DimensionMismatchException if the size difference between
      * {@code a} and {@code c} is not equal to 1.
      */
-    public static double evaluate(double a[], double c[], double z)
+    public static double evaluate(double[] a, double[] c, double z)
         throws NullArgumentException, DimensionMismatchException, NoDataException {
         verifyInputArray(a, c);
 
@@ -230,7 +230,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
      * @see org.apache.commons.math4.legacy.analysis.interpolation.DividedDifferenceInterpolator#computeDividedDifference(double[],
      * double[])
      */
-    protected static void verifyInputArray(double a[], double c[])
+    protected static void verifyInputArray(double[] a, double[] c)
         throws NullArgumentException, NoDataException, DimensionMismatchException {
         NullArgumentException.check(a);
         NullArgumentException.check(c);

@@ -46,9 +46,9 @@ class SchurTransformer {
     private static final int MAX_ITERATIONS = 100;
 
     /** P matrix. */
-    private final double matrixP[][];
+    private final double[][] matrixP;
     /** T matrix. */
-    private final double matrixT[][];
+    private final double[][] matrixT;
     /** Cached value of P. */
     private RealMatrix cachedP;
     /** Cached value of T. */

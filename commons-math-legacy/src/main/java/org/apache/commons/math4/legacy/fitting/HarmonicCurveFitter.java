@@ -195,7 +195,7 @@ public final class HarmonicCurveFitter extends SimpleCurveFitter {
             final WeightedObservedPoint[] sorted
                 = sortObservations(observations).toArray(new WeightedObservedPoint[0]);
 
-            final double aOmega[] = guessAOmega(sorted);
+            final double[] aOmega = guessAOmega(sorted);
             final double a = aOmega[0];
             final double omega = aOmega[1];
 

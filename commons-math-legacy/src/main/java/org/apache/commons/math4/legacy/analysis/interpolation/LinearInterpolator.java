@@ -43,7 +43,7 @@ public class LinearInterpolator implements UnivariateInterpolator {
      * than 2.
      */
     @Override
-    public PolynomialSplineFunction interpolate(double x[], double y[])
+    public PolynomialSplineFunction interpolate(double[] x, double[] y)
         throws DimensionMismatchException,
                NumberIsTooSmallException,
                NonMonotonicSequenceException {
@@ -62,13 +62,13 @@ public class LinearInterpolator implements UnivariateInterpolator {
         MathArrays.checkOrder(x);
 
         // Slope of the lines between the datapoints.
-        final double m[] = new double[n];
+        final double[] m = new double[n];
         for (int i = 0; i < n; i++) {
             m[i] = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
         }
 
-        final PolynomialFunction polynomials[] = new PolynomialFunction[n];
-        final double coefficients[] = new double[2];
+        final PolynomialFunction[] polynomials = new PolynomialFunction[n];
+        final double[] coefficients = new double[2];
         for (int i = 0; i < n; i++) {
             coefficients[0] = y[i];
             coefficients[1] = m[i];

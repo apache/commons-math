@@ -39,7 +39,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction {
      * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
-    private final double coefficients[];
+    private final double[] coefficients;
 
     /**
      * Construct a polynomial with the given coefficients.  The first element
@@ -55,7 +55,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction {
      * @throws NullArgumentException if {@code c} is {@code null}.
      * @throws NoDataException if {@code c} is empty.
      */
-    public PolynomialFunction(double c[])
+    public PolynomialFunction(double[] c)
         throws NullArgumentException, NoDataException {
         super();
         NullArgumentException.check(c);

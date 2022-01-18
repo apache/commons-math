@@ -41,7 +41,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     private static final RealVectorFormat DEFAULT_FORMAT = RealVectorFormat.getInstance();
 
     /** Entries of the vector. */
-    private double data[];
+    private double[] data;
 
     /**
      * Build a 0-length vector.

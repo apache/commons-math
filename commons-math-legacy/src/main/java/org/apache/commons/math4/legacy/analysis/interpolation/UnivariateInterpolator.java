@@ -36,6 +36,6 @@ public interface UnivariateInterpolator {
      * algorithm.
      * @throws DimensionMismatchException if arrays lengths do not match
      */
-    UnivariateFunction interpolate(double xval[], double yval[])
+    UnivariateFunction interpolate(double[] xval, double[] yval)
         throws MathIllegalArgumentException, DimensionMismatchException;
 }

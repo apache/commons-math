@@ -73,7 +73,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4991895511313664478L;
     /** Blocks of matrix entries. */
-    private final double blocks[][];
+    private final double[][] blocks;
     /** Number of rows of the matrix. */
     private final int rows;
     /** Number of columns of the matrix. */
