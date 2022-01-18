@@ -66,7 +66,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * Spline segment interval delimiters (knots).
      * Size is n + 1 for n segments.
      */
-    private final double knots[];
+    private final double[] knots;
     /**
      * The polynomial functions that make up the spline.  The first element
      * determines the value of the spline over the first subinterval, the
@@ -74,7 +74,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * evaluating these functions at {@code (x - knot[i])} where i is the
      * knot segment to which x belongs.
      */
-    private final PolynomialFunction polynomials[];
+    private final PolynomialFunction[] polynomials;
     /**
      * Number of spline segments. It is equal to the number of polynomials and
      * to the number of partition points - 1.
@@ -96,7 +96,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * @throws NonMonotonicSequenceException if the {@code knots} array is not strictly increasing.
      *
      */
-    public PolynomialSplineFunction(double knots[], PolynomialFunction polynomials[])
+    public PolynomialSplineFunction(double[] knots, PolynomialFunction[] polynomials)
         throws NullArgumentException, NumberIsTooSmallException,
                DimensionMismatchException, NonMonotonicSequenceException{
         if (knots == null ||
@@ -154,7 +154,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * @return the derivative function.
      */
     public PolynomialSplineFunction polynomialSplineDerivative() {
-        PolynomialFunction derivativePolynomials[] = new PolynomialFunction[n];
+        PolynomialFunction[] derivativePolynomials = new PolynomialFunction[n];
         for (int i = 0; i < n; i++) {
             derivativePolynomials[i] = polynomials[i].polynomialDerivative();
         }
@@ -202,7 +202,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * @return the interpolating polynomials.
      */
     public PolynomialFunction[] getPolynomials() {
-        PolynomialFunction p[] = new PolynomialFunction[n];
+        PolynomialFunction[] p = new PolynomialFunction[n];
         System.arraycopy(polynomials, 0, p, 0, n);
         return p;
     }
@@ -215,7 +215,7 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * @return the knot points.
      */
     public double[] getKnots() {
-        double out[] = new double[n + 1];
+        double[] out = new double[n + 1];
         System.arraycopy(knots, 0, out, 0, n + 1);
         return out;
     }

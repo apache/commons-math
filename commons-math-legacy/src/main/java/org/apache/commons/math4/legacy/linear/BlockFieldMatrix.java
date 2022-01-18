@@ -76,7 +76,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     /** Serializable version identifier. */
     private static final long serialVersionUID = -4602336630143123183L;
     /** Blocks of matrix entries. */
-    private final T blocks[][];
+    private final T[][] blocks;
     /** Number of rows of the matrix. */
     private final int rows;
     /** Number of columns of the matrix. */

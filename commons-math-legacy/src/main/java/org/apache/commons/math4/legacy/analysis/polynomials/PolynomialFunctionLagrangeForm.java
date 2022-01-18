@@ -42,15 +42,15 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
-    private double coefficients[];
+    private double[] coefficients;
     /**
      * Interpolating points (abscissas).
      */
-    private final double x[];
+    private final double[] x;
     /**
      * Function values at interpolating points.
      */
-    private final double y[];
+    private final double[] y;
     /**
      * Whether the polynomial coefficients are available.
      */
@@ -69,7 +69,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * @throws NonMonotonicSequenceException
      * if two abscissae have the same value.
      */
-    public PolynomialFunctionLagrangeForm(double x[], double y[])
+    public PolynomialFunctionLagrangeForm(double[] x, double[] y)
         throws DimensionMismatchException, NumberIsTooSmallException, NonMonotonicSequenceException {
         this.x = new double[x.length];
         this.y = new double[y.length];
@@ -171,7 +171,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * @throws NumberIsTooSmallException if the size of {@code x} is less
      * than 2.
      */
-    public static double evaluate(double x[], double y[], double z)
+    public static double evaluate(double[] x, double[] y, double z)
         throws DimensionMismatchException, NumberIsTooSmallException, NonMonotonicSequenceException {
         if (verifyInterpolationArray(x, y, false)) {
             return evaluateInternal(x, y, z);
@@ -205,7 +205,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * @throws NumberIsTooSmallException if the size of {@code x} is less
      * than 2.
      */
-    private static double evaluateInternal(double x[], double y[], double z) {
+    private static double evaluateInternal(double[] x, double[] y, double z) {
         int nearest = 0;
         final int n = x.length;
         final double[] c = new double[n];
@@ -314,7 +314,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * @see #evaluate(double[], double[], double)
      * @see #computeCoefficients()
      */
-    public static boolean verifyInterpolationArray(double x[], double y[], boolean abort)
+    public static boolean verifyInterpolationArray(double[] x, double[] y, boolean abort)
         throws DimensionMismatchException, NumberIsTooSmallException, NonMonotonicSequenceException {
         if (x.length != y.length) {
             throw new DimensionMismatchException(x.length, y.length);

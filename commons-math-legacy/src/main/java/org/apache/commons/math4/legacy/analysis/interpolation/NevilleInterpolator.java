@@ -52,7 +52,7 @@ public class NevilleInterpolator implements UnivariateInterpolator,
      * value.
      */
     @Override
-    public PolynomialFunctionLagrangeForm interpolate(double x[], double y[])
+    public PolynomialFunctionLagrangeForm interpolate(double[] x, double[] y)
         throws DimensionMismatchException,
                NumberIsTooSmallException,
                NonMonotonicSequenceException {
