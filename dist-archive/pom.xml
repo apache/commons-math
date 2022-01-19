@@ -62,21 +62,21 @@ under the License.
       <id>release</id>
       <dependencies>
 
-        <!-- Module: Legacy -->
+        <!-- Module: Core -->
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math4-legacy</artifactId>
+          <artifactId>commons-math4-core</artifactId>
           <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math4-legacy</artifactId>
+          <artifactId>commons-math4-core</artifactId>
           <version>${project.version}</version>
           <classifier>sources</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math4-legacy</artifactId>
+          <artifactId>commons-math4-core</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>
