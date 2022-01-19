@@ -70,6 +70,12 @@
 
       <dependency>
         <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math4-ga</artifactId>
+        <version>${math.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
         <artifactId>commons-math4-legacy</artifactId>
         <version>${math.version}</version>
       </dependency>
