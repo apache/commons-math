@@ -37,7 +37,7 @@ PARABOLA, 16, 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0, 20, 40, 1e-4, 10000, true
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 11000, false
 ROSENBROCK, 2, 1 1, 0.9, 1.1, 3e-3, 12000, true
 ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 46000, false
-ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 33000, true
+ROSENBROCK, 4, 1 1 1 1, 0.9, 1.1, 3e-3, 41000, true
 ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 4e-3, 115000, false
 ROSENBROCK, 8, 1 1 1 1 1 1 1 1, 0.9, 1.1, 3e-3, 130000, true
 ROSENBROCK, 16, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1, 0.9, 1.1, 2e-1, 460000, false
