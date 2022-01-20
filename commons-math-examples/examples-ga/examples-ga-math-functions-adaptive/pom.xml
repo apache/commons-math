@@ -24,22 +24,22 @@
         <artifactId>examples-ga</artifactId>
         <version>4.0-SNAPSHOT</version>
     </parent>
-    <artifactId>examples-ga-math-functions</artifactId>
+    <artifactId>examples-ga-math-functions-adaptive</artifactId>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- OSGi -->
-        <commons.osgi.symbolicName>org.apache.commons.math4.examples.ga.mathfunctions</commons.osgi.symbolicName>
-        <commons.osgi.export>org.apache.commons.math4.examples.ga.mathfunctions</commons.osgi.export>
+        <commons.osgi.symbolicName>org.apache.commons.math4.examples.ga.mathfunctions.adaptive</commons.osgi.symbolicName>
+        <commons.osgi.export>org.apache.commons.math4.examples.ga.mathfunctions.adaptive</commons.osgi.export>
         <!-- Java 9+ -->
-        <commons.automatic.module.name>org.apache.commons.math4.examples.ga.mathfunctions</commons.automatic.module.name>
+        <commons.automatic.module.name>org.apache.commons.math4.examples.ga.mathfunctions.adaptive</commons.automatic.module.name>
         <!-- Workaround to avoid duplicating config files. -->
         <math.parent.dir>${basedir}/../../..</math.parent.dir>
 
-        <uberjar.name>examples-ga-mathfunctions</uberjar.name>
-        <project.mainClass>org.apache.commons.math4.examples.ga.mathfunctions.StandAlone</project.mainClass>
+        <uberjar.name>examples-ga-mathfunctions-adaptive</uberjar.name>
+        <project.mainClass>org.apache.commons.math4.examples.ga.mathfunctions.adaptive.StandAlone</project.mainClass>
         <slf4jVersion>1.7.32</slf4jVersion>
     </properties>
 

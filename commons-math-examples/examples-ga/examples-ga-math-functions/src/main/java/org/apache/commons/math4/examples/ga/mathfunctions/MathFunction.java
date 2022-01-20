@@ -14,32 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.examples.ga.tsp;
 
-import java.util.List;
+package org.apache.commons.math4.examples.ga.mathfunctions;
 
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
 
 /**
- * This class represents the fitness function for tsp.
+ * This class represents the mathematical fitness function for optimizing a 2
+ * dimension mathematical function.
  */
-public class TSPFitnessFunction implements FitnessFunction<List<City>> {
+public class MathFunction implements FitnessFunction<Coordinate> {
 
     /**
-     * {@inheritDoc}
+     * Computes the fitness value based on the decoded chromosome.
+     * @param coordinate The {@link Coordinate}
+     * @return the fitness value
      */
     @Override
-    public double compute(List<City> cities) {
-        final DistanceMatrix distanceMatrix = DistanceMatrix.getInstance(cities);
-        double totalDistance = 0.0;
-        int index1 = 0;
-        int index2 = 0;
-        for (int i = 0; i < cities.size(); i++) {
-            index1 = i;
-            index2 = (i == cities.size() - 1) ? 0 : i + 1;
-            totalDistance += distanceMatrix.getDistance(cities.get(index1), cities.get(index2));
+    public double compute(Coordinate coordinate) {
+        double sumOfSquare = 0.0;
+        for (Double value : coordinate.getValues()) {
+            sumOfSquare += Math.pow(value, 2);
         }
-        return -totalDistance;
+        return -Math.pow(sumOfSquare, .25) * (Math.pow(Math.sin(50 * Math.pow(sumOfSquare, .1)), 2) + 1);
     }
 
 }

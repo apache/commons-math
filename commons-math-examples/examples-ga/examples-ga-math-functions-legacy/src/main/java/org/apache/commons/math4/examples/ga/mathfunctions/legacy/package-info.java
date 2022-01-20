@@ -14,32 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.examples.ga.tsp;
-
-import java.util.List;
-
-import org.apache.commons.math4.ga.fitness.FitnessFunction;
-
 /**
- * This class represents the fitness function for tsp.
+ * This package provides Genetic Algorithms components and implementations.
  */
-public class TSPFitnessFunction implements FitnessFunction<List<City>> {
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double compute(List<City> cities) {
-        final DistanceMatrix distanceMatrix = DistanceMatrix.getInstance(cities);
-        double totalDistance = 0.0;
-        int index1 = 0;
-        int index2 = 0;
-        for (int i = 0; i < cities.size(); i++) {
-            index1 = i;
-            index2 = (i == cities.size() - 1) ? 0 : i + 1;
-            totalDistance += distanceMatrix.getDistance(cities.get(index1), cities.get(index2));
-        }
-        return -totalDistance;
-    }
-
-}
+package org.apache.commons.math4.examples.ga.mathfunctions.legacy;
