@@ -30,6 +30,7 @@ branches:
     - develop
     - master
     - MATH_3_X
+    - feature__MATH-1563__genetic_algorithm
 
 script:
     - mvn
