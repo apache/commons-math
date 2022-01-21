@@ -34,6 +34,7 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
     @SuppressWarnings("unchecked")
     @Override
     public P decode(Chromosome<P> chromosome) {
+        //check for validity
         checkValidity(chromosome);
 
         return decode((AbstractListChromosome<T, P>) chromosome);
@@ -43,7 +44,7 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
      * Checks validity of {@link Chromosome}.
      * @param chromosome the {@link Chromosome}
      */
-    protected void checkValidity(Chromosome<P> chromosome) {
+    private void checkValidity(Chromosome<P> chromosome) {
         if (!AbstractListChromosome.class.isAssignableFrom(chromosome.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, chromosome.getClass().getSimpleName());
         }

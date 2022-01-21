@@ -99,15 +99,6 @@ public class ListPopulation<P> implements Population<P> {
     }
 
     /**
-     * Access the list of chromosomes.
-     * @return the list of chromosomes
-     * @since 3.1
-     */
-    protected List<Chromosome<P>> getChromosomeList() {
-        return chromosomes;
-    }
-
-    /**
      * Add the given chromosome to the population.
      * @param chromosome the chromosome to add.
      */
@@ -195,7 +186,7 @@ public class ListPopulation<P> implements Population<P> {
      */
     @Override
     public Population<P> nextGeneration(final double elitismRate) {
-        final List<Chromosome<P>> oldChromosomes = getChromosomeList();
+        final List<Chromosome<P>> oldChromosomes = this.chromosomes;
 
         if ((int) (oldChromosomes.size() * elitismRate) == 0) {
             // if no of elite chromosome is 0 crete and return an empty population instance.

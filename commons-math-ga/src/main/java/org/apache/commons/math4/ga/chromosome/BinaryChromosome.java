@@ -17,7 +17,6 @@
 package org.apache.commons.math4.ga.chromosome;
 
 import java.util.List;
-
 import java.util.Objects;
 
 import org.apache.commons.math4.ga.decoder.Decoder;
@@ -125,7 +124,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      * Checks the input chromosome length against predefined maximum length.
      * @param chromosomeLength input chromsome length
      */
-    protected void checkMaximumLength(long chromosomeLength) {
+    private void checkMaximumLength(long chromosomeLength) {
         if (chromosomeLength > MAX_LENGTH) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
                     "length exceeded the max length " + MAX_LENGTH);

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.ga.mutation;
 
+import java.util.List;
+
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
@@ -37,7 +39,7 @@ public class RealValuedMutationTest {
                 new DummyListChromosomeDecoder<>("0"), min, max);
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min - 10, max);
         Assertions.assertThrows(GeneticException.class, () -> {
-            mutation.checkValidity(chromosome);
+            mutation.mutate(chromosome, .1);
         });
     }
 
@@ -50,12 +52,34 @@ public class RealValuedMutationTest {
                 new DummyListChromosomeDecoder<>("0"), min, max);
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min - 10, max);
         Assertions.assertThrows(GeneticException.class, () -> {
-            mutation.checkValidity(chromosome);
+            mutation.mutate(chromosome, .1);
         });
     }
 
     @Test
-    public void testIntegralValuedMutation() {
+    public void testGetMutableGeneIndexes() {
+        RealValuedMutation<String> mutationPolicy = new RealValuedMutation<>(0, 10);
+        List<Double> representation = ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 10);
+        RealValuedChromosome<String> chromosome = new RealValuedChromosome<>(representation, c -> 0,
+                new DummyListChromosomeDecoder<>("0"), 0, 10);
+        RealValuedChromosome<String> mutatedChromosome = mutationPolicy.mutate(chromosome, .2);
+        Assertions.assertEquals(2, calculatedMutatedAlleleCount(representation, mutatedChromosome.getRepresentation()));
+        mutatedChromosome = mutationPolicy.mutate(chromosome, .1);
+        Assertions.assertEquals(1, calculatedMutatedAlleleCount(representation, mutatedChromosome.getRepresentation()));
+    }
+
+    private int calculatedMutatedAlleleCount(List<Double> representation, List<Double> mutatedRepresentation) {
+        int mutationCount = 0;
+        for (int i = 0; i < representation.size(); i++) {
+            if (representation.get(i) != mutatedRepresentation.get(i)) {
+                mutationCount++;
+            }
+        }
+        return mutationCount;
+    }
+
+    @Test
+    public void testRealValuedMutation() {
         Assertions.assertThrows(GeneticException.class, () -> {
             new RealValuedMutation<>(10, 5);
         });

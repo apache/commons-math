@@ -66,7 +66,18 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
      * {@inheritDoc}
      */
     @Override
-    protected void checkValidity(Chromosome<P> original) {
+    public IntegralValuedChromosome<P> mutate(Chromosome<P> original, double mutationRate) {
+        // check for validity
+        checkValidity(original);
+
+        return (IntegralValuedChromosome<P>) super.mutate(original, mutationRate);
+    }
+
+    /**
+     * This method validates input chromosome.
+     * @param original chromosome
+     */
+    private void checkValidity(Chromosome<P> original) {
         if (!IntegralValuedChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
