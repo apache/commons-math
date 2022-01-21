@@ -103,6 +103,7 @@ public class RealValuedMutationTest {
             double origValue = min + (max - min) * RandomProviderManager.getRandomProvider().nextDouble();
             double mutatedValue = mutation.mutateGene(origValue);
             Assertions.assertTrue(min <= mutatedValue && mutatedValue < max);
+            Assertions.assertNotEquals(origValue, mutatedValue);
         }
     }
 

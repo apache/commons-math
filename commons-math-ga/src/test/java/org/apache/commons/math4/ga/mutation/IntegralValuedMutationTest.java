@@ -79,6 +79,7 @@ public class IntegralValuedMutationTest {
             int origValue = min + RandomProviderManager.getRandomProvider().nextInt(max - min);
             int mutatedValued = mutation.mutateGene(origValue);
             Assertions.assertTrue(min <= mutatedValued && mutatedValued < max);
+            Assertions.assertNotEquals(origValue, mutatedValued);
         }
     }
 

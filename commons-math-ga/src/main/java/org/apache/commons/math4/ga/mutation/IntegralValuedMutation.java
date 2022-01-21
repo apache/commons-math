@@ -36,14 +36,19 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
 
     /**
      * @param min minimum value of allele
-     * @param max maximum value of allele
+     * @param max maximum(exclusive) value of allele
      */
     public IntegralValuedMutation(final int min, final int max) {
         this.min = min;
         this.max = max;
-        if (min >= max) {
+
+        // To perform mutation for an IntegralValuedChromosome the minimum difference
+        // between
+        // max and min should be 2.
+        if ((max - min) < 2) {
             throw new GeneticException(GeneticException.TOO_LARGE, min, max);
         }
+
     }
 
     /**
@@ -93,7 +98,12 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
      */
     @Override
     protected Integer mutateGene(Integer originalValue) {
-        return min + RandomProviderManager.getRandomProvider().nextInt(max - min);
+        Integer mutatedValue = 0;
+        do {
+            mutatedValue = min + RandomProviderManager.getRandomProvider().nextInt(max - min);
+        } while (mutatedValue.equals(originalValue));
+
+        return mutatedValue;
     }
 
 }

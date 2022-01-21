@@ -19,6 +19,7 @@ package org.apache.commons.math4.ga.chromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -89,4 +90,12 @@ public class BinaryChromosomeTest {
         }
     }
 
+    @Test
+    public void testStringRepresentationWithRange() {
+        int length = 100;
+        String representationStr = ChromosomeRepresentationUtils.randomStringRepresentation(new char[] {'0', '1'},
+                length);
+        BinaryChromosome<String> chromosome = new BinaryChromosome<>(representationStr, c -> 0, c -> "0");
+        Assert.assertThrows(GeneticException.class, () -> chromosome.getStringRepresentation(10, length + 1));
+    }
 }

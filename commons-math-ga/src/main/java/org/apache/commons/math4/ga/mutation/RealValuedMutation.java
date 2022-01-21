@@ -101,7 +101,12 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
      */
     @Override
     protected Double mutateGene(Double originalValue) {
-        return min + RandomProviderManager.getRandomProvider().nextDouble() * (max - min);
+        Double mutatedValue = 0.0;
+        do {
+            mutatedValue = min + RandomProviderManager.getRandomProvider().nextDouble() * (max - min);
+        } while (mutatedValue.equals(originalValue));
+
+        return mutatedValue;
     }
 
 }

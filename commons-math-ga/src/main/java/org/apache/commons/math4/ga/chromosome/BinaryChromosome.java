@@ -205,8 +205,9 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
                     "start " + start + " is greater than end " + end);
         }
-        if (end - start > Integer.MAX_VALUE) {
-            throw new GeneticException(GeneticException.LENGTH_TOO_LARGE, end - start);
+        if (end > length) {
+            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+                    "end " + end + " is greater than length " + length);
         }
         final int offset = (int) (length % Long.SIZE == 0 ? 0 : Long.SIZE - length % Long.SIZE);
         final long offsettedStart = offset + start;
@@ -249,7 +250,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      */
     private String getAlleleBlockString(final int alleleBlockIndex) {
         return prepareZeroPrefix(representation[alleleBlockIndex] == 0 ? Long.SIZE - 1 :
-                Long.numberOfLeadingZeros(representation[alleleBlockIndex])) +
+            Long.numberOfLeadingZeros(representation[alleleBlockIndex])) +
                 Long.toUnsignedString(representation[alleleBlockIndex], 2);
     }
 
