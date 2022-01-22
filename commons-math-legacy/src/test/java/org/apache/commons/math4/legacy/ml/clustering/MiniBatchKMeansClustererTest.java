@@ -58,9 +58,9 @@ public class MiniBatchKMeansClustererTest {
         final UniformRandomProvider rng = RandomSource.MT_64.create();
         List<DoublePoint> data = generateCircles(rng);
         KMeansPlusPlusClusterer<DoublePoint> kMeans =
-            new KMeansPlusPlusClusterer<>(4, -1, DEFAULT_MEASURE, rng);
+            new KMeansPlusPlusClusterer<>(4, Integer.MAX_VALUE, DEFAULT_MEASURE, rng);
         MiniBatchKMeansClusterer<DoublePoint> miniBatchKMeans =
-            new MiniBatchKMeansClusterer<>(4, -1, 100, 3, 300, 10, DEFAULT_MEASURE, rng,
+            new MiniBatchKMeansClusterer<>(4, Integer.MAX_VALUE, 100, 3, 300, 10, DEFAULT_MEASURE, rng,
                                            KMeansPlusPlusClusterer.EmptyClusterStrategy.LARGEST_VARIANCE);
         // Test 100 times between KMeansPlusPlusClusterer and MiniBatchKMeansClusterer
         for (int i = 0; i < 100; i++) {
