@@ -47,8 +47,8 @@
 
     <math.version>4.0-SNAPSHOT</math.version>
     <math.picocli.version>3.9.5</math.picocli.version>
-    <math.rng.version>1.3</math.rng.version>
-    <math.geometry.version>1.0-beta1</math.geometry.version>
+    <math.rng.version>1.4</math.rng.version>
+    <math.geometry.version>1.0</math.geometry.version>
 
     <!-- Disable JApiCmp failures (but keep the report). The examples API is allowed to change. -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
