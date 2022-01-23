@@ -86,7 +86,7 @@ public final class StandAlone implements Callable<Void> {
             new City("i0", 1, 1),
         };
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
+        final UniformRandomProvider rng = RandomSource.KISS.create();
         City[] best = null;
         int maxCities = 0;
         double minDist = Double.POSITIVE_INFINITY;
