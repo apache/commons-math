@@ -27,7 +27,7 @@
   <artifactId>examples-sofm-chinese-rings</artifactId>
   <version>4.0-SNAPSHOT</version>
   <!-- This name is used in the shaded jar to provide the application title for the version information. -->
-  <name>Chinese Rings</name>
+  <name>SOFM: Chinese Rings</name>
 
   <description>SOFM used for classification.</description>
 

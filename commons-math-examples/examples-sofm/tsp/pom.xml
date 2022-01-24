@@ -27,7 +27,7 @@
   <artifactId>examples-sofm-tsp</artifactId>
   <version>4.0-SNAPSHOT</version>
   <!-- This name is used in the shaded jar to provide the application title for the version information. -->
-  <name>Traveling Salesman Problem</name>
+  <name>SOFM: Traveling Salesman Problem</name>
 
   <description>SOFM used for optimization.</description>
 
