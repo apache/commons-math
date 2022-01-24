@@ -35,22 +35,15 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math-ga</artifactId>
-            <version>4.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.5.3</version>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
         </dependency>
     </dependencies>
     <modules>
         <module>examples-ga-math-functions</module>
+        <module>examples-ga-math-functions-adaptive</module>
+        <module>examples-ga-math-functions-legacy</module>
         <module>examples-ga-tsp</module>
+        <module>examples-ga-tsp-legacy</module>
     </modules>
 </project>

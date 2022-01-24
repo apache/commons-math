@@ -18,18 +18,12 @@ package org.apache.commons.math4.examples.ga.tsp;
 
 import java.util.List;
 
-import org.apache.commons.math4.examples.ga.tsp.commons.City;
-import org.apache.commons.math4.examples.ga.tsp.utils.Constants;
-import org.apache.commons.math4.examples.ga.tsp.utils.GraphPlotter;
 import org.apache.commons.math4.ga.GeneticAlgorithm;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
 import org.apache.commons.math4.ga.crossover.OnePointCrossover;
 import org.apache.commons.math4.ga.decoder.RandomKeyDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
-import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
 import org.apache.commons.math4.ga.mutation.RealValuedMutation;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
@@ -41,54 +35,45 @@ import org.slf4j.LoggerFactory;
 /**
  * This class represents the optimizer for traveling salesman problem.
  */
-public class TSPOptimizer {
+public final class TSPOptimizer {
+
+    /** encoding for console logger. **/
+    public static final String ENCODING = "UTF-8";
 
     /** instance of logger. **/
-    private Logger logger = LoggerFactory.getLogger(TSPOptimizer.class);
+    private final Logger logger = LoggerFactory.getLogger(TSPOptimizer.class);
 
     /**
-     * Main method to initiate the optimization process.
-     * @param args arguments
+     * Optimizes the TSP problem.
+     * @param cities                                  list of cities
+     * @param crossoverRate                           rate of crossover
+     * @param mutationRate                            rate of mutation
+     * @param elitismRate                             rate of elitism
+     * @param tournamentSize                          size of tournament
+     * @param generationCountWithUnchangedBestFitness no of generations evolved with
+     *                                                unchanged best fitness
+     * @param populationSize                          size of population
      */
-    public static void main(String[] args) {
-        try {
-            final Population<List<City>> initPopulation = getInitialPopulation(Constants.CITIES);
-
-            final TSPOptimizer optimizer = new TSPOptimizer();
-
-            final ConvergenceListenerRegistry<List<City>> convergenceListenerRegistry = ConvergenceListenerRegistry
-                    .getInstance();
-            convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<>());
-            convergenceListenerRegistry
-                    .addConvergenceListener(new GraphPlotter("Convergence", "generation", "total-distance"));
-
-            optimizer.optimizeSGA(initPopulation, Constants.CITIES);
-
-            Thread.sleep(5000);
-
-        } catch (InterruptedException e) {
-            throw new GeneticException(e);
-        }
-    }
-
-    /**
-     * Optimizes the tsp problem.
-     * @param initial initial population
-     * @param cities  cities
-     */
-    public void optimizeSGA(Population<List<City>> initial, List<City> cities) {
+    public void optimize(List<City> cities,
+            double crossoverRate,
+            double mutationRate,
+            double elitismRate,
+            int tournamentSize,
+            int generationCountWithUnchangedBestFitness,
+            int populationSize) {
 
         // initialize a new genetic algorithm
         final GeneticAlgorithm<List<City>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<City>>(),
-                Constants.CROSSOVER_RATE, new RealValuedMutation<List<City>>(), Constants.AVERAGE_MUTATION_RATE,
-                new TournamentSelection<List<City>>(Constants.TOURNAMENT_SIZE));
+                crossoverRate, new RealValuedMutation<List<City>>(), mutationRate,
+                new TournamentSelection<List<City>>(tournamentSize), elitismRate);
 
         // stopping condition
         final StoppingCondition<List<City>> stopCond = new UnchangedBestFitness<>(
-                Constants.GENERATION_COUNT_WITH_UNCHANGED_BEST_FUTNESS);
+                generationCountWithUnchangedBestFitness);
 
         // run the algorithm
-        final Population<List<City>> finalPopulation = ga.evolve(initial, stopCond);
+        final Population<List<City>> finalPopulation = ga.evolve(getInitialPopulation(cities, populationSize),
+                stopCond);
 
         // best chromosome from the final population
         final RealValuedChromosome<List<City>> bestFinal = (RealValuedChromosome<List<City>>) finalPopulation
@@ -101,13 +86,13 @@ public class TSPOptimizer {
 
     }
 
-    private static Population<List<City>> getInitialPopulation(List<City> cities) {
-        final Population<List<City>> simulationPopulation = new ListPopulation<>(Constants.POPULATION_SIZE);
+    private static Population<List<City>> getInitialPopulation(List<City> cities, int populationSize) {
+        final Population<List<City>> simulationPopulation = new ListPopulation<>(populationSize);
 
-        for (int i = 0; i < Constants.POPULATION_SIZE; i++) {
-            simulationPopulation.addChromosome(new RealValuedChromosome<>(
-                    ChromosomeRepresentationUtils.randomPermutation(Constants.CHROMOSOME_LENGTH),
-                    new TSPFitnessFunction(), new RandomKeyDecoder<City>(cities)));
+        for (int i = 0; i < populationSize; i++) {
+            simulationPopulation.addChromosome(
+                    new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomPermutation(cities.size()),
+                            new TSPFitnessFunction(), new RandomKeyDecoder<City>(cities)));
         }
 
         return simulationPopulation;
