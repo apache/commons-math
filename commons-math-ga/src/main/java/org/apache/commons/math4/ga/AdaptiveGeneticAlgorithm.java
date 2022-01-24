@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
     /** instance of logger. **/
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGeneticAlgorithm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdaptiveGeneticAlgorithm.class);
 
     /** The crossover rate generator. **/
     private final CrossoverRateGenerator<P> crossoverRateGenerator;

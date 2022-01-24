@@ -17,7 +17,6 @@
 package org.apache.commons.math4.ga.chromosome;
 
 import java.util.List;
-
 import java.util.Objects;
 
 import org.apache.commons.math4.ga.decoder.Decoder;
@@ -125,7 +124,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      * Checks the input chromosome length against predefined maximum length.
      * @param chromosomeLength input chromsome length
      */
-    protected void checkMaximumLength(long chromosomeLength) {
+    private void checkMaximumLength(long chromosomeLength) {
         if (chromosomeLength > MAX_LENGTH) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
                     "length exceeded the max length " + MAX_LENGTH);
@@ -206,8 +205,9 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
                     "start " + start + " is greater than end " + end);
         }
-        if (end - start > Integer.MAX_VALUE) {
-            throw new GeneticException(GeneticException.LENGTH_TOO_LARGE, end - start);
+        if (end > length) {
+            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+                    "end " + end + " is greater than length " + length);
         }
         final int offset = (int) (length % Long.SIZE == 0 ? 0 : Long.SIZE - length % Long.SIZE);
         final long offsettedStart = offset + start;
@@ -250,7 +250,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      */
     private String getAlleleBlockString(final int alleleBlockIndex) {
         return prepareZeroPrefix(representation[alleleBlockIndex] == 0 ? Long.SIZE - 1 :
-                Long.numberOfLeadingZeros(representation[alleleBlockIndex])) +
+            Long.numberOfLeadingZeros(representation[alleleBlockIndex])) +
                 Long.toUnsignedString(representation[alleleBlockIndex], 2);
     }
 

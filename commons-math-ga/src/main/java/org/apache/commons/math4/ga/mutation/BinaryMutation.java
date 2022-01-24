@@ -38,7 +38,7 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
      * {@inheritDoc}
      */
     @Override
-    public Chromosome<P> mutate(Chromosome<P> original, double mutationRate) {
+    public BinaryChromosome<P> mutate(Chromosome<P> original, double mutationRate) {
         // check for validity.
         checkValidity(original);
         final BinaryChromosome<P> chromosome = (BinaryChromosome<P>) original;
@@ -57,14 +57,6 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
             }
             newRep[alleleBlockIndex] = newRep[alleleBlockIndex] ^ mask;
         }
-//        for (int alleleBlockIndex : mutableGeneIndexMap.keySet()) {
-//            long mask = 0;
-//            final Set<Integer> alleleElementIndexes = mutableGeneIndexMap.get(alleleBlockIndex);
-//            for (int index : alleleElementIndexes) {
-//                mask += index == 0 ? Long.MIN_VALUE : Math.pow(2, Long.SIZE - 1 - index);
-//            }
-//            newRep[alleleBlockIndex] = newRep[alleleBlockIndex] ^ mask;
-//        }
 
         return chromosome.newChromosome(newRep, chromosome.getLength());
     }
@@ -73,7 +65,7 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
      * Checks input chromosome validity.
      * @param original chromosome to be mutated
      */
-    protected void checkValidity(Chromosome<P> original) {
+    private void checkValidity(Chromosome<P> original) {
         if (!BinaryChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
@@ -85,7 +77,7 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
      * @param mutationRate mutation rate of the allele/gene
      * @return mutable gene indexes
      */
-    protected Map<Integer, Set<Integer>> getMutableGeneIndexes(long length, double mutationRate) {
+    private Map<Integer, Set<Integer>> getMutableGeneIndexes(long length, double mutationRate) {
 
         // calculate the total mutation rate of all the alleles i.e. chromosome.
         final double chromosomeMutationRate = mutationRate * length;

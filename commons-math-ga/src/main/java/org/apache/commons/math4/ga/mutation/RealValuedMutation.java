@@ -75,7 +75,17 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
      * {@inheritDoc}
      */
     @Override
-    protected void checkValidity(Chromosome<P> original) {
+    public RealValuedChromosome<P> mutate(Chromosome<P> original, double mutationRate) {
+        // check for validity.
+        checkValidity(original);
+        return (RealValuedChromosome<P>) super.mutate(original, mutationRate);
+    }
+
+    /**
+     * This method validates the input chromosome.
+     * @param original chromosome
+     */
+    private void checkValidity(Chromosome<P> original) {
         if (!RealValuedChromosome.class.isAssignableFrom(original.getClass())) {
             throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
@@ -91,7 +101,12 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
      */
     @Override
     protected Double mutateGene(Double originalValue) {
-        return min + RandomProviderManager.getRandomProvider().nextDouble() * (max - min);
+        Double mutatedValue = 0.0;
+        do {
+            mutatedValue = min + RandomProviderManager.getRandomProvider().nextDouble() * (max - min);
+        } while (mutatedValue.equals(originalValue));
+
+        return mutatedValue;
     }
 
 }

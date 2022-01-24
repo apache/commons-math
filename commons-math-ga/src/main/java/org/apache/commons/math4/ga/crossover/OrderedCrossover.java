@@ -17,7 +17,6 @@
 package org.apache.commons.math4.ga.crossover;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;

@@ -17,7 +17,6 @@
 package org.apache.commons.math4.ga.crossover;
 
 import java.util.ArrayList;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +45,7 @@ import org.apache.commons.math4.ga.utils.RandomProviderManager;
  * ...
  *
  * Example (zero-start cycle):
+ *
  * <pre>
  * p1 = (8 4 7 3 6 2 5 1 9 0)    X   c1 = (8 1 2 3 4 5 6 7 9 0)
  * p2 = (0 1 2 3 4 5 6 7 8 9)    X   c2 = (0 4 7 3 6 2 5 1 8 9)
