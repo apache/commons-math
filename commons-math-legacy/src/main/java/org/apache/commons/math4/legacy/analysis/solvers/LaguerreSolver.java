@@ -146,7 +146,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @return the point at which the function value is zero.
      */
     private double laguerre(double lo, double hi) {
-        final Complex c[] = real2Complex(getCoefficients());
+        final Complex[] c = real2Complex(getCoefficients());
 
         final Complex initial = Complex.ofCartesian(0.5 * (lo + hi), 0);
         final Complex z = complexSolver.solve(c, initial);
@@ -261,7 +261,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws NoDataException if the {@code coefficients} array is empty.
          */
-        public Complex[] solveAll(Complex coefficients[], Complex initial)
+        public Complex[] solveAll(Complex[] coefficients, Complex initial)
             throws NullArgumentException,
                    NoDataException,
                    TooManyEvaluationsException {
@@ -273,15 +273,15 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 throw new NoDataException(LocalizedFormats.POLYNOMIAL);
             }
             // Coefficients for deflated polynomial.
-            final Complex c[] = new Complex[n + 1];
+            final Complex[] c = new Complex[n + 1];
             for (int i = 0; i <= n; i++) {
                 c[i] = coefficients[i];
             }
 
             // Solve individual roots successively.
-            final Complex root[] = new Complex[n];
+            final Complex[] root = new Complex[n];
             for (int i = 0; i < n; i++) {
-                final Complex subarray[] = new Complex[n - i + 1];
+                final Complex[] subarray = new Complex[n - i + 1];
                 System.arraycopy(c, 0, subarray, 0, subarray.length);
                 root[i] = solve(subarray, initial);
                 // Polynomial deflation using synthetic division.
@@ -310,7 +310,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws NoDataException if the {@code coefficients} array is empty.
          */
-        public Complex solve(Complex coefficients[], Complex initial)
+        public Complex solve(Complex[] coefficients, Complex initial)
             throws NullArgumentException,
                    NoDataException,
                    TooManyEvaluationsException {

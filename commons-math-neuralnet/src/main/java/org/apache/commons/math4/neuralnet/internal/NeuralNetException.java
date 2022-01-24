@@ -34,6 +34,10 @@ public class NeuralNetException extends IllegalArgumentException {
     public static final String NO_DATA = "No data";
     /** Error message for "size mismatch" condition. */
     public static final String SIZE_MISMATCH = "Size mismatch: {0} != {1}";
+    /** Error message for "identifier already used" condition. */
+    public static final String ID_IN_USE = "Identifier already in use: {0}";
+    /** Error message for "identifier not found" condition. */
+    public static final String ID_NOT_FOUND = "Identifier not found: {0}";
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20210515L;

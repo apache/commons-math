@@ -63,7 +63,7 @@ public class SplineInterpolator implements UnivariateInterpolator {
      * than 3.
      */
     @Override
-    public PolynomialSplineFunction interpolate(double x[], double y[])
+    public PolynomialSplineFunction interpolate(double[] x, double[] y)
         throws DimensionMismatchException,
                NumberIsTooSmallException,
                NonMonotonicSequenceException {

@@ -62,21 +62,21 @@ under the License.
       <id>release</id>
       <dependencies>
 
-        <!-- Module: Legacy -->
+        <!-- Module: Core -->
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy</artifactId>
+          <artifactId>commons-math4-core</artifactId>
           <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy</artifactId>
+          <artifactId>commons-math4-core</artifactId>
           <version>${project.version}</version>
           <classifier>sources</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy</artifactId>
+          <artifactId>commons-math4-core</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>
@@ -84,18 +84,18 @@ under the License.
         <!-- Module: ANN -->
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-neuralnet</artifactId>
+          <artifactId>commons-math4-neuralnet</artifactId>
           <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-neuralnet</artifactId>
+          <artifactId>commons-math4-neuralnet</artifactId>
           <version>${project.version}</version>
           <classifier>sources</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-neuralnet</artifactId>
+          <artifactId>commons-math4-neuralnet</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>
@@ -103,37 +103,18 @@ under the License.
         <!-- Module: Transforms -->
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-transform</artifactId>
+          <artifactId>commons-math4-transform</artifactId>
           <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-transform</artifactId>
-          <version>${project.version}</version>
-          <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-transform</artifactId>
-          <version>${project.version}</version>
-          <classifier>javadoc</classifier>
-        </dependency>
-
-        <!-- Module: Examples -->
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-examples</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-examples</artifactId>
+          <artifactId>commons-math4-transform</artifactId>
           <version>${project.version}</version>
           <classifier>sources</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-examples</artifactId>
+          <artifactId>commons-math4-transform</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>
@@ -141,18 +122,18 @@ under the License.
         <!-- Module: Exception (legacy) -->
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy-exception</artifactId>
+          <artifactId>commons-math4-legacy-exception</artifactId>
           <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy-exception</artifactId>
+          <artifactId>commons-math4-legacy-exception</artifactId>
           <version>${project.version}</version>
           <classifier>sources</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy-exception</artifactId>
+          <artifactId>commons-math4-legacy-exception</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>
@@ -160,18 +141,37 @@ under the License.
         <!-- Module: Core (legacy) -->
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy-core</artifactId>
+          <artifactId>commons-math4-legacy-core</artifactId>
           <version>${project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy-core</artifactId>
+          <artifactId>commons-math4-legacy-core</artifactId>
           <version>${project.version}</version>
           <classifier>sources</classifier>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
-          <artifactId>commons-math-legacy-core</artifactId>
+          <artifactId>commons-math4-legacy-core</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
+        </dependency>
+
+        <!-- Module: Legacy -->
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math4-legacy</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math4-legacy</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-math4-legacy</artifactId>
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>

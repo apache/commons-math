@@ -37,7 +37,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 class BiDiagonalTransformer {
 
     /** Householder vectors. */
-    private final double householderVectors[][];
+    private final double[][] householderVectors;
 
     /** Main diagonal. */
     private final double[] main;

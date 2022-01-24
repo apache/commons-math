@@ -17,11 +17,6 @@
 
 package org.apache.commons.math4.neuralnet.twod;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
@@ -80,6 +75,23 @@ public class NeuronSquareMesh2DTest {
         Assert.assertEquals(3, net.getFeaturesSize());
     }
 
+    @Test
+    public void testAccessors() {
+        final FeatureInitializer[] initArray = {init};
+        NeuronSquareMesh2D map;
+
+        for (SquareNeighbourhood type : SquareNeighbourhood.values()) {
+            map = new NeuronSquareMesh2D(4, false, 2, true, type, initArray);
+            Assert.assertFalse(map.isWrappedRow());
+            Assert.assertTrue(map.isWrappedColumn());
+            Assert.assertEquals(type, map.getSquareNeighbourhood());
+
+            map = new NeuronSquareMesh2D(3, true, 4, false, type, initArray);
+            Assert.assertTrue(map.isWrappedRow());
+            Assert.assertFalse(map.isWrappedColumn());
+            Assert.assertEquals(type, map.getSquareNeighbourhood());
+        }
+    }
 
     /*
      * Test assumes that the network is
@@ -649,45 +661,6 @@ public class NeuronSquareMesh2DTest {
         }
         // Ensures that no other neurons is in the neighbourhood set.
         Assert.assertEquals(16, neighbours.size());
-    }
-
-    @Test
-    public void testSerialize()
-        throws IOException,
-               ClassNotFoundException {
-        final FeatureInitializer[] initArray = {init};
-        final NeuronSquareMesh2D out = new NeuronSquareMesh2D(4, false,
-                                                              3, true,
-                                                              SquareNeighbourhood.VON_NEUMANN,
-                                                              initArray);
-
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(out);
-
-        final ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        final ObjectInputStream ois = new ObjectInputStream(bis);
-        final NeuronSquareMesh2D in = (NeuronSquareMesh2D) ois.readObject();
-
-        for (Neuron nOut : out.getNetwork()) {
-            final Neuron nIn = in.getNetwork().getNeuron(nOut.getIdentifier());
-
-            // Same values.
-            final double[] outF = nOut.getFeatures();
-            final double[] inF = nIn.getFeatures();
-            Assert.assertEquals(outF.length, inF.length);
-            for (int i = 0; i < outF.length; i++) {
-                Assert.assertEquals(outF[i], inF[i], 0d);
-            }
-
-            // Same neighbours.
-            final Collection<Neuron> outNeighbours = out.getNetwork().getNeighbours(nOut);
-            final Collection<Neuron> inNeighbours = in.getNetwork().getNeighbours(nIn);
-            Assert.assertEquals(outNeighbours.size(), inNeighbours.size());
-            for (Neuron oN : outNeighbours) {
-                Assert.assertTrue(inNeighbours.contains(in.getNetwork().getNeuron(oN.getIdentifier())));
-            }
-        }
     }
 
     /*

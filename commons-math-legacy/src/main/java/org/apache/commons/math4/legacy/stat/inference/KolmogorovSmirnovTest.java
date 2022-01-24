@@ -1041,7 +1041,7 @@ public class KolmogorovSmirnovTest {
         final int sum = nn + mm;
 
         int tail = 0;
-        final boolean b[] = new boolean[sum];
+        final boolean[] b = new boolean[sum];
         for (int i = 0; i < iterations; i++) {
             fillBooleanArrayRandomlyWithFixedNumberTrueValues(b, nn, rng);
             long curD = 0L;

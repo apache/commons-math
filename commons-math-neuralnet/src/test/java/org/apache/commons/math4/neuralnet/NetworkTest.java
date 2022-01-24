@@ -17,11 +17,6 @@
 
 package org.apache.commons.math4.neuralnet;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
@@ -123,7 +118,7 @@ public class NetworkTest {
         // Check that the comparator provides a specific order.
         boolean isUnspecifiedOrder = false;
         long previousId = Long.MIN_VALUE;
-        for (Neuron n : net.getNeurons(new Network.NeuronIdentifierComparator())) {
+        for (Neuron n : net.getNeurons()) {
             final long currentId = n.getIdentifier();
             if (currentId < previousId) {
                 isUnspecifiedOrder = true;
@@ -173,44 +168,5 @@ public class NetworkTest {
         copyNeighbours = copy.getNeighbours(copyNeuron0);
         Assert.assertFalse(netNeighbours.contains(netNeuron1));
         Assert.assertTrue(copyNeighbours.contains(copyNeuron1));
-    }
-
-    @Test
-    public void testSerialize()
-        throws IOException,
-               ClassNotFoundException {
-        final FeatureInitializer[] initArray = {init};
-        final Network out = new NeuronSquareMesh2D(4, false,
-                                                   3, true,
-                                                   SquareNeighbourhood.VON_NEUMANN,
-                                                   initArray).getNetwork();
-
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(out);
-
-        final ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        final ObjectInputStream ois = new ObjectInputStream(bis);
-        final Network in = (Network) ois.readObject();
-
-        for (Neuron nOut : out) {
-            final Neuron nIn = in.getNeuron(nOut.getIdentifier());
-
-            // Same values.
-            final double[] outF = nOut.getFeatures();
-            final double[] inF = nIn.getFeatures();
-            Assert.assertEquals(outF.length, inF.length);
-            for (int i = 0; i < outF.length; i++) {
-                Assert.assertEquals(outF[i], inF[i], 0d);
-            }
-
-            // Same neighbours.
-            final Collection<Neuron> outNeighbours = out.getNeighbours(nOut);
-            final Collection<Neuron> inNeighbours = in.getNeighbours(nIn);
-            Assert.assertEquals(outNeighbours.size(), inNeighbours.size());
-            for (Neuron oN : outNeighbours) {
-                Assert.assertTrue(inNeighbours.contains(in.getNeuron(oN.getIdentifier())));
-            }
-        }
     }
 }

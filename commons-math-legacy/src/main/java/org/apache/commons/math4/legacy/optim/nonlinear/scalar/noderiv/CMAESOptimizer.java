@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
@@ -35,6 +34,7 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.PopulationSize;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.Sigma;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
@@ -77,14 +77,6 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  *  <li><a href="http://www.lri.fr/~hansen/cmaesintro.html">Introduction to CMA-ES</a></li>
  *  <li><a href="http://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
  * </ul>
- *
- * <p>
- * The {@link PopulationSize number of offsprings} is the primary strategy
- * parameter. In the absence of better clues, a good default could be an integer
- * close to {@code 4 + 3 ln(n)}, where {@code n} is the number of optimized
- * parameters. Increasing the population size improves global search properties
- * at the expense of speed (which in general decreases at most linearly with
- * increasing population size).
  *
  * @since 3.0
  */
@@ -279,58 +271,38 @@ public class CMAESOptimizer
     }
 
     /**
-     * Input sigma values.
-     * They define the initial coordinate-wise standard deviations for
-     * sampling new search points around the initial guess.
-     * It is suggested to set them to the estimated distance from the
-     * initial to the desired optimum.
-     * Small values induce the search to be more local (and very small
-     * values are more likely to find a local optimum close to the initial
-     * guess).
-     * Too small values might however lead to early termination.
-     */
-    public static class Sigma implements OptimizationData {
-        /** Sigma values. */
-        private final double[] sigma;
-
-        /**
-         * @param s Sigma values.
-         * @throws NotPositiveException if any of the array entries is smaller
-         * than zero.
-         */
-        public Sigma(double[] s) {
-            for (int i = 0; i < s.length; i++) {
-                if (s[i] < 0) {
-                    throw new NotPositiveException(s[i]);
-                }
-            }
-
-            sigma = s.clone();
-        }
-
-        /**
-         * @return the sigma values.
-         */
-        public double[] getSigma() {
-            return sigma.clone();
-        }
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @param optData Optimization data. In addition to those documented in
      * {@link MultivariateOptimizer#parseOptimizationData(OptimizationData[])
      * MultivariateOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link Sigma}</li>
-     *  <li>{@link PopulationSize}</li>
+     *  <li>
+     *   {@link Sigma} values define the initial coordinate-wise standard
+     *   deviations for sampling new search points around the initial guess.
+     *   It is suggested to set them to the estimated distance from the
+     *   initial to the desired optimum.
+     *   Small values induce the search to be more local (and very small
+     *   values are more likely to find a local optimum close to the initial
+     *   guess).
+     *   Too small values might however lead to early termination.
+     *  </li>
+     *  <li>
+     *   {@link PopulationSize} is the number of offsprings and the primary
+     *   strategy parameter.
+     *   In the absence of better clues, a good default could be an integer
+     *   close to {@code 4 + 3 ln(n)}, where {@code n} is the number of
+     *   optimized parameters.
+     *   Increasing the population size improves global search properties at
+     *   the expense of speed (which in general decreases at most linearly
+     *   with increasing population size).
+     *  </li>
      * </ul>
      * @return {@inheritDoc}
-     * @throws TooManyEvaluationsException if the maximal number of
-     * evaluations is exceeded.
-     * @throws DimensionMismatchException if the initial guess, target, and weight
-     * arguments have inconsistent dimensions.
+     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * is exceeded.
+     * @throws DimensionMismatchException if the initial guess, target, and
+     * weight arguments have inconsistent dimensions.
      */
     @Override
     public PointValuePair optimize(OptimizationData... optData) {

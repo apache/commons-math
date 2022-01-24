@@ -116,6 +116,7 @@
     <module>commons-math-core</module>
     <module>commons-math-neuralnet</module>
     <module>commons-math-transform</module>
+    <module>commons-math-ga</module>
 
     <!-- 2. Modularized (but not refactored) legacy functionalities. -->
     <module>commons-math-legacy-exception</module>
@@ -126,8 +127,6 @@
 
     <!-- 4. Modules that depend on "legacy" codes. -->
     <module>commons-math-examples</module>
-
-    <module>commons-math-ga</module>
   </modules>
 
   <scm>
@@ -641,13 +640,9 @@
     </profile>
     <profile>
       <!-- Runs if the SVN site checkout does not exist.
-           This is either obtained using svn (for the parent) or an empty directory is created. -->
-      <id>setup-checkout</id>
-      <activation>
-        <file>
-          <missing>${commons.scmPubCheckoutDirectory}</missing>
-        </file>
-      </activation>
+           This is either obtained using svn (for the parent) or an empty directory is created. 
+           The site-content directory is used when updating the live site. -->
+      <id>site-checkout</id>
       <build>
         <plugins>
           <plugin>
@@ -702,7 +697,7 @@ This is avoided by creating an empty directory when svn is not available.
     </profile>
     <profile>
       <!-- Allow the SVN site checkout to be removed in the clean phase. -->
-      <id>clean-checkout</id>
+      <id>clean-site-checkout</id>
       <activation>
         <file>
           <exists>${commons.scmPubCheckoutDirectory}</exists>
@@ -844,6 +839,26 @@ This is avoided by creating an empty directory when svn is not available.
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <profile>
+      <id>release</id>
+      <modules> <!-- Do not change the ordering of the 4 blocks below. -->
+
+        <!-- 1. Modules that do not depend on "legacy" codes. -->
+        <module>commons-math-core</module>
+        <module>commons-math-neuralnet</module>
+        <module>commons-math-transform</module>
+
+        <!-- 2. Modularized (but not refactored) legacy functionalities. -->
+        <module>commons-math-legacy-exception</module>
+        <module>commons-math-legacy-core</module>
+
+        <!-- 3. Non-modularized legacy functionalities. -->
+        <module>commons-math-legacy</module>
+
+        <module>dist-archive</module>
+      </modules>
     </profile>
   </profiles>
 

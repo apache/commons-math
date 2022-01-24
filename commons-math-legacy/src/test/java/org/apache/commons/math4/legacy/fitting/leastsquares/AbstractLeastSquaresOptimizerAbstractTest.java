@@ -39,10 +39,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.sameInstance;
-
 /**
  * Some of the unit tests are re-implementations of the MINPACK <a
  * href="http://www.netlib.org/minpack/ex/file17">file17</a> and <a
@@ -549,9 +545,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 .checker(new ConvergenceChecker<Evaluation>() {
                     @Override
                     public boolean converged(int iteration, Evaluation previous, Evaluation current) {
-                        Assert.assertThat(
-                                previous.getPoint(),
-                                not(sameInstance(current.getPoint())));
+                        Assert.assertFalse(previous.getPoint().equals(current.getPoint()));
                         Assert.assertArrayEquals(new double[3], previous.getPoint().toArray(), 0);
                         Assert.assertArrayEquals(new double[] {1, 2, 3}, current.getPoint().toArray(), TOL);
                         checked[0] = true;
@@ -560,7 +554,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 });
         optimizer.optimize(builder.build());
 
-        Assert.assertThat(checked[0], is(true));
+        Assert.assertTrue(checked[0]);
     }
 
     class LinearProblem {

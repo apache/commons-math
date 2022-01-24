@@ -122,10 +122,10 @@ public class PiecewiseBicubicSplineInterpolatingFunction
         final int i = searchIndex(x, xval, offset, count);
         final int j = searchIndex(y, yval, offset, count);
 
-        final double xArray[] = new double[count];
-        final double yArray[] = new double[count];
-        final double zArray[] = new double[count];
-        final double interpArray[] = new double[count];
+        final double[] xArray = new double[count];
+        final double[] yArray = new double[count];
+        final double[] zArray = new double[count];
+        final double[] interpArray = new double[count];
 
         for (int index = 0; index < count; index++) {
             xArray[index] = xval[i + index];

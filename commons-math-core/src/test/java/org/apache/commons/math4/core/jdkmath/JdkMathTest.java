@@ -32,8 +32,18 @@ public class JdkMathTest {
     /** Separator. */
     private static final String LINE_SEP = System.lineSeparator();
 
+    /**
+     * Drop-in replacement of {@link Math} with {@link JdkMath} is only valid
+     * for Java 8.
+     * Test should be updated when {@code AccurateMath} implements functions
+     * added in Java 9+.
+     */
     @Test
     public void checkMissingMethods() {
+        final String runtimeVersion = System.getProperty("java.runtime.version");
+        final boolean doTest = runtimeVersion.matches("^1\\.8\\..*");
+        org.junit.Assume.assumeTrue(doTest);
+
         final List<String> notFound = compareClassMethods(StrictMath.class,
                                                           JdkMath.class);
         if (!notFound.isEmpty()) {

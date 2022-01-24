@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Collection;
-import java.io.Serializable;
-import java.io.ObjectInputStream;
 
 import org.apache.commons.math4.neuralnet.DistanceMeasure;
 import org.apache.commons.math4.neuralnet.EuclideanDistance;
@@ -46,10 +44,7 @@ import org.apache.commons.math4.neuralnet.twod.util.LocationFinder;
  * @since 3.3
  */
 public class NeuronSquareMesh2D
-    implements Iterable<Neuron>,
-               Serializable {
-    /** Serial version ID. */
-    private static final long serialVersionUID = 1L;
+    implements Iterable<Neuron> {
     /** Minimal number of rows or columns. */
     private static final int MIN_ROWS = 2;
     /** Underlying network. */
@@ -97,8 +92,6 @@ public class NeuronSquareMesh2D
     }
 
     /**
-     * Constructor with restricted access, solely used for deserialization.
-     *
      * @param wrapRowDim Whether to wrap the first dimension (i.e the first
      * and last neurons will be linked together).
      * @param wrapColDim Whether to wrap the second dimension (i.e the first
@@ -109,10 +102,10 @@ public class NeuronSquareMesh2D
      * @throws IllegalArgumentException if {@code numRows < 2} or
      * {@code numCols < 2}.
      */
-    NeuronSquareMesh2D(boolean wrapRowDim,
-                       boolean wrapColDim,
-                       SquareNeighbourhood neighbourhoodType,
-                       double[][][] featuresList) {
+    public NeuronSquareMesh2D(boolean wrapRowDim,
+                              boolean wrapColDim,
+                              SquareNeighbourhood neighbourhoodType,
+                              double[][][] featuresList) {
         numberOfRows = featuresList.length;
         numberOfColumns = featuresList[0].length;
 
@@ -289,6 +282,36 @@ public class NeuronSquareMesh2D
      */
     public int getNumberOfColumns() {
         return numberOfColumns;
+    }
+
+    /**
+     * Indicates whether the map is wrapped along the first dimension.
+     *
+     * @return {@code true} if the last neuron of a row is linked to
+     * the first neuron of that row.
+     */
+    public boolean isWrappedRow() {
+        return wrapRows;
+    }
+
+    /**
+     * Indicates whether the map is wrapped along the second dimension.
+     *
+     * @return {@code true} if the last neuron of a column is linked to
+     * the first neuron of that column.
+     */
+    public boolean isWrappedColumn() {
+        return wrapColumns;
+    }
+
+    /**
+     * Indicates the {@link SquareNeighbourhood type of connectivity}
+     * between neurons.
+     *
+     * @return the neighbourhood type.
+     */
+    public SquareNeighbourhood getSquareNeighbourhood() {
+        return neighbourhood;
     }
 
     /**
@@ -568,79 +591,6 @@ public class NeuronSquareMesh2D
                     network.addLink(aNeuron, bNeuron);
                 }
             }
-        }
-    }
-
-    /**
-     * Prevents proxy bypass.
-     *
-     * @param in Input stream.
-     */
-    private void readObject(ObjectInputStream in) {
-        throw new IllegalStateException();
-    }
-
-    /**
-     * Custom serialization.
-     *
-     * @return the proxy instance that will be actually serialized.
-     */
-    private Object writeReplace() {
-        final double[][][] featuresList = new double[numberOfRows][numberOfColumns][];
-        for (int i = 0; i < numberOfRows; i++) {
-            for (int j = 0; j < numberOfColumns; j++) {
-                featuresList[i][j] = getNeuron(i, j).getFeatures();
-            }
-        }
-
-        return new SerializationProxy(wrapRows,
-                                      wrapColumns,
-                                      neighbourhood,
-                                      featuresList);
-    }
-
-    /**
-     * Serialization.
-     */
-    private static class SerializationProxy implements Serializable {
-        /** Serializable. */
-        private static final long serialVersionUID = 20130226L;
-        /** Wrap. */
-        private final boolean wrapRows;
-        /** Wrap. */
-        private final boolean wrapColumns;
-        /** Neighbourhood type. */
-        private final SquareNeighbourhood neighbourhood;
-        /** Neurons' features. */
-        private final double[][][] featuresList;
-
-        /**
-         * @param wrapRows Whether the row dimension is wrapped.
-         * @param wrapColumns Whether the column dimension is wrapped.
-         * @param neighbourhood Neighbourhood type.
-         * @param featuresList List of neurons features.
-         * {@code neuronList}.
-         */
-        SerializationProxy(boolean wrapRows,
-                           boolean wrapColumns,
-                           SquareNeighbourhood neighbourhood,
-                           double[][][] featuresList) {
-            this.wrapRows = wrapRows;
-            this.wrapColumns = wrapColumns;
-            this.neighbourhood = neighbourhood;
-            this.featuresList = featuresList;
-        }
-
-        /**
-         * Custom serialization.
-         *
-         * @return the {@link Neuron} for which this instance is the proxy.
-         */
-        private Object readResolve() {
-            return new NeuronSquareMesh2D(wrapRows,
-                                          wrapColumns,
-                                          neighbourhood,
-                                          featuresList);
         }
     }
 
