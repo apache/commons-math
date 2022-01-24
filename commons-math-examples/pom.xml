@@ -29,8 +29,10 @@
   <packaging>pom</packaging>
   <name>Example applications</name>
 
-  <description>Examples of use of the "Commons Math" library.
-  Codes in this module and its sub-modules are not part of the public API.
+  <description>
+    Usage examples of the "Commons Math" library.
+    Codes in this module and its sub-modules are not part of the library's API;
+    they can be updated or removed at any time.
   </description>
 
   <properties>
@@ -49,6 +51,7 @@
     <math.picocli.version>3.9.5</math.picocli.version>
     <math.rng.version>1.4</math.rng.version>
     <math.geometry.version>1.0</math.geometry.version>
+    <math.imaging.version>1.0-alpha3-SNAPSHOT</math.imaging.version>
 
     <!-- Disable JApiCmp failures (but keep the report). The examples API is allowed to change. -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
@@ -87,6 +90,12 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-geometry-euclidean</artifactId>
         <version>${math.geometry.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-imaging</artifactId>
+        <version>${math.imaging.version}</version>
       </dependency>
 
       <dependency>
@@ -158,6 +167,7 @@
 
   <modules>
     <module>examples-sofm</module>
+    <module>examples-kmeans</module>
   </modules>
 
 </project>
