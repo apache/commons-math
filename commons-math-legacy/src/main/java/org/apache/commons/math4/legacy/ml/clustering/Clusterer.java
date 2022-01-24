@@ -53,8 +53,7 @@ public abstract class Clusterer<T extends Clusterable> {
      * @throws ConvergenceException if the algorithm has not yet converged after
      *   the maximum number of iterations has been exceeded
      */
-    public abstract List<? extends Cluster<T>> cluster(Collection<T> points)
-            throws MathIllegalArgumentException, ConvergenceException;
+    public abstract List<? extends Cluster<T>> cluster(Collection<T> points);
 
     /**
      * Returns the {@link DistanceMeasure} instance used by this clusterer.
@@ -76,5 +75,4 @@ public abstract class Clusterer<T extends Clusterable> {
     protected double distance(final Clusterable p1, final Clusterable p2) {
         return measure.compute(p1.getPoint(), p2.getPoint());
     }
-
 }
