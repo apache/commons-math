@@ -18,6 +18,8 @@
 package org.apache.commons.math4.examples.kmeans.image;
 
 import java.util.concurrent.Callable;
+import java.time.Instant;
+import java.time.Duration;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
@@ -29,6 +31,7 @@ import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
 import org.apache.commons.math4.legacy.ml.clustering.Clusterer;
 import org.apache.commons.math4.legacy.ml.clustering.KMeansPlusPlusClusterer;
+import org.apache.commons.math4.legacy.ml.clustering.ElkanKMeansPlusPlusClusterer;
 
 /**
  * Application class.
@@ -67,14 +70,48 @@ public final class StandAlone implements Callable<Void> {
         final ImageData image = ImageData.load(inputFile);
         final UniformRandomProvider rng = RandomSource.MWC_256.create();
         final DistanceMeasure distance = new EuclideanDistance();
-        final Clusterer<ImageData.PixelClusterable> algo =
-            new KMeansPlusPlusClusterer<>(numClusters,
-                                          maxIter,
-                                          distance,
-                                          rng);
-        image.write(algo.cluster(image.getPixels()),
-                    outputPrefix + ".k_" + numClusters + ".kmeans.");
+
+        cluster(image,
+                new ElkanKMeansPlusPlusClusterer<ImageData.PixelClusterable>(numClusters,
+                                                                             maxIter,
+                                                                             distance,
+                                                                             rng),
+                "elkan");
+        cluster(image,
+                new KMeansPlusPlusClusterer<ImageData.PixelClusterable>(numClusters,
+                                                                        maxIter,
+                                                                        distance,
+                                                                        rng),
+                "kmeans");
 
         return null;
+    }
+
+    /**
+     * Perform clustering and write results.
+     *
+     * @param image Input.
+     * @param algo Algorithm to do the clustering.
+     * @param id Identifier for output file name.
+     */
+    private void cluster(ImageData image,
+                         Clusterer<ImageData.PixelClusterable> algo,
+                         String id) {
+        final String dot = ".";
+        final String out = new StringBuilder()
+            .append(outputPrefix)
+            .append(dot)
+            .append("k_")
+            .append(numClusters)
+            .append(dot)
+            .append(id)
+            .append(dot)
+            .toString();
+
+        final Instant start = Instant.now();
+        image.write(algo.cluster(image.getPixels()), out);
+        //CHECKSTYLE: stop all
+        System.out.println("time=" + Duration.between(start, Instant.now()).toMillis());
+        //CHECKSTYLE: resume all
     }
 }
