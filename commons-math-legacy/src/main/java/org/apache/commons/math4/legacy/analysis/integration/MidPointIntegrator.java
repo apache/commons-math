@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.analysis.integration;
 
+import org.apache.commons.numbers.core.ArithmeticUtils;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
@@ -113,7 +114,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
                          double diffMaxMin) {
         // number of points in the previous stage. This stage will contribute
         // 2*3^{n-1} more points.
-        final long np = (long) JdkMath.pow(3, n - 1);
+        final long np = ArithmeticUtils.pow(3L, n - 1);
         double sum = 0;
 
         // spacing between adjacent new points
