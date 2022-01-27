@@ -19,8 +19,6 @@ package org.apache.commons.math4.legacy.ml.clustering;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.exception.ConvergenceException;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 
 /**
@@ -48,13 +46,13 @@ public abstract class Clusterer<T extends Clusterable> {
      *
      * @param points the set of {@link Clusterable} instances
      * @return a {@link List} of clusters
-     * @throws MathIllegalArgumentException if points are null or the number of
-     *   data points is not compatible with this clusterer
-     * @throws ConvergenceException if the algorithm has not yet converged after
-     *   the maximum number of iterations has been exceeded
+     * @throws IllegalArgumentException if points are null or the number of
+     * data points is not compatible with this clusterer.
+     * @throws org.apache.commons.math4.legacy.exception.ConvergenceException
+     * if the algorithm has not yet converged after the maximum number of
+     * iterations has been exceeded.
      */
-    public abstract List<? extends Cluster<T>> cluster(Collection<T> points)
-            throws MathIllegalArgumentException, ConvergenceException;
+    public abstract List<? extends Cluster<T>> cluster(Collection<T> points);
 
     /**
      * Returns the {@link DistanceMeasure} instance used by this clusterer.
@@ -76,5 +74,4 @@ public abstract class Clusterer<T extends Clusterable> {
     protected double distance(final Clusterable p1, final Clusterable p2) {
         return measure.compute(p1.getPoint(), p2.getPoint());
     }
-
 }

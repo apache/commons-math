@@ -146,7 +146,7 @@ class ChineseRingsClassifier {
             0.1 * centre[2].getStandardDeviation()
         };
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.SPLIT_MIX_64);
+        final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
         return new FeatureInitializer[] {
             FeatureInitializerFactory.uniform(rng, mean[0] - dev[0], mean[0] + dev[0]),
             FeatureInitializerFactory.uniform(rng, mean[1] - dev[1], mean[1] + dev[1]),
@@ -166,7 +166,7 @@ class ChineseRingsClassifier {
             /** Data. */
             private final Vector3D[] points = rings.getPoints();
             /** RNG. */
-            private final UniformRandomProvider rng = RandomSource.create(RandomSource.KISS);
+            private final UniformRandomProvider rng = RandomSource.KISS.create();
             /** Number of samples. */
             private long n;
 

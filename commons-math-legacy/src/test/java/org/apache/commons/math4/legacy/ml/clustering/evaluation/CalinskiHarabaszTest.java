@@ -63,7 +63,7 @@ public class CalinskiHarabaszTest {
         double actualBestScore = 0.0;
         for (int i = 0; i < 5; i++) {
             final int k = i + 2;
-            KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(k, -1, distanceMeasure, rnd);
+            KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(k, Integer.MAX_VALUE, distanceMeasure, rnd);
             List<CentroidCluster<DoublePoint>> clusters = kMeans.cluster(points);
             double score = evaluator.score(clusters);
             if (score > expectBestScore) {
@@ -89,7 +89,7 @@ public class CalinskiHarabaszTest {
         double actualBestScore = 0.0;
         for (int i = 0; i < 5; i++) {
             final int k = i + 2;
-            KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(k, -1, distanceMeasure, rnd);
+            KMeansPlusPlusClusterer<DoublePoint> kMeans = new KMeansPlusPlusClusterer<>(k, Integer.MAX_VALUE, distanceMeasure, rnd);
             List<CentroidCluster<DoublePoint>> clusters = kMeans.cluster(points);
             double score = evaluator.score(clusters);
             if (score > expectBestScore) {

@@ -62,7 +62,7 @@
     <math.checkstyle.version>3.1.0</math.checkstyle.version>
     <math.checkstyle.dep.version>8.29</math.checkstyle.dep.version>
     <math.mathjax.version>2.7.2</math.mathjax.version>
-    <math.commons.numbers.version>1.0</math.commons.numbers.version>
+    <math.commons.numbers.version>1.1-SNAPSHOT</math.commons.numbers.version>
     <math.commons.rng.version>1.4</math.commons.rng.version>
     <math.commons.geometry.version>1.0</math.commons.geometry.version>
     <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>

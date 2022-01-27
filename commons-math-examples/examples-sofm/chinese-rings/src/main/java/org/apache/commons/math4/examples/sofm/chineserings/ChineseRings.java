@@ -58,7 +58,7 @@ class ChineseRings {
         // Second ring (centered around the first ring).
         final Vector3D[] secondRing = new Vector3D[numPointsRing2];
 
-        final UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
+        final UniformRandomProvider rng = RandomSource.WELL_19937_C.create();
 
         // Create two rings lying in xy-plane.
         final UnitSphereSampler unit = UnitSphereSampler.of(rng, 2);

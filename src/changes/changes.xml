@@ -97,6 +97,13 @@ Caveat:
  nightmare was one of the main reasons for creating more focused
  components.]
 ">
+      <action dev="erans" type="updte" issue="MATH-1640">
+        Dot not change caller's arguments in "KMeansPlusPlusClusterer":
+        A negative value for "maxIterations" will raise an exception.
+      </action>
+      <action dev="erans" type="add" issue="MATH-1371" due-to="Artem Barger">
+        Add "ElkanKMeansPlusPlusClusterer" clustering algorithm.
+      </action>
       <action dev="erans" type="update" issue="MATH-1629">
         Throw "ArithmeticException" instead of "MathArithmeticException".
       </action>

@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.ml.clustering;
 
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
+import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
@@ -79,7 +80,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * @param k the number of clusters to split the data into
      */
     public KMeansPlusPlusClusterer(final int k) {
-        this(k, -1);
+        this(k, Integer.MAX_VALUE);
     }
 
     /** Build a clusterer.
@@ -104,8 +105,8 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      *
      * @param k the number of clusters to split the data into
      * @param maxIterations the maximum number of iterations to run the algorithm for.
-     *   If negative, no maximum will be used.
      * @param measure the distance measure to use
+     * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
     public KMeansPlusPlusClusterer(final int k, final int maxIterations, final DistanceMeasure measure) {
         this(k, maxIterations, measure, RandomSource.MT_64.create());
@@ -132,20 +133,30 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      *
      * @param k the number of clusters to split the data into
      * @param maxIterations the maximum number of iterations to run the algorithm for.
-     *   If negative, no maximum will be used.
      * @param measure the distance measure to use
      * @param random random generator to use for choosing initial centers
      * @param emptyStrategy strategy to use for handling empty clusters that
      * may appear during algorithm iterations
+     * @throws NotStrictlyPositiveException if {@code k <= 0} or
+     * {@code maxIterations <= 0}.
      */
-    public KMeansPlusPlusClusterer(final int k, final int maxIterations,
+    public KMeansPlusPlusClusterer(final int k,
+                                   final int maxIterations,
                                    final DistanceMeasure measure,
                                    final UniformRandomProvider random,
                                    final EmptyClusterStrategy emptyStrategy) {
         super(measure);
+
+        if (k <= 0) {
+            throw new NotStrictlyPositiveException(k);
+        }
+        if (maxIterations <= 0) {
+            throw new NotStrictlyPositiveException(maxIterations);
+        }
+
         this.numberOfClusters = k;
         this.maxIterations = maxIterations;
-        this.random        = random;
+        this.random = random;
         this.emptyStrategy = emptyStrategy;
     }
 
@@ -195,8 +206,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         assignPointsToClusters(clusters, points, assignments);
 
         // iterate through updating the centers until we're done
-        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
-        for (int count = 0; count < max; count++) {
+        for (int count = 0; count < maxIterations; count++) {
             boolean hasEmptyCluster = clusters.stream().anyMatch(cluster->cluster.getPoints().isEmpty());
             List<CentroidCluster<T>> newClusters = adjustClustersCenters(clusters);
             int changes = assignPointsToClusters(newClusters, points, assignments);

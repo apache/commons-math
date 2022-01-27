@@ -133,27 +133,21 @@ public class KMeansPlusPlusClustererTest {
     public void testSmallDistances() {
         // Create a bunch of CloseDoublePoints. Most are identical, but one is different by a
         // small distance.
-        int[] repeatedArray = { 0 };
-        int[] uniqueArray = { 1 };
-        DoublePoint repeatedPoint = new DoublePoint(repeatedArray);
-        DoublePoint uniquePoint = new DoublePoint(uniqueArray);
+        final int[] repeatedArray = { 0 };
+        final int[] uniqueArray = { 1 };
+        final DoublePoint repeatedPoint = new DoublePoint(repeatedArray);
+        final DoublePoint uniquePoint = new DoublePoint(uniqueArray);
 
-        Collection<DoublePoint> points = new ArrayList<>();
-        final int NUM_REPEATED_POINTS = 10 * 1000;
-        for (int i = 0; i < NUM_REPEATED_POINTS; ++i) {
+        final Collection<DoublePoint> points = new ArrayList<>();
+        final int numRepeated = 10000;
+        for (int i = 0; i < numRepeated; i++) {
             points.add(repeatedPoint);
         }
         points.add(uniquePoint);
 
-        // Ask a KMeansPlusPlusClusterer to run zero iterations (i.e., to simply choose initial
-        // cluster centers).
-        final int NUM_CLUSTERS = 2;
-        final int NUM_ITERATIONS = 0;
-
-        KMeansPlusPlusClusterer<DoublePoint> clusterer =
-            new KMeansPlusPlusClusterer<>(NUM_CLUSTERS, NUM_ITERATIONS,
-                    new CloseDistance(), random);
-        List<CentroidCluster<DoublePoint>> clusters = clusterer.cluster(points);
+        final KMeansPlusPlusClusterer<DoublePoint> clusterer =
+            new KMeansPlusPlusClusterer<>(2, 1, new CloseDistance(), random);
+        final List<CentroidCluster<DoublePoint>> clusters = clusterer.cluster(points);
 
         // Check that one of the chosen centers is the unique point.
         boolean uniquePointIsCenter = false;
