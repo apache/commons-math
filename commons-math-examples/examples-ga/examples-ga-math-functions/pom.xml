@@ -16,48 +16,29 @@
    limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>examples-ga</artifactId>
-        <version>4.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>examples-ga-math-functions</artifactId>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>examples-ga</artifactId>
+    <version>4.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>examples-ga-math-functions</artifactId>
+  <version>4.0-SNAPSHOT</version>
+  <name>GA: Math Functions</name>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+  <properties>
+    <!-- OSGi -->
+    <commons.osgi.symbolicName>org.apache.commons.math4.examples.ga.mathfunctions</commons.osgi.symbolicName>
+    <commons.osgi.export>org.apache.commons.math4.examples.ga.mathfunctions</commons.osgi.export>
+    <!-- Java 9+ -->
+    <commons.automatic.module.name>org.apache.commons.math4.examples.ga.mathfunctions</commons.automatic.module.name>
+    <!-- Workaround to avoid duplicating config files. -->
+    <math.parent.dir>${basedir}/../../..</math.parent.dir>
 
-        <!-- OSGi -->
-        <commons.osgi.symbolicName>org.apache.commons.math4.examples.ga.mathfunctions</commons.osgi.symbolicName>
-        <commons.osgi.export>org.apache.commons.math4.examples.ga.mathfunctions</commons.osgi.export>
-        <!-- Java 9+ -->
-        <commons.automatic.module.name>org.apache.commons.math4.examples.ga.mathfunctions</commons.automatic.module.name>
-        <!-- Workaround to avoid duplicating config files. -->
-        <math.parent.dir>${basedir}/../../..</math.parent.dir>
+    <uberjar.name>examples-ga-mathfunctions</uberjar.name>
+    <project.mainClass>org.apache.commons.math4.examples.ga.mathfunctions.StandAlone</project.mainClass>
+  </properties>
 
-        <uberjar.name>examples-ga-mathfunctions</uberjar.name>
-        <project.mainClass>org.apache.commons.math4.examples.ga.mathfunctions.StandAlone</project.mainClass>
-        <slf4jVersion>1.7.32</slf4jVersion>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math-ga</artifactId>
-            <version>4.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4jVersion}</version>
-        </dependency>
-    </dependencies>
 </project>
