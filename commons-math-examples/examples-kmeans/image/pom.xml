@@ -32,9 +32,6 @@
   <description>Clustering applied to 2D graphics data (image).</description>
 
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
     <!-- OSGi -->
     <commons.osgi.symbolicName>org.apache.commons.math4.examples.kmeans.image</commons.osgi.symbolicName>
     <commons.osgi.export>org.apache.commons.math4.examples.kmeans.image</commons.osgi.export>
