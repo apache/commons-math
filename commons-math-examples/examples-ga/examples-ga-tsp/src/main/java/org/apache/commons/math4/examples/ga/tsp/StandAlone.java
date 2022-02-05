@@ -79,8 +79,6 @@ public class StandAlone implements Runnable {
         final ConvergenceListenerRegistry<List<City>> convergenceListenerRegistry = ConvergenceListenerRegistry
                 .getInstance();
         convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<City>>());
-        convergenceListenerRegistry
-                .addConvergenceListener(new ConvergenceGraphPlotter("Convergence Stats", "generation", "fitness"));
 
         optimizer.optimize(CITIES, crossoverRate, mutationRate, elitismRate, tournamentSize,
                 generationsEvolvedWithUnchangedBestFitness, populationSize);
