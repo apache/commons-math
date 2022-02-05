@@ -41,7 +41,7 @@ public final class PopulationStatisticsLogger<P> implements ConvergenceListener<
         final PopulationStatisticalSummary<P> populationStatisticalSummary = new PopulationStatisticalSummaryImpl<>(
                 population);
         LOGGER.info(
-                "Population statistics for generation %d ::: Mean Fitness: %f, Max Fitness: %f, Fitness Variance: %f",
+                "Population statistics for generation {} ::: Mean Fitness: {}, Max Fitness: {}, Fitness Variance: {}",
                 generation, populationStatisticalSummary.getMeanFitness(), populationStatisticalSummary.getMaxFitness(),
                 populationStatisticalSummary.getFitnessVariance());
     }

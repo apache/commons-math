@@ -16,34 +16,48 @@
    limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-math-examples</artifactId>
-        <version>4.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>examples-ga</artifactId>
-    <packaging>pom</packaging>
-    <name>examples-genetic-algorithm</name>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-math-examples</artifactId>
+    <version>4.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>examples-ga</artifactId>
+  <packaging>pom</packaging>
+  <name>GA</name>
 
-    <properties>
-        <!-- Workaround to avoid duplicating config files. -->
-        <math.parent.dir>${basedir}/../..</math.parent.dir>
-    </properties>
+  <properties>
+    <!-- Workaround to avoid duplicating config files. -->
+    <math.parent.dir>${basedir}/../..</math.parent.dir>
+  </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
-        </dependency>
-    </dependencies>
-    <modules>
-        <module>examples-ga-math-functions</module>
-        <module>examples-ga-math-functions-adaptive</module>
-        <module>examples-ga-math-functions-legacy</module>
-        <module>examples-ga-tsp</module>
-        <module>examples-ga-tsp-legacy</module>
-    </modules>
+  <dependencies>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math4-ga</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <modules>
+    <module>examples-ga-math-functions</module>
+    <module>examples-ga-math-functions-adaptive</module>
+    <module>examples-ga-math-functions-legacy</module>
+    <module>examples-ga-tsp</module>
+    <module>examples-ga-tsp-legacy</module>
+  </modules>
+
 </project>

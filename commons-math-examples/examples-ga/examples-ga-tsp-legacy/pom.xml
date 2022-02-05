@@ -16,41 +16,43 @@
    limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>examples-ga</artifactId>
-        <version>4.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>examples-ga-tsp-legacy</artifactId>
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>examples-ga</artifactId>
+    <version>4.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>examples-ga-tsp-legacy</artifactId>
+  <version>4.0-SNAPSHOT</version>
+  <name>GA: TSP (legacy)</name>
 
-        <!-- OSGi -->
-        <commons.osgi.symbolicName>org.apache.commons.math4.examples.ga.tsp.legacy</commons.osgi.symbolicName>
-        <commons.osgi.export>org.apache.commons.math4.examples.ga.tsp.legacy</commons.osgi.export>
-        <!-- Java 9+ -->
-        <commons.automatic.module.name>org.apache.commons.math4.examples.ga.tsp.legacy</commons.automatic.module.name>
-        <!-- Workaround to avoid duplicating config files. -->
-        <math.parent.dir>${basedir}/../../..</math.parent.dir>
+  <properties>
+    <!-- OSGi -->
+    <commons.osgi.symbolicName>org.apache.commons.math4.examples.ga.tsp.legacy</commons.osgi.symbolicName>
+    <commons.osgi.export>org.apache.commons.math4.examples.ga.tsp.legacy</commons.osgi.export>
+    <!-- Java 9+ -->
+    <commons.automatic.module.name>org.apache.commons.math4.examples.ga.tsp.legacy</commons.automatic.module.name>
+    <!-- Workaround to avoid duplicating config files. -->
+    <math.parent.dir>${basedir}/../../..</math.parent.dir>
 
-        <uberjar.name>examples-ga-tsp-legacy</uberjar.name>
-        <project.mainClass>org.apache.commons.math4.examples.ga.tsp.legacy.StandAlone</project.mainClass>
-        <slf4jVersion>1.7.32</slf4jVersion>
-    </properties>
+    <uberjar.name>examples-ga-tsp-legacy</uberjar.name>
+    <project.mainClass>org.apache.commons.math4.examples.ga.tsp.legacy.StandAlone</project.mainClass>
+  </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-            <version>1.9.0</version>
-        </dependency>
-    </dependencies>
+  <dependencies>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+    </dependency>
+    
+  </dependencies>
+
 </project>
