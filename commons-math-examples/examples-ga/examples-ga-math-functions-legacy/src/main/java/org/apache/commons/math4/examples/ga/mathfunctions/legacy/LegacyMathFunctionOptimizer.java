@@ -31,12 +31,8 @@ import org.apache.commons.math3.genetics.TournamentSelection;
  * the legacy genetic algorithm.
  */
 public final class LegacyMathFunctionOptimizer {
-
     /** length of chromosome per dimension. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
-
-    /** encoding for console logger. **/
-    private static final String ENCODING = "UTF-8";
 
     /**
      * Optimizes the initial population using legacy genetic algorithm.

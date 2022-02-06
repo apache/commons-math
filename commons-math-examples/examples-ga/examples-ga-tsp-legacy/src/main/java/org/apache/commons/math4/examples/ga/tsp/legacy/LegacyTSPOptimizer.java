@@ -32,10 +32,6 @@ import org.apache.commons.math3.genetics.TournamentSelection;
  * Genetic Algorithm.
  */
 public class LegacyTSPOptimizer {
-
-    /** encoding for console logger. **/
-    public static final String ENCODING = "UTF-8";
-
     /**
      * Optimizes the TSP problem.
      * @param cities                                  list of cities

@@ -36,10 +36,6 @@ import org.slf4j.LoggerFactory;
  * This class represents the optimizer for traveling salesman problem.
  */
 public final class TSPOptimizer {
-
-    /** encoding for console logger. **/
-    public static final String ENCODING = "UTF-8";
-
     /** instance of logger. **/
     private final Logger logger = LoggerFactory.getLogger(TSPOptimizer.class);
 

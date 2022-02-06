@@ -38,12 +38,8 @@ import org.slf4j.LoggerFactory;
  * genetic algorithm.
  */
 public final class AdaptiveMathFunctionOptimizer {
-
     /** length of chromosome. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
-
-    /** encoding for console logger. **/
-    private static final String ENCODING = "UTF-8";
 
     /** instance of logger. **/
     private final Logger logger = LoggerFactory.getLogger(AdaptiveMathFunctionOptimizer.class);
