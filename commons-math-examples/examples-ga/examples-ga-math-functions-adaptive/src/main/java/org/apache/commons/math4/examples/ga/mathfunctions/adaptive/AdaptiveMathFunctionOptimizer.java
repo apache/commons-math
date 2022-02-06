@@ -76,10 +76,7 @@ public final class AdaptiveMathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
 
-        logger.info("*********************************************");
-        logger.info("***********Optimization Result***************");
         logger.info(bestFinal.toString());
-
     }
 
     private static Population<Coordinate> getInitialPopulation(int dimension, int populationSize) {
@@ -92,5 +89,4 @@ public final class AdaptiveMathFunctionOptimizer {
         }
         return population;
     }
-
 }

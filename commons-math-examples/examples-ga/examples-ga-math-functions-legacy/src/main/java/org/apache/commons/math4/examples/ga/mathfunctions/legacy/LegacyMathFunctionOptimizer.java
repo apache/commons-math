@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math4.examples.ga.mathfunctions.legacy;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import org.apache.commons.math3.genetics.BinaryChromosome;
 import org.apache.commons.math3.genetics.BinaryMutation;
 import org.apache.commons.math3.genetics.Chromosome;
@@ -75,14 +71,7 @@ public final class LegacyMathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome bestFinal = finalPopulation.getFittestChromosome();
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out, ENCODING))) {
-            writer.write("*********************************************");
-            writer.newLine();
-            writer.write("***********Optimization Result***************");
-            writer.write(bestFinal.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("best=" + bestFinal.toString());
     }
 
     private static Population getInitialPopulation(int dimension, int populationSize, double elitismRate) {

@@ -79,11 +79,7 @@ public final class TSPOptimizer {
         final RealValuedChromosome<List<City>> bestFinal = (RealValuedChromosome<List<City>>) finalPopulation
                 .getFittestChromosome();
 
-        logger.info("*********************************************");
-        logger.info("***********Optimization Result***************");
-
         logger.info(bestFinal.decode().toString());
-
     }
 
     private static Population<List<City>> getInitialPopulation(List<City> cities, int populationSize) {

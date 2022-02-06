@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math4.examples.ga.tsp.legacy;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.List;
 
 import org.apache.commons.math3.genetics.ElitisticListPopulation;
@@ -73,14 +70,7 @@ public class LegacyTSPOptimizer {
         @SuppressWarnings("unchecked")
         final RandomKey<City> bestFinal = (RandomKey<City>) finalPopulation.getFittestChromosome();
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out, ENCODING))) {
-            writer.write("*********************************************");
-            writer.newLine();
-            writer.write("***********Optimization Result***************");
-            writer.write(bestFinal.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("best=" + bestFinal.toString());
     }
 
     private static Population getInitialPopulation(List<City> cities, int populationSize, double elitismRate) {
@@ -92,5 +82,4 @@ public class LegacyTSPOptimizer {
 
         return simulationPopulation;
     }
-
 }
