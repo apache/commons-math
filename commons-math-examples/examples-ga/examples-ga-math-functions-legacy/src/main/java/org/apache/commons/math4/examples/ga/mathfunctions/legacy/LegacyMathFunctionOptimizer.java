@@ -67,7 +67,9 @@ public final class LegacyMathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome bestFinal = finalPopulation.getFittestChromosome();
 
+        //CHECKSTYLE: stop all
         System.out.println("best=" + bestFinal.toString());
+        //CHECKSTYLE: resume all
     }
 
     private static Population getInitialPopulation(int dimension, int populationSize, double elitismRate) {

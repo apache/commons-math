@@ -66,7 +66,9 @@ public class LegacyTSPOptimizer {
         @SuppressWarnings("unchecked")
         final RandomKey<City> bestFinal = (RandomKey<City>) finalPopulation.getFittestChromosome();
 
+        //CHECKSTYLE: stop all
         System.out.println("best=" + bestFinal.toString());
+        //CHECKSTYLE: resume all
     }
 
     private static Population getInitialPopulation(List<City> cities, int populationSize, double elitismRate) {
