@@ -38,12 +38,8 @@ import org.slf4j.LoggerFactory;
  * genetic algorithm.
  */
 public final class AdaptiveMathFunctionOptimizer {
-
     /** length of chromosome. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
-
-    /** encoding for console logger. **/
-    private static final String ENCODING = "UTF-8";
 
     /** instance of logger. **/
     private final Logger logger = LoggerFactory.getLogger(AdaptiveMathFunctionOptimizer.class);
@@ -76,10 +72,7 @@ public final class AdaptiveMathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
 
-        logger.info("*********************************************");
-        logger.info("***********Optimization Result***************");
         logger.info(bestFinal.toString());
-
     }
 
     private static Population<Coordinate> getInitialPopulation(int dimension, int populationSize) {
@@ -92,5 +85,4 @@ public final class AdaptiveMathFunctionOptimizer {
         }
         return population;
     }
-
 }

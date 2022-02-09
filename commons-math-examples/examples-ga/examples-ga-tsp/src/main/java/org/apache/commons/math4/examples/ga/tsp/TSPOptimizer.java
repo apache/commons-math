@@ -36,10 +36,6 @@ import org.slf4j.LoggerFactory;
  * This class represents the optimizer for traveling salesman problem.
  */
 public final class TSPOptimizer {
-
-    /** encoding for console logger. **/
-    public static final String ENCODING = "UTF-8";
-
     /** instance of logger. **/
     private final Logger logger = LoggerFactory.getLogger(TSPOptimizer.class);
 
@@ -79,11 +75,7 @@ public final class TSPOptimizer {
         final RealValuedChromosome<List<City>> bestFinal = (RealValuedChromosome<List<City>>) finalPopulation
                 .getFittestChromosome();
 
-        logger.info("*********************************************");
-        logger.info("***********Optimization Result***************");
-
         logger.info(bestFinal.decode().toString());
-
     }
 
     private static Population<List<City>> getInitialPopulation(List<City> cities, int populationSize) {

@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math4.examples.ga.mathfunctions.legacy;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import org.apache.commons.math3.genetics.BinaryChromosome;
 import org.apache.commons.math3.genetics.BinaryMutation;
 import org.apache.commons.math3.genetics.Chromosome;
@@ -35,12 +31,8 @@ import org.apache.commons.math3.genetics.TournamentSelection;
  * the legacy genetic algorithm.
  */
 public final class LegacyMathFunctionOptimizer {
-
     /** length of chromosome per dimension. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
-
-    /** encoding for console logger. **/
-    private static final String ENCODING = "UTF-8";
 
     /**
      * Optimizes the initial population using legacy genetic algorithm.
@@ -75,14 +67,9 @@ public final class LegacyMathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome bestFinal = finalPopulation.getFittestChromosome();
 
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out, ENCODING))) {
-            writer.write("*********************************************");
-            writer.newLine();
-            writer.write("***********Optimization Result***************");
-            writer.write(bestFinal.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //CHECKSTYLE: stop all
+        System.out.println("best=" + bestFinal.toString());
+        //CHECKSTYLE: resume all
     }
 
     private static Population getInitialPopulation(int dimension, int populationSize, double elitismRate) {
