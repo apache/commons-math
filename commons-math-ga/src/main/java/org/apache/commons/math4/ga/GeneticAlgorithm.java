@@ -132,22 +132,22 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
             // select parent chromosomes
             ChromosomePair<P> pair = getSelectionPolicy().select(current);
-            LOGGER.debug("Selected Chromosomes: \r\n" + pair.toString());
+            LOGGER.debug("Selected Chromosomes: " + System.lineSeparator() + pair.toString());
 
             // apply crossover policy to create two offspring
             pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
-            LOGGER.debug("Offsprings after Crossover: \r\n" + pair.toString());
+            LOGGER.debug("Offsprings after Crossover: " + System.lineSeparator() + pair.toString());
 
             // apply mutation policy to the chromosomes
             pair = new ChromosomePair<>(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
                     getMutationPolicy().mutate(pair.getSecond(), mutationRate));
-            LOGGER.debug("Offsprings after Mutation: \r\n" + pair.toString());
+            LOGGER.debug("Offsprings after Mutation: " + System.lineSeparator() + pair.toString());
 
             // add the chromosomes to the population
             nextGeneration.addChromosome(pair.getFirst());
             nextGeneration.addChromosome(pair.getSecond());
         }
-        LOGGER.debug("New Generation : \r\n" + nextGeneration.toString());
+        LOGGER.debug("New Generation :" + System.lineSeparator() + nextGeneration.toString());
 
         return nextGeneration;
     }

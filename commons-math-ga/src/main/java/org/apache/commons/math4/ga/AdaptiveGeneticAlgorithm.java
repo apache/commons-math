@@ -113,13 +113,13 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
             // select parent chromosomes
             ChromosomePair<P> pair = getSelectionPolicy().select(current);
-            LOGGER.debug("Selected Chromosomes: \r\n" + pair.toString());
+            LOGGER.debug("Selected Chromosomes: " + System.lineSeparator() + pair.toString());
 
             final double crossoverRate = crossoverRateGenerator.generate(pair.getFirst(), pair.getSecond(),
                     populationStats, getGenerationsEvolved());
             // apply crossover policy to create two offspring
             pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
-            LOGGER.debug("Offsprings after Crossover: \r\n" + pair.toString());
+            LOGGER.debug("Offsprings after Crossover: " + System.lineSeparator() + pair.toString());
 
             // add the first chromosome to the population
             offspringPopulation.addChromosome(pair.getFirst());
@@ -140,7 +140,7 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
             nextGeneration.addChromosome(getMutationPolicy().mutate(chromosome,
                     mutationRateGenerator.generate(chromosome, populationStats, getGenerationsEvolved())));
         }
-        LOGGER.debug("New Generation: \r\n" + nextGeneration.toString());
+        LOGGER.debug("New Generation: " + System.lineSeparator() + nextGeneration.toString());
 
         return nextGeneration;
     }
