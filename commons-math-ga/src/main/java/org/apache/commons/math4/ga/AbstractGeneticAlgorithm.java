@@ -88,7 +88,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * Returns the crossover policy.
      * @return crossover policy
      */
-    public CrossoverPolicy<P> getCrossoverPolicy() {
+    protected CrossoverPolicy<P> getCrossoverPolicy() {
         return crossoverPolicy;
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * Returns the mutation policy.
      * @return mutation policy
      */
-    public MutationPolicy<P> getMutationPolicy() {
+    protected MutationPolicy<P> getMutationPolicy() {
         return mutationPolicy;
     }
 
@@ -104,7 +104,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * Returns the selection policy.
      * @return selection policy
      */
-    public SelectionPolicy<P> getSelectionPolicy() {
+    protected SelectionPolicy<P> getSelectionPolicy() {
         return selectionPolicy;
     }
 
@@ -173,7 +173,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * Returns the elitism rate.
      * @return elitism rate
      */
-    public double getElitismRate() {
+    protected double getElitismRate() {
         return elitismRate;
     }
 
