@@ -28,7 +28,7 @@ import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
- * Mutation for {@link BinaryChromosome}s. Randomly changes few genes.
+ * Mutation operator for {@link BinaryChromosome}s. Randomly changes few genes.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

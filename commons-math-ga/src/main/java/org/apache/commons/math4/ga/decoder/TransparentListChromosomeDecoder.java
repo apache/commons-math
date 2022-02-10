@@ -21,8 +21,8 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 
 /**
- * A concrete implementation of transparent decoder for List Chromosome. Treats
- * the gentype as phenotype.
+ * An implementation of transparent decoder for {@link AbstractListChromosome}.
+ * Treats the genotype same as phenotype.
  * @param <T> the genotype of chromosome
  * @since 4.0
  */

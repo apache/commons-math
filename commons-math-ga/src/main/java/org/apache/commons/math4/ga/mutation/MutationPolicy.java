@@ -19,7 +19,7 @@ package org.apache.commons.math4.ga.mutation;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 
 /**
- * Algorithm used to mutate a chromosome.
+ * An abstraction of mutation operator for chromosomes.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

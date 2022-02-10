@@ -22,7 +22,8 @@ import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
- * Mutation for {@link IntegralValuedChromosome}. Randomly changes few genes.
+ * Mutation operator for {@link IntegralValuedChromosome}. Randomly changes few
+ * gene's value with random values chosen between specified min and max.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

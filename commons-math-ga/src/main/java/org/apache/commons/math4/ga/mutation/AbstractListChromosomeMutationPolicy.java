@@ -29,7 +29,7 @@ import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
 
 /**
- * This abstraction represents an abstract mutation policy for ListChromosomes.
+ * An abstraction of mutation operator for {@link AbstractListChromosome}.
  * @param <T> genotype of chromosome
  * @param <P> phenotype of chromosome
  * @since 4.0
@@ -37,8 +37,9 @@ import org.apache.commons.rng.UniformRandomProvider;
 public abstract class AbstractListChromosomeMutationPolicy<T, P> implements MutationPolicy<P> {
 
     /**
-     * Mutate the given chromosome. Randomly changes few genes depending on mutation
-     * rate.
+     * Mutate the given chromosome based on mutation rate. Checks chromosome
+     * validity and finds the mutable gene indexes. For each selected gene invokes
+     * {@link #mutateGene(Object)} to perform mutation.
      * @param original     the original chromosome.
      * @param mutationRate the rate of mutation per gene
      * @return the mutated chromosome.
@@ -62,7 +63,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
     }
 
     /**
-     * This method validates input chromosome.
+     * Validates input chromosome.
      * @param original chromosome
      */
     private void checkValidity(Chromosome<P> original) {

@@ -20,7 +20,7 @@ import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
- * Stops after a fixed number of generations.
+ * Stops convergence process after a fixed number of generations.
  * <p>
  * Each time {@link #isSatisfied(Population)} is invoked, a generation counter
  * is incremented. Once the counter reaches the configured

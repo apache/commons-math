@@ -22,7 +22,7 @@ import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
- * Stops after a fixed amount of time has elapsed.
+ * Stops convergence process after a fixed amount of time has elapsed.
  * <p>
  * The first time {@link #isSatisfied(Population)} is invoked, the end time of
  * the evolution is determined based on the provided <code>maxTime</code> value.

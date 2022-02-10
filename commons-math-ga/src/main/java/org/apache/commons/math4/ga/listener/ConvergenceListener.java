@@ -20,8 +20,8 @@ package org.apache.commons.math4.ga.listener;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
- * This interface represents a convergence listener. Any implementation of the
- * same will be notified about the population statics.
+ * Notified about population statistics and generations evolved to perform
+ * necessary activity.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

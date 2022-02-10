@@ -22,7 +22,9 @@ import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
- * This class mutates real-valued chromosome.
+ * Mutation operator for {@link RealValuedChromosome}. Mutates the randomly
+ * selected genes with a new random real value chosen within specified min an
+ * max.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */
@@ -31,7 +33,7 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
     /** minimum value of chromosome gene/allele. **/
     private final double min;
 
-    /** maximum value of chromosome gene/allele. **/
+    /** maximum exclusive value of chromosome gene/allele. **/
     private final double max;
 
     /**

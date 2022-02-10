@@ -21,7 +21,8 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.stats.PopulationStatisticalSummary;
 
 /**
- * This abstraction represents crossover rate generator.
+ * Generates crossover rate based on input chromosomes, population statistics
+ * and number of generations evolved.
  * @param <P> phenotype of chromosome
  */
 public interface CrossoverRateGenerator<P> {

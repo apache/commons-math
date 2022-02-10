@@ -21,7 +21,7 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 
 /**
- * An abstract Decoder of ListChromosome.
+ * An abstract Decoder for {@link AbstractListChromosome}.
  * @param <T> genotype fo chromosome
  * @param <P> phenotype of chromosome
  * @since 4.0
@@ -34,7 +34,7 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
     @SuppressWarnings("unchecked")
     @Override
     public P decode(Chromosome<P> chromosome) {
-        //check for validity
+        // check for validity
         checkValidity(chromosome);
 
         return decode((AbstractListChromosome<T, P>) chromosome);

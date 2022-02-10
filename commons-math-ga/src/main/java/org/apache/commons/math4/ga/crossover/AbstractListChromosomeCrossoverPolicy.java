@@ -23,7 +23,9 @@ import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 
 /**
- * An abstraction of crossover policy for list chromosomes.
+ * An abstraction of crossover policy for {@link AbstractListChromosome}.
+ * Validates input chromosomes and invoke the
+ * {@link #mate(AbstractListChromosome, AbstractListChromosome)} operation.
  * @param <T> genetype of chromosome
  * @param <P> phenotype of chromosome
  * @since 4.0

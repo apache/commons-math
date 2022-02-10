@@ -28,7 +28,8 @@ import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.stats.PopulationStatisticalSummary;
 
 /**
- * This class represents an implementation of population statistical summary.
+ * An implementation of statistical summary for chromosome's fitness in
+ * population.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

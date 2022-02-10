@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Logs population statistics during the convergence process.
+ * Logs population statistics once notified.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

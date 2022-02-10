@@ -26,8 +26,7 @@ import org.apache.commons.math4.ga.decoder.AbstractListChromosomeDecoder;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
 
 /**
- * This class represents an abstract chromosome containing an immutable list of
- * allele/genes.
+ * An abstract list chromosome containing an immutable list of allele/genes.
  * @param <T> type of the allele/gene in the representation list. T should be
  *            immutable.
  * @param <P> phenotype of chromosome

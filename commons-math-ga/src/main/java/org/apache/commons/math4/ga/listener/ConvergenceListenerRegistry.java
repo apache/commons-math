@@ -24,9 +24,8 @@ import java.util.Objects;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
- * This class is the default implementation of ConvergenceListenerRegistry. It
- * will be responsible for registering the interested listeners and notifying
- * all when required.
+ * An implementation of ConvergenceListenerRegistry. It will be responsible for
+ * registering the interested listeners and notifying all when required.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

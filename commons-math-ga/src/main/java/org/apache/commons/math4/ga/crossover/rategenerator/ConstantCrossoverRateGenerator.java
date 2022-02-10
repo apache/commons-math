@@ -21,7 +21,8 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.stats.PopulationStatisticalSummary;
 
 /**
- * This class represents a constant crossover rate generator.
+ * An implementation of crossover rate generator which provides configured
+ * constant crossover rate.
  * @param <P> phenotype of chromosome
  */
 public class ConstantCrossoverRateGenerator<P> implements CrossoverRateGenerator<P> {

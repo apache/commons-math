@@ -20,7 +20,7 @@ package org.apache.commons.math4.ga.internal.exception;
 import java.text.MessageFormat;
 
 /**
- * This class represents the Exception encountered during GA optimization.
+ * Exception class with constants for frequently used messages.
  * @since 4.0
  */
 public class GeneticException extends RuntimeException {

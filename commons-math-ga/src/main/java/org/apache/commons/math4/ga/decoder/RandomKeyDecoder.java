@@ -25,8 +25,8 @@ import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
 
 /**
- * A concrete implementation of RandomKey decoder. This class is responsible for
- * decoding permutation chromosome encoded with random key.
+ * A concrete implementation of {@link AbstractListChromosomeDecoder}. Decodes
+ * permutation chromosome encoded with random key.
  * @param <U> type of the permutation element
  * @since 4.0
  */

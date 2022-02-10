@@ -27,8 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class represents an abstraction for all Genetic algorithm implementation
- * comprising the basic properties and operations.
+ * An abstraction for all Genetic algorithm implementation comprising the basic
+ * properties and operations.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

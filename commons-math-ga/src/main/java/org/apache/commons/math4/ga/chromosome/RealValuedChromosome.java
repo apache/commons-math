@@ -25,9 +25,9 @@ import org.apache.commons.math4.ga.internal.exception.GeneticException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 
 /**
- * DoubleEncodedChromosome is used for representing chromosome encoded as
- * Double. It is a vector of a fixed length of real numbers.The acceptable real
- * values should belong to the range min(inclusive) to max(exclusive).
+ * A chromosome representation encoded with real values as allele/gene. It is a
+ * vector of a fixed length of real numbers.The acceptable real values should
+ * belong to the range min(inclusive) to max(exclusive).
  * <p>
  * @param <P> phenotype of chromosome
  * @since 4.0

@@ -20,7 +20,7 @@ package org.apache.commons.math4.ga.convergence;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
- * This class represents a stopping condition based on best fitness value.
+ * An implementation of stopping condition based on best fitness value.
  * Convergence will be stopped once best fitness remains unchanged for
  * predefined number of generations.
  * @param <P> phenotype of chromosome

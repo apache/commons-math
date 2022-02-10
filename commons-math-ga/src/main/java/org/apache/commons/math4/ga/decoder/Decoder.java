@@ -19,7 +19,8 @@ package org.apache.commons.math4.ga.decoder;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 
 /**
- * Decoder is responsible for converting chromosome genotype to phenotype.
+ * An abstraction of chromosome decoder. Converts chromosome's genotype to
+ * phenotype.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

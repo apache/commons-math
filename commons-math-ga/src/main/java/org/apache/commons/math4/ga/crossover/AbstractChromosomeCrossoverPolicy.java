@@ -22,7 +22,9 @@ import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
- * An abstraction to represent the base crossover policy.
+ * An abstraction of base crossover policy. Checks the crossoverRate and decides
+ * whether to proceed for crossover or not based on a generated random number
+ * and invokes {@link #crossover(Chromosome, Chromosome)} operation accordingly.
  * @param <P> phenotype of chromosome
  * @since 4.0
  */

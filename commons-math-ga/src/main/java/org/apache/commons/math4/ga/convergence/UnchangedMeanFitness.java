@@ -21,7 +21,7 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
- * This class represents a stopping condition based on mean fitness value.
+ * An implementation of stopping condition based on mean fitness value.
  * Convergence will be stopped once mean fitness remains unchanged for
  * predefined number of generations.
  * @param <P> phenotype of chromosome

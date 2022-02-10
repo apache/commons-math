@@ -21,7 +21,8 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.stats.PopulationStatisticalSummary;
 
 /**
- * This class represents a constant mutation rate generator.
+ * An implementation of mutation rate generator which provides a configured
+ * constant mutation rate.
  * @param <P> phenotype of chromosome
  */
 public class ConstantMutationRateGenerator<P> implements MutationRateGenerator<P> {
