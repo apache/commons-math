@@ -20,9 +20,11 @@ package org.apache.commons.math4.ga;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.crossover.CrossoverPolicy;
+import org.apache.commons.math4.ga.crossover.rategenerator.ConstantCrossoverRateGenerator;
 import org.apache.commons.math4.ga.crossover.rategenerator.CrossoverRateGenerator;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.mutation.MutationPolicy;
+import org.apache.commons.math4.ga.mutation.rategenerator.ConstantMutationRateGenerator;
 import org.apache.commons.math4.ga.mutation.rategenerator.MutationRateGenerator;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.selection.SelectionPolicy;
@@ -94,7 +96,8 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
         LOGGER.debug("Reproducing next generation.");
 
         // compute statistics of current generation chromosomes.
-        PopulationStatisticalSummary<P> populationStats = new PopulationStatisticalSummaryImpl<>(current);
+        PopulationStatisticalSummary<P> populationStats = ConstantCrossoverRateGenerator.class.isAssignableFrom(
+                this.crossoverRateGenerator.getClass()) ? null : new PopulationStatisticalSummaryImpl<>(current);
 
         // Initialize the next generation with elit chromosomes from previous
         // generation.
@@ -132,7 +135,9 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
         LOGGER.debug("Performing adaptive mutation of offsprings.");
 
         // recompute the statistics of the offspring population.
-        populationStats = new PopulationStatisticalSummaryImpl<>(offspringPopulation);
+        populationStats = ConstantMutationRateGenerator.class.isAssignableFrom(this.mutationRateGenerator.getClass()) ?
+                null :
+                new PopulationStatisticalSummaryImpl<>(offspringPopulation);
 
         // apply mutation policy to the offspring chromosomes and add the mutated
         // chromosomes to next generation.
