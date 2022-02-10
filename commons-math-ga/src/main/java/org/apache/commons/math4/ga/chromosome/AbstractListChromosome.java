@@ -98,7 +98,7 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
 
     /**
      * returns the decoder.
-     * @return decoder
+     * @return chromosome decoder
      */
     @SuppressWarnings("unchecked")
     @Override

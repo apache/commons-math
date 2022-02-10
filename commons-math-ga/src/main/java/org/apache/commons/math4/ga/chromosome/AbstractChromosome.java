@@ -61,7 +61,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
 
     /**
      * returns fitness function.
-     * @return fitnessFunction
+     * @return the fitness function
      */
     protected FitnessFunction<P> getFitnessFunction() {
         return fitnessFunction;
@@ -69,7 +69,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
 
     /**
      * Returns the decoder instance.
-     * @return decoder
+     * @return the decoder
      */
     public Decoder<P> getDecoder() {
         return decoder;
@@ -103,7 +103,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
 
     /**
      * Decodes the chromosome genotype and returns the phenotype.
-     * @return phenotype
+     * @return chromosome phenotype
      */
     @Override
     public P decode() {

@@ -166,7 +166,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
 
     /**
      * Returns the chromosome length.
-     * @return length
+     * @return chromosome length
      */
     public long getLength() {
         return length;
@@ -174,7 +174,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
 
     /**
      * Returns the binary representation.
-     * @return representation
+     * @return chromosome representation
      */
     public long[] getRepresentation() {
         final long[] clonedRepresentation = new long[representation.length];
@@ -257,7 +257,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
     /**
      * Prepares zero prefix for binary chromosome.
      * @param count number of zeros
-     * @return prefix
+     * @return zero prefix
      */
     private String prepareZeroPrefix(int count) {
         final StringBuilder zeroPrefix = new StringBuilder();
@@ -279,7 +279,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      * Creates a new chromosome with provided parameters.
      * @param chromosomeRepresentation the representation
      * @param chromosomeLength         length of chromosome
-     * @return chromosome
+     * @return new instance of chromosome
      */
     public BinaryChromosome<P> newChromosome(long[] chromosomeRepresentation, long chromosomeLength) {
         return new BinaryChromosome<P>(chromosomeRepresentation, chromosomeLength, getFitnessFunction(), getDecoder());

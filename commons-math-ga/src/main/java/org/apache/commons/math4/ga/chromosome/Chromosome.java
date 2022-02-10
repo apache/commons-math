@@ -36,7 +36,7 @@ public interface Chromosome<P> extends Comparable<Chromosome<P>> {
 
     /**
      * Decodes the chromosome genotype and returns the phenotype.
-     * @return phenotype
+     * @return chromosome phenotype
      */
     P decode();
 
