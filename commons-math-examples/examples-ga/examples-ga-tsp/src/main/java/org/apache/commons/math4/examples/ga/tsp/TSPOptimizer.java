@@ -24,6 +24,7 @@ import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
 import org.apache.commons.math4.ga.crossover.OnePointCrossover;
 import org.apache.commons.math4.ga.decoder.RandomKeyDecoder;
+import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
 import org.apache.commons.math4.ga.mutation.RealValuedMutation;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
@@ -60,8 +61,8 @@ public final class TSPOptimizer {
 
         // initialize a new genetic algorithm
         final GeneticAlgorithm<List<City>> ga = new GeneticAlgorithm<>(new OnePointCrossover<Integer, List<City>>(),
-                crossoverRate, new RealValuedMutation<List<City>>(), mutationRate,
-                new TournamentSelection<List<City>>(tournamentSize), elitismRate);
+                crossoverRate, new RealValuedMutation<>(), mutationRate, new TournamentSelection<>(tournamentSize),
+                elitismRate, new PopulationStatisticsLogger<>());
 
         // stopping condition
         final StoppingCondition<List<City>> stopCond = new UnchangedBestFitness<>(

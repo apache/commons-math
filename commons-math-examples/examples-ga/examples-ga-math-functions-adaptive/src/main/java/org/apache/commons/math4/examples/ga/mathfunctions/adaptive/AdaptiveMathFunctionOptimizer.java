@@ -25,6 +25,7 @@ import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
 import org.apache.commons.math4.ga.crossover.OnePointBinaryCrossover;
 import org.apache.commons.math4.ga.crossover.rategenerator.AdaptiveLinearMaximumRankBasedCrossoverRateGenerator;
+import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
 import org.apache.commons.math4.ga.mutation.BinaryMutation;
 import org.apache.commons.math4.ga.mutation.rategenerator.AdaptiveLinearMutationRateGenerator;
 import org.apache.commons.math4.ga.population.ListPopulation;
@@ -55,11 +56,10 @@ public final class AdaptiveMathFunctionOptimizer {
             int populationSize) {
 
         // initialize a new genetic algorithm
-        final AbstractGeneticAlgorithm<Coordinate> ga = new AdaptiveGeneticAlgorithm<Coordinate>(
-                new OnePointBinaryCrossover<Coordinate>(),
+        final AbstractGeneticAlgorithm<Coordinate> ga = new AdaptiveGeneticAlgorithm<>(new OnePointBinaryCrossover<>(),
                 new AdaptiveLinearMaximumRankBasedCrossoverRateGenerator<>(minCrossoverRate, maxCrossoverRate),
                 new BinaryMutation<>(), new AdaptiveLinearMutationRateGenerator<>(minMutationRate, maxMutationRate),
-                new TournamentSelection<>(tournamentSize), elitismRate);
+                new TournamentSelection<>(tournamentSize), elitismRate, new PopulationStatisticsLogger<>());
 
         // stopping condition
         final StoppingCondition<Coordinate> stopCond = new UnchangedBestFitness<>(

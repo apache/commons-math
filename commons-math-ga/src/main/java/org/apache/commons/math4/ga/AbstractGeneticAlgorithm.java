@@ -17,9 +17,13 @@
 
 package org.apache.commons.math4.ga;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.crossover.CrossoverPolicy;
-import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
+import org.apache.commons.math4.ga.listener.ConvergenceListener;
 import org.apache.commons.math4.ga.mutation.MutationPolicy;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.selection.SelectionPolicy;
@@ -55,33 +59,57 @@ public abstract class AbstractGeneticAlgorithm<P> {
     /** The elitism rate having default value of .25. */
     private double elitismRate = .25;
 
-    /**
-     * @param crossoverPolicy The {@link CrossoverPolicy}
-     * @param mutationPolicy  The {@link MutationPolicy}
-     * @param selectionPolicy The {@link SelectionPolicy}
-     */
-    protected AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy,
-            final MutationPolicy<P> mutationPolicy,
-            final SelectionPolicy<P> selectionPolicy) {
-        this.crossoverPolicy = crossoverPolicy;
-        this.mutationPolicy = mutationPolicy;
-        this.selectionPolicy = selectionPolicy;
-    }
+    /** The registry for all interested convergence listeners. **/
+    private ConvergenceListenerRegistry<P> convergenceListenerRegistry = new ConvergenceListenerRegistry<>();
 
     /**
-     * @param crossoverPolicy The {@link CrossoverPolicy}
-     * @param mutationPolicy  The {@link MutationPolicy}
-     * @param selectionPolicy The {@link SelectionPolicy}
-     * @param elitismRate     The elitism rate
+     * @param crossoverPolicy      The {@link CrossoverPolicy}
+     * @param mutationPolicy       The {@link MutationPolicy}
+     * @param selectionPolicy      The {@link SelectionPolicy}
+     * @param convergenceListeners An optional collection of
+     *                             {@link ConvergenceListener} with variable arity
      */
+    @SafeVarargs
     protected AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy,
             final MutationPolicy<P> mutationPolicy,
             final SelectionPolicy<P> selectionPolicy,
-            double elitismRate) {
+            ConvergenceListener<P>... convergenceListeners) {
+        this.crossoverPolicy = crossoverPolicy;
+        this.mutationPolicy = mutationPolicy;
+        this.selectionPolicy = selectionPolicy;
+        updateListenerRigistry(convergenceListeners);
+    }
+
+    /**
+     * @param crossoverPolicy      The {@link CrossoverPolicy}
+     * @param mutationPolicy       The {@link MutationPolicy}
+     * @param selectionPolicy      The {@link SelectionPolicy}
+     * @param elitismRate          The elitism rate
+     * @param convergenceListeners An optional collection of
+     *                             {@link ConvergenceListener} with variable arity
+     */
+    @SafeVarargs
+    protected AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy,
+            final MutationPolicy<P> mutationPolicy,
+            final SelectionPolicy<P> selectionPolicy,
+            double elitismRate,
+            ConvergenceListener<P>... convergenceListeners) {
         this.crossoverPolicy = crossoverPolicy;
         this.mutationPolicy = mutationPolicy;
         this.selectionPolicy = selectionPolicy;
         this.elitismRate = elitismRate;
+        updateListenerRigistry(convergenceListeners);
+    }
+
+    // suppressed warnings as the parameter is annotated as @SafeVarargs in
+    // constructor.
+    @SuppressWarnings("unchecked")
+    private void updateListenerRigistry(ConvergenceListener<P>... convergenceListeners) {
+        if (convergenceListeners.length > 0) {
+            for (ConvergenceListener<P> convergenceListener : convergenceListeners) {
+                convergenceListenerRegistry.addConvergenceListener(convergenceListener);
+            }
+        }
     }
 
     /**
@@ -111,9 +139,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
     /**
      * Returns the number of generations evolved to reach {@link StoppingCondition}
      * in the last run.
-     *
      * @return number of generations evolved
-     * @since 2.1
      */
     public int getGenerationsEvolved() {
         return generationsEvolved;
@@ -124,7 +150,6 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
      * property with the number of generations evolved before the StoppingCondition
      * is satisfied.
-     *
      * @param initial   the initial, seed population.
      * @param condition the stopping condition used to stop evolution.
      * @return the population that satisfies the stopping condition.
@@ -137,7 +162,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
         // generation of population.
         while (!condition.isSatisfied(current)) {
             // notify interested listener
-            ConvergenceListenerRegistry.<P>getInstance().notifyAll(generationsEvolved, current);
+            convergenceListenerRegistry.notifyAll(generationsEvolved, current);
 
             current = nextGeneration(current);
             this.generationsEvolved++;
@@ -175,6 +200,39 @@ public abstract class AbstractGeneticAlgorithm<P> {
      */
     protected double getElitismRate() {
         return elitismRate;
+    }
+
+    /**
+     * Responsible for registering the interested listeners and notifying all when
+     * required.
+     * @param <P> phenotype
+     */
+    private class ConvergenceListenerRegistry<P> {
+
+        /**
+         * List of registered listeners.
+         */
+        private final List<ConvergenceListener<P>> listeners = new ArrayList<>();
+
+        /**
+         * Registers the interested ConvergenceListener passed as an argument.
+         * @param convergenceListener The {@link ConvergenceListener}
+         */
+        public void addConvergenceListener(ConvergenceListener<P> convergenceListener) {
+            Objects.requireNonNull(convergenceListener);
+            this.listeners.add(convergenceListener);
+        }
+
+        /**
+         * Notifies all registered ConvergenceListeners about the population statistics.
+         * @param generation current generation
+         * @param population population of chromosomes
+         */
+        public void notifyAll(int generation, Population<P> population) {
+            for (ConvergenceListener<P> convergenceListener : listeners) {
+                convergenceListener.notify(generation, population);
+            }
+        }
     }
 
 }

@@ -23,6 +23,7 @@ import org.apache.commons.math4.ga.crossover.CrossoverPolicy;
 import org.apache.commons.math4.ga.crossover.rategenerator.ConstantCrossoverRateGenerator;
 import org.apache.commons.math4.ga.crossover.rategenerator.CrossoverRateGenerator;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
+import org.apache.commons.math4.ga.listener.ConvergenceListener;
 import org.apache.commons.math4.ga.mutation.MutationPolicy;
 import org.apache.commons.math4.ga.mutation.rategenerator.ConstantMutationRateGenerator;
 import org.apache.commons.math4.ga.mutation.rategenerator.MutationRateGenerator;
@@ -57,13 +58,18 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
      * @param mutationPolicy                mutation policy
      * @param mutationProbabilityGenerator  mutation probability generator
      * @param selectionPolicy               selection policy
+     * @param convergenceListeners          An optional collection of
+     *                                      {@link ConvergenceListener} with
+     *                                      variable arity
      */
+    @SafeVarargs
     public AdaptiveGeneticAlgorithm(CrossoverPolicy<P> crossoverPolicy,
             CrossoverRateGenerator<P> crossoverProbabilityGenerator,
             MutationPolicy<P> mutationPolicy,
             MutationRateGenerator<P> mutationProbabilityGenerator,
-            SelectionPolicy<P> selectionPolicy) {
-        super(crossoverPolicy, mutationPolicy, selectionPolicy);
+            SelectionPolicy<P> selectionPolicy,
+            ConvergenceListener<P>... convergenceListeners) {
+        super(crossoverPolicy, mutationPolicy, selectionPolicy, convergenceListeners);
         this.crossoverRateGenerator = crossoverProbabilityGenerator;
         this.mutationRateGenerator = mutationProbabilityGenerator;
     }
@@ -75,14 +81,19 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
      * @param mutationProbabilityGenerator  mutation probability generator
      * @param selectionPolicy               selection policy
      * @param elitismRate                   elitism rate
+     * @param convergenceListeners          An optional collection of
+     *                                      {@link ConvergenceListener} with
+     *                                      variable arity
      */
+    @SafeVarargs
     public AdaptiveGeneticAlgorithm(CrossoverPolicy<P> crossoverPolicy,
             CrossoverRateGenerator<P> crossoverProbabilityGenerator,
             MutationPolicy<P> mutationPolicy,
             MutationRateGenerator<P> mutationProbabilityGenerator,
             SelectionPolicy<P> selectionPolicy,
-            double elitismRate) {
-        super(crossoverPolicy, mutationPolicy, selectionPolicy, elitismRate);
+            double elitismRate,
+            ConvergenceListener<P>... convergenceListeners) {
+        super(crossoverPolicy, mutationPolicy, selectionPolicy, elitismRate, convergenceListeners);
         this.crossoverRateGenerator = crossoverProbabilityGenerator;
         this.mutationRateGenerator = mutationProbabilityGenerator;
     }

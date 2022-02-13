@@ -17,8 +17,6 @@
 package org.apache.commons.math4.examples.ga.mathfunctions.adaptive;
 
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
-import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -84,10 +82,6 @@ public class StandAlone implements Runnable {
         validateInput();
 
         final AdaptiveMathFunctionOptimizer optimizer = new AdaptiveMathFunctionOptimizer();
-
-        final ConvergenceListenerRegistry<Coordinate> convergenceListenerRegistry = ConvergenceListenerRegistry
-                .getInstance();
-        convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<Coordinate>());
 
         optimizer.optimize(dimension, minCrossoverRate, maxCrossoverRate, minMutationRate, maxMutationRate, elitismRate,
                 tournamentSize, generationsEvolvedWithUnchangedBestFitness, populationSize);

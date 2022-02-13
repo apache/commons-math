@@ -20,9 +20,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
-import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
-
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -75,10 +72,6 @@ public class StandAlone implements Runnable {
         validateInput();
 
         final TSPOptimizer optimizer = new TSPOptimizer();
-
-        final ConvergenceListenerRegistry<List<City>> convergenceListenerRegistry = ConvergenceListenerRegistry
-                .getInstance();
-        convergenceListenerRegistry.addConvergenceListener(new PopulationStatisticsLogger<List<City>>());
 
         optimizer.optimize(CITIES, crossoverRate, mutationRate, elitismRate, tournamentSize,
                 generationsEvolvedWithUnchangedBestFitness, populationSize);

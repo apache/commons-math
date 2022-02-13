@@ -23,6 +23,7 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
 import org.apache.commons.math4.ga.crossover.OnePointBinaryCrossover;
+import org.apache.commons.math4.ga.listener.PopulationStatisticsLogger;
 import org.apache.commons.math4.ga.mutation.BinaryMutation;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
@@ -61,9 +62,10 @@ public final class MathFunctionOptimizer {
             int populationSize) {
 
         // initialize a new genetic algorithm
-        final GeneticAlgorithm<Coordinate> ga = new GeneticAlgorithm<>(new OnePointBinaryCrossover<Coordinate>(),
-                crossoverRate, new BinaryMutation<Coordinate>(), mutationRate,
-                new TournamentSelection<>(tournamentSize), elitismRate);
+        final GeneticAlgorithm<Coordinate> ga = new GeneticAlgorithm<Coordinate>(
+                new OnePointBinaryCrossover<Coordinate>(), crossoverRate, new BinaryMutation<Coordinate>(),
+                mutationRate, new TournamentSelection<Coordinate>(tournamentSize), elitismRate,
+                new PopulationStatisticsLogger<Coordinate>());
 
         // stopping condition
         final StoppingCondition<Coordinate> stopCond = new UnchangedBestFitness<>(

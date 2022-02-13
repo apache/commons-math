@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.ga;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,8 +29,6 @@ import org.apache.commons.math4.ga.crossover.OnePointCrossover;
 import org.apache.commons.math4.ga.decoder.Decoder;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
 import org.apache.commons.math4.ga.internal.exception.GeneticException;
-import org.apache.commons.math4.ga.listener.ConvergenceListener;
-import org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry;
 import org.apache.commons.math4.ga.mutation.BinaryMutation;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
@@ -55,7 +52,6 @@ public class GeneticAlgorithmTestBinaryOneMax {
 
     @Test
     public void test() {
-        removeListeners();
 
         // initialize a new genetic algorithm
         GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointBinaryCrossover<List<Integer>>(),
@@ -85,28 +81,6 @@ public class GeneticAlgorithmTestBinaryOneMax {
         Assertions.assertTrue(bestFinal.compareTo(bestInitial) > 0);
         Assertions.assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
 
-    }
-
-    private void removeListeners() {
-        try {
-            ConvergenceListenerRegistry<String> registry = ConvergenceListenerRegistry.<String>getInstance();
-            Field listenersField = registry.getClass().getDeclaredField("listeners");
-            boolean accessible = listenersField.isAccessible();
-            if (!accessible) {
-                listenersField.setAccessible(true);
-            }
-            @SuppressWarnings("unchecked")
-            List<ConvergenceListener<String>> listeners = (List<ConvergenceListener<String>>) listenersField
-                    .get(ConvergenceListenerRegistry.getInstance());
-            listeners.clear();
-            listenersField.setAccessible(accessible);
-        } catch (NoSuchFieldException | SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
