@@ -20,7 +20,7 @@ package org.apache.commons.math4.ga.crossover;
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 
 /**
  * An abstraction of crossover policy for {@link AbstractListChromosome}.
@@ -55,14 +55,14 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends Abstra
     @SuppressWarnings("unchecked")
     private void checkValidity(final Chromosome<P> first, final Chromosome<P> second) {
         if (!(first instanceof AbstractListChromosome<?, ?> && second instanceof AbstractListChromosome<?, ?>)) {
-            throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.INVALID_FIXED_LENGTH_CHROMOSOME);
         }
         final AbstractListChromosome<T, P> firstListChromosome = (AbstractListChromosome<T, P>) first;
         final AbstractListChromosome<T, P> secondListChromosome = (AbstractListChromosome<T, P>) second;
 
         final int length = firstListChromosome.getLength();
         if (length != secondListChromosome.getLength()) {
-            throw new GeneticException(GeneticException.SIZE_MISMATCH, secondListChromosome.getLength(), length);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH, secondListChromosome.getLength(), length);
         }
 
     }

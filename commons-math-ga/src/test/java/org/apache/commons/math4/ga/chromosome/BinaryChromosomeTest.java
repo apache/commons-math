@@ -17,7 +17,7 @@
 package org.apache.commons.math4.ga.chromosome;
 
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
@@ -27,11 +27,11 @@ public class BinaryChromosomeTest {
 
     @Test
     public void testInvalidConstructor() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new BinaryChromosome<String>(ChromosomeRepresentationUtils.randomBinaryRepresentation(10), Long.MAX_VALUE,
                 c -> 0, c -> "0");
         });
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new BinaryChromosome<String>(ChromosomeRepresentationUtils.randomBinaryRepresentation(10), 100, c -> 0,
                 c -> "0");
         });
@@ -96,6 +96,6 @@ public class BinaryChromosomeTest {
         String representationStr = ChromosomeRepresentationUtils.randomStringRepresentation(new char[] {'0', '1'},
                 length);
         BinaryChromosome<String> chromosome = new BinaryChromosome<>(representationStr, c -> 0, c -> "0");
-        Assert.assertThrows(GeneticException.class, () -> chromosome.getStringRepresentation(10, length + 1));
+        Assert.assertThrows(GeneticIllegalArgumentException.class, () -> chromosome.getStringRepresentation(10, length + 1));
     }
 }

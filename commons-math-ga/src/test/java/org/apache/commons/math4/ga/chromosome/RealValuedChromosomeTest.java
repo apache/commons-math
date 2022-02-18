@@ -17,7 +17,7 @@
 package org.apache.commons.math4.ga.chromosome;
 
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ public class RealValuedChromosomeTest {
     public void testCheckValidity() {
         int min = 0;
         int max = 10;
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min, max), c -> 0,
                     new DummyListChromosomeDecoder<>("0"), max, min);
         });
@@ -66,7 +66,7 @@ public class RealValuedChromosomeTest {
     public void testCheckValidity1() {
         int min = 0;
         int max = 10;
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, min - 10, max + 10),
                 c -> 0, new DummyListChromosomeDecoder<>("0"), min, max);
         });

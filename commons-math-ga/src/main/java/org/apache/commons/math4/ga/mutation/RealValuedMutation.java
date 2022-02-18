@@ -18,7 +18,7 @@ package org.apache.commons.math4.ga.mutation;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
@@ -53,7 +53,7 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
         this.min = min;
         this.max = max;
         if (min >= max) {
-            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, min, max);
         }
     }
 
@@ -89,11 +89,11 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
      */
     private void checkValidity(Chromosome<P> original) {
         if (!RealValuedChromosome.class.isAssignableFrom(original.getClass())) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
         final RealValuedChromosome<P> chromosome = (RealValuedChromosome<P>) original;
         if (chromosome.getMin() != this.min || chromosome.getMax() != this.max) {
-            throw new GeneticException(GeneticException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
                     chromosome.getMax());
         }
     }

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 
 /**
  * A concrete implementation of {@link AbstractListChromosomeDecoder}. Decodes
@@ -55,7 +55,7 @@ public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Dou
 
         // the size of the three lists must be equal
         if (representation.size() != sequenceLength) {
-            throw new GeneticException(GeneticException.SIZE_MISMATCH, representation.size(), sequenceLength);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH, representation.size(), sequenceLength);
         }
 
         // do not modify the original representation

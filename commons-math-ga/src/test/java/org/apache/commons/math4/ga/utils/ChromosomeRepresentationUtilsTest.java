@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.decoder.RandomKeyDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -118,14 +118,14 @@ public class ChromosomeRepresentationUtilsTest {
             ChromosomeRepresentationUtils.inducedPermutation(Arrays.asList(new String[] {"a", "b", "c", "d", "d"}),
                     Arrays.asList(new String[] {"a", "b", "c", "d"}));
             Assertions.fail("Uncaught exception");
-        } catch (GeneticException e) {
+        } catch (GeneticIllegalArgumentException e) {
             // no-op
         }
         try {
             ChromosomeRepresentationUtils.inducedPermutation(Arrays.asList(new String[] {"a", "b", "c", "d", "d"}),
                     Arrays.asList(new String[] {"a", "b", "c", "d", "f"}));
             Assertions.fail("Uncaught exception");
-        } catch (GeneticException e) {
+        } catch (GeneticIllegalArgumentException e) {
             // no-op
         }
     }

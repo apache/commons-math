@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.ga.convergence;
 
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
@@ -43,7 +43,7 @@ public class FixedGenerationCount<P> implements StoppingCondition<P> {
      */
     public FixedGenerationCount(final int maxGenerations) {
         if (maxGenerations <= 0) {
-            throw new GeneticException(GeneticException.TOO_SMALL, maxGenerations, 1);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_SMALL, maxGenerations, 1);
         }
         this.maxGenerations = maxGenerations;
     }

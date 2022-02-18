@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
@@ -61,7 +61,7 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
     @Override
     public ChromosomePair<P> select(final Population<P> population) {
         if (!(population instanceof ListPopulation<?>)) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, population);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, population);
         }
         return new ChromosomePair<>(tournament((ListPopulation<P>) population),
                 tournament((ListPopulation<P>) population));
@@ -77,7 +77,7 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
      */
     private Chromosome<P> tournament(final ListPopulation<P> population) {
         if (population.getPopulationSize() < this.arity) {
-            throw new GeneticException(GeneticException.TOO_LARGE, arity, population.getPopulationSize());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, arity, population.getPopulationSize());
         }
 
         // create a copy of the chromosome list

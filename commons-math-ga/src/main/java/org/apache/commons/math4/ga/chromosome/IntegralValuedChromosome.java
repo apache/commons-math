@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.decoder.AbstractListChromosomeDecoder;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 
 /**
@@ -94,11 +94,11 @@ public class IntegralValuedChromosome<P> extends AbstractListChromosome<Integer,
      */
     private void checkValidity() {
         if (min >= max) {
-            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, min, max);
         }
         for (int i : getRepresentation()) {
             if (i < min || i >= max) {
-                throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, i);
+                throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, i);
             }
         }
     }

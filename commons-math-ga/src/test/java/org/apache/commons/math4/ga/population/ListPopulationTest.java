@@ -23,7 +23,7 @@ import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -73,7 +73,7 @@ public class ListPopulationTest {
     public void testSetPopulationLimit() {
         final ListPopulation<String> population = new ListPopulation<>(10);
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             population.setPopulationLimit(-50);
         });
 
@@ -81,7 +81,7 @@ public class ListPopulationTest {
 
     @Test
     public void testConstructorPopulationLimitNotPositive() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new ListPopulation<String>(-10);
         });
     }
@@ -91,7 +91,7 @@ public class ListPopulationTest {
         final ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
                 new DummyListChromosomeDecoder<>("0"), 0, 2));
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new ListPopulation<String>(chromosomes, -10);
         });
     }
@@ -106,7 +106,7 @@ public class ListPopulationTest {
         chromosomes.add(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
                 new DummyListChromosomeDecoder<>("0"), 0, 2));
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new ListPopulation<String>(chromosomes, 1);
         });
 
@@ -124,7 +124,7 @@ public class ListPopulationTest {
 
         final ListPopulation<String> population = new ListPopulation<>(2);
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             population.addChromosomes(chromosomes);
         });
 
@@ -135,7 +135,7 @@ public class ListPopulationTest {
 
         final ListPopulation<String> population = new ListPopulation<>(2);
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             for (int i = 0; i <= population.getPopulationLimit(); i++) {
                 population.addChromosome(IntegralValuedChromosome.<String>randomChromosome(3, chromosome -> 0,
                         new DummyListChromosomeDecoder<>("0"), 0, 2));
@@ -178,7 +178,7 @@ public class ListPopulationTest {
 
         final ListPopulation<String> population = new ListPopulation<>(chromosomes, 3);
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             population.setPopulationLimit(2);
         });
 

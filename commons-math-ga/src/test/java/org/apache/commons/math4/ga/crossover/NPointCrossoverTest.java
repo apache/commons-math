@@ -22,7 +22,7 @@ import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +39,7 @@ public class NPointCrossoverTest {
                 new DummyListChromosomeDecoder<Integer>("0"), 0, 2);
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(15);
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             cp.crossover(p1c, p2c, 1.0);
         });
     }
@@ -55,7 +55,7 @@ public class NPointCrossoverTest {
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             cp.crossover(p1c, p2c, 1.0);
         });
 
@@ -72,7 +72,7 @@ public class NPointCrossoverTest {
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             cp.crossover(p1c, p2c, 1.0);
         });
 

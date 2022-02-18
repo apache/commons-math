@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -43,14 +43,14 @@ public class UniformCrossoverTest {
 
     @Test
     public void testRatioTooLow() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new UniformCrossover<Integer, String>(-0.5d);
         });
     }
 
     @Test
     public void testRatioTooHigh() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new UniformCrossover<Integer, String>(1.5d);
         });
     }

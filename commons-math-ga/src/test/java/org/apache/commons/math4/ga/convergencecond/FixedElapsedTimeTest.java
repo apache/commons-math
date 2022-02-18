@@ -19,7 +19,7 @@ package org.apache.commons.math4.ga.convergencecond;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.math4.ga.convergence.FixedElapsedTime;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.junit.jupiter.api.Assertions;
@@ -52,7 +52,7 @@ public class FixedElapsedTimeTest {
 
     @Test
     public void testNegativeTime() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new FixedElapsedTime<>(-10);
         });
     }

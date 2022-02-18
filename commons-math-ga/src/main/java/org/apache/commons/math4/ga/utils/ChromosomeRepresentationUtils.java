@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
 
 /**
@@ -101,7 +101,7 @@ public interface ChromosomeRepresentationUtils {
     static <S> List<Double> inducedPermutation(final List<S> originalData, final List<S> permutedData) {
 
         if (originalData.size() != permutedData.size()) {
-            throw new GeneticException(GeneticException.SIZE_MISMATCH, permutedData.size(), originalData.size());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH, permutedData.size(), originalData.size());
         }
         final int l = originalData.size();
 
@@ -111,7 +111,7 @@ public interface ChromosomeRepresentationUtils {
         for (int i = 0; i < l; i++) {
             final int index = origDataCopy.indexOf(permutedData.get(i));
             if (index == -1) {
-                throw new GeneticException(GeneticException.DIFFERENT_ORIG_AND_PERMUTED_DATA);
+                throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.DIFFERENT_ORIG_AND_PERMUTED_DATA);
             }
             res[index] = (double) i / l;
             origDataCopy.set(index, null);
@@ -144,7 +144,7 @@ public interface ChromosomeRepresentationUtils {
      */
     static long[] randomBinaryRepresentation(final long length) {
         if (length > BinaryChromosome.MAX_LENGTH) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     "length exceeded the max length " + BinaryChromosome.MAX_LENGTH);
         }
         final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
@@ -197,7 +197,7 @@ public interface ChromosomeRepresentationUtils {
      */
     static List<Double> randomDoubleRepresentation(final int l, double min, double max) {
         if (min >= max) {
-            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, min, max);
         }
         final double range = max - min;
         final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();

@@ -21,7 +21,7 @@ import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.dummy.DummyListChromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ public class AbstractListChromosomeCrossoverPolicyTest {
         Chromosome<String> ch2 = new AbstractChromosome<String>(c -> 1, c -> "1") {
         };
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             crossoverPolicy.crossover(ch1, ch2, 1.0);
         });
 
@@ -68,7 +68,7 @@ public class AbstractListChromosomeCrossoverPolicyTest {
         Chromosome<String> ch2 = new DummyListChromosome(
                 ChromosomeRepresentationUtils.randomIntegralRepresentation(12, 0, 2));
 
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             crossoverPolicy.crossover(ch1, ch2, 1.0);
         });
 

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.ga.exception;
 
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -24,15 +24,15 @@ public class GeneticExceptionTest {
 
     @Test
     public void testGeneticExceptionThrowable() {
-        Assertions.assertThrows(GeneticException.class, () -> {
-            throw new GeneticException(new NullPointerException());
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
+            throw new GeneticIllegalArgumentException(new NullPointerException());
         });
     }
 
     @Test
     public void testGeneticExceptionStringThrowableObjectArray() {
-        Assertions.assertThrows(GeneticException.class, () -> {
-            throw new GeneticException("Nullpointer Exception", new NullPointerException());
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
+            throw new GeneticIllegalArgumentException("Nullpointer Exception", new NullPointerException());
         });
     }
 

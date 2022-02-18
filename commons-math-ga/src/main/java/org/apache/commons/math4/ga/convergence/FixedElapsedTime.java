@@ -18,7 +18,7 @@ package org.apache.commons.math4.ga.convergence;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.Population;
 
 /**
@@ -57,7 +57,7 @@ public class FixedElapsedTime<P> implements StoppingCondition<P> {
      */
     public FixedElapsedTime(final long maxTime, final TimeUnit unit) {
         if (maxTime < 0) {
-            throw new GeneticException(GeneticException.TOO_SMALL, maxTime, 0);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_SMALL, maxTime, 0);
         }
         maxTimePeriod = unit.toNanos(maxTime);
     }

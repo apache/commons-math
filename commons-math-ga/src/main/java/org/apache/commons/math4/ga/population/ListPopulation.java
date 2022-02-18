@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 
 /**
  * Population of chromosomes represented by a {@link List}.
@@ -66,10 +66,10 @@ public class ListPopulation<P> implements Population<P> {
         Objects.requireNonNull(chromosomes);
 
         if (populationLimit <= 0) {
-            throw new GeneticException(GeneticException.NOT_STRICTLY_POSITIVE, populationLimit);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.NOT_STRICTLY_POSITIVE, populationLimit);
         }
         if (chromosomes.size() > populationLimit) {
-            throw new GeneticException(GeneticException.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
                     chromosomes.size(), populationLimit);
         }
         this.populationLimit = populationLimit;
@@ -84,7 +84,7 @@ public class ListPopulation<P> implements Population<P> {
      */
     public void addChromosomes(final Collection<Chromosome<P>> chromosomeColl) {
         if (chromosomes.size() + chromosomeColl.size() > populationLimit) {
-            throw new GeneticException(GeneticException.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
                     chromosomes.size(), populationLimit);
         }
         this.chromosomes.addAll(chromosomeColl);
@@ -105,7 +105,7 @@ public class ListPopulation<P> implements Population<P> {
     @Override
     public void addChromosome(final Chromosome<P> chromosome) {
         if (chromosomes.size() >= populationLimit) {
-            throw new GeneticException(GeneticException.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
                     chromosomes.size(), populationLimit);
         }
         this.chromosomes.add(chromosome);
@@ -136,10 +136,10 @@ public class ListPopulation<P> implements Population<P> {
      */
     public void setPopulationLimit(final int populationLimit) {
         if (populationLimit <= 0) {
-            throw new GeneticException(GeneticException.POPULATION_LIMIT_NOT_POSITIVE, populationLimit);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.POPULATION_LIMIT_NOT_POSITIVE, populationLimit);
         }
         if (populationLimit < chromosomes.size()) {
-            throw new GeneticException(GeneticException.POPULATION_LIMIT_LESS_THAN_LIST_OF_CHROMOSOMES_SIZE,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.POPULATION_LIMIT_LESS_THAN_LIST_OF_CHROMOSOMES_SIZE,
                     populationLimit, chromosomes.size());
         }
         this.populationLimit = populationLimit;

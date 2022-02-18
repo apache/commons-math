@@ -18,7 +18,7 @@ package org.apache.commons.math4.ga;
 
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.crossover.CrossoverPolicy;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.listener.ConvergenceListener;
 import org.apache.commons.math4.ga.mutation.MutationPolicy;
 import org.apache.commons.math4.ga.population.Population;
@@ -104,10 +104,10 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
     private void checkValidity(final double crossoverRateInput, final double inputMutationRate) {
         if (crossoverRateInput < 0 || crossoverRateInput > 1) {
-            throw new GeneticException(GeneticException.OUT_OF_RANGE, crossoverRateInput, CROSSOVER_RATE, 0, 1);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, crossoverRateInput, CROSSOVER_RATE, 0, 1);
         }
         if (inputMutationRate < 0 || inputMutationRate > 1) {
-            throw new GeneticException(GeneticException.OUT_OF_RANGE, inputMutationRate, MUTATION_RATE, 0, 1);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, inputMutationRate, MUTATION_RATE, 0, 1);
         }
     }
 

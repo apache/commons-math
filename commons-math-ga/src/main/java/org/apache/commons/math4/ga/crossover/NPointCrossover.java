@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
 
@@ -66,7 +66,7 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
      */
     public NPointCrossover(final int crossoverPoints) {
         if (crossoverPoints <= 0) {
-            throw new GeneticException(GeneticException.NOT_STRICTLY_POSITIVE, crossoverPoints);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.NOT_STRICTLY_POSITIVE, crossoverPoints);
         }
         this.crossoverPoints = crossoverPoints;
     }
@@ -108,7 +108,7 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
 
         final int length = first.getLength();
         if (crossoverPoints >= length) {
-            throw new GeneticException(GeneticException.TOO_LARGE, crossoverPoints, length);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, crossoverPoints, length);
         }
 
         // array representations of the parents

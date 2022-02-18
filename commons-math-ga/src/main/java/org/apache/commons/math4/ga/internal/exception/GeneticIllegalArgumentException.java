@@ -23,7 +23,7 @@ import java.text.MessageFormat;
  * Exception class with constants for frequently used messages.
  * @since 4.0
  */
-public class GeneticException extends RuntimeException {
+public class GeneticIllegalArgumentException extends IllegalArgumentException {
 
     /** Error message for "out of range" condition. */
     public static final String OUT_OF_RANGE = "Value {0} of {1} is out of range [{2}, {3}]";
@@ -95,7 +95,7 @@ public class GeneticException extends RuntimeException {
      * @param message         Message format (with replaceable parameters).
      * @param formatArguments Actual arguments to be displayed in the message.
      */
-    public GeneticException(String message, Object... formatArguments) {
+    public GeneticIllegalArgumentException(String message, Object... formatArguments) {
         super(MessageFormat.format(message, formatArguments));
     }
 
@@ -103,7 +103,7 @@ public class GeneticException extends RuntimeException {
      * Create an exception.
      * @param t instance of {@link Throwable}
      */
-    public GeneticException(Throwable t) {
+    public GeneticIllegalArgumentException(Throwable t) {
         super(t);
     }
 
@@ -113,7 +113,7 @@ public class GeneticException extends RuntimeException {
      * @param t               the instance of {@link Throwable}
      * @param formatArguments arguments to format the exception message
      */
-    public GeneticException(String message, Throwable t, Object... formatArguments) {
+    public GeneticIllegalArgumentException(String message, Throwable t, Object... formatArguments) {
         super(MessageFormat.format(message, formatArguments), t);
     }
 

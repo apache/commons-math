@@ -19,7 +19,7 @@ package org.apache.commons.math4.ga.crossover;
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
@@ -35,7 +35,7 @@ public class OnePointBinaryCrossover<P> extends AbstractChromosomeCrossoverPolic
     protected ChromosomePair<P> crossover(Chromosome<P> first, Chromosome<P> second) {
 
         if (!(first instanceof BinaryChromosome<?> && second instanceof BinaryChromosome<?>)) {
-            throw new GeneticException(GeneticException.INVALID_FIXED_LENGTH_CHROMOSOME);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.INVALID_FIXED_LENGTH_CHROMOSOME);
         }
         final BinaryChromosome<P> firstChromosome = (BinaryChromosome<P>) first;
         final BinaryChromosome<P> secondChromosome = (BinaryChromosome<P>) second;

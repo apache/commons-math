@@ -24,7 +24,7 @@ import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
 
@@ -68,7 +68,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
      */
     private void checkValidity(Chromosome<P> original) {
         if (!AbstractListChromosome.class.isAssignableFrom(original.getClass())) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
     }
 

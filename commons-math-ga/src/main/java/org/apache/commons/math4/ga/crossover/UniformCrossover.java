@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
 
@@ -70,7 +70,7 @@ public class UniformCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
      */
     public UniformCrossover(final double ratio) {
         if (ratio < 0.0d || ratio > 1.0d) {
-            throw new GeneticException(GeneticException.OUT_OF_RANGE, ratio, CROSSOVER_RATE, 0.0d, 1.0d);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, ratio, CROSSOVER_RATE, 0.0d, 1.0d);
         }
         this.ratio = ratio;
     }

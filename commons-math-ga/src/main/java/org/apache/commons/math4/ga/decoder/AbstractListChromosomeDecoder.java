@@ -18,7 +18,7 @@ package org.apache.commons.math4.ga.decoder;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 
 /**
  * An abstract Decoder for {@link AbstractListChromosome}.
@@ -46,7 +46,7 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
      */
     private void checkValidity(Chromosome<P> chromosome) {
         if (!AbstractListChromosome.class.isAssignableFrom(chromosome.getClass())) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, chromosome.getClass().getSimpleName());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, chromosome.getClass().getSimpleName());
         }
     }
 

@@ -28,7 +28,7 @@ import org.apache.commons.math4.ga.crossover.OnePointBinaryCrossover;
 import org.apache.commons.math4.ga.crossover.OnePointCrossover;
 import org.apache.commons.math4.ga.decoder.Decoder;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.mutation.BinaryMutation;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
@@ -144,7 +144,7 @@ public class GeneticAlgorithmTestBinaryOneMax {
 
     @Test
     public void testCrossoverRate() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new GeneticAlgorithm<>(new OnePointCrossover<>(), 1.5, new BinaryMutation<>(), .01,
                     new TournamentSelection<>(10));
         });
@@ -152,7 +152,7 @@ public class GeneticAlgorithmTestBinaryOneMax {
 
     @Test
     public void testMutationRate() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new GeneticAlgorithm<>(new OnePointCrossover<>(), .5, new BinaryMutation<>(), 1.5,
                     new TournamentSelection<>(10));
         });

@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import org.apache.commons.math4.ga.decoder.Decoder;
 import org.apache.commons.math4.ga.fitness.FitnessFunction;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 
 /**
@@ -100,7 +100,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
         Objects.requireNonNull(inputRepresentation);
         checkMaximumLength(length);
         if (length <= (inputRepresentation.length - 1) * Long.SIZE || length > inputRepresentation.length * Long.SIZE) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     "provided length does not match expected representation");
         }
         this.length = length;
@@ -126,7 +126,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      */
     private void checkMaximumLength(long chromosomeLength) {
         if (chromosomeLength > MAX_LENGTH) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     "length exceeded the max length " + MAX_LENGTH);
         }
     }
@@ -140,7 +140,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
         final int chromosomeLength = stringRepresentation.length();
         for (int i = 0; i < chromosomeLength; i++) {
             if ((allele = stringRepresentation.charAt(i)) != '0' && allele != '1') {
-                throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+                throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                         "Only 0 or 1 are acceptable as characters.");
             }
         }
@@ -188,7 +188,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      */
     public String getStringRepresentation() {
         if (length > Integer.MAX_VALUE) {
-            throw new GeneticException(GeneticException.LENGTH_TOO_LARGE, length);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.LENGTH_TOO_LARGE, length);
         }
         return getStringRepresentation(0, length);
     }
@@ -202,11 +202,11 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      */
     public String getStringRepresentation(long start, long end) {
         if (start >= end) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     "start " + start + " is greater than end " + end);
         }
         if (end > length) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT,
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     "end " + end + " is greater than length " + length);
         }
         final int offset = (int) (length % Long.SIZE == 0 ? 0 : Long.SIZE - length % Long.SIZE);

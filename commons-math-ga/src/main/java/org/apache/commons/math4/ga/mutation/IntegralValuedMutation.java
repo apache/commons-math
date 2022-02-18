@@ -18,7 +18,7 @@ package org.apache.commons.math4.ga.mutation;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 
 /**
@@ -47,7 +47,7 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
         // between
         // max and min should be 2.
         if ((max - min) < 2) {
-            throw new GeneticException(GeneticException.TOO_LARGE, min, max);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, min, max);
         }
 
     }
@@ -85,11 +85,11 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
      */
     private void checkValidity(Chromosome<P> original) {
         if (!IntegralValuedChromosome.class.isAssignableFrom(original.getClass())) {
-            throw new GeneticException(GeneticException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
         }
         final IntegralValuedChromosome<P> chromosome = (IntegralValuedChromosome<P>) original;
         if (chromosome.getMin() != this.min || chromosome.getMax() != this.max) {
-            throw new GeneticException(GeneticException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
                     chromosome.getMax());
         }
     }

@@ -20,7 +20,7 @@ import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.junit.jupiter.api.Assertions;
@@ -36,7 +36,7 @@ public class IntegralValuedMutationTest {
                 ChromosomeRepresentationUtils.randomNormalizedDoubleRepresentation(10), c -> 0,
                 new DummyListChromosomeDecoder<>("0"));
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             mutation.mutate(chromosome, .1);
         });
     }
@@ -49,14 +49,14 @@ public class IntegralValuedMutationTest {
                 ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
         IntegralValuedMutation<String> mutation = new IntegralValuedMutation<>(min - 10, max);
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             mutation.mutate(chromosome, .1);
         });
     }
 
     @Test
     public void testIntegralValuedMutation() {
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new IntegralValuedMutation<>(10, 5);
         });
     }

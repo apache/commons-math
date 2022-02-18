@@ -21,7 +21,7 @@ import java.util.Iterator;
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.internal.exception.GeneticException;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
 import org.junit.jupiter.api.Assertions;
@@ -92,7 +92,7 @@ public class TournamentSelectionTest {
                 return null;
             }
         };
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new TournamentSelection<String>(5).select(population);
         });
 
@@ -101,7 +101,7 @@ public class TournamentSelectionTest {
     @Test
     public void testInvalidArity() {
         Population<String> population = new ListPopulation<>(2);
-        Assertions.assertThrows(GeneticException.class, () -> {
+        Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new TournamentSelection<String>(2).select(population);
         });
     }
