@@ -89,12 +89,13 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
      */
     private void checkValidity(Chromosome<P> original) {
         if (!RealValuedChromosome.class.isAssignableFrom(original.getClass())) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    original.getClass().getSimpleName());
         }
         final RealValuedChromosome<P> chromosome = (RealValuedChromosome<P>) original;
         if (chromosome.getMin() != this.min || chromosome.getMax() != this.max) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
-                    chromosome.getMax());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_RANGE, this.min, this.max,
+                    chromosome.getMin(), chromosome.getMax());
         }
     }
 

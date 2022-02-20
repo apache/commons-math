@@ -85,12 +85,13 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
      */
     private void checkValidity(Chromosome<P> original) {
         if (!IntegralValuedChromosome.class.isAssignableFrom(original.getClass())) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, original.getClass().getSimpleName());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    original.getClass().getSimpleName());
         }
         final IntegralValuedChromosome<P> chromosome = (IntegralValuedChromosome<P>) original;
         if (chromosome.getMin() != this.min || chromosome.getMax() != this.max) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_RANGE, this.min, this.max, chromosome.getMin(),
-                    chromosome.getMax());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_RANGE, this.min, this.max,
+                    chromosome.getMin(), chromosome.getMax());
         }
     }
 

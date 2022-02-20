@@ -46,7 +46,8 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
      */
     private void checkValidity(Chromosome<P> chromosome) {
         if (!AbstractListChromosome.class.isAssignableFrom(chromosome.getClass())) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, chromosome.getClass().getSimpleName());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    chromosome.getClass().getSimpleName());
         }
     }
 

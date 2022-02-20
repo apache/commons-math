@@ -70,7 +70,8 @@ public class UniformCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
      */
     public UniformCrossover(final double ratio) {
         if (ratio < 0.0d || ratio > 1.0d) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, ratio, CROSSOVER_RATE, 0.0d, 1.0d);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, ratio,
+                    CROSSOVER_RATE, 0.0d, 1.0d);
         }
         this.ratio = ratio;
     }

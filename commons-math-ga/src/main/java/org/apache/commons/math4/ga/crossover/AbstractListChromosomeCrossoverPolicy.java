@@ -62,7 +62,8 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends Abstra
 
         final int length = firstListChromosome.getLength();
         if (length != secondListChromosome.getLength()) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH, secondListChromosome.getLength(), length);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH,
+                    secondListChromosome.getLength(), length);
         }
 
     }

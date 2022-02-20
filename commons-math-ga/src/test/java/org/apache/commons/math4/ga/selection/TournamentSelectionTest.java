@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.ga.selection;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
@@ -90,6 +91,11 @@ public class TournamentSelectionTest {
             @Override
             public Chromosome<String> getFittestChromosome() {
                 return null;
+            }
+
+            @Override
+            public void addChromosomes(Collection<Chromosome<String>> chromosomes) {
+                // No Op
             }
         };
         Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {

@@ -55,7 +55,8 @@ public final class RandomKeyDecoder<U> extends AbstractListChromosomeDecoder<Dou
 
         // the size of the three lists must be equal
         if (representation.size() != sequenceLength) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH, representation.size(), sequenceLength);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH,
+                    representation.size(), sequenceLength);
         }
 
         // do not modify the original representation

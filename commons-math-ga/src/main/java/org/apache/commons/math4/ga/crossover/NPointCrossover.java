@@ -66,7 +66,8 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
      */
     public NPointCrossover(final int crossoverPoints) {
         if (crossoverPoints <= 0) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.NOT_STRICTLY_POSITIVE, crossoverPoints);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.NOT_STRICTLY_POSITIVE,
+                    crossoverPoints);
         }
         this.crossoverPoints = crossoverPoints;
     }
@@ -108,7 +109,8 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
 
         final int length = first.getLength();
         if (crossoverPoints >= length) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, crossoverPoints, length);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, crossoverPoints,
+                    length);
         }
 
         // array representations of the parents

@@ -77,7 +77,8 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
      */
     private Chromosome<P> tournament(final ListPopulation<P> population) {
         if (population.getPopulationSize() < this.arity) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, arity, population.getPopulationSize());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, arity,
+                    population.getPopulationSize());
         }
 
         // create a copy of the chromosome list

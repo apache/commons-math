@@ -101,7 +101,8 @@ public interface ChromosomeRepresentationUtils {
     static <S> List<Double> inducedPermutation(final List<S> originalData, final List<S> permutedData) {
 
         if (originalData.size() != permutedData.size()) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH, permutedData.size(), originalData.size());
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH,
+                    permutedData.size(), originalData.size());
         }
         final int l = originalData.size();
 
@@ -111,7 +112,8 @@ public interface ChromosomeRepresentationUtils {
         for (int i = 0; i < l; i++) {
             final int index = origDataCopy.indexOf(permutedData.get(i));
             if (index == -1) {
-                throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.DIFFERENT_ORIG_AND_PERMUTED_DATA);
+                throw new GeneticIllegalArgumentException(
+                        GeneticIllegalArgumentException.DIFFERENT_ORIG_AND_PERMUTED_DATA);
             }
             res[index] = (double) i / l;
             origDataCopy.set(index, null);
@@ -148,7 +150,7 @@ public interface ChromosomeRepresentationUtils {
                     "length exceeded the max length " + BinaryChromosome.MAX_LENGTH);
         }
         final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
-        int elementCount = (int) Math.ceil(length / (double)Long.SIZE);
+        int elementCount = (int) Math.ceil(length / (double) Long.SIZE);
         // random binary list
         final long[] representation = new long[elementCount];
         int remainder = (int) (length % Long.SIZE);

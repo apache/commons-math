@@ -90,34 +90,44 @@ public class StandAlone implements Runnable {
 
     private void validateInput() {
         if (this.dimension < 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Dimension should be > 0.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Dimension should be > 0.");
         }
         if (this.tournamentSize < 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Tournament size should be > 0.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Tournament size should be > 0.");
         }
         if (populationSize < 2) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Population size should be > 1.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Population size should be > 1.");
         }
         if (minCrossoverRate > 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Minimum crossover rate should be <= 1.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Minimum crossover rate should be <= 1.");
         }
         if (maxCrossoverRate > 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Maximum crossover rate should be <= 1.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Maximum crossover rate should be <= 1.");
         }
         if (maxCrossoverRate < minCrossoverRate) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, minCrossoverRate, maxCrossoverRate);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, minCrossoverRate,
+                    maxCrossoverRate);
         }
         if (minMutationRate > 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Minimum mutation rate should be <= 1.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Minimum mutation rate should be <= 1.");
         }
         if (maxMutationRate > 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Maximum mutation rate should be <= 1.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Maximum mutation rate should be <= 1.");
         }
         if (minMutationRate > maxMutationRate) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, minMutationRate, maxMutationRate);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, minMutationRate,
+                    maxMutationRate);
         }
         if (elitismRate >= 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT, "Elitism rate should be < 1.");
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+                    "Elitism rate should be < 1.");
         }
         if (generationsEvolvedWithUnchangedBestFitness < 1) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
