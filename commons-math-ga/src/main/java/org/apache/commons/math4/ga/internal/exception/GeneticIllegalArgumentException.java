@@ -60,7 +60,7 @@ public class GeneticIllegalArgumentException extends IllegalArgumentException {
      * Error message for "List of Chromosome bigger than population size" condition.
      */
     public static final String LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE = "List of chromosome bigger than " +
-            "population size: {0} > {1}";
+            "population size: {0} >= {1}";
 
     /**
      * Error message for "population limit not positive" condition.
