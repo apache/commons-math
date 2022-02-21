@@ -17,11 +17,19 @@
 
 package org.apache.commons.math4.ga;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.crossover.CrossoverPolicy;
 import org.apache.commons.math4.ga.crossover.rategenerator.ConstantCrossoverRateGenerator;
 import org.apache.commons.math4.ga.crossover.rategenerator.CrossoverRateGenerator;
+import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.listener.ConvergenceListener;
 import org.apache.commons.math4.ga.mutation.MutationPolicy;
@@ -102,13 +110,9 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
      * {@inheritDoc}
      */
     @Override
-    protected Population<P> nextGeneration(Population<P> current) {
+    protected Population<P> nextGeneration(final Population<P> current, final ExecutorService executorService) {
 
         LOGGER.debug("Reproducing next generation.");
-
-        // compute statistics of current generation chromosomes.
-        PopulationStatisticalSummary<P> populationStats = ConstantCrossoverRateGenerator.class.isAssignableFrom(
-                this.crossoverRateGenerator.getClass()) ? null : new PopulationStatisticalSummaryImpl<>(current);
 
         // Initialize the next generation with elit chromosomes from previous
         // generation.
@@ -119,46 +123,88 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
         final int maxOffspringCount = nextGeneration.getPopulationLimit() - nextGeneration.getPopulationSize();
 
-        // Initialize an empty population for offsprings.
-        final Population<P> offspringPopulation = current.nextGeneration(0);
+        final Population<P> offsprings = reproduceOffsprings(current, executorService,
+                maxOffspringCount);
 
-        // perform crossover and generate new offsprings
-        while (offspringPopulation.getPopulationSize() < maxOffspringCount) {
-
-            // select parent chromosomes
-            ChromosomePair<P> pair = getSelectionPolicy().select(current);
-            LOGGER.debug("Selected Chromosomes: " + System.lineSeparator() + pair.toString());
-
-            final double crossoverRate = crossoverRateGenerator.generate(pair.getFirst(), pair.getSecond(),
-                    populationStats, getGenerationsEvolved());
-            // apply crossover policy to create two offspring
-            pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
-            LOGGER.debug("Offsprings after Crossover: " + System.lineSeparator() + pair.toString());
-
-            // add the first chromosome to the population
-            offspringPopulation.addChromosome(pair.getFirst());
-            // is there still a place for the second chromosome?
-            if (offspringPopulation.getPopulationSize() < maxOffspringCount) {
-                // add the second chromosome to the population
-                offspringPopulation.addChromosome(pair.getSecond());
-            }
-        }
         LOGGER.debug("Performing adaptive mutation of offsprings.");
 
+        nextGeneration.addChromosomes(mutateChromosomes(executorService, offsprings));
+
+        LOGGER.debug("New Generation: " + System.lineSeparator() + nextGeneration.toString());
+
+        return nextGeneration;
+    }
+
+    private List<Chromosome<P>> mutateChromosomes(final ExecutorService executorService,
+            final Population<P> offspringPopulation) {
+
         // recompute the statistics of the offspring population.
-        populationStats = ConstantMutationRateGenerator.class.isAssignableFrom(this.mutationRateGenerator.getClass()) ?
-                null :
-                new PopulationStatisticalSummaryImpl<>(offspringPopulation);
+        final PopulationStatisticalSummary<P> offspringPopulationStats = ConstantMutationRateGenerator.class
+                .isAssignableFrom(this.mutationRateGenerator.getClass()) ? null :
+                        new PopulationStatisticalSummaryImpl<>(offspringPopulation);
+
+        List<Future<Chromosome<P>>> mutatedChromosomes = new ArrayList<>();
 
         // apply mutation policy to the offspring chromosomes and add the mutated
         // chromosomes to next generation.
         for (Chromosome<P> chromosome : offspringPopulation) {
-            nextGeneration.addChromosome(getMutationPolicy().mutate(chromosome,
-                    mutationRateGenerator.generate(chromosome, populationStats, getGenerationsEvolved())));
-        }
-        LOGGER.debug("New Generation: " + System.lineSeparator() + nextGeneration.toString());
+            mutatedChromosomes.add(executorService.submit(new Callable<Chromosome<P>>() {
 
-        return nextGeneration;
+                @Override
+                public Chromosome<P> call() throws Exception {
+                    return getMutationPolicy().mutate(chromosome, mutationRateGenerator.generate(chromosome,
+                            offspringPopulationStats, getGenerationsEvolved()));
+                }
+            }));
+        }
+        List<Chromosome<P>> mutatedOffsprings = new ArrayList<>();
+        try {
+            for (Future<Chromosome<P>> mutatedChromosome : mutatedChromosomes) {
+                mutatedOffsprings.add(mutatedChromosome.get());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new GeneticIllegalArgumentException(e);
+        }
+
+        return mutatedOffsprings;
+    }
+
+    private Population<P> reproduceOffsprings(final Population<P> current,
+            final ExecutorService executorService,
+            final int maxOffspringCount) {
+        // compute statistics of current generation chromosomes.
+        final PopulationStatisticalSummary<P> currentGenPopulationStats = ConstantCrossoverRateGenerator.class
+                .isAssignableFrom(this.crossoverRateGenerator.getClass()) ? null :
+                        new PopulationStatisticalSummaryImpl<>(current);
+        List<Future<ChromosomePair<P>>> chromosomePairs = new ArrayList<>();
+        for (int i = maxOffspringCount / 2; i > 0; i--) {
+            chromosomePairs.add(executorService.submit(() -> {
+                // select parent chromosomes
+                ChromosomePair<P> pair = getSelectionPolicy().select(current);
+                LOGGER.debug("Selected Chromosomes: " + System.lineSeparator() + pair.toString());
+
+                final double crossoverRate = crossoverRateGenerator.generate(pair.getFirst(), pair.getSecond(),
+                        currentGenPopulationStats, getGenerationsEvolved());
+                // apply crossover policy to create two offspring
+                pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
+                LOGGER.debug("Offsprings after Crossover: " + System.lineSeparator() + pair.toString());
+
+                return pair;
+            }));
+        }
+
+        // Initialize an empty population for offsprings.
+        final Population<P> offspringPopulation = current.nextGeneration(0);
+        try {
+            for (Future<ChromosomePair<P>> chromosomePair : chromosomePairs) {
+                ChromosomePair<P> pair = chromosomePair.get();
+                offspringPopulation.addChromosome(pair.getFirst());
+                offspringPopulation.addChromosome(pair.getSecond());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new GeneticIllegalArgumentException(e);
+        }
+        return offspringPopulation;
     }
 
     /**

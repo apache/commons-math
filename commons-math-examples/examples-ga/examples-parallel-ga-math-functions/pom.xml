@@ -21,44 +21,22 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apache.commons</groupId>
-    <artifactId>commons-math-examples</artifactId>
+    <artifactId>examples-ga</artifactId>
     <version>4.0-SNAPSHOT</version>
   </parent>
-  <artifactId>examples-ga</artifactId>
-  <packaging>pom</packaging>
-  <name>GA</name>
+  <artifactId>examples-parallel-ga-math-functions</artifactId>
+  <name>Parallel GA: Math Functions</name>
 
   <properties>
+    <!-- OSGi -->
+    <commons.osgi.symbolicName>org.apache.commons.math4.examples.ga.parallel.mathfunctions</commons.osgi.symbolicName>
+    <commons.osgi.export>org.apache.commons.math4.examples.ga.parallel.mathfunctions</commons.osgi.export>
+    <!-- Java 9+ -->
+    <commons.automatic.module.name>org.apache.commons.math4.examples.ga.parallel.mathfunctions</commons.automatic.module.name>
     <!-- Workaround to avoid duplicating config files. -->
-    <math.parent.dir>${basedir}/../..</math.parent.dir>
+    <math.parent.dir>${basedir}/../../..</math.parent.dir>
+
+    <uberjar.name>examples-ga-parallel-mathfunctions</uberjar.name>
+    <project.mainClass>org.apache.commons.math4.examples.ga.parallel.mathfunctions.StandAlone</project.mainClass>
   </properties>
-
-  <dependencies>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math4-ga</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>info.picocli</groupId>
-      <artifactId>picocli</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-    </dependency>
-
-  </dependencies>
-
-  <modules>
-    <module>examples-ga-math-functions</module>
-    <module>examples-ga-math-functions-adaptive</module>
-    <module>examples-ga-math-functions-legacy</module>
-    <module>examples-ga-tsp</module>
-    <module>examples-ga-tsp-legacy</module>
-    <module>examples-parallel-ga-math-functions</module>
-  </modules>
-
 </project>

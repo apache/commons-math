@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.ga.population;
 
+import java.util.Collection;
+
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 
 /**
@@ -50,6 +52,12 @@ public interface Population<P> extends Iterable<Chromosome<P>> {
      * @param chromosome the chromosome to add.
      */
     void addChromosome(Chromosome<P> chromosome);
+
+    /**
+     * Add the given chromosomes to the population.
+     * @param chromosomes the chromosomes to add.
+     */
+    void addChromosomes(Collection<Chromosome<P>> chromosomes);
 
     /**
      * Access the fittest chromosome in this population.

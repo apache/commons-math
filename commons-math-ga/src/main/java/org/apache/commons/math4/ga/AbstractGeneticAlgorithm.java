@@ -20,6 +20,8 @@ package org.apache.commons.math4.ga;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.crossover.CrossoverPolicy;
@@ -150,11 +152,35 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
      * property with the number of generations evolved before the StoppingCondition
      * is satisfied.
-     * @param initial   the initial, seed population.
-     * @param condition the stopping condition used to stop evolution.
+     * @param initial     the initial, seed population.
+     * @param condition   the stopping condition used to stop evolution.
+     * @param threadCount number of threads for executor service.
      * @return the population that satisfies the stopping condition.
      */
-    public Population<P> evolve(final Population<P> initial, final StoppingCondition<P> condition) {
+    public Population<P> evolve(final Population<P> initial,
+            final StoppingCondition<P> condition,
+            final int threadCount) {
+        final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        try {
+            return evolve(initial, condition, executorService);
+        } finally {
+            executorService.shutdown();
+        }
+    }
+
+    /**
+     * Evolve the given population. Evolution stops when the stopping condition is
+     * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
+     * property with the number of generations evolved before the StoppingCondition
+     * is satisfied.
+     * @param initial         the initial, seed population.
+     * @param condition       the stopping condition used to stop evolution.
+     * @param executorService the executor service to run threads.
+     * @return the population that satisfies the stopping condition.
+     */
+    public Population<P> evolve(final Population<P> initial,
+            final StoppingCondition<P> condition,
+            ExecutorService executorService) {
         Population<P> current = initial;
 
         LOGGER.info("Starting evolution process.");
@@ -164,12 +190,31 @@ public abstract class AbstractGeneticAlgorithm<P> {
             // notify interested listener
             convergenceListenerRegistry.notifyAll(generationsEvolved, current);
 
-            current = nextGeneration(current);
+            current = nextGeneration(current, executorService);
             this.generationsEvolved++;
         }
         LOGGER.info("Population convergence achieved after generations: " + generationsEvolved);
 
         return current;
+    }
+
+    /**
+     * Evolve the given population. Evolution stops when the stopping condition is
+     * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
+     * property with the number of generations evolved before the StoppingCondition
+     * is satisfied.
+     * @param initial   the initial, seed population.
+     * @param condition the stopping condition used to stop evolution.
+     * @return the population that satisfies the stopping condition.
+     */
+    public Population<P> evolve(final Population<P> initial, final StoppingCondition<P> condition) {
+        final ExecutorService executorService = Executors
+                .newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        try {
+            return evolve(initial, condition, executorService);
+        } finally {
+            executorService.shutdown();
+        }
     }
 
     /**
@@ -189,10 +234,11 @@ public abstract class AbstractGeneticAlgorithm<P> {
      * <li>Return nextGeneration</li>
      * </ol>
      *
-     * @param current the current population
+     * @param current         the current population
+     * @param executorService the executor service to run threads
      * @return the population for the next generation.
      */
-    protected abstract Population<P> nextGeneration(Population<P> current);
+    protected abstract Population<P> nextGeneration(Population<P> current, ExecutorService executorService);
 
     /**
      * Returns the elitism rate.

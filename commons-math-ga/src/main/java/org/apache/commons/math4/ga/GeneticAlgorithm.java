@@ -16,6 +16,12 @@
  */
 package org.apache.commons.math4.ga;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.crossover.CrossoverPolicy;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
@@ -104,10 +110,12 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
     private void checkValidity(final double crossoverRateInput, final double inputMutationRate) {
         if (crossoverRateInput < 0 || crossoverRateInput > 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, crossoverRateInput, CROSSOVER_RATE, 0, 1);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, crossoverRateInput,
+                    CROSSOVER_RATE, 0, 1);
         }
         if (inputMutationRate < 0 || inputMutationRate > 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, inputMutationRate, MUTATION_RATE, 0, 1);
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, inputMutationRate,
+                    MUTATION_RATE, 0, 1);
         }
     }
 
@@ -134,29 +142,42 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
      * @return the population for the next generation.
      */
     @Override
-    protected Population<P> nextGeneration(final Population<P> current) {
+    protected Population<P> nextGeneration(final Population<P> current, ExecutorService executorService) {
 
         LOGGER.debug("Reproducing next generation.");
         final Population<P> nextGeneration = current.nextGeneration(getElitismRate());
+        List<Future<ChromosomePair<P>>> chromosomePairs = new ArrayList<>();
 
-        while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit() - 1) {
+        int maxOffspringCount = nextGeneration.getPopulationLimit() - nextGeneration.getPopulationSize();
 
-            // select parent chromosomes
-            ChromosomePair<P> pair = getSelectionPolicy().select(current);
-            LOGGER.debug("Selected Chromosomes: " + System.lineSeparator() + pair.toString());
+        for (int i = maxOffspringCount / 2; i > 0; i--) {
 
-            // apply crossover policy to create two offspring
-            pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
-            LOGGER.debug("Offsprings after Crossover: " + System.lineSeparator() + pair.toString());
+            chromosomePairs.add(executorService.submit(() -> {
+                // select parent chromosomes
+                ChromosomePair<P> pair = getSelectionPolicy().select(current);
+                LOGGER.debug("Selected Chromosomes: " + System.lineSeparator() + pair.toString());
 
-            // apply mutation policy to the chromosomes
-            pair = new ChromosomePair<>(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
-                    getMutationPolicy().mutate(pair.getSecond(), mutationRate));
-            LOGGER.debug("Offsprings after Mutation: " + System.lineSeparator() + pair.toString());
+                // apply crossover policy to create two offspring
+                pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond(), crossoverRate);
+                LOGGER.debug("Offsprings after Crossover: " + System.lineSeparator() + pair.toString());
 
-            // add the chromosomes to the population
-            nextGeneration.addChromosome(pair.getFirst());
-            nextGeneration.addChromosome(pair.getSecond());
+                // apply mutation policy to the chromosomes
+                pair = new ChromosomePair<>(getMutationPolicy().mutate(pair.getFirst(), mutationRate),
+                        getMutationPolicy().mutate(pair.getSecond(), mutationRate));
+                LOGGER.debug("Offsprings after Mutation: " + System.lineSeparator() + pair.toString());
+
+                return pair;
+            }));
+        }
+
+        try {
+            for (Future<ChromosomePair<P>> chromosomePair : chromosomePairs) {
+                ChromosomePair<P> pair = chromosomePair.get();
+                nextGeneration.addChromosome(pair.getFirst());
+                nextGeneration.addChromosome(pair.getSecond());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new GeneticIllegalArgumentException(e);
         }
         LOGGER.debug("New Generation :" + System.lineSeparator() + nextGeneration.toString());
 
