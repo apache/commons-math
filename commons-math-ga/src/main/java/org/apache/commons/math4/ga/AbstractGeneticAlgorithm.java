@@ -199,25 +199,6 @@ public abstract class AbstractGeneticAlgorithm<P> {
     }
 
     /**
-     * Evolve the given population. Evolution stops when the stopping condition is
-     * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
-     * property with the number of generations evolved before the StoppingCondition
-     * is satisfied.
-     * @param initial   the initial, seed population.
-     * @param condition the stopping condition used to stop evolution.
-     * @return the population that satisfies the stopping condition.
-     */
-    public Population<P> evolve(final Population<P> initial, final StoppingCondition<P> condition) {
-        final ExecutorService executorService = Executors
-                .newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        try {
-            return evolve(initial, condition, executorService);
-        } finally {
-            executorService.shutdown();
-        }
-    }
-
-    /**
      * Evolve the given population into the next generation.
      * <ol>
      * <li>Get nextGeneration population to fill from <code>current</code>

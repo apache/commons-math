@@ -69,7 +69,8 @@ public class GeneticAlgorithmTestBinaryOneMax {
         Chromosome<List<Integer>> bestInitial = initial.getFittestChromosome();
 
         // run the algorithm
-        Population<List<Integer>> finalPopulation = ga.evolve(initial, stopCond);
+        Population<List<Integer>> finalPopulation = ga.evolve(initial, stopCond,
+                Runtime.getRuntime().availableProcessors());
 
         // best chromosome from the final population
         Chromosome<List<Integer>> bestFinal = finalPopulation.getFittestChromosome();

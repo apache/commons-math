@@ -76,20 +76,6 @@ public class ParallelGeneticAlgorithm<P> {
 
     /**
      * Evolve the given population. Evolution stops when the stopping condition is
-     * satisfied.
-     * @return the population that satisfies the stopping condition.
-     */
-    public List<Population<P>> evolve() {
-        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        try {
-            return evolve(executorService);
-        } finally {
-            executorService.shutdown();
-        }
-    }
-
-    /**
-     * Evolve the given population. Evolution stops when the stopping condition is
      * satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
      * property with the number of generations evolved before the StoppingCondition
      * is satisfied.
