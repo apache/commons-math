@@ -85,7 +85,8 @@ public final class ParallelMathFunctionOptimizer {
                 new UnchangedBestFitness<>(generationCountWithUnchangedBestFitness));
 
         // run the algorithm
-        final List<Population<Coordinate>> finalPopulations = parallelGeneticAlgorithm.evolve();
+        final List<Population<Coordinate>> finalPopulations = parallelGeneticAlgorithm
+                .evolve(Runtime.getRuntime().availableProcessors());
 
         // find best chromosomes from all populations.
         List<Chromosome<Coordinate>> bestChromosomes = new ArrayList<>();

@@ -69,8 +69,8 @@ public final class TSPOptimizer {
                 generationCountWithUnchangedBestFitness);
 
         // run the algorithm
-        final Population<List<City>> finalPopulation = ga.evolve(getInitialPopulation(cities, populationSize),
-                stopCond);
+        final Population<List<City>> finalPopulation = ga.evolve(getInitialPopulation(cities, populationSize), stopCond,
+                Runtime.getRuntime().availableProcessors());
 
         // best chromosome from the final population
         final RealValuedChromosome<List<City>> bestFinal = (RealValuedChromosome<List<City>>) finalPopulation

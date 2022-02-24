@@ -67,7 +67,7 @@ public final class AdaptiveMathFunctionOptimizer {
 
         // run the algorithm
         final Population<Coordinate> finalPopulation = ga.evolve(getInitialPopulation(dimension, populationSize),
-                stopCond);
+                stopCond, Runtime.getRuntime().availableProcessors());
 
         // best chromosome from the final population
         final Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
