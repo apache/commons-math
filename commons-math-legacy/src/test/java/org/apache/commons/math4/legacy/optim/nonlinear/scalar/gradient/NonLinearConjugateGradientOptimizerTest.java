@@ -42,7 +42,8 @@ import org.junit.Test;
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for
  * convenience, it is reproduced below.</p>
  *
- * <table style="text-align: center; background-color: #E0E0E0" border="0" width="80%" cellpadding="10" summary="MINPACK redistribution policy">
+ * <table style="text-align: center; background-color: #E0E0E0" border="">
+ * <caption>MINPACK redistribution policy</caption>
  * <tr><td>
  *    Minpack Copyright Notice (1999) University of Chicago.
  *    All rights reserved

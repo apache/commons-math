@@ -41,7 +41,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * {@link UniformRandomProvider random generator} may be supplied as a
  * constructor argument.</p>
  * <p>Examples:
- * <table border="1" cellpadding="3" summary="Examples">
+ * <table border="">
+ * <caption>Examples</caption>
  * <tr><th colspan="3">
  * Input data: (20, 17, 30, 42.3, 17, 50, Double.NaN, Double.NEGATIVE_INFINITY, 17)
  * </th></tr>

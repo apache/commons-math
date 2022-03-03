@@ -127,7 +127,8 @@
  * automatic guess is wrong.
  * </p>
  *
- * <table border="1" style="text-align: center" summary="Fixed Step Integrators">
+ * <table border="1" style="text-align: center">
+ * <caption>Fixed Step Integrators</caption>
  * <tr style="background-color: #CCCCFF"><td colspan=2 style="font-size: x-large">Fixed Step Integrators</td></tr>
  * <tr style="background-color: #EEEEFF; font-size: larger"><td>Name</td><td>Order</td></tr>
  * <tr><td>{@link org.apache.commons.math4.legacy.ode.nonstiff.EulerIntegrator Euler}</td><td>1</td></tr>
@@ -138,7 +139,8 @@
  * <tr><td>{@link org.apache.commons.math4.legacy.ode.nonstiff.LutherIntegrator Luther}</td><td>6</td></tr>
  * </table>
  *
- * <table border="1" style="text-align: center" summary="Adaptive Stepsize Integrators">
+ * <table border="1" style="text-align: center">
+ * <caption>Adaptive Stepsize Integrators</caption>
  * <tr style="background-color: #CCCCFF"><td colspan=3 style="font-size: x-large">Adaptive Stepsize Integrators</td></tr>
  * <tr style="background-color: #EEEEFF; font-size: larger"><td>Name</td><td>Integration Order</td><td>Error Estimation Order</td></tr>
  * <tr><td>{@link org.apache.commons.math4.legacy.ode.nonstiff.HighamHall54Integrator Higham and Hall}</td><td>5</td><td>4</td></tr>

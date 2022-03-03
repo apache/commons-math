@@ -81,7 +81,8 @@ public class FastHadamardTransform implements RealTransform {
      * <li><b>y</b> is the output vector (Fast Hadamard transform of <b>x</b>),</li>
      * <li>a and b are helper rows.</li>
      * </ol>
-     * <table style="text-align: center" border="1" cellpadding="3" summary="manual calculation for N=8">
+     * <table style="text-align: center" border="">
+     * <caption>manual calculation for N=8</caption>
      * <tbody style="text-align: center">
      * <tr>
      *     <th>x</th>
@@ -173,7 +174,8 @@ public class FastHadamardTransform implements RealTransform {
      * <li><em>Algorithm from <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">chipcenter</a>.</em></li>
      * </ol>
      * <h3>Visually</h3>
-     * <table border="1" cellpadding="3" style="text-align: center" summary="chipcenter algorithm">
+     * <table border="" style="text-align: center">
+     * <caption>chipcenter algorithm</caption>
      * <tbody style="text-align: center">
      * <tr>
      *     <td></td><th>0</th><th>1</th><th>2</th><th>3</th>

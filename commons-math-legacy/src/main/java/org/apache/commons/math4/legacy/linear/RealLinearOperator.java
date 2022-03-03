@@ -38,7 +38,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
  * <br>
  *
  * <dl>
- *  <dt><a name="BARR1994">Barret et al. (1994)</a></dt>
+ *  <dt><a id="BARR1994">Barret et al. (1994)</a></dt>
  *  <dd>
  *   R. Barrett, M. Berry, T. F. Chan, J. Demmel, J. M. Donato, J. Dongarra,
  *   V. Eijkhout, R. Pozo, C. Romine and H. Van der Vorst,

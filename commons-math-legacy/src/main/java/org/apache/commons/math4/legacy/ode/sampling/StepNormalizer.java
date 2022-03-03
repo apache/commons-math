@@ -40,7 +40,8 @@ import org.apache.commons.numbers.core.Precision;
  * it needs (time steps longer or shorter than the fixed time step and
  * non-integer ratios are all allowed).</p>
  *
- * <table border="1" style="text-align: center" summary="Examples (step size = 0.5)">
+ * <table border="1" style="text-align: center">
+ * <caption>Examples (step size = 0.5)</caption>
  * <tr style="background-color: #CCCCFF"><td style="font-size: x-large">Examples (step size = 0.5)</td></tr>
  * <tr style="background-color: #EEEEFF; font-size: large"><td>Start time</td><td>End time</td>
  *  <td>Direction</td><td>{@link StepNormalizerMode Mode}</td>

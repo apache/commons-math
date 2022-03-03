@@ -36,7 +36,7 @@ import org.junit.Test;
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for
  * convenience, it is reproduced below.</p>
 
- * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0">
+ * <table border="" align="center" bgcolor="#E0E0E0">
  * <tr><td>
  *    Minpack Copyright Notice (1999) University of Chicago.
  *    All rights reserved

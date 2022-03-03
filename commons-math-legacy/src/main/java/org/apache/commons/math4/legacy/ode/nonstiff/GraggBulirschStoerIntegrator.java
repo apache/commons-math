@@ -62,7 +62,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * href="http://www.unige.ch/~hairer/prog/licence.txt">here</a>, for
  * convenience, it is reproduced below.</p>
  *
- * <table border="0" width="80%" cellpadding="10" style="text-align: center; background-color: #E0E0E0" summary="odex redistribution policy">
+ * <table border="" style="text-align: center; background-color: #E0E0E0">
+ * <caption>odex redistribution policy</caption>
  * <tr><td>Copyright (c) 2004, Ernst Hairer</td></tr>
  *
  * <tr><td>Redistribution and use in source and binary forms, with or
