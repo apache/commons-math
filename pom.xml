@@ -116,6 +116,7 @@
     <module>commons-math-core</module>
     <module>commons-math-neuralnet</module>
     <module>commons-math-transform</module>
+    <module>commons-math-ga</module>
 
     <!-- 2. Modularized (but not refactored) legacy functionalities. -->
     <module>commons-math-legacy-exception</module>
