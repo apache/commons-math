@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<!--
+  This file contains some false positive bugs detected by spotbugs. Their
+  false positive nature has been analyzed individually and they have been
+  put here to instruct spotbugs it must ignore them.
+-->
+<FindBugsFilter
+    xmlns="https://github.com/spotbugs/filter/3.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
+
+  <Match>
+    <Class name="~.*\.jmh\..*generated\..*"/>
+  </Match>
+
+  <!-- Deliberately floating-point equality checks. -->
+  <Match>
+    <Class name="org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D"/>
+    <Method name="createLinks"/>
+    <BugPattern name="SF_SWITCH_FALLTHROUGH"/>
+  </Match>
+  <Match>
+    <!-- The constant is inlined resulting in a dead-local-store error -->
+    <Class name="org.apache.commons.math4.core.jdkmath.AccurateMath"/>
+    <Method name="atan"/>
+    <BugPattern name="DLS_DEAD_LOCAL_STORE"/>
+  </Match>
+  <Match>
+    <!-- The constant is intentionally close to but not exactly pi/2 -->
+    <Class name="org.apache.commons.math4.core.jdkmath.AccurateMath$CodyWaite"/>
+    <BugPattern name="CNT_ROUGH_CONSTANT_VALUE"/>
+  </Match>
+
+  <!-- Disable checks for exposure of internal references.
+       TODO: Revise this to use more targeted exclusions. -->
+  <Match>
+    <Or>
+      <BugPattern name="EI_EXPOSE_REP"/>
+      <BugPattern name="EI_EXPOSE_REP2"/>
+    </Or>
+  </Match>
+
+</FindBugsFilter>
