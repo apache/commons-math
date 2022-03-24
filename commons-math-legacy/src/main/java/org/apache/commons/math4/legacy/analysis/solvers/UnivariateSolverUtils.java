@@ -220,6 +220,7 @@ public final class UnivariateSolverUtils {
      * satisfying the desired conditions.
      * @throws NotStrictlyPositiveException if {@code maximumIterations <= 0}.
      * @throws NullArgumentException if {@code function} is {@code null}.
+     * @throws NumberIsTooLargeException if endpoints do not specify an interval.
      */
     public static double[] bracket(UnivariateFunction function,
                                    double initial,
@@ -290,7 +291,10 @@ public final class UnivariateSolverUtils {
      * @param r multiplicative factor used to compute bounds sequence
      * @param maximumIterations Maximum number of iterations to perform
      * @return a two element array holding the bracketing values.
-     * @exception NoBracketingException if function cannot be bracketed in the search interval
+     * @throws NoBracketingException if function cannot be bracketed in the search interval
+     * @throws NotStrictlyPositiveException if {@code maximumIterations <= 0}.
+     * @throws NullArgumentException if {@code function} is {@code null}.
+     * @throws NumberIsTooLargeException if endpoints do not specify an interval.
      */
     public static double[] bracket(final UnivariateFunction function, final double initial,
                                    final double lowerBound, final double upperBound,

@@ -22,7 +22,9 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
+import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -151,6 +153,11 @@ public class UnivariateSolverUtilsTest {
         UnivariateSolverUtils.bracket(null, 1.5, 0, 2.0);
     }
 
+    @Test(expected=NullArgumentException.class)
+    public void testNullFunction2() {
+        UnivariateSolverUtils.bracket(null, 1.5, 0, 2.0, 1.0e-5, 1.0, 0);
+    }
+
     @Test(expected=MathIllegalArgumentException.class)
     public void testBadInitial() {
         UnivariateSolverUtils.bracket(sin, 2.5, 0, 2.0);
@@ -176,6 +183,24 @@ public class UnivariateSolverUtilsTest {
     public void testBadMaximumIterations() {
         // bad maximum iterations
         UnivariateSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testNumberIsTooLargeException() {
+        // endpoints not an interval
+        UnivariateSolverUtils.bracket(sin, 0, 0, 0, 1);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testNumberIsTooLargeException2() {
+        // endpoints not an interval
+        UnivariateSolverUtils.bracket(sin, 0, -1, 0, 1);
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testNotStrictlyPositiveMaxIterations() {
+        // invalid max iterations
+        UnivariateSolverUtils.bracket(sin, 1.5, 0, 2.0, 1.0e-5, 1.0, 0);
     }
 
     /** check the search continues when a = lowerBound and b < upperBound. */
