@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.examples.ga.parallel.mathfunctions;
 
-import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -64,19 +62,16 @@ public class StandAlone implements Runnable {
 
     private void validateInput() {
         if (this.dimension < 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
-                    "Dimension should be > 0.");
+            throw new IllegalArgumentException("Dimension should be > 0.");
         }
         if (this.tournamentSize < 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
-                    "Tournament size should be > 0.");
+            throw new IllegalArgumentException("Tournament size should be > 0.");
         }
         if (populationSize <= 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
-                    "Population size should be > 1.");
+            throw new IllegalArgumentException("Population size should be > 1.");
         }
         if (generationsEvolvedWithUnchangedBestFitness < 1) {
-            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
+            throw new IllegalArgumentException(
                     "Number of generations evolved with unchanged best fitness should be >= 1.");
         }
     }
