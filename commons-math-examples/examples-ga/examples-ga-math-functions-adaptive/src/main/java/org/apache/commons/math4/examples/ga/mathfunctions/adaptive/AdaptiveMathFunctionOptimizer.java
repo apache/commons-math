@@ -17,6 +17,9 @@
 
 package org.apache.commons.math4.examples.ga.mathfunctions.adaptive;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.math4.ga.AbstractGeneticAlgorithm;
 import org.apache.commons.math4.ga.AdaptiveGeneticAlgorithm;
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
@@ -77,11 +80,29 @@ public final class AdaptiveMathFunctionOptimizer {
 
     private static Population<Coordinate> getInitialPopulation(int dimension, int populationSize) {
         final Population<Coordinate> population = new ListPopulation<>(populationSize);
-        final MathFunction fitnessFunction = new MathFunction();
-        final CoordinateDecoder decoder = new CoordinateDecoder();
+
         for (int i = 0; i < populationSize; i++) {
-            population.addChromosome(BinaryChromosome.<Coordinate>randomChromosome(
-                    dimension * CHROMOSOME_LENGTH_PER_DIMENSION, fitnessFunction, decoder));
+            population.addChromosome(BinaryChromosome
+                    .<Coordinate>randomChromosome(dimension * CHROMOSOME_LENGTH_PER_DIMENSION, coordinate -> {
+                        double sumOfSquare = 0.0;
+                        for (Double value : coordinate.getValues()) {
+                            sumOfSquare += Math.pow(value, 2);
+                        }
+                        return -Math.pow(sumOfSquare, .25) *
+                                (Math.pow(Math.sin(50 * Math.pow(sumOfSquare, .1)), 2) + 1);
+                    }, chromosome -> {
+                            final BinaryChromosome<Coordinate> binaryChromosome =
+                                    (BinaryChromosome<Coordinate>) chromosome;
+                            final long length = binaryChromosome.getLength();
+                            final List<Double> coordinates = new ArrayList<>();
+
+                            for (int j = 0; j < length; j += 12) {
+                                final String dimensionStrValue = binaryChromosome.getStringRepresentation(j, j + 12);
+                                coordinates.add(Integer.parseUnsignedInt(dimensionStrValue, 2) / 100d);
+                            }
+
+                            return new Coordinate(coordinates);
+                        }));
         }
         return population;
     }
