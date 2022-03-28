@@ -83,9 +83,19 @@ public final class TSPOptimizer {
         final Population<List<City>> simulationPopulation = new ListPopulation<>(populationSize);
 
         for (int i = 0; i < populationSize; i++) {
-            simulationPopulation.addChromosome(
-                    new RealValuedChromosome<>(ChromosomeRepresentationUtils.randomPermutation(cities.size()),
-                            new TSPFitnessFunction(), new RandomKeyDecoder<City>(cities)));
+            simulationPopulation.addChromosome(new RealValuedChromosome<>(
+                    ChromosomeRepresentationUtils.randomPermutation(cities.size()), decodedChromosome -> {
+                final DistanceMatrix distanceMatrix = DistanceMatrix.getInstance(cities);
+                double totalDistance = 0.0;
+                int index1 = 0;
+                int index2 = 0;
+                for (int j = 0; j < cities.size(); j++) {
+                    index1 = j;
+                    index2 = (j == cities.size() - 1) ? 0 : j + 1;
+                    totalDistance += distanceMatrix.getDistance(cities.get(index1), cities.get(index2));
+                }
+                return -totalDistance;
+            }, new RandomKeyDecoder<City>(cities)));
         }
 
         return simulationPopulation;
