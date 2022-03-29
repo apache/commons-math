@@ -245,7 +245,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
          * Registers the interested ConvergenceListener passed as an argument.
          * @param convergenceListener The {@link ConvergenceListener}
          */
-        public void addConvergenceListener(ConvergenceListener<P> convergenceListener) {
+        private void addConvergenceListener(ConvergenceListener<P> convergenceListener) {
             Objects.requireNonNull(convergenceListener);
             this.listeners.add(convergenceListener);
         }
@@ -255,7 +255,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
          * @param generation current generation
          * @param population population of chromosomes
          */
-        public void notifyAll(int generation, Population<P> population) {
+        private void notifyAll(int generation, Population<P> population) {
             for (ConvergenceListener<P> convergenceListener : listeners) {
                 convergenceListener.notify(generation, population);
             }
