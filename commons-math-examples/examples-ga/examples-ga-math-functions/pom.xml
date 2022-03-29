@@ -25,7 +25,6 @@
     <version>4.0-SNAPSHOT</version>
   </parent>
   <artifactId>examples-ga-math-functions</artifactId>
-  <version>4.0-SNAPSHOT</version>
   <name>GA: Math Functions</name>
 
   <properties>
@@ -40,5 +39,12 @@
     <uberjar.name>examples-ga-mathfunctions</uberjar.name>
     <project.mainClass>org.apache.commons.math4.examples.ga.mathfunctions.StandAlone</project.mainClass>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

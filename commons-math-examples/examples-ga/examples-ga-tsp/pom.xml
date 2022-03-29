@@ -25,7 +25,6 @@
     <version>4.0-SNAPSHOT</version>
   </parent>
   <artifactId>examples-ga-tsp</artifactId>
-  <version>4.0-SNAPSHOT</version>
   <name>GA: TSP</name>
 
   <properties>
@@ -40,5 +39,14 @@
     <uberjar.name>examples-ga-tsp</uberjar.name>
     <project.mainClass>org.apache.commons.math4.examples.ga.tsp.StandAlone</project.mainClass>
   </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+    </dependency>
+
+  </dependencies>
 
 </project>

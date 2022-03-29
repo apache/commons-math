@@ -26,6 +26,7 @@ import org.apache.commons.math3.genetics.RandomKey;
 import org.apache.commons.math3.genetics.RandomKeyMutation;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.genetics.TournamentSelection;
+import org.apache.commons.math4.examples.ga.tsp.City;
 
 /**
  * This class represents the tsp optimizer based on legacy implementation of

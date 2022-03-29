@@ -55,9 +55,7 @@
   <modules>
     <module>examples-ga-math-functions</module>
     <module>examples-ga-math-functions-adaptive</module>
-    <module>examples-ga-math-functions-legacy</module>
     <module>examples-ga-tsp</module>
-    <module>examples-ga-tsp-legacy</module>
     <module>examples-parallel-ga-math-functions</module>
   </modules>
 

@@ -19,6 +19,8 @@ package org.apache.commons.math4.examples.ga.tsp.legacy;
 import java.util.List;
 
 import org.apache.commons.math3.genetics.RandomKey;
+import org.apache.commons.math4.examples.ga.tsp.City;
+import org.apache.commons.math4.examples.ga.tsp.DistanceMatrix;
 
 /**
  * This class represents chromosome for tsp problem.

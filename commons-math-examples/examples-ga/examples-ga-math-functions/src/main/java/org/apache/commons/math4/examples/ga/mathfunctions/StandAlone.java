@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.examples.ga.mathfunctions;
 
+import org.apache.commons.math4.examples.ga.mathfunctions.legacy.LegacyMathFunctionOptimizer;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -52,6 +54,10 @@ public class StandAlone implements Runnable {
             description = "No of generations evolved with unchanged best fitness (default: ${DEFAULT-VALUE}).")
     private int generationsEvolvedWithUnchangedBestFitness = 50;
 
+    /** indicates whether the algorithm should be legacy or not. **/
+    @Option(names = "--legacy", description = "Indicates which version of algorithm to execute current or legacy.")
+    private boolean legacy;
+
     public static void main(String[] args) {
         CommandLine.run(new StandAlone(), args);
     }
@@ -66,10 +72,13 @@ public class StandAlone implements Runnable {
         // validate all input options.
         validateInput();
 
-        final MathFunctionOptimizer optimizer = new MathFunctionOptimizer();
-
-        optimizer.optimize(dimension, crossoverRate, mutationRate, elitismRate, tournamentSize,
-                generationsEvolvedWithUnchangedBestFitness, populationSize);
+        if (!legacy) {
+            new MathFunctionOptimizer().optimize(dimension, crossoverRate, mutationRate, elitismRate, tournamentSize,
+                    generationsEvolvedWithUnchangedBestFitness, populationSize);
+        } else {
+            new LegacyMathFunctionOptimizer().optimize(dimension, crossoverRate, mutationRate, elitismRate,
+                    tournamentSize, generationsEvolvedWithUnchangedBestFitness, populationSize);
+        }
 
     }
 

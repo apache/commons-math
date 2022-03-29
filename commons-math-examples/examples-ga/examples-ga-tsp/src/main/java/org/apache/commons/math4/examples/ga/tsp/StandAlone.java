@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.math4.examples.ga.tsp.legacy.LegacyTSPOptimizer;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -58,6 +60,10 @@ public class StandAlone implements Runnable {
             description = "No of generations evolved with unchanged best fitness (default: ${DEFAULT-VALUE}).")
     private int generationsEvolvedWithUnchangedBestFitness = 50;
 
+    /** indicates whether the algorithm should be legacy or not. **/
+    @Option(names = "--legacy", description = "Indicates which version of algorithm to execute current or legacy.")
+    private boolean legacy;
+
     public static void main(String[] args) {
         CommandLine.run(new StandAlone(), args);
     }
@@ -71,10 +77,13 @@ public class StandAlone implements Runnable {
         // validate all input options.
         validateInput();
 
-        final TSPOptimizer optimizer = new TSPOptimizer();
-
-        optimizer.optimize(CITIES, crossoverRate, mutationRate, elitismRate, tournamentSize,
-                generationsEvolvedWithUnchangedBestFitness, populationSize);
+        if (!legacy) {
+            new TSPOptimizer().optimize(CITIES, crossoverRate, mutationRate, elitismRate, tournamentSize,
+                    generationsEvolvedWithUnchangedBestFitness, populationSize);
+        } else {
+            new LegacyTSPOptimizer().optimize(CITIES, crossoverRate, mutationRate, elitismRate, tournamentSize,
+                    generationsEvolvedWithUnchangedBestFitness, populationSize);
+        }
 
     }
 
