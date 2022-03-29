@@ -57,10 +57,4 @@
     </Or>
   </Match>
 
-  <Match>
-    <!-- ConvergenceListenerRegistry class can expose internal representations -->
-    <Class name="org.apache.commons.math4.ga.listener.ConvergenceListenerRegistry"/>
-    <BugPattern name="MS_EXPOSE_REP"/>
-  </Match>
-
 </FindBugsFilter>
