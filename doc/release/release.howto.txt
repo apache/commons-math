@@ -227,7 +227,7 @@ Switch to a new directory out of your regular workspace, and retrieve
 the official tag from the Apache repository:
 
   $ cd /tmp
-  $ git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_4_RC1
+  $ git clone https://gitbox.apache.org/repos/asf/commons-math.git --branch MATH_3_4_RC1
 
 In the command above, the --branch option accepts both branch names and tags names,
 so we specify directly the tag here. Git will warn that the resulting workspace
@@ -343,7 +343,7 @@ Tag name:
   MATH_3_4_RC1 (signature can be checked from git using 'git tag -v')
 
 Tag URL:
-  <https://git-wip-us.apache.org/repos/asf?p=commons-math.git;a=commit;h=cf4a9d70c9ac24dd7196995390171150e4e56451>
+  <https://gitbox.apache.org/repos/asf?p=commons-math.git;a=commit;h=cf4a9d70c9ac24dd7196995390171150e4e56451>
 
 Commit ID the tag points at:
   cf4a9d70c9ac24dd7196995390171150e4e56451
