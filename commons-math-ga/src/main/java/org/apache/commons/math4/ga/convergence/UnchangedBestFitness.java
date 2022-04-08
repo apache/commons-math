@@ -30,13 +30,11 @@ public class UnchangedBestFitness<P> implements StoppingCondition<P> {
 
     /** best fitness of previous generation. **/
     private double lastBestFitness = Double.MIN_VALUE;
-
     /**
      * The configured number of generations for which optimization process will
      * continue with unchanged best fitness value.
      **/
     private final int maxGenerationsWithUnchangedBestFitness;
-
     /** Number of generations the best fitness value has not been changed. **/
     private int generationsHavingUnchangedBestFitness;
 

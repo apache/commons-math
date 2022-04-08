@@ -36,16 +36,12 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
 
     /** Value assigned when no fitness has been computed yet. */
     private static final double NO_FITNESS = Double.NEGATIVE_INFINITY;
-
     /** Cached value of the fitness of this chromosome. */
     private double fitness = NO_FITNESS;
-
     /** Fitness function to evaluate fitness of chromosome. **/
     private final FitnessFunction<P> fitnessFunction;
-
     /** decoder to deode the chromosome's genotype representation. **/
     private final Decoder<P> decoder;
-
     /** Id of chromosome. **/
     private final String id;
 

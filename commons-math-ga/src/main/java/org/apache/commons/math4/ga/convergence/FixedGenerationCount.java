@@ -30,9 +30,9 @@ import org.apache.commons.math4.ga.population.Population;
  * @since 2.0
  */
 public class FixedGenerationCount<P> implements StoppingCondition<P> {
+
     /** Number of generations that have passed. */
     private int numGenerations;
-
     /** Maximum number of generations (stopping criteria). */
     private final int maxGenerations;
 

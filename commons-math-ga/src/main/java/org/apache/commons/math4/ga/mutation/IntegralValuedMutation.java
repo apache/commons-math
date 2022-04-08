@@ -31,7 +31,6 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
 
     /** minimum acceptable value of allele. **/
     private final int min;
-
     /** maximum acceptable value of allele. **/
     private final int max;
 

@@ -65,7 +65,6 @@ public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends Abstra
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.SIZE_MISMATCH,
                     secondListChromosome.getLength(), length);
         }
-
     }
 
     /**

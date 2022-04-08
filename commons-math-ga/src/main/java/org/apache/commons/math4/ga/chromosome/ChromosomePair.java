@@ -25,7 +25,6 @@ public class ChromosomePair<P> {
 
     /** the first chromosome in the pair. */
     private final Chromosome<P> first;
-
     /** the second chromosome in the pair. */
     private final Chromosome<P> second;
 

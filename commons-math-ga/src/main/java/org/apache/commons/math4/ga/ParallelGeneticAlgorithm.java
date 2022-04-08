@@ -42,7 +42,6 @@ public class ParallelGeneticAlgorithm<P> {
 
     /** instance of logger. **/
     private static final Logger LOGGER = LoggerFactory.getLogger(ParallelGeneticAlgorithm.class);
-
     /** List of algorithm execution configurations to be executed in parallel. **/
     private List<AlgorithmExecutionConfig> algorithmConfigParams = new ArrayList<>();
 
@@ -99,7 +98,6 @@ public class ParallelGeneticAlgorithm<P> {
         } catch (InterruptedException | ExecutionException e) {
             throw new GeneticIllegalArgumentException(e);
         }
-
         return convergedPopulations;
     }
 
@@ -107,10 +105,8 @@ public class ParallelGeneticAlgorithm<P> {
 
         /** instance of genetic algorithm. **/
         private AbstractGeneticAlgorithm<P> algorithm;
-
         /** initial population to converge. **/
         private Population<P> initialPopulation;
-
         /** stopping condition to decide convergence. **/
         private StoppingCondition<P> stoppingCondition;
 
@@ -121,7 +117,5 @@ public class ParallelGeneticAlgorithm<P> {
             this.initialPopulation = initialPopulation;
             this.stoppingCondition = stoppingCondition;
         }
-
     }
-
 }

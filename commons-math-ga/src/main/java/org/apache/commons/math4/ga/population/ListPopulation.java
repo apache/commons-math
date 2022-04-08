@@ -36,10 +36,8 @@ public class ListPopulation<P> implements Population<P> {
 
     /** new line constant. **/
     public static final String NEW_LINE = System.getProperty("line.separator");
-
     /** List of chromosomes. */
     private final List<Chromosome<P>> chromosomes;
-
     /** maximal size of the population. */
     private int populationLimit;
 
@@ -213,10 +211,4 @@ public class ListPopulation<P> implements Population<P> {
             return nextGeneration;
         }
     }
-
-//    @Override
-//    public void addChromosomes(List<Chromosome<P>> chromosomes) {
-//        this.chromosomes.addAll(chromosomes);
-//    }
-
 }

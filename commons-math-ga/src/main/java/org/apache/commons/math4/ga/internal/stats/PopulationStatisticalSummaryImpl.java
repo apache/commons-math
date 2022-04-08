@@ -37,19 +37,14 @@ public class PopulationStatisticalSummaryImpl<P> implements PopulationStatistica
 
     /** maximum fitness of the population. **/
     private final double maxFitness;
-
     /** minimum fitness of the population. **/
     private final double minFitness;
-
     /** mean fitness of the population. **/
     private double meanFitness;
-
     /** variance of population fitness. **/
     private final double variance;
-
     /** population size. **/
     private final int populationSize;
-
     /** a map of chromosome Id and corresponding rank in population. **/
     private final Map<String, Integer> chromosomeIdRankMap = new HashMap<>();
 

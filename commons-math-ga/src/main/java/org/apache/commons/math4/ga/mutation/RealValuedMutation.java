@@ -32,7 +32,6 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
 
     /** minimum value of chromosome gene/allele. **/
     private final double min;
-
     /** maximum exclusive value of chromosome gene/allele. **/
     private final double max;
 

@@ -43,16 +43,12 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
     /** instance of logger. **/
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneticAlgorithm.class);
-
     /** crossover rate string. **/
     private static final String CROSSOVER_RATE = "CROSSOVER_RATE";
-
     /** mutation rate string. **/
     private static final String MUTATION_RATE = "MUTATION_RATE";
-
     /** the rate of crossover for the algorithm. */
     private final double crossoverRate;
-
     /** the rate of mutation for the algorithm. */
     private final double mutationRate;
 

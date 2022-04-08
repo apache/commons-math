@@ -105,5 +105,4 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
     public int getArity() {
         return arity;
     }
-
 }

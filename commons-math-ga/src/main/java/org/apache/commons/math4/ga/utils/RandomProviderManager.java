@@ -43,5 +43,4 @@ public final class RandomProviderManager {
     public static UniformRandomProvider getRandomProvider() {
         return ThreadLocalRandomSource.current(RandomProviderManager.randomSource);
     }
-
 }

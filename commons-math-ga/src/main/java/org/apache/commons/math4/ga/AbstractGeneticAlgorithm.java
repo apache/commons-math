@@ -42,26 +42,20 @@ public abstract class AbstractGeneticAlgorithm<P> {
 
     /** instance of logger. **/
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGeneticAlgorithm.class);
-
     /** the crossover policy used by the algorithm. */
     private final CrossoverPolicy<P> crossoverPolicy;
-
     /** the mutation policy used by the algorithm. */
     private final MutationPolicy<P> mutationPolicy;
-
     /** the selection policy used by the algorithm. */
     private final SelectionPolicy<P> selectionPolicy;
-
-    /** The elitism rate having default value of .25. */
+    /** the elitism rate having default value of .25. */
     private final double elitismRate;
-
     /**
      * the number of generations evolved to reach {@link StoppingCondition} in the
      * last run.
      */
     private int generationsEvolved;
-
-    /** The registry for all interested convergence listeners. **/
+    /** the registry for all interested convergence listeners. **/
     private ConvergenceListenerRegistry<P> convergenceListenerRegistry = new ConvergenceListenerRegistry<>();
 
     /**
