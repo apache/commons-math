@@ -29,7 +29,6 @@ public class AdaptiveLinearMutationRateGenerator<P> implements MutationRateGener
 
     /** minimum crossover rate. **/
     private final double minimumRate;
-
     /** maximum crossover rate. **/
     private final double maximumRate;
 
@@ -50,5 +49,4 @@ public class AdaptiveLinearMutationRateGenerator<P> implements MutationRateGener
         return minimumRate + (maximumRate - minimumRate) *
                 (1.0 - (double) populationStats.findRank(chromosome) / (populationStats.getPopulationSize() - 1));
     }
-
 }

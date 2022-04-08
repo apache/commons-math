@@ -43,43 +43,14 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
     /** instance of logger. **/
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneticAlgorithm.class);
-
     /** crossover rate string. **/
     private static final String CROSSOVER_RATE = "CROSSOVER_RATE";
-
     /** mutation rate string. **/
     private static final String MUTATION_RATE = "MUTATION_RATE";
-
     /** the rate of crossover for the algorithm. */
     private final double crossoverRate;
-
     /** the rate of mutation for the algorithm. */
     private final double mutationRate;
-
-    /**
-     * Create a new genetic algorithm.
-     * @param crossoverPolicy      The {@link CrossoverPolicy}
-     * @param crossoverRate        The crossover rate as a percentage (0-1
-     *                             inclusive)
-     * @param mutationPolicy       The {@link MutationPolicy}
-     * @param mutationRate         The mutation rate as a percentage (0-1 inclusive)
-     * @param selectionPolicy      The {@link SelectionPolicy}
-     * @param convergenceListeners An optional collection of
-     *                             {@link ConvergenceListener} with variable arity
-     */
-    @SafeVarargs
-    public GeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy,
-            final double crossoverRate,
-            final MutationPolicy<P> mutationPolicy,
-            final double mutationRate,
-            final SelectionPolicy<P> selectionPolicy,
-            ConvergenceListener<P>... convergenceListeners) {
-        super(crossoverPolicy, mutationPolicy, selectionPolicy, convergenceListeners);
-
-        checkValidity(crossoverRate, mutationRate);
-        this.crossoverRate = crossoverRate;
-        this.mutationRate = mutationRate;
-    }
 
     /**
      * Create a new genetic algorithm.

@@ -35,12 +35,10 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      * maximum allowed length of binary chromosome.
      */
     public static final long MAX_LENGTH = Integer.MAX_VALUE;
-
     /**
      * length of binary chromosome.
      */
     private final long length;
-
     /**
      * binary representation of chromosome.
      */

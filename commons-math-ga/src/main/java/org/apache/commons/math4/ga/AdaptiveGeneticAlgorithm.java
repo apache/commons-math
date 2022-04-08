@@ -53,34 +53,10 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
     /** instance of logger. **/
     private static final Logger LOGGER = LoggerFactory.getLogger(AdaptiveGeneticAlgorithm.class);
-
     /** The crossover rate generator. **/
     private final CrossoverRateGenerator<P> crossoverRateGenerator;
-
     /** The mutation rate generator. **/
     private final MutationRateGenerator<P> mutationRateGenerator;
-
-    /**
-     * @param crossoverPolicy               crossover policy
-     * @param crossoverProbabilityGenerator crossover probability generator
-     * @param mutationPolicy                mutation policy
-     * @param mutationProbabilityGenerator  mutation probability generator
-     * @param selectionPolicy               selection policy
-     * @param convergenceListeners          An optional collection of
-     *                                      {@link ConvergenceListener} with
-     *                                      variable arity
-     */
-    @SafeVarargs
-    public AdaptiveGeneticAlgorithm(CrossoverPolicy<P> crossoverPolicy,
-            CrossoverRateGenerator<P> crossoverProbabilityGenerator,
-            MutationPolicy<P> mutationPolicy,
-            MutationRateGenerator<P> mutationProbabilityGenerator,
-            SelectionPolicy<P> selectionPolicy,
-            ConvergenceListener<P>... convergenceListeners) {
-        super(crossoverPolicy, mutationPolicy, selectionPolicy, convergenceListeners);
-        this.crossoverRateGenerator = crossoverProbabilityGenerator;
-        this.mutationRateGenerator = mutationProbabilityGenerator;
-    }
 
     /**
      * @param crossoverPolicy               crossover policy
@@ -123,8 +99,7 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
         final int maxOffspringCount = nextGeneration.getPopulationLimit() - nextGeneration.getPopulationSize();
 
-        final Population<P> offsprings = reproduceOffsprings(current, executorService,
-                maxOffspringCount);
+        final Population<P> offsprings = reproduceOffsprings(current, executorService, maxOffspringCount);
 
         LOGGER.debug("Performing adaptive mutation of offsprings.");
 
@@ -139,9 +114,10 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
             final Population<P> offspringPopulation) {
 
         // recompute the statistics of the offspring population.
-        final PopulationStatisticalSummary<P> offspringPopulationStats = ConstantMutationRateGenerator.class
-                .isAssignableFrom(this.mutationRateGenerator.getClass()) ? null :
-                        new PopulationStatisticalSummaryImpl<>(offspringPopulation);
+        final PopulationStatisticalSummary<P> offspringPopulationStats =
+                mutationRateGenerator instanceof ConstantMutationRateGenerator ?
+                null :
+                new PopulationStatisticalSummaryImpl<>(offspringPopulation);
 
         List<Future<Chromosome<P>>> mutatedChromosomes = new ArrayList<>();
 

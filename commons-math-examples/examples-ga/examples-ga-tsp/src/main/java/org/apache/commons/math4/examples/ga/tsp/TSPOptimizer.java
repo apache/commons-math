@@ -76,7 +76,15 @@ public final class TSPOptimizer {
         final RealValuedChromosome<List<City>> bestFinal = (RealValuedChromosome<List<City>>) finalPopulation
                 .getFittestChromosome();
 
-        logger.info(bestFinal.decode().toString());
+        StringBuilder schedule = new StringBuilder();
+        schedule.append("Travel Shcedule: " + System.lineSeparator());
+        List<City> bestCities = bestFinal.decode();
+        for (City city : bestCities) {
+            schedule.append("City - " + city.getIndex() + System.lineSeparator());
+        }
+        schedule.append("Total distance - " + Math.abs(bestFinal.evaluate()));
+
+        logger.info(schedule.toString());
     }
 
     private static Population<List<City>> getInitialPopulation(List<City> cities, int populationSize) {
@@ -87,12 +95,9 @@ public final class TSPOptimizer {
                     ChromosomeRepresentationUtils.randomPermutation(cities.size()), decodedChromosome -> {
                 final DistanceMatrix distanceMatrix = DistanceMatrix.getInstance(cities);
                 double totalDistance = 0.0;
-                int index1 = 0;
-                int index2 = 0;
                 for (int j = 0; j < cities.size(); j++) {
-                    index1 = j;
-                    index2 = (j == cities.size() - 1) ? 0 : j + 1;
-                    totalDistance += distanceMatrix.getDistance(cities.get(index1), cities.get(index2));
+                    totalDistance += distanceMatrix.getDistance(decodedChromosome.get(j),
+                            decodedChromosome.get((j == cities.size() - 1) ? 0 : j + 1));
                 }
                 return -totalDistance;
             }, new RandomKeyDecoder<City>(cities)));

@@ -29,7 +29,6 @@ public class AdaptiveLinearMaximumRankBasedCrossoverRateGenerator<P> implements 
 
     /** minimum crossover rate. **/
     private final double minimumRate;
-
     /** maximum crossover rate. **/
     private final double maximumRate;
 

@@ -29,7 +29,6 @@ public class AdaptiveLinearAverageRankBasedCrossoverRateGenerator<P> implements 
 
     /** minimum crossover rate. **/
     private final double minimumRate;
-
     /** maximum crossover rate. **/
     private final double maximumRate;
 
@@ -54,5 +53,4 @@ public class AdaptiveLinearAverageRankBasedCrossoverRateGenerator<P> implements 
         return minimumRate +
                 (maximumRate - minimumRate) * (1.0 - (double) averageRank / (populationStats.getPopulationSize() - 1));
     }
-
 }

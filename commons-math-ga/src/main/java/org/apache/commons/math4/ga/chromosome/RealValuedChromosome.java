@@ -36,7 +36,6 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
 
     /** minimum acceptable value of allele. **/
     private final double min;
-
     /** maximum acceptable value of allele. **/
     private final double max;
 

@@ -36,7 +36,6 @@ public class FixedElapsedTime<P> implements StoppingCondition<P> {
 
     /** Maximum allowed time period (in nanoseconds). */
     private final long maxTimePeriod;
-
     /** The predetermined termination time (stopping condition). */
     private long endTime = -1;
 
@@ -73,7 +72,6 @@ public class FixedElapsedTime<P> implements StoppingCondition<P> {
         if (endTime < 0) {
             endTime = System.nanoTime() + maxTimePeriod;
         }
-
         return System.nanoTime() >= endTime;
     }
 

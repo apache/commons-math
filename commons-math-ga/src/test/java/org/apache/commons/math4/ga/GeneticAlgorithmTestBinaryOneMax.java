@@ -56,7 +56,7 @@ public class GeneticAlgorithmTestBinaryOneMax {
         // initialize a new genetic algorithm
         GeneticAlgorithm<List<Integer>> ga = new GeneticAlgorithm<>(new OnePointBinaryCrossover<List<Integer>>(),
                 CROSSOVER_RATE, new BinaryMutation<List<Integer>>(), MUTATION_RATE,
-                new TournamentSelection<List<Integer>>(TOURNAMENT_ARITY));
+                new TournamentSelection<List<Integer>>(TOURNAMENT_ARITY), .25);
 
         Assertions.assertEquals(0, ga.getGenerationsEvolved());
 
@@ -147,7 +147,7 @@ public class GeneticAlgorithmTestBinaryOneMax {
     public void testCrossoverRate() {
         Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new GeneticAlgorithm<>(new OnePointCrossover<>(), 1.5, new BinaryMutation<>(), .01,
-                    new TournamentSelection<>(10));
+                    new TournamentSelection<>(10), .25);
         });
     }
 
@@ -155,7 +155,7 @@ public class GeneticAlgorithmTestBinaryOneMax {
     public void testMutationRate() {
         Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             new GeneticAlgorithm<>(new OnePointCrossover<>(), .5, new BinaryMutation<>(), 1.5,
-                    new TournamentSelection<>(10));
+                    new TournamentSelection<>(10), .25);
         });
     }
 

@@ -33,7 +33,6 @@ public class IntegralValuedChromosome<P> extends AbstractListChromosome<Integer,
 
     /** minimum acceptable value of allele. **/
     private final int min;
-
     /** maximum acceptable value of allele. **/
     private final int max;
 

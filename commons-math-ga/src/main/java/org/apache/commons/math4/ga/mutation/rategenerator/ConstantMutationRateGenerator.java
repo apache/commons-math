@@ -44,5 +44,4 @@ public class ConstantMutationRateGenerator<P> implements MutationRateGenerator<P
     public double generate(Chromosome<P> chromosome, PopulationStatisticalSummary<P> populationStats, int generation) {
         return mutationRate;
     }
-
 }

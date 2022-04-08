@@ -45,5 +45,4 @@ public final class PopulationStatisticsLogger<P> implements ConvergenceListener<
                 generation, populationStatisticalSummary.getMeanFitness(), populationStatisticalSummary.getMaxFitness(),
                 populationStatisticalSummary.getFitnessVariance());
     }
-
 }

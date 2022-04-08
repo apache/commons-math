@@ -95,7 +95,6 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
         } else if (randomProvider.nextDouble() < chromosomeMutationRate) {
             indexSet.add(randomProvider.nextInt(length));
         }
-
         return indexSet;
     }
 

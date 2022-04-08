@@ -31,13 +31,11 @@ public class UnchangedMeanFitness<P> implements StoppingCondition<P> {
 
     /** Mean fitness of previous generation. **/
     private double lastMeanFitness = Double.MIN_VALUE;
-
     /**
      * The configured number of generations for which optimization process will
      * continue with unchanged best fitness value.
      **/
     private final int maxGenerationsWithUnchangedMeanFitness;
-
     /** Number of generations the mean fitness value has not been changed. **/
     private int generationsHavingUnchangedMeanFitness;
 
@@ -66,7 +64,6 @@ public class UnchangedMeanFitness<P> implements StoppingCondition<P> {
             this.generationsHavingUnchangedMeanFitness = 0;
             lastMeanFitness = currentMeanFitness;
         }
-
         return false;
     }
 
