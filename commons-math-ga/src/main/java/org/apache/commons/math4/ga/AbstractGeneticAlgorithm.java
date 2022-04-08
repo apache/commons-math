@@ -52,35 +52,17 @@ public abstract class AbstractGeneticAlgorithm<P> {
     /** the selection policy used by the algorithm. */
     private final SelectionPolicy<P> selectionPolicy;
 
+    /** The elitism rate having default value of .25. */
+    private final double elitismRate;
+
     /**
      * the number of generations evolved to reach {@link StoppingCondition} in the
      * last run.
      */
     private int generationsEvolved;
 
-    /** The elitism rate having default value of .25. */
-    private double elitismRate = .25;
-
     /** The registry for all interested convergence listeners. **/
     private ConvergenceListenerRegistry<P> convergenceListenerRegistry = new ConvergenceListenerRegistry<>();
-
-    /**
-     * @param crossoverPolicy      The {@link CrossoverPolicy}
-     * @param mutationPolicy       The {@link MutationPolicy}
-     * @param selectionPolicy      The {@link SelectionPolicy}
-     * @param convergenceListeners An optional collection of
-     *                             {@link ConvergenceListener} with variable arity
-     */
-    @SafeVarargs
-    protected AbstractGeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy,
-            final MutationPolicy<P> mutationPolicy,
-            final SelectionPolicy<P> selectionPolicy,
-            ConvergenceListener<P>... convergenceListeners) {
-        this.crossoverPolicy = crossoverPolicy;
-        this.mutationPolicy = mutationPolicy;
-        this.selectionPolicy = selectionPolicy;
-        updateListenerRigistry(convergenceListeners);
-    }
 
     /**
      * @param crossoverPolicy      The {@link CrossoverPolicy}
@@ -100,13 +82,7 @@ public abstract class AbstractGeneticAlgorithm<P> {
         this.mutationPolicy = mutationPolicy;
         this.selectionPolicy = selectionPolicy;
         this.elitismRate = elitismRate;
-        updateListenerRigistry(convergenceListeners);
-    }
 
-    // suppressed warnings as the parameter is annotated as @SafeVarargs in
-    // constructor.
-    @SuppressWarnings("unchecked")
-    private void updateListenerRigistry(ConvergenceListener<P>... convergenceListeners) {
         if (convergenceListeners.length > 0) {
             for (ConvergenceListener<P> convergenceListener : convergenceListeners) {
                 convergenceListenerRegistry.addConvergenceListener(convergenceListener);

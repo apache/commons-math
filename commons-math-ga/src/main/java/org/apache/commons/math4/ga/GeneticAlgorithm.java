@@ -64,31 +64,6 @@ public class GeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
      * @param mutationPolicy       The {@link MutationPolicy}
      * @param mutationRate         The mutation rate as a percentage (0-1 inclusive)
      * @param selectionPolicy      The {@link SelectionPolicy}
-     * @param convergenceListeners An optional collection of
-     *                             {@link ConvergenceListener} with variable arity
-     */
-    @SafeVarargs
-    public GeneticAlgorithm(final CrossoverPolicy<P> crossoverPolicy,
-            final double crossoverRate,
-            final MutationPolicy<P> mutationPolicy,
-            final double mutationRate,
-            final SelectionPolicy<P> selectionPolicy,
-            ConvergenceListener<P>... convergenceListeners) {
-        super(crossoverPolicy, mutationPolicy, selectionPolicy, convergenceListeners);
-
-        checkValidity(crossoverRate, mutationRate);
-        this.crossoverRate = crossoverRate;
-        this.mutationRate = mutationRate;
-    }
-
-    /**
-     * Create a new genetic algorithm.
-     * @param crossoverPolicy      The {@link CrossoverPolicy}
-     * @param crossoverRate        The crossover rate as a percentage (0-1
-     *                             inclusive)
-     * @param mutationPolicy       The {@link MutationPolicy}
-     * @param mutationRate         The mutation rate as a percentage (0-1 inclusive)
-     * @param selectionPolicy      The {@link SelectionPolicy}
      * @param elitismRate          The rate of elitism
      * @param convergenceListeners An optional collection of
      *                             {@link ConvergenceListener} with variable arity

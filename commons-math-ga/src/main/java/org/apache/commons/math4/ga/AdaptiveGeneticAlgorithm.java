@@ -66,28 +66,6 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
      * @param mutationPolicy                mutation policy
      * @param mutationProbabilityGenerator  mutation probability generator
      * @param selectionPolicy               selection policy
-     * @param convergenceListeners          An optional collection of
-     *                                      {@link ConvergenceListener} with
-     *                                      variable arity
-     */
-    @SafeVarargs
-    public AdaptiveGeneticAlgorithm(CrossoverPolicy<P> crossoverPolicy,
-            CrossoverRateGenerator<P> crossoverProbabilityGenerator,
-            MutationPolicy<P> mutationPolicy,
-            MutationRateGenerator<P> mutationProbabilityGenerator,
-            SelectionPolicy<P> selectionPolicy,
-            ConvergenceListener<P>... convergenceListeners) {
-        super(crossoverPolicy, mutationPolicy, selectionPolicy, convergenceListeners);
-        this.crossoverRateGenerator = crossoverProbabilityGenerator;
-        this.mutationRateGenerator = mutationProbabilityGenerator;
-    }
-
-    /**
-     * @param crossoverPolicy               crossover policy
-     * @param crossoverProbabilityGenerator crossover probability generator
-     * @param mutationPolicy                mutation policy
-     * @param mutationProbabilityGenerator  mutation probability generator
-     * @param selectionPolicy               selection policy
      * @param elitismRate                   elitism rate
      * @param convergenceListeners          An optional collection of
      *                                      {@link ConvergenceListener} with
