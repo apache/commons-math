@@ -76,7 +76,15 @@ public final class TSPOptimizer {
         final RealValuedChromosome<List<City>> bestFinal = (RealValuedChromosome<List<City>>) finalPopulation
                 .getFittestChromosome();
 
-        logger.info(bestFinal.decode().toString());
+        StringBuilder schedule = new StringBuilder();
+        schedule.append("Travel Shcedule: " + System.lineSeparator());
+        List<City> bestCities = bestFinal.decode();
+        for (City city : bestCities) {
+            schedule.append("City - " + city.getIndex() + System.lineSeparator());
+        }
+        schedule.append("Total distance - " + Math.abs(bestFinal.evaluate()));
+
+        logger.info(schedule.toString());
     }
 
     private static Population<List<City>> getInitialPopulation(List<City> cities, int populationSize) {

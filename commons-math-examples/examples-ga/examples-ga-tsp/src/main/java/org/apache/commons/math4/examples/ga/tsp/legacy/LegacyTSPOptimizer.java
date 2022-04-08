@@ -27,12 +27,18 @@ import org.apache.commons.math3.genetics.RandomKeyMutation;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.genetics.TournamentSelection;
 import org.apache.commons.math4.examples.ga.tsp.City;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the tsp optimizer based on legacy implementation of
  * Genetic Algorithm.
  */
 public class LegacyTSPOptimizer {
+
+    /** instance of logger. **/
+    private final Logger logger = LoggerFactory.getLogger(LegacyTSPOptimizer.class);
+
     /**
      * Optimizes the TSP problem.
      * @param cities                                  list of cities
@@ -67,9 +73,13 @@ public class LegacyTSPOptimizer {
         @SuppressWarnings("unchecked")
         final RandomKey<City> bestFinal = (RandomKey<City>) finalPopulation.getFittestChromosome();
 
-        //CHECKSTYLE: stop all
-        System.out.println("best=" + bestFinal.toString());
-        //CHECKSTYLE: resume all
+        StringBuilder schedule = new StringBuilder("Travel Shcedule: " + System.lineSeparator());
+        List<City> bestCities = bestFinal.decode(cities);
+        for (City city : bestCities) {
+            schedule.append("City - " + city.getIndex() + System.lineSeparator());
+        }
+        schedule.append("Total distance - " + Math.abs(bestFinal.fitness()));
+        logger.info(schedule.toString());
     }
 
     private static Population getInitialPopulation(List<City> cities, int populationSize, double elitismRate) {
