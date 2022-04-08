@@ -101,8 +101,7 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
 
         final int maxOffspringCount = nextGeneration.getPopulationLimit() - nextGeneration.getPopulationSize();
 
-        final Population<P> offsprings = reproduceOffsprings(current, executorService,
-                maxOffspringCount);
+        final Population<P> offsprings = reproduceOffsprings(current, executorService, maxOffspringCount);
 
         LOGGER.debug("Performing adaptive mutation of offsprings.");
 
@@ -117,9 +116,10 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
             final Population<P> offspringPopulation) {
 
         // recompute the statistics of the offspring population.
-        final PopulationStatisticalSummary<P> offspringPopulationStats = ConstantMutationRateGenerator.class
-                .isAssignableFrom(this.mutationRateGenerator.getClass()) ? null :
-                        new PopulationStatisticalSummaryImpl<>(offspringPopulation);
+        final PopulationStatisticalSummary<P> offspringPopulationStats =
+                mutationRateGenerator instanceof ConstantMutationRateGenerator ?
+                null :
+                new PopulationStatisticalSummaryImpl<>(offspringPopulation);
 
         List<Future<Chromosome<P>>> mutatedChromosomes = new ArrayList<>();
 
