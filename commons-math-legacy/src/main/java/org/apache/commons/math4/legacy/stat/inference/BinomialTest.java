@@ -138,7 +138,7 @@ public class BinomialTest {
                     if (criticalValueLow == criticalValueHigh) {
                         pTotal += pLow;
                     } else {
-                        pTotal += 2 * pLow;
+                        pTotal += 2 * Math.nextDown(pLow);
                     }
                     criticalValueLow++;
                     criticalValueHigh--;

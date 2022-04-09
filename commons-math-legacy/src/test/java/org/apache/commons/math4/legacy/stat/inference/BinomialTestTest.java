@@ -126,4 +126,11 @@ public class BinomialTestTest {
         Assert.assertFalse(testStatistic.binomialTest(trials, successes, probability, AlternativeHypothesis.GREATER_THAN, alpha01));
         Assert.assertFalse(testStatistic.binomialTest(trials, successes, probability, AlternativeHypothesis.LESS_THAN, alpha05));
     }
+
+    @Test
+    public void testMath1644() {
+        final BinomialTest bt = new BinomialTest();
+        final double pval = bt.binomialTest(10, 5, 0.5, AlternativeHypothesis.TWO_SIDED);
+        Assert.assertTrue("pval=" + pval, pval <= 1);
+    }
 }
