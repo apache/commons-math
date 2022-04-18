@@ -24,7 +24,8 @@ import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -100,7 +101,8 @@ public class RealValuedMutationTest {
         double max = 10;
         RealValuedMutation<String> mutation = new RealValuedMutation<>(min, max);
         for (int i = 0; i < 100; i++) {
-            double origValue = min + (max - min) * RandomProviderManager.getRandomProvider().nextDouble();
+            double origValue = min +
+                    (max - min) * ThreadLocalRandomSource.current(RandomSource.XO_RO_SHI_RO_128_PP).nextDouble();
             double mutatedValue = mutation.mutateGene(origValue);
             Assertions.assertTrue(min <= mutatedValue && mutatedValue < max);
             Assertions.assertNotEquals(origValue, mutatedValue);

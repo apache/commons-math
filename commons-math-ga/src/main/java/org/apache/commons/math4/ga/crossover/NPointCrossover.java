@@ -22,8 +22,9 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * N-point crossover policy. For each iteration a random crossover point is
@@ -65,6 +66,27 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
      * @param crossoverPoints the number of crossover points
      */
     public NPointCrossover(final int crossoverPoints) {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+        if (crossoverPoints <= 0) {
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.NOT_STRICTLY_POSITIVE,
+                    crossoverPoints);
+        }
+        this.crossoverPoints = crossoverPoints;
+    }
+
+    /**
+     * Creates a new {@link NPointCrossover} policy using the given number of
+     * points and random source.
+     * <p>
+     * <b>Note</b>: the number of crossover points must be &lt;
+     * <code>chromosome length - 1</code>. This condition can only be checked at
+     * runtime, as the chromosome length is not known in advance.
+     *
+     * @param crossoverPoints the number of crossover points.
+     * @param randomSource    random source to instantiate UniformRandomProvider.
+     */
+    public NPointCrossover(final int crossoverPoints, final RandomSource randomSource) {
+        super(randomSource);
         if (crossoverPoints <= 0) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.NOT_STRICTLY_POSITIVE,
                     crossoverPoints);
@@ -120,7 +142,7 @@ public class NPointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy
         final List<T> child1Rep = new ArrayList<>(length);
         final List<T> child2Rep = new ArrayList<>(length);
 
-        final UniformRandomProvider random = RandomProviderManager.getRandomProvider();
+        final UniformRandomProvider random = ThreadLocalRandomSource.current(getRandomSource());
 
         List<T> c1 = child1Rep;
         List<T> c2 = child2Rep;

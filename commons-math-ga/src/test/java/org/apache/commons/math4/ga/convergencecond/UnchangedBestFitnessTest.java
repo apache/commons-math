@@ -17,7 +17,6 @@
 package org.apache.commons.math4.ga.convergencecond;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;

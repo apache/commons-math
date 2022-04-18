@@ -19,6 +19,7 @@ package org.apache.commons.math4.ga.crossover;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.dummy.DummyChromosome;
+import org.apache.commons.rng.simple.RandomSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,7 @@ public class AbstractChromosomeCrossoverPolicyTest {
     @Test
     public void testCrossoverProbability() {
 
-        CrossoverPolicy<String> crossoverPolicy = new AbstractChromosomeCrossoverPolicy<String>() {
+        CrossoverPolicy<String> crossoverPolicy = new AbstractChromosomeCrossoverPolicy<String>(RandomSource.XO_RO_SHI_RO_128_PP) {
             @Override
             protected ChromosomePair<String> crossover(Chromosome<String> first, Chromosome<String> second) {
                 return null;

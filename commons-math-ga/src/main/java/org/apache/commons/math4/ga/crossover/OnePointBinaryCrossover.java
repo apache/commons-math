@@ -20,13 +20,31 @@ import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * OnePoint Crossover Policy for Binary chromosomes.
  * @param <P> the phenotype
  */
 public class OnePointBinaryCrossover<P> extends AbstractChromosomeCrossoverPolicy<P> {
+
+    /**
+     * Creates a one-point binary crossover policy and initializes the default
+     * random source.
+     */
+    public OnePointBinaryCrossover() {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Creates a one-point binary crossover policy for {@link BinaryChromosome} with
+     * given random source.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public OnePointBinaryCrossover(final RandomSource randomSource) {
+        super(randomSource);
+    }
 
     /**
      * {@inheritDoc}
@@ -51,7 +69,7 @@ public class OnePointBinaryCrossover<P> extends AbstractChromosomeCrossoverPolic
         final long[] child2Rep = new long[parent2Rep.length];
 
         // select a crossover point at random (0 and length makes no sense)
-        final long crossoverIndex = 1 + (RandomProviderManager.getRandomProvider().nextLong(alleleCount - 1));
+        final long crossoverIndex = 1 + (ThreadLocalRandomSource.current(getRandomSource()).nextLong(alleleCount - 1));
 
         final int offset = (int) (alleleCount % Long.SIZE == 0 ? 0 : Long.SIZE - alleleCount % Long.SIZE);
         final long offsettedCrossoverIndex = crossoverIndex + offset;

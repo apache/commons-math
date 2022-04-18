@@ -23,7 +23,8 @@ import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * Cycle Crossover [CX] builds offspring from <b>ordered</b> chromosomes by
@@ -78,6 +79,14 @@ public class CycleCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<
     }
 
     /**
+     * Constructs a new CycleCrossover policy with given random source.
+     * @param randomSource random source required to instantiate UniformRandomProvider.
+     */
+    public CycleCrossover(final RandomSource randomSource) {
+        this(false, randomSource);
+    }
+
+    /**
      * Creates a new {@link CycleCrossover} policy using the given
      * {@code randomStart} behavior.
      *
@@ -85,6 +94,20 @@ public class CycleCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<
      *                    to 0
      */
     public CycleCrossover(final boolean randomStart) {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+        this.randomStart = randomStart;
+    }
+
+    /**
+     * Constructs a new CycleCrossover policy using the given random start behavior
+     * and random source.
+     *
+     * @param randomStart  whether the start index shall be chosen randomly or be
+     *                     set to 0.
+     * @param randomSource random source required to instantiate UniformRandomProvider.
+     */
+    public CycleCrossover(final boolean randomStart, final RandomSource randomSource) {
+        super(randomSource);
         this.randomStart = randomStart;
     }
 
@@ -124,7 +147,7 @@ public class CycleCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<
         final List<Integer> indices = new ArrayList<>(length);
 
         // determine the starting index
-        int idx = randomStart ? RandomProviderManager.getRandomProvider().nextInt(length) : 0;
+        int idx = randomStart ? ThreadLocalRandomSource.current(getRandomSource()).nextInt(length) : 0;
         int cycle = 1;
 
         while (visitedIndices.size() < length) {

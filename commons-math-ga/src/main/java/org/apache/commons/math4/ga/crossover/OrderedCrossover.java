@@ -24,8 +24,9 @@ import java.util.Set;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * Order 1 Crossover [OX1] builds offspring from <b>ordered</b> chromosomes by
@@ -61,6 +62,21 @@ import org.apache.commons.rng.UniformRandomProvider;
 public class OrderedCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<T, P> {
 
     /**
+     * Creates an instance of ordered crossover operator with default random source.
+     */
+    public OrderedCrossover() {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Creates an instance of ordered crossover operator using given random source.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public OrderedCrossover(final RandomSource randomSource) {
+        super(randomSource);
+    }
+
+    /**
      * Helper for {@link #crossover(Chromosome, Chromosome, double)}. Performs the
      * actual crossover.
      *
@@ -83,7 +99,7 @@ public class OrderedCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
         final Set<T> child1Set = new HashSet<>(length);
         final Set<T> child2Set = new HashSet<>(length);
 
-        final UniformRandomProvider random = RandomProviderManager.getRandomProvider();
+        final UniformRandomProvider random = ThreadLocalRandomSource.current(getRandomSource());
         // choose random points, making sure that lb < ub.
         final int a = random.nextInt(length);
         int b;

@@ -19,7 +19,8 @@ package org.apache.commons.math4.ga.mutation;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * Mutation operator for {@link RealValuedChromosome}. Mutates the randomly
@@ -36,19 +37,50 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
     private final double max;
 
     /**
-     * Constructs the mutation operator with normalized range of double values.
+     * Constructs the mutation operator with normalized range of double values and
+     * default random source.
      */
     public RealValuedMutation() {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
         this.min = 0d;
         this.max = 1d;
     }
 
     /**
-     * Constructs the mutation operator with provided range of double values.
+     * Constructs the mutation operator with normalized range of double values and
+     * provided random source.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public RealValuedMutation(RandomSource randomSource) {
+        super(randomSource);
+        this.min = 0d;
+        this.max = 1d;
+    }
+
+    /**
+     * Constructs the mutation operator with provided range of double values and
+     * default random source.
      * @param min minimum inclusive value of allele
      * @param max maximum exclusive value of allele
      */
     public RealValuedMutation(double min, double max) {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+        this.min = min;
+        this.max = max;
+        if (min >= max) {
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, min, max);
+        }
+    }
+
+    /**
+     * Constructs the mutation operator with provided range of double values and
+     * provided random source.
+     * @param min          minimum inclusive value of allele
+     * @param max          maximum exclusive value of allele
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public RealValuedMutation(final double min, final double max, final RandomSource randomSource) {
+        super(randomSource);
         this.min = min;
         this.max = max;
         if (min >= max) {
@@ -105,7 +137,7 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
     protected Double mutateGene(Double originalValue) {
         Double mutatedValue = 0.0;
         do {
-            mutatedValue = min + RandomProviderManager.getRandomProvider().nextDouble() * (max - min);
+            mutatedValue = min + ThreadLocalRandomSource.current(getRandomSource()).nextDouble() * (max - min);
         } while (mutatedValue.equals(originalValue));
 
         return mutatedValue;

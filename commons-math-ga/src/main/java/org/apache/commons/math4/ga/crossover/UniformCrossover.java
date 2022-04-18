@@ -22,8 +22,9 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * Perform Uniform Crossover [UX] on the specified chromosomes. A fixed mixing
@@ -69,6 +70,23 @@ public class UniformCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
      * @param ratio the mixing ratio
      */
     public UniformCrossover(final double ratio) {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+        if (ratio < 0.0d || ratio > 1.0d) {
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, ratio,
+                    CROSSOVER_RATE, 0.0d, 1.0d);
+        }
+        this.ratio = ratio;
+    }
+
+    /**
+     * Creates a new UniformCrossover policy using the given mixing ratio and random
+     * source.
+     *
+     * @param ratio        mixing ratio.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public UniformCrossover(final double ratio, final RandomSource randomSource) {
+        super(randomSource);
         if (ratio < 0.0d || ratio > 1.0d) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.OUT_OF_RANGE, ratio,
                     CROSSOVER_RATE, 0.0d, 1.0d);
@@ -104,7 +122,7 @@ public class UniformCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
         final List<T> child1Rep = new ArrayList<>(length);
         final List<T> child2Rep = new ArrayList<>(length);
 
-        final UniformRandomProvider random = RandomProviderManager.getRandomProvider();
+        final UniformRandomProvider random = ThreadLocalRandomSource.current(getRandomSource());
 
         for (int index = 0; index < length; index++) {
 

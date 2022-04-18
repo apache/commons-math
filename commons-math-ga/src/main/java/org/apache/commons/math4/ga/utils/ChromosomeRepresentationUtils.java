@@ -26,6 +26,8 @@ import java.util.Objects;
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * This interface generates all random representations for chromosomes.
@@ -41,7 +43,19 @@ public interface ChromosomeRepresentationUtils {
      * @return representation of a random permutation
      */
     static List<Double> randomPermutation(final int l) {
-        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
+        return randomPermutation(l, RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Generates a representation corresponding to a random permutation of length l
+     * which can be passed to the RandomKey constructor.
+     *
+     * @param l            length of the permutation
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     * @return representation of a random permutation
+     */
+    static List<Double> randomPermutation(final int l, final RandomSource randomSource) {
+        final UniformRandomProvider randomProvider = ThreadLocalRandomSource.current(randomSource);
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add(randomProvider.nextDouble());
@@ -123,14 +137,30 @@ public interface ChromosomeRepresentationUtils {
 
     /**
      * Returns a representation of a random binary array of length
-     * <code>length</code>.
+     * <code>length</code> and default random source.
      * @param length length of the array
      * @param min    minimum inclusive value of allele
      * @param max    maximum exclusive value of allele
      * @return a random binary array of length <code>length</code>
      */
     static List<Integer> randomIntegralRepresentation(final int length, final int min, final int max) {
-        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
+        return randomIntegralRepresentation(length, min, max, RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Returns a representation of a random binary array of length
+     * <code>length</code>.
+     * @param length length of the array
+     * @param min    minimum inclusive value of allele
+     * @param max    maximum exclusive value of allele
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     * @return a random binary array of length <code>length</code>
+     */
+    static List<Integer> randomIntegralRepresentation(final int length,
+            final int min,
+            final int max,
+            final RandomSource randomSource) {
+        final UniformRandomProvider randomProvider = ThreadLocalRandomSource.current(randomSource);
         final List<Integer> rList = new ArrayList<>(length);
         for (int j = 0; j < length; j++) {
             rList.add(min + randomProvider.nextInt(max - min));
@@ -140,16 +170,27 @@ public interface ChromosomeRepresentationUtils {
 
     /**
      * Returns a representation of a random binary array of length
-     * <code>length</code>.
-     * @param length length of the array
+     * <code>length</code> and default random source.
+     * @param length       length of the array
      * @return a random binary array of length <code>length</code>
      */
     static long[] randomBinaryRepresentation(final long length) {
+        return randomBinaryRepresentation(length, RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Returns a representation of a random binary array of length
+     * <code>length</code>.
+     * @param length       length of the array
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     * @return a random binary array of length <code>length</code>
+     */
+    static long[] randomBinaryRepresentation(final long length, final RandomSource randomSource) {
         if (length > BinaryChromosome.MAX_LENGTH) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     "length exceeded the max length " + BinaryChromosome.MAX_LENGTH);
         }
-        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
+        final UniformRandomProvider randomProvider = ThreadLocalRandomSource.current(randomSource);
         int elementCount = (int) Math.ceil(length / (double) Long.SIZE);
         // random binary list
         final long[] representation = new long[elementCount];
@@ -165,18 +206,41 @@ public interface ChromosomeRepresentationUtils {
     /**
      * Generates a random string representation of chromosome with specified
      * characters.
-     * @param alleles characters representing alleles
-     * @param length  length of chromosome
+     * @param alleles      characters representing alleles
+     * @param length       length of chromosome
      * @return returns chromosome representation as string
      */
     static String randomStringRepresentation(char[] alleles, final long length) {
+        return randomStringRepresentation(alleles, length, RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Generates a random string representation of chromosome with specified
+     * characters.
+     * @param alleles      characters representing alleles
+     * @param length       length of chromosome
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     * @return returns chromosome representation as string
+     */
+    static String randomStringRepresentation(char[] alleles, final long length, final RandomSource randomSource) {
         Objects.requireNonNull(alleles);
         final StringBuilder representationStr = new StringBuilder();
         for (int i = 0; i < length; i++) {
             representationStr
-                    .append(alleles[(int) (RandomProviderManager.getRandomProvider().nextInt(alleles.length))]);
+                    .append(alleles[(int) (ThreadLocalRandomSource.current(randomSource).nextInt(alleles.length))]);
         }
         return representationStr.toString();
+    }
+
+    /**
+     * Generates a representation corresponding to a random double values[0..1] of
+     * length l and provided random source.
+     * @param l            length of the permutation
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     * @return representation of a random permutation
+     */
+    static List<Double> randomNormalizedDoubleRepresentation(final int l, final RandomSource randomSource) {
+        return randomDoubleRepresentation(l, 0, 1, randomSource);
     }
 
     /**
@@ -191,23 +255,38 @@ public interface ChromosomeRepresentationUtils {
 
     /**
      * Generates a representation corresponding to a random double values of length
-     * l.
+     * l, within min and max values and default random source.
      * @param l   length of representation
      * @param min minimum inclusive value of chromosome gene
      * @param max maximum exclusive value of chromosome gene
      * @return representation as List of Double
      */
     static List<Double> randomDoubleRepresentation(final int l, double min, double max) {
+        return randomDoubleRepresentation(l, min, max, RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Generates a representation corresponding to a random double values of length
+     * l, within min and max values and provided random source.
+     * @param l            length of representation
+     * @param min          minimum inclusive value of chromosome gene
+     * @param max          maximum exclusive value of chromosome gene
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     * @return representation as List of Double
+     */
+    static List<Double> randomDoubleRepresentation(final int l,
+            final double min,
+            final double max,
+            final RandomSource randomSource) {
         if (min >= max) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, min, max);
         }
         final double range = max - min;
-        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
+        final UniformRandomProvider randomProvider = ThreadLocalRandomSource.current(randomSource);
         final List<Double> repr = new ArrayList<>(l);
         for (int i = 0; i < l; i++) {
             repr.add(min + randomProvider.nextDouble() * range);
         }
         return repr;
     }
-
 }

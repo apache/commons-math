@@ -18,7 +18,6 @@ package org.apache.commons.math4.ga.chromosome;
 
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

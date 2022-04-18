@@ -25,8 +25,9 @@ import java.util.Set;
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * An abstraction of mutation operator for {@link AbstractListChromosome}.
@@ -35,6 +36,17 @@ import org.apache.commons.rng.UniformRandomProvider;
  * @since 4.0
  */
 public abstract class AbstractListChromosomeMutationPolicy<T, P> implements MutationPolicy<P> {
+
+    /** The default RandomSource for random number generation. **/
+    private final RandomSource randomSource;
+
+    /**
+     * Initializes an abstract chromosome mutation policy with given random source.
+     * @param randomSource random source to instantiate UniformRandomProvide.
+     */
+    public AbstractListChromosomeMutationPolicy(final RandomSource randomSource) {
+        this.randomSource = randomSource;
+    }
 
     /**
      * Mutate the given chromosome based on mutation rate. Checks chromosome
@@ -84,7 +96,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
         // calculate the total mutation rate of all the alleles i.e. chromosome.
         final double chromosomeMutationRate = mutationRate * length;
         final Set<Integer> indexSet = new HashSet<>();
-        final UniformRandomProvider randomProvider = RandomProviderManager.getRandomProvider();
+        final UniformRandomProvider randomProvider = ThreadLocalRandomSource.current(randomSource);
 
         // if chromosomeMutationRate >= 1 then more than one allele will be mutated.
         if (chromosomeMutationRate >= 1) {
@@ -104,5 +116,13 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
      * @return mutated value of gene
      */
     protected abstract T mutateGene(T originalValue);
+
+    /**
+     * Returns the configured random source instance.
+     * @return random source.
+     */
+    public RandomSource getRandomSource() {
+        return randomSource;
+    }
 
 }

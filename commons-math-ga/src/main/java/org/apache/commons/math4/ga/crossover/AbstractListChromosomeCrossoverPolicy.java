@@ -21,6 +21,7 @@ import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
+import org.apache.commons.rng.simple.RandomSource;
 
 /**
  * An abstraction of crossover policy for {@link AbstractListChromosome}.
@@ -31,6 +32,15 @@ import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentExce
  * @since 4.0
  */
 public abstract class AbstractListChromosomeCrossoverPolicy<T, P> extends AbstractChromosomeCrossoverPolicy<P> {
+
+    /**
+     * Creates an abstract crossover policy for {@link AbstractListChromosome} and
+     * initializes the random source.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public AbstractListChromosomeCrossoverPolicy(final RandomSource randomSource) {
+        super(randomSource);
+    }
 
     /**
      * {@inheritDoc}

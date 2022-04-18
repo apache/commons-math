@@ -19,7 +19,8 @@ package org.apache.commons.math4.ga.mutation;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * Mutation operator for {@link IntegralValuedChromosome}. Randomly changes few
@@ -39,6 +40,28 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
      * @param max maximum(exclusive) value of allele
      */
     public IntegralValuedMutation(final int min, final int max) {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+        this.min = min;
+        this.max = max;
+
+        // To perform mutation for an IntegralValuedChromosome the minimum difference
+        // between
+        // max and min should be 2.
+        if ((max - min) < 2) {
+            throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.TOO_LARGE, min, max);
+        }
+
+    }
+
+    /**
+     * Constructs an IntegralValuedMutation policy with given minimum, maximum
+     * values and random source.
+     * @param min          minimum value of allele
+     * @param max          maximum(exclusive) value of allele
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public IntegralValuedMutation(final int min, final int max, final RandomSource randomSource) {
+        super(randomSource);
         this.min = min;
         this.max = max;
 
@@ -101,7 +124,7 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
     protected Integer mutateGene(Integer originalValue) {
         Integer mutatedValue = 0;
         do {
-            mutatedValue = min + RandomProviderManager.getRandomProvider().nextInt(max - min);
+            mutatedValue = min + ThreadLocalRandomSource.current(getRandomSource()).nextInt(max - min);
         } while (mutatedValue.equals(originalValue));
 
         return mutatedValue;

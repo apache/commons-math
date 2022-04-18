@@ -19,7 +19,8 @@ package org.apache.commons.math4.ga.crossover;
 
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * An abstraction of base crossover policy. Checks the crossoverRate and decides
@@ -30,6 +31,17 @@ import org.apache.commons.math4.ga.utils.RandomProviderManager;
  */
 public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverPolicy<P> {
 
+    /** The random source for random number generation. **/
+    private final RandomSource randomSource;
+
+    /**
+     * Creates an abstract crossover policy and initializes the random source.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public AbstractChromosomeCrossoverPolicy(final RandomSource randomSource) {
+        this.randomSource = randomSource;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -37,7 +49,7 @@ public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverP
     public ChromosomePair<P> crossover(final Chromosome<P> first,
             final Chromosome<P> second,
             final double crossoverRate) {
-        if (RandomProviderManager.getRandomProvider().nextDouble() < crossoverRate) {
+        if (ThreadLocalRandomSource.current(randomSource).nextDouble() < crossoverRate) {
             return crossover(first, second);
         } else {
             return new ChromosomePair<>(first, second);
@@ -52,4 +64,11 @@ public abstract class AbstractChromosomeCrossoverPolicy<P> implements CrossoverP
      */
     protected abstract ChromosomePair<P> crossover(Chromosome<P> first, Chromosome<P> second);
 
+    /**
+     * Returns the configured random source instance.
+     * @return random source.
+     */
+    public RandomSource getRandomSource() {
+        return randomSource;
+    }
 }

@@ -21,7 +21,8 @@ import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * One point crossover policy. A random crossover point is selected and the
@@ -49,6 +50,23 @@ import org.apache.commons.math4.ga.utils.RandomProviderManager;
  *
  */
 public class OnePointCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<T, P> {
+
+    /**
+     * Creates a one-point crossover operator and initializes the default random
+     * source.
+     */
+    public OnePointCrossover() {
+        super(RandomSource.XO_RO_SHI_RO_128_PP);
+    }
+
+    /**
+     * Creates an instance of one-point crossover operator for
+     * {@link AbstractListChromosome} using given random source.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public OnePointCrossover(final RandomSource randomSource) {
+        super(randomSource);
+    }
 
     /**
      * Performs one point crossover. A random crossover point is selected and the
@@ -83,7 +101,7 @@ public class OnePointCrossover<T, P> extends AbstractListChromosomeCrossoverPoli
         final List<T> child2Rep = new ArrayList<>(length);
 
         // select a crossover point at random (0 and length makes no sense)
-        final int crossoverIndex = 1 + (RandomProviderManager.getRandomProvider().nextInt(length - 1));
+        final int crossoverIndex = 1 + (ThreadLocalRandomSource.current(getRandomSource()).nextInt(length - 1));
 
         // copy the first part
         for (int i = 0; i < crossoverIndex; i++) {

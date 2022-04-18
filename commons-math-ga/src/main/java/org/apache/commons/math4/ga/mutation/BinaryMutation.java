@@ -25,7 +25,9 @@ import java.util.Set;
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * Mutation operator for {@link BinaryChromosome}s. Randomly changes few genes.
@@ -33,6 +35,24 @@ import org.apache.commons.math4.ga.utils.RandomProviderManager;
  * @since 4.0
  */
 public class BinaryMutation<P> implements MutationPolicy<P> {
+
+    /** The default RandomSource for random number generation. **/
+    private final RandomSource randomSource;
+
+    /**
+     * Initializes a binary mutation policy with default random source.
+     */
+    public BinaryMutation() {
+        this.randomSource = RandomSource.XO_RO_SHI_RO_128_PP;
+    }
+
+    /**
+     * Initializes a binary mutation policy with provided random source.
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public BinaryMutation(final RandomSource randomSource) {
+        this.randomSource = randomSource;
+    }
 
     /**
      * {@inheritDoc}
@@ -83,26 +103,27 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
         // calculate the total mutation rate of all the alleles i.e. chromosome.
         final double chromosomeMutationRate = mutationRate * length;
         final Map<Integer, Set<Integer>> indexMap = new HashMap<>();
+        UniformRandomProvider randomProvider = ThreadLocalRandomSource.current(randomSource);
 
         // if chromosomeMutationRate >= 1 then more than one allele will be mutated.
         if (chromosomeMutationRate >= 1) {
             final int noOfMutation = (int) Math.round(chromosomeMutationRate);
             final Set<Long> mutationIndexes = new HashSet<>();
             for (int i = 0; i < noOfMutation; i++) {
-                final long mutationIndex = generateMutationIndex(length, mutationIndexes);
+                final long mutationIndex = generateMutationIndex(length, mutationIndexes, randomProvider);
                 mutationIndexes.add(mutationIndex);
                 updateIndexMap(indexMap, length, mutationIndex);
             }
-        } else if (RandomProviderManager.getRandomProvider().nextDouble() < chromosomeMutationRate) {
-            updateIndexMap(indexMap, length);
+        } else if (randomProvider.nextDouble() < chromosomeMutationRate) {
+            updateIndexMap(indexMap, length, randomProvider);
         }
         return indexMap;
     }
 
-    private long generateMutationIndex(long length, Set<Long> mutationIndexes) {
+    private long generateMutationIndex(long length, Set<Long> mutationIndexes, UniformRandomProvider randomProvider) {
         long mutationIndex = 0;
         do {
-            mutationIndex = RandomProviderManager.getRandomProvider().nextLong(length);
+            mutationIndex = randomProvider.nextLong(length);
         } while (mutationIndexes.contains(mutationIndex));
         return mutationIndex;
     }
@@ -121,8 +142,10 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
         indexMap.get(alleleBlockIndex).add(alleleElementIndex);
     }
 
-    private void updateIndexMap(Map<Integer, Set<Integer>> indexMap, long length) {
-        updateIndexMap(indexMap, length, RandomProviderManager.getRandomProvider().nextLong(length));
+    private void updateIndexMap(Map<Integer, Set<Integer>> indexMap,
+            long length,
+            UniformRandomProvider randomProvider) {
+        updateIndexMap(indexMap, length, randomProvider.nextLong(length));
     }
 
 }

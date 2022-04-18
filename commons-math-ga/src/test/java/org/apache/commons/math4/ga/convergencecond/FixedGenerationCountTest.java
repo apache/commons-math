@@ -17,7 +17,6 @@
 package org.apache.commons.math4.ga.convergencecond;
 
 import org.apache.commons.math4.ga.convergence.FixedGenerationCount;
-
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;

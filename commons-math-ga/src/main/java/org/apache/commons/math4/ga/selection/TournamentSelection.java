@@ -25,7 +25,8 @@ import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
-import org.apache.commons.math4.ga.utils.RandomProviderManager;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.simple.ThreadLocalRandomSource;
 
 /**
  * Tournament selection scheme. Each of the two selected chromosomes is selected
@@ -40,13 +41,30 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
     /** number of chromosomes included in the tournament selections. */
     private final int arity;
 
+    /** The random source for random number generation. **/
+    private final RandomSource randomSource;
+
     /**
-     * Creates a new TournamentSelection instance.
+     * Constructs a new TournamentSelection instance with given arity and default
+     * random source.
      *
      * @param arity how many chromosomes will be drawn to the tournament
      */
     public TournamentSelection(final int arity) {
         this.arity = arity;
+        this.randomSource = RandomSource.XO_RO_SHI_RO_128_PP;
+    }
+
+    /**
+     * Constructs a new TournamentSelection instance with given arity and random
+     * source.
+     *
+     * @param arity        how many chromosomes will be drawn to the tournament
+     * @param randomSource random source to instantiate UniformRandomProvider.
+     */
+    public TournamentSelection(final int arity, final RandomSource randomSource) {
+        this.arity = arity;
+        this.randomSource = randomSource;
     }
 
     /**
@@ -87,7 +105,7 @@ public class TournamentSelection<P> implements SelectionPolicy<P> {
 
         for (int i = 0; i < this.arity; i++) {
             // select a random individual and add it to the tournament
-            final int rind = RandomProviderManager.getRandomProvider().nextInt(chromosomes.size());
+            final int rind = ThreadLocalRandomSource.current(randomSource).nextInt(chromosomes.size());
             selectedChromosomes.add(chromosomes.get(rind));
             // do not select it again
             chromosomes.remove(rind);
