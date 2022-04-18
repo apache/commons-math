@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 
 public final class MathFunctionOptimizer {
+
     /** length of chromosome. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
     /** instance of logger. **/
@@ -55,8 +56,9 @@ public final class MathFunctionOptimizer {
      * @param generationCountWithUnchangedBestFitness no of generation evolved with
      *                                                unchanged best fitness
      * @param populationSize                          size of population
+     * @return returns best chromosome
      */
-    public void optimize(int dimension,
+    public Chromosome<Coordinate> optimize(int dimension,
             double crossoverRate,
             double mutationRate,
             double elitismRate,
@@ -81,7 +83,7 @@ public final class MathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
 
-        logger.info(bestFinal.toString());
+        return bestFinal;
     }
 
     private static Population<Coordinate> getInitialPopulation(int dimension, int populationSize) {
@@ -101,14 +103,14 @@ public final class MathFunctionOptimizer {
                             final BinaryChromosome<Coordinate> binaryChromosome =
                                     (BinaryChromosome<Coordinate>) chromosome;
                             final long length = binaryChromosome.getLength();
-                            final List<Double> coordinates = new ArrayList<>();
+                            final List<Double> dimValues = new ArrayList<>();
 
                             for (int j = 0; j < length; j += 12) {
                                 final String dimensionStrValue = binaryChromosome.getStringRepresentation(j, j + 12);
-                                coordinates.add(Integer.parseUnsignedInt(dimensionStrValue, 2) / 100d);
+                                dimValues.add(Integer.parseUnsignedInt(dimensionStrValue, 2) / 100d);
                             }
 
-                            return new Coordinate(coordinates);
+                            return new Coordinate(dimValues);
                         }));
         }
         return population;

@@ -31,6 +31,7 @@ import org.apache.commons.math3.genetics.TournamentSelection;
  * the legacy genetic algorithm.
  */
 public final class LegacyMathFunctionOptimizer {
+
     /** length of chromosome per dimension. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
 
@@ -44,8 +45,9 @@ public final class LegacyMathFunctionOptimizer {
      * @param generationCountWithUnchangedBestFitness no of generation evolved with
      *                                                unchanged best fitness
      * @param populationSize                          size of population
+     * @return returns best chromosome
      */
-    public void optimize(int dimension,
+    public Chromosome optimize(int dimension,
             double crossoverRate,
             double mutationRate,
             double elitismRate,
@@ -67,9 +69,7 @@ public final class LegacyMathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome bestFinal = finalPopulation.getFittestChromosome();
 
-        //CHECKSTYLE: stop all
-        System.out.println("best=" + bestFinal.toString());
-        //CHECKSTYLE: resume all
+        return bestFinal;
     }
 
     private static Population getInitialPopulation(int dimension, int populationSize, double elitismRate) {

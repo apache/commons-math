@@ -42,13 +42,29 @@ import org.slf4j.LoggerFactory;
  * genetic algorithm.
  */
 public final class AdaptiveMathFunctionOptimizer {
+
     /** length of chromosome. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
-
     /** instance of logger. **/
     private final Logger logger = LoggerFactory.getLogger(AdaptiveMathFunctionOptimizer.class);
 
-    public void optimize(int dimension,
+    /**
+     * Optimizes the population.
+     * @param dimension                               problem dimension
+     * @param minCrossoverRate                        minimum crossover rate
+     * @param maxCrossoverRate                        maximum crossover rate
+     * @param minMutationRate                         minimum mutation rate
+     * @param maxMutationRate                         maximum mutation rate
+     * @param elitismRate                             elitism rate
+     * @param tournamentSize                          tournament size for tournament
+     *                                                selection
+     * @param generationCountWithUnchangedBestFitness number of generation to be
+     *                                                evolved with best unchanged
+     *                                                fitness for convergence
+     * @param populationSize                          size of population
+     * @return returns best chromosome
+     */
+    public Chromosome<Coordinate> optimize(int dimension,
             double minCrossoverRate,
             double maxCrossoverRate,
             double minMutationRate,
@@ -75,7 +91,7 @@ public final class AdaptiveMathFunctionOptimizer {
         // best chromosome from the final population
         final Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
 
-        logger.info(bestFinal.toString());
+        return bestFinal;
     }
 
     private static Population<Coordinate> getInitialPopulation(int dimension, int populationSize) {

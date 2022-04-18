@@ -19,6 +19,7 @@ package org.apache.commons.math4.examples.ga.tsp;
 import java.util.List;
 
 import org.apache.commons.math4.ga.GeneticAlgorithm;
+import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.RealValuedChromosome;
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
@@ -50,8 +51,9 @@ public final class TSPOptimizer {
      * @param generationCountWithUnchangedBestFitness no of generations evolved with
      *                                                unchanged best fitness
      * @param populationSize                          size of population
+     * @return returns best chromosome
      */
-    public void optimize(List<City> cities,
+    public Chromosome<List<City>> optimize(List<City> cities,
             double crossoverRate,
             double mutationRate,
             double elitismRate,
@@ -73,18 +75,7 @@ public final class TSPOptimizer {
                 Runtime.getRuntime().availableProcessors());
 
         // best chromosome from the final population
-        final RealValuedChromosome<List<City>> bestFinal = (RealValuedChromosome<List<City>>) finalPopulation
-                .getFittestChromosome();
-
-        StringBuilder schedule = new StringBuilder();
-        schedule.append("Travel Shcedule: " + System.lineSeparator());
-        List<City> bestCities = bestFinal.decode();
-        for (City city : bestCities) {
-            schedule.append("City - " + city.getIndex() + System.lineSeparator());
-        }
-        schedule.append("Total distance - " + Math.abs(bestFinal.evaluate()));
-
-        logger.info(schedule.toString());
+        return finalPopulation.getFittestChromosome();
     }
 
     private static Population<List<City>> getInitialPopulation(List<City> cities, int populationSize) {

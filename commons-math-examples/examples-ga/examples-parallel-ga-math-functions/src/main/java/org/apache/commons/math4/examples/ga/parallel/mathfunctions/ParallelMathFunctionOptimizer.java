@@ -42,8 +42,8 @@ import org.slf4j.LoggerFactory;
  * This class represents an optimizer for a 2-dimensional math function using
  * genetic algorithm.
  */
-
 public final class ParallelMathFunctionOptimizer {
+
     /** length of chromosome. **/
     private static final int CHROMOSOME_LENGTH_PER_DIMENSION = 12;
     /** instance of logger. **/
@@ -56,8 +56,9 @@ public final class ParallelMathFunctionOptimizer {
      * @param generationCountWithUnchangedBestFitness no of generation evolved with
      *                                                unchanged best fitness
      * @param populationSize                          size of population
+     * @return returns best chromosome
      */
-    public void optimize(int dimension,
+    public Chromosome<Coordinate> optimize(int dimension,
             int tournamentSize,
             int generationCountWithUnchangedBestFitness,
             int populationSize) {
@@ -94,10 +95,7 @@ public final class ParallelMathFunctionOptimizer {
             bestChromosomes.add(population.getFittestChromosome());
         }
 
-        // best chromosome after convergence.
-        final Chromosome<Coordinate> bestFinal = Collections.max(bestChromosomes);
-
-        logger.info(bestFinal.toString());
+        return Collections.max(bestChromosomes);
     }
 
     private static Population<Coordinate> getInitialPopulation(int dimension, int populationSize) {

@@ -18,6 +18,7 @@ package org.apache.commons.math4.examples.ga.tsp.legacy;
 
 import java.util.List;
 
+import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.ElitisticListPopulation;
 import org.apache.commons.math3.genetics.GeneticAlgorithm;
 import org.apache.commons.math3.genetics.OnePointCrossover;
@@ -49,8 +50,9 @@ public class LegacyTSPOptimizer {
      * @param generationCountWithUnchangedBestFitness no of generations evolved with
      *                                                unchanged best fitness
      * @param populationSize                          size of population
+     * @return returns best chromosome
      */
-    public void optimize(List<City> cities,
+    public Chromosome optimize(List<City> cities,
             double crossoverRate,
             double mutationRate,
             double elitismRate,
@@ -69,17 +71,14 @@ public class LegacyTSPOptimizer {
         final Population finalPopulation = ga.evolve(getInitialPopulation(cities, populationSize, elitismRate),
                 stopCond);
 
-        // best chromosome from the final population
-        @SuppressWarnings("unchecked")
-        final RandomKey<City> bestFinal = (RandomKey<City>) finalPopulation.getFittestChromosome();
-
-        StringBuilder schedule = new StringBuilder("Travel Shcedule: " + System.lineSeparator());
-        List<City> bestCities = bestFinal.decode(cities);
-        for (City city : bestCities) {
-            schedule.append("City - " + city.getIndex() + System.lineSeparator());
-        }
-        schedule.append("Total distance - " + Math.abs(bestFinal.fitness()));
-        logger.info(schedule.toString());
+        return finalPopulation.getFittestChromosome();
+//        StringBuilder schedule = new StringBuilder("Travel Shcedule: " + System.lineSeparator());
+//        List<City> bestCities = bestFinal.decode(cities);
+//        for (City city : bestCities) {
+//            schedule.append("City - " + city.getIndex() + System.lineSeparator());
+//        }
+//        schedule.append("Total distance - " + Math.abs(bestFinal.fitness()));
+//        logger.info(schedule.toString());
     }
 
     private static Population getInitialPopulation(List<City> cities, int populationSize, double elitismRate) {
