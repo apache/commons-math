@@ -131,7 +131,7 @@ public class RealValuedChromosome<P> extends AbstractListChromosome<Double, P> {
      * {@inheritDoc}
      */
     @Override
-    public RealValuedChromosome<P> newChromosome(List<Double> chromosomeRepresentation) {
+    public RealValuedChromosome<P> from(List<Double> chromosomeRepresentation) {
         return new RealValuedChromosome<>(chromosomeRepresentation, getFitnessFunction(), getDecoder(), this.min,
                 this.max);
     }

@@ -78,7 +78,7 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
             newRep[alleleBlockIndex] = newRep[alleleBlockIndex] ^ mask;
         }
 
-        return chromosome.newChromosome(newRep, chromosome.getLength());
+        return chromosome.from(newRep, chromosome.getLength());
     }
 
     /**

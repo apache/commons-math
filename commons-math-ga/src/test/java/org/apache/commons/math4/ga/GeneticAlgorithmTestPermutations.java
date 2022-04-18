@@ -117,7 +117,7 @@ public class GeneticAlgorithmTestPermutations {
         }
 
         @Override
-        public RealValuedChromosome<List<Integer>> newChromosome(List<Double> chromosomeRepresentation) {
+        public RealValuedChromosome<List<Integer>> from(List<Double> chromosomeRepresentation) {
             return new MinPermutations(chromosomeRepresentation);
         }
 

@@ -41,7 +41,7 @@ public class RealValuedChromosomeTest {
             RealValuedChromosome<String> chromosome = new RealValuedChromosome<>(
                     ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1), c1 -> 1,
                     new DummyListChromosomeDecoder<>("1"));
-            chromosome.newChromosome(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1));
+            chromosome.from(ChromosomeRepresentationUtils.randomDoubleRepresentation(10, 0, 1));
         }
     }
 

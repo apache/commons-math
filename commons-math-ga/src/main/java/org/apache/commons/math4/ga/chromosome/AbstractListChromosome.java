@@ -119,6 +119,6 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
      * @return new instance extended from FixedLengthChromosome with the given
      *         arrayRepresentation
      */
-    public abstract AbstractListChromosome<T, P> newChromosome(List<T> chromosomeRepresentation);
+    public abstract AbstractListChromosome<T, P> from(List<T> chromosomeRepresentation);
 
 }

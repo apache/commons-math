@@ -186,6 +186,6 @@ public class CycleCrossover<T, P> extends AbstractListChromosomeCrossoverPolicy<
             indices.clear();
         }
 
-        return new ChromosomePair<>(first.newChromosome(child1Rep), second.newChromosome(child2Rep));
+        return new ChromosomePair<>(first.from(child1Rep), second.from(child2Rep));
     }
 }

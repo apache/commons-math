@@ -71,7 +71,7 @@ public class IntegralValuedChromosomeTest {
                 ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max), c -> 0,
                 new DummyListChromosomeDecoder<>("0"), min, max);
         IntegralValuedChromosome<String> newChromosome = chromosome
-                .newChromosome(ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max));
+                .from(ChromosomeRepresentationUtils.randomIntegralRepresentation(10, min, max));
         Assertions.assertEquals(chromosome.getMin(), newChromosome.getMin());
         Assertions.assertEquals(chromosome.getMax(), newChromosome.getMax());
         Assertions.assertEquals(chromosome.getDecoder(), newChromosome.getDecoder());

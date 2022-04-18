@@ -141,6 +141,6 @@ public class OrderedCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
         Collections.rotate(child1, lb);
         Collections.rotate(child2, lb);
 
-        return new ChromosomePair<>(first.newChromosome(child1), second.newChromosome(child2));
+        return new ChromosomePair<>(first.from(child1), second.from(child2));
     }
 }

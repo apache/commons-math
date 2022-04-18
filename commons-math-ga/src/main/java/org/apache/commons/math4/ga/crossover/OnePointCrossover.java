@@ -114,7 +114,7 @@ public class OnePointCrossover<T, P> extends AbstractListChromosomeCrossoverPoli
             child2Rep.add(parent1Rep.get(i));
         }
 
-        return new ChromosomePair<>(first.newChromosome(child1Rep), second.newChromosome(child2Rep));
+        return new ChromosomePair<>(first.from(child1Rep), second.from(child2Rep));
     }
 
 }

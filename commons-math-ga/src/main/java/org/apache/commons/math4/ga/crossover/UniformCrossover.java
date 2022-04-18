@@ -136,6 +136,6 @@ public class UniformCrossover<T, P> extends AbstractListChromosomeCrossoverPolic
             }
         }
 
-        return new ChromosomePair<>(first.newChromosome(child1Rep), second.newChromosome(child2Rep));
+        return new ChromosomePair<>(first.from(child1Rep), second.from(child2Rep));
     }
 }

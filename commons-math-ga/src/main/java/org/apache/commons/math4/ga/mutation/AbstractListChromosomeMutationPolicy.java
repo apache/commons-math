@@ -71,7 +71,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
             newRep.set(mutableGeneIndex, mutateGene(newRep.get(mutableGeneIndex)));
         }
 
-        return chromosome.newChromosome(newRep);
+        return chromosome.from(newRep);
     }
 
     /**

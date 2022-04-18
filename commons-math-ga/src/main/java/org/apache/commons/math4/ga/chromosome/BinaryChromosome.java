@@ -279,7 +279,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      * @param chromosomeLength         length of chromosome
      * @return new instance of chromosome
      */
-    public BinaryChromosome<P> newChromosome(long[] chromosomeRepresentation, long chromosomeLength) {
+    public BinaryChromosome<P> from(long[] chromosomeRepresentation, long chromosomeLength) {
         return new BinaryChromosome<P>(chromosomeRepresentation, chromosomeLength, getFitnessFunction(), getDecoder());
     }
 
