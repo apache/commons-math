@@ -75,7 +75,7 @@ public class UnchangedMeanFitness<P> implements StoppingCondition<P> {
     private double calculateMeanFitness(Population<P> population) {
         double totalFitness = 0.0;
         for (Chromosome<P> chromosome : population) {
-            totalFitness += chromosome.evaluate();
+            totalFitness += chromosome.getFitness();
         }
         return totalFitness / population.getPopulationSize();
     }

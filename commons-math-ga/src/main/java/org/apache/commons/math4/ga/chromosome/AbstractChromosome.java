@@ -34,10 +34,6 @@ import org.apache.commons.math4.ga.fitness.FitnessFunction;
  */
 public abstract class AbstractChromosome<P> implements Chromosome<P> {
 
-    /** Value assigned when no fitness has been computed yet. */
-    private static final double NO_FITNESS = Double.NEGATIVE_INFINITY;
-    /** Cached value of the fitness of this chromosome. */
-    private double fitness = NO_FITNESS;
     /** Fitness function to evaluate fitness of chromosome. **/
     private final FitnessFunction<P> fitnessFunction;
     /** decoder to deode the chromosome's genotype representation. **/
@@ -81,23 +77,6 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
     }
 
     /**
-     * Access the fitness of this chromosome. The bigger the fitness, the better the
-     * chromosome.
-     * <p>
-     * Computation of fitness is usually very time-consuming task, therefore the
-     * fitness is cached.
-     * @return the fitness
-     */
-    @Override
-    public double evaluate() {
-        if (this.fitness == NO_FITNESS) {
-            // no cache - compute the fitness
-            this.fitness = fitnessFunction.compute(decode());
-        }
-        return this.fitness;
-    }
-
-    /**
      * Decodes the chromosome genotype and returns the phenotype.
      * @return chromosome phenotype
      */
@@ -119,7 +98,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
      */
     @Override
     public int compareTo(final Chromosome<P> another) {
-        return Double.compare(evaluate(), another.evaluate());
+        return Double.compare(getFitness(), another.getFitness());
     }
 
     /**
@@ -138,7 +117,7 @@ public abstract class AbstractChromosome<P> implements Chromosome<P> {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return String.format("(f=%s %s)", evaluate(), decode());
+        return String.format("(f=%s %s)", getFitness(), decode());
     }
 
 }

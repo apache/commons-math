@@ -16,29 +16,29 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
-import org.junit.Test;
+import org.apache.commons.math4.ga.dummy.DummyListChromosome;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class ChromosomePairTest {
+class AbstractListChromosomeTest {
 
     @Test
-    public void testChromosomePair() {
-        AbstractChromosome<String> chromosome1 = new AbstractChromosome<String>(c -> 0, c -> "0") {
-            @Override
-            public double getFitness() {
-                return 1;
-            }
-        };
-        AbstractChromosome<String> chromosome2 = new AbstractChromosome<String>(c -> 1, c -> "1") {
-            @Override
-            public double getFitness() {
-                return 1;
-            }
-        };
-        ChromosomePair<String> chromosomePair = new ChromosomePair<>(chromosome1, chromosome2);
+    public void testCompareTo() {
+        final Integer[] repr = new Integer[] {1, 0, 1};
+        Chromosome<String> c1 = new DummyListChromosome(repr, c -> 0);
+        Chromosome<String> c2 = new DummyListChromosome(repr, c -> 10);
+        Chromosome<String> c3 = new DummyListChromosome(repr, c -> 10);
 
-        Assertions.assertTrue(chromosome1.isSame((AbstractChromosome<String>) chromosomePair.getFirst()));
-        Assertions.assertTrue(chromosome2.isSame((AbstractChromosome<String>) chromosomePair.getSecond()));
+        Assertions.assertTrue(c1.compareTo(c2) < 0);
+        Assertions.assertTrue(c2.compareTo(c1) > 0);
+        Assertions.assertEquals(0, c3.compareTo(c2));
+        Assertions.assertEquals(0, c2.compareTo(c3));
     }
 
+    @Test
+    public void testGetFitness() {
+        final Integer[] repr = new Integer[] {1, 0, 1};
+        Chromosome<String> ch = new DummyListChromosome(repr, c -> .001);
+        Assertions.assertEquals(.001, ch.getFitness(), .00001);
+    }
 }

@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.junit.jupiter.api.Assertions;
@@ -47,11 +48,10 @@ public class NPointCrossoverTest {
     @Test
     public void testCrossoverInvalidFixedLengthChromosomeFirst() {
         final Integer[] p1 = new Integer[] {1, 0, 1, 0, 0, 1, 0, 1, 1};
+        final Integer[] p2 = new Integer[] {1, 0, 1};
         final IntegralValuedChromosome<String> p1c = new IntegralValuedChromosome<String>(p1, chromosome -> 0,
                 new DummyListChromosomeDecoder<>("0"), 0, 2);
-        final AbstractChromosome<String> p2c = new AbstractChromosome<String>(chromosome -> 0,
-                new DummyListChromosomeDecoder<>("0")) {
-        };
+        final AbstractChromosome<String> p2c = new DummyListChromosome(p2);
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);
 
@@ -68,6 +68,10 @@ public class NPointCrossoverTest {
                 new DummyListChromosomeDecoder<>("0"), 0, 2);
         final AbstractChromosome<String> p1c = new AbstractChromosome<String>(chromosome -> 0,
                 new DummyListChromosomeDecoder<>("0")) {
+            @Override
+            public double getFitness() {
+                return 0;
+            }
         };
 
         final CrossoverPolicy<String> cp = new NPointCrossover<Integer, String>(1);

@@ -36,6 +36,8 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
 
     /** List of allele/genes. */
     private final List<T> representation;
+    /** Fitness of this chromosome. */
+    private final double fitness;
 
     /**
      * @param representation  The representation of chromosome genotype as
@@ -78,6 +80,7 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
         super(fitnessFunction, decoder);
         Objects.requireNonNull(representation);
         this.representation = Collections.unmodifiableList(copyList ? new ArrayList<>(representation) : representation);
+        this.fitness = getFitnessFunction().compute(decode());
     }
 
     /**
@@ -120,5 +123,18 @@ public abstract class AbstractListChromosome<T, P> extends AbstractChromosome<P>
      *         arrayRepresentation
      */
     public abstract AbstractListChromosome<T, P> from(List<T> chromosomeRepresentation);
+
+    /**
+     * Access the fitness of this chromosome. The bigger the fitness, the better the
+     * chromosome.
+     * <p>
+     * Computation of fitness is usually very time-consuming task, therefore the
+     * fitness is cached.
+     * @return the fitness
+     */
+    @Override
+    public double getFitness() {
+        return this.fitness;
+    }
 
 }

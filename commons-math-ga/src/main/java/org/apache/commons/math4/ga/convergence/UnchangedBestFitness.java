@@ -52,7 +52,7 @@ public class UnchangedBestFitness<P> implements StoppingCondition<P> {
      */
     @Override
     public boolean isSatisfied(Population<P> population) {
-        final double currentBestFitness = population.getFittestChromosome().evaluate();
+        final double currentBestFitness = population.getFittestChromosome().getFitness();
 
         if (lastBestFitness == currentBestFitness) {
             generationsHavingUnchangedBestFitness++;

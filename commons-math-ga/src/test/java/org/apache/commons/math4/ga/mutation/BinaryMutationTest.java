@@ -43,7 +43,7 @@ public class BinaryMutationTest {
         // stochastic testing for single gene mutation :)
         for (int i = 0; i < 20; i++) {
             BinaryChromosome<String> original = BinaryChromosome.<String>randomChromosome(10, chromosome -> 0,
-                    new DummyListChromosomeDecoder<>("0"));
+                c -> "0");
             BinaryChromosome<String> mutated = (BinaryChromosome<String>) mutation.mutate(original, .1);
 
             // one gene should be different

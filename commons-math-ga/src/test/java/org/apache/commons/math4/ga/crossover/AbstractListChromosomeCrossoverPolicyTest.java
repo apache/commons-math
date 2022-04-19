@@ -32,7 +32,8 @@ public class AbstractListChromosomeCrossoverPolicyTest {
     @Test
     public void testCrossoverWithNonListChromosome() {
 
-        CrossoverPolicy<String> crossoverPolicy = new AbstractListChromosomeCrossoverPolicy<Integer, String>(RandomSource.XO_RO_SHI_RO_128_PP) {
+        CrossoverPolicy<String> crossoverPolicy = new AbstractListChromosomeCrossoverPolicy<Integer, String>(
+                RandomSource.XO_RO_SHI_RO_128_PP) {
 
             @Override
             protected ChromosomePair<String> mate(AbstractListChromosome<Integer, String> first,
@@ -41,9 +42,17 @@ public class AbstractListChromosomeCrossoverPolicyTest {
             }
         };
         Chromosome<String> ch1 = new AbstractChromosome<String>(c -> 0, c -> "0") {
+            @Override
+            public double getFitness() {
+                return 0;
+            }
         };
 
         Chromosome<String> ch2 = new AbstractChromosome<String>(c -> 1, c -> "1") {
+            @Override
+            public double getFitness() {
+                return 1;
+            }
         };
 
         Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
@@ -55,7 +64,8 @@ public class AbstractListChromosomeCrossoverPolicyTest {
     @Test
     public void testCrossoverWithUnEqualLengthChromosome() {
 
-        CrossoverPolicy<String> crossoverPolicy = new AbstractListChromosomeCrossoverPolicy<Integer, String>(RandomSource.XO_RO_SHI_RO_128_PP) {
+        CrossoverPolicy<String> crossoverPolicy = new AbstractListChromosomeCrossoverPolicy<Integer, String>(
+                RandomSource.XO_RO_SHI_RO_128_PP) {
 
             @Override
             protected ChromosomePair<String> mate(AbstractListChromosome<Integer, String> first,

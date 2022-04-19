@@ -19,9 +19,9 @@ package org.apache.commons.math4.ga.selection;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.ChromosomePair;
+import org.apache.commons.math4.ga.dummy.DummyListChromosome;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
@@ -39,24 +39,18 @@ public class TournamentSelectionTest {
         Assertions.assertEquals(2, ts.getArity());
 
         ListPopulation<String> pop = new ListPopulation<>(100);
+        Integer[] repr = new Integer[] {0, 1, 2};
 
         for (int i = 0; i < pop.getPopulationLimit(); i++) {
-            pop.addChromosome(new DummyChromosome());
+            pop.addChromosome(new DummyListChromosome(repr, c -> counter++));
         }
         // how to write a test for stochastic method?
         for (int i = 0; i < 20; i++) {
             ChromosomePair<String> pair = ts.select(pop);
             // the worst chromosome should NEVER be selected
-            Assertions.assertTrue(pair.getFirst().evaluate() > 0);
-            Assertions.assertTrue(pair.getSecond().evaluate() > 0);
+            Assertions.assertTrue(pair.getFirst().getFitness() > 0);
+            Assertions.assertTrue(pair.getSecond().getFitness() > 0);
         }
-    }
-
-    private static class DummyChromosome extends AbstractChromosome<String> {
-        DummyChromosome() {
-            super(c -> counter++, c -> "0");
-        }
-
     }
 
     @Test

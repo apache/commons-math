@@ -101,7 +101,7 @@ public class StandAlone implements Runnable {
                 for (City city : bestCities) {
                     writer.println(CITY_LABEL + city.getIndex());
                 }
-                writer.println(TOT_DST_LABEL + Math.abs(bestChromosome.evaluate()));
+                writer.println(TOT_DST_LABEL + Math.abs(bestChromosome.getFitness()));
             } else {
                 RandomKey<City> bestChromosome = (RandomKey<City>) new LegacyTSPOptimizer().optimize(CITIES,
                         crossoverRate, mutationRate, elitismRate, tournamentSize,

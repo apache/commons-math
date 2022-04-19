@@ -19,6 +19,7 @@ package org.apache.commons.math4.ga.dummy;
 import java.util.List;
 
 import org.apache.commons.math4.ga.chromosome.AbstractListChromosome;
+import org.apache.commons.math4.ga.fitness.FitnessFunction;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 
 /**
@@ -37,6 +38,14 @@ public class DummyListChromosome extends AbstractListChromosome<Integer, String>
 
     public DummyListChromosome(final List<Integer> representation) {
         super(representation, chromosome -> 0, new DummyListChromosomeDecoder<>("0"));
+    }
+
+    public DummyListChromosome(final List<Integer> representation, FitnessFunction<String> fitnessFunction) {
+        super(representation, fitnessFunction, new DummyListChromosomeDecoder<>("0"));
+    }
+
+    public DummyListChromosome(final Integer[] representation, FitnessFunction<String> fitnessFunction) {
+        super(representation, fitnessFunction, new DummyListChromosomeDecoder<>("0"));
     }
 
     @Override

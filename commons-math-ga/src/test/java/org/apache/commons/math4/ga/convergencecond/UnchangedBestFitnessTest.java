@@ -19,10 +19,10 @@ package org.apache.commons.math4.ga.convergencecond;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.convergence.StoppingCondition;
 import org.apache.commons.math4.ga.convergence.UnchangedBestFitness;
+import org.apache.commons.math4.ga.dummy.DummyListChromosome;
 import org.apache.commons.math4.ga.internal.stats.PopulationStatisticalSummaryImpl;
 import org.apache.commons.math4.ga.population.ListPopulation;
 import org.apache.commons.math4.ga.population.Population;
@@ -43,9 +43,10 @@ public class UnchangedBestFitnessTest {
             fitnesses[i] = i;
         }
         List<Chromosome<String>> chromosomes = new ArrayList<>();
+        final Integer[] repr = new Integer[] {1, 0, 1};
         for (int i = 0; i < 10; i++) {
             final double fitness = fitnesses[i];
-            Chromosome<String> ch = new AbstractChromosome<String>(c -> fitness, c -> "Fixed") {
+            Chromosome<String> ch = new DummyListChromosome(repr, c -> fitness) {
             };
             chromosomes.add(ch);
         }

@@ -19,9 +19,9 @@ package org.apache.commons.math4.ga.population;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.math4.ga.chromosome.AbstractChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
 import org.apache.commons.math4.ga.chromosome.IntegralValuedChromosome;
+import org.apache.commons.math4.ga.dummy.DummyListChromosome;
 import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.junit.jupiter.api.Assertions;
@@ -31,12 +31,11 @@ public class ListPopulationTest {
 
     @Test
     public void testGetFittestChromosome() {
-        AbstractChromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 0, chromosome -> "0") {
+        Integer[] repr = new Integer[] {0, 2, 1, 3};
+        Chromosome<String> c1 = new DummyListChromosome(repr, chromosome -> 0);
+        Chromosome<String> c2 = new DummyListChromosome(repr, chromosome -> 10) {
         };
-        AbstractChromosome<String> c2 = new AbstractChromosome<String>(chromosome -> 10, chromosome -> "10") {
-        };
-        AbstractChromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 15, chromosome -> "15") {
-        };
+        Chromosome<String> c3 = new DummyListChromosome(repr, chromosome -> 15);
 
         ArrayList<Chromosome<String>> chromosomes = new ArrayList<>();
         chromosomes.add(c1);

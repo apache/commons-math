@@ -24,4 +24,9 @@ public class DummyChromosome extends AbstractChromosome<String> {
         super(c -> 0, c -> "0");
     }
 
+    @Override
+    public double getFitness() {
+        return 0;
+    }
+
 }

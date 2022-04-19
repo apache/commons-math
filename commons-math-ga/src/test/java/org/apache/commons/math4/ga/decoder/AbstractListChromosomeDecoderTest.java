@@ -38,7 +38,6 @@ public class AbstractListChromosomeDecoderTest {
         Assertions.assertThrows(GeneticIllegalArgumentException.class, () -> {
             decoder.decode(ch);
         });
-
     }
 
 }

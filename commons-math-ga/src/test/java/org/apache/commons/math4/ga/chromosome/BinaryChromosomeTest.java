@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.ga.chromosome;
 
-import org.apache.commons.math4.ga.dummy.DummyListChromosomeDecoder;
 import org.apache.commons.math4.ga.internal.exception.GeneticIllegalArgumentException;
 import org.apache.commons.math4.ga.utils.ChromosomeRepresentationUtils;
 import org.junit.Assert;
@@ -40,7 +39,7 @@ public class BinaryChromosomeTest {
     @Test
     public void testRandomConstructor() {
         for (int i = 0; i < 20; i++) {
-            BinaryChromosome.<String>randomChromosome(10, c -> 1, new DummyListChromosomeDecoder<>("1"));
+            BinaryChromosome.<String>randomChromosome(10, c -> 1, c -> "0");
         }
     }
 

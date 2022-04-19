@@ -43,6 +43,8 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
      * binary representation of chromosome.
      */
     private final long[] representation;
+    /** Fitness of this chromosome. */
+    private final double fitness;
 
     /**
      * @param representation  Internal representation of chromosome.
@@ -62,6 +64,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
         for (int i = 0; i < representation.size(); i++) {
             this.representation[i] = representation.get(i);
         }
+        this.fitness = getFitnessFunction().compute(decode());
     }
 
     /**
@@ -82,6 +85,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
         for (int i = 0; i < representation.length; i++) {
             this.representation[i] = representation[i];
         }
+        this.fitness = getFitnessFunction().compute(decode());
     }
 
     /**
@@ -104,6 +108,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
         this.length = length;
         this.representation = new long[inputRepresentation.length];
         System.arraycopy(inputRepresentation, 0, representation, 0, inputRepresentation.length);
+        this.fitness = getFitnessFunction().compute(decode());
     }
 
     /**
@@ -116,6 +121,7 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
         Objects.requireNonNull(representation);
         this.length = representation.length();
         this.representation = encode(representation);
+        this.fitness = getFitnessFunction().compute(decode());
     }
 
     /**
@@ -298,4 +304,16 @@ public class BinaryChromosome<P> extends AbstractChromosome<P> {
                 fitnessFunction, decoder);
     }
 
+    /**
+     * Access the fitness of this chromosome. The bigger the fitness, the better the
+     * chromosome.
+     * <p>
+     * Computation of fitness is usually very time-consuming task, therefore the
+     * fitness is cached.
+     * @return the fitness
+     */
+    @Override
+    public double getFitness() {
+        return this.fitness;
+    }
 }

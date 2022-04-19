@@ -22,41 +22,36 @@ import org.junit.jupiter.api.Test;
 public class AbstractChromosomeTest {
 
     @Test
-    public void testGetFitness() {
-        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
-        };
-        Assertions.assertEquals(1, c1.evaluate(), .001);
-    }
-
-    @Test
     public void testDecode() {
         Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
+
+            @Override
+            public double getFitness() {
+                return 1;
+            }
         };
         Assertions.assertEquals("1", c1.decode());
     }
 
     @Test
-    public void testCompareTo() {
-        Chromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 0, chromosome -> "0") {
-        };
-        Chromosome<String> c2 = new AbstractChromosome<String>(chromosome -> 10, chromosome -> "10") {
-        };
-        Chromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 10, chromosome -> "10") {
-        };
-
-        Assertions.assertTrue(c1.compareTo(c2) < 0);
-        Assertions.assertTrue(c2.compareTo(c1) > 0);
-        Assertions.assertEquals(0, c3.compareTo(c2));
-        Assertions.assertEquals(0, c2.compareTo(c3));
-    }
-
-    @Test
     public void testIsSame() {
         AbstractChromosome<String> c1 = new AbstractChromosome<String>(chromosome -> 1, chromosome -> "1") {
+            @Override
+            public double getFitness() {
+                return 1;
+            }
         };
         AbstractChromosome<String> c2 = new AbstractChromosome<String>(chromosome -> 2, chromosome -> "2") {
+            @Override
+            public double getFitness() {
+                return 2;
+            }
         };
         AbstractChromosome<String> c3 = new AbstractChromosome<String>(chromosome -> 3, chromosome -> "1") {
+            @Override
+            public double getFitness() {
+                return 3;
+            }
         };
         Assertions.assertTrue(c1.isSame(c3));
         Assertions.assertFalse(c1.isSame(c2));

@@ -27,12 +27,9 @@ public interface Chromosome<P> extends Comparable<Chromosome<P>> {
     /**
      * Access the fitness of this chromosome. The bigger the fitness, the better the
      * chromosome.
-     * <p>
-     * Computation of fitness is usually very time-consuming task, therefore the
-     * fitness is cached.
      * @return the fitness
      */
-    double evaluate();
+    double getFitness();
 
     /**
      * Decodes the chromosome genotype and returns the phenotype.

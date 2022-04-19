@@ -60,8 +60,8 @@ public class PopulationStatisticalSummaryImpl<P> implements PopulationStatistica
         Collections.sort(chromosomes);
 
         this.populationSize = chromosomes.size();
-        this.maxFitness = chromosomes.get(chromosomes.size() - 1).evaluate();
-        this.minFitness = chromosomes.get(0).evaluate();
+        this.maxFitness = chromosomes.get(chromosomes.size() - 1).getFitness();
+        this.minFitness = chromosomes.get(0).getFitness();
         this.meanFitness = calculateMeanFitness(chromosomes);
         this.variance = calculateVariance(chromosomes);
 
@@ -140,7 +140,7 @@ public class PopulationStatisticalSummaryImpl<P> implements PopulationStatistica
     private double calculateMeanFitness(List<Chromosome<P>> chromosomes) {
         double sum = 0.0;
         for (Chromosome<P> chromosome : chromosomes) {
-            sum += chromosome.evaluate();
+            sum += chromosome.getFitness();
         }
         return sum / chromosomes.size();
     }
@@ -156,7 +156,7 @@ public class PopulationStatisticalSummaryImpl<P> implements PopulationStatistica
         }
         double sumOfSquare = 0.0;
         for (Chromosome<P> chromosome : chromosomes) {
-            sumOfSquare += Math.pow(chromosome.evaluate(), 2);
+            sumOfSquare += Math.pow(chromosome.getFitness(), 2);
         }
 
         return (sumOfSquare / chromosomes.size()) - Math.pow(this.meanFitness, 2);
