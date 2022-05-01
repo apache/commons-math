@@ -14,41 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.examples.ga.mathfunctions;
-
-import java.util.List;
-
 /**
- * This class represents the coordinate of the problem domain i.e. the phenotype
- * of chromosome.
+ * Functionality for computation of fitness.
  */
-public class Coordinate {
-
-    /** coordinate of all dimensions. **/
-    private final List<Double> values;
-
-    /**
-     * constructor.
-     * @param values coordinates of all dimensions.
-     */
-    public Coordinate(List<Double> values) {
-        this.values = values;
-    }
-
-    /**
-     * Returns the values of all coordinates.
-     * @return values of coordinates
-     */
-    public List<Double> getValues() {
-        return values;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "Coordinate [values=" + values + "]";
-    }
-
-}
+package org.apache.commons.math4.ga2.fitness;

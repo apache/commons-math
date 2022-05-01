@@ -36,6 +36,9 @@
   <suppress checks="TypeName" files=".*[/\\]AccurateMath\.java" />
   <suppress checks="ParameterName" files=".*[/\\]AccurateMathCalc\.java" />
   <suppress checks="ParameterNumber" files=".*[/\\]AdaptiveMathFunctionOptimizer\.java" />
+  <suppress checks="ParameterNumber" files=".*[/\\]GeneticAlgorithmFactory\.java" />
+  <suppress checks="ParameterNumber" files=".*[/\\]MathFunctionOptimizer2\.java" />
+  <suppress checks="IllegalCatch" files=".*[/\\]MathFunctionOptimizer2\.java" />
 
   <!-- Be more lenient on tests. -->
   <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />

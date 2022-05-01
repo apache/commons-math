@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -21,47 +21,44 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apache.commons</groupId>
-    <artifactId>commons-math-examples</artifactId>
+    <artifactId>commons-math-parent</artifactId>
     <version>4.0-SNAPSHOT</version>
   </parent>
-  <artifactId>examples-ga</artifactId>
-  <packaging>pom</packaging>
-  <name>GA</name>
+  <artifactId>commons-math4-ga2</artifactId>
+  <name>Genetic Algorithms</name>
+
+  <description>Genetic Algorithms</description>
 
   <properties>
+    <!-- The Java Module System Name -->
+    <commons.module.name>org.apache.commons.math4.ga2</commons.module.name>
+    <!-- This value must reflect the current name of the base package. -->
+    <commons.osgi.symbolicName>org.apache.commons.math4.ga2</commons.osgi.symbolicName>
+    <!-- OSGi -->
+    <commons.osgi.export>org.apache.commons.math4.ga</commons.osgi.export>
     <!-- Workaround to avoid duplicating config files. -->
-    <math.parent.dir>${basedir}/../..</math.parent.dir>
+    <math.parent.dir>${basedir}/..</math.parent.dir>
+    <math.slf4j.version>1.7.32</math.slf4j.version>
   </properties>
 
   <dependencies>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math4-ga</artifactId>
+      <artifactId>commons-rng-simple</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math4-ga2</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>info.picocli</groupId>
-      <artifactId>picocli</artifactId>
+      <artifactId>commons-rng-sampling</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${math.slf4j.version}</version>
     </dependency>
 
   </dependencies>
-
-  <modules>
-    <module>examples-ga-math-functions</module>
-    <module>examples-ga-math-functions-adaptive</module>
-    <module>examples-ga-tsp</module>
-    <module>examples-parallel-ga-math-functions</module>
-  </modules>
 
 </project>

@@ -17,9 +17,6 @@
 
 package org.apache.commons.math4.examples.ga.mathfunctions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.math4.ga.GeneticAlgorithm;
 import org.apache.commons.math4.ga.chromosome.BinaryChromosome;
 import org.apache.commons.math4.ga.chromosome.Chromosome;
@@ -65,50 +62,52 @@ public final class MathFunctionOptimizer {
             int populationSize) {
 
         // initialize a new genetic algorithm
-        final GeneticAlgorithm<Coordinate> ga = new GeneticAlgorithm<Coordinate>(
-                new OnePointBinaryCrossover<Coordinate>(), crossoverRate, new BinaryMutation<Coordinate>(),
-                mutationRate, new TournamentSelection<Coordinate>(tournamentSize), elitismRate,
-                new PopulationStatisticsLogger<Coordinate>());
+        final GeneticAlgorithm<Coordinates> ga = new GeneticAlgorithm<Coordinates>(
+                new OnePointBinaryCrossover<Coordinates>(), crossoverRate, new BinaryMutation<Coordinates>(),
+                mutationRate, new TournamentSelection<Coordinates>(tournamentSize), elitismRate,
+                new PopulationStatisticsLogger<Coordinates>());
 
         // stopping condition
-        final StoppingCondition<Coordinate> stopCond = new UnchangedBestFitness<>(
+        final StoppingCondition<Coordinates> stopCond = new UnchangedBestFitness<>(
                 generationCountWithUnchangedBestFitness);
 
         // run the algorithm
-        final Population<Coordinate> finalPopulation = ga.evolve(getInitialPopulation(dimension, populationSize),
+        final Population<Coordinates> finalPopulation = ga.evolve(getInitialPopulation(dimension, populationSize),
                 stopCond, Runtime.getRuntime().availableProcessors());
 
         // best chromosome from the final population
-        final Chromosome<Coordinate> bestFinal = finalPopulation.getFittestChromosome();
+        final Chromosome<Coordinates> bestFinal = finalPopulation.getFittestChromosome();
 
         logger.info(bestFinal.toString());
     }
 
-    private static Population<Coordinate> getInitialPopulation(int dimension, int populationSize) {
-        final Population<Coordinate> population = new ListPopulation<>(populationSize);
+    private static Population<Coordinates> getInitialPopulation(int dimension, int populationSize) {
+        final Population<Coordinates> population = new ListPopulation<>(populationSize);
 
         for (int i = 0; i < populationSize; i++) {
             population.addChromosome(BinaryChromosome
-                    .<Coordinate>randomChromosome(dimension * CHROMOSOME_LENGTH_PER_DIMENSION, coordinate -> {
+                    .<Coordinates>randomChromosome(dimension * CHROMOSOME_LENGTH_PER_DIMENSION, coordinate -> {
                         double sumOfSquare = 0.0;
-                        for (Double value : coordinate.getValues()) {
-                            sumOfSquare += Math.pow(value, 2);
+                        for (double value : coordinate.getValues()) {
+                            sumOfSquare += Math.pow(value - 10, 2);
                         }
                         return -Math.pow(sumOfSquare, .25) *
                                 (Math.pow(Math.sin(50 * Math.pow(sumOfSquare, .1)), 2) + 1);
 
                     }, chromosome -> {
-                            final BinaryChromosome<Coordinate> binaryChromosome =
-                                    (BinaryChromosome<Coordinate>) chromosome;
+                            final BinaryChromosome<Coordinates> binaryChromosome =
+                                    (BinaryChromosome<Coordinates>) chromosome;
                             final long length = binaryChromosome.getLength();
-                            final List<Double> coordinates = new ArrayList<>();
-
-                            for (int j = 0; j < length; j += 12) {
-                                final String dimensionStrValue = binaryChromosome.getStringRepresentation(j, j + 12);
-                                coordinates.add(Integer.parseUnsignedInt(dimensionStrValue, 2) / 100d);
+                            final double[] coordinates = new double[dimension];
+                            for (int j = 0; j < dimension; j++) {
+                                final int start = j * CHROMOSOME_LENGTH_PER_DIMENSION;
+                                final String dimensionStrValue =
+                                    binaryChromosome.getStringRepresentation(start,
+                                                                             start + CHROMOSOME_LENGTH_PER_DIMENSION);
+                                coordinates[j] = Integer.parseInt(dimensionStrValue, 2) / 100d;
                             }
 
-                            return new Coordinate(coordinates);
+                            return new Coordinates(coordinates);
                         }));
         }
         return population;
