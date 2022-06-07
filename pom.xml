@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>52</version>
+    <version>53</version>
   </parent>
 
   <artifactId>commons-math-parent</artifactId>
@@ -57,8 +57,8 @@
     <commons.encoding>UTF-8</commons.encoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <math.pmd.version>3.13.0</math.pmd.version>
-    <math.pmd.dep.version>6.21.0</math.pmd.dep.version>
+    <math.pmd.version>3.14.0</math.pmd.version>
+    <math.pmd.dep.version>6.37.0</math.pmd.dep.version>
     <math.checkstyle.version>3.1.0</math.checkstyle.version>
     <math.checkstyle.dep.version>8.29</math.checkstyle.dep.version>
     <math.mathjax.version>2.7.2</math.mathjax.version>
