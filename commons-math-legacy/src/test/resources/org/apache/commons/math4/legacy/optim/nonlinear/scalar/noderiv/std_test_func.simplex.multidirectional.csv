@@ -20,8 +20,8 @@
 #  0: Function name (value from "TestFunction" enum)
 #  1: Space dimension (n)
 #  2: Optimum ("n" space-separated values)
-#  3: Minimal radius of the spherical shell around the optimum (within which to randomly select a start point)
-#  4: Minimal radius of the spherical shell around the optimum (within which to randomly select a start point)
+#  3: Minimum radius of the spherical shell around the optimum (within which to randomly select a start point)
+#  4: Maximum radius of the spherical shell around the optimum (within which to randomly select a start point)
 #  5: Maximum expected distance from the result to the optimum
 #  6: Expected number of function evaluations
 #  7: Whether to perform simulated annealing
