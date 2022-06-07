@@ -47,4 +47,5 @@
   <suppress checks="MethodLength" files=".*/Dfp.*Test.java" />
   <suppress checks="MethodLength" files=".*[/\\]AccurateMathTest\.java" />
   <suppress checks="LocalFinalVariableName" files=".*[/\\]AccurateMathTest\.java" />
+  <suppress checks="ParameterNumber" files=".*[/\\]FastFourierTransformerTest\.java" />
 </suppressions>
