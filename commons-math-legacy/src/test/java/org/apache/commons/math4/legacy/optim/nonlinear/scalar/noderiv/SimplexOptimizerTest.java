@@ -310,7 +310,7 @@ public class SimplexOptimizerTest {
 
         /**
          * Asserts that the lowest function value (along a line starting at
-         * {@link #start} is reached at the {@link #optimum}.
+         * {@code start} is reached at the {@code optimum}.
          *
          * @param numPoints Number of points at which to evaluate the function.
          */
