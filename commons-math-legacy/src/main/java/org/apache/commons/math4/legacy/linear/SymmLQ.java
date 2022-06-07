@@ -46,7 +46,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * definite (but <em>must</em> be self-adjoint). The work per iteration is very
  * slightly less if shift = 0.
  * </p>
- * <h3>Preconditioning</h3>
+ * <p><b>Preconditioning</b></p>
  * <p>
  * Preconditioning may reduce the number of iterations required. The solver may
  * be provided with a positive definite preconditioner
@@ -75,14 +75,14 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * the <em>preconditioned</em>, updated residual, ||P &middot; r||, not the norm
  * of the <em>true</em> residual ||r||.
  * </p>
- * <h3><a id="stopcrit">Default stopping criterion</a></h3>
+ * <p><b><a id="stopcrit">Default stopping criterion</a></b></p>
  * <p>
  * A default stopping criterion is implemented. The iterations stop when || rhat
  * || &le; &delta; || Ahat || || xhat ||, where xhat is the current estimate of
  * the solution of the transformed system, rhat the current estimate of the
  * corresponding residual, and &delta; a user-specified tolerance.
  * </p>
- * <h3>Iteration count</h3>
+ * <p><b>Iteration count</b></p>
  * <p>
  * In the present context, an iteration should be understood as one evaluation
  * of the matrix-vector product A &middot; x. The initialization phase therefore
@@ -97,7 +97,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * the original FOTRAN code, where the initialization phase was <em>not</em>
  * taken into account.
  * </p>
- * <h3><a id="initguess">Initial guess of the solution</a></h3>
+ * <p><b><a id="initguess">Initial guess of the solution</a></b></p>
  * <p>
  * The {@code x} parameter in
  * <ul>
@@ -112,7 +112,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * should compute r<sub>0</sub> = b - A &middot; x, solve A &middot; dx = r0,
  * and set x = x<sub>0</sub> + dx.
  *
- * <h3><a id="context">Exception context</a></h3>
+ * <p><b><a id="context">Exception context</a></b></p>
  * <p>
  * Besides standard {@link DimensionMismatchException}, this class might throw
  * {@link NonSelfAdjointOperatorException} if the linear operator or the
@@ -137,7 +137,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * that x<sup>T</sup> &middot; L &middot; x &lt; 0.</li>
  * </ul>
  *
- * <h3>References</h3>
+ * <p><b>References</b></p>
  * <dl>
  * <dt><a id="PAIG1975">Paige and Saunders (1975)</a></dt>
  * <dd>C. C. Paige and M. A. Saunders, <a

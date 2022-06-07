@@ -49,7 +49,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
  * of <code>FieldVector</code> implementations to make sure no null elements
  * are inserted into the vector. This must be done in all constructors and
  * all setters.
- * <p>
+ * </p>
  *
  * @param <T> the type of the field elements
  * @since 2.0

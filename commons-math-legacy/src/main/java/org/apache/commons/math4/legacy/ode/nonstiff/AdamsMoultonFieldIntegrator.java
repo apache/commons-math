@@ -58,7 +58,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  *
  * <p>A k-steps Adams-Moulton method is of order k+1.</p>
  *
- * <h3>Implementation details</h3>
+ * <p><b>Implementation details</b></p>
  *
  * <p>We define scaled derivatives s<sub>i</sub>(n) at step n as:
  * <div style="white-space: pre"><code>

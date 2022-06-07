@@ -51,7 +51,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  *
  * <p>A k-steps Adams-Bashforth method is of order k.</p>
  *
- * <h3>Implementation details</h3>
+ * <p><b>Implementation details</b></p>
  *
  * <p>We define scaled derivatives s<sub>i</sub>(n) at step n as:
  * <div style="white-space: pre"><code>

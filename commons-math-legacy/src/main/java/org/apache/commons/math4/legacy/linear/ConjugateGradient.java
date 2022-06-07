@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
  * href="#BARR1994">Barrett et al. (1994)</a> (figure 2.5). The linear system at
  * hand is A &middot; x = b, and the residual is r = b - A &middot; x.
  * </p>
- * <h3><a id="stopcrit">Default stopping criterion</a></h3>
+ * <p><b><a id="stopcrit">Default stopping criterion</a></b></p>
  * <p>
  * A default stopping criterion is implemented. The iterations stop when || r ||
  * &le; &delta; || b ||, where b is the right-hand side vector, r the current
@@ -37,13 +37,13 @@ import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
  * differ from the true residual due to rounding-off errors (see e.g. <a
  * href="#STRA2002">Strakos and Tichy, 2002</a>).
  * </p>
- * <h3>Iteration count</h3>
+ * <p><b>Iteration count</b></p>
  * <p>
  * In the present context, an iteration should be understood as one evaluation
  * of the matrix-vector product A &middot; x. The initialization phase therefore
  * counts as one iteration.
  * </p>
- * <h3><a id="context">Exception context</a></h3>
+ * <p><b><a id="context">Exception context</a></b></p>
  * <p>
  * Besides standard {@link DimensionMismatchException}, this class might throw
  * {@link NonPositiveDefiniteOperatorException} if the linear operator or
@@ -55,7 +55,7 @@ import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
  * x<sup>T</sup> &middot; L &middot; x &lt; 0.</li>
  * </ul>
  *
- * <h3>References</h3>
+ * <p><b>References</b></p>
  * <dl>
  * <dt><a id="BARR1994">Barret et al. (1994)</a></dt>
  * <dd>R. Barrett, M. Berry, T. F. Chan, J. Demmel, J. M. Donato, J. Dongarra,

@@ -18,16 +18,16 @@
  *
  *        Generic univariate summary statistic objects.
  *
- *        <h3>UnivariateStatistic API Usage Examples:</h3>
+ *        <p><b>UnivariateStatistic API Usage Examples:</b></p>
  *
- *        <h4>UnivariateStatistic:</h4>
+ *        <p><b><em>UnivariateStatistic:</em></b></p>
  *        <code>/&lowast; evaluation approach &lowast;/<br>
  *          double[] values = new double[] { 1, 2, 3, 4, 5 };<br>
  *          <span style="font-weight: bold;">UnivariateStatistic stat = new Mean();</span><br>
  *          out.println("mean = " + <span style="font-weight: bold;">stat.evaluate(values)</span>);<br>
  *        </code>
  *
- *        <h4>StorelessUnivariateStatistic:</h4>
+ *        <p><b><em>StorelessUnivariateStatistic:</em></b></p>
  *        <code>/&lowast; incremental approach &lowast;/<br>
  *          double[] values = new double[] { 1, 2, 3, 4, 5 };<br>
  *          <span style="font-weight: bold;">StorelessUnivariateStatistic stat = new Mean();</span><br>
