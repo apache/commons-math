@@ -226,13 +226,13 @@ public class SimplexOptimizerTest {
             final double funcValue = result.getValue();
             final double dist = MathArrays.distance(optimum, endPoint);
             Assertions.assertEquals(0d, dist, pointTolerance,
-                                    name + ": distance to optimum" +
+                                    () -> name + ": distance to optimum" +
                                     " f(" + Arrays.toString(endPoint) + ")=" +
                                     funcValue);
 
             final int nEval = optim.getEvaluations();
             Assertions.assertTrue(nEval < functionEvaluations,
-                                  name + ": nEval=" + nEval);
+                                  () -> name + ": nEval=" + nEval);
         }
 
         /**
@@ -378,8 +378,10 @@ public class SimplexOptimizerTest {
             }
 
             final double tol = 1e-15;
+            final double[] point = minPoint;
+            final double value = minValue;
             Assertions.assertArrayEquals(optimum, minPoint, tol,
-                                         "Minimum: f(" + Arrays.toString(minPoint) + ")=" + minValue);
+                                         () -> "Minimum: f(" + Arrays.toString(point) + ")=" + value);
         }
 
         /**
