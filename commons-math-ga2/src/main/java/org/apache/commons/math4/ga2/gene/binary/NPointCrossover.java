@@ -27,7 +27,21 @@ import org.apache.commons.math4.ga2.AbstractCrossover;
  * Genetic operator.
  * Class is immutable.
  */
-/* package-private */ class OnePointCrossover extends AbstractCrossover<Chromosome> {
+/* package-private */ class NPointCrossover extends AbstractCrossover<Chromosome> {
+    /** Number of crossover points. */
+    private final int numberOfPoints;
+
+    /**
+     * @param n Number of crossover points.
+     */
+    NPointCrossover(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("Not strictly positive: " + n);
+        }
+
+        numberOfPoints = n;
+    }
+
     /** {@inheritDoc} */
     @Override
     protected List<Chromosome> apply(Chromosome parent1,
@@ -40,30 +54,31 @@ import org.apache.commons.math4.ga2.AbstractCrossover;
                                                parent2.size());
         }
 
-        // Index of crossover point.
-        final int xIndex = 1 + rng.nextInt(size - 1);
-        final BitSet p1 = parent1.asBitSet();
-        final BitSet p2 = parent2.asBitSet();
-        final BitSet c1;
-        final BitSet c2;
+        final BitSet c1 = parent1.asBitSet();
+        final BitSet c2 = parent2.asBitSet();
 
-        final int midIndex = size / 2;
-        if (xIndex > midIndex) {
-            c1 = parent1.asBitSet();
-            c2 = parent2.asBitSet();
+        // Number or remaining crossover points.
+        int remainingPoints = numberOfPoints;
+        // Index of crossover end point.
+        int xEnd = 0;
+        while (remainingPoints > 0) {
+            // Index of crossover start point.
+            final int xStart = xEnd + 1 + rng.nextInt(size - xEnd - remainingPoints);
 
-            for (int i = xIndex; i < size; i++) {
-                c1.set(i, p2.get(i));
-                c2.set(i, p1.get(i));
+            if (--remainingPoints > 0) {
+                xEnd = xStart + 1 + rng.nextInt(size - xStart - remainingPoints);
+
+                swap(c1, c2, xStart, xEnd);
+
+                --remainingPoints;
+            } else {
+                xEnd = xStart;
+                break;
             }
-        } else {
-            c1 = parent2.asBitSet();
-            c2 = parent1.asBitSet();
+        }
 
-            for (int i = 0; i < xIndex; i++) {
-                c1.set(i, p1.get(i));
-                c2.set(i, p2.get(i));
-            }
+        if (numberOfPoints % 2 != 0) {
+            swap(c1, c2, xEnd, size);
         }
 
         final List<Chromosome> offsprings = new ArrayList<>(2);
@@ -71,5 +86,25 @@ import org.apache.commons.math4.ga2.AbstractCrossover;
         offsprings.add(Chromosome.from(c2, size));
 
         return offsprings;
+    }
+
+    /**
+     * Swaps contents (in-place) within the given range.
+     *
+     * @param a Chromosome.
+     * @param b Chromosome.
+     * @param start Index from which contents should be swapped.
+     * @param end Index at which swapping should stop.
+     */
+    private void swap(BitSet a,
+                      BitSet b,
+                      int start,
+                      int end) {
+        for (int i = start; i < end; i++) {
+            final boolean aV = a.get(i);
+            final boolean bV = b.get(i);
+            a.set(i, bV);
+            b.set(i, aV);
+        }
     }
 }

@@ -129,7 +129,7 @@ public final class MathFunctionOptimizer2 {
         // Offspring generators.
         final Map<GeneticOperator<Chromosome>, ApplicationRate> operators = new HashMap<>();
         operators.put(Operators.mutation(mutation), RateGenerators.constant(1));
-        operators.put(Operators.onePointCrossover(), RateGenerators.constant(crossover));
+        operators.put(Operators.nPointCrossover(1), RateGenerators.constant(crossover));
 
         final Callable<Population<Chromosome, Coordinates>> ga =
             GeneticAlgorithmFactory.<Chromosome, Coordinates>create(numGenes,
@@ -145,14 +145,12 @@ public final class MathFunctionOptimizer2 {
                                                                     new GenerationLogger());
 
         try {
-            // Run the GA and retrieve contents of the last generation.
-            final List<Map.Entry<Chromosome, Double>> lastGen = ga.call().contents(true);
-            final Map.Entry<Chromosome, Double> top = lastGen.get(0);
-            final Coordinates best = decoder.apply(top.getKey());
-            final double bestValue = fitnessFunction.applyAsDouble(best);
+            // Run the GA and retrieve the best individual from the last generation.
+            final Map.Entry<Chromosome, Double> best = ga.call().contents(true).get(0);
 
             // CHECKSTYLE: stop all
-            System.out.println("fitness=" + bestValue + " for " + best.toString());
+            System.out.println("fitness=" + best.getValue() +
+                               " for " + decoder.apply(best.getKey()).toString());
             // CHECKSTYLE: resume all
         } catch (Exception e) {
             // Rethrow.

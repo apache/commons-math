@@ -35,9 +35,10 @@ public final class Operators {
         return new Mutation(probability);
     }
     /**
-     * @return a one-point crossover operator.
+     * @param n Number of crossover points.
+     * @return an n-point crossover operator.
      */
-    public static GeneticOperator<Chromosome> onePointCrossover() {
-        return new OnePointCrossover();
+    public static GeneticOperator<Chromosome> nPointCrossover(int n) {
+        return new NPointCrossover(n);
     }
 }
