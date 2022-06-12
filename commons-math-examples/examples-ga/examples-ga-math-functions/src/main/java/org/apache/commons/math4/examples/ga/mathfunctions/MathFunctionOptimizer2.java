@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Callable;
@@ -100,7 +100,7 @@ public final class MathFunctionOptimizer2 {
         };
 
         // Stopping condition (not thread-safe).
-        final Predicate<Population<Chromosome, Coordinates>> stop =
+        final BiPredicate<Population<Chromosome, Coordinates>, Integer> stop =
             new UnchangedFitness(UnchangedFitness.Type.BEST,
                                  numGeneration);
 

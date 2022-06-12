@@ -18,25 +18,30 @@ package org.apache.commons.math4.ga2.stop;
 
 import java.util.Map;
 import java.util.function.ToDoubleFunction;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 import org.apache.commons.math4.ga2.Population;
 
 /**
  * Criterion for asserting convergence of a population.
- * Note: Class is <em>not</em> thread-safe.
+ * Notes:
+ * <ul>
+ *  <li>Class is <em>not</em> thread-safe.</li>
+ *  <li>A <em>new</em> instance must created for each GA run (otherwise
+ *   an {@link IllegalStateException} will be thrown).</li>
+ * </ul>
  *
  * @param <G> Genotype.
  * @param <P> Phenotype.
  */
-public class UnchangedFitness<G, P> implements Predicate<Population<G, P>> {
+public class UnchangedFitness<G, P> implements BiPredicate<Population<G, P>, Integer> {
     /** Function that computes the reference value. */
     private final ToDoubleFunction<Population<G, P>> calculator;
     /** Number of generations during which no change has happened. */
     private final int maxGenerations;
     /** Value for previous population. */
     private double previousFitness = Double.NaN;
-    /** Number of generations without changes. */
-    private int generations = 0;
+    /** Generation at which the last change has occurred. */
+    private int updatedGeneration = 0;
 
     /** What needs to be unchanged. */
     public enum Type {
@@ -71,14 +76,20 @@ public class UnchangedFitness<G, P> implements Predicate<Population<G, P>> {
 
     /** {@inheritDoc} */
     @Override
-    public boolean test(Population<G, P> population) {
+    public boolean test(Population<G, P> population,
+                        Integer generationCounter) {
+        final int genDiff = generationCounter - updatedGeneration;
+        if (genDiff < 0) {
+            throw new IllegalStateException("Incorrect usage");
+        }
+
         final double fitness = calculator.applyAsDouble(population);
         if (fitness == previousFitness) {
-            if (++generations > maxGenerations) {
+            if (genDiff > maxGenerations) {
                 return true;
             }
         } else {
-            generations = 0;
+            updatedGeneration = generationCounter;
             previousFitness = fitness;
         }
 

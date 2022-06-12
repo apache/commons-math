@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.rng.simple.RandomSource;
@@ -43,7 +43,7 @@ public final class GeneticAlgorithmFactory<G, P> implements Callable<Population<
     /** Genotype to phenotype converter. */
     private final Function<G, P> decoder;
     /** Criterion for stopping the evolution. */
-    private final Predicate<Population<G, P>> stop;
+    private final BiPredicate<Population<G, P>, Integer> stop;
     /** Fitness calculator. */
     private final FitnessService<G, P> fitness;
     /** Chromosome selector. */
@@ -71,7 +71,7 @@ public final class GeneticAlgorithmFactory<G, P> implements Callable<Population<
      */
     private GeneticAlgorithmFactory(Collection<G> init,
                                     Function<G, P> decoder,
-                                    Predicate<Population<G, P>> stop,
+                                    BiPredicate<Population<G, P>, Integer> stop,
                                     FitnessService<G, P> fitness,
                                     Selection<G, P> selection,
                                     Map<GeneticOperator<G>, ApplicationRate> operators,
@@ -107,7 +107,7 @@ public final class GeneticAlgorithmFactory<G, P> implements Callable<Population<
      */
     public static <G, P> Callable<Population<G, P>> create(Collection<G> init,
                                                            Function<G, P> decoder,
-                                                           Predicate<Population<G, P>> stop,
+                                                           BiPredicate<Population<G, P>, Integer> stop,
                                                            FitnessService<G, P> fitness,
                                                            Selection<G, P> selection,
                                                            Map<GeneticOperator<G>, ApplicationRate> operators,
@@ -147,7 +147,7 @@ public final class GeneticAlgorithmFactory<G, P> implements Callable<Population<
                                                            ChromosomeFactory<G> initFactory,
                                                            int populationSize,
                                                            Function<G, P> decoder,
-                                                           Predicate<Population<G, P>> stop,
+                                                           BiPredicate<Population<G, P>, Integer> stop,
                                                            FitnessService<G, P> fitness,
                                                            Selection<G, P> selection,
                                                            Map<GeneticOperator<G>, ApplicationRate> operators,
@@ -181,8 +181,7 @@ public final class GeneticAlgorithmFactory<G, P> implements Callable<Population<
         currentGen.add(init);
         final UniformRandomProvider rng = random.create();
 
-        while (!stop.test(currentGen)) {
-            ++generation;
+        while (!stop.test(currentGen, ++generation)) {
             final Population<G, P> nextGen = new Population<>(popSize, decoder, fitness);
 
             applyElitism(currentGen, nextGen);
