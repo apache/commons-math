@@ -860,6 +860,14 @@ This is avoided by creating an empty directory when svn is not available.
         <module>dist-archive</module>
       </modules>
     </profile>
+
+    <profile>
+      <!-- Include an aggregate module to build test coverage reports -->
+      <id>docs</id>
+      <modules>
+        <module>docs-archive</module>
+      </modules>
+    </profile>
   </profiles>
 
   <developers>

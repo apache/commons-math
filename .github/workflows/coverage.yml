@@ -41,11 +41,10 @@ jobs:
       with:
         distribution: adopt
         java-version: ${{ matrix.java }}
-    - name: Build with Maven
-      run: mvn -V test jacoco:report --no-transfer-progress
+    - name: Build with Maven including the docs-archive module using a profile
+      run: mvn -V -Pdocs test jacoco:report-aggregate --no-transfer-progress
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        # commons-math-core module current skips jacoco report
-        files: ./commons-math-neuralnet/target/site/jacoco/jacoco.xml,./commons-math-transform/target/site/jacoco/jacoco.xml,./commons-math-legacy-exception/target/site/jacoco/jacoco.xml,./commons-math-legacy-core/target/site/jacoco/jacoco.xml,./commons-math-legacy/target/site/jacoco/jacoco.xml
+        files: ./docs-archive/target/site/jacoco-aggregate/jacoco.xml
