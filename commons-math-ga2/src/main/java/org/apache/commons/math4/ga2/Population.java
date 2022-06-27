@@ -29,7 +29,23 @@ import org.apache.commons.rng.UniformRandomProvider;
 /**
  * Collection of chromosomes and associated fitness.
  *
- * Class is <em>not</em> thread-safe.
+ * <p>
+ * Notes:
+ * <ul>
+ *  <li>
+ *   Class is <em>not</em> thread-safe.
+ *  </li>
+ *  <li>
+ *   Class assumes that each chromosome instance (of type {@code <G>})
+ *   identifies a unique individual, irrespective of whether other
+ *   individuals share the same sequence of genes; hence type {@code <G>}
+ *   must <em>not</em> override method {@link Object#equals(Object)
+ *   equals(Object o)}.
+ *   In other words, if an overridden {@code equals} compares equality of
+ *   gene sequences, the current implementation of this class will only
+ *   contain individuals whose gene sequence is unique.
+ *  </li>
+ * </ul>
  *
  * @param <G> Genotype.
  * @param <P> Phenotype.
@@ -71,9 +87,13 @@ public class Population<G, P> {
 
     /**
      * Insert chromosomes into the population.
+     *
      * Fitness and rank are calculated.
      * If the fitness is {@code NaN}, the corresponding chromosome is
      * <em>not</em> added to the population.
+     * <p>
+     * Note: All the {@code chromosomes} are passed in a single call to the
+     * {@link FitnessService#apply(Function,Collection) fitness calculator}.
      *
      * @param chromosomes Chromosomes.
      */
@@ -102,8 +122,6 @@ public class Population<G, P> {
         }
     }
 
-    /**
-     *
     /**
      * Retrieves the rank.
      * Ranks are attributed in the range [0, N - 1] (where N is the
