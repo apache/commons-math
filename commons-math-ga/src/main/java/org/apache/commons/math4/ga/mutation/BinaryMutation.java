@@ -86,7 +86,7 @@ public class BinaryMutation<P> implements MutationPolicy<P> {
      * @param original chromosome to be mutated
      */
     private void checkValidity(Chromosome<P> original) {
-        if (!BinaryChromosome.class.isAssignableFrom(original.getClass())) {
+        if (!(original instanceof BinaryChromosome)) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     original.getClass().getSimpleName());
         }

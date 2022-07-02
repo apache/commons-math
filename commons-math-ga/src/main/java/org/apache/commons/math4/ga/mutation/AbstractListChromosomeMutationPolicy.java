@@ -79,7 +79,7 @@ public abstract class AbstractListChromosomeMutationPolicy<T, P> implements Muta
      * @param original chromosome
      */
     private void checkValidity(Chromosome<P> original) {
-        if (!AbstractListChromosome.class.isAssignableFrom(original.getClass())) {
+        if (!(original instanceof AbstractListChromosome)) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     original.getClass().getSimpleName());
         }

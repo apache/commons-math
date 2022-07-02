@@ -119,7 +119,7 @@ public class RealValuedMutation<P> extends AbstractListChromosomeMutationPolicy<
      * @param original chromosome
      */
     private void checkValidity(Chromosome<P> original) {
-        if (!RealValuedChromosome.class.isAssignableFrom(original.getClass())) {
+        if (!(original instanceof RealValuedChromosome)) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     original.getClass().getSimpleName());
         }

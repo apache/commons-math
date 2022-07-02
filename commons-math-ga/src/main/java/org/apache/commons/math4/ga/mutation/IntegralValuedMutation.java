@@ -106,7 +106,7 @@ public class IntegralValuedMutation<P> extends AbstractListChromosomeMutationPol
      * @param original chromosome
      */
     private void checkValidity(Chromosome<P> original) {
-        if (!IntegralValuedChromosome.class.isAssignableFrom(original.getClass())) {
+        if (!(original instanceof IntegralValuedChromosome)) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     original.getClass().getSimpleName());
         }

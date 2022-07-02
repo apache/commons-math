@@ -149,9 +149,10 @@ public class AdaptiveGeneticAlgorithm<P> extends AbstractGeneticAlgorithm<P> {
             final ExecutorService executorService,
             final int maxOffspringCount) {
         // compute statistics of current generation chromosomes.
-        final PopulationStatisticalSummary<P> currentGenPopulationStats = ConstantCrossoverRateGenerator.class
-                .isAssignableFrom(this.crossoverRateGenerator.getClass()) ? null :
-                        new PopulationStatisticalSummaryImpl<>(current);
+        final PopulationStatisticalSummary<P> currentGenPopulationStats = 
+                this.crossoverRateGenerator instanceof ConstantCrossoverRateGenerator ?
+                null :
+                new PopulationStatisticalSummaryImpl<>(current);
         List<Future<ChromosomePair<P>>> chromosomePairs = new ArrayList<>();
         for (int i = maxOffspringCount / 2; i > 0; i--) {
             chromosomePairs.add(executorService.submit(() -> {

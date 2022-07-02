@@ -45,7 +45,7 @@ public abstract class AbstractListChromosomeDecoder<T, P> implements Decoder<P> 
      * @param chromosome the {@link Chromosome}
      */
     private void checkValidity(Chromosome<P> chromosome) {
-        if (!AbstractListChromosome.class.isAssignableFrom(chromosome.getClass())) {
+        if (!(chromosome instanceof AbstractListChromosome)) {
             throw new GeneticIllegalArgumentException(GeneticIllegalArgumentException.ILLEGAL_ARGUMENT,
                     chromosome.getClass().getSimpleName());
         }
