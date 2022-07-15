@@ -368,7 +368,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 final Complex denominator = dplus.abs() > dminus.abs() ? dplus : dminus;
                 // Perturb z if denominator is zero, for instance,
                 // p(x) = x^3 + 1, z = 0.
-                if (denominator.equals(Complex.ofCartesian(0.0, 0.0))) {
+                // This uses exact equality to zero. A tolerance may be required here.
+                if (denominator.equals(Complex.ZERO)) {
                     z = z.add(Complex.ofCartesian(absoluteAccuracy, absoluteAccuracy));
                     oldz = Complex.ofCartesian(Double.POSITIVE_INFINITY,
                                        Double.POSITIVE_INFINITY);
