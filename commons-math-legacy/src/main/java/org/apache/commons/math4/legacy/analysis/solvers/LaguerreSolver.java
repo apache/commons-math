@@ -344,7 +344,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                     dv = pv.add(z.multiply(dv));
                     pv = coefficients[j].add(z.multiply(pv));
                 }
-                d2v = d2v.multiply(Complex.ofCartesian(2.0, 0.0));
+                d2v = d2v.multiply(2);
 
                 // Check for convergence.
                 final double tolerance = JdkMath.max(relativeAccuracy * z.abs(),
