@@ -18,7 +18,6 @@
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 
 /**
  * Extension of {@link MultivariateFunction} representing a
@@ -26,17 +25,14 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
  * @since 3.1
  */
 public interface MultivariateDifferentiableFunction extends MultivariateFunction {
-
     /**
      * Compute the value for the function at the given point.
      *
      * @param point Point at which the function must be evaluated.
      * @return the function value for the given point.
-     * @exception MathIllegalArgumentException if {@code point} does not
-     * satisfy the function's constraints (wrong dimension, argument out of bound,
-     * or unsupported derivative order for example)
+     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException
+     * if {@code point} does not satisfy the function's constraints (wrong dimension,
+     * argument out of bound, or unsupported derivative order for example).
      */
-    DerivativeStructure value(DerivativeStructure[] point)
-        throws MathIllegalArgumentException;
-
+    DerivativeStructure value(DerivativeStructure[] point);
 }

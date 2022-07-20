@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.analysis.differentiation;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 
 /** Interface for univariate functions derivatives.
  * <p>This interface represents a simple function which computes
@@ -34,10 +33,8 @@ public interface UnivariateDifferentiableFunction extends UnivariateFunction {
      * value and the first derivative of the function.</p>
      * @param t function input value
      * @return function result
-     * @exception DimensionMismatchException if t is inconsistent with the
-     * function's free parameters or order
+     * @throws org.apache.commons.math4.legacy.exception.DimensionMismatchException
+     * if {@code t} is inconsistent with the function's free parameters or order.
      */
-    DerivativeStructure value(DerivativeStructure t)
-        throws DimensionMismatchException;
-
+    DerivativeStructure value(DerivativeStructure t);
 }
