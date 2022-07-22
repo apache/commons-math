@@ -92,6 +92,38 @@ public class BicubicInterpolatingFunction
         throws DimensionMismatchException,
                NoDataException,
                NonMonotonicSequenceException {
+        this(x, y, f, dFdX, dFdY, d2FdXdY, false);
+    }
+    
+    /**
+     * @param x Sample values of the x-coordinate, in increasing order.
+     * @param y Sample values of the y-coordinate, in increasing order.
+     * @param f Values of the function on every grid point.
+     * @param dFdX Values of the partial derivative of function with respect
+     * to x on every grid point.
+     * @param dFdY Values of the partial derivative of function with respect
+     * to y on every grid point.
+     * @param d2FdXdY Values of the cross partial derivative of function on
+     * every grid point.
+     * @param initializeDerivatives Whether to initialize the internal data
+     * needed for calling any of the methods that compute the partial derivatives
+     * this function.
+     * @throws DimensionMismatchException if the various arrays do not contain
+     * the expected number of elements.
+     * @throws NonMonotonicSequenceException if {@code x} or {@code y} are
+     * not strictly increasing.
+     * @throws NoDataException if any of the arrays has zero length.
+     */
+    public BicubicInterpolatingFunction(double[] x,
+                                        double[] y,
+                                        double[][] f,
+                                        double[][] dFdX,
+                                        double[][] dFdY,
+                                        double[][] d2FdXdY,
+                                        boolean initializeDerivatives)
+        throws DimensionMismatchException,
+               NoDataException,
+               NonMonotonicSequenceException {
         final int xLen = x.length;
         final int yLen = y.length;
 
@@ -147,7 +179,8 @@ public class BicubicInterpolatingFunction
                     d2FdXdY[i][j] * xRyR, d2FdXdY[ip1][j] * xRyR, d2FdXdY[i][jp1] * xRyR, d2FdXdY[ip1][jp1] * xRyR
                 };
 
-                splines[i][j] = new BicubicFunction(computeSplineCoefficients(beta));
+                splines[i][j] = new BicubicFunction(computeSplineCoefficients(beta),
+                                                          initializeDerivatives);
             }
         }
     }
@@ -179,6 +212,126 @@ public class BicubicInterpolatingFunction
             x > xval[xval.length - 1] ||
             y < yval[0] ||
             y > yval[yval.length - 1]);
+    }
+    
+    /**
+     * @param x x-coordinate.
+     * @param y y-coordinate.
+     * @return the value at point (x, y) of the first partial derivative with
+     * respect to x.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
+     * @throws NullPointerException if the internal data were not initialized
+     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     *             double[][],double[][],double[][],boolean) constructor}).
+     */
+    public double partialDerivativeX(double x, double y)
+        throws OutOfRangeException {
+        return partialDerivative(0, x, y);
+    }
+    
+    /**
+     * @param x x-coordinate.
+     * @param y y-coordinate.
+     * @return the value at point (x, y) of the first partial derivative with
+     * respect to y.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
+     * @throws NullPointerException if the internal data were not initialized
+     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     *             double[][],double[][],double[][],boolean) constructor}).
+     */
+    public double partialDerivativeY(double x, double y)
+        throws OutOfRangeException {
+        return partialDerivative(1, x, y);
+    }
+    
+    /**
+     * @param x x-coordinate.
+     * @param y y-coordinate.
+     * @return the value at point (x, y) of the second partial derivative with
+     * respect to x.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
+     * @throws NullPointerException if the internal data were not initialized
+     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     *             double[][],double[][],double[][],boolean) constructor}).
+     */
+    public double partialDerivativeXX(double x, double y)
+        throws OutOfRangeException {
+        return partialDerivative(2, x, y);
+    }
+    
+    /**
+     * @param x x-coordinate.
+     * @param y y-coordinate.
+     * @return the value at point (x, y) of the second partial derivative with
+     * respect to y.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
+     * @throws NullPointerException if the internal data were not initialized
+     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     *             double[][],double[][],double[][],boolean) constructor}).
+     */
+    public double partialDerivativeYY(double x, double y)
+        throws OutOfRangeException {
+        return partialDerivative(3, x, y);
+    }
+    
+    /**
+     * @param x x-coordinate.
+     * @param y y-coordinate.
+     * @return the value at point (x, y) of the second partial cross-derivative.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
+     * @throws NullPointerException if the internal data were not initialized
+     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     *             double[][],double[][],double[][],boolean) constructor}).
+     */
+    public double partialDerivativeXY(double x, double y)
+        throws OutOfRangeException {
+        return partialDerivative(4, x, y);
+    }
+    
+    /**
+     * @param which First index in {@link #partialDerivatives}.
+     * @param x x-coordinate.
+     * @param y y-coordinate.
+     * @return the value at point (x, y) of the selected partial derivative.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
+     * @throws NullPointerException if the internal data were not initialized
+     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     *             double[][],double[][],double[][],boolean) constructor}).
+     */
+    private double partialDerivative(int which, double x, double y)
+        throws OutOfRangeException {
+        final int i = searchIndex(x, xval);
+        final int j = searchIndex(y, yval);
+
+        final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
+        final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
+        
+        switch (which) {
+            case 0:
+                return splines[i][j].partialDerivativeX().value(xN, yN);
+            case 1:
+                return splines[i][j].partialDerivativeY().value(xN, yN);
+            case 2:
+                return splines[i][j].partialDerivativeXX().value(xN, yN);
+            case 3:
+                return splines[i][j].partialDerivativeYY().value(xN, yN);
+            case 4:
+                return splines[i][j].partialDerivativeXY().value(xN, yN);
+            default:
+                throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -266,19 +419,115 @@ class BicubicFunction implements BivariateFunction {
     private static final short N = 4;
     /** Coefficients. */
     private final double[][] a;
-
+    /** First partial derivative along x. */
+    private final BivariateFunction partialDerivativeX;
+    /** First partial derivative along y. */
+    private final BivariateFunction partialDerivativeY;
+    /** Second partial derivative along x. */
+    private final BivariateFunction partialDerivativeXX;
+    /** Second partial derivative along y. */
+    private final BivariateFunction partialDerivativeYY;
+    /** Second crossed partial derivative. */
+    private final BivariateFunction partialDerivativeXY;
+    
     /**
      * Simple constructor.
      *
      * @param coeff Spline coefficients.
      */
-    BicubicFunction(double[] coeff) {
+    public BicubicFunction(double[] coeff) {
+        this(coeff, false);
+    }
+
+    /**
+     * Simple constructor.
+     *
+     * @param coeff Spline coefficients.
+     * @param initializeDerivatives Whether to initialize the internal data
+     * needed for calling any of the methods that compute the partial derivatives
+     * this function.
+     */
+    public BicubicFunction(double[] coeff,
+                                 boolean initializeDerivatives) {
         a = new double[N][N];
-        for (int j = 0; j < N; j++) {
-            final double[] aJ = a[j];
-            for (int i = 0; i < N; i++) {
-                aJ[i] = coeff[i * N + j];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                a[i][j] = coeff[i * N + j];
             }
+        }
+
+        if (initializeDerivatives) {
+            // Compute all partial derivatives functions.
+            final double[][] aX = new double[N][N];
+            final double[][] aY = new double[N][N];
+            final double[][] aXX = new double[N][N];
+            final double[][] aYY = new double[N][N];
+            final double[][] aXY = new double[N][N];
+
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    final double c = a[i][j];
+                    aX[i][j] = i * c;
+                    aY[i][j] = j * c;
+                    aXX[i][j] = (i - 1) * aX[i][j];
+                    aYY[i][j] = (j - 1) * aY[i][j];
+                    aXY[i][j] = j * aX[i][j];
+                }
+            }
+
+            partialDerivativeX = (double x, double y) -> {
+                final double x2 = x * x;
+                final double[] pX = {0, 1, x, x2};
+                
+                final double y2 = y * y;
+                final double y3 = y2 * y;
+                final double[] pY = {1, y, y2, y3};
+                
+                return apply(pX, pY, aX);
+            };
+            partialDerivativeY = (double x, double y) -> {
+                final double x2 = x * x;
+                final double x3 = x2 * x;
+                final double[] pX = {1, x, x2, x3};
+                
+                final double y2 = y * y;
+                final double[] pY = {0, 1, y, y2};
+                
+                return apply(pX, pY, aY);
+            };
+            partialDerivativeXX = (double x, double y) -> {
+                final double[] pX = {0, 0, 1, x};
+                
+                final double y2 = y * y;
+                final double y3 = y2 * y;
+                final double[] pY = {1, y, y2, y3};
+                
+                return apply(pX, pY, aXX);
+            };
+            partialDerivativeYY = (double x, double y) -> {
+                final double x2 = x * x;
+                final double x3 = x2 * x;
+                final double[] pX = {1, x, x2, x3};
+                
+                final double[] pY = {0, 0, 1, y};
+                
+                return apply(pX, pY, aYY);
+            };
+            partialDerivativeXY = (double x, double y) -> {
+                final double x2 = x * x;
+                final double[] pX = {0, 1, x, x2};
+                
+                final double y2 = y * y;
+                final double[] pY = {0, 1, y, y2};
+                
+                return apply(pX, pY, aXY);
+            };
+        } else {
+            partialDerivativeX = null;
+            partialDerivativeY = null;
+            partialDerivativeXX = null;
+            partialDerivativeYY = null;
+            partialDerivativeXY = null;
         }
     }
 
@@ -322,4 +571,40 @@ class BicubicFunction implements BivariateFunction {
 
         return result;
     }
+    
+    /**
+     * @return the partial derivative wrt {@code x}.
+     */
+    public BivariateFunction partialDerivativeX() {
+        return partialDerivativeX;
+    }
+    
+    /**
+     * @return the partial derivative wrt {@code y}.
+     */
+    public BivariateFunction partialDerivativeY() {
+        return partialDerivativeY;
+    }
+    
+    /**
+     * @return the second partial derivative wrt {@code x}.
+     */
+    public BivariateFunction partialDerivativeXX() {
+        return partialDerivativeXX;
+    }
+    
+    /**
+     * @return the second partial derivative wrt {@code y}.
+     */
+    public BivariateFunction partialDerivativeYY() {
+        return partialDerivativeYY;
+    }
+    
+    /**
+     * @return the second partial cross-derivative.
+     */
+    public BivariateFunction partialDerivativeXY() {
+        return partialDerivativeXY;
+    }
+    
 }
