@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
+import java.util.function.DoubleBinaryOperator;
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
@@ -285,6 +286,233 @@ public final class BicubicInterpolatingFunctionTest {
                           interpolationTolerance,
                           maxTolerance,
                           false);
+    }
+    
+    /**
+     * Test for partial derivatives of {@link BicubicFunction}.
+     * <p>
+     * f(x, y) = &Sigma;<sub>i</sub>&Sigma;<sub>j</sub> (i+1) (j+2) x<sup>i</sup> y<sup>j</sup>
+     */
+    @Test
+    public void testSplinePartialDerivatives() {
+        final int N = 4;
+        final double[] coeff = new double[16];
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                coeff[i + N * j] = (i + 1) * (j + 2);
+            }
+        }
+
+        final BicubicFunction f = new BicubicFunction(coeff, 1, 1, true);
+        BivariateFunction derivative;
+        final double x = 0.435;
+        final double y = 0.776;
+        final double tol = 1e-13;
+
+        derivative = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double x2 = x * x;
+                    final double y2 = y * y;
+                    final double y3 = y2 * y;
+                    final double yFactor = 2 + 3 * y + 4 * y2 + 5 * y3;
+                    return yFactor * (2 + 6 * x + 12 * x2);
+                }
+            };
+        Assert.assertEquals("dFdX", derivative.value(x, y),
+                            f.partialDerivativeX().value(x, y), tol);
+
+        derivative = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double x2 = x * x;
+                    final double x3 = x2 * x;
+                    final double y2 = y * y;
+                    final double xFactor = 1 + 2 * x + 3 * x2 + 4 * x3;
+                    return xFactor * (3 + 8 * y + 15 * y2);
+                }
+            };
+        Assert.assertEquals("dFdY", derivative.value(x, y),
+                            f.partialDerivativeY().value(x, y), tol);
+
+        derivative = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double y2 = y * y;
+                    final double y3 = y2 * y;
+                    final double yFactor = 2 + 3 * y + 4 * y2 + 5 * y3;
+                    return yFactor * (6 + 24 * x);
+                }
+            };
+        Assert.assertEquals("d2FdX2", derivative.value(x, y),
+                            f.partialDerivativeXX().value(x, y), tol);
+
+        derivative = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double x2 = x * x;
+                    final double x3 = x2 * x;
+                    final double xFactor = 1 + 2 * x + 3 * x2 + 4 * x3;
+                    return xFactor * (8 + 30 * y);
+                }
+            };
+        Assert.assertEquals("d2FdY2", derivative.value(x, y),
+                            f.partialDerivativeYY().value(x, y), tol);
+
+        derivative = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double x2 = x * x;
+                    final double y2 = y * y;
+                    final double yFactor = 3 + 8 * y + 15 * y2;
+                    return yFactor * (2 + 6 * x + 12 * x2);
+                }
+            };
+        Assert.assertEquals("d2FdXdY", derivative.value(x, y),
+                            f.partialDerivativeXY().value(x, y), tol);
+    }
+
+    /**
+     * Test that the partial derivatives computed from a
+     * {@link BicubicInterpolatingFunction} match the input data.
+     * <p>
+     * f(x, y) = 5
+     *           - 3 x + 2 y
+     *           - x y + 2 x<sup>2</sup> - 3 y<sup>2</sup>
+     *           + 4 x<sup>2</sup> y - x y<sup>2</sup> - 3 x<sup>3</sup> + y<sup>3</sup>
+     */
+    @Test
+    public void testMatchingPartialDerivatives() {
+        final int sz = 21;
+        double[] xval = new double[sz];
+        double[] yval = new double[sz];
+        // Coordinate values
+        final double delta = 1d / (sz - 1);
+        for (int i = 0; i < sz; i++) {
+            xval[i] = i * delta;
+            yval[i] = i * delta / 3;
+        }
+        // Function values
+        BivariateFunction f = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double x2 = x * x;
+                    final double x3 = x2 * x;
+                    final double y2 = y * y;
+                    final double y3 = y2 * y;
+
+                    return 5
+                        - 3 * x + 2 * y
+                        - x * y + 2 * x2 - 3 * y2
+                        + 4 * x2 * y - x * y2 - 3 * x3 + y3;
+                }
+            };
+        double[][] fval = new double[sz][sz];
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                fval[i][j] = f.value(xval[i], yval[j]);
+            }
+        }
+        // Partial derivatives with respect to x
+        double[][] dFdX = new double[sz][sz];
+        BivariateFunction dfdX = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double x2 = x * x;
+                    final double y2 = y * y;
+                    return - 3 - y + 4 * x + 8 * x * y - y2 - 9 * x2;
+                }
+            };
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                dFdX[i][j] = dfdX.value(xval[i], yval[j]);
+            }
+        }
+        // Partial derivatives with respect to y
+        double[][] dFdY = new double[sz][sz];
+        BivariateFunction dfdY = new BivariateFunction() {
+                public double value(double x, double y) {
+                    final double x2 = x * x;
+                    final double y2 = y * y;
+                    return 2 - x - 6 * y + 4 * x2 - 2 * x * y + 3 * y2;
+                }
+            };
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                dFdY[i][j] = dfdY.value(xval[i], yval[j]);
+            }
+        }
+        // Second partial derivatives with respect to x
+        double[][] d2Fd2X = new double[sz][sz];
+        BivariateFunction d2fd2X = new BivariateFunction() {
+                public double value(double x, double y) {
+                    return 4 + 8 * y - 18 * x;
+                }
+            };
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                d2Fd2X[i][j] = d2fd2X.value(xval[i], yval[j]);
+            }
+        }
+        // Second partial derivatives with respect to y
+        double[][] d2Fd2Y = new double[sz][sz];
+        BivariateFunction d2fd2Y = new BivariateFunction() {
+                public double value(double x, double y) {
+                    return - 6 - 2 * x + 6 * y;
+                }
+            };
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                d2Fd2Y[i][j] = d2fd2Y.value(xval[i], yval[j]);
+            }
+        }
+        // Partial cross-derivatives
+        double[][] d2FdXdY = new double[sz][sz];
+        BivariateFunction d2fdXdY = new BivariateFunction() {
+                public double value(double x, double y) {
+                    return -1 + 8 * x - 2 * y;
+                }
+            };
+        for (int i = 0; i < sz; i++) {
+            for (int j = 0; j < sz; j++) {
+                d2FdXdY[i][j] = d2fdXdY.value(xval[i], yval[j]);
+            }
+        }
+
+        BicubicInterpolatingFunction bcf
+            = new BicubicInterpolatingFunction(xval, yval, fval, dFdX, dFdY, d2FdXdY, true);
+        DoubleBinaryOperator partialDerivativeX = bcf.partialDerivativeX();
+        DoubleBinaryOperator partialDerivativeY = bcf.partialDerivativeY();
+        DoubleBinaryOperator partialDerivativeXX = bcf.partialDerivativeXX();
+        DoubleBinaryOperator partialDerivativeYY = bcf.partialDerivativeYY();
+        DoubleBinaryOperator partialDerivativeXY = bcf.partialDerivativeXY();
+
+        double x;
+        double y;
+        double expected;
+        double result;
+
+        final double tol = 1e-10;
+        for (int i = 0; i < sz; i++) {
+            x = xval[i];
+            for (int j = 0; j < sz; j++) {
+                y = yval[j];
+
+                expected = dfdX.value(x, y);
+                result = partialDerivativeX.applyAsDouble(x, y);
+                Assert.assertEquals(x + " " + y + " dFdX", expected, result, tol);
+
+                expected = dfdY.value(x, y);
+                result = partialDerivativeY.applyAsDouble(x, y);
+                Assert.assertEquals(x + " " + y + " dFdY", expected, result, tol);
+
+                expected = d2fd2X.value(x, y);
+                result = partialDerivativeXX.applyAsDouble(x, y);
+                Assert.assertEquals(x + " " + y + " d2Fd2X", expected, result, tol);
+
+                expected = d2fd2Y.value(x, y);
+                result = partialDerivativeYY.applyAsDouble(x, y);
+                Assert.assertEquals(x + " " + y + " d2Fd2Y", expected, result, tol);
+
+                expected = d2fdXdY.value(x, y);
+                result = partialDerivativeXY.applyAsDouble(x, y);
+                Assert.assertEquals(x + " " + y + " d2FdXdY", expected, result, tol);
+            }
+        }
     }
 
     /**

@@ -42,6 +42,32 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 public class BicubicInterpolator
     implements BivariateGridInterpolator {
     /**
+    * Whether to initialize internal data used to compute the analytical
+    * derivatives of the splines.
+    */
+    private final boolean initializeDerivatives;
+
+    /**
+     * Default constructor.
+     * The argument {@link #BicubicInterpolator(boolean) initializeDerivatives}
+     * is set to {@code false}.
+     */
+    public BicubicInterpolator() {
+        this(false);
+    }
+
+    /**
+     * Creates an interpolator.
+     *
+     * @param initializeDerivatives Whether to initialize the internal data
+     * needed for calling any of the methods that compute the partial derivatives
+     * of the {@link BicubicInterpolatingFunction function} returned from
+     * the call to {@link #interpolate(double[],double[],double[][]) interpolate}.
+     */
+    public BicubicInterpolator(boolean initializeDerivatives) {
+        this.initializeDerivatives = initializeDerivatives;
+    }
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -96,7 +122,8 @@ public class BicubicInterpolator
 
         // Create the interpolating function.
         return new BicubicInterpolatingFunction(xval, yval, fval,
-                                                dFdX, dFdY, d2FdXdY) {
+                                                dFdX, dFdY, d2FdXdY,
+                                                initializeDerivatives) {
             /** {@inheritDoc} */
             @Override
             public boolean isValidPoint(double x, double y) {
