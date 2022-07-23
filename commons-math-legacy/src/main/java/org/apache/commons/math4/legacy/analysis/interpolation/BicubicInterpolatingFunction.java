@@ -17,6 +17,8 @@
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import java.util.Arrays;
+import java.util.function.DoubleBinaryOperator;
+import java.util.function.Function;
 
 import org.apache.commons.numbers.core.Sum;
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
@@ -215,123 +217,72 @@ public class BicubicInterpolatingFunction
     }
     
     /**
-     * @param x x-coordinate.
-     * @param y y-coordinate.
-     * @return the value at point (x, y) of the first partial derivative with
-     * respect to x.
-     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
-     * the range defined by the boundary values of {@code xval} (resp.
-     * {@code yval}).
+     * @return the first partial derivative respect to x.
      * @throws NullPointerException if the internal data were not initialized
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public double partialDerivativeX(double x, double y)
-        throws OutOfRangeException {
-        return partialDerivative(0, x, y);
+    public DoubleBinaryOperator ddx() {
+        return partialDerivative(BicubicFunction::partialDerivativeX);
     }
     
     /**
-     * @param x x-coordinate.
-     * @param y y-coordinate.
-     * @return the value at point (x, y) of the first partial derivative with
-     * respect to y.
-     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
-     * the range defined by the boundary values of {@code xval} (resp.
-     * {@code yval}).
+     * @return the first partial derivative respect to y.
      * @throws NullPointerException if the internal data were not initialized
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public double partialDerivativeY(double x, double y)
-        throws OutOfRangeException {
-        return partialDerivative(1, x, y);
+    public DoubleBinaryOperator ddy() {
+        return partialDerivative(BicubicFunction::partialDerivativeY);
     }
     
     /**
-     * @param x x-coordinate.
-     * @param y y-coordinate.
-     * @return the value at point (x, y) of the second partial derivative with
-     * respect to x.
-     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
-     * the range defined by the boundary values of {@code xval} (resp.
-     * {@code yval}).
+     * @return the second partial derivative respect to x.
      * @throws NullPointerException if the internal data were not initialized
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public double partialDerivativeXX(double x, double y)
-        throws OutOfRangeException {
-        return partialDerivative(2, x, y);
+    public DoubleBinaryOperator ddxx() {
+        return partialDerivative(BicubicFunction::partialDerivativeXX);
     }
     
     /**
-     * @param x x-coordinate.
-     * @param y y-coordinate.
-     * @return the value at point (x, y) of the second partial derivative with
-     * respect to y.
-     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
-     * the range defined by the boundary values of {@code xval} (resp.
-     * {@code yval}).
+     * @return the second partial derivative respect to y.
      * @throws NullPointerException if the internal data were not initialized
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public double partialDerivativeYY(double x, double y)
-        throws OutOfRangeException {
-        return partialDerivative(3, x, y);
+    public DoubleBinaryOperator ddyy() {
+        return partialDerivative(BicubicFunction::partialDerivativeYY);
     }
     
     /**
-     * @param x x-coordinate.
-     * @param y y-coordinate.
-     * @return the value at point (x, y) of the second partial cross-derivative.
-     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
-     * the range defined by the boundary values of {@code xval} (resp.
-     * {@code yval}).
+     * @return the second partial cross derivative.
      * @throws NullPointerException if the internal data were not initialized
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public double partialDerivativeXY(double x, double y)
-        throws OutOfRangeException {
-        return partialDerivative(4, x, y);
+    public DoubleBinaryOperator ddxy() {
+        return partialDerivative(BicubicFunction::partialDerivativeXY);
     }
     
     /**
-     * @param which First index in {@link #partialDerivatives}.
-     * @param x x-coordinate.
-     * @param y y-coordinate.
-     * @return the value at point (x, y) of the selected partial derivative.
-     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
-     * the range defined by the boundary values of {@code xval} (resp.
-     * {@code yval}).
+     * @param which derivative function to apply.
+     * @return the selected partial derivative.
      * @throws NullPointerException if the internal data were not initialized
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    private double partialDerivative(int which, double x, double y)
-        throws OutOfRangeException {
-        final int i = searchIndex(x, xval);
-        final int j = searchIndex(y, yval);
+    private DoubleBinaryOperator partialDerivative(Function<BicubicFunction, BivariateFunction> which) {
+        return (x, y) -> {
+            final int i = searchIndex(x, xval);
+            final int j = searchIndex(y, yval);
 
-        final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
-        final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
-        
-        switch (which) {
-            case 0:
-                return splines[i][j].partialDerivativeX().value(xN, yN);
-            case 1:
-                return splines[i][j].partialDerivativeY().value(xN, yN);
-            case 2:
-                return splines[i][j].partialDerivativeXX().value(xN, yN);
-            case 3:
-                return splines[i][j].partialDerivativeYY().value(xN, yN);
-            case 4:
-                return splines[i][j].partialDerivativeXY().value(xN, yN);
-            default:
-                throw new UnsupportedOperationException();
-        }
+            final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
+            final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
+            
+            return which.apply(splines[i][j]).value(xN, yN);
+        };
     }
 
     /**
