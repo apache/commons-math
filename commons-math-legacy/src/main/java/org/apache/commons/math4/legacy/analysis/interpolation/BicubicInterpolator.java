@@ -49,7 +49,7 @@ public class BicubicInterpolator
 
     /**
      * Default constructor.
-     * The argument {@link #BicubicSplineInterpolator(boolean) initializeDerivatives}
+     * The argument {@link #BicubicInterpolator(boolean) initializeDerivatives}
      * is set to {@code false}.
      */
     public BicubicInterpolator() {
@@ -61,7 +61,7 @@ public class BicubicInterpolator
      *
      * @param initializeDerivatives Whether to initialize the internal data
      * needed for calling any of the methods that compute the partial derivatives
-     * of the {@link BicubicSplineInterpolatingFunction function} returned from
+     * of the {@link BicubicInterpolatingFunction function} returned from
      * the call to {@link #interpolate(double[],double[],double[][]) interpolate}.
      */
     public BicubicInterpolator(boolean initializeDerivatives) {
