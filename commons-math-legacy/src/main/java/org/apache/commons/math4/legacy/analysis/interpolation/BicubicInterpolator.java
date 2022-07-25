@@ -41,8 +41,10 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class BicubicInterpolator
     implements BivariateGridInterpolator {
-    /** Whether to initialize internal data used to compute the analytical
-    derivatives of the splines. */
+    /**
+    * Whether to initialize internal data used to compute the analytical
+    * derivatives of the splines.
+    */
     private final boolean initializeDerivatives;
 
     /**
