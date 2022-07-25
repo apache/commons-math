@@ -448,13 +448,15 @@ public final class BicubicInterpolatingFunctionTest {
         }
 
         BicubicInterpolatingFunction bcf
-            = new BicubicInterpolatingFunction(val, val, fval, dFdX, dFdY, d2FdXdY);
+            = new BicubicInterpolatingFunction(val, val, fval, dFdX, dFdY, d2FdXdY, true);
         DoubleBinaryOperator ddx = bcf.ddx();
         DoubleBinaryOperator ddy = bcf.ddy();
         DoubleBinaryOperator ddxy = bcf.ddxy();
 
-        double x, y;
-        double expected, result;
+        double x;
+        double y;
+        double expected;
+        double result;
 
         final double tol = 1e-12;
         for (int i = 0; i < sz; i++) {
