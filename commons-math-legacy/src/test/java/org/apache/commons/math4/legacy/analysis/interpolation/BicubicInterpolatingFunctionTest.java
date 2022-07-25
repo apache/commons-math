@@ -289,7 +289,7 @@ public final class BicubicInterpolatingFunctionTest {
     }
     
     /**
-     * Test for partial derivatives of {@link BicubicSplineFunction}.
+     * Test for partial derivatives of {@link BicubicFunction}.
      * <p>
      * f(x, y) = &Sigma;<sub>i</sub>&Sigma;<sub>j</sub> (i+1) (j+2) x<sup>i</sup> y<sup>j</sup>
      */
@@ -370,7 +370,7 @@ public final class BicubicInterpolatingFunctionTest {
 
     /**
      * Test that the partial derivatives computed from a
-     * {@link BicubicSplineInterpolatingFunction} match the input data.
+     * {@link BicubicInterpolatingFunction} match the input data.
      * <p>
      * f(x, y) = 5
      *           - 3 x + 2 y

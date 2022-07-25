@@ -229,7 +229,7 @@ public class BicubicInterpolatingFunction
     /**
      * @return the first partial derivative respect to x.
      * @throws NullPointerException if the internal data were not initialized
-     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     * (cf. {@link #BicubicInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
     public DoubleBinaryOperator partialDerivativeX() {
@@ -239,7 +239,7 @@ public class BicubicInterpolatingFunction
     /**
      * @return the first partial derivative respect to y.
      * @throws NullPointerException if the internal data were not initialized
-     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     * (cf. {@link #BicubicInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
     public DoubleBinaryOperator partialDerivativeY() {
@@ -249,7 +249,7 @@ public class BicubicInterpolatingFunction
     /**
      * @return the second partial derivative respect to x.
      * @throws NullPointerException if the internal data were not initialized
-     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     * (cf. {@link #BicubicInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
     public DoubleBinaryOperator partialDerivativeXX() {
@@ -259,7 +259,7 @@ public class BicubicInterpolatingFunction
     /**
      * @return the second partial derivative respect to y.
      * @throws NullPointerException if the internal data were not initialized
-     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     * (cf. {@link #BicubicInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
     public DoubleBinaryOperator partialDerivativeYY() {
@@ -269,7 +269,7 @@ public class BicubicInterpolatingFunction
     /**
      * @return the second partial cross derivative.
      * @throws NullPointerException if the internal data were not initialized
-     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     * (cf. {@link #BicubicInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
     public DoubleBinaryOperator partialDerivativeXY() {
@@ -280,7 +280,7 @@ public class BicubicInterpolatingFunction
      * @param which derivative function to apply.
      * @return the selected partial derivative.
      * @throws NullPointerException if the internal data were not initialized
-     * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
+     * (cf. {@link #BicubicInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
     private DoubleBinaryOperator partialDerivative(Function<BicubicFunction, BivariateFunction> which) {
