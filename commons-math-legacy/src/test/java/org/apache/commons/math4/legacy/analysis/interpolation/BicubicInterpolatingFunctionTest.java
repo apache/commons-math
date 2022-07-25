@@ -380,11 +380,13 @@ public final class BicubicInterpolatingFunctionTest {
     @Test
     public void testMatchingPartialDerivatives() {
         final int sz = 21;
-        double[] val = new double[sz];
+        double[] xval = new double[sz];
+        double[] yval = new double[sz];
         // Coordinate values
         final double delta = 1d / (sz - 1);
         for (int i = 0; i < sz; i++) {
-            val[i] = i * delta;
+            xval[i] = i * delta;
+            yval[i] = i * delta / 3;
         }
         // Function values
         BivariateFunction f = new BivariateFunction() {
@@ -403,7 +405,7 @@ public final class BicubicInterpolatingFunctionTest {
         double[][] fval = new double[sz][sz];
         for (int i = 0; i < sz; i++) {
             for (int j = 0; j < sz; j++) {
-                fval[i][j] = f.value(val[i], val[j]);
+                fval[i][j] = f.value(xval[i], yval[j]);
             }
         }
         // Partial derivatives with respect to x
@@ -417,7 +419,7 @@ public final class BicubicInterpolatingFunctionTest {
             };
         for (int i = 0; i < sz; i++) {
             for (int j = 0; j < sz; j++) {
-                dFdX[i][j] = dfdX.value(val[i], val[j]);
+                dFdX[i][j] = dfdX.value(xval[i], yval[j]);
             }
         }
         // Partial derivatives with respect to y
@@ -431,7 +433,7 @@ public final class BicubicInterpolatingFunctionTest {
             };
         for (int i = 0; i < sz; i++) {
             for (int j = 0; j < sz; j++) {
-                dFdY[i][j] = dfdY.value(val[i], val[j]);
+                dFdY[i][j] = dfdY.value(xval[i], yval[j]);
             }
         }
         // Second partial derivatives with respect to x
@@ -443,7 +445,7 @@ public final class BicubicInterpolatingFunctionTest {
             };
         for (int i = 0; i < sz; i++) {
             for (int j = 0; j < sz; j++) {
-                d2Fd2X[i][j] = d2fd2X.value(val[i], val[j]);
+                d2Fd2X[i][j] = d2fd2X.value(xval[i], yval[j]);
             }
         }
         // Second partial derivatives with respect to y
@@ -455,7 +457,7 @@ public final class BicubicInterpolatingFunctionTest {
             };
         for (int i = 0; i < sz; i++) {
             for (int j = 0; j < sz; j++) {
-                d2Fd2Y[i][j] = d2fd2Y.value(val[i], val[j]);
+                d2Fd2Y[i][j] = d2fd2Y.value(xval[i], yval[j]);
             }
         }
         // Partial cross-derivatives
@@ -467,12 +469,12 @@ public final class BicubicInterpolatingFunctionTest {
             };
         for (int i = 0; i < sz; i++) {
             for (int j = 0; j < sz; j++) {
-                d2FdXdY[i][j] = d2fdXdY.value(val[i], val[j]);
+                d2FdXdY[i][j] = d2fdXdY.value(xval[i], yval[j]);
             }
         }
 
         BicubicInterpolatingFunction bcf
-            = new BicubicInterpolatingFunction(val, val, fval, dFdX, dFdY, d2FdXdY, true);
+            = new BicubicInterpolatingFunction(xval, yval, fval, dFdX, dFdY, d2FdXdY, true);
         DoubleBinaryOperator partialDerivativeX = bcf.partialDerivativeX();
         DoubleBinaryOperator partialDerivativeY = bcf.partialDerivativeY();
         DoubleBinaryOperator partialDerivativeXX = bcf.partialDerivativeXX();
@@ -484,11 +486,11 @@ public final class BicubicInterpolatingFunctionTest {
         double expected;
         double result;
 
-        final double tol = 1e-11;
+        final double tol = 1e-10;
         for (int i = 0; i < sz; i++) {
-            x = val[i];
+            x = xval[i];
             for (int j = 0; j < sz; j++) {
-                y = val[j];
+                y = yval[j];
 
                 expected = dfdX.value(x, y);
                 result = partialDerivativeX.applyAsDouble(x, y);

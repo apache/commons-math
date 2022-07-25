@@ -27,8 +27,6 @@ import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.math4.legacy.linear.MatrixUtils;
-import org.apache.commons.math4.legacy.linear.RealMatrix;
 
 /**
  * Function that implements the
@@ -39,30 +37,30 @@ import org.apache.commons.math4.legacy.linear.RealMatrix;
  */
 public class BicubicInterpolatingFunction
     implements BivariateFunction {
+    /** Number of coefficients. */
+    private static final int NUM_COEFF = 16;
     /**
      * Matrix to compute the spline coefficients from the function values
      * and function derivatives values.
      */
-    private static final RealMatrix AINV = MatrixUtils.createRealMatrix(
-        new double[][]{
-            { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0 },
-            { -3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0 },
-            { 2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0 },
-            { 0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0 },
-            { 0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0 },
-            { -3,0,3,0,0,0,0,0,-2,0,-1,0,0,0,0,0 },
-            { 0,0,0,0,-3,0,3,0,0,0,0,0,-2,0,-1,0 },
-            { 9,-9,-9,9,6,3,-6,-3,6,-6,3,-3,4,2,2,1 },
-            { -6,6,6,-6,-3,-3,3,3,-4,4,-2,2,-2,-2,-1,-1 },
-            { 2,0,-2,0,0,0,0,0,1,0,1,0,0,0,0,0 },
-            { 0,0,0,0,2,0,-2,0,0,0,0,0,1,0,1,0 },
-            { -6,6,6,-6,-4,-2,4,2,-3,3,-3,3,-2,-1,-2,-1 },
-            { 4,-4,-4,4,2,2,-2,-2,2,-2,2,-2,1,1,1,1 }
-        }
-    );
+    private static final double[][] AINV = {
+        { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+        { 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0 },
+        { -3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0 },
+        { 2,-2,0,0,1,1,0,0,0,0,0,0,0,0,0,0 },
+        { 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0 },
+        { 0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0 },
+        { 0,0,0,0,0,0,0,0,-3,3,0,0,-2,-1,0,0 },
+        { 0,0,0,0,0,0,0,0,2,-2,0,0,1,1,0,0 },
+        { -3,0,3,0,0,0,0,0,-2,0,-1,0,0,0,0,0 },
+        { 0,0,0,0,-3,0,3,0,0,0,0,0,-2,0,-1,0 },
+        { 9,-9,-9,9,6,3,-6,-3,6,-6,3,-3,4,2,2,1 },
+        { -6,6,6,-6,-3,-3,3,3,-4,4,-2,2,-2,-2,-1,-1 },
+        { 2,0,-2,0,0,0,0,0,1,0,1,0,0,0,0,0 },
+        { 0,0,0,0,2,0,-2,0,0,0,0,0,1,0,1,0 },
+        { -6,6,6,-6,-4,-2,4,2,-3,3,-3,3,-2,-1,-2,-1 },
+        { 4,-4,-4,4,2,2,-2,-2,2,-2,2,-2,1,1,1,1 }
+    };
 
     /** Samples x-coordinates. */
     private final double[] xval;
@@ -183,13 +181,7 @@ public class BicubicInterpolatingFunction
                     d2FdXdY[i][j] * xRyR, d2FdXdY[ip1][j] * xRyR, d2FdXdY[i][jp1] * xRyR, d2FdXdY[ip1][jp1] * xRyR
                 };
 
-                final double[] coeff = AINV.multiply(
-                        MatrixUtils.createColumnRealMatrix(
-                            beta
-                        )
-                ).getColumn(0);
-
-                splines[i][j] = new BicubicFunction(coeff,
+                splines[i][j] = new BicubicFunction(computeSplineCoefficients(beta),
                                                     xR,
                                                     yR,
                                                     initializeDerivatives);
@@ -325,6 +317,50 @@ public class BicubicInterpolatingFunction
 
         // "c" is another sample point.
         return r;
+    }
+
+    /**
+     * Compute the spline coefficients from the list of function values and
+     * function partial derivatives values at the four corners of a grid
+     * element. They must be specified in the following order:
+     * <ul>
+     *  <li>f(0,0)</li>
+     *  <li>f(1,0)</li>
+     *  <li>f(0,1)</li>
+     *  <li>f(1,1)</li>
+     *  <li>f<sub>x</sub>(0,0)</li>
+     *  <li>f<sub>x</sub>(1,0)</li>
+     *  <li>f<sub>x</sub>(0,1)</li>
+     *  <li>f<sub>x</sub>(1,1)</li>
+     *  <li>f<sub>y</sub>(0,0)</li>
+     *  <li>f<sub>y</sub>(1,0)</li>
+     *  <li>f<sub>y</sub>(0,1)</li>
+     *  <li>f<sub>y</sub>(1,1)</li>
+     *  <li>f<sub>xy</sub>(0,0)</li>
+     *  <li>f<sub>xy</sub>(1,0)</li>
+     *  <li>f<sub>xy</sub>(0,1)</li>
+     *  <li>f<sub>xy</sub>(1,1)</li>
+     * </ul>
+     * where the subscripts indicate the partial derivative with respect to
+     * the corresponding variable(s).
+     *
+     * @param beta List of function values and function partial derivatives
+     * values.
+     * @return the spline coefficients.
+     */
+    private double[] computeSplineCoefficients(double[] beta) {
+        final double[] a = new double[NUM_COEFF];
+
+        for (int i = 0; i < NUM_COEFF; i++) {
+            double result = 0;
+            final double[] row = AINV[i];
+            for (int j = 0; j < NUM_COEFF; j++) {
+                result += row[j] * beta[j];
+            }
+            a[i] = result;
+        }
+
+        return a;
     }
 
 }
