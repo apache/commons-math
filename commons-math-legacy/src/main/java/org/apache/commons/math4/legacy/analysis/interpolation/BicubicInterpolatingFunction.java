@@ -190,7 +190,9 @@ public class BicubicInterpolatingFunction
                 ).getColumn(0);
 
                 splines[i][j] = new BicubicFunction(coeff,
-                                                          initializeDerivatives);
+                                                    xR,
+                                                    yR,
+                                                    initializeDerivatives);
             }
         }
     }
@@ -230,7 +232,7 @@ public class BicubicInterpolatingFunction
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public DoubleBinaryOperator ddx() {
+    public DoubleBinaryOperator partialDerivativeX() {
         return partialDerivative(BicubicFunction::partialDerivativeX);
     }
 
@@ -240,7 +242,7 @@ public class BicubicInterpolatingFunction
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public DoubleBinaryOperator ddy() {
+    public DoubleBinaryOperator partialDerivativeY() {
         return partialDerivative(BicubicFunction::partialDerivativeY);
     }
 
@@ -250,7 +252,7 @@ public class BicubicInterpolatingFunction
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public DoubleBinaryOperator ddxx() {
+    public DoubleBinaryOperator partialDerivativeXX() {
         return partialDerivative(BicubicFunction::partialDerivativeXX);
     }
 
@@ -260,7 +262,7 @@ public class BicubicInterpolatingFunction
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public DoubleBinaryOperator ddyy() {
+    public DoubleBinaryOperator partialDerivativeYY() {
         return partialDerivative(BicubicFunction::partialDerivativeYY);
     }
 
@@ -270,7 +272,7 @@ public class BicubicInterpolatingFunction
      * (cf. {@link #BicubicSplineInterpolatingFunction(double[],double[],double[][],
      *             double[][],double[][],double[][],boolean) constructor}).
      */
-    public DoubleBinaryOperator ddxy() {
+    public DoubleBinaryOperator partialDerivativeXY() {
         return partialDerivative(BicubicFunction::partialDerivativeXY);
     }
 
@@ -350,12 +352,16 @@ class BicubicFunction implements BivariateFunction {
      * Simple constructor.
      *
      * @param coeff Spline coefficients.
+     * @param xR x spacing.
+     * @param yR y spacing.
      * @param initializeDerivatives Whether to initialize the internal data
      * needed for calling any of the methods that compute the partial derivatives
      * this function.
      */
     BicubicFunction(double[] coeff,
-                                 boolean initializeDerivatives) {
+                    double xR,
+                    double yR,
+                    boolean initializeDerivatives) {
         a = new double[N][N];
         for (int j = 0; j < N; j++) {
             final double[] aJ = a[j];
@@ -391,7 +397,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y3 = y2 * y;
                 final double[] pY = {1, y, y2, y3};
 
-                return apply(pX, pY, aX);
+                return apply(pX, pY, aX) / xR;
             };
             partialDerivativeY = (double x, double y) -> {
                 final double x2 = x * x;
@@ -401,7 +407,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y2 = y * y;
                 final double[] pY = {0, 1, y, y2};
 
-                return apply(pX, pY, aY);
+                return apply(pX, pY, aY) / yR;
             };
             partialDerivativeXX = (double x, double y) -> {
                 final double[] pX = {0, 0, 1, x};
@@ -410,7 +416,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y3 = y2 * y;
                 final double[] pY = {1, y, y2, y3};
 
-                return apply(pX, pY, aXX);
+                return apply(pX, pY, aXX) / (xR * xR);
             };
             partialDerivativeYY = (double x, double y) -> {
                 final double x2 = x * x;
@@ -419,7 +425,7 @@ class BicubicFunction implements BivariateFunction {
 
                 final double[] pY = {0, 0, 1, y};
 
-                return apply(pX, pY, aYY);
+                return apply(pX, pY, aYY) / (yR * yR);
             };
             partialDerivativeXY = (double x, double y) -> {
                 final double x2 = x * x;
@@ -428,7 +434,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y2 = y * y;
                 final double[] pY = {0, 1, y, y2};
 
-                return apply(pX, pY, aXY);
+                return apply(pX, pY, aXY) / (xR * yR);
             };
         } else {
             partialDerivativeX = null;
