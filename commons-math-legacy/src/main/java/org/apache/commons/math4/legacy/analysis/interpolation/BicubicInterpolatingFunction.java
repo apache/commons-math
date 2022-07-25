@@ -489,35 +489,35 @@ class BicubicFunction implements BivariateFunction {
     /**
      * @return the partial derivative wrt {@code x}.
      */
-    public BivariateFunction partialDerivativeX() {
+    BivariateFunction partialDerivativeX() {
         return partialDerivativeX;
     }
 
     /**
      * @return the partial derivative wrt {@code y}.
      */
-    public BivariateFunction partialDerivativeY() {
+    BivariateFunction partialDerivativeY() {
         return partialDerivativeY;
     }
 
     /**
      * @return the second partial derivative wrt {@code x}.
      */
-    public BivariateFunction partialDerivativeXX() {
+    BivariateFunction partialDerivativeXX() {
         return partialDerivativeXX;
     }
 
     /**
      * @return the second partial derivative wrt {@code y}.
      */
-    public BivariateFunction partialDerivativeYY() {
+    BivariateFunction partialDerivativeYY() {
         return partialDerivativeYY;
     }
 
     /**
      * @return the second partial cross-derivative.
      */
-    public BivariateFunction partialDerivativeXY() {
+    BivariateFunction partialDerivativeXY() {
         return partialDerivativeXY;
     }
 
