@@ -80,11 +80,13 @@ Preliminary checks:
 
 (1)
 As a first optional step, you can test that everything works locally, i.e.
-that the build process can create all the necessary artifacts. The command
+that the build process can create all the necessary artifacts. The commands
 
-  $ mvn clean deploy -Prelease -Ptest-deploy
+  $ mvn -Prelease-notes changes:announcement-generate
+  $ mvn clean site deploy -Prelease -Ptest-deploy
 
-should create the artifacts in the "target/deploy".
+should create the artifacts in the "target/deploy" (note that the "JAVA_HOME"
+environment variable msut be defined to point to a valid JDK installation).
 
 
 (2)
