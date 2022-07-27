@@ -174,8 +174,9 @@ public final class BicubicInterpolatingFunctionTest {
 
     /**
      * Interpolating a plane.
-     * <p>
-     * z = 2 x - 3 y + 5
+     * \[
+     *   z = 2 x - 3 y + 5
+     * \]
      */
     @Test
     public void testPlane() {
@@ -232,8 +233,9 @@ public final class BicubicInterpolatingFunctionTest {
 
     /**
      * Interpolating a paraboloid.
-     * <p>
-     * z = 2 x<sup>2</sup> - 3 y<sup>2</sup> + 4 x y - 5
+     * \[
+     *   z = 2 x^2 - 3 y^2 + 4 x y - 5
+     * \]
      */
     @Test
     public void testParaboloid() {
@@ -287,11 +289,12 @@ public final class BicubicInterpolatingFunctionTest {
                           maxTolerance,
                           false);
     }
-    
+
     /**
      * Test for partial derivatives of {@link BicubicFunction}.
-     * <p>
-     * f(x, y) = &Sigma;<sub>i</sub>&Sigma;<sub>j</sub> (i+1) (j+2) x<sup>i</sup> y<sup>j</sup>
+     * \[
+     *   f(x, y) = \Sigma_i \Sigma_j (i+1) (j+2) x^i y^j
+     * \]
      */
     @Test
     public void testSplinePartialDerivatives() {
@@ -371,11 +374,12 @@ public final class BicubicInterpolatingFunctionTest {
     /**
      * Test that the partial derivatives computed from a
      * {@link BicubicInterpolatingFunction} match the input data.
-     * <p>
-     * f(x, y) = 5
-     *           - 3 x + 2 y
-     *           - x y + 2 x<sup>2</sup> - 3 y<sup>2</sup>
-     *           + 4 x<sup>2</sup> y - x y<sup>2</sup> - 3 x<sup>3</sup> + y<sup>3</sup>
+     * \[
+     *   f(x, y) = 5
+     *             - 3 x + 2 y
+     *             - x y + 2 x^2 - 3 y^2
+     *             + 4 x^2 y - x y^2 - 3 x^3 + y^3
+     * \]
      */
     @Test
     public void testMatchingPartialDerivatives() {
