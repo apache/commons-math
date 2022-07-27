@@ -295,7 +295,7 @@ public class BicubicInterpolatingFunction
      * @throws OutOfRangeException if {@code c} is out of the
      * range defined by the boundary values of {@code val}.
      */
-    private int searchIndex(double c, double[] val) {
+    private static int searchIndex(double c, double[] val) {
         final int r = Arrays.binarySearch(val, c);
 
         if (r == -1 ||
@@ -348,7 +348,7 @@ public class BicubicInterpolatingFunction
      * values.
      * @return the spline coefficients.
      */
-    private double[] computeSplineCoefficients(double[] beta) {
+    private static double[] computeSplineCoefficients(double[] beta) {
         final double[] a = new double[NUM_COEFF];
 
         for (int i = 0; i < NUM_COEFF; i++) {
@@ -433,7 +433,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y3 = y2 * y;
                 final double[] pY = {1, y, y2, y3};
 
-                return apply(pX, pY, aX) / xR;
+                return apply(pX, 1, pY, 0, aX) / xR;
             };
             partialDerivativeY = (double x, double y) -> {
                 final double x2 = x * x;
@@ -443,7 +443,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y2 = y * y;
                 final double[] pY = {0, 1, y, y2};
 
-                return apply(pX, pY, aY) / yR;
+                return apply(pX, 0, pY, 1, aY) / yR;
             };
             partialDerivativeXX = (double x, double y) -> {
                 final double[] pX = {0, 0, 1, x};
@@ -452,7 +452,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y3 = y2 * y;
                 final double[] pY = {1, y, y2, y3};
 
-                return apply(pX, pY, aXX) / (xR * xR);
+                return apply(pX, 2, pY, 0, aXX) / (xR * xR);
             };
             partialDerivativeYY = (double x, double y) -> {
                 final double x2 = x * x;
@@ -461,7 +461,7 @@ class BicubicFunction implements BivariateFunction {
 
                 final double[] pY = {0, 0, 1, y};
 
-                return apply(pX, pY, aYY) / (yR * yR);
+                return apply(pX, 0, pY, 2, aYY) / (yR * yR);
             };
             partialDerivativeXY = (double x, double y) -> {
                 final double x2 = x * x;
@@ -470,7 +470,7 @@ class BicubicFunction implements BivariateFunction {
                 final double y2 = y * y;
                 final double[] pY = {0, 1, y, y2};
 
-                return apply(pX, pY, aXY) / (xR * yR);
+                return apply(pX, 1, pY, 1, aXY) / (xR * yR);
             };
         } else {
             partialDerivativeX = null;
@@ -501,25 +501,49 @@ class BicubicFunction implements BivariateFunction {
         final double y3 = y2 * y;
         final double[] pY = {1, y, y2, y3};
 
-        return apply(pX, pY, a);
+        return apply(pX, 0, pY, 0, a);
     }
 
     /**
      * Compute the value of the bicubic polynomial.
      *
+     * <p>Assumes the powers are zero below the provided index, and 1 at the provided
+     * index. This allows skipping some zero products and optimising multiplication
+     * by one.
+     *
      * @param pX Powers of the x-coordinate.
+     * @param i Index of pX[i] == 1
      * @param pY Powers of the y-coordinate.
+     * @param j Index of pX[j] == 1
      * @param coeff Spline coefficients.
      * @return the interpolated value.
      */
-    private double apply(double[] pX, double[] pY, double[][] coeff) {
-        double result = 0;
-        for (int i = 0; i < N; i++) {
-            final double r = Sum.ofProducts(coeff[i], pY).getAsDouble();
+    private static double apply(double[] pX, int i, double[] pY, int j, double[][] coeff) {
+        // assert pX[i] == 1
+        double result = sumOfProducts(coeff[i], pY, j);
+        while (++i < N) {
+            final double r = sumOfProducts(coeff[i], pY, j);
             result += r * pX[i];
         }
-
         return result;
+    }
+
+    /**
+     * Compute the sum of products starting from the provided index.
+     * Assumes that factor {@code b[j] == 1}.
+     *
+     * @param a Factors.
+     * @param b Factors.
+     * @param j Index to initialise the sum.
+     * @return the double
+     */
+    private static double sumOfProducts(double[] a, double[] b, int j) {
+        // assert b[j] == 1
+        final Sum sum = Sum.of(a[j]);
+        while (++j < N) {
+            sum.addProduct(a[j], b[j]);
+        }
+        return sum.getAsDouble();
     }
 
     /**
