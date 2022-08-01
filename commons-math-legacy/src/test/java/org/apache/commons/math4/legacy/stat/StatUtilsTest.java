@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.stat;
 
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
@@ -545,6 +546,30 @@ public final class StatUtilsTest {
             StatUtils.mode(nullArray);
             Assert.fail("Expecting NullArgumentException");
         } catch (NullArgumentException ex) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testMode3ArgumentsExceptions() {
+        final double[] nullArray = null;
+        try {
+            StatUtils.mode(nullArray, 0, 1);
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
+            // Expected
+        }
+        final double[] emptyArray = {};
+        try { // begin negative
+            StatUtils.mode(emptyArray, -1, 0);
+            Assert.fail("Expecting NotPositiveException");
+        } catch (NotPositiveException ex) {
+            // Expected
+        }
+        try { // length negative
+            StatUtils.mode(emptyArray, 0, -1);
+            Assert.fail("Expecting NotPositiveException");
+        } catch (NotPositiveException ex) {
             // Expected
         }
     }
