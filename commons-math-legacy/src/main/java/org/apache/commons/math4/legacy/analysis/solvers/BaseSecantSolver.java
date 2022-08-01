@@ -20,6 +20,7 @@ package org.apache.commons.math4.legacy.analysis.solvers;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
 import org.apache.commons.math4.legacy.exception.MathInternalError;
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
@@ -102,7 +103,10 @@ public abstract class BaseSecantSolver
         this.method = method;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+    *
+    * @throws NullArgumentException if {@code f} is {@code null}.
+    * */
     @Override
     public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max,
@@ -110,7 +114,10 @@ public abstract class BaseSecantSolver
         return solve(maxEval, f, min, max, min + 0.5 * (max - min), allowedSolution);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+    *
+    * @throws NullArgumentException if {@code f} is {@code null}.
+    * */
     @Override
     public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max, final double startValue,
@@ -119,7 +126,10 @@ public abstract class BaseSecantSolver
         return super.solve(maxEval, f, min, max, startValue);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     *
+     * @throws NullArgumentException if {@code f} is {@code null}.
+     * */
     @Override
     public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max, final double startValue) {

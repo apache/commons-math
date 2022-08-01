@@ -21,6 +21,7 @@ import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.XMinus5Function;
 import org.apache.commons.math4.legacy.analysis.function.Sin;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
@@ -155,6 +156,24 @@ public abstract class BaseSecantSolverAbstractTest {
             solver.solve(100, f, 1, 1.5, 1.2);
             Assert.fail("Expecting NoBracketingException - non-bracketing");
         } catch (NoBracketingException ex) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testSolveNull() {
+        UnivariateFunction f = null;
+        UnivariateSolver solver = getSolver();
+        try {
+            solver.solve(100, f, 0, 0, 0);
+            Assert.fail("Expecting NullArgumentException for null UnivariateFunction");
+        } catch (NullArgumentException ex) {
+            // expected
+        }
+        try {
+            getSolution(solver, 100, f, 0, 0, AllowedSolution.ANY_SIDE);
+            Assert.fail("Expecting NullArgumentException for null UnivariateFunction");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
