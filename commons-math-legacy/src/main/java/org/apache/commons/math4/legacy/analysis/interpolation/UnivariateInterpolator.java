@@ -17,25 +17,19 @@
 package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
-import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 
 /**
  * Interface representing a univariate real interpolating function.
- *
  */
 public interface UnivariateInterpolator {
     /**
-     * Compute an interpolating function for the dataset.
+     * Computes an interpolating function for the dataset.
      *
      * @param xval Arguments for the interpolation points.
      * @param yval Values for the interpolation points.
      * @return a function which interpolates the dataset.
-     * @throws MathIllegalArgumentException
-     * if the arguments violate assumptions made by the interpolation
-     * algorithm.
-     * @throws DimensionMismatchException if arrays lengths do not match
+     * @throws org.apache.commons.math4.legacy.exception.MathIllegalArgumentException
+     * if the arguments violate assumptions made by the interpolation algorithm.
      */
-    UnivariateFunction interpolate(double[] xval, double[] yval)
-        throws MathIllegalArgumentException, DimensionMismatchException;
+    UnivariateFunction interpolate(double[] xval, double[] yval);
 }

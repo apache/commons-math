@@ -19,7 +19,6 @@ package org.apache.commons.math4.legacy.analysis.interpolation;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
-import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.core.MathArrays;
@@ -57,16 +56,12 @@ public class SplineInterpolator implements UnivariateInterpolator {
      * @return a function which interpolates the data set
      * @throws DimensionMismatchException if {@code x} and {@code y}
      * have different sizes.
-     * @throws NonMonotonicSequenceException if {@code x} is not sorted in
-     * strict increasing order.
-     * @throws NumberIsTooSmallException if the size of {@code x} is smaller
-     * than 3.
+     * @throws NumberIsTooSmallException if the size of {@code x < 3}.
+     * @throws org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException
+     * if {@code x} is not sorted in strict increasing order.
      */
     @Override
-    public PolynomialSplineFunction interpolate(double[] x, double[] y)
-        throws DimensionMismatchException,
-               NumberIsTooSmallException,
-               NonMonotonicSequenceException {
+    public PolynomialSplineFunction interpolate(double[] x, double[] y) {
         if (x.length != y.length) {
             throw new DimensionMismatchException(x.length, y.length);
         }
