@@ -135,7 +135,7 @@ public class HaltonSequenceGeneratorTest {
     @Test
     public void testSkipToNegative() {
         try {
-            generator.skipTo((-4584));
+            generator.skipTo(-4584);
             Assert.fail("an exception should have been thrown");
         } catch (NotPositiveException e) {
             // expected
