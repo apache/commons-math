@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.random;
 
 import org.junit.Assert;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
+import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.junit.Before;
@@ -131,4 +132,13 @@ public class HaltonSequenceGeneratorTest {
         }
     }
 
+    @Test
+    public void testSkipToNegativeShouldThrow() {
+        try {
+            generator.skipTo((-4584));
+            Assert.fail("an exception should have been thrown");
+        } catch (NotPositiveException e) {
+            // expected
+        }
+    }
 }
