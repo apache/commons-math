@@ -97,6 +97,9 @@ Caveat:
  nightmare was one of the main reasons for creating more focused
  components.]
 ">
+      <action dev="erans" type="fix" issue="MATH-1647" due-to="Maksym Bohachov">
+        "HaltonSequenceGenerator": Raise exception when precondition is not met.
+      </action>
       <action dev="erans" type="add" issue="MATH-1648" due-to="Alessandro Moscatelli">
         "BicubicInterpolator": Provide partial derivatives of interpolating functions.
       </action>
