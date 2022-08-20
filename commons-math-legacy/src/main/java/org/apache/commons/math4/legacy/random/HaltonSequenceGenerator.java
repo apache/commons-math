@@ -163,7 +163,7 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
      *
      * @param index the index in the sequence to skip to
      * @return the i-th point in the Halton sequence
-     * @throws org.apache.commons.math4.legacy.exception.NotPositiveException NotPositiveException if index &lt; 0
+     * @throws NotPositiveException if {@code index < 0}.
      */
     public double[] skipTo(final int index) {
         if (index < 0) {
