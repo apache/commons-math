@@ -169,7 +169,7 @@ public class EnumeratedRealDistributionTest {
     public void testSample() {
         final int n = 1000000;
         final ContinuousDistribution.Sampler sampler =
-            testDistribution.createSampler(RandomSource.WELL_1024_A.create(-123456789));
+            testDistribution.createSampler(RandomSource.XO_RO_SHI_RO_128_PP.create());
         final double[] samples = AbstractRealDistribution.sample(n, sampler);
         Assert.assertEquals(n, samples.length);
         double sum = 0;
@@ -178,10 +178,10 @@ public class EnumeratedRealDistributionTest {
             sum += samples[i];
             sumOfSquares += samples[i] * samples[i];
         }
-        Assert.assertEquals(testDistribution.getMean(),
-                sum / n, 1e-2);
-        Assert.assertEquals(testDistribution.getVariance(),
-                sumOfSquares / n - JdkMath.pow(sum / n, 2), 1e-2);
+        final double mean = testDistribution.getMean();
+        Assert.assertEquals("Mean", mean, sum / n, mean * 1e-2);
+        final double var = testDistribution.getVariance();
+        Assert.assertEquals("Variance", var, sumOfSquares / n - JdkMath.pow(sum / n, 2), var * 1e-2);
     }
 
     @Test
