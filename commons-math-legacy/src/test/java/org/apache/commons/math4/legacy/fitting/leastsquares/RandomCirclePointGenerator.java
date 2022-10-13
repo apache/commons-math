@@ -16,24 +16,23 @@
  */
 package org.apache.commons.math4.legacy.fitting.leastsquares;
 
-import org.apache.commons.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.sampling.ObjectSampler;
+import org.apache.commons.rng.sampling.UnitSphereSampler;
 import org.apache.commons.rng.simple.RandomSource;
-import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Factory for generating a cloud of points that approximate a circle.
  */
-public class RandomCirclePointGenerator {
+public class RandomCirclePointGenerator implements ObjectSampler<double[]> {
     /** RNG for the x-coordinate of the center. */
     private final ContinuousDistribution.Sampler cX;
     /** RNG for the y-coordinate of the center. */
     private final ContinuousDistribution.Sampler cY;
-    /** RNG for the parametric position of the point. */
-    private final ContinuousDistribution.Sampler tP;
+    /** Sampler for the unit circle position of the point. */
+    private final UnitSphereSampler sampler;
     /** Radius of the circle. */
     private final double radius;
 
@@ -49,37 +48,20 @@ public class RandomCirclePointGenerator {
                                       double radius,
                                       double xSigma,
                                       double ySigma) {
-        final UniformRandomProvider rng = RandomSource.WELL_44497_B.create();
+        final UniformRandomProvider rng = RandomSource.XO_SHI_RO_256_PP.create();
         this.radius = radius;
         cX = NormalDistribution.of(x, xSigma).createSampler(rng);
         cY = NormalDistribution.of(y, ySigma).createSampler(rng);
-        tP = UniformContinuousDistribution.of(0, 2 * Math.PI).createSampler(rng);
+        sampler = UnitSphereSampler.of(rng, 2);
     }
 
-    /**
-     * Point generator.
-     *
-     * @param n Number of points to create.
-     * @return the cloud of {@code n} points.
-     */
-    public Vector2D[] generate(int n) {
-        final Vector2D[] cloud = new Vector2D[n];
-        for (int i = 0; i < n; i++) {
-            cloud[i] = create();
-        }
-        return cloud;
-    }
-
-    /**
-     * Create one point.
-     *
-     * @return a point.
-     */
-    private Vector2D create() {
-        final double t = tP.sample();
-        final double pX = cX.sample() + radius * JdkMath.cos(t);
-        final double pY = cY.sample() + radius * JdkMath.sin(t);
-
-        return Vector2D.of(pX, pY);
+    @Override
+    public double[] sample() {
+        // Sample on a unit circle
+        final double[] xy = sampler.sample();
+        // Scale the circle and add error
+        xy[0] = radius * xy[0] + cX.sample();
+        xy[1] = radius * xy[1] + cY.sample();
+        return xy;
     }
 }

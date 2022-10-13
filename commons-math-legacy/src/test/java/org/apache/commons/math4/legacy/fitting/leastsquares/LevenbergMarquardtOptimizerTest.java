@@ -17,7 +17,6 @@
 
 package org.apache.commons.math4.legacy.fitting.leastsquares;
 
-import org.apache.commons.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
@@ -255,9 +254,7 @@ public class LevenbergMarquardtOptimizerTest
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
-        for (Vector2D p : factory.generate(numPoints)) {
-            circle.addPoint(p.getX(), p.getY());
-        }
+        factory.samples(numPoints).forEach(circle::addPoint);
 
         // First guess for the center's coordinates and radius.
         final double[] init = { 90, 659, 115 };
@@ -290,9 +287,7 @@ public class LevenbergMarquardtOptimizerTest
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
-        for (Vector2D p : factory.generate(numPoints)) {
-            circle.addPoint(p.getX(), p.getY());
-        }
+        factory.samples(numPoints).forEach(circle::addPoint);
 
         // First guess for the center's coordinates and radius.
         final double[] init = { 90, 659, 115 };

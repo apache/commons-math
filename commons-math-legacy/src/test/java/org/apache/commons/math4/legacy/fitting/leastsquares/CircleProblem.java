@@ -71,8 +71,8 @@ class CircleProblem {
         this(xError, yError, 500);
     }
 
-    public void addPoint(double px, double py) {
-        points.add(new double[] { px, py });
+    public void addPoint(double[] p) {
+        points.add(p);
     }
 
     public double[] target() {
