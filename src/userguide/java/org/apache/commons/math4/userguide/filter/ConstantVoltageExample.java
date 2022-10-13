@@ -53,7 +53,7 @@ import com.xeiam.xchart.StyleManager.LegendPosition;
 public class ConstantVoltageExample {
 
     public static class VoltMeter {
-        
+
         private final double initialVoltage;
         private final double processNoise;
         private final double measurementNoise;
@@ -68,20 +68,20 @@ public class ConstantVoltageExample {
             this.measurementNoise = measurementNoise;
             rng = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_19937_C, seed));
         }
-        
+
         /**
          * Returns the real voltage without any measurement noise.
-         *  
+         *
          * @return the real voltage
          */
         public double getVoltage() {
             return voltage;
         }
-        
+
         public double getMeasuredVoltage() {
-            return getVoltage() + rng.nextNormalizedDouble() * measurementNoise; 
+            return getVoltage() + rng.nextNormalizedDouble() * measurementNoise;
         }
-        
+
         public void step() {
             // we apply only the process noise
             voltage = initialVoltage + rng.nextNormalizedDouble() * processNoise;
@@ -96,7 +96,7 @@ public class ConstantVoltageExample {
         final double processNoise = 1e-5d;
 
         final VoltMeter voltMeter = new VoltMeter(voltage, processNoise, measurementNoise, 2);
-        
+
         // the state transition matrix -> constant
         final RealMatrix A = new Array2DRowRealMatrix(new double[] { 1d });
 
@@ -108,7 +108,7 @@ public class ConstantVoltageExample {
 
         // the initial state vector -> slightly wrong
         final RealVector x0 = new ArrayRealVector(new double[] { 1.45 });
-        
+
         // the process covariance matrix
         final RealMatrix Q = new Array2DRowRealMatrix(new double[] { processNoise * processNoise });
 
@@ -128,7 +128,7 @@ public class ConstantVoltageExample {
         final List<Number> kalmanVoltageSeries = new ArrayList<>();
 
         final List<Number> covSeries = new ArrayList<>();
-        
+
         for (int i = 0; i < 300; i++) {
             xAxis.add(i);
 
@@ -152,7 +152,7 @@ public class ConstantVoltageExample {
 
         Series dataset = chart1.addSeries("real", xAxis, realVoltageSeries);
         dataset.setMarker(SeriesMarker.NONE);
-        
+
         dataset = chart1.addSeries("measured", xAxis, measuredVoltageSeries);
         dataset.setLineStyle(SeriesLineStyle.DOT_DOT);
         dataset.setMarker(SeriesMarker.NONE);
@@ -166,7 +166,7 @@ public class ConstantVoltageExample {
 
         chart2.setYAxisTitle("(Voltage)²");
         chart2.setXAxisTitle("Iteration");
-        
+
         dataset = chart2.addSeries("cov", xAxis, covSeries);
         dataset.setLineColor(Color.black);
         dataset.setLineStyle(SeriesLineStyle.SOLID);
@@ -187,10 +187,10 @@ public class ConstantVoltageExample {
         chart.getStyleManager().setLegendPadding(6);
         chart.getStyleManager().setLegendSeriesLineLength(10);
         chart.getStyleManager().setAxisTickLabelsFont(new Font("Arial", Font.PLAIN, 10));
-        
+
         chart.getStyleManager().setChartBackgroundColor(Color.white);
         chart.getStyleManager().setChartPadding(4);
-        
+
         chart.getStyleManager().setChartType(ChartType.Line);
         return chart;
     }
@@ -198,28 +198,28 @@ public class ConstantVoltageExample {
     public static JComponent createComponent() {
         JComponent container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.LINE_AXIS));
-        
+
         Chart chart1 = createChart("Voltage", 550, 450, LegendPosition.InsideNE, true);
         Chart chart2 = createChart("Error Covariance", 450, 450, LegendPosition.InsideNE, false);
-        
+
         constantVoltageTest(chart1, chart2);
 
         container.add(new XChartPanel(chart1));
         container.add(new XChartPanel(chart2));
-        
+
         container.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         return container;
     }
 
     @SuppressWarnings("serial")
     public static class Display extends ExampleFrame {
-        
+
         private JComponent container;
 
         public Display() {
             setTitle("Commons-Math: Kalman Filter example");
             setSize(1100, 700);
-            
+
             container = new JPanel();
 
             JComponent comp = createComponent();

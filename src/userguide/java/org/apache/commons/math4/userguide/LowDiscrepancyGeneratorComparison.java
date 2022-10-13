@@ -60,7 +60,7 @@ public class LowDiscrepancyGeneratorComparison {
 
         // normalize points first
         points = normalize(points);
-        
+
         // now test if the sample is within the unit circle
         List<Vector2D> circlePoints = new ArrayList<>();
         for (Vector2D p : points) {
@@ -80,7 +80,7 @@ public class LowDiscrepancyGeneratorComparison {
             Vector2D point = Vector2D.of(vector);
             points.add(point);
         }
-        
+
         return normalize(points);
     }
 
@@ -92,16 +92,16 @@ public class LowDiscrepancyGeneratorComparison {
             minX = FastMath.min(minX, p.getX());
             maxX = FastMath.max(maxX, p.getX());
         }
-        
+
         double minY, maxY;
-        
+
         // use the minimum to detect if we either have input values in the range [0, 1] or [-sqrt(3), sqrt(3)]
         if (FastMath.abs(minX) < 0.1) {
             minX = minY = 0.0;
             maxX = maxY = 1.0;
         } else {
             minX = minY = -FastMath.sqrt(3);
-            maxX = maxY = FastMath.sqrt(3);            
+            maxX = maxY = FastMath.sqrt(3);
         }
 
         double rangeX = maxX - minX;
@@ -116,16 +116,16 @@ public class LowDiscrepancyGeneratorComparison {
         }
         return points;
     }
-    
+
     @SuppressWarnings("serial")
     public static class Display extends ExampleFrame {
-        
+
         public Display() {
             setTitle("Commons-Math: Pseudo/Quasi-random examples");
             setSize(800, 800);
-            
+
             setLayout(new GridBagLayout());
-            
+
             int[] datasets = new int[] { 256, 1000, 2500, 1000 };
             List<Pair<String, RandomVectorGenerator>> generators = new ArrayList<Pair<String, RandomVectorGenerator>>();
 
@@ -137,18 +137,18 @@ public class LowDiscrepancyGeneratorComparison {
                     RandomSource.create(RandomSource.MT, 123456789),
                     RandomSource.create(RandomSource.MT, 987654321)
                 };
-                
+
                 public double[] nextVector() {
                     final double[] vector = new double[2];
                     vector[0] = rngs[0].nextDouble();
                     vector[1] = rngs[1].nextDouble();
                     return vector;
                 }
-                
-            }));            
-            generators.add(new Pair<>("HaltonSequence", new HaltonSequenceGenerator(2)));            
-            generators.add(new Pair<>("SobolSequence", new SobolSequenceGenerator(2)));            
-            
+
+            }));
+            generators.add(new Pair<>("HaltonSequence", new HaltonSequenceGenerator(2)));
+            generators.add(new Pair<>("SobolSequence", new SobolSequenceGenerator(2)));
+
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.VERTICAL;
             c.gridx = 1;
@@ -163,7 +163,7 @@ public class LowDiscrepancyGeneratorComparison {
                 c.gridx++;
             }
             int saveY = ++c.gridy;
-            
+
             c.gridx = 0;
             for (int type = 0; type < 4; type++) {
                 JLabel text = new JLabel("n=" + String.valueOf(datasets[type]));
@@ -198,7 +198,7 @@ public class LowDiscrepancyGeneratorComparison {
                 }
 
                 c.gridy++;
-            }            
+            }
         }
     }
 
@@ -212,7 +212,7 @@ public class LowDiscrepancyGeneratorComparison {
         public Plot(final List<Vector2D> points) {
             this.points = points;
         }
-        
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -224,17 +224,17 @@ public class LowDiscrepancyGeneratorComparison {
             int h = getHeight();
 
             g2.clearRect(0, 0, w, h);
-            
+
             g2.setPaint(Color.black);
             g2.drawRect(0, 0, w - 1, h - 1);
-            
+
             for (Vector2D point : points) {
                 Vector2D p = transform(point, w, h);
                 double[] arr = p.toArray();
                 g2.draw(new Rectangle2D.Double(arr[0] - 1, arr[1] - 1, 2, 2));
             }
-        }        
-        
+        }
+
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(140, 140);

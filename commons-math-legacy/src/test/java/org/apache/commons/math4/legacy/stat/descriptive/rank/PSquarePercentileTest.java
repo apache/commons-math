@@ -387,7 +387,7 @@ public class PSquarePercentileTest extends
 
     @Test(expected = MathIllegalArgumentException.class)
     public void testInitial() {
-        PSquarePercentile.newMarkers(new ArrayList<Double>(), 0.5);
+        PSquarePercentile.newMarkers(new ArrayList<>(), 0.5);
         Assert.fail();
     }
 

@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="analysis.html">
   <properties>
@@ -215,7 +215,7 @@
           This may again result in roots way off the true value, without
           indication.  There is not much a generic algorithm can do if
           ill-conditioned problems are met.  A way around this is to transform
-          the problem in order to get a better conditioned function.  Proper 
+          the problem in order to get a better conditioned function.  Proper
           selection of a root-finding algorithm and its configuration parameters
           requires knowledge of the analytical properties of the function under
           analysis and numerical analysis techniques.  Users are encouraged
@@ -339,7 +339,7 @@ double c = UnivariateSolverUtils.forceSide(100, function,
                  +0.0001, the value may be decreased.  For computing roots
                 much larger in absolute value than 100, the default absolute
                 accuracy may never be reached because the given relative
-                accuracy is reached first.  
+                accuracy is reached first.
               </td>
             </tr>
               <tr>
@@ -375,7 +375,7 @@ double c = UnivariateSolverUtils.forceSide(100, function,
         <p>
           A <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/UnivariateInterpolator.html">
           UnivariateInterpolator</a> is used to find a univariate real-valued
-          function <code>f</code> which for a given set of ordered pairs 
+          function <code>f</code> which for a given set of ordered pairs
           (<code>x<sub>i</sub></code>,<code>y<sub>i</sub></code>) yields
           <code>f(x<sub>i</sub>)=y<sub>i</sub></code> to the best accuracy possible. The result
           is provided as an object implementing the <a
@@ -387,7 +387,7 @@ double c = UnivariateSolverUtils.forceSide(100, function,
           interpolation algorithm is more determined by the kind of the interpolated function
           rather than the set of points to interpolate.
           There aren't currently any accuracy controls either, as interpolation
-          accuracy is in general determined by the algorithm. 
+          accuracy is in general determined by the algorithm.
         </p>
         <p>Typical usage:</p>
         <source>double x[] = { 0.0, 1.0, 2.0 };
@@ -405,7 +405,7 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           is continuous, smooth and can be differentiated twice.  The second
           derivative is continuous but not smooth.  The x values passed to the
           interpolator must be ordered in ascending order.  It is not valid to
-          evaluate the function for values outside the range 
+          evaluate the function for values outside the range
           <code>x<sub>0</sub></code>..<code>x<sub>N</sub></code>.
         </p>
         <p>
@@ -525,7 +525,7 @@ System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[
           trapezoid method</a></li>
           <li><a href="../apidocs/org/apache/commons/math4/analysis/integration/LegendreGaussIntegrator.html">
           Legendre-Gauss method</a></li>
-          </ul>      
+          </ul>
         </p>
       </subsection>
       <subsection name="4.6 Polynomials" href="polynomials">

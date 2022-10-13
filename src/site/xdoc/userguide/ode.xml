@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="ode.html">
 
@@ -152,7 +152,7 @@ dp853.integrate(ode, 0.0, y, 16.0, y); // now y contains final state at time t=1
 StepHandler stepHandler = new StepHandler() {
     public void init(double t0, double[] y0, double t) {
     }
-            
+
     public void handleStep(StepInterpolator interpolator, boolean isLast) {
         double   t = interpolator.getCurrentTime();
         double[] y = interpolator.getInterpolatedState();

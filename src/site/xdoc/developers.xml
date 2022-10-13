@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <document>
  <properties>
   <title>Developers Guide</title>
@@ -43,7 +43,7 @@
     <p>
     <ol>
         <li>Start by reviewing the overall objectives stated in the
-            <a href="proposal.html">proposal</a> upon which the project is 
+            <a href="proposal.html">proposal</a> upon which the project is
             founded.
         </li>
         <li>Download the Commons Math source code.  Follow the instructions
@@ -57,8 +57,8 @@
         read-write access.
         </li>
         <li>Like most commons components, Commons Math uses Apache Maven as our
-            build tool. The sources can also be built using Ant (a working 
-            Ant build.xml is included in the top level project directory). 
+            build tool. The sources can also be built using Ant (a working
+            Ant build.xml is included in the top level project directory).
             To build Commons Math using Maven, you can follow the instructions for
             <a href="http://maven.apache.org/run-maven/index.html">Building a
             project with Maven</a>. Launch Maven from the top-level directory
@@ -72,7 +72,7 @@
             on the <a href="http://wiki.apache.org/commons/MathWishList">
             Math Wish List Wiki Page.</a>
         </li>
-        <li>Be sure to join the commons-dev and commons-user 
+        <li>Be sure to join the commons-dev and commons-user
             <a href="mail-lists.html">
             email lists</a> and use them appropriately (make sure the string
             "[math]" starts the Subject line of all your postings).
@@ -81,15 +81,15 @@
         <li>
             <a href="https://issues.apache.org/jira/secure/Signup!default.jspa">
             Setup an account on JIRA</a> and use it to submit patches and
-            identify bugs. Read the 
+            identify bugs. Read the
             <a href="https://issues.apache.org/bugwritinghelp.html">
             directions</a> for submitting bugs and search the database to
-            determine if an issue exists or has already been dealt with.        
+            determine if an issue exists or has already been dealt with.
             <p>
               See the <a href="http://commons.apache.org/math/issue-tracking.html">
               Commons Math Issue Tracking Page</a> for more information on how to
               search for or submit bugs or enhancement requests.
-            </p>     
+            </p>
         <li>
           Generating patches: The requested format for generating patches is
           the Unified Diff format, which can be easily generated using the git
@@ -105,7 +105,7 @@
     <p>
      Follow the steps below when making suggestions for additions or
      enhancements to Commons Math. This will make it easier for the community
-     to comment on your ideas and for the committers to keep track of them. 
+     to comment on your ideas and for the committers to keep track of them.
      Thanks in advance!
      <ol>
        <li>Start with a post to the commons-dev mailing list, with [math] at
@@ -122,7 +122,7 @@
          useful</li>
        </ul></li>
        <li>Assuming a generally favorable response to the idea on commons-dev,
-       the next step is to add an entry to the 
+       the next step is to add an entry to the
        <a href="http://wiki.apache.org/commons/MathWishList">Math Wish
        List</a> corresponding to the idea.  Include a reference to the
        discussion thread. </li>
@@ -139,7 +139,7 @@
        ticket if a patch goes more than a few days with no comment or commit.
        </li>
       </ol>
-    </p>   
+    </p>
    </subsection>
    <subsection name='Coding Style'>
     <p>
@@ -191,7 +191,7 @@
       formulas and escape special characters.</li>
      <li>
       Implementations <i>should</i> use standard algorithms and
-      references or full descriptions of all algorithms <i>should</i> be 
+      references or full descriptions of all algorithms <i>should</i> be
       provided.</li>
      <li>
       Additions and enhancements <i>should</i> include updates to the User
@@ -232,11 +232,11 @@
       impossible to specify because of numerical properties of the method.
       If a solver fails to find a root or a quadrature method fails to converge
       for a given set of parameters, <i>unless those parameters violate the
-      advertised preconditions</i> it is not appropriate to throw 
+      advertised preconditions</i> it is not appropriate to throw
       MathIllegalArgumentException.</li>
       <li>
       State information included in exception messages <i>must</i> be available
-      in exception properties - i.e., successful handling or reporting of 
+      in exception properties - i.e., successful handling or reporting of
       Commons Math exceptions must not require parsing exception messages.</li>
      </ul>
    </subsection>
@@ -259,7 +259,7 @@
       All new source file submissions <i>must</i> include the Apache Software
       License in a comment that begins the file </li>
      <li>
-      All contributions must comply with the terms of the Apache 
+      All contributions must comply with the terms of the Apache
       <a href="http://www.apache.org/licenses/cla.pdf">Contributor License
       Agreement (CLA)</a></li>
      <li>
@@ -271,7 +271,7 @@
      <li>
        References to source materials covered by restrictive proprietary
        licenses should be avoided.  In particular, contributions should not
-       implement or include references to algorithms in 
+       implement or include references to algorithms in
        <a href="http://www.nr.com/">Numerical Recipes (NR)</a>.
        Any questions about copyright or patent issues should be raised on
        the commons-dev mailing list before contributing or committing code.

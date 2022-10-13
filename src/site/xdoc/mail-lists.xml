@@ -48,7 +48,7 @@ limitations under the License.
 
     <section name="Overview">
       <p>
-        <a href="index.html">Commons Math</a> shares mailing lists with all the other 
+        <a href="index.html">Commons Math</a> shares mailing lists with all the other
         <a href="http://commons.apache.org/components.html">Commons Components</a>.
         To make it easier for people to only read messages related to components they are interested in,
         the convention in Commons is to prefix the subject line of messages with the component's name,
@@ -68,8 +68,8 @@ limitations under the License.
       </p>
       <p>
         <strong>Note:</strong> please don't send patches or attachments to any of the mailing lists.
-        Patches are best handled via the <a href="issue-tracking.html">Issue Tracking</a> system. 
-        Otherwise, please upload the file to a public server and include the URL in the mail. 
+        Patches are best handled via the <a href="issue-tracking.html">Issue Tracking</a> system.
+        Otherwise, please upload the file to a public server and include the URL in the mail.
       </p>
     </section>
 
@@ -185,10 +185,10 @@ limitations under the License.
             General announcements of Apache project releases.
             <br /><br />
           </td>
-          <td><a class="externalLink" href="mailto:announce-subscribe@apache.org">Subscribe</a></td> 
-          <td><a class="externalLink" href="mailto:announce-unsubscribe@apache.org">Unsubscribe</a></td> 
+          <td><a class="externalLink" href="mailto:announce-subscribe@apache.org">Subscribe</a></td>
+          <td><a class="externalLink" href="mailto:announce-unsubscribe@apache.org">Unsubscribe</a></td>
           <td><i>read only</i></td>
-          <td><a class="externalLink" href="https://mail-archives.apache.org/mod_mbox/www-announce/">mail-archives.apache.org</a></td> 
+          <td><a class="externalLink" href="https://mail-archives.apache.org/mod_mbox/www-announce/">mail-archives.apache.org</a></td>
           <td><a class="externalLink" href="http://markmail.org/list/org.apache.announce/">markmail.org</a><br />
               <a class="externalLink" href="http://old.nabble.com/Apache-News-and-Announce-f109.html">old.nabble.com</a><br />
               <a class="externalLink" href="http://www.mail-archive.com/announce@apache.org/">www.mail-archive.com</a><br />

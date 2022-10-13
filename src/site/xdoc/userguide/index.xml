@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="index.html">
   <properties>
@@ -58,24 +58,24 @@
                 <li><a href="linear.html#a3.1_Overview">3.1 Overview</a></li>
                 <li><a href="linear.html#a3.2_Real_matrices">3.2 Real matrices</a></li>
                 <li><a href="linear.html#a3.3_Real_vectors">3.3 Real vectors</a></li>
-                <li><a href="linear.html#a3.4_Solving_linear_systems">3.4 Solving linear systems</a></li> 
+                <li><a href="linear.html#a3.4_Solving_linear_systems">3.4 Solving linear systems</a></li>
                 <li><a href="linear.html#a3.5_Eigenvalueseigenvectors_and_singular_valuessingular_vectors">3.5 Eigenvalues/eigenvectors and singular values/singular vectors</a></li>
                 <li><a href="linear.html#a3.6_Non-real_fields_complex_fractions_...">3.6 Non-real fields (complex, fractions ...)</a></li>
-                </ul></li>             
+                </ul></li>
             <li><a href="analysis.html">4. Numerical Analysis</a>
                 <ul>
                 <li><a href="analysis.html#a4.1_Overview">4.1 Overview</a></li>
-                <li><a href="analysis.html#a4.2_Error-handling">4.2 Error handling</a></li>                
-                <li><a href="analysis.html#a4.3_Root-finding">4.3 Root-finding</a></li>                
+                <li><a href="analysis.html#a4.2_Error-handling">4.2 Error handling</a></li>
+                <li><a href="analysis.html#a4.3_Root-finding">4.3 Root-finding</a></li>
                 <li><a href="analysis.html#a4.4_Interpolation">4.4 Interpolation</a></li>
                 <li><a href="analysis.html#a4.5_Integration">4.5 Integration</a></li>
                 <li><a href="analysis.html#a4.6_Polynomials">4.6 Polynomials</a></li>
                 <li><a href="analysis.html#a4.7_Differentiation">4.7 Differentiation</a></li>
-                </ul></li>     
+                </ul></li>
             <li><a href="special.html">5. Special Functions</a>
                 <ul>
                 <li><a href="special.html#a5.1_Overview">5.1 Overview</a></li>
-                </ul></li>   
+                </ul></li>
         <li><a href="utilities.html">6. Utilities</a>
                 <ul>
                 <li><a href="utilities.html#a6.1_Overview">6.1 Overview</a></li>
@@ -85,25 +85,25 @@
                 <li><a href="utilities.html#a6.5_binomial_coefficients_factorials_Stirling_numbers_and_other_common_math_functions">6.5 Binomial coefficients, factorials, Stirling numbers and other common math functions</a></li>
                 <li><a href="utilities.html#a6.6_fast_math">6.6 Fast mathematical functions</a></li>
                 <li><a href="utilities.html#a6.7_miscellaneous">6.7 Miscellaneous</a></li>
-                </ul></li>                                 
+                </ul></li>
         <li><a href="complex.html">7. Complex Numbers</a>
                 <ul>
                 <li><a href="complex.html#a7.1_Overview">7.1 Overview</a></li>
-                </ul></li>                                 
+                </ul></li>
         <li><a href="distribution.html">8. Probability Distributions</a>
                 <ul>
                 <li><a href="distribution.html#a8.1_Overview">8.1 Overview</a></li>
                 <li><a href="distribution.html#a8.2_Generating_data_like_an_input_file">8.2 Generating data 'like' an input file</a></li>
-                </ul></li>                                 
+                </ul></li>
         <li><a href="fraction.html">9. Fractions</a>
                 <ul>
                 <li><a href="fraction.html#a9.1_Overview">9.1 Overview</a></li>
-                </ul></li>                                 
+                </ul></li>
         <li><a href="transform.html">10. Transforms</a></li>
         <li><a href="geometry.html">11. Geometry</a>
                 <ul>
                 <li><a href="geometry.html#a11.1_Overview">11.1 Overview</a></li>
-                </ul></li>                                 
+                </ul></li>
         <li><a href="optimization.html">12. Optimization</a>
                 <ul>
                 <li><a href="optimization.html#a12.1_Overview">12.1 Overview</a></li>
@@ -111,7 +111,7 @@
                 <li><a href="optimization.html#a12.3_Linear_Programming">12.3 Linear Programming</a></li>
                 <li><a href="optimization.html#a12.4_Direct_Methods">12.4 Direct Methods</a></li>
                 <li><a href="optimization.html#a12.5_General_Case">12.5 General Case</a></li>
-                </ul></li>                                 
+                </ul></li>
         <li><a href="fitting.html">13. Curve Fitting</a>
           <ul>
             <li><a href="fitting.html#a13.1_Overview">13.1 Overview</a></li>
@@ -139,11 +139,11 @@
                 <li><a href="ode.html#a15.4_Available_Integrators">15.4 Available Integrators</a></li>
                 <li><a href="ode.html#a15.5_Derivatives">15.5 Derivatives</a></li>
                 </ul></li>
-        <li><a href="genetics.html">16. Genetic Algorithms</a>   
+        <li><a href="genetics.html">16. Genetic Algorithms</a>
                 <ul>
                 <li><a href="genetics.html#a16.1_Overview">16.1 Overview</a></li>
                 <li><a href="genetics.html#a16.2_GA_Framework">16.2 GA Framework</a></li>
-                <li><a href="genetics.html#a16.3_Implementation">16.3 Implementation and Examples</a></li>  
+                <li><a href="genetics.html#a16.3_Implementation">16.3 Implementation and Examples</a></li>
         </ul></li>
         <li><a href="filter.html">17. Filters</a>
           <ul>
@@ -157,7 +157,7 @@
             <li><a href="ml.html#clustering">18.2 Clustering algorithms and distance measures</a></li>
             <li><a href="ml.html#implementation">18.3 Implementation</a></li>
           </ul>
-        </li>        
+        </li>
         <li><a href="exceptions.html">19. Exceptions</a>
           <ul>
             <li><a href="exceptions.html#a19.1_Overview">19.1 Overview</a></li>
@@ -168,7 +168,7 @@
         </li>
         </ul>
       </section>
-    
+
   </body>
-  
+
 </document>

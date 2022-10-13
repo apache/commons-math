@@ -78,7 +78,7 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
     public double fitness() {
 
         Graphics2D g2 = testImage.createGraphics();
-        
+
         int width = testImage.getWidth();
         int height = testImage.getHeight();
 
@@ -123,7 +123,7 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
     public String toString() {
         return String.format("(f=%s)", getFitness());
     }
-    
+
     public static Chromosome randomChromosome(int polygonLength, int polygonCount) {
         List<Polygon> list = new ArrayList<>(polygonCount);
         for (int j = 0; j < polygonCount; j++) {

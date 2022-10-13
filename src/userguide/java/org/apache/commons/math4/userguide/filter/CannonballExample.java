@@ -53,35 +53,35 @@ import com.xeiam.xchart.StyleManager.LegendPosition;
 public class CannonballExample {
 
     public static class Cannonball {
-    
+
         private final double[] gravity = { 0, -9.81 };
         private final double[] velocity;
         private final double[] location;
-        
+
         private final double timeslice;
         private final double measurementNoise;
-        
+
         private final GaussianRandomGenerator rng;
-        
+
         public Cannonball(double timeslice, double angle, double initialVelocity, double measurementNoise, int seed) {
             this.timeslice = timeslice;
-            
+
             final double angleInRadians = FastMath.toRadians(angle);
             this.velocity = new double[] {
                     initialVelocity * FastMath.cos(angleInRadians),
                     initialVelocity * FastMath.sin(angleInRadians)
             };
-            
+
             this.location = new double[] { 0, 0 };
-            
+
             this.measurementNoise = measurementNoise;
             this.rng = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_19937_C, seed));
         }
-        
+
         public double getX() {
             return location[0];
         }
-        
+
         public double getY() {
             return location[1];
         }
@@ -97,18 +97,18 @@ public class CannonballExample {
         public double getXVelocity() {
             return velocity[0];
         }
-        
+
         public double getYVelocity() {
             return velocity[1];
         }
-        
+
         public void step() {
             // Break gravitational force into a smaller time slice.
             double[] slicedGravity = gravity.clone();
             for ( int i = 0; i < slicedGravity.length; i++ ) {
                 slicedGravity[i] *= timeslice;
             }
-            
+
             // Apply the acceleration to velocity.
             double[] slicedVelocity = velocity.clone();
             for ( int i = 0; i < velocity.length; i++ ) {
@@ -123,9 +123,9 @@ public class CannonballExample {
             }
         }
     }
-    
+
     public static void cannonballTest(Chart chart) {
-        
+
         // time interval for each iteration
         final double dt = 0.1;
         // the number of iterations to run
@@ -139,7 +139,7 @@ public class CannonballExample {
 
         // the cannonball itself
         final Cannonball cannonball = new Cannonball(dt, angle, initialVelocity, measurementNoise, 1000);
-        
+
         // A = [ 1, dt, 0,  0 ]  =>  x(n+1) = x(n) + vx(n)
         //     [ 0,  1, 0,  0 ]  => vx(n+1) =        vx(n)
         //     [ 0,  0, 1, dt ]  =>  y(n+1) =              y(n) + vy(n)
@@ -148,7 +148,7 @@ public class CannonballExample {
                 { 1, dt, 0,  0 },
                 { 0,  1, 0,  0 },
                 { 0,  0, 1, dt },
-                { 0,  0, 0,  1 }       
+                { 0,  0, 0,  1 }
         });
 
         // The control vector, which adds acceleration to the kinematic equations.
@@ -183,7 +183,7 @@ public class CannonballExample {
                 { 0, 0, 1, 0 },
                 { 0, 0, 0, 0 }
         });
-        
+
         // This is our guess of the initial state.  I intentionally set the Y value
         // wrong to illustrate how fast the Kalman filter will pick up on that.
         final double speedX = cannonball.getXVelocity();
@@ -201,7 +201,7 @@ public class CannonballExample {
 
         // we assume no process noise -> zero matrix
         final RealMatrix Q = MatrixUtils.createRealMatrix(4, 4);
-        
+
         // the measurement covariance matrix
         final RealMatrix R = MatrixUtils.createRealMatrix(new double[][] {
                 { var,    0,   0,    0 },
@@ -220,7 +220,7 @@ public class CannonballExample {
         final List<Number> measuredY = new ArrayList<>();
         final List<Number> kalmanX = new ArrayList<>();
         final List<Number> kalmanY = new ArrayList<>();
-        
+
         for (int i = 0; i < iterations; i++) {
 
             // get real location
@@ -251,7 +251,7 @@ public class CannonballExample {
 
         Series dataset = chart.addSeries("true", realX, realY);
         dataset.setMarker(SeriesMarker.NONE);
-        
+
         dataset = chart.addSeries("measured", measuredX, measuredY);
         dataset.setLineStyle(SeriesLineStyle.DOT_DOT);
         dataset.setMarker(SeriesMarker.NONE);
@@ -275,10 +275,10 @@ public class CannonballExample {
         chart.getStyleManager().setLegendPadding(6);
         chart.getStyleManager().setLegendSeriesLineLength(10);
         chart.getStyleManager().setAxisTickLabelsFont(new Font("Arial", Font.PLAIN, 10));
-        
+
         chart.getStyleManager().setChartBackgroundColor(Color.white);
         chart.getStyleManager().setChartPadding(4);
-        
+
         chart.getStyleManager().setChartType(ChartType.Line);
         return chart;
     }
@@ -290,20 +290,20 @@ public class CannonballExample {
         Chart chart = createChart("Cannonball", LegendPosition.InsideNE);
         cannonballTest(chart);
         container.add(new XChartPanel(chart));
-        
+
         container.setBorder(BorderFactory.createLineBorder(Color.black, 1));
         return container;
     }
 
     @SuppressWarnings("serial")
     public static class Display extends ExampleFrame {
-        
+
         private JComponent container;
 
         public Display() {
             setTitle("Commons Math: Kalman Filter - Cannonball");
             setSize(800, 600);
-            
+
             container = new JPanel();
             JComponent comp = createComponent();
             container.add(comp);

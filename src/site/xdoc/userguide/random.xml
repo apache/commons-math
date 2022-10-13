@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="random.html">
 
@@ -74,7 +74,7 @@ import org.apache.commons.rng.RandomSource;
 
 // Import common PRNG interface and factory class that instantiates the PRNG.
 // Create (and possibly seed) a PRNG.
-long seed = 17399225432L; // Fixed seed means same results every time 
+long seed = 17399225432L; // Fixed seed means same results every time
 UniformRandomProvider rng = RandomSource.create(RandomSource.MT, seed);
 
 // Create a a factory of correlated vectors.

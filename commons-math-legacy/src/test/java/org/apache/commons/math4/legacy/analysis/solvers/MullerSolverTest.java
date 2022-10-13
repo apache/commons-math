@@ -109,7 +109,7 @@ public final class MullerSolverTest {
         UnivariateFunction f = new Expm1();
         UnivariateSolver solver = new MullerSolver();
         double min;
-        double max; 
+        double max;
         double expected;
         double result;
         double tolerance;

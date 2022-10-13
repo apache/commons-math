@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="linear.html">
 
@@ -37,7 +37,7 @@
       <subsection name="3.2 Real matrices" href="real_matrices">
         <p>
           The <a href="../apidocs/org/apache/commons/math4/linear/RealMatrix.html">
-          RealMatrix</a> interface represents a matrix with real numbers as 
+          RealMatrix</a> interface represents a matrix with real numbers as
           entries.  The following basic matrix operations are supported:
           <ul>
           <li>Matrix addition, subtraction, multiplication</li>
@@ -45,7 +45,7 @@
           <li>transpose</li>
           <li>Norm and Trace</li>
           <li>Operation on a vector</li>
-          </ul>   
+          </ul>
         </p>
         <p>
          Example:
@@ -85,7 +85,7 @@ RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
       <subsection name="3.3 Real vectors" href="real_vectors">
         <p>
           The <a href="../apidocs/org/apache/commons/math4/linear/RealVector.html">
-          RealVector</a> interface represents a vector with real numbers as 
+          RealVector</a> interface represents a vector with real numbers as
           entries.  The following basic matrix operations are supported:
           <ul>
           <li>Vector addition, subtraction</li>
@@ -136,7 +136,7 @@ RealVector constants = new ArrayRealVector(new double[] { 1, -2, 1 }, false);
 RealVector solution = solver.solve(constants);
           </source>
           The <code>solution</code> vector will contain values for x
-          (<code>solution.getEntry(0)</code>), y (<code>solution.getEntry(1)</code>), 
+          (<code>solution.getEntry(0)</code>), y (<code>solution.getEntry(1)</code>),
           and z (<code>solution.getEntry(2)</code>) that solve the system.
         </p>
         <p>
@@ -170,8 +170,8 @@ RealVector solution = solver.solve(constants);
           In this case, the solution will be provided also as an array of double.
         </p>
         <p>
-          It is possible to solve multiple systems with the same coefficient matrix 
-          in one method call.  To do this, create a matrix whose column vectors correspond 
+          It is possible to solve multiple systems with the same coefficient matrix
+          in one method call.  To do this, create a matrix whose column vectors correspond
           to the constant vectors for the systems to be solved and use <code>solve(RealMatrix),</code>
           which returns a matrix with column vectors representing the solutions.
         </p>

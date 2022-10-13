@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <document>
 
  <properties>
@@ -65,7 +65,7 @@
   <section name="Download Math">
    <subsection name="Releases">
     <p>
-      Download the 
+      Download the
       <a href="http://commons.apache.org/math/download_math.cgi">
       Latest Release</a> of Commons Math.
     </p>

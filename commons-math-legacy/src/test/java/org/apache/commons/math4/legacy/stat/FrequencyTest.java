@@ -86,7 +86,7 @@ public final class FrequencyTest {
         Assert.assertEquals("-2 cum pct", 0, fInteger.getCumPct(-2), TOLERANCE);
         Assert.assertEquals("10 cum pct", 1, fInteger.getCumPct(10), TOLERANCE);
 
-        fString = new Frequency<String>(String.CASE_INSENSITIVE_ORDER);
+        fString = new Frequency<>(String.CASE_INSENSITIVE_ORDER);
         fString.addValue("one");
         fString.addValue("One");
         fString.addValue("oNe");
@@ -260,10 +260,10 @@ public final class FrequencyTest {
         Assert.assertEquals(1, f.getCount(ONE_LONG));
         Assert.assertEquals(0, f.getCount(TWO_LONG));
 
-        Frequency<Long> g = new Frequency<>();
+        Frequency<Long> g = new Frequency<Long>();
         g.addValue(TWO_LONG);
 
-        Frequency<Long> h = new Frequency<>();
+        Frequency<Long> h = new Frequency<Long>();
         h.addValue(THREE_LONG);
 
         List<Frequency<Long>> coll = new ArrayList<>();

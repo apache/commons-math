@@ -23,10 +23,10 @@ import org.apache.commons.math4.genetics.Chromosome;
 import org.apache.commons.math4.genetics.MutationPolicy;
 
 public class RandomPolygonMutation implements MutationPolicy {
-    
+
     private float mutationRate;
     private float mutationAmount;
-    
+
     public RandomPolygonMutation(float mutationRate, float mutationAmount) {
         this.mutationRate = mutationRate;
         this.mutationAmount = mutationAmount;

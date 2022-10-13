@@ -322,7 +322,7 @@ public class LoessInterpolatorTest {
             Assert.assertEquals(yref[i], res[i], delta);
         }
     }
-        
+
     private void generateSineData(double[] xval, double[] yval, double xnoise, double ynoise) {
         double dx = 2 * JdkMath.PI / xval.length;
         double x = 0;

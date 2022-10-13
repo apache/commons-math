@@ -49,7 +49,7 @@ import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
  * with ~100 semi-transparent polygons of length 6.
  * <p>
  * The fitness function is quite simple yet expensive to compute:
- * 
+ *
  *   - draw the polygons of a chromosome to an image
  *   - compare each pixel with the corresponding reference image
  * <p>
@@ -62,7 +62,7 @@ import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
  *    - add a gallery of results after x iterations / minutes (either automatic or based on button click)
  *    - allow loading / selection of other images
  *    - add logging in the user interface, e.g. number of generations, time spent, ...
- * 
+ *
  * @see <a href="http://www.nihilogic.dk/labs/evolving-images/">Evolving Images with JavaScript and canvas (Nihilogic)</a>
  */
 @SuppressWarnings("serial")
@@ -77,7 +77,7 @@ public class ImageEvolutionExample {
     public static final int POLYGON_COUNT = 100;
 
     public static class Display extends ExampleFrame {
-        
+
         private GeneticAlgorithm ga;
         private Population currentPopulation;
         private Chromosome bestFit;
@@ -86,16 +86,16 @@ public class ImageEvolutionExample {
         private volatile boolean noStopRequested;
 
         private BufferedImage ref;
-        
+
         private BufferedImage referenceImage;
         private BufferedImage testImage;
-        
+
         private ImagePainter painter;
 
         public Display() throws Exception {
             setTitle("Commons-Math: Image Evolution Example");
             setSize(600, 400);
-            
+
             setLayout(new FlowLayout());
 
             Box bar = Box.createHorizontalBox();
@@ -143,7 +143,7 @@ public class ImageEvolutionExample {
             currentPopulation = getInitialPopulation();
             bestFit = currentPopulation.getFittestChromosome();
         }
-        
+
         public boolean isAlive() {
             return internalThread != null && internalThread.isAlive();
         }
@@ -175,7 +175,7 @@ public class ImageEvolutionExample {
         }
 
         private class ImagePainter extends Component {
-            
+
             private int width;
             private int height;
 

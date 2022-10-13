@@ -7,16 +7,16 @@
     The ASF licenses this file to You under the Apache License, Version 2.0
     (the "License"); you may not use this file except in compliance with
     the License.  You may obtain a copy of the License at
-   
+
          http://www.apache.org/licenses/LICENSE-2.0
-   
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="genetics.html">
   <properties>
@@ -26,17 +26,17 @@
     <section name="16 Genetic Algorithms">
       <subsection name="16.1 Overview" href="overview">
         <p>
-          The genetics package provides a framework and implementations for 
+          The genetics package provides a framework and implementations for
           genetic algorithms.
         </p>
       </subsection>
       <subsection name="16.2 GA Framework">
       <p>
       <a href="../apidocs/org/apache/commons/math4/genetics/GeneticAlgorithm.html">
-      GeneticAlgorithm</a> provides an execution framework for Genetic Algorithms (GA).  
+      GeneticAlgorithm</a> provides an execution framework for Genetic Algorithms (GA).
       <a href="../apidocs/org/apache/commons/math4/genetics/Population.html">
       Populations,</a> consisting of <a href="../apidocs/org/apache/commons/math4/genetics/Chromosome.html">
-      Chromosomes</a> are evolved by the <code>GeneticAlgorithm</code> until a 
+      Chromosomes</a> are evolved by the <code>GeneticAlgorithm</code> until a
       <a href="../apidocs/org/apache/commons/math4/genetics/StoppingCondition.html">
       StoppingCondition</a> is reached. Evolution is determined by <a href="../apidocs/org/apache/commons/math4/genetics/SelectionPolicy.html">
       SelectionPolicy</a>, <a href="../apidocs/org/apache/commons/math4/genetics/MutationPolicy.html">
@@ -62,10 +62,10 @@
           <li>Loop until new generation is filled:</li>
           <ul><li>Apply configured <code>SelectionPolicy</code> to select a pair of parents
                  from <code>current</code></li>
-             <li>With probability = 
+             <li>With probability =
                  <a href="../apidocs/org/apache/commons/math4/genetics/GeneticAlgorithm.html#getCrossoverRate()">
                  getCrossoverRate()</a>, apply configured <code>CrossoverPolicy</code> to parents</li>
-             <li>With probability = 
+             <li>With probability =
                  <a href="../apidocs/org/apache/commons/math4/genetics/GeneticAlgorithm.html#getMutationRate()">
                  getMutationRate()</a>,
                  apply configured <code>MutationPolicy</code> to each of the offspring</li>
@@ -73,7 +73,7 @@
                  space permitting</li>
           </ul>
           <li>Return nextGeneration</li>
-         </ol>  
+         </ol>
       </p>
       </subsection>
       <subsection name="16.3 Implementation">
@@ -88,16 +88,16 @@ GeneticAlgorithm ga = new GeneticAlgorithm(
     0.10,
     new TournamentSelection(TOURNAMENT_ARITY)
 );
-        
+
 // initial population
 Population initial = getInitialPopulation();
-        
+
 // stopping condition
 StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
-        
+
 // run the algorithm
 Population finalPopulation = ga.evolve(initial, stopCond);
-        
+
 // best chromosome from the final population
 Chromosome bestFinal = finalPopulation.getFittestChromosome();
         </source>
@@ -122,7 +122,7 @@ Chromosome bestFinal = finalPopulation.getFittestChromosome();
         <td>Each of the two selected chromosomes is selected based on an n-ary tournament -- this is done by drawing
         n random chromosomes without replacement from the population, and then selecting the fittest chromosome among them.</td></tr>
         </table><br/>
-        The algorithm starts with an <code>initial</code> population of <code>Chromosomes.</code> and executes until 
+        The algorithm starts with an <code>initial</code> population of <code>Chromosomes.</code> and executes until
         the specified <a href="../apidocs/org/apache/commons/math4/genetics/StoppingCondition.html">StoppingCondition</a>
         is reached.  In the example above, a
         <a href="../apidocs/org/apache/commons/math4/genetics/FixedGenerationCount.html">FixedGenerationCount</a>

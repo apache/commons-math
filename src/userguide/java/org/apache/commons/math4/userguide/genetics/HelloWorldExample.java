@@ -60,13 +60,13 @@ public class HelloWorldExample {
 
         // stopping condition
         StoppingCondition stoppingCondition = new StoppingCondition() {
-            
+
             int generation = 0;
-            
+
 //            @Override
             public boolean isSatisfied(Population population) {
                 Chromosome fittestChromosome = population.getFittestChromosome();
-                
+
                 if (generation == 1 || generation % 10 == 0) {
                     System.out.println("Generation " + generation + ": " + fittestChromosome.toString());
                 }
@@ -82,7 +82,7 @@ public class HelloWorldExample {
         };
 
         System.out.println("Starting evolution ...");
-        
+
         // run the algorithm
         Population finalPopulation = ga.evolve(initial, stoppingCondition);
 
@@ -94,15 +94,15 @@ public class HelloWorldExample {
         System.out.println("Generation " + ga.getGenerationsEvolved() + ": " + best.toString());
         System.out.println("Total execution time: " + (endTime - startTime) + "ms");
     }
-    
+
     private static List<Character> randomRepresentation(int length) {
         return asList(RandomStringUtils.randomAscii(length));
     }
 
     private static List<Character> asList(String str) {
-        return Arrays.asList(ArrayUtils.toObject(str.toCharArray()));    
+        return Arrays.asList(ArrayUtils.toObject(str.toCharArray()));
     }
-    
+
     private static Population getInitialPopulation() {
         List<Chromosome> popList = new LinkedList<>();
 
@@ -173,7 +173,7 @@ public class HelloWorldExample {
 
             StringChromosome strChromosome = (StringChromosome) original;
             List<Character> characters = strChromosome.getStringRepresentation();
-            
+
             int mutationIndex = GeneticAlgorithm.getRandomGenerator().nextInt(characters.size());
 
             List<Character> mutatedChromosome = new ArrayList<>(characters);

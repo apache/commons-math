@@ -7,16 +7,16 @@
     The ASF licenses this file to You under the Apache License, Version 2.0
     (the "License"); you may not use this file except in compliance with
     the License.  You may obtain a copy of the License at
-   
+
          http://www.apache.org/licenses/LICENSE-2.0
-   
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="filter.html">
   <properties>
@@ -34,11 +34,11 @@
           <a href="../apidocs/org/apache/commons/math4/filter/KalmanFilter.html">
           KalmanFilter</a> provides a discrete-time filter to estimate
           a stochastic linear process.</p>
-          
+
         <p>A Kalman filter is initialized with a <a href="../apidocs/org/apache/commons/math4/filter/ProcessModel.html">
           ProcessModel</a> and a <a href="../apidocs/org/apache/commons/math4/filter/MeasurementModel.html">
-          MeasurementModel</a>, which contain the corresponding transformation and noise covariance matrices. 
-          The parameter names used in the respective models correspond to the following names commonly used 
+          MeasurementModel</a>, which contain the corresponding transformation and noise covariance matrices.
+          The parameter names used in the respective models correspond to the following names commonly used
           in the mathematical literature:
         <ul>
              <li>A - state transition matrix</li>
@@ -52,7 +52,7 @@
         <p>
         <dl>
           <dt>Initialization</dt>
-          <dd> The following code will create a Kalman filter using the provided 
+          <dd> The following code will create a Kalman filter using the provided
           DefaultMeasurementModel and DefaultProcessModel classes. To support dynamically changing
           process and measurement noises, simply implement your own models.
             <source>
@@ -74,7 +74,7 @@ KalmanFilter filter = new KalmanFilter(pm, mm);
             </source>
           </dd>
           <dt>Iteration</dt>
-          <dd>The following code illustrates how to perform the predict/correct cycle:  
+          <dd>The following code illustrates how to perform the predict/correct cycle:
           <source>
 for (;;) {
    // predict the state estimate one time-step ahead
@@ -86,15 +86,15 @@ for (;;) {
 
    // correct the state estimate with the latest measurement
    filter.correct(z);
-   
+
    double[] stateEstimate = filter.getStateEstimation();
    // do something with it
 }
           </source>
           </dd>
           <dt>Constant Voltage Example</dt>
-          <dd>The following example creates a Kalman filter for a static process: a system with a 
-          constant voltage as internal state. We observe this process with an artificially 
+          <dd>The following example creates a Kalman filter for a static process: a system with a
+          constant voltage as internal state. We observe this process with an artificially
           imposed measurement noise of 0.1V and assume an internal process noise of 1e-5V.
           <source>
 double constantVoltage = 10d;
@@ -118,7 +118,7 @@ RealMatrix R = new Array2DRowRealMatrix(new double[] { measurementNoise });
 
 ProcessModel pm = new DefaultProcessModel(A, B, Q, x, P0);
 MeasurementModel mm = new DefaultMeasurementModel(H, R);
-KalmanFilter filter = new KalmanFilter(pm, mm);  
+KalmanFilter filter = new KalmanFilter(pm, mm);
 
 // process and measurement noise vectors
 RealVector pNoise = new ArrayRealVector(1);
@@ -148,7 +148,7 @@ for (int i = 0; i &lt; 60; i++) {
           </source>
           </dd>
           <dt>Increasing Speed Vehicle Example</dt>
-          <dd>The following example creates a Kalman filter for a simple linear process: a 
+          <dd>The following example creates a Kalman filter for a simple linear process: a
           vehicle driving along a street with a velocity increasing at a constant rate. The process
           state is modeled as (position, velocity) and we only observe the position. A measurement
           noise of 10m is imposed on the simulated measurement.
@@ -217,9 +217,9 @@ for (int i = 0; i &lt; 60; i++) {
     double velocity = filter.getStateEstimation()[1];
 }
           </source>
-          </dd>          
+          </dd>
         </dl>
-        </p>        
+        </p>
       </subsection>
     </section>
   </body>

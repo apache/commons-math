@@ -118,7 +118,7 @@
           </table>
         </p>
         <p>
-          <code>SummaryStatistics</code> can be aggregated using 
+          <code>SummaryStatistics</code> can be aggregated using
           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/AggregateSummaryStatistics.html">
           AggregateSummaryStatistics.</a>  This class can be used to concurrently
           gather statistics for multiple datasets as well as for a combined sample
@@ -135,11 +135,11 @@
            is thread-safe.
            <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedDescriptiveStatistics.html">
            SynchronizedDescriptiveStatistics</a> and
-           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedSummaryStatistics.html"> 
+           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedSummaryStatistics.html">
            SynchronizedSummaryStatistics</a>, respectively, provide thread-safe
            versions for applications that require concurrent access to statistical
            aggregates by multiple threads.
-           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedMultiVariateSummaryStatistics.html"> 
+           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedMultiVariateSummaryStatistics.html">
            SynchronizedMultivariateSummaryStatistics</a> provides thread-safe
            <code>MultivariateSummaryStatistics.</code>
         </p>
@@ -239,14 +239,14 @@ DescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
         </dd>
         <dt>Compute statistics for multiple samples and overall statistics concurrently</dt>
         <br/>
-        <dd>There are two ways to do this using <code>AggregateSummaryStatistics.</code> 
+        <dd>There are two ways to do this using <code>AggregateSummaryStatistics.</code>
         The first is to use an <code>AggregateSummaryStatistics</code> instance
         to accumulate overall statistics contributed by <code>SummaryStatistics</code>
         instances created using
         <a href="../apidocs/org/apache/commons/math4/stat/descriptive/AggregateSummaryStatistics.html#createContributingStatistics()">
         AggregateSummaryStatistics.createContributingStatistics()</a>:
         <source>
-// Create a AggregateSummaryStatistics instance to accumulate the overall statistics 
+// Create a AggregateSummaryStatistics instance to accumulate the overall statistics
 // and AggregatingSummaryStatistics for the subsamples
 AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
 SummaryStatistics setOneStats = aggregate.createContributingStatistics();
@@ -501,7 +501,7 @@ System.out.println(regression.getSlopeStdErr());
 System.out.println(regression.getInterceptStdErr() );
 // will return Double.NaN, since we constrained the parameter to zero
          </source>
-         Caution must be exercised when interpreting the slope when no constant is being estimated. The slope 
+         Caution must be exercised when interpreting the slope when no constant is being estimated. The slope
          may be biased.
          </dd>
 
@@ -520,12 +520,12 @@ System.out.println(regression.getInterceptStdErr() );
          </p>
          <p>
          where Y is an n-vector <b>regressand</b>, X is a [n,k] matrix whose k columns are called
-         <b>regressors</b>, b is k-vector of <b>regression parameters</b> and u is an n-vector 
+         <b>regressors</b>, b is k-vector of <b>regression parameters</b> and u is an n-vector
          of <b>error terms</b> or <b>residuals</b>.
          </p>
          <p>
           <a href="../apidocs/org/apache/commons/math4/stat/regression/OLSMultipleLinearRegression.html">
-          OLSMultipleLinearRegression</a> provides Ordinary Least Squares Regression, and 
+          OLSMultipleLinearRegression</a> provides Ordinary Least Squares Regression, and
           <a href="../apidocs/org/apache/commons/math4/stat/regression/GLSMultipleLinearRegression.html">
           GLSMultipleLinearRegression</a> implements Generalized Least Squares.  See the javadoc for these
           classes for details on the algorithms and formulas used.
@@ -535,9 +535,9 @@ System.out.println(regression.getInterceptStdErr() );
            the regressand (Y) value, followed by regressor values; or using a double[][] array with rows corresponding to
            observations. GLS models also require a double[][] array representing the covariance matrix of the error terms.  See
            <a href="../apidocs/org/apache/commons/math4/stat/regression/AbstractMultipleLinearRegression.html#newSampleData(double[], int, int)">
-           AbstractMultipleLinearRegression#newSampleData(double[],int,int)</a>,  
+           AbstractMultipleLinearRegression#newSampleData(double[],int,int)</a>,
            <a href="../apidocs/org/apache/commons/math4/stat/regression/OLSMultipleLinearRegression.html#newSampleData(double[], double[][])">
-           OLSMultipleLinearRegression#newSampleData(double[], double[][])</a> and 
+           OLSMultipleLinearRegression#newSampleData(double[], double[][])</a> and
            <a href="../apidocs/org/apache/commons/math4/stat/regression/GLSMultipleLinearRegression.html#newSampleData(double[], double[][], double[][])">
            GLSMultipleLinearRegression#newSampleData(double[],double[][],double[][])</a> for details.
          </p>
@@ -545,7 +545,7 @@ System.out.println(regression.getInterceptStdErr() );
            <strong>Usage Notes</strong>: <ul>
            <li> Data are validated when invoking any of the newSample, newX, newY or newCovariance methods and
            <code>IllegalArgumentException</code> is thrown when input data arrays do not have matching dimensions
-           or do not contain sufficient data to estimate the model. 
+           or do not contain sufficient data to estimate the model.
            </li>
            <li> By default, regression models are estimated with intercept terms.  In the notation above, this implies that the
            X matrix contains an initial row identically equal to 1.  X data supplied to the newX or newSample methods should not
@@ -568,13 +568,13 @@ x[1] = new double[]{2.0, 0, 0, 0, 0};
 x[2] = new double[]{0, 3.0, 0, 0, 0};
 x[3] = new double[]{0, 0, 4.0, 0, 0};
 x[4] = new double[]{0, 0, 0, 5.0, 0};
-x[5] = new double[]{0, 0, 0, 0, 6.0};          
+x[5] = new double[]{0, 0, 0, 0, 6.0};
 regression.newSampleData(y, x);
           </source>
           </dd>
           <dd>Get regression parameters and diagnostics:
          <source>
-double[] beta = regression.estimateRegressionParameters();       
+double[] beta = regression.estimateRegressionParameters();
 
 double[] residuals = regression.estimateResiduals();
 
@@ -599,7 +599,7 @@ x[1] = new double[]{2.0, 0, 0, 0, 0};
 x[2] = new double[]{0, 3.0, 0, 0, 0};
 x[3] = new double[]{0, 0, 4.0, 0, 0};
 x[4] = new double[]{0, 0, 0, 5.0, 0};
-x[5] = new double[]{0, 0, 0, 0, 6.0};          
+x[5] = new double[]{0, 0, 0, 0, 6.0};
 double[][] omega = new double[6][];
 omega[0] = new double[]{1.1, 0, 0, 0, 0, 0};
 omega[1] = new double[]{0, 2.2, 0, 0, 0, 0};
@@ -607,19 +607,19 @@ omega[2] = new double[]{0, 0, 3.3, 0, 0, 0};
 omega[3] = new double[]{0, 0, 0, 4.4, 0, 0};
 omega[4] = new double[]{0, 0, 0, 0, 5.5, 0};
 omega[5] = new double[]{0, 0, 0, 0, 0, 6.6};
-regression.newSampleData(y, x, omega); 
+regression.newSampleData(y, x, omega);
           </source>
           </dd>
          </dl>
         </p>
-      </subsection>    
+      </subsection>
       <subsection name="1.6 Rank transformations">
       <p>
          Some statistical algorithms require that input data be replaced by ranks.
          The <a href="../apidocs/org/apache/commons/math4/stat/ranking/package-summary.html">
          org.apache.commons.math4.stat.ranking</a> package provides rank transformation.
          <a href="../apidocs/org/apache/commons/math4/stat/ranking/RankingAlgorithm.html">
-         RankingAlgorithm</a> defines the interface for ranking.  
+         RankingAlgorithm</a> defines the interface for ranking.
          <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaturalRanking.html">
          NaturalRanking</a> provides an implementation that has two configuration options.
          <ul>
@@ -640,7 +640,7 @@ double[] ranks = ranking.rank(exampleData);
          </source>
          results in <code>ranks</code> containing <code>{6, 5, 7, 8, 5, 9, 2, 2, 5}.</code>
          <source>
-new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData);   
+new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData);
          </source>
          returns <code>{5, 2, 6, 7, 3, 8, 1, 4}.</code>
       </p>
@@ -648,20 +648,20 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
         The default <code>NaNStrategy</code> is NaNStrategy.MAXIMAL.  This makes <code>NaN</code>
         values larger than any other value (including <code>Double.POSITIVE_INFINITY</code>). The
         default <code>TiesStrategy</code> is <code>TiesStrategy.AVERAGE,</code> which assigns tied
-        values the average of the ranks applicable to the sequence of ties.  See the 
+        values the average of the ranks applicable to the sequence of ties.  See the
         <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaturalRanking.html">
         NaturalRanking</a> for more examples and <a href="../apidocs/org/apache/commons/math4/stat/ranking/TiesStrategy.html">
         TiesStrategy</a> and <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaNStrategy.html">NaNStrategy</a>
         for details on these configuration options.
        </p>
-      </subsection>  
+      </subsection>
       <subsection name="1.7 Covariance and correlation">
         <p>
           The <a href="../apidocs/org/apache/commons/math4/stat/correlation/package-summary.html">
           org.apache.commons.math4.stat.correlation</a> package computes covariances
           and correlations for pairs of arrays or columns of a matrix.
           <a href="../apidocs/org/apache/commons/math4/stat/correlation/Covariance.html">
-          Covariance</a> computes covariances, 
+          Covariance</a> computes covariances,
           <a href="../apidocs/org/apache/commons/math4/stat/correlation/PearsonsCorrelation.html">
           PearsonsCorrelation</a> provides Pearson's Product-Moment correlation coefficients,
           <a href="../apidocs/org/apache/commons/math4/stat/correlation/SpearmansCorrelation.html">
@@ -676,10 +676,10 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
            Unbiased covariances are given by the formula <br/>
            <code>cov(X, Y) = sum [(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / (n - 1)</code>
            where <code>E(X)</code> is the mean of <code>X</code> and <code>E(Y)</code>
-           is the mean of the <code>Y</code> values. Non-bias-corrected estimates use 
+           is the mean of the <code>Y</code> values. Non-bias-corrected estimates use
            <code>n</code> in place of <code>n - 1.</code>  Whether or not covariances are
            bias-corrected is determined by the optional parameter, "biasCorrected," which
-           defaults to <code>true.</code>      
+           defaults to <code>true.</code>
           </li>
           <li>
           <a href="../apidocs/org/apache/commons/math4/stat/correlation/PearsonsCorrelation.html">
@@ -691,7 +691,7 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
           <li>
           <a href="../apidocs/org/apache/commons/math4/stat/correlation/SpearmansCorrelation.html">
           SpearmansCorrelation</a> applies a rank transformation to the input data and computes Pearson's
-          correlation on the ranked data.  The ranking algorithm is configurable. By default, 
+          correlation on the ranked data.  The ranking algorithm is configurable. By default,
           <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaturalRanking.html">
           NaturalRanking</a> with default strategies for handling ties and NaN values is used.
           </li>
@@ -699,7 +699,7 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
           <a href="../apidocs/org/apache/commons/math4/stat/correlation/KendallsCorrelation.html">
           KendallsCorrelation</a> computes the association between two measured quantities. A tau test
           is a non-parametric hypothesis test for statistical dependence based on the tau coefficient.
-          </li> 
+          </li>
           </ul>
         </p>
         <p>
@@ -727,7 +727,7 @@ new Covariance().computeCovarianceMatrix(data)
           </source>
           The i-jth entry of the returned matrix is the unbiased covariance of the ith and jth
           columns of <code>data.</code> As above, to get non-bias-corrected covariances,
-          use 
+          use
          <source>
 computeCovarianceMatrix(data, false)
          </source>
@@ -750,7 +750,7 @@ new PearsonsCorrelation().correlation(x, y)
 new PearsonsCorrelation().computeCorrelationMatrix(data)
           </source>
           The i-jth entry of the returned matrix is the Pearson's product-moment correlation between the
-          ith and jth columns of <code>data.</code> 
+          ith and jth columns of <code>data.</code>
           </dd>
           <br/>
           <dt><strong>Pearson's correlation significance and standard errors</strong></dt>
@@ -768,7 +768,7 @@ correlation.getCorrelationStandardErrors();
           </source>
           The formula used to compute the standard error is <br/>
           <code>SE<sub>r</sub> = ((1 - r<sup>2</sup>) / (n - 2))<sup>1/2</sup></code><br/>
-           where <code>r</code> is the estimated correlation coefficient and 
+           where <code>r</code> is the estimated correlation coefficient and
           <code>n</code> is the number of observations in the source dataset.<br/><br/>
           <strong>p-values</strong> for the (2-sided) null hypotheses that elements of
           a correlation matrix are zero populate the RealMatrix returned by
@@ -780,9 +780,9 @@ correlation.getCorrelationPValues()
           a value with absolute value greater than or equal to <br/>
           <code>|r<sub>ij</sub>|((n - 2) / (1 - r<sub>ij</sub><sup>2</sup>))<sup>1/2</sup></code>,
           where <code>r<sub>ij</sub></code> is the estimated correlation between the ith and jth
-          columns of the source array or RealMatrix. This is sometimes referred to as the 
+          columns of the source array or RealMatrix. This is sometimes referred to as the
           <i>significance</i> of the coefficient.<br/><br/>
-          For example, if <code>data</code> is a RealMatrix with 2 columns and 10 rows, then 
+          For example, if <code>data</code> is a RealMatrix with 2 columns and 10 rows, then
           <source>
 new PearsonsCorrelation(data).getCorrelationPValues().getEntry(0,1)
           </source>
@@ -798,13 +798,13 @@ new PearsonsCorrelation(data).getCorrelationPValues().getEntry(0,1)
           <source>
 new SpearmansCorrelation().correlation(x, y)
           </source>
-          This is equivalent to 
+          This is equivalent to
           <source>
 RankingAlgorithm ranking = new NaturalRanking();
 new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           </source>
           </dd>
-          <br/>     
+          <br/>
           <dt><strong>Kendalls's tau rank correlation coefficient</strong></dt>
           <br/>
           <dd>To compute the Kendall's tau rank correlation between two double arrays
@@ -823,7 +823,7 @@ new KendallsCorrelation().correlation(x, y)
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm">
           Student's t</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
-          Chi-Square</a>, 
+          Chi-Square</a>,
           <a href="http://en.wikipedia.org/wiki/G-test">G Test</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section4/prc43.htm">
           One-Way ANOVA</a>,
@@ -853,7 +853,7 @@ new KendallsCorrelation().correlation(x, y)
           <a href="../apidocs/org/apache/commons/math4/stat/inference/BinomialTest.html">
           BinomialTest</a> and
           <a href="../apidocs/org/apache/commons/math4/stat/inference/KolmogorovSmirnovTest.html">
-          KolmogorovSmirnovTest</a>.                  
+          KolmogorovSmirnovTest</a>.
           The <a href="../apidocs/org/apache/commons/math4/stat/inference/TestUtils.html">
           TestUtils</a> class provides static methods to get test instances or
           to compute test statistics directly.  The examples below all use the
@@ -891,7 +891,7 @@ new KendallsCorrelation().correlation(x, y)
           <li>The G test implementation provides two p-values:
            <code>gTest(expected, observed)</code>, which is the tail probability beyond
            <code>g(expected, observed)</code> in the ChiSquare distribution with degrees
-           of freedom one less than the common length of input arrays and 
+           of freedom one less than the common length of input arrays and
            <code>gTestIntrinsic(expected, observed)</code> which is the same tail
            probability computed using a ChiSquare distribution with one less degeree
            of freedom. </li>
@@ -908,9 +908,9 @@ new KendallsCorrelation().correlation(x, y)
            \(F_n\) is the empirical distribution of the \(n\) sample data points.  Both
            one-sample tests against a <code>RealDistribution</code> and two-sample tests
            (comparing two empirical distributions) are supported.  For one-sample tests,
-           the distribution of \(D_n\) is estimated using the method in 
+           the distribution of \(D_n\) is estimated using the method in
            <a href="http://www.jstatsoft.org/v08/i18/">Evaluating Kolmogorov's Distribution</a> by
-           George Marsaglia, Wai Wan Tsang, and Jingbo Wang, with quick decisions in some cases 
+           George Marsaglia, Wai Wan Tsang, and Jingbo Wang, with quick decisions in some cases
            for extreme values using the method described in
            <a href="http://www.jstatsoft.org/v39/i11/"> Computing the Two-Sided Kolmogorov-Smirnov
            Distribution</a> by Richard Simard and Pierre L'Ecuyer.  In the 2-sample case, estimation
@@ -1163,7 +1163,7 @@ System.out.println(TestUtils.gTestDataSetsComparison(obs1, obs2)); // p-value
           <source>
 new GTest().rootLogLikelihoodRatio(5, 1995, 0, 100000);
           </source>
-          returns the root log likelihood associated with the null hypothesis that A 
+          returns the root log likelihood associated with the null hypothesis that A
           and B are independent.
           </dd>
           <br/>
@@ -1219,7 +1219,7 @@ TestUtils.kolmogorovSmirnovStatistic(unitNormal, sample)
           <source>
 TestUtils.kolmogorovSmirnovStatistic(x, y)
           </source>
-          to compute the D-statistic and 
+          to compute the D-statistic and
           <source>
 TestUtils.kolmogorovSmirnovTest(x, y)
           </source>

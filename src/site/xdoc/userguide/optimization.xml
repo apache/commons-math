@@ -261,7 +261,7 @@
 
     We are looking to find the best parameters [a, b, c] for the quadratic function
     <b><code>f(x) = a x<sup>2</sup> + b x + c</code></b>.
-    The data set below was generated using [a = 8, b = 10, c = 16]. 
+    The data set below was generated using [a = 8, b = 10, c = 16].
     A random number between zero and one was added to each y value calculated.
 
     <table cellspacing="0" cellpadding="3">

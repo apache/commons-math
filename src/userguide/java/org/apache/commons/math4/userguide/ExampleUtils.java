@@ -39,12 +39,12 @@ public class ExampleUtils {
 
     @SuppressWarnings("serial")
     public static class ExampleFrame extends JFrame {
-        
+
         /**
          * Returns the main panel which should be printed by the screenshot action.
          * <p>
          * By default, it returns the content pane of this frame, but can be overridden
-         * in case the frame has a global scroll pane which would cut off any offscreen content. 
+         * in case the frame has a global scroll pane which would cut off any offscreen content.
          *
          * @return the main panel to print
          */
@@ -73,14 +73,14 @@ public class ExampleUtils {
                         }
                     }
                 });
-                
+
                 JMenuItem exit = new JMenuItem("Exit");
                 exit.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         System.exit(0);
                     }
                 });
-                
+
                 JMenu menu = new JMenu("File");
                 menu.add(screenshot);
                 menu.add(exit);
@@ -102,7 +102,7 @@ public class ExampleUtils {
         component.paint(image.getGraphics());
         return image;
     }
-    
+
     public static BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) throws IOException {
         BufferedImage resizedImage = new BufferedImage(width, height, type);
         Graphics2D g = resizedImage.createGraphics();

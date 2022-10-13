@@ -23,7 +23,7 @@ import org.junit.Assert;
 public class SimplePointCheckerTest {
     @Test(expected=NotStrictlyPositiveException.class)
     public void testIterationCheckPrecondition() {
-        new SimplePointChecker<PointValuePair>(1e-1, 1e-2, 0);
+        new SimplePointChecker<>(1e-1, 1e-2, 0);
     }
 
     @Test

@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="utilities.html">
 
@@ -39,14 +39,14 @@
 
 <subsection name="6.2 Double array utilities" href="arrays">
     <p>
-    To maintain statistics based on a "rolling" window of values, a resizable 
-    array implementation was developed and is provided for reuse in the 
+    To maintain statistics based on a "rolling" window of values, a resizable
+    array implementation was developed and is provided for reuse in the
     <code>util</code> package.  The core functionality provided is described in
-    the documentation for the interface, 
+    the documentation for the interface,
     <a href="../apidocs/org/apache/commons/math4/util/DoubleArray.html">
     DoubleArray</a>.  This interface adds one method,
-    <code>addElementRolling(double)</code> to basic list accessors. 
-    The <code>addElementRolling</code> method adds an element 
+    <code>addElementRolling(double)</code> to basic list accessors.
+    The <code>addElementRolling</code> method adds an element
     (the actual parameter) to the end of the list and removes the first element
      in the list.
     </p>
@@ -64,10 +64,10 @@
     the end needs to be created.  Both of these operations are handled
     automatically, with frequency / effect driven by the configuration
     properties <code>expansionMode</code>, <code>expansionFactor</code> and
-    <code>contractionCriteria.</code>  See 
+    <code>contractionCriteria.</code>  See
     <a href="../apidocs/org/apache/commons/math4/util/ResizableDoubleArray.html">
     ResizableDoubleArray</a>
-    for details. 
+    for details.
     </p>
 </subsection>
 
@@ -103,7 +103,7 @@
             default: return 6.0;
         }
     }
-    
+
     public double getB(int n, double x) {
         double y = (2.0 * n) - 1.0;
         return y * y;
@@ -129,7 +129,7 @@
             return n;
         }
     }
-    
+
     public double getB(int n, double x) {
         if (n % 2 == 0) {
             return -x;
@@ -151,17 +151,17 @@
     <a href="../apidocs/org/apache/commons/math4/util/ArithmeticUtils.html">ArithmeticUtils</a>
     utility class.  ArithmeticUtils currently includes methods to compute the following: <ul>
     <li>
-    Binomial coefficients -- "n choose k" available as an (exact) long value,  
+    Binomial coefficients -- "n choose k" available as an (exact) long value,
     <code>binomialCoefficient(int, int)</code> for small n, k; as a double,
     <code>binomialCoefficientDouble(int, int)</code> for larger values; and in
-    a "super-sized" version, <code>binomialCoefficientLog(int, int)</code> 
+    a "super-sized" version, <code>binomialCoefficientLog(int, int)</code>
     that returns the natural logarithm of the value.</li>
     <li>
     Stirling numbers of the second kind -- S(n,k) as an exact long value
     <code>stirlingS2(int, int)</code> for small n, k.</li>
     <li>
     Factorials -- like binomial coefficients, these are available as exact long
-    values, <code>factorial(int)</code>;  doubles, 
+    values, <code>factorial(int)</code>;  doubles,
     <code>factorialDouble(int)</code>; or logs, <code>factorialLog(int)</code>. </li>
     <li>
     Least common multiple and greatest common denominator functions.
@@ -186,7 +186,7 @@
     <p>
         FastMath speed is achieved by relying heavily on optimizing compilers to
         native code present in many JVM todays and use of large tables. Precomputed
-        literal arrays are provided in this class to speed up load time. These 
+        literal arrays are provided in this class to speed up load time. These
         precomputed tables are used in the default configuration, to improve speed
         even at first use of the class. If users prefer to compute the tables
         automatically at load time, they can change a compile-time constant. This will

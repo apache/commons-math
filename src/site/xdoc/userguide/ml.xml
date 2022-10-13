@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <document url="ml.html">
 
@@ -39,10 +39,10 @@
           The following algorithms are available:
           <ul>
           <li><a href="../apidocs/org/apache/commons/math4/ml/clustering/KMeansPlusPlusClusterer.html">KMeans++</a>:
-          It is based on the well-known kMeans algorithm, but uses a different method for 
-          choosing the initial values (or "seeds") and thus avoids cases where KMeans sometimes 
-          results in poor clusterings. KMeans/KMeans++ clustering aims to partition n observations 
-          into k clusters in such that each point belongs to the cluster with the nearest center. 
+          It is based on the well-known kMeans algorithm, but uses a different method for
+          choosing the initial values (or "seeds") and thus avoids cases where KMeans sometimes
+          results in poor clusterings. KMeans/KMeans++ clustering aims to partition n observations
+          into k clusters in such that each point belongs to the cluster with the nearest center.
           </li>
           <li><a href="../apidocs/org/apache/commons/math4/ml/clustering/FuzzyKMeansClusterer.html">Fuzzy-KMeans</a>:
           A variation of the classical K-Means algorithm, with the major difference that a single
@@ -52,7 +52,7 @@
           slower than the original kMeans algorithm.
           </li>
           <li><a href="../apidocs/org/apache/commons/math4/ml/clustering/DBSCANClusterer.html">DBSCAN</a>:
-          Density-based spatial clustering of applications with noise (DBSCAN) finds a number of 
+          Density-based spatial clustering of applications with noise (DBSCAN) finds a number of
           clusters starting from the estimated density distribution of corresponding nodes. The
           main advantages over KMeans/KMeans++ are that DBSCAN does not require the specification
           of an initial number of clusters and can find arbitrarily shaped clusters.
@@ -114,18 +114,18 @@ public static class LocationWrapper implements Clusterable {
     }
 }
         </source>
-        Now we will create a list of these wrapper objects (one for each location), 
-        which serves as input to our clustering algorithm. 
+        Now we will create a list of these wrapper objects (one for each location),
+        which serves as input to our clustering algorithm.
         <source>
-// we have a list of our locations we want to cluster. create a      
+// we have a list of our locations we want to cluster. create a
 List&lt;Location&gt; locations = ...;
 List&lt;LocationWrapper&gt; clusterInput = new ArrayList&lt;LocationWrapper&gt;(locations.size());
 for (Location location : locations)
     clusterInput.add(new LocationWrapper(location));
         </source>
         Finally, we can apply our clustering algorithm and output the found clusters.
-        <source>       
-// initialize a new clustering algorithm. 
+        <source>
+// initialize a new clustering algorithm.
 // we use KMeans++ with 10 clusters and 10000 iterations maximum.
 // we did not specify a distance measure; the default (euclidean distance) is used.
 KMeansPlusPlusClusterer&lt;LocationWrapper&gt; clusterer = new KMeansPlusPlusClusterer&lt;LocationWrapper&gt;(10, 10000);

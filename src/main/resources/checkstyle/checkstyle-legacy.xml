@@ -160,7 +160,7 @@
     <module name="EmptyStatement" />
     <module name="EqualsHashCode" />
     <!-- Method parameters and local variables should not hide fields, except in constructors and setters -->
-    <!-- 
+    <!--
     <module name="HiddenField">
         <property name="ignoreConstructorParameter" value="true" />
         <property name="ignoreSetter" value="true" />

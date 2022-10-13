@@ -36,7 +36,7 @@ The <action> type attribute can be add,update,fix,remove.
 -->
 
 <!-- NOTE:
-The description attribute entries below are specially formatted 
+The description attribute entries below are specially formatted
 so as to improve the layout of the generated text release notes.
 
 The parsing process removes all line feeds, replacing them with a single space.
@@ -477,7 +477,7 @@ Caveat:
       <action dev="tn" type="add" issue="MATH-1039" due-to="Aleksei Dievskii">
         Added logDensity(double) to RealDistribution and logProbability(int)
         to IntegerDistribution interface. The implementations have already been
-        updated in release 3.3. 
+        updated in release 3.3.
       </action>
       <action dev="tn" type="update" issue="MATH-1155">
         WELL type pseudo-random number generators have been refactored:
@@ -577,7 +577,7 @@ Users are encouraged to upgrade to this version as this release not
         Fixed potential race condition in PolynomialUtils#buildPolynomial in
         case polynomials are generated from multiple threads. Furthermore, the
         synchronization is now performed on the coefficient list instead of the class.
-      </action>    
+      </action>
       <action dev="psteitz" type="update" issue="MATH-1246">
         Added bootstrap method to KolmogorovSmirnov test.
       </action>
@@ -599,7 +599,7 @@ Users are encouraged to upgrade to this version as this release not
       </action>
       <action dev="tn" type="fix" issue="MATH-1283" due-to="Jean Noel Delavalade">
         Fixed "Gamma#gamma(double)" for negative values smaller than -20.
-      </action>    
+      </action>
       <action dev="tn" type="fix" issue="MATH-1237" due-to="Ken Williams">
         Fixed javadoc of methods {floorDiv,floorMod} in class "FastMath".
       </action>
@@ -697,7 +697,7 @@ Users are encouraged to upgrade to this version as this release not
       </action>
       <action dev="psteitz" type="fix" issue="MATH-1245">
         Fixed error in computing discrete distribution of D statistics for small-sample
-        2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned 
+        2-sample Kolmogorov-Smirnov tests. Error was causing incorrect p-values returned
         by exactP and monteCarloP methods (used by default for small, mid-size samples).
       </action>
       <action dev="erans" type="update" issue="MATH-1243">
@@ -719,16 +719,16 @@ Users are encouraged to upgrade to this version as this release not
       <action dev="tn" type="fix" issue="MATH-1242" due-to="Otmar Ertl">
         Improved performance to calculate the two-sample Kolmogorov-Smirnov test
         via monte carlo simulation ("KolmogorovSmirnovTets#monteCarloP(...)").
-      </action>    
+      </action>
       <action dev="tn" type="fix" issue="MATH-1241" due-to="Aleksei Dievskii">
         A "StackOverflowException" was thrown when passing Double.NaN or infinity
         to "Gamma#digamma(double)" or "Gamma#trigamma(double)". Now the input value
         is propagated to the output if it is not a real number.
-      </action>    
+      </action>
       <action dev="tn" type="fix" issue="MATH-1232" due-to="Otmar Ertl">
         Improved performance of calculating the two-sample Kolmogorov-Smirnov
         test statistic.
-      </action>    
+      </action>
       <action dev="luc" type="fix" issue="MATH-1232">
         Fixed error message for unknown parameter name in ODE.
       </action>
@@ -738,7 +738,7 @@ Users are encouraged to upgrade to this version as this release not
       <action dev="tn" type="fix">
         Fix potential branching errors in "FastMath#pow(double, double)" when
         passing special values, i.e. infinity, due to erroneous JIT optimization.
-      </action>    
+      </action>
       <action dev="luc" type="fix" issue="MATH-1118" >
         Fixed equals/hashcode contract failure for Dfp.
       </action>
@@ -751,27 +751,27 @@ Users are encouraged to upgrade to this version as this release not
       <action dev="tn" type="fix" issue="MATH-1197">
         Computation of 2-sample Kolmogorov-Smirnov statistic in case of ties
         was not correct.
-      </action>    
+      </action>
     </release>
 
     <release version="3.5" date="2015-04-17" description="
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible
  way such as to allow drop-in replacement of the v3.4.1 JAR file.
-  
+
 Most notable among the new features are:
  getQuadraticMean method added to DescriptiveStatistics SummaryStatistics
  which calculates the root mean square, and a way to build polyhedrons sets
  from list of vertices and the facets they belong too. There have been
  numerous bug fixes. See below for a full list.
-  
+
 The minimum version of the Java platform required to compile and use
  Apache Commons Math is Java 5.
-  
+
 Users are encouraged to upgrade to this version as this release not
  only includes bug fixes but also deprecates numerous classes and
  methods that will be deleted from the next major release (4.0).
-  
+
   Caveat:
   1. The implementation of the BOBYQA optimization algorithm is in alpha
   state (cf. MATH-621): Many code paths are untested, and we are looking
@@ -783,26 +783,26 @@ Users are encouraged to upgrade to this version as this release not
       <action dev="luc" type="fix" issue="MATH-1195">
         Moved FastMathTestPerformance out of the main test tree, as is is
         a benchmark rather than a test.
-      </action>    
+      </action>
       <action dev="luc" type="add">
         Added a way to build polyhedrons sets from a list of vertices and
         facets specified using vertices indices.
-      </action>    
+      </action>
       <action dev="psteitz" type="update" issue="MATH-1213">
         Added Laguerre complex solve methods taking maxEval parameters.
       </action>
       <action dev="luc" type="fix" issue="MATH-1191">
         Fixed ignored method parameters in QRDecomposition protected methods.
-      </action>    
+      </action>
       <action dev="luc" type="fix" issue="MATH-1211" due-to="Mike Zimmerman">
         Fixed wrong selection of line/polyhedron intersection point.
-      </action>    
+      </action>
       <action dev="luc" type="fix" issue="MATH-1162">
         Improved fix for corner cases in BSP-tree merging, when cut sub-hyperplanes vanish.
-      </action>    
+      </action>
       <action dev="tn" type="fix" issue="MATH-1209" due-to="Jonathan Ogilvie">
         Fixed link to algorithm description in "PoissonDistribution#sample()".
-      </action>    
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-1208">
         EmpiricalDistribution cumulativeProbability can return NaN when evaluated within a constant bin.
       </action>
@@ -835,7 +835,7 @@ This is a maintenance release: It fixes issue MATH-1188.
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible
  way such as to allow drop-in replacement of the v3.3 JAR file.
-  
+
 Most notable among the new features are:
  new distributions (Gumbel, Laplace, Logistic, Nakagami), and
  improvements on percentiles algorithms (better handling for NaNs
@@ -844,14 +844,14 @@ Most notable among the new features are:
  implementations added. There have been numerous bug fixes and
  several improvements on performances or robustness. See below
  for a full list.
-  
+
 The minimum version of the Java platform required to compile and use
  Apache Commons Math is Java 5.
-  
+
 Users are encouraged to upgrade to this version as this release not
  only includes bug fixes but also deprecates numerous classes and
  methods that will be deleted from the next major release (4.0).
-  
+
   Caveat:
   1. The implementation of the BOBYQA optimization algorithm is in alpha
   state (cf. MATH-621): Many code paths are untested, and we are looking
@@ -870,7 +870,7 @@ Users are encouraged to upgrade to this version as this release not
       </action>
       <action dev="psteitz" type="fix" issue="MATH-1181">
         Fixed integer overflow in KolmogorovSmirnovTest causing 2-sample test
-        to use exact method when the product of the sample sizes exceeds 
+        to use exact method when the product of the sample sizes exceeds
         Integer.MAX_VALUE, resulting in effectively hung execution.
       </action>
       <action dev="erans" type="add" issue="MATH-1180">
@@ -896,14 +896,14 @@ Users are encouraged to upgrade to this version as this release not
       </action>
       <action dev="luc" type="update" >
         Spurious vertices in the middle of otherwise straight edges are now
-        filtered out when rebuilding polygons boundaries from BSP trees. 
+        filtered out when rebuilding polygons boundaries from BSP trees.
       </action>
       <action dev="luc" type="fix" issue="MATH-1174" >
         Fixed a problem with too thin polygons considered to have infinite size.
       </action>
       <action dev="luc" type="add" >
         Boundary attributes in regions now provides the BSP tree nodes that
-        were used to split the sub-hyperplane forming the boundary part of the facet. 
+        were used to split the sub-hyperplane forming the boundary part of the facet.
       </action>
       <action dev="luc" type="fix" issue="MATH-1162" >
         Fixed a problem with vanishing cut sub-hyperplanes during BSP tree merging.
@@ -999,7 +999,7 @@ Users are encouraged to upgrade to this version as this release not
         Added lazy evaluation to "LeastSquaresFactory" (in "o.a.c.m.fitting.leastsquares")
         to avoid evaluating the model when the optimization algorithm does not actually
         require it.
-      </action> 
+      </action>
      <action dev="luc" type="fix" issue="MATH-1127">
         Fixed overflow in Precision.equals with ulps (both double and float versions).
       </action>
@@ -1019,20 +1019,20 @@ Users are encouraged to upgrade to this version as this release not
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible
  way such as to allow drop-in replacement of the v3.x JAR file.
-  
+
 Most notable among the new features are:
  Framework for creating artificial neural nets, self organizing feature maps,
  computational geometry algorithms (convex hull, enclosing ball), performance
  improvements of the linear simplex solver, refactoring of curve fitters,
  low-discrepancy random generators (sobol, halton), least-squares fitting.
-  
+
 The minimum version of the Java platform required to compile and use
  Commons Math is Java 5.
-  
+
 Users are encouraged to upgrade to this version as this release not
  only includes bug fixes but also deprecates numerous classes and
  methods that will be deleted from the next major release (4.0).
-  
+
   Caveat:
   1. The implementation of the BOBYQA optimization algorithm is in alpha
   state (cf. MATH-621): Many code paths are untested, and we are looking
@@ -1043,7 +1043,7 @@ Users are encouraged to upgrade to this version as this release not
   3. A few methods/constructors in the package o.a.c.m.geometry.partitioning
   have changed their signature in a non backwards-compatible way. The respective
   classes are intended to be package private only and are not supposed to be
-  used for other purposes. 
+  used for other purposes.
 ">
       <action dev="tn" type="add" issue="MATH-1110" due-to="Edward Segall">
         Added new constructor to "OLSMultipleLinearRegression" to be able
@@ -1397,7 +1397,7 @@ Users are encouraged to upgrade to this version as this release not
         "o.a.c.m.analysis.integration.gauss").
       </action>
       <action dev="erans" type="update" issue="MATH-995">
-        Documented limitation of "IterativeLegendreGaussIntegrator" (added 
+        Documented limitation of "IterativeLegendreGaussIntegrator" (added
         warning about potential wrong usage).
       </action>
       <action dev="erans" type="fix" issue="MATH-993">
@@ -1448,7 +1448,7 @@ Users are encouraged to upgrade to this version as this release not
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible
  way such as to allow drop-in replacement of the v3.1[.1] JAR file.
-  
+
 Most notable among the new features are: Framework for automatic
  differentiation, Lévy distribution, prime numbers, enumerated
  distributions, real field allowing to use several algorithms
@@ -1456,14 +1456,14 @@ Most notable among the new features are: Framework for automatic
  classes (high accuracy or automatic differentiation), spherical
  coordinates with gradients and Hessians, reorganized clustering
  package with different distance implementations.
-  
+
 The minimum version of the Java platform required to compile and use
  Commons Math is Java 5.
-  
+
 Users are encouraged to upgrade to this version as this release not
  only includes bug fixes but also deprecates numerous classes and
  methods that will be deleted from the next major release (4.0).
-  
+
   Caveat:
   1. The implementation of the BOBYQA optimization algorithm is in alpha
   state (cf. MATH-621): Many code paths are untested, and we are looking
@@ -1601,17 +1601,17 @@ Users are encouraged to upgrade to this version as this release not
       </action>
       <action dev="luc" type="add" >
         Added RealFieldElement interface to represent anything that is
-        real number like, implemented by both Decimal64, Dfp and DerivativeStructure.  
+        real number like, implemented by both Decimal64, Dfp and DerivativeStructure.
       </action>
       <action dev="luc" type="add" >
-        Added partial derivatives computation for 3D vectors and rotations.  
+        Added partial derivatives computation for 3D vectors and rotations.
       </action>
       <action dev="luc" type="fix" issue="MATH-935" >
         Fixed DerivativeStructure.atan2 for special cases when both arguments are +/-0.
       </action>
       <action dev="luc" type="add" >
         Added accurate linear combination of DerivativeStructure instances,
-        avoiding cancellation.  
+        avoiding cancellation.
       </action>
       <action dev="erans" type="update" issue="MATH-933">
         Throw "MathUnsupportedOperationException" from optimizers that do
@@ -1626,7 +1626,7 @@ Users are encouraged to upgrade to this version as this release not
         Greater efficiency in "UnitSphereRandomVectorGenerator".
       </action>
       <action dev="tn" type="fix" issue="MATH-930">
-        Improved class javadoc wrt convergence criteria and added 
+        Improved class javadoc wrt convergence criteria and added
         additional constructors to override the default epsilon and cut-off
         values in class "SimplexSolver".
       </action>
@@ -1653,7 +1653,7 @@ This is a point release: It fixes a bug that renders version 3.1 unusable
 This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.0 JAR file.
-  
+
   Most notable among the new features are: Framework for automatic
   differentiation, multivariate mixture model distribution, quaternions,
   Gauss integration framework, Hermite polynomial interpolation,
@@ -1661,13 +1661,13 @@ This is a minor release: It combines bug fixes and new features.
   Most notable among the changes are: Greatly improved precision in
   the implementation of the Gamma and Beta special functions, optimizers
   API, deprecation of the sparse vector implementation.
-  
+
   The minimal version of the Java platform required to compile and use
   Commons Math is Java 5.
   Users are encouraged to upgrade to this version as this release not
   only includes bug fixes but also deprecates numerous classes and
   methods that will be deleted from the next major release (4.0).
-  
+
   Caveat:
   1. The implementation of the BOBYQA optimization algorithm is in alpha
   state (cf. MATH-621): Many code paths are untested, and we are looking
@@ -2026,7 +2026,7 @@ Caveat:
 for volunteers to improve the code readability, robustness and performance
 and to extend the unit tests suite.
 2. A few methods in the FastMath class are in fact slower that their
-counterpart in either Math or StrictMath (cf. MATH-740). 
+counterpart in either Math or StrictMath (cf. MATH-740).
 ">
       <action dev="mikl" type="add" issue="MATH-431">
         Added statistical hypothesis tests "MannWhitneyUTest" and

@@ -183,7 +183,7 @@ public class Network
         }
 
         neuronMap.put(id, new Neuron(id, features.clone()));
-        linkMap.put(id, new HashSet<Long>());
+        linkMap.put(id, new HashSet<>());
 
         if (id > nextId.get()) {
             nextId.set(id);
