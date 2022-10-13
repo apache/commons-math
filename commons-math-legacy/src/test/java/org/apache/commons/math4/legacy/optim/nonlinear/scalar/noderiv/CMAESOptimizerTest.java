@@ -310,7 +310,7 @@ public class CMAESOptimizerTest {
             new PointValuePair(OptimTestUtils.point(DIM,0.0),0.0);
         doTest(TestFunction.SUM_POW.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 10, true, 0, 1e-13,
-                1e-8, 1e-1, 100000, expected);
+                1e-8, 1.5e-1, 100000, expected);
         doTest(TestFunction.SUM_POW.withDimension(DIM), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 10, false, 0, 1e-13,
                 1e-8, 2e-1, 100000, expected);
