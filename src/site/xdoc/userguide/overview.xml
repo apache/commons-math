@@ -129,7 +129,7 @@
 
 <subsection name="0.5 Dependencies" href="dependencies">
     <p>
-    Commons Math requires JDK 1.5+ and has no runtime dependencies.
+    Commons Math requires JDK 1.8+ and has no runtime dependencies.
     </p>
 </subsection>
 
@@ -143,8 +143,8 @@
     This product includes software developed by other third parties and
     distributed under licenses terms compatible with Apache License, Version 2.0.
     All the licenses of such third parties products are available in the distribution
-    in the LICENSE.txt file. Some products require additional attribution, these
-    attributions can be found in the NOTICE.txt file. These files are available
+    in the LICENSE file. Some products require additional attribution, these
+    attributions can be found in the NOTICE file. These files are available
     both in the source packages and in the binaries distribution jar files.
     </p>
 
