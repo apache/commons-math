@@ -40,6 +40,7 @@
     <commons.osgi.export>org.apache.commons.math4.neuralnet</commons.osgi.export>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}/..</math.parent.dir>
+    <math.jira.component>neuralnet</math.jira.component>
   </properties>
 
   <dependencies>

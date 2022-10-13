@@ -46,6 +46,7 @@
     <commons.automatic.module.name>org.apache.commons.math4.examples</commons.automatic.module.name>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}/..</math.parent.dir>
+    <math.jira.component>examples</math.jira.component>
 
     <math.version>4.0-SNAPSHOT</math.version>
     <math.picocli.version>3.9.5</math.picocli.version>

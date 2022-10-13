@@ -40,6 +40,7 @@
     <commons.osgi.export>org.apache.commons.math4.core</commons.osgi.export>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}/..</math.parent.dir>
+    <math.jira.component>core</math.jira.component>
 
     <!-- Disable coverage checks in Travis -->
     <jacoco.skip>true</jacoco.skip>
