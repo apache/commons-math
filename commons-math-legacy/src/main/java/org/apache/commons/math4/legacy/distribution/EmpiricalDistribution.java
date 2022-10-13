@@ -138,7 +138,7 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
 
         // Assign upper bounds based on bin counts.
         upperBounds = new double[binCount];
-        final double n = (double) sampleStats.getN();
+        final double n = sampleStats.getN();
         upperBounds[0] = binStats.get(0).getN() / n;
         for (int i = 1; i < binCount - 1; i++) {
             upperBounds[i] = upperBounds[i - 1] + binStats.get(i).getN() / n;
