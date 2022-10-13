@@ -133,8 +133,35 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <rerunFailingTestsCount>9</rerunFailingTestsCount>
+          <!-- This is configured at a level to pass most of the tests.
+            Very flaky tests can be moved to a separate execution. -->
+          <rerunFailingTestsCount>5</rerunFailingTestsCount>
         </configuration>
+        <executions>
+          <execution>
+            <!-- This uses the default ID to exclude the flaky tests -->
+            <id>default-test</id>
+            <configuration>
+              <excludes>
+                <exclude>**/SimplexOptimizerTest</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Add a second exceution of the flaky tests -->
+            <id>flaky-tests</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <rerunFailingTestsCount>14</rerunFailingTestsCount>
+              <includes>
+                <include>**/SimplexOptimizerTest</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <!-- Ignore spotbugs in the legacy module.
            New development will move code to a new package and should address issues. -->
