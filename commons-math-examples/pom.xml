@@ -48,16 +48,12 @@
     <math.parent.dir>${basedir}/..</math.parent.dir>
     <math.jira.component>examples</math.jira.component>
 
-    <math.version>4.0-SNAPSHOT</math.version>
-    <math.picocli.version>3.9.5</math.picocli.version>
-    <math.rng.version>1.4</math.rng.version>
-    <math.geometry.version>1.0</math.geometry.version>
     <math.imaging.version>1.0-alpha3</math.imaging.version>
+    <math.picocli.version>3.9.5</math.picocli.version>
 
     <!-- Disable JApiCmp failures (but keep the report). The examples API is allowed to change. -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
     <commons.japicmp.breakBuildOnSourceIncompatibleModifications>false</commons.japicmp.breakBuildOnSourceIncompatibleModifications>
-    <math.jira.component>examples</math.jira.component>
   </properties>
 
   <dependencyManagement>
@@ -66,31 +62,13 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-math4-neuralnet</artifactId>
-        <version>${math.version}</version>
+        <version>${project.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-math4-legacy</artifactId>
-        <version>${math.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-rng-client-api</artifactId>
-        <version>${math.rng.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-rng-simple</artifactId>
-        <version>${math.rng.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-geometry-euclidean</artifactId>
-        <version>${math.geometry.version}</version>
+        <version>${project.version}</version>
       </dependency>
 
       <dependency>
