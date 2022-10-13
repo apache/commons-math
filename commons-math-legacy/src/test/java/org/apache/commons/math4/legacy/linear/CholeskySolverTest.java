@@ -96,7 +96,6 @@ public class CholeskySolverTest {
                          solver.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
-
     }
 
     /** test determinant */
@@ -108,5 +107,4 @@ public class CholeskySolverTest {
     private double getDeterminant(RealMatrix m) {
         return new CholeskyDecomposition(m).getDeterminant();
     }
-
 }

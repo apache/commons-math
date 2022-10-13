@@ -130,5 +130,4 @@ public class FuzzyKMeansClustererTest {
 
         Assert.assertEquals(3, clusters.size());
     }
-
 }

@@ -361,7 +361,6 @@ public class JacobianMatricesTest {
         public double dYdP1() {
             return 1502.824469929139 + (-1438.6974831849952 + (460.959476642384 - 49.43847385647082 * b) * b) * b;
         }
-
     }
 
     private static class ParamBrusselator extends AbstractParameterizable
@@ -411,7 +410,6 @@ public class JacobianMatricesTest {
         public double dYdP1() {
             return 1502.824469929139 + (-1438.6974831849952 + (460.959476642384 - 49.43847385647082 * b) * b) * b;
         }
-
     }
 
     /** ODE representing a point moving on a circle with provided center and angular rate. */
@@ -511,7 +509,6 @@ public class JacobianMatricesTest {
             double dy0 = y0[1] - cy;
             return new double[] { -t * (sin * dx0 + cos * dy0) , t * (cos * dx0 - sin * dy0) };
         }
-
     }
 
     /** ODE representing a point moving on a circle with provided center and angular rate. */
@@ -613,7 +610,5 @@ public class JacobianMatricesTest {
             double dy0 = y0[1] - cy;
             return new double[] { -t * (sin * dx0 + cos * dy0) , t * (cos * dx0 - sin * dy0) };
         }
-
     }
-
 }

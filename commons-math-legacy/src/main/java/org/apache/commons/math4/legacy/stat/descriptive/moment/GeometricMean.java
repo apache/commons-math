@@ -198,5 +198,4 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic {
                     getN());
         }
     }
-
 }

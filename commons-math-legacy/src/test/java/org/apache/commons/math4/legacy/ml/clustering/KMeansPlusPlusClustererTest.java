@@ -59,7 +59,6 @@ public class KMeansPlusPlusClustererTest {
         DoublePoint pt2 = new DoublePoint(new int[] { 1960, 373200 });
         Assert.assertTrue(clusters.get(0).getPoints().contains(pt1));
         Assert.assertTrue(clusters.get(0).getPoints().contains(pt2));
-
     }
 
     @Test
@@ -110,7 +109,6 @@ public class KMeansPlusPlusClustererTest {
                 Assert.assertEquals(numberOfVariables, sum);
             }
         }
-
     }
 
     /**
@@ -176,7 +174,5 @@ public class KMeansPlusPlusClustererTest {
         };
 
         transformer.cluster(Arrays.asList(points));
-
     }
-
 }

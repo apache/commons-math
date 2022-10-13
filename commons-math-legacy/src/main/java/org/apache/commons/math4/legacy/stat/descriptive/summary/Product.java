@@ -220,5 +220,4 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Wei
         dest.n = source.n;
         dest.value = source.value;
     }
-
 }

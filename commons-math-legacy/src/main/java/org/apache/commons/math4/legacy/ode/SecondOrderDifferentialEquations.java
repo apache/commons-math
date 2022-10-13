@@ -60,5 +60,4 @@ public interface SecondOrderDifferentialEquations {
      * of the state vector
      */
     void computeSecondDerivatives(double t, double[] y, double[] yDot, double[] yDDot);
-
 }

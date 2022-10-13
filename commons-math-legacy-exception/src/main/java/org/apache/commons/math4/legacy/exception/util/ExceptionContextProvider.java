@@ -29,5 +29,4 @@ public interface ExceptionContextProvider {
      * @return a reference to the exception context.
      */
     ExceptionContext getContext();
-
 }

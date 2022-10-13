@@ -132,7 +132,5 @@ class ThreeEighthesFieldStepInterpolator<T extends RealFieldElement<T>>
         }
 
         return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
-
     }
-
 }

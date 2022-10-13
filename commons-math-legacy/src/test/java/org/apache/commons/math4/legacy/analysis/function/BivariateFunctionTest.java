@@ -40,5 +40,4 @@ public class BivariateFunctionTest {
         Assert.assertEquals(5, subtract.value(10,5), EPS);
         Assert.assertEquals(-5, subtract.value(5,10), EPS);
     }
-
 }

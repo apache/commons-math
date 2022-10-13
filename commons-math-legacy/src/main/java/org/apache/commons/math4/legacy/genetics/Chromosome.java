@@ -101,5 +101,4 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
             fitness = sameChromosome.getFitness();
         }
     }
-
 }

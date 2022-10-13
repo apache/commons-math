@@ -417,5 +417,4 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             System.arraycopy(membershipMatrix[i], 0, matrix[i], 0, clusters.size());
         }
     }
-
 }

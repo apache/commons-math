@@ -170,7 +170,5 @@ public class HarmonicOscillator implements UnivariateDifferentiableFunction {
         }
 
         return t.compose(f);
-
     }
-
 }

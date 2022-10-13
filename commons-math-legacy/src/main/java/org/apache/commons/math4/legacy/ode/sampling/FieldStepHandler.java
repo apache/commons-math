@@ -71,5 +71,4 @@ public interface FieldStepHandler<T extends RealFieldElement<T>> {
      */
     void handleStep(FieldStepInterpolator<T> interpolator, boolean isLast)
         throws MaxCountExceededException;
-
 }

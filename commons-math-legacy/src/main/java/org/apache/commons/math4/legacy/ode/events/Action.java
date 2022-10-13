@@ -52,5 +52,4 @@ public enum Action {
      * on after the event ending the current step.</p>
      */
     CONTINUE;
-
 }

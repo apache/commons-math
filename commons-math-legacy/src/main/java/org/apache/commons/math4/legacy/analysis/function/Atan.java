@@ -40,5 +40,4 @@ public class Atan implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.atan();
     }
-
 }

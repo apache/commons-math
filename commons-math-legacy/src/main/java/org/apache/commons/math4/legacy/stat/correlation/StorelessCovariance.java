@@ -133,7 +133,6 @@ public class StorelessCovariance extends Covariance {
         throws NumberIsTooSmallException {
 
         return getElement(xIndex, yIndex).getResult();
-
     }
 
     /**
@@ -158,7 +157,6 @@ public class StorelessCovariance extends Covariance {
                 getElement(i, j).increment(data[i], data[j]);
             }
         }
-
     }
 
     /**

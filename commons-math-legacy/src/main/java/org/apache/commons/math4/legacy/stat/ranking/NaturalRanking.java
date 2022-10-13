@@ -403,7 +403,6 @@ public class NaturalRanking implements RankingAlgorithm {
         while (iterator.hasNext()) {
             ranks[iterator.next().intValue()] = Double.NaN;
         }
-
     }
 
     /**

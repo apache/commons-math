@@ -151,14 +151,12 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
                 throw new MathIllegalArgumentException(LocalizedFormats.HOLE_BETWEEN_MODELS_TIME_RANGES,
                                                        gap.abs().getReal());
             }
-
         }
 
         steps.addAll(model.steps);
 
         index = steps.size() - 1;
         finalTime = (steps.get(index)).getCurrentState().getTime();
-
     }
 
     /** Check dimensions equality.
@@ -206,7 +204,6 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
             finalTime = interpolator.getCurrentState().getTime();
             index     = steps.size() - 1;
         }
-
     }
 
     /**
@@ -303,7 +300,6 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
             } else if (index > high) {
                 index = high;
             }
-
         }
 
         // now the table slice is very small, we perform an iterative search
@@ -313,7 +309,6 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
         }
 
         return steps.get(index).getInterpolatedState(time);
-
     }
 
     /** Compare a step interval and a double.
@@ -341,5 +336,4 @@ public class ContinuousOutputFieldModel<T extends RealFieldElement<T>>
             return 0;
         }
     }
-
 }

@@ -40,5 +40,4 @@ public class Sinh implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.sinh();
     }
-
 }

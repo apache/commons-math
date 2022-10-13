@@ -155,7 +155,6 @@ public class NonLinearConjugateGradientOptimizerTest {
         Assert.assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
         Assert.assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
         Assert.assertEquals(0.0, optimum.getValue(), 1.0e-10);
-
     }
 
     @Test
@@ -203,7 +202,6 @@ public class NonLinearConjugateGradientOptimizerTest {
         Assert.assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
         Assert.assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
         Assert.assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
-
     }
 
     @Test
@@ -255,7 +253,6 @@ public class NonLinearConjugateGradientOptimizerTest {
         Assert.assertEquals(expected[3], result[3], 1.0e-8);
         Assert.assertEquals(expected[4] + epsilon, result[4], 1.0e-6);
         Assert.assertEquals(expected[5] - epsilon, result[5], 1.0e-6);
-
     }
 
     @Test
@@ -342,7 +339,6 @@ public class NonLinearConjugateGradientOptimizerTest {
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { 7, 6, 5, 4 }));
         Assert.assertEquals(0, optimum.getValue(), 1.0e-10);
-
     }
 
     @Test
@@ -387,7 +383,6 @@ public class NonLinearConjugateGradientOptimizerTest {
                                  new InitialGuess(new double[] { 1, 1 }));
         Assert.assertEquals(2.0, optimum.getPoint()[0], 1.0e-8);
         Assert.assertEquals(1.0, optimum.getPoint()[1], 1.0e-8);
-
     }
 
     @Test
@@ -409,7 +404,6 @@ public class NonLinearConjugateGradientOptimizerTest {
                                  GoalType.MINIMIZE,
                                  new InitialGuess(new double[] { 1, 1 }));
         Assert.assertTrue(optimum.getValue() > 0.1);
-
     }
 
     @Test

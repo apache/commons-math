@@ -224,11 +224,8 @@ public class DormandPrince54FieldIntegrator<T extends RealFieldElement<T>>
                              yScale.multiply(vecRelativeTolerance[j]).add(vecAbsoluteTolerance[j]);
             final T ratio  = h.multiply(errSum).divide(tol);
             error = error.add(ratio.multiply(ratio));
-
         }
 
         return error.divide(mainSetDimension).sqrt();
-
     }
-
 }

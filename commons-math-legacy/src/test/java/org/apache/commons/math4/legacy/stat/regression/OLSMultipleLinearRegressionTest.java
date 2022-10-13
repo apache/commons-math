@@ -214,7 +214,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         // Check R-Square statistics against R
         Assert.assertEquals(0.9999670130706, model.calculateRSquared(), 1E-12);
         Assert.assertEquals(0.999947220913, model.calculateAdjustedRSquared(), 1E-12);
-
     }
 
     /**
@@ -466,7 +465,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         TestUtils.assertEquals(
                 StatUtils.variance(model.calculateResiduals().toArray()) * (residuals.length - 1),
                 model.calculateErrorVariance() * (X.getRowDimension() - X.getColumnDimension()), 1E-20);
-
     }
 
     /**

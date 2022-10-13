@@ -52,5 +52,4 @@ public class BinaryMutation implements MutationPolicy {
 
         return origChrom.newFixedLengthChromosome(newRepr);
     }
-
 }

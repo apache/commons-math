@@ -110,7 +110,5 @@ class HighamHall54FieldStepInterpolator<T extends RealFieldElement<T>>
         }
 
         return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
-
     }
-
 }

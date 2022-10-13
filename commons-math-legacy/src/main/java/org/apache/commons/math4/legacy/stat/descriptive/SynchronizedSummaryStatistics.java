@@ -357,5 +357,4 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
             }
         }
     }
-
 }

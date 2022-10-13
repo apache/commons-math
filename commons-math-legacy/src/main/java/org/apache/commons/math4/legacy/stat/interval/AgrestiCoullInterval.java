@@ -45,5 +45,4 @@ public class AgrestiCoullInterval implements BinomialConfidenceInterval {
         return new ConfidenceInterval(modifiedSuccessesRatio - difference, modifiedSuccessesRatio + difference,
                                       confidenceLevel);
     }
-
 }

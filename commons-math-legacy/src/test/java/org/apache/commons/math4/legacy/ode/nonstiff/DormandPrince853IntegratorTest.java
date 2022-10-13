@@ -103,7 +103,6 @@ public class DormandPrince853IntegratorTest {
       for (int i = 0; i < y.length; ++i) {
           Assert.assertEquals(y0[i] * JdkMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
-
   }
 
   @Test(expected=DimensionMismatchException.class)
@@ -152,7 +151,6 @@ public class DormandPrince853IntegratorTest {
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       Assert.fail("an exception should have been thrown");
-
   }
 
   @Test
@@ -188,9 +186,7 @@ public class DormandPrince853IntegratorTest {
       Assert.assertEquals(integ.getEvaluations(), calls);
       Assert.assertTrue(calls <= previousCalls);
       previousCalls = calls;
-
     }
-
   }
 
   @Test
@@ -215,12 +211,10 @@ public class DormandPrince853IntegratorTest {
               Assert.assertTrue(t <= JdkMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
           }
-
       };
 
       integ.setStepSizeControl(0, 1.0, 1.0e-6, 1.0e-8);
       integ.integrate(equations, start, new double[] { 1.0 }, end, new double[1]);
-
   }
 
   @Test
@@ -279,7 +273,6 @@ public class DormandPrince853IntegratorTest {
     Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
     Assert.assertEquals(0, integ.getEventHandlers().size());
-
   }
 
   @Test
@@ -303,7 +296,6 @@ public class DormandPrince853IntegratorTest {
 
     Assert.assertEquals(integ.getEvaluations(), pb.getCalls());
     Assert.assertTrue(pb.getCalls() < 3300);
-
   }
 
   @Test
@@ -356,7 +348,6 @@ public class DormandPrince853IntegratorTest {
               yDot[0] =  y[1];
               yDot[1] = -y[0];
           }
-
       };
 
       SchedulingChecker sinChecker = new SchedulingChecker(0); // events at 0, PI, 2PI ...
@@ -373,7 +364,6 @@ public class DormandPrince853IntegratorTest {
       double   t  = 10.0;
       double[] y  = new double[2];
       integ.integrate(sincos, t0, y0, t, y);
-
   }
 
   private static class SchedulingChecker implements StepHandler, EventHandler {
@@ -412,7 +402,6 @@ public class DormandPrince853IntegratorTest {
     public void resetState(double t, double[] y) {
           // in fact, we don't need to reset anything for the test
       }
-
   }
 
   private static class KeplerHandler implements StepHandler {
@@ -495,5 +484,4 @@ public class DormandPrince853IntegratorTest {
     private double  minStep = 0;
     private double  maxStep = 0;
   }
-
 }

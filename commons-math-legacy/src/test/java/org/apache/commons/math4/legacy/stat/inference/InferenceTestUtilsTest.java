@@ -101,7 +101,6 @@ public class InferenceTestUtilsTest {
         } catch (NotPositiveException ex) {
             // expected
         }
-
     }
 
     @Test
@@ -307,7 +306,6 @@ public class InferenceTestUtilsTest {
         } catch (OutOfRangeException ex) {
             // expected
         }
-
     }
 
     @Test

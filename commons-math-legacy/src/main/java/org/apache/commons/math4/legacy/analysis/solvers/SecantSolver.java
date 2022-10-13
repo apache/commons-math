@@ -131,5 +131,4 @@ public class SecantSolver extends AbstractUnivariateSolver {
             }
         }
     }
-
 }

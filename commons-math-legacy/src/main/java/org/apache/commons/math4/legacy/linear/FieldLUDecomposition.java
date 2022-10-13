@@ -160,7 +160,6 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
                 luRow[col] = luRow[col].divide(luDiag);
             }
         }
-
     }
 
     /**
@@ -430,7 +429,6 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
             }
 
             return new Array2DRowFieldMatrix<>(field, bp, false);
-
         }
 
         /** {@inheritDoc} */

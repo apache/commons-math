@@ -79,7 +79,6 @@ public class TestProblem3
     yDot[1] = y[3];
     yDot[2] = -invR3  * y[0];
     yDot[3] = -invR3  * y[1];
-
   }
 
   @Override
@@ -109,5 +108,4 @@ public class TestProblem3
 
     return y;
   }
-
 }

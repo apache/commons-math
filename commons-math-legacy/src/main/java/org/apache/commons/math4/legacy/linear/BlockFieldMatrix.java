@@ -346,7 +346,6 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
                 // go to next block
                 ++blockIndex;
-
             }
         }
 
@@ -417,7 +416,6 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
                 // go to next block
                 ++blockIndex;
-
             }
         }
 
@@ -539,7 +537,6 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
                 // go to next block
                 ++blockIndex;
-
             }
         }
 
@@ -821,7 +818,6 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
                                      block, (i - firstRow) * jWidth + (jStart - firstColumn),
                                      jLength);
                 }
-
             }
         }
     }
@@ -1242,7 +1238,6 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
                 // go to next block
                 ++blockIndex;
-
             }
         }
 

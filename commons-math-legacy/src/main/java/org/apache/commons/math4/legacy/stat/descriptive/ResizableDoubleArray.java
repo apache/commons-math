@@ -843,5 +843,4 @@ class ResizableDoubleArray implements DoubleArray { // Not in public API.
         hashData[5] = startIndex;
         return Arrays.hashCode(hashData);
     }
-
 }

@@ -40,5 +40,4 @@ public class Sqrt implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.sqrt();
     }
-
 }

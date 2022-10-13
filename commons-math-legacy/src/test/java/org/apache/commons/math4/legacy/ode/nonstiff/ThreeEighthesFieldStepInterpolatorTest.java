@@ -63,5 +63,4 @@ public class ThreeEighthesFieldStepInterpolatorTest extends RungeKuttaFieldStepI
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.4e-17, 1.2e-16, 3.4e-16, 1.4e-17);
     }
-
 }

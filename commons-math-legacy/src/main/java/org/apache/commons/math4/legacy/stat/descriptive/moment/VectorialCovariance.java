@@ -92,7 +92,6 @@ public class VectorialCovariance {
         }
 
         return result;
-
     }
 
     /**
@@ -145,5 +144,4 @@ public class VectorialCovariance {
         }
         return Arrays.equals(sums, other.sums);
     }
-
 }

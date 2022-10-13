@@ -40,5 +40,4 @@ public class Sin implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.sin();
     }
-
 }

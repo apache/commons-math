@@ -127,7 +127,6 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -302,6 +301,5 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     private int computeKey(int row, int column) {
         return row * columns + column;
     }
-
 
 }

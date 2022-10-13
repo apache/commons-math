@@ -38,5 +38,4 @@ public interface ParameterizedODE extends Parameterizable {
      * @exception UnknownParameterException if parameter is not supported
      */
     void setParameter(String name, double value) throws UnknownParameterException;
-
 }

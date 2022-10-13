@@ -326,7 +326,6 @@ public final class BlockFieldMatrixTest {
                 Assert.assertEquals(Dfp25.of((i + 30) * 11 + (j + 32), 11), sub4.getEntry(i, j));
             }
         }
-
     }
 
     //Additional Test for BlockFieldMatrix<Dfp>Test.testMultiply
@@ -566,7 +565,6 @@ public final class BlockFieldMatrixTest {
                             subtract(Dfp25.of(5).multiply(solution[2])).toDouble(),
                             constants[2].toDouble(),
                             0d);
-
     }
 
     // test submatrix accessors
@@ -804,7 +802,6 @@ public final class BlockFieldMatrixTest {
             }
         }
         Assert.assertEquals(sub, m.getRowMatrix(2));
-
     }
 
     @Test
@@ -868,7 +865,6 @@ public final class BlockFieldMatrixTest {
             }
         }
         Assert.assertEquals(sub, m.getColumnMatrix(2));
-
     }
 
     @Test
@@ -930,7 +926,6 @@ public final class BlockFieldMatrixTest {
             }
         }
         Assert.assertEquals(sub, m.getRowVector(2));
-
     }
 
     @Test
@@ -992,7 +987,6 @@ public final class BlockFieldMatrixTest {
             }
         }
         Assert.assertEquals(sub, m.getColumnVector(2));
-
     }
 
     private FieldVector<Dfp> columnToVector(Dfp[][] column) {
@@ -1060,7 +1054,6 @@ public final class BlockFieldMatrixTest {
             }
         }
         checkArrays(sub, m.getRow(2));
-
     }
 
     @Test
@@ -1123,7 +1116,6 @@ public final class BlockFieldMatrixTest {
             }
         }
         checkArrays(sub, m.getColumn(2));
-
     }
 
     private Dfp[] columnToArray(Dfp[][] column) {
@@ -1328,7 +1320,6 @@ public final class BlockFieldMatrixTest {
             Assert.assertEquals(Dfp25.of(0), m.getEntry(0, j));
             Assert.assertEquals(Dfp25.of(0), m.getEntry(rows - 1, j));
         }
-
     }
 
     @Test

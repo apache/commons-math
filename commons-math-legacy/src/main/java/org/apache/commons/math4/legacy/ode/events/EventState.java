@@ -120,7 +120,6 @@ public class EventState {
         previousEventTime = Double.NaN;
         increasing        = true;
         nextAction        = EventHandler.Action.CONTINUE;
-
     }
 
     /** Get the underlying event handler.
@@ -190,7 +189,6 @@ public class EventState {
             g0 = handler.g(tStart, getCompleteState(interpolator));
         }
         g0Positive = g0 >= 0;
-
     }
 
     /** Get the complete state (primary and secondary).
@@ -210,7 +208,6 @@ public class EventState {
         }
 
         return complete;
-
     }
 
     /** Evaluate the impact of the proposed step on the event handler.
@@ -320,24 +317,20 @@ public class EventState {
                         ta = tb;
                         ga = gb;
                     }
-
                 } else {
                     // no sign change: there is no event for now
                     ta = tb;
                     ga = gb;
                 }
-
             }
 
             // no event during the whole step
             pendingEvent     = false;
             pendingEventTime = Double.NaN;
             return false;
-
         } catch (LocalMaxCountExceededException lmcee) {
             throw lmcee.getException();
         }
-
     }
 
     /** Get the occurrence time of the event triggered in the current step.
@@ -401,7 +394,6 @@ public class EventState {
 
         return (nextAction == EventHandler.Action.RESET_STATE) ||
                (nextAction == EventHandler.Action.RESET_DERIVATIVES);
-
     }
 
     /** Local wrapper to propagate exceptions. */
@@ -426,7 +418,5 @@ public class EventState {
         public MaxCountExceededException getException() {
             return wrapped;
         }
-
     }
-
 }

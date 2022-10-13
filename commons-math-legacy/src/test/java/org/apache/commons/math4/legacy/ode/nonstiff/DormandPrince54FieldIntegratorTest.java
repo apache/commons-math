@@ -94,5 +94,4 @@ public class DormandPrince54FieldIntegratorTest extends EmbeddedRungeKuttaFieldI
     public void testPartialDerivatives() {
         doTestPartialDerivatives(4.8e-12, new double[] { 2.3e-11, 6.3e-12, 9.0e-13, 7.4e-13, 6.3e-12 });
     }
-
 }

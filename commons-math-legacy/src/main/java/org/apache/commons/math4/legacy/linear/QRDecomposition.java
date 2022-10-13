@@ -104,7 +104,6 @@ public class QRDecomposition {
         cachedH  = null;
 
         decompose(qrt);
-
     }
 
     /** Decompose matrix.

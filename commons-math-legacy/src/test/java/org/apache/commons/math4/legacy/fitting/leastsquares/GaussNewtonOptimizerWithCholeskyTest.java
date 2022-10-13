@@ -129,5 +129,4 @@ public class GaussNewtonOptimizerWithCholeskyTest
             //expected for QR
         }
     }
-
 }

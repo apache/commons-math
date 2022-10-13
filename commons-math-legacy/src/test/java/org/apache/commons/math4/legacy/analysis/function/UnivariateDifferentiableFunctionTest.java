@@ -223,5 +223,4 @@ public class UnivariateDifferentiableFunctionTest {
         Assert.assertEquals(a, tanh.value(JdkMath.atanh(a)), EPS);
         Assert.assertEquals(1/JdkMath.pow(JdkMath.cosh(a),2), tanh.value(new DerivativeStructure(1,1,0,a)).getPartialDerivative(1), EPS);
     }
-
 }

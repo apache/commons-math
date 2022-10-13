@@ -398,7 +398,6 @@ public class SparseFieldMatrixTest {
                 constants[1].toDouble(), 1E-12);
         Assert.assertEquals(((Dfp25.of(4).multiply(solution[0])).subtract(Dfp25.of(3).multiply( solution[1])).subtract(Dfp25.of(5).multiply(solution[2]))).toDouble(),
                 constants[2].toDouble(), 1E-12);
-
     }
 
     // test submatrix accessors
@@ -672,7 +671,6 @@ public class SparseFieldMatrixTest {
             for(int j=0; j < m.getColumnDimension(); j++){
                 Assert.assertEquals(msg, m.getEntry(i,j).toDouble(), n.getEntry(i,j).toDouble(), tolerance);
             }
-
         }
     }
 

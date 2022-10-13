@@ -41,5 +41,4 @@ public class NormalApproximationInterval implements BinomialConfidenceInterval {
                                   JdkMath.sqrt(1.0 / numberOfTrials * mean * (1 - mean));
         return new ConfidenceInterval(mean - difference, mean + difference, confidenceLevel);
     }
-
 }

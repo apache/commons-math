@@ -96,7 +96,5 @@ class ParameterJacobianWrapper implements ParameterJacobianProvider {
         } else {
             Arrays.fill(dFdP, 0, n, 0.0);
         }
-
     }
-
 }

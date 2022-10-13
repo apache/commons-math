@@ -140,7 +140,6 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(JdkMath.pow(2.0, -exp));
-
     }
 
     /**
@@ -180,7 +179,6 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(JdkMath.pow(2.0, -exp));
-
     }
 
     /**
@@ -240,18 +238,15 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
 
             // we should not reach this step
             throw new MathIllegalStateException(LocalizedFormats.MULTISTEP_STARTER_STOPPED_EARLY);
-
         } catch (InitializationCompletedMarkerException icme) { // NOPMD
             // this is the expected nominal interruption of the start integrator
 
             // count the evaluations used by the starter
             getEvaluationsCounter().increment(starter.getEvaluations());
-
         }
 
         // remove the specific step handler
         starter.clearStepHandlers();
-
     }
 
     /** Initialize the high order scaled derivatives at step start.
@@ -338,7 +333,6 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         }
 
         setStepSize(newStepSize);
-
     }
 
 
@@ -425,9 +419,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
                 // stop the integrator now that all needed steps have been handled
                 setStepStart(savedStart);
                 throw new InitializationCompletedMarkerException();
-
             }
-
         }
 
         /** {@inheritDoc} */
@@ -435,7 +427,6 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         public void init(final FieldODEStateAndDerivative<T> initialState, T finalTime) {
             // nothing to do
         }
-
     }
 
     /** Marker exception used ONLY to stop the starter integrator after first step. */
@@ -449,7 +440,5 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
         InitializationCompletedMarkerException() {
             super((Throwable) null);
         }
-
     }
-
 }

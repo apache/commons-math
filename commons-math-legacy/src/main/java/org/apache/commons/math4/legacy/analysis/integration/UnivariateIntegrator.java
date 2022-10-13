@@ -84,5 +84,4 @@ public interface UnivariateIntegrator {
      * @return number of iterations
      */
     int getIterations();
-
 }

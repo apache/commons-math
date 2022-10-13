@@ -850,7 +850,6 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
                     return new RegressionResults(
                       params, new double[][]{vcv}, true, n, 1,
                       sumY, syy+mean, sumYY,true,false);
-
                 }else if( variablesToInclude[0] == 1){
                     //final double _syy = sumYY + sumY * sumY / ((double) n);
                     final double sxx = sumXX + sumX * sumX / n;

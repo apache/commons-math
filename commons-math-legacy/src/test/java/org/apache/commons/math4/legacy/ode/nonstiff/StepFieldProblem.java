@@ -81,5 +81,4 @@ public class StepFieldProblem<T extends RealFieldElement<T>>
     private T        rate;
     private T        rateAfter;
     private T        switchTime;
-
 }

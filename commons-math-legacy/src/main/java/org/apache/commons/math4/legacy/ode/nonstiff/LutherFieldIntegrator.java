@@ -130,7 +130,6 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
         b[6] = b[0];
 
         return b;
-
     }
 
     /** {@inheritDoc} */
@@ -145,5 +144,4 @@ public class LutherFieldIntegrator<T extends RealFieldElement<T>>
                                                   globalPreviousState, globalCurrentState,
                                                   mapper);
     }
-
 }

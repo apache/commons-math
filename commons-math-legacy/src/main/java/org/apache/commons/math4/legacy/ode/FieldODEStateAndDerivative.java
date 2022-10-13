@@ -78,5 +78,4 @@ public class FieldODEStateAndDerivative<T extends RealFieldElement<T>> extends F
     public T[] getSecondaryDerivative(final int index) {
         return index == 0 ? derivative.clone() : secondaryDerivative[index - 1].clone();
     }
-
 }

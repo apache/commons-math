@@ -89,7 +89,6 @@ public final class CombinatoricsUtils {
 
             // atomically save the cache
             STIRLING_S2.compareAndSet(null, stirlingS2);
-
         }
 
         if (n < stirlingS2.length) {

@@ -109,7 +109,6 @@ public class SparseFieldVectorTest {
         Dfp[] result_mapInvToSelf = {Dfp25.of(1),Dfp25.of(0.5d),Dfp25.of(1, 3)};
         Assert.assertArrayEquals("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.toArray());
 
-
     }
 
     @Test
@@ -169,7 +168,6 @@ public class SparseFieldVectorTest {
 
         FieldMatrix<Dfp> m_outerProduct_2 = v1.outerProduct(v2_t);
         Assert.assertEquals("compare val ",Dfp25.of(4), m_outerProduct_2.getEntry(0,0));
-
     }
 
     @Test
@@ -208,7 +206,6 @@ public class SparseFieldVectorTest {
             // expected behavior
         }
 
-
     }
 
     @Test
@@ -219,7 +216,6 @@ public class SparseFieldVectorTest {
         v.setEntry(0, field.getZero());
         Assert.assertEquals(v, new SparseFieldVector<>(field, new Dfp[] { Dfp25.of(0), Dfp25.of(1), Dfp25.of(2) }));
         Assert.assertNotSame(v, new SparseFieldVector<>(field, new Dfp[] { Dfp25.of(0), Dfp25.of(1), Dfp25.of(2), Dfp25.of(3) }));
-
     }
 
     /** verifies that two vectors are close (sup norm) */

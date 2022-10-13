@@ -84,5 +84,4 @@ class ParameterizedWrapper implements ParameterizedODE {
     @Override
     public void setParameter(String name, double value) {
     }
-
 }

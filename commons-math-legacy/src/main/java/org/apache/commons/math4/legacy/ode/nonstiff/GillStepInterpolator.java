@@ -144,7 +144,5 @@ class GillStepInterpolator
                     coeffDot1 * yDot1 + coeffDot2 * yDot2 + coeffDot3 * yDot3 + coeffDot4 * yDot4;
         }
     }
-
   }
-
 }

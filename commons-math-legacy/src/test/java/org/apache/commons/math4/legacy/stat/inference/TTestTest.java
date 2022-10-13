@@ -155,7 +155,6 @@ public class TTestTest {
         } catch (OutOfRangeException ex) {
             // expected
         }
-
     }
 
     @Test

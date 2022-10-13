@@ -184,5 +184,4 @@ public interface FirstOrderFieldIntegrator<T extends RealFieldElement<T>> {
     FieldODEStateAndDerivative<T> integrate(FieldExpandableODE<T> equations,
                                             FieldODEState<T> initialState, T finalTime)
         throws NumberIsTooSmallException, MaxCountExceededException, NoBracketingException;
-
 }

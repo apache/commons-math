@@ -121,5 +121,4 @@ public class SecondMoment extends FirstMoment {
         FirstMoment.copy(source, dest);
         dest.m2 = source.m2;
     }
-
 }

@@ -58,7 +58,6 @@ public class EulerStepInterpolatorTest {
     for (int i = 0; i < result.length; ++i) {
       Assert.assertTrue(JdkMath.abs(result[i] - y[i]) < 1.0e-10);
     }
-
   }
 
   @Test
@@ -96,7 +95,6 @@ public class EulerStepInterpolatorTest {
     for (int i = 0; i < result.length; ++i) {
       Assert.assertTrue(JdkMath.abs(result[i] - y[i]) < 1.0e-10);
     }
-
   }
 
   @Test
@@ -126,7 +124,6 @@ public class EulerStepInterpolatorTest {
     Assert.assertTrue(JdkMath.abs(result[0] - 0.5) < 1.0e-10);
     Assert.assertTrue(JdkMath.abs(result[1] - 2.0) < 1.0e-10);
     Assert.assertTrue(JdkMath.abs(result[2] + 3.0) < 1.0e-10);
-
   }
 
   @Test
@@ -179,7 +176,6 @@ public class EulerStepInterpolatorTest {
       }
     }
     Assert.assertTrue(maxError < 0.001);
-
   }
 
   private static class DummyIntegrator extends RungeKuttaIntegrator {
@@ -188,7 +184,5 @@ public class EulerStepInterpolatorTest {
       protected DummyIntegrator(RungeKuttaStepInterpolator prototype) {
           super("dummy", new double[0], new double[0][0], new double[0], prototype, Double.NaN);
       }
-
   }
-
 }

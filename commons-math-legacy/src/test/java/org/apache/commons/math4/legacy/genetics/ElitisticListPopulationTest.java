@@ -102,5 +102,4 @@ public class ElitisticListPopulationTest {
             return this.fitness;
         }
     }
-
 }

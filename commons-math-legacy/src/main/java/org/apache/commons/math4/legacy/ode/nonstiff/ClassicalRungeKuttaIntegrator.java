@@ -70,5 +70,4 @@ public class ClassicalRungeKuttaIntegrator extends RungeKuttaIntegrator {
     super("classical Runge-Kutta", STATIC_C, STATIC_A, STATIC_B,
           new ClassicalRungeKuttaStepInterpolator(), step);
   }
-
 }

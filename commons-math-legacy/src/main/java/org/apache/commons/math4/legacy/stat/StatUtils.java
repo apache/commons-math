@@ -852,5 +852,4 @@ public final class StatUtils {
         // Convert the list to an array of primitive double
         return list.stream().mapToDouble(Double::doubleValue).toArray();
     }
-
 }

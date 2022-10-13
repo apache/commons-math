@@ -91,7 +91,6 @@ abstract class RungeKuttaStepInterpolator
       for (int k = 0; k < interpolator.yDotK.length; ++k) {
         yDotK[k] = interpolator.yDotK[k].clone();
       }
-
     } else {
       previousState = null;
       yDotK = null;
@@ -100,7 +99,6 @@ abstract class RungeKuttaStepInterpolator
     // we cannot keep any reference to the equations in the copy
     // the interpolator should have been finalized before
     integrator = null;
-
   }
 
   /** Reinitialize the instance
@@ -166,7 +164,6 @@ abstract class RungeKuttaStepInterpolator
     }
 
     // we do not save any reference to the equations
-
   }
 
   /** {@inheritDoc} */
@@ -205,7 +202,5 @@ abstract class RungeKuttaStepInterpolator
     } else {
         interpolatedTime = t;
     }
-
   }
-
 }

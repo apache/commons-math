@@ -109,7 +109,5 @@ class MidpointStepInterpolator
             interpolatedDerivatives[i] = coeffDot1 * yDot1 + coeffDot2 * yDot2;
         }
     }
-
   }
-
 }

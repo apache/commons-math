@@ -95,7 +95,5 @@ class EulerStepInterpolator
           }
           System.arraycopy(yDotK[0], 0, interpolatedDerivatives, 0, interpolatedDerivatives.length);
       }
-
   }
-
 }

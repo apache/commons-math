@@ -829,7 +829,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                                      block, (i - firstRow) * jWidth + (jStart - firstColumn),
                                      jLength);
                 }
-
             }
         }
     }

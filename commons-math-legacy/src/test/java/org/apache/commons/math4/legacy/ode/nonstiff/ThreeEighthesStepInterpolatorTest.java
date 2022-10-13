@@ -92,7 +92,5 @@ public class ThreeEighthesStepInterpolatorTest {
     }
 
     Assert.assertTrue(maxError > 0.005);
-
   }
-
 }

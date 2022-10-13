@@ -48,5 +48,4 @@ public class MathArithmeticException extends MathRuntimeException {
     public MathArithmeticException(Localizable pattern, Object... args) {
         super(pattern, args);
     }
-
 }

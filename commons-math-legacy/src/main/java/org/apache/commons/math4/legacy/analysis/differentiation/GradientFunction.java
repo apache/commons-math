@@ -60,7 +60,5 @@ public class GradientFunction implements MultivariateVectorFunction {
         }
 
         return y;
-
     }
-
 }

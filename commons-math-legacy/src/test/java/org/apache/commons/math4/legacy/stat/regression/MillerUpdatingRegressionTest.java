@@ -377,7 +377,6 @@ public class MillerUpdatingRegressionTest {
         TestUtils.assertEquals(0.996727416185620, result.getRSquared(), 1.0e-8);
         TestUtils.assertEquals(0.112091743968020E-04, result.getMeanSquareError(), 1.0e-10);
         TestUtils.assertEquals(0.795851382172941E-03, result.getErrorSumSquares(), 1.0e-10);
-
     }
 
     @Test
@@ -711,7 +710,6 @@ public class MillerUpdatingRegressionTest {
 //        // Check R-Square statistics against R
         TestUtils.assertEquals(0.9999670130706, result.getRSquared(), 1E-12);
         TestUtils.assertEquals(0.999947220913, result.getAdjustedRSquared(), 1E-12);
-
     }
 
 //    @Test
@@ -1105,6 +1103,5 @@ public class MillerUpdatingRegressionTest {
             subsetRegression(i, false);
         }
     }
-
 
 }

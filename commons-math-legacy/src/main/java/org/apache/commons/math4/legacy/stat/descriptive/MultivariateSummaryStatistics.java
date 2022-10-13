@@ -128,7 +128,6 @@ public class MultivariateSummaryStatistics
 
         covarianceImpl =
             new VectorialCovariance(k, isCovarianceBiasCorrected);
-
     }
 
     /**

@@ -83,7 +83,6 @@ public final class PolynomialsUtils {
 
         // initialize map for Jacobi polynomials
         JACOBI_COEFFICIENTS = new HashMap<>();
-
     }
 
     /**
@@ -241,7 +240,6 @@ public final class PolynomialsUtils {
             // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
             list.add(BigFraction.of(v - w, 2));
             list.add(BigFraction.of(2 + v + w, 2));
-
         }
 
         return buildPolynomial(degree, JACOBI_COEFFICIENTS.get(key),
@@ -263,7 +261,6 @@ public final class PolynomialsUtils {
                 };
             }
         });
-
     }
 
     /** Inner class for Jacobi polynomials keys. */
@@ -305,7 +302,6 @@ public final class PolynomialsUtils {
 
             final JacobiKey otherK = (JacobiKey) key;
             return (v == otherK.v) && (w == otherK.w);
-
         }
     }
 
@@ -393,7 +389,6 @@ public final class PolynomialsUtils {
 
         // build the polynomial
         return new PolynomialFunction(a);
-
     }
 
     /** Compute polynomial coefficients up to a given degree.
@@ -437,9 +432,7 @@ public final class PolynomialsUtils {
 
             // degree k+1 coefficient
             coefficients.add(ck.multiply(ai[1]));
-
         }
-
     }
 
     /** Interface for recurrence coefficients generation. */
@@ -452,5 +445,4 @@ public final class PolynomialsUtils {
          */
         BigFraction[] generate(int k);
     }
-
 }

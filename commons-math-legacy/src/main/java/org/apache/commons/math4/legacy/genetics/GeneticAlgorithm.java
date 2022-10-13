@@ -228,5 +228,4 @@ public class GeneticAlgorithm {
     public int getGenerationsEvolved() {
         return generationsEvolved;
     }
-
 }

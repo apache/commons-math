@@ -111,7 +111,6 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
         }
 
         return value;
-
     }
 
     /**
@@ -242,5 +241,4 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
                                                  a.length, c.length);
         }
     }
-
 }

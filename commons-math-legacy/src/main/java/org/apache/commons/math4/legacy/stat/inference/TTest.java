@@ -87,7 +87,6 @@ public class TTest {
         return t(meanDifference, 0,
                  StatUtils.varianceDifference(sample1, sample2, meanDifference),
                  sample1.length);
-
     }
 
     /**
@@ -134,7 +133,6 @@ public class TTest {
         return tTest(meanDifference, 0,
                 StatUtils.varianceDifference(sample1, sample2, meanDifference),
                 sample1.length);
-
     }
 
     /**
@@ -180,7 +178,6 @@ public class TTest {
 
         checkSignificanceLevel(alpha);
         return pairedTTest(sample1, sample2) < alpha;
-
     }
 
     /**
@@ -206,7 +203,6 @@ public class TTest {
         // No try-catch or advertised exception because args have just been checked
         return t(StatUtils.mean(observed), mu, StatUtils.variance(observed),
                 observed.length);
-
     }
 
     /**
@@ -232,7 +228,6 @@ public class TTest {
         checkSampleData(sampleStats);
         return t(sampleStats.getMean(), mu, sampleStats.getVariance(),
                  sampleStats.getN());
-
     }
 
     /**
@@ -277,7 +272,6 @@ public class TTest {
         return homoscedasticT(StatUtils.mean(sample1), StatUtils.mean(sample2),
                               StatUtils.variance(sample1), StatUtils.variance(sample2),
                               sample1.length, sample2.length);
-
     }
 
     /**
@@ -318,7 +312,6 @@ public class TTest {
         return t(StatUtils.mean(sample1), StatUtils.mean(sample2),
                  StatUtils.variance(sample1), StatUtils.variance(sample2),
                  sample1.length, sample2.length);
-
     }
 
     /**
@@ -362,7 +355,6 @@ public class TTest {
         return t(sampleStats1.getMean(), sampleStats2.getMean(),
                  sampleStats1.getVariance(), sampleStats2.getVariance(),
                  sampleStats1.getN(), sampleStats2.getN());
-
     }
 
     /**
@@ -410,7 +402,6 @@ public class TTest {
         return homoscedasticT(sampleStats1.getMean(), sampleStats2.getMean(),
                               sampleStats1.getVariance(), sampleStats2.getVariance(),
                               sampleStats1.getN(), sampleStats2.getN());
-
     }
 
     /**
@@ -448,7 +439,6 @@ public class TTest {
         // No try-catch or advertised exception because args have just been checked
         return tTest(StatUtils.mean(sample), mu, StatUtils.variance(sample),
                      sample.length);
-
     }
 
     /**
@@ -494,7 +484,6 @@ public class TTest {
 
         checkSignificanceLevel(alpha);
         return tTest(mu, sample) < alpha;
-
     }
 
     /**
@@ -533,7 +522,6 @@ public class TTest {
         checkSampleData(sampleStats);
         return tTest(sampleStats.getMean(), mu, sampleStats.getVariance(),
                      sampleStats.getN());
-
     }
 
     /**
@@ -581,7 +569,6 @@ public class TTest {
 
         checkSignificanceLevel(alpha);
         return tTest(mu, sampleStats) < alpha;
-
     }
 
     /**
@@ -631,7 +618,6 @@ public class TTest {
         return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2),
                      StatUtils.variance(sample1), StatUtils.variance(sample2),
                      sample1.length, sample2.length);
-
     }
 
     /**
@@ -680,7 +666,6 @@ public class TTest {
                                   StatUtils.variance(sample1),
                                   StatUtils.variance(sample2),
                                   sample1.length, sample2.length);
-
     }
 
     /**
@@ -742,7 +727,6 @@ public class TTest {
 
         checkSignificanceLevel(alpha);
         return tTest(sample1, sample2) < alpha;
-
     }
 
     /**
@@ -805,7 +789,6 @@ public class TTest {
 
         checkSignificanceLevel(alpha);
         return homoscedasticTTest(sample1, sample2) < alpha;
-
     }
 
     /**
@@ -853,7 +836,6 @@ public class TTest {
         return tTest(sampleStats1.getMean(), sampleStats2.getMean(),
                      sampleStats1.getVariance(), sampleStats2.getVariance(),
                      sampleStats1.getN(), sampleStats2.getN());
-
     }
 
     /**
@@ -902,7 +884,6 @@ public class TTest {
                                   sampleStats1.getVariance(),
                                   sampleStats2.getVariance(),
                                   sampleStats1.getN(), sampleStats2.getN());
-
     }
 
     /**
@@ -968,7 +949,6 @@ public class TTest {
 
         checkSignificanceLevel(alpha);
         return tTest(sampleStats1, sampleStats2) < alpha;
-
     }
 
     //----------------------------------------------- Protected methods
@@ -1059,7 +1039,6 @@ public class TTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = TDistribution.of(n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
-
     }
 
     /**
@@ -1089,7 +1068,6 @@ public class TTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = TDistribution.of(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
-
     }
 
     /**
@@ -1119,7 +1097,6 @@ public class TTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final TDistribution distribution = TDistribution.of(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
-
     }
 
     /**
@@ -1135,7 +1112,6 @@ public class TTest {
             throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL,
                                           alpha, 0.0, 0.5);
         }
-
     }
 
     /**
@@ -1156,7 +1132,6 @@ public class TTest {
                     LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
                     data.length, 2, true);
         }
-
     }
 
     /**
@@ -1177,7 +1152,5 @@ public class TTest {
                     LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
                     stat.getN(), 2, true);
         }
-
     }
-
 }

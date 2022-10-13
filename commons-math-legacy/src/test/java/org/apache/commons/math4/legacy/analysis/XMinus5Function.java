@@ -37,5 +37,4 @@ public class XMinus5Function implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(DerivativeStructure t) {
         return t.subtract(5);
     }
-
 }

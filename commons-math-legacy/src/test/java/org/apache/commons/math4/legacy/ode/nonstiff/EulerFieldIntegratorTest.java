@@ -57,7 +57,6 @@ public class EulerFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractT
     @Override
     public void testBigStep() {
         doTestBigStep(Decimal64Field.getInstance(), 0.01, 0.2, 1.0e-12, "Euler");
-
     }
 
     @Override
@@ -100,5 +99,4 @@ public class EulerFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstractT
     public void testPartialDerivatives() {
         doTestPartialDerivatives(0.085, new double[] { 0.47, 0.13, 0.019, 0.019, 0.13 });
     }
-
 }

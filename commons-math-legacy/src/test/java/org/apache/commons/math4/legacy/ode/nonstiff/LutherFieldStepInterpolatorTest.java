@@ -63,5 +63,4 @@ public class LutherFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpol
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 8.4e-17, 2.3e-16, 2.1e-14, 1.3e-15);
     }
-
 }

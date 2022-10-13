@@ -92,7 +92,5 @@ public class ClassicalRungeKuttaStepInterpolatorTest {
     }
 
     Assert.assertTrue(maxError > 0.005);
-
   }
-
 }

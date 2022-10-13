@@ -294,7 +294,6 @@ public class SingularValueDecomposition {
                     e[k] = 0;
                     break;
                 }
-
             }
 
             if (k == p - 2) {
@@ -489,7 +488,6 @@ public class SingularValueDecomposition {
     public RealMatrix getU() {
         // return the cached matrix
         return cachedU;
-
     }
 
     /**

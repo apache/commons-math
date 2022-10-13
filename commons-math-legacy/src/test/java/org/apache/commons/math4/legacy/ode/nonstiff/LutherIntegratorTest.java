@@ -103,7 +103,6 @@ public class LutherIntegratorTest {
         for (int i = 0; i < y.length; ++i) {
             Assert.assertEquals(y0[i] * JdkMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-15);
         }
-
     }
 
     @Test
@@ -182,9 +181,7 @@ public class LutherIntegratorTest {
                 integ.clearEventHandlers();
                 Assert.assertEquals(0, integ.getEventHandlers().size());
             }
-
         }
-
     }
 
     @Test
@@ -224,7 +221,6 @@ public class LutherIntegratorTest {
         Assert.assertTrue(handler.getLastError() > 0.00002);
         Assert.assertTrue(handler.getMaximalValueError() > 0.001);
         Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-
     }
 
     @Test
@@ -340,5 +336,4 @@ public class LutherIntegratorTest {
         double error = dx * dx + dy * dy;
         Assert.assertEquals(0.0, error, 1.0e-11);
     }
-
 }

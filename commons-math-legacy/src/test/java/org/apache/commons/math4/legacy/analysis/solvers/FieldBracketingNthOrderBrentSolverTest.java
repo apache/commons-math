@@ -127,7 +127,6 @@ public final class FieldBracketingNthOrderBrentSolverTest {
                 }
             }, 200, -0.5, 1.5, allowed);
         }
-
     }
 
     private void check(RealFieldUnivariateFunction<Dfp> f, int maxEval, double min, double max,
@@ -175,5 +174,4 @@ public final class FieldBracketingNthOrderBrentSolverTest {
     private Dfp      absoluteAccuracy;
     private Dfp      relativeAccuracy;
     private Dfp      functionValueAccuracy;
-
 }

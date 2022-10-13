@@ -64,7 +64,5 @@ public class JacobianFunction implements MultivariateMatrixFunction {
         }
 
         return y;
-
     }
-
 }

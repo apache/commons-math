@@ -132,5 +132,4 @@ public abstract class MultipleLinearRegressionAbstractTest {
     public void testYSampleDataNull() {
         createRegression().newYSampleData(null);
     }
-
 }

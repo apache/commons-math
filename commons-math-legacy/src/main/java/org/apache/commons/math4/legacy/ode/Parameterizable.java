@@ -38,5 +38,4 @@ public interface Parameterizable {
      * @see #getParametersNames()
      */
     boolean isSupported(String name);
-
 }

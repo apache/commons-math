@@ -314,7 +314,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ((ResizableDoubleArray) da).setNumElements(1024);
         Assert.assertEquals( "Number of elements should now be 1024", da.getNumElements(), 1024);
         Assert.assertEquals( "Element 453 should be a default double", da.getElement( 453 ), 0.0, Double.MIN_VALUE);
-
     }
 
     @Test
@@ -414,7 +413,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
             Assert.fail( "You can't discard more elements than the array contains");
         } catch( Exception e ){
         }
-
     }
 
     @Test
@@ -446,7 +444,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ((ResizableDoubleArray)da).substituteMostRecentElement(24);
 
         Assert.assertEquals( "Number of elements should be 1", 1, da.getNumElements());
-
     }
 
     @Test
@@ -519,7 +516,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         // Instance copy
         verifyEquality(fourth, fourth.copy());
-
     }
 
     @Test
@@ -578,5 +574,4 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertNotEquals(a, b);
         Assert.assertNotEquals(a.hashCode(), b.hashCode());
     }
-
 }

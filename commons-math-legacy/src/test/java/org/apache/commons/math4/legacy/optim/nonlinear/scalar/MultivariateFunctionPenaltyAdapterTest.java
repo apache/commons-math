@@ -179,7 +179,6 @@ public class MultivariateFunctionPenaltyAdapterTest {
             final double dx = point[0] - xOptimum;
             final double dy = point[1] - yOptimum;
             return dx * dx + dy * dy;
-
         }
 
         public double[] getLower() {

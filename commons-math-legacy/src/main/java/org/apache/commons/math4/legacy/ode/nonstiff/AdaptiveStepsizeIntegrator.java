@@ -109,7 +109,6 @@ public abstract class AdaptiveStepsizeIntegrator
     super(name);
     setStepSizeControl(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
     resetInternalState();
-
   }
 
   /** Build an integrator with the given stepsize bounds.
@@ -132,7 +131,6 @@ public abstract class AdaptiveStepsizeIntegrator
     super(name);
     setStepSizeControl(minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
     resetInternalState();
-
   }
 
   /** Set the adaptive step size control parameters.
@@ -161,7 +159,6 @@ public abstract class AdaptiveStepsizeIntegrator
       scalRelativeTolerance = relativeTolerance;
       vecAbsoluteTolerance  = null;
       vecRelativeTolerance  = null;
-
   }
 
   /** Set the adaptive step size control parameters.
@@ -190,7 +187,6 @@ public abstract class AdaptiveStepsizeIntegrator
       scalRelativeTolerance = 0;
       vecAbsoluteTolerance  = absoluteTolerance.clone();
       vecRelativeTolerance  = relativeTolerance.clone();
-
   }
 
   /** Set the initial step size.
@@ -228,7 +224,6 @@ public abstract class AdaptiveStepsizeIntegrator
       if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != mainSetDimension)) {
           throw new DimensionMismatchException(mainSetDimension, vecRelativeTolerance.length);
       }
-
   }
 
   /** Initialize the integration step.
@@ -305,7 +300,6 @@ public abstract class AdaptiveStepsizeIntegrator
     }
 
     return h;
-
   }
 
   /** Filter the integration step.
@@ -337,7 +331,6 @@ public abstract class AdaptiveStepsizeIntegrator
       }
 
       return filteredH;
-
   }
 
   /** {@inheritDoc} */
@@ -371,5 +364,4 @@ public abstract class AdaptiveStepsizeIntegrator
   public double getMaxStep() {
     return maxStep;
   }
-
 }

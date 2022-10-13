@@ -128,5 +128,4 @@ public abstract class AbstractUnivariateStatistic
     public double evaluate() throws MathIllegalArgumentException {
         return evaluate(storedData);
     }
-
 }

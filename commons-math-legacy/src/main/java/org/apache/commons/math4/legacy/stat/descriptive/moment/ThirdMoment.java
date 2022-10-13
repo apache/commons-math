@@ -137,5 +137,4 @@ class ThirdMoment extends SecondMoment {
         dest.m3 = source.m3;
         dest.nDevSq = source.nDevSq;
     }
-
 }

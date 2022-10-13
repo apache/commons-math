@@ -40,5 +40,4 @@ public class Cbrt implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.cbrt();
     }
-
 }

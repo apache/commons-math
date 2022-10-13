@@ -151,11 +151,8 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
                                (vecAbsoluteTolerance[j] + vecRelativeTolerance[j] * yScale);
         final double ratio  = h * errSum / tol;
         error += ratio * ratio;
-
     }
 
     return JdkMath.sqrt(error / mainSetDimension);
-
   }
-
 }

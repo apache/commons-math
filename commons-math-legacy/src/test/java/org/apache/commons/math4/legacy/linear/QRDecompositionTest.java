@@ -63,7 +63,6 @@ public class QRDecompositionTest {
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkDimension(createTestMatrix(r, p, q));
         checkDimension(createTestMatrix(r, q, p));
-
     }
 
     private void checkDimension(RealMatrix m) {
@@ -93,7 +92,6 @@ public class QRDecompositionTest {
         checkAEqualQR(createTestMatrix(r, p, q));
 
         checkAEqualQR(createTestMatrix(r, q, p));
-
     }
 
     private void checkAEqualQR(RealMatrix m) {
@@ -119,7 +117,6 @@ public class QRDecompositionTest {
         checkQOrthogonal(createTestMatrix(r, p, q));
 
         checkQOrthogonal(createTestMatrix(r, q, p));
-
     }
 
     private void checkQOrthogonal(RealMatrix m) {
@@ -152,7 +149,6 @@ public class QRDecompositionTest {
 
         matrix = createTestMatrix(r, p, q);
         checkUpperTriangular(new QRDecomposition(matrix).getR());
-
     }
 
     private void checkUpperTriangular(RealMatrix m) {
@@ -189,7 +185,6 @@ public class QRDecompositionTest {
 
         matrix = createTestMatrix(r, p, q);
         checkTrapezoidal(new QRDecomposition(matrix).getH());
-
     }
 
     private void checkTrapezoidal(RealMatrix m) {
@@ -237,7 +232,6 @@ public class QRDecompositionTest {
         Assert.assertSame(q, qr.getQ());
         Assert.assertSame(r, qr.getR());
         Assert.assertSame(h, qr.getH());
-
     }
 
     @Test(expected=SingularMatrixException.class)
@@ -281,5 +275,4 @@ public class QRDecompositionTest {
         final RealVector b = new ArrayRealVector(new double[]{ 5, 6, 1 });
         new QRDecomposition(a, 1.0e-15).getSolver().solve(b);
     }
-
 }

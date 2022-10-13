@@ -85,5 +85,4 @@ public class Median extends Percentile {
     public Median withKthSelector(final KthSelector newKthSelector) {
         return new Median(getEstimationType(), getNaNStrategy(), newKthSelector);
     }
-
 }

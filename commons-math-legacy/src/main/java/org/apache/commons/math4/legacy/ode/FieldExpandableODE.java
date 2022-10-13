@@ -89,7 +89,6 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
         mapper = new FieldEquationsMapper<>(mapper, secondary.getDimension());
 
         return components.size();
-
     }
 
     /** Initialize equations at the start of an ODE integration.
@@ -111,7 +110,6 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
             final T[] secondary0 = mapper.extractEquationData(index, y0);
             components.get(index - 1).init(t0, primary0, secondary0, finalTime);
         }
-
     }
 
     /** Get the current time derivative of the complete state vector.
@@ -141,7 +139,5 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
         }
 
         return yDot;
-
     }
-
 }

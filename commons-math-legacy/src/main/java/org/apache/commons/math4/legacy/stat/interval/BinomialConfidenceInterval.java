@@ -57,5 +57,4 @@ public interface BinomialConfidenceInterval {
     ConfidenceInterval createInterval(int numberOfTrials, int numberOfSuccesses, double confidenceLevel)
             throws NotStrictlyPositiveException, NotPositiveException,
                    NumberIsTooLargeException, OutOfRangeException;
-
 }

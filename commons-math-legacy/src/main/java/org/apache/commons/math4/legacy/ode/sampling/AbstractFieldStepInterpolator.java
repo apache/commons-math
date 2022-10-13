@@ -171,5 +171,4 @@ public abstract class AbstractFieldStepInterpolator<T extends RealFieldElement<T
                                                                                             T time, T theta,
                                                                                             T thetaH, T oneMinusThetaH)
         throws MaxCountExceededException;
-
 }

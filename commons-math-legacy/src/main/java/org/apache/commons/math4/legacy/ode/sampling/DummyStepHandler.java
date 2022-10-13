@@ -87,5 +87,4 @@ public final class DummyStepHandler implements StepHandler {
         // return the singleton instance
         return LazyHolder.INSTANCE;
     }
-
 }

@@ -59,7 +59,6 @@ public class TestProblem1
     for (int i = 0; i < getDimension(); ++i) {
         yDot[i] = -y[i];
     }
-
   }
 
   @Override
@@ -70,5 +69,4 @@ public class TestProblem1
     }
     return y;
   }
-
 }

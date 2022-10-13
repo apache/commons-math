@@ -270,7 +270,6 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
         }
 
         return new Array2DRowFieldMatrix<>(getField(), outData, false);
-
     }
 
     /**
@@ -303,7 +302,6 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
         }
 
         return new Array2DRowFieldMatrix<>(getField(), outData, false);
-
     }
 
     /** {@inheritDoc} */
@@ -354,7 +352,6 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
         } else {
             super.setSubMatrix(subMatrix, row, column);
         }
-
     }
 
     /** {@inheritDoc} */

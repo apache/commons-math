@@ -48,5 +48,4 @@ public class SimpleValueCheckerTest {
         Assert.assertTrue(checker.converged(-1, a, a));
         Assert.assertTrue(checker.converged(-1, b, b));
     }
-
 }

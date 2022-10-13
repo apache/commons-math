@@ -44,7 +44,6 @@ public class RectangularCholeskyDecompositionTest {
         RealMatrix root = d.getRootMatrix();
         RealMatrix rebuiltM = root.multiply(root.transpose());
         Assert.assertEquals(0.0, m.subtract(rebuiltM).getNorm(), 1.0e-15);
-
     }
 
     @Test
@@ -69,7 +68,6 @@ public class RectangularCholeskyDecompositionTest {
         // the pivoted Cholesky decomposition is *not* unique. Here, the root is
         // not equal to the original trianbular base matrix
         Assert.assertTrue(root.subtract(base).getNorm() > 0.3);
-
     }
 
     @Test
@@ -100,7 +98,6 @@ public class RectangularCholeskyDecompositionTest {
             {0.010499559, 0.010732709, 0.0, 0.009210099, 0.019107243}
         });
         composeAndTest(m3, 4);
-
     }
 
     private void composeAndTest(RealMatrix m, int expectedRank) {
@@ -110,5 +107,4 @@ public class RectangularCholeskyDecompositionTest {
         RealMatrix rebuiltMatrix = root.multiply(root.transpose());
         Assert.assertEquals(0.0, m.subtract(rebuiltMatrix).getNorm(), 1.0e-16);
     }
-
 }

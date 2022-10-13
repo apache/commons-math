@@ -134,7 +134,6 @@ public class RectangularCholeskyDecomposition {
                 // all remaining diagonal elements are close to zero, we consider we have
                 // found the rank of the symmetric positive semidefinite matrix
                 loop = false;
-
             } else {
 
                 // transform the matrix
@@ -168,7 +167,6 @@ public class RectangularCholeskyDecomposition {
                 root.setEntry(index[i], j, b[i][j]);
             }
         }
-
     }
 
     /** Get the root of the covariance matrix.
@@ -191,5 +189,4 @@ public class RectangularCholeskyDecomposition {
     public int getRank() {
         return rank;
     }
-
 }

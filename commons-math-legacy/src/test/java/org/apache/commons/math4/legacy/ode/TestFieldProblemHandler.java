@@ -151,5 +151,4 @@ public class TestFieldProblemHandler<T extends RealFieldElement<T>>
     public T getLastTime() {
         return lastTime;
     }
-
 }

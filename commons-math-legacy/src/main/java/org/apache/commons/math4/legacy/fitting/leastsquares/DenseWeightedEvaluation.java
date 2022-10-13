@@ -67,5 +67,4 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
     public RealVector getPoint() {
         return unweighted.getPoint();
     }
-
 }

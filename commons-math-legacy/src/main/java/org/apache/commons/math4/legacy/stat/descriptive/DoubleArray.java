@@ -106,5 +106,4 @@ interface DoubleArray { // Not in public API.
      * Clear the double array.
      */
     void clear();
-
 }

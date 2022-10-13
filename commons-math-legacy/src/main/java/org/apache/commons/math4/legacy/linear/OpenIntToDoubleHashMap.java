@@ -195,7 +195,6 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
         }
 
         return missingEntries;
-
     }
 
     /**
@@ -225,7 +224,6 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
         }
 
         return false;
-
     }
 
     /**
@@ -309,9 +307,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
             }
 
             perturb >>= PERTURB_SHIFT;
-
         }
-
     }
 
     /**
@@ -369,7 +365,6 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
         }
 
         return missingEntries;
-
     }
 
     /**
@@ -424,7 +419,6 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
             ++count;
         }
         return previous;
-
     }
 
     /**
@@ -456,7 +450,6 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
         keys   = newKeys;
         values = newValues;
         states = newStates;
-
     }
 
     /**
@@ -505,7 +498,6 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
             } catch (NoSuchElementException nsee) { // NOPMD
                 // ignored
             }
-
         }
 
         /**
@@ -576,9 +568,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
                     throw new NoSuchElementException();
                 }
             }
-
         }
-
     }
 
     /**
@@ -593,6 +583,5 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
         stream.defaultReadObject();
         count = 0;
     }
-
 
 }

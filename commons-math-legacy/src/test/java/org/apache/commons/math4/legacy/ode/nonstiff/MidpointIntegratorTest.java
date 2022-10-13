@@ -93,11 +93,8 @@ public class MidpointIntegratorTest {
           Assert.assertTrue(timeError <= JdkMath.abs(previousTimeError));
         }
         previousTimeError = timeError;
-
       }
-
     }
-
   }
 
   @Test
@@ -119,7 +116,6 @@ public class MidpointIntegratorTest {
     Assert.assertTrue(handler.getMaximalValueError() < 1.0e-6);
     Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     Assert.assertEquals("midpoint", integ.getName());
-
   }
 
   @Test
@@ -140,7 +136,6 @@ public class MidpointIntegratorTest {
     Assert.assertTrue(handler.getLastError() > 0.01);
     Assert.assertTrue(handler.getMaximalValueError() > 0.05);
     Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-
   }
 
   @Test
@@ -193,5 +188,4 @@ public class MidpointIntegratorTest {
           }
       }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
   }
-
 }

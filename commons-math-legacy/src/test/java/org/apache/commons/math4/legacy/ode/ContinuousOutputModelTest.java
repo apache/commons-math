@@ -86,7 +86,6 @@ public class ContinuousOutputModelTest {
 
     Assert.assertEquals(0.0, maxError,    1.0e-9);
     Assert.assertEquals(0.0, maxErrorDot, 4.0e-7);
-
   }
 
   @Test
@@ -138,7 +137,6 @@ public class ContinuousOutputModelTest {
           Assert.assertEquals(JdkMath.cos(t), y[0], 1.0e-7);
           Assert.assertEquals(JdkMath.sin(t), y[1], 1.0e-7);
       }
-
   }
 
   @Test
@@ -158,7 +156,6 @@ public class ContinuousOutputModelTest {
 
       // no errors
       Assert.assertFalse(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0, -2.0 }, 2.0));
-
   }
 
   private boolean checkAppendError(ContinuousOutputModel cm,

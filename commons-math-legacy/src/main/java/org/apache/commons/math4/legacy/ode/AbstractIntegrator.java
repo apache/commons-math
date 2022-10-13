@@ -207,7 +207,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         }
 
         setStateInitialized(false);
-
     }
 
     /** Set the equations.
@@ -258,7 +257,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         // extract results back from the stateful equations
         System.arraycopy(expandableODE.getPrimaryState(), 0, y, 0, y.length);
         return expandableODE.getTime();
-
     }
 
     /** Integrate a set of differential equations up to the given time.
@@ -348,7 +346,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 public int compare(EventState es0, EventState es1) {
                     return orderingSign * Double.compare(es0.getEventTime(), es1.getEventTime());
                 }
-
             });
 
             for (final EventState state : eventsStates) {
@@ -420,7 +417,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                     // the event occurs during the current step
                     occurringEvents.add(currentEvent);
                 }
-
             }
 
             // last part of the step, after the last event
@@ -445,7 +441,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             }
 
             return currentT;
-
     }
 
     /** Check the integration span.
@@ -465,7 +460,5 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
                                                 dt, threshold, false);
         }
-
     }
-
 }

@@ -130,7 +130,6 @@ public class CovarianceTest {
         };
 
         TestUtils.assertEquals("covariance matrix", createRealMatrix(rData, 7, 7), covarianceMatrix, 10E-9);
-
     }
 
     /**

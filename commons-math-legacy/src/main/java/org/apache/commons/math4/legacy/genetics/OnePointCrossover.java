@@ -125,5 +125,4 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
         return new ChromosomePair(first.newFixedLengthChromosome(child1Rep),
                                   second.newFixedLengthChromosome(child2Rep));
     }
-
 }

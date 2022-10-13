@@ -94,5 +94,4 @@ public class MidpointFieldIntegrator<T extends RealFieldElement<T>> extends Rung
                                                     globalPreviousState, globalCurrentState,
                                                     mapper);
     }
-
 }

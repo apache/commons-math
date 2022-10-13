@@ -279,7 +279,6 @@ public class ArrayFieldVectorTest {
         public T[] toArray() {
             return data.clone();
         }
-
     }
 
     @Test
@@ -351,7 +350,6 @@ public class ArrayFieldVectorTest {
         ArrayFieldVector<Dfp> v9 = new ArrayFieldVector<>((FieldVector<Dfp>) v1, (FieldVector<Dfp>) v3);
         Assert.assertEquals(10, v9.getDimension());
         Assert.assertEquals(Dfp25.of(1), v9.getEntry(7));
-
     }
 
     @Test
@@ -447,7 +445,6 @@ public class ArrayFieldVectorTest {
         Assert.assertEquals(vout10, vout10_2);
         vout10_2.setEntry(0, Dfp25.of(11, 10));
         Assert.assertNotSame(vout10, vout10_2);
-
     }
 
     @Test
@@ -508,7 +505,6 @@ public class ArrayFieldVectorTest {
         v_mapInvToSelf.mapInvToSelf();
         Dfp[] result_mapInvToSelf = {Dfp25.of(1),Dfp25.of(1, 2),Dfp25.of(1, 3)};
         checkArray("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.toArray());
-
     }
 
     @Test
@@ -577,7 +573,6 @@ public class ArrayFieldVectorTest {
         FieldVector<Dfp> v_projection_2 = v1.projection(v2_t);
         Dfp[] result_projection_2 = {Dfp25.of(128, 77), Dfp25.of(160, 77), Dfp25.of(192, 77)};
         checkArray("compare vect", v_projection_2.toArray(), result_projection_2);
-
     }
 
     @Test
@@ -613,7 +608,6 @@ public class ArrayFieldVectorTest {
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
-
     }
 
     @Test
@@ -653,7 +647,6 @@ public class ArrayFieldVectorTest {
         Assert.assertEquals(0, new ArrayFieldVector<>(Dfp25.getField(), new Dfp[0]).getDimension());
         Assert.assertEquals(0, new ArrayFieldVector<>(Dfp25.getField(), new Dfp[0], true).getDimension());
         Assert.assertEquals(0, new ArrayFieldVector<>(Dfp25.getField(), new Dfp[0], false).getDimension());
-
     }
 
     @Test

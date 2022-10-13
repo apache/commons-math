@@ -49,7 +49,6 @@ public abstract class DoubleArrayAbstractTest {
             56.0,
             da.getElement(56),
             Double.MIN_VALUE);
-
     }
 
     @Test
@@ -70,7 +69,6 @@ public abstract class DoubleArrayAbstractTest {
                 controlArray[i],
                 Double.MIN_VALUE);
         }
-
     }
 
     @Test
@@ -128,5 +126,4 @@ public abstract class DoubleArrayAbstractTest {
             StatUtils.max(da.getElements()),
             Double.MIN_VALUE);
     }
-
 }

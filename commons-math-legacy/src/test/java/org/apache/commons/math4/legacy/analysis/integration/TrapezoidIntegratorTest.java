@@ -96,7 +96,6 @@ public final class TrapezoidIntegratorTest {
         Assert.assertTrue(integrator.getEvaluations() < 5000);
         Assert.assertTrue(integrator.getIterations()  < 15);
         Assert.assertEquals(expected, result, tolerance);
-
     }
 
     /**

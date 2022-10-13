@@ -213,7 +213,6 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         c[14] = fraction(7.0, 9.0);
 
         return c;
-
     }
 
     /** {@inheritDoc} */
@@ -366,7 +365,6 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         a[14][14] = fraction(    -290468882375.0, 31741908048.0);
 
         return a;
-
     }
 
     /** {@inheritDoc} */
@@ -450,7 +448,5 @@ public class DormandPrince853FieldIntegrator<T extends RealFieldElement<T>>
         }
 
         return h.abs().multiply(error1).divide(den.multiply(mainSetDimension).sqrt());
-
     }
-
 }

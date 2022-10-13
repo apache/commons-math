@@ -41,5 +41,4 @@ public class DummyBinaryChromosome extends BinaryChromosome {
         // uninteresting
         return 0;
     }
-
 }

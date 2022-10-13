@@ -66,5 +66,4 @@ public class FixedGenerationCountTest {
         }
         Assert.assertEquals(20, cnt);
     }
-
 }

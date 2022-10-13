@@ -120,5 +120,4 @@ public class UnivariateFunctionTest {
     private double expectedUlp(double x) {
         return JdkMath.abs(x - Double.longBitsToDouble(Double.doubleToRawLongBits(x) ^ 1));
     }
-
 }

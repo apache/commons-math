@@ -119,7 +119,6 @@ public class EnumeratedRealDistribution
             samples.add(new Pair<>(singletons[i], probabilities[i]));
         }
         return samples;
-
     }
 
     /**

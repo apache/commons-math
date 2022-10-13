@@ -194,7 +194,6 @@ public class RealFunctionValidation {
             } catch (ClassNotFoundException e) {
                 throw new IllegalArgumentException(e);
             }
-
         }
 
         public static final ApplicationProperties create(final Properties properties) {

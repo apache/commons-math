@@ -200,5 +200,4 @@ public abstract class TestFieldProblemAbstract<T extends RealFieldElement<T>>
         }
         return array;
     }
-
 }

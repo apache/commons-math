@@ -63,7 +63,6 @@ public class RRQRDecompositionTest {
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         checkDimension(createTestMatrix(r, p, q));
         checkDimension(createTestMatrix(r, q, p));
-
     }
 
     private void checkDimension(RealMatrix m) {
@@ -93,7 +92,6 @@ public class RRQRDecompositionTest {
         checkAPEqualQR(createTestMatrix(r, p, q));
 
         checkAPEqualQR(createTestMatrix(r, q, p));
-
     }
 
     private void checkAPEqualQR(RealMatrix m) {
@@ -119,7 +117,6 @@ public class RRQRDecompositionTest {
         checkQOrthogonal(createTestMatrix(r, p, q));
 
         checkQOrthogonal(createTestMatrix(r, q, p));
-
     }
 
     private void checkQOrthogonal(RealMatrix m) {
@@ -152,7 +149,6 @@ public class RRQRDecompositionTest {
 
         matrix = createTestMatrix(r, p, q);
         checkUpperTriangular(new RRQRDecomposition(matrix).getR());
-
     }
 
     private void checkUpperTriangular(RealMatrix m) {
@@ -189,7 +185,6 @@ public class RRQRDecompositionTest {
 
         matrix = createTestMatrix(r, p, q);
         checkTrapezoidal(new RRQRDecomposition(matrix).getH());
-
     }
 
     private void checkTrapezoidal(RealMatrix m) {

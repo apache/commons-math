@@ -31,5 +31,4 @@ public interface MultivariateMatrixFunction {
      */
     double[][] value(double[] point)
         throws IllegalArgumentException;
-
 }

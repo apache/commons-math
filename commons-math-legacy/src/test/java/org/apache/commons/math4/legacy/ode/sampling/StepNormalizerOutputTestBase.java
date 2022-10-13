@@ -282,5 +282,4 @@ public abstract class StepNormalizerOutputTestBase
     public void handleStep(double t, double[] y, double[] yDot, boolean isLast) {
         output.add(t);
     }
-
 }

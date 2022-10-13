@@ -178,7 +178,6 @@ public final class DSCompiler {
                 compileCompositionIndirection(parameters, order,
                                               valueCompiler, derivativeCompiler,
                                               sizes, derivativesIndirection);
-
     }
 
     /** Get the compiler for number of free parameters and order.
@@ -226,7 +225,6 @@ public final class DSCompiler {
         compilers.compareAndSet(cache, newCache);
 
         return newCache[parameters][order];
-
     }
 
     /** Compile the sizes array.
@@ -250,7 +248,6 @@ public final class DSCompiler {
         }
 
         return sizes;
-
     }
 
     /** Compile the derivatives indirection array.
@@ -290,11 +287,9 @@ public final class DSCompiler {
 
             // increment the derivation order for the last parameter
             derivativesIndirection[vSize + i][parameters - 1]++;
-
         }
 
         return derivativesIndirection;
-
     }
 
     /** Compile the lower derivatives indirection array.
@@ -326,7 +321,6 @@ public final class DSCompiler {
         }
 
         return lowerIndirection;
-
     }
 
     /** Compile the multiplication indirection array.
@@ -385,11 +379,9 @@ public final class DSCompiler {
             }
 
             multIndirection[vSize + i] = combined.toArray(new int[combined.size()][]);
-
         }
 
         return multIndirection;
-
     }
 
     /** Compile the function composition indirection array.
@@ -473,7 +465,6 @@ public final class DSCompiler {
                     Arrays.sort(derivedTermG, 2, derivedTermG.length);
                     row.add(derivedTermG);
                 }
-
             }
 
             // combine terms with similar derivation orders
@@ -499,11 +490,9 @@ public final class DSCompiler {
             }
 
             compIndirection[vSize + i] = combined.toArray(new int[combined.size()][]);
-
         }
 
         return compIndirection;
-
     }
 
     /** Get the index of a partial derivative in the array.
@@ -547,7 +536,6 @@ public final class DSCompiler {
         }
 
         return getPartialDerivativeIndex(parameters, order, sizes, orders);
-
     }
 
     /** Get the index of a partial derivative in an array.
@@ -586,11 +574,9 @@ public final class DSCompiler {
                 // so we add the size of the value part to the base index
                 index += sizes[i][m--];
             }
-
         }
 
         return index;
-
     }
 
     /** Convert an index from one (parameters, order) structure to another.
@@ -832,7 +818,6 @@ public final class DSCompiler {
         for (int i = 1; i < getSize(); ++i) {
             result[resultOffset + i] = lhs[lhsOffset + i] - k * rhs[rhsOffset + i];
         }
-
     }
 
     /** Compute power of a double to a derivative structure.
@@ -874,7 +859,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute power of a derivative structure.
@@ -919,7 +903,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute integer power of a derivative structure.
@@ -972,7 +955,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute power of a derivative structure.
@@ -1030,7 +1012,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute exponential of a derivative structure.
@@ -1050,7 +1031,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute exp(x) - 1 of a derivative structure.
@@ -1071,7 +1051,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute natural logarithm of a derivative structure.
@@ -1099,7 +1078,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Computes shifted logarithm of a derivative structure.
@@ -1126,7 +1104,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Computes base 10 logarithm of a derivative structure.
@@ -1153,7 +1130,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute cosine of a derivative structure.
@@ -1179,7 +1155,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute sine of a derivative structure.
@@ -1205,7 +1180,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute tangent of a derivative structure.
@@ -1254,13 +1228,11 @@ public final class DSCompiler {
                 }
 
                 function[n] = v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute arc cosine of a derivative structure.
@@ -1311,13 +1283,11 @@ public final class DSCompiler {
 
                 coeff *= f;
                 function[n] = coeff * v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute arc sine of a derivative structure.
@@ -1368,13 +1338,11 @@ public final class DSCompiler {
 
                 coeff *= f;
                 function[n] = coeff * v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute arc tangent of a derivative structure.
@@ -1425,13 +1393,11 @@ public final class DSCompiler {
 
                 coeff *= f;
                 function[n] = coeff * v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute two arguments arc tangent of a derivative structure.
@@ -1465,7 +1431,6 @@ public final class DSCompiler {
             for (int i = 0; i < tmp2.length; ++i) {
                 result[resultOffset + i] = 2 * tmp2[i]; // 2 * atan(y / (r + x))
             }
-
         } else {
 
             // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
@@ -1477,12 +1442,10 @@ public final class DSCompiler {
             for (int i = 1; i < tmp2.length; ++i) {
                 result[resultOffset + i] = -2 * tmp2[i]; // +/-pi - 2 * atan(y / (r - x))
             }
-
         }
 
         // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly
         result[resultOffset] = JdkMath.atan2(y[yOffset], x[xOffset]);
-
     }
 
     /** Compute hyperbolic cosine of a derivative structure.
@@ -1508,7 +1471,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute hyperbolic sine of a derivative structure.
@@ -1534,7 +1496,6 @@ public final class DSCompiler {
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute hyperbolic tangent of a derivative structure.
@@ -1583,13 +1544,11 @@ public final class DSCompiler {
                 }
 
                 function[n] = v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute inverse hyperbolic cosine of a derivative structure.
@@ -1640,13 +1599,11 @@ public final class DSCompiler {
 
                 coeff *= f;
                 function[n] = coeff * v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute inverse hyperbolic sine of a derivative structure.
@@ -1697,13 +1654,11 @@ public final class DSCompiler {
 
                 coeff *= f;
                 function[n] = coeff * v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute inverse hyperbolic tangent of a derivative structure.
@@ -1754,13 +1709,11 @@ public final class DSCompiler {
 
                 coeff *= f;
                 function[n] = coeff * v;
-
             }
         }
 
         // apply function composition
         compose(operand, operandOffset, function, result, resultOffset);
-
     }
 
     /** Compute composition of a derivative structure by a function.
@@ -1831,5 +1784,4 @@ public final class DSCompiler {
             throw new DimensionMismatchException(order, compiler.order);
         }
     }
-
 }

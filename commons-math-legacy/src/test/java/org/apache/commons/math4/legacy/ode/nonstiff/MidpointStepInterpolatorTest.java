@@ -93,7 +93,5 @@ public class MidpointStepInterpolatorTest {
     }
 
     Assert.assertTrue(maxError < 1.0e-6);
-
   }
-
 }

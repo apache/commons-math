@@ -118,7 +118,6 @@ class ThreeEighthesStepInterpolator
                       previousState[i] + coeff1 * yDot1 + coeff2 * yDot2 + coeff3 * yDot3 + coeff4 * yDot4;
               interpolatedDerivatives[i] =
                       coeffDot1 * yDot1 + coeffDot2 * yDot2 + coeffDot3 * yDot3 + coeffDot4 * yDot4;
-
           }
       } else {
           final double s          = oneMinusThetaH / 8.0;
@@ -136,10 +135,7 @@ class ThreeEighthesStepInterpolator
                       currentState[i] - coeff1 * yDot1 - coeff2 * yDot2 - coeff3 * yDot3 - coeff4 * yDot4;
               interpolatedDerivatives[i] =
                       coeffDot1 * yDot1 + coeffDot2 * yDot2 + coeffDot3 * yDot3 + coeffDot4 * yDot4;
-
           }
       }
-
   }
-
 }

@@ -253,7 +253,6 @@ public final class SimpleRegressionTest {
         Assert.assertEquals("SSE", regressionIntOnly.getSumSquaredErrors(), onlyInt.getErrorSumSquares() ,1.0E-8);
         Assert.assertEquals("SSR", regressionIntOnly.getRegressionSumSquares(), onlyInt.getRegressionSumSquares() ,1.0E-8);
         Assert.assertEquals("MSE", regressionIntOnly.getMeanSquareError(), onlyInt.getMeanSquareError() ,1.0E-8);
-
     }
 
     /**
@@ -381,7 +380,6 @@ public final class SimpleRegressionTest {
             regression.getMeanSquareError(), 10E-10);
         Assert.assertEquals("SSE", 127.272727272727,
             regression.getSumSquaredErrors(),10E-9);
-
     }
 
     @Test
@@ -534,7 +532,6 @@ public final class SimpleRegressionTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-
     }
 
     @Test

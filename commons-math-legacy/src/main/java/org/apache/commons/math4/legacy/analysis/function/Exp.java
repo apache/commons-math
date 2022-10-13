@@ -40,5 +40,4 @@ public class Exp implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.exp();
     }
-
 }

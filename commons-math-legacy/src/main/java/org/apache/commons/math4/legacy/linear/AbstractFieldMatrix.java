@@ -330,7 +330,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         }
 
         return subMatrix;
-
     }
 
     /** {@inheritDoc} */
@@ -352,11 +351,9 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
             public T visit(final int row, final int column, final T value) {
                 return getEntry(selectedRows[row], selectedColumns[column]);
             }
-
         });
 
         return subMatrix;
-
     }
 
     /** {@inheritDoc} */
@@ -400,9 +397,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
             public void visit(final int row, final int column, final T value) {
                 destination[row - startRow][column - startColumn] = value;
             }
-
         }, startRow, endRow, startColumn, endColumn);
-
     }
 
     /** {@inheritDoc} */
@@ -427,7 +422,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 destinationI[j] = getEntry(selectedRows[i], selectedColumns[j]);
             }
         }
-
     }
 
     /** {@inheritDoc} */
@@ -478,7 +472,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -496,7 +489,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, matrix.getEntry(0, i));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -512,7 +504,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -530,7 +521,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, matrix.getEntry(i, 0));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -553,7 +543,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, vector.getEntry(i));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -577,7 +566,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, vector.getEntry(i));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -591,7 +579,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -606,7 +593,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, array[i]);
         }
-
     }
 
     /** {@inheritDoc} */
@@ -620,7 +606,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */

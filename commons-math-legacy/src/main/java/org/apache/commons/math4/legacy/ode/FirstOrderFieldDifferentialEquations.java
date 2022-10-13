@@ -69,5 +69,4 @@ public interface FirstOrderFieldDifferentialEquations<T extends RealFieldElement
      * @return time derivative of the state vector
      */
     T[] computeDerivatives(T t, T[] y);
-
 }

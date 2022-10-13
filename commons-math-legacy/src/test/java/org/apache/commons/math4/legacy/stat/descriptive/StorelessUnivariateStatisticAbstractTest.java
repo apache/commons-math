@@ -68,7 +68,6 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         // Cleared
         checkClearValue(statistic);
         Assert.assertEquals(0, statistic.getN());
-
     }
 
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
@@ -119,7 +118,6 @@ public abstract class StorelessUnivariateStatisticAbstractTest
                 emptyHash, statistic2.hashCode());
         Assert.assertEquals("cleared stats should have thashcode of empty stat",
                 emptyHash, statistic.hashCode());
-
     }
 
     @Test
@@ -201,5 +199,4 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         Assert.assertEquals(savedStatistic.getResult(), stat.getResult(), 0.0);
         Assert.assertEquals(savedStatistic.getN(), stat.getN());
     }
-
 }

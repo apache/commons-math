@@ -149,5 +149,4 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic {
         dest.n = source.n;
         dest.value = source.value;
     }
-
 }

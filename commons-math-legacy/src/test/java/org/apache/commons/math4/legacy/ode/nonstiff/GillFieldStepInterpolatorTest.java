@@ -63,5 +63,4 @@ public class GillFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpolat
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.4e-17, 1.0e-50, 3.4e-16, 2.1e-17);
     }
-
 }

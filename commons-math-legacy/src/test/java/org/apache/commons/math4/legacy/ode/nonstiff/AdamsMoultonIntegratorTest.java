@@ -72,7 +72,6 @@ public class AdamsMoultonIntegratorTest {
           integ.integrate(pb,
                           pb.getInitialTime(), pb.getInitialState(),
                           pb.getFinalTime(), new double[pb.getDimension()]);
-
     }
 
     @Test
@@ -108,9 +107,7 @@ public class AdamsMoultonIntegratorTest {
             Assert.assertEquals(integ.getEvaluations(), calls);
             Assert.assertTrue(calls <= previousCalls);
             previousCalls = calls;
-
         }
-
     }
 
     @Test(expected = MaxCountExceededException.class)
@@ -128,7 +125,6 @@ public class AdamsMoultonIntegratorTest {
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
-
     }
 
     @Test
@@ -172,7 +168,6 @@ public class AdamsMoultonIntegratorTest {
                 Assert.assertTrue(handler.getMaximalValueError() < 1.1e-11);
             }
         }
-
     }
 
     private static class PerfectStarter extends AbstractIntegrator {
@@ -199,7 +194,6 @@ public class AdamsMoultonIntegratorTest {
                 }
             }
         }
-
     }
 
     private static class PerfectInterpolator implements StepInterpolator {
@@ -283,7 +277,5 @@ public class AdamsMoultonIntegratorTest {
         public StepInterpolator copy() {
             return this;
         }
-
     }
-
 }

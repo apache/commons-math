@@ -35,5 +35,4 @@ public interface MultivariateJacobianFunction {
      * @return the values and their Jacobian of this vector valued function.
      */
     Pair<RealVector, RealMatrix> value(RealVector point);
-
 }

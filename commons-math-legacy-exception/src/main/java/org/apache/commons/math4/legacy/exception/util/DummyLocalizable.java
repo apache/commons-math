@@ -55,5 +55,4 @@ public class DummyLocalizable implements Localizable {
     public String toString() {
         return source;
     }
-
 }

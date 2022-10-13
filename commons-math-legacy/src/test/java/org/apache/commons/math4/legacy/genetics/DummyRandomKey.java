@@ -41,5 +41,4 @@ public class DummyRandomKey extends RandomKey<String> {
         // unimportant
         return 0;
     }
-
 }

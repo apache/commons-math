@@ -30,5 +30,4 @@ package org.apache.commons.math4.legacy.linear;
  * @since 2.0
  */
 public interface SparseRealMatrix extends RealMatrix {
-
 }

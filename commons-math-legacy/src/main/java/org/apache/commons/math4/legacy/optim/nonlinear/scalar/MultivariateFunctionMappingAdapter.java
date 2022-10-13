@@ -240,7 +240,6 @@ public class MultivariateFunctionMappingAdapter
         public double boundedToUnbounded(final double x) {
             return JdkMath.log(x - lower);
         }
-
     }
 
     /** Local class for upper bounds mapping. */
@@ -267,7 +266,6 @@ public class MultivariateFunctionMappingAdapter
         public double boundedToUnbounded(final double x) {
             return -JdkMath.log(upper - x);
         }
-
     }
 
     /** Local class for lower and bounds mapping. */

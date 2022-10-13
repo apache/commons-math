@@ -129,7 +129,6 @@ public class MultivariateSummaryStatisticsTest {
         TestUtils.assertEquals(reference.getSumSq(),         shuffled.getSum(),           1.0e-10);
         TestUtils.assertEquals(reference.getSumLog(),        shuffled.getSumSq(),         1.0e-10);
         TestUtils.assertEquals(reference.getGeometricMean(), shuffled.getSumLog(),        1.0e-10);
-
     }
 
     /**
@@ -236,7 +235,6 @@ public class MultivariateSummaryStatisticsTest {
         /* n=2 */
         u.addValue(new double[] { 2 });
         Assert.assertTrue(u.getStandardDeviation()[0] > 0);
-
     }
 
     @Test
@@ -252,7 +250,6 @@ public class MultivariateSummaryStatisticsTest {
         Assert.assertFalse(Double.isNaN(u.getMin()[0]));
         Assert.assertFalse(Double.isNaN(u.getStandardDeviation()[0]));
         Assert.assertFalse(Double.isNaN(u.getGeometricMean()[0]));
-
     }
 
     @Test

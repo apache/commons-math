@@ -131,5 +131,4 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
         }
         return new PolygonChromosome(list);
     }
-
 }

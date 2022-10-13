@@ -126,7 +126,6 @@ public class DSCompilerTest {
         checkIndices(c.getPartialDerivativeOrders(2), 0, 1, 0, 0);
         checkIndices(c.getPartialDerivativeOrders(3), 0, 0, 1, 0);
         checkIndices(c.getPartialDerivativeOrders(4), 0, 0, 0, 1);
-
     }
 
     @Test(expected=DimensionMismatchException.class)
@@ -471,7 +470,5 @@ public class DSCompilerTest {
             }
         }
         return builder.toString();
-
     }
-
 }

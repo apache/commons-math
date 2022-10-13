@@ -132,5 +132,4 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
                                                  final Array2DRowRealMatrix highOrder) {
         transformer.updateHighOrderDerivativesPhase2(start, end, highOrder);
     }
-
 }

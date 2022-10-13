@@ -234,7 +234,6 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
             // reduce interval if it brackets the root
             nbPoints        = 2;
             signChangeIndex = 1;
-
         } else {
 
             // evaluate second endpoint
@@ -253,7 +252,6 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
                 throw new NoBracketingException(x[0].getReal(), x[2].getReal(),
                                                 y[0].getReal(), y[2].getReal());
             }
-
         }
 
         // prepare a work array for inverse polynomial interpolation
@@ -336,9 +334,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
 
                     // we need to do one more attempt
                     nextX = nan;
-
                 }
-
             } while (Double.isNaN(nextX.getReal()) && (end - start > 1));
 
             if (Double.isNaN(nextX.getReal())) {
@@ -365,7 +361,6 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
                 System.arraycopy(x, start, x, 0, nbPoints);
                 System.arraycopy(y, start, y, 0, nbPoints);
                 signChangeIndex -= start;
-
             } else  if (nbPoints == x.length) {
 
                 // we have to drop one point in order to insert the new one
@@ -378,7 +373,6 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
                     System.arraycopy(y, 1, y, 0, nbPoints);
                     --signChangeIndex;
                 }
-
             }
 
             // insert the last computed point
@@ -407,11 +401,8 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
 
                 // update the sign change index
                 signChangeIndex++;
-
             }
-
         }
-
     }
 
     /** Guess an x value by n<sup>th</sup> order inverse polynomial interpolation.
@@ -446,7 +437,5 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
         }
 
         return x0;
-
     }
-
 }

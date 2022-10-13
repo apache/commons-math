@@ -279,5 +279,4 @@ public class NaturalRankingTest {
         double[] ranks = ranking.rank(data);
         TestUtils.assertEquals(data, ranks, 0d);
     }
-
 }

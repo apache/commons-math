@@ -90,7 +90,5 @@ public class NordsieckStepInterpolatorTest {
         }
 
         Assert.assertTrue(maxError < 1.0e-6);
-
     }
-
 }

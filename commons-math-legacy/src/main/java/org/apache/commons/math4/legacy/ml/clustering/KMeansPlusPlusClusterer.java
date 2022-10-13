@@ -55,7 +55,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
 
         /** Generate an error. */
         ERROR
-
     }
 
     /** The number of clusters. */
@@ -406,7 +405,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                         }
                     }
                 }
-
             } else {
                 // None found --
                 // Break from the while loop to prevent
@@ -444,7 +442,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                     maxVariance = variance;
                     selected = cluster;
                 }
-
             }
         }
 
@@ -456,7 +453,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         // extract a random point from the cluster
         final List<T> selectedPoints = selected.getPoints();
         return selectedPoints.remove(random.nextInt(selectedPoints.size()));
-
     }
 
     /**
@@ -479,7 +475,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                 maxNumber = number;
                 selected = cluster;
             }
-
         }
 
         // did we find at least one non-empty cluster ?
@@ -490,7 +485,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         // extract a random point from the cluster
         final List<T> selectedPoints = selected.getPoints();
         return selectedPoints.remove(random.nextInt(selectedPoints.size()));
-
     }
 
     /**
@@ -517,7 +511,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
                     selectedPoint   = i;
                 }
             }
-
         }
 
         // did we find at least one non-empty cluster ?
@@ -526,7 +519,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
         }
 
         return selectedCluster.getPoints().remove(selectedPoint);
-
     }
 
     /**

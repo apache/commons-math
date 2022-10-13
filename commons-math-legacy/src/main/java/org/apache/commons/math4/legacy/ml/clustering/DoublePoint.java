@@ -78,5 +78,4 @@ public class DoublePoint implements Clusterable {
     public String toString() {
         return Arrays.toString(point);
     }
-
 }

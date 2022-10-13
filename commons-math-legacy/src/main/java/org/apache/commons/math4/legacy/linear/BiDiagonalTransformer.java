@@ -76,7 +76,6 @@ class BiDiagonalTransformer {
         } else {
             transformToLowerBiDiagonal();
         }
-
     }
 
     /**
@@ -126,7 +125,6 @@ class BiDiagonalTransformer {
 
         // return the cached matrix
         return cachedU;
-
     }
 
     /**
@@ -157,7 +155,6 @@ class BiDiagonalTransformer {
 
         // return the cached matrix
         return cachedB;
-
     }
 
     /**
@@ -207,7 +204,6 @@ class BiDiagonalTransformer {
 
         // return the cached matrix
         return cachedV;
-
     }
 
     /**
@@ -308,7 +304,6 @@ class BiDiagonalTransformer {
                     }
                 }
             }
-
         }
     }
 
@@ -373,8 +368,6 @@ class BiDiagonalTransformer {
                     }
                 }
             }
-
         }
     }
-
 }

@@ -126,5 +126,4 @@ public class StepNormalizerTest {
   private TestProblem3 pb;
   private FirstOrderIntegrator integ;
   private boolean lastSeen;
-
 }

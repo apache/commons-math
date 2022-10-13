@@ -56,7 +56,6 @@ public class OpenIntToFieldTest {
 
         /* Add a few more to cause the table to rehash */
         javaMap.putAll(generate());
-
     }
 
     private Map<Integer, Dfp> generate() {

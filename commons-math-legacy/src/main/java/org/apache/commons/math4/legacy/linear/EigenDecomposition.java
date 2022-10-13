@@ -473,7 +473,6 @@ public class EigenDecomposition {
             }
 
             return new Array2DRowRealMatrix(bp, false);
-
         }
 
         /**

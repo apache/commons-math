@@ -269,7 +269,6 @@ public class RealVectorFormat {
                     return null;
                 }
             }
-
         }
 
         // parse suffix

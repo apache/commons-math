@@ -224,11 +224,9 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
             final double ratio  = (predictedState[i] - previousState[i] + variation) / tol;
             error              += ratio * ratio;
-
         }
 
         return JdkMath.sqrt(error / mainSetDimension);
-
     }
 
     /** {@inheritDoc} */
@@ -303,7 +301,6 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                     final double factor = computeStepGrowShrinkFactor(error);
                     hNew = filterStep(hNew * factor, forward, false);
                     interpolator.rescale(hNew);
-
                 }
             }
 
@@ -345,9 +342,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                 }
 
                 interpolator.rescale(hNew);
-
             }
-
         } while (!isLastStep);
 
         // dispatch results
@@ -355,7 +350,5 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
         equations.setCompleteState(y);
 
         resetInternalState();
-
     }
-
 }

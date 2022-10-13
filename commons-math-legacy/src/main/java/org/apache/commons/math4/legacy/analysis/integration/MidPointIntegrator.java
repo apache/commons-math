@@ -161,7 +161,5 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
             }
             oldt = t;
         }
-
     }
-
 }

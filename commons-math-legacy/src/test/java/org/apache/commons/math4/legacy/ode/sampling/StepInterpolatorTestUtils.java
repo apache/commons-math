@@ -83,19 +83,16 @@ public final class StepInterpolatorTestUtils {
                                               672 * (yP1h[i] - yM1h[i])) / (840 * h);
                     Assert.assertEquals("" + (approYDot - yDot[i]), approYDot, yDot[i], threshold);
                 }
-
             }
 
             @Override
             public void init(double t0, double[] y0, double t) {
             }
-
         });
 
         integrator.integrate(problem,
                              problem.getInitialTime(), problem.getInitialState(),
                              problem.getFinalTime(), new double[problem.getDimension()]);
-
     }
 
     public static <T extends RealFieldElement<T>> void checkDerivativesConsistency(final FirstOrderFieldIntegrator<T> integrator,
@@ -133,17 +130,14 @@ public final class StepInterpolatorTestUtils {
                                         divide(h.multiply(840));
                     Assert.assertEquals(approYDot.getReal(), yDot[i].getReal(), threshold);
                 }
-
             }
 
             @Override
             public void init(FieldODEStateAndDerivative<T> state0, T t) {
             }
-
         });
 
         integrator.integrate(new FieldExpandableODE<>(problem), problem.getInitialState(), problem.getFinalTime());
-
     }
 }
 

@@ -74,5 +74,4 @@ public class GeometricMeanTest extends StorelessUnivariateStatisticAbstractTest{
         mean.increment(-2d);
         Assert.assertTrue(Double.isNaN(mean.getResult()));
     }
-
 }

@@ -55,7 +55,6 @@ public class OpenIntToDoubleHashMapTest {
 
         /* Add a few more to cause the table to rehash */
         javaMap.putAll(generate());
-
     }
 
     private Map<Integer, Double> generate() {
@@ -328,5 +327,4 @@ public class OpenIntToDoubleHashMapTest {
         Assert.assertEquals(1, map.size());
         Assert.assertTrue(Precision.equals(value2, map.get(key2), 1));
     }
-
 }

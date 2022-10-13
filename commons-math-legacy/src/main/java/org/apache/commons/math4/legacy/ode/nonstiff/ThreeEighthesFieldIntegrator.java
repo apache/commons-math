@@ -108,5 +108,4 @@ public class ThreeEighthesFieldIntegrator<T extends RealFieldElement<T>>
                                                          globalPreviousState, globalCurrentState,
                                                          mapper);
     }
-
 }

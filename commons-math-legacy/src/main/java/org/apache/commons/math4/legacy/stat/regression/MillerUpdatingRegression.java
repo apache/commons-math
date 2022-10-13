@@ -183,7 +183,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             include(tmp, 1.0, y);
         }
         ++nobs;
-
     }
 
     /**

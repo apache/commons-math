@@ -78,7 +78,6 @@ public class AdamsNordsieckTransformerTest {
             derivative = derivative.polynomialDerivative();
             Assert.assertEquals(derivative.value(t0) * coeff, nordsieck.getEntry(i, 0), epsilon);
         }
-
     }
 
     private void checkTransform(final PolynomialFunction polynomial, final int nbSteps, final double expectedError) {
@@ -96,7 +95,6 @@ public class AdamsNordsieckTransformerTest {
         final Array2DRowRealMatrix n2 = start(transformer, nbSteps, t0 + h, h, polynomial, derivative);
 
         Assert.assertEquals(expectedError, n2.subtract(n1).getNorm(), expectedError * 0.001);
-
     }
 
     private Array2DRowRealMatrix start(final AdamsNordsieckTransformer transformer, final int nbSteps,
@@ -114,7 +112,5 @@ public class AdamsNordsieckTransformerTest {
         }
 
         return transformer.initializeHighOrderDerivatives(h, t, y, yDot);
-
     }
-
 }

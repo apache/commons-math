@@ -115,5 +115,4 @@ public interface StatisticalMultivariateSummary {
      * @return the array of component log sums
      */
     double[] getSumLog();
-
 }

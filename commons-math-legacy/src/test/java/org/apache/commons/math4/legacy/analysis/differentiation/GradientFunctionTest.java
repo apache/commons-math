@@ -84,7 +84,5 @@ public class GradientFunctionTest {
             }
             return gradient;
         }
-
     }
-
 }

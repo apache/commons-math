@@ -422,6 +422,5 @@ public class ComplexFormat {
         }
 
         return Complex.ofCartesian(re.doubleValue(), im.doubleValue() * sign);
-
     }
 }

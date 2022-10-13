@@ -134,7 +134,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(JdkMath.pow(2.0, -exp));
-
     }
 
     /**
@@ -173,7 +172,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         setSafety(0.9);
         setMinReduction(0.2);
         setMaxGrowth(JdkMath.pow(2.0, -exp));
-
     }
 
     /**
@@ -245,24 +243,20 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                     public void computeDerivatives(double t, double[] y, double[] yDot) {
                         getExpandable().computeDerivatives(t, y, yDot);
                     }
-
                 }, t0, y0, t, new double[y0.length]);
             }
 
             // we should not reach this step
             throw new MathIllegalStateException(LocalizedFormats.MULTISTEP_STARTER_STOPPED_EARLY);
-
         } catch (InitializationCompletedMarkerException icme) { // NOPMD
             // this is the expected nominal interruption of the start integrator
 
             // count the evaluations used by the starter
             getCounter().increment(starter.getEvaluations());
-
         }
 
         // remove the specific step handler
         starter.clearStepHandlers();
-
     }
 
     /** Initialize the high order scaled derivatives at step start.
@@ -435,9 +429,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
                 // stop the integrator now that all needed steps have been handled
                 throw new InitializationCompletedMarkerException();
-
             }
-
         }
 
         /** {@inheritDoc} */
@@ -445,7 +437,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         public void init(double t0, double[] y0, double time) {
             // nothing to do
         }
-
     }
 
     /** Marker exception used ONLY to stop the starter integrator after first step. */
@@ -459,7 +450,5 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         InitializationCompletedMarkerException() {
             super((Throwable) null);
         }
-
     }
-
 }

@@ -201,7 +201,6 @@ public enum FilterType {
                 }
             }
         }
-
     },
 
     /** Constant for triggering only increasing events.
@@ -379,7 +378,6 @@ public enum FilterType {
                 }
             }
         }
-
     };
 
     /** Get the increasing status of triggered events.
@@ -396,5 +394,4 @@ public enum FilterType {
      */
     protected abstract Transformer selectTransformer(Transformer previous,
                                                      double g, boolean forward);
-
 }

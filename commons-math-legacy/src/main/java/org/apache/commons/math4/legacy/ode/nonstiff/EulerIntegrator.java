@@ -68,5 +68,4 @@ public class EulerIntegrator extends RungeKuttaIntegrator {
   public EulerIntegrator(final double step) {
     super("Euler", STATIC_C, STATIC_A, STATIC_B, new EulerStepInterpolator(), step);
   }
-
 }

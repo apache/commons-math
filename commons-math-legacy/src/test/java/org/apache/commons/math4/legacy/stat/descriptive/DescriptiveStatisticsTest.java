@@ -179,7 +179,6 @@ public class DescriptiveStatisticsTest {
         Assert.assertEquals(reference.getSum(),           shuffled.getMin(), 1.0e-10);
         Assert.assertEquals(reference.getSumsq(),         shuffled.getSum(), 1.0e-10);
         Assert.assertEquals(reference.getGeometricMean(), shuffled.getSumsq(), 1.0e-10);
-
     }
 
     @Test
@@ -228,7 +227,6 @@ public class DescriptiveStatisticsTest {
         checkremoval(dstat, 6, 3.5, 2.5, 3.0);
         checkremoval(dstat, 9, 3.5, 2.5, 3.0);
         checkremoval(dstat, DescriptiveStatistics.INFINITE_WINDOW, 3.5, 2.5, 3.0);
-
     }
 
     @Test
@@ -387,7 +385,6 @@ public class DescriptiveStatisticsTest {
         Assert.assertTrue(Precision.equalsIncludingNaN(mean2, dstat.getMean()));
         dstat.removeMostRecentValue();
         Assert.assertTrue(Precision.equalsIncludingNaN(mean3, dstat.getMean()));
-
     }
 
     private Double[] generateInitialDoubleArray(int size) {
@@ -484,5 +481,4 @@ public class DescriptiveStatisticsTest {
             return new BadPercentile();
         }
     }
-
 }

@@ -98,7 +98,6 @@ public class EventFilter implements EventHandler {
         extremeT = forward ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         Arrays.fill(transformers, Transformer.UNINITIALIZED);
         Arrays.fill(updates, extremeT);
-
     }
 
     /**  {@inheritDoc} */
@@ -133,7 +132,6 @@ public class EventFilter implements EventHandler {
 
                 // apply the transform
                 return next.transformed(rawG);
-
             } else {
                 // we are in the middle of the history
 
@@ -146,7 +144,6 @@ public class EventFilter implements EventHandler {
                 }
 
                 return transformers[0].transformed(rawG);
-
             }
         } else {
             if (t < extremeT) {
@@ -172,7 +169,6 @@ public class EventFilter implements EventHandler {
 
                 // apply the transform
                 return next.transformed(rawG);
-
             } else {
                 // we are in the middle of the history
 
@@ -185,10 +181,8 @@ public class EventFilter implements EventHandler {
                 }
 
                 return transformers[updates.length - 1].transformed(rawG);
-
             }
        }
-
     }
 
     /**  {@inheritDoc} */
@@ -204,5 +198,4 @@ public class EventFilter implements EventHandler {
         // delegate to raw handler
         rawHandler.resetState(t, y);
     }
-
 }

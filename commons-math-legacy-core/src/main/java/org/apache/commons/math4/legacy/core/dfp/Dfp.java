@@ -1490,7 +1490,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return 0;
-
     }
 
     /** Multiply this by x.
@@ -1597,7 +1596,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return result;
-
     }
 
     /** Multiply this by a single digit x.
@@ -1953,7 +1951,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return result;
-
     }
 
     /** {@inheritDoc} */
@@ -2057,7 +2054,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return x;
-
     }
 
     /** Get a string representation of the instance.
@@ -2079,7 +2075,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return dfp2string();
-
     }
 
     /** Convert an instance to a string using scientific notation.
@@ -2298,7 +2293,6 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         return trap(type, what, oper, def, result);
-
     }
 
     /** Trap handler.  Subclasses may override this to provide trap
@@ -2758,16 +2752,13 @@ public class Dfp implements RealFieldElement<Dfp> {
 
             // compute atan2(y, x) = 2 atan(y / (r + x))
             return getTwo().multiply(divide(r.add(x)).atan());
-
         } else {
 
             // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
             final Dfp tmp = getTwo().multiply(divide(r.subtract(x)).atan());
             final Dfp pmPi = newInstance((tmp.sign <= 0) ? -Math.PI : Math.PI);
             return pmPi.subtract(tmp);
-
         }
-
     }
 
     /** {@inheritDoc}
@@ -2905,5 +2896,4 @@ public class Dfp implements RealFieldElement<Dfp> {
                                  final double a3, final Dfp b3, final double a4, final Dfp b4) {
         return b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));
     }
-
 }

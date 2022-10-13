@@ -88,7 +88,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
             }
             checkArray(regularB, fieldB);
             checkArray(regularC, fieldC);
-
         } catch (ClassNotFoundException cnfe) {
             Assert.fail(cnfe.getLocalizedMessage());
         } catch (IllegalAccessException iae) {
@@ -197,7 +196,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
                                 y[i].getReal(),
                                 epsilonY);
         }
-
     }
 
     @Test
@@ -283,9 +281,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
                 integ.clearEventHandlers();
                 Assert.assertEquals(0, integ.getEventHandlers().size());
             }
-
         }
-
     }
 
     @Test
@@ -311,7 +307,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
         Assert.assertEquals(0, handler.getMaximalTimeError().getReal(),  epsilonMaxTime);
         Assert.assertEquals(name, integ.getName());
-
     }
 
     @Test
@@ -337,7 +332,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         Assert.assertTrue(handler.getMaximalValueError().getReal() > belowMaxValue);
         Assert.assertEquals(0, handler.getMaximalTimeError().getReal(),  epsilonMaxTime);
         Assert.assertEquals(name, integ.getName());
-
     }
 
     @Test
@@ -363,7 +357,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
         Assert.assertEquals(0, handler.getMaximalTimeError().getReal(),  epsilonMaxTime);
         Assert.assertEquals(name, integ.getName());
-
     }
 
     @Test
@@ -503,11 +496,9 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
                 yDot[0] = y[0].multiply(-100.0);
                 return yDot;
             }
-
         };
 
         integ.integrate(new FieldExpandableODE<>(equations), new FieldODEState<>(t0, y0), t);
-
     }
 
     @Test
@@ -581,7 +572,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
                                     epsilonPartials[parameter]);
             }
         }
-
     }
 
     private double dYdP(final DerivativeStructure y, final int parameter) {
@@ -629,7 +619,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
             this.dAlphadT0    = -omega.getReal();
             this.dAlphadY00   = y0[1].divide(r2).getReal();
             this.dAlphadY01   = y0[0].negate().divide(r2).getReal();
-
         }
 
         @Override
@@ -674,9 +663,6 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
                 { dY0dOmega, dY0dT0, dY0dY00, dY0dY01, dY0dT },
                 { dY1dOmega, dY1dT0, dY1dY00, dY1dY01, dY1dT }
             };
-
         }
-
     }
-
 }

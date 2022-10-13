@@ -41,7 +41,6 @@ public class PolynomialsUtilsTest {
         checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(6), "-1 + 18 x^2 - 48 x^4 + 32 x^6");
         checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(5), "5 x - 20 x^3 + 16 x^5");
         checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(4), "1 - 8 x^2 + 8 x^4");
-
     }
 
     @Test
@@ -71,7 +70,6 @@ public class PolynomialsUtilsTest {
             PolynomialFunction Tk2g2 = Tk2.multiply(g2);
 
             checkNullPolynomial(Tk0g0.add(Tk1g1.add(Tk2g2)));
-
         }
     }
 
@@ -103,7 +101,6 @@ public class PolynomialsUtilsTest {
         checkPolynomial(PolynomialsUtils.createHermitePolynomial(6), "-120 + 720 x^2 - 480 x^4 + 64 x^6");
         checkPolynomial(PolynomialsUtils.createHermitePolynomial(5), "120 x - 160 x^3 + 32 x^5");
         checkPolynomial(PolynomialsUtils.createHermitePolynomial(4), "12 - 48 x^2 + 16 x^4");
-
     }
 
     @Test
@@ -123,7 +120,6 @@ public class PolynomialsUtilsTest {
             PolynomialFunction Hk2g2 = Hk2.multiply(g2);
 
             checkNullPolynomial(Hk0g0.add(Hk1g1.add(Hk2g2)));
-
         }
     }
 
@@ -161,7 +157,6 @@ public class PolynomialsUtilsTest {
         "120 - 600 x + 600 x^2 - 200 x^3 + 25 x^4 - x^5");
         checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(4),   24L,
         "24 - 96 x + 72 x^2 - 16 x^3 + x^4");
-
     }
 
     @Test
@@ -181,7 +176,6 @@ public class PolynomialsUtilsTest {
             PolynomialFunction Lk2g2 = Lk2.multiply(g2);
 
             checkNullPolynomial(Lk0g0.add(Lk1g1.add(Lk2g2)));
-
         }
     }
 
@@ -213,7 +207,6 @@ public class PolynomialsUtilsTest {
         checkPolynomial(PolynomialsUtils.createLegendrePolynomial(6), 16L, "-5 + 105 x^2 - 315 x^4 + 231 x^6");
         checkPolynomial(PolynomialsUtils.createLegendrePolynomial(5),  8L, "15 x - 70 x^3 + 63 x^5");
         checkPolynomial(PolynomialsUtils.createLegendrePolynomial(4),  8L, "3 - 30 x^2 + 35 x^4");
-
     }
 
     @Test
@@ -233,7 +226,6 @@ public class PolynomialsUtilsTest {
             PolynomialFunction Pk2g2 = Pk2.multiply(g2);
 
             checkNullPolynomial(Pk0g0.add(Pk1g1.add(Pk2g2)));
-
         }
     }
 

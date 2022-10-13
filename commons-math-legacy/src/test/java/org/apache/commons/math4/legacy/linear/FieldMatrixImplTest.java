@@ -425,7 +425,6 @@ public final class FieldMatrixImplTest {
                             subtract(Dfp25.of(5).multiply(solution[2])).toDouble(),
                             constants[2].toDouble(),
                             0d);
-
     }
 
     // test submatrix accessors
@@ -967,7 +966,6 @@ public final class FieldMatrixImplTest {
         } catch (MathIllegalArgumentException e) {
             // expected
         }
-
     }
 
     @Test

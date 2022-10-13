@@ -56,7 +56,5 @@ public interface LeastSquaresOptimizer {
          * @return the number of iterations
          */
         int getIterations();
-
     }
-
 }

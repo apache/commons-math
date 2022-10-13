@@ -71,5 +71,4 @@ public interface StepHandler {
      */
     void handleStep(StepInterpolator interpolator, boolean isLast)
         throws MaxCountExceededException;
-
 }

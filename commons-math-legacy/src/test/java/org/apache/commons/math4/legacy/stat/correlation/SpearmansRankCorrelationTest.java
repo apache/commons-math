@@ -159,5 +159,4 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
     @Override
     @Test
     public void testCovarianceConsistency() {}
-
 }

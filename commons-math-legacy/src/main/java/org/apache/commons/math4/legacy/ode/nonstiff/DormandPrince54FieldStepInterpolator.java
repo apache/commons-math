@@ -243,7 +243,5 @@ class DormandPrince54FieldStepInterpolator<T extends RealFieldElement<T>>
                                                                   coeffDot4, coeffDot5, coeffDot6);
         }
         return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
-
     }
-
 }

@@ -113,5 +113,4 @@ public class TournamentSelection implements SelectionPolicy {
     public void setArity(final int arity) {
         this.arity = arity;
     }
-
 }

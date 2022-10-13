@@ -67,7 +67,6 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
         integ.addStepHandler(handler);
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
-
     }
 
     @Test
@@ -98,9 +97,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
             Assert.assertEquals(integ.getEvaluations(), calls);
             Assert.assertTrue(calls <= previousCalls);
             previousCalls = calls;
-
         }
-
     }
 
     @Test(expected = MaxCountExceededException.class)
@@ -116,7 +113,6 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         integ.addStepHandler(handler);
         integ.setMaxEvaluations(max);
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
-
     }
 
     @Test
@@ -164,7 +160,6 @@ public abstract class AdamsFieldIntegratorAbstractTest {
                 Assert.assertTrue(handler.getMaximalValueError().getReal() < epsilonGood);
             }
         }
-
     }
 
     @Test(expected=MathIllegalStateException.class)
@@ -184,7 +179,6 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         TestFieldProblemHandler<T> handler = new TestFieldProblemHandler<>(pb, integ);
         integ.addStepHandler(handler);
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
-
     }
 
     private static class PerfectStarter<T extends RealFieldElement<T>> extends AbstractFieldIntegrator<T> {
@@ -214,7 +208,6 @@ public abstract class AdamsFieldIntegratorAbstractTest {
             }
             return interpolator.getInterpolatedState(tStart);
         }
-
     }
 
     private static class PerfectInterpolator<T extends RealFieldElement<T>> implements FieldStepInterpolator<T> {
@@ -259,7 +252,5 @@ public abstract class AdamsFieldIntegratorAbstractTest {
             T[] yDot = problem.computeDerivatives(time, y);
             return new FieldODEStateAndDerivative<>(time, y, yDot);
         }
-
     }
-
 }

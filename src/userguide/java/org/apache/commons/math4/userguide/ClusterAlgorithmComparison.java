@@ -250,7 +250,6 @@ public class ClusterAlgorithmComparison {
                 c.gridy++;
             }            
         }
-
     }
 
     @SuppressWarnings("serial")

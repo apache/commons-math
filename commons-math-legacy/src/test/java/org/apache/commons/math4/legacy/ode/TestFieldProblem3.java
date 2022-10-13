@@ -87,7 +87,6 @@ extends TestFieldProblemAbstract<T> {
         yDot[3] = invR3.negate().multiply(y[1]);
 
         return yDot;
-
     }
 
     @Override
@@ -118,7 +117,5 @@ extends TestFieldProblemAbstract<T> {
         y[3] = e.multiply(e).subtract(1).negate().sqrt().multiply(cosE).divide(e.multiply(cosE).subtract(1).negate());
 
         return y;
-
     }
-
 }

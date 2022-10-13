@@ -283,7 +283,6 @@ public final class BlockRealMatrixTest {
                 Assert.assertEquals((i + 30) + (j + 62) / 1024.0, sub4.getEntry(i, j), 0);
             }
         }
-
     }
 
     //Additional Test for BlockRealMatrixTest.testMultiply
@@ -578,7 +577,6 @@ public final class BlockRealMatrixTest {
             }
         }
         Assert.assertEquals(sub, m.getSubMatrix(2, n - 3, 2, n - 3));
-
     }
 
     @Test
@@ -776,7 +774,6 @@ public final class BlockRealMatrixTest {
             }
         }
         Assert.assertEquals(sub, m.getColumnMatrix(2));
-
     }
 
     @Test
@@ -1222,7 +1219,6 @@ public final class BlockRealMatrixTest {
             Assert.assertEquals(0.0, m.getEntry(0, j), 0);
             Assert.assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
-
     }
 
     @Test

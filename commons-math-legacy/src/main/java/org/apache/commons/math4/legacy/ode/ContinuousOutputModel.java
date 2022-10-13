@@ -156,7 +156,6 @@ public class ContinuousOutputModel
         throw new MathIllegalArgumentException(LocalizedFormats.HOLE_BETWEEN_MODELS_TIME_RANGES,
                                                JdkMath.abs(gap));
       }
-
     }
 
     for (StepInterpolator interpolator : model.steps) {
@@ -165,7 +164,6 @@ public class ContinuousOutputModel
 
     index = steps.size() - 1;
     finalTime = (steps.get(index)).getCurrentTime();
-
   }
 
   /** {@inheritDoc} */
@@ -201,7 +199,6 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
       finalTime = interpolator.getCurrentTime();
       index     = steps.size() - 1;
     }
-
   }
 
   /**
@@ -324,7 +321,6 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
         } else if (index > high) {
           index = high;
         }
-
       }
 
       // now the table slice is very small, we perform an iterative search
@@ -334,7 +330,6 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
       }
 
       steps.get(index).setInterpolatedTime(time);
-
   }
 
   /**
@@ -441,5 +436,4 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
       return 0;
     }
   }
-
 }

@@ -62,5 +62,4 @@ public class EulerFieldStepInterpolatorTest extends RungeKuttaFieldStepInterpola
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 7.0e-18, 1.0e-50, 1.0e-50, 1.0e-50);
     }
-
 }

@@ -125,7 +125,6 @@ class DormandPrince54StepInterpolator
       v3 = null;
       v4 = null;
       vectorsInitialized = false;
-
     } else {
 
       v1 = interpolator.v1.clone();
@@ -133,9 +132,7 @@ class DormandPrince54StepInterpolator
       v3 = interpolator.v3.clone();
       v4 = interpolator.v4.clone();
       vectorsInitialized = interpolator.vectorsInitialized;
-
     }
-
   }
 
   /** {@inheritDoc} */
@@ -197,7 +194,6 @@ class DormandPrince54StepInterpolator
       }
 
       vectorsInitialized = true;
-
     }
 
     // interpolate
@@ -219,7 +215,5 @@ class DormandPrince54StepInterpolator
             interpolatedDerivatives[i] = v1[i] + dot2 * v2[i] + dot3 * v3[i] + dot4 * v4[i];
         }
     }
-
   }
-
 }

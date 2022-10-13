@@ -148,7 +148,6 @@ public class JacobianMatrices {
         for (int i = 0; i < stateDim; ++i) {
             matricesData[i * (stateDim + 1)] = 1.0;
         }
-
     }
 
     /** Register the variational equations for the Jacobians matrices to the expandable set.
@@ -173,7 +172,6 @@ public class JacobianMatrices {
         efode = expandable;
         index = efode.addSecondaryEquations(new JacobiansSecondaryEquations());
         efode.setSecondaryState(index, matricesData);
-
     }
 
     /** Add a parameter Jacobian provider.
@@ -220,7 +218,6 @@ public class JacobianMatrices {
         }
 
         throw new UnknownParameterException(parameter);
-
     }
 
     /** Set the initial value of the Jacobian matrix with respect to state.
@@ -248,7 +245,6 @@ public class JacobianMatrices {
         if (efode != null) {
             efode.setSecondaryState(index, matricesData);
         }
-
     }
 
     /** Set the initial value of a column of the Jacobian matrix with respect to one parameter.
@@ -281,7 +277,6 @@ public class JacobianMatrices {
         }
 
         throw new UnknownParameterException(pName);
-
     }
 
     /** Get the current value of the Jacobian matrix with respect to state.
@@ -297,7 +292,6 @@ public class JacobianMatrices {
             System.arraycopy(p, j, dYdY0[i], 0, stateDim);
             j += stateDim;
         }
-
     }
 
     /** Get the current value of the Jacobian matrix with respect to one parameter.
@@ -317,7 +311,6 @@ public class JacobianMatrices {
             }
             i += stateDim;
         }
-
     }
 
     /** Check array dimensions.
@@ -411,7 +404,6 @@ public class JacobianMatrices {
                     startIndex += stateDim;
                 }
             }
-
         }
     }
 
@@ -473,7 +465,6 @@ public class JacobianMatrices {
                 y[j] = savedYj;
             }
         }
-
     }
 
     /**
@@ -489,8 +480,6 @@ public class JacobianMatrices {
         public MismatchedEquations() {
             super(LocalizedFormats.UNMATCHED_ODE_IN_EXPANDED_SET);
         }
-
     }
-
 }
 

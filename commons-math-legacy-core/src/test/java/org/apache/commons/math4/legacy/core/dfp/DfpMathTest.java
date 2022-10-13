@@ -584,5 +584,4 @@ public class DfpMathTest {
              DfpField.FLAG_INEXACT, "sin #27");
     }
 
-
 }

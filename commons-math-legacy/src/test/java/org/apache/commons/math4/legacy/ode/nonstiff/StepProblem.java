@@ -67,5 +67,4 @@ public void resetState(double t, double[] y) {
   private double rate;
   private double rateAfter;
   private double switchTime;
-
 }

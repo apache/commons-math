@@ -110,5 +110,4 @@ public class ExampleUtils {
         g.dispose();
         return resizedImage;
     }
-
 }

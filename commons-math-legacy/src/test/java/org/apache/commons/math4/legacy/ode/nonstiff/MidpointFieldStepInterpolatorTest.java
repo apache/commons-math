@@ -63,5 +63,4 @@ public class MidpointFieldStepInterpolatorTest extends RungeKuttaFieldStepInterp
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.4e-17, 1.0e-50, 1.0e-50, 7.0e-18);
     }
-
 }

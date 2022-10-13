@@ -161,14 +161,12 @@ public final class UnivariateSolverUtils {
                 fHi  = f.value(xHi);
                 remainingEval--;
             }
-
         }
 
         throw new NoBracketingException(LocalizedFormats.FAILED_BRACKETING,
                                         xLo, xHi, fLo, fHi,
                                         maxEval - remainingEval, maxEval, baseRoot,
                                         min, max);
-
     }
 
     /**
@@ -348,12 +346,10 @@ public final class UnivariateSolverUtils {
                     return new double[] { previousB, b };
                 }
             }
-
         }
 
         // no bracketing found
         throw new NoBracketingException(a, b, fa, fb);
-
     }
 
     /**

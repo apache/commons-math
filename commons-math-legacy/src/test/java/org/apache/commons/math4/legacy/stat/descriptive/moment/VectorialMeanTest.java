@@ -71,6 +71,5 @@ public class VectorialMeanTest {
         for (int i = 0; i < mean.length; ++i) {
             Assert.assertEquals(refMean[i], mean[i], 1.0e-12);
         }
-
     }
 }

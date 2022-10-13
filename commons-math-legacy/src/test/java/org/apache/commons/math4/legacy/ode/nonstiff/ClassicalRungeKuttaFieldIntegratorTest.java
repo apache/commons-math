@@ -57,7 +57,6 @@ public class ClassicalRungeKuttaFieldIntegratorTest extends RungeKuttaFieldInteg
     @Override
     public void testBigStep() {
         doTestBigStep(Decimal64Field.getInstance(), 0.0004, 0.005, 1.0e-12, "classical Runge-Kutta");
-
     }
 
     @Override
@@ -99,5 +98,4 @@ public class ClassicalRungeKuttaFieldIntegratorTest extends RungeKuttaFieldInteg
     public void testPartialDerivatives() {
         doTestPartialDerivatives(3.2e-10, new double[] { 2.1e-9, 5.9e-10, 7.0e-11, 7.0e-11, 5.9e-10 });
     }
-
 }

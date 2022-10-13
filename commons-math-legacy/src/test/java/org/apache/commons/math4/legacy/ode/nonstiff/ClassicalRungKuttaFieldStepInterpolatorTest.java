@@ -63,5 +63,4 @@ public class ClassicalRungKuttaFieldStepInterpolatorTest extends RungeKuttaField
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 1.2e-16, 3.4e-16, 2.1e-17);
     }
-
 }

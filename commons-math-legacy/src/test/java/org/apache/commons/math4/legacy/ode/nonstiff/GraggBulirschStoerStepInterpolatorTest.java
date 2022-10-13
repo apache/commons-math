@@ -106,7 +106,6 @@ public class GraggBulirschStoerStepInterpolatorTest {
     }
 
     Assert.assertTrue(maxError < 5.0e-10);
-
   }
 
   @Test
@@ -151,7 +150,5 @@ public class GraggBulirschStoerStepInterpolatorTest {
     integ.integrate(pb,
             pb.getInitialTime(), pb.getInitialState(),
             pb.getFinalTime(), new double[pb.getDimension()]);
-
   }
-
 }

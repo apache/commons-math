@@ -48,5 +48,4 @@ public class UnknownParameterException extends MathIllegalArgumentException {
     public String getName() {
         return name;
     }
-
 }

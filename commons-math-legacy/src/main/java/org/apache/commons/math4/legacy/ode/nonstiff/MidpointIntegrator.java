@@ -64,5 +64,4 @@ public class MidpointIntegrator extends RungeKuttaIntegrator {
   public MidpointIntegrator(final double step) {
     super("midpoint", STATIC_C, STATIC_A, STATIC_B, new MidpointStepInterpolator(), step);
   }
-
 }

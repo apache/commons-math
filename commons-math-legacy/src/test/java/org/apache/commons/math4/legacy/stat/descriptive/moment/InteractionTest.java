@@ -73,7 +73,5 @@ public class InteractionTest {
         Assert.assertEquals(var,v.getResult(),tolerance);
         Assert.assertEquals(skew ,s.getResult(),tolerance);
         Assert.assertEquals(kurt,k.getResult(),tolerance);
-
     }
-
 }

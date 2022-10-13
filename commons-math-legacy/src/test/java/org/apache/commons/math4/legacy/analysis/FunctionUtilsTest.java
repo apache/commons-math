@@ -340,7 +340,6 @@ public class FunctionUtilsTest {
             public DerivativeStructure value(DerivativeStructure x) {
                 return x.multiply(x);
             }
-
         };
 
         final UnivariateFunction f0 = FunctionUtils.derivative(f, 0);
@@ -352,7 +351,6 @@ public class FunctionUtilsTest {
             Assert.assertEquals(2 * t, f1.value(t), 1.0e-15);
             Assert.assertEquals(2,     f2.value(t), 1.0e-15);
         }
-
     }
 
     @Test
@@ -377,7 +375,6 @@ public class FunctionUtilsTest {
                 DerivativeStructure xy = x.multiply(y);
                 return x2.multiply(a).add(y2.multiply(b)).add(xy.multiply(c));
             }
-
         };
 
         final MultivariateFunction f       = FunctionUtils.derivative(mdf, new int[] { 0, 0 });
@@ -397,7 +394,5 @@ public class FunctionUtilsTest {
                 Assert.assertEquals(c,                                 d2fdxdy.value(new double[] { x, y }), 1.0e-15);
             }
         }
-
     }
-
 }

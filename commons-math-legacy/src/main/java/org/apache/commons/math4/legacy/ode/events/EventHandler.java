@@ -84,7 +84,6 @@ public interface EventHandler  {
          * on after the event ending the current step.</p>
          */
         CONTINUE;
-
     }
 
     /** Initialize event handler at the start of an ODE integration.
@@ -215,5 +214,4 @@ public interface EventHandler  {
    * the new state should be put in the same array
    */
   void resetState(double t, double[] y);
-
 }

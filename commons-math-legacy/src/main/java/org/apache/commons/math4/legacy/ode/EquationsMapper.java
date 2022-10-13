@@ -93,5 +93,4 @@ public class EquationsMapper implements Serializable {
         }
         System.arraycopy(equationData, 0, complete, firstIndex, dimension);
     }
-
 }

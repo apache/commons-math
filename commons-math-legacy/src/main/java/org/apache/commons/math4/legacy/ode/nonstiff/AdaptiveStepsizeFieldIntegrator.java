@@ -114,7 +114,6 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
         super(field, name);
         setStepSizeControl(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
         resetInternalState();
-
     }
 
     /** Build an integrator with the given stepsize bounds.
@@ -138,7 +137,6 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
         super(field, name);
         setStepSizeControl(minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
         resetInternalState();
-
     }
 
     /** Set the adaptive step size control parameters.
@@ -167,7 +165,6 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
         scalRelativeTolerance = relativeTolerance;
         vecAbsoluteTolerance  = null;
         vecRelativeTolerance  = null;
-
     }
 
     /** Set the adaptive step size control parameters.
@@ -196,7 +193,6 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
         scalRelativeTolerance = 0;
         vecAbsoluteTolerance  = absoluteTolerance.clone();
         vecRelativeTolerance  = relativeTolerance.clone();
-
     }
 
     /** Set the initial step size.
@@ -235,7 +231,6 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
         if (vecRelativeTolerance != null && vecRelativeTolerance.length != mainSetDimension) {
             throw new DimensionMismatchException(mainSetDimension, vecRelativeTolerance.length);
         }
-
     }
 
     /** Initialize the integration step.
@@ -307,7 +302,6 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
         }
 
         return h;
-
     }
 
     /** Filter the integration step.
@@ -339,7 +333,6 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
         }
 
         return filteredH;
-
     }
 
     /** Reset internal state to dummy values. */
@@ -361,5 +354,4 @@ public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement
     public T getMaxStep() {
         return maxStep;
     }
-
 }

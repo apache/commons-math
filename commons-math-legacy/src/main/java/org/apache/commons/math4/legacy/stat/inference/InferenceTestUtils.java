@@ -741,5 +741,4 @@ public final class InferenceTestUtils {
 
 
     // CHECKSTYLE: resume JavadocMethodCheck
-
 }

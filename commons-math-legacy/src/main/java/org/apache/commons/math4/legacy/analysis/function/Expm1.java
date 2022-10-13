@@ -40,5 +40,4 @@ public class Expm1 implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.expm1();
     }
-
 }

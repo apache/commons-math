@@ -54,5 +54,4 @@ public interface Field<T> {
      *         class of this object.
      */
     Class<? extends FieldElement<T>> getRuntimeClass();
-
 }

@@ -459,7 +459,6 @@ public class MathArraysTest {
                                              new double[] {Double.NEGATIVE_INFINITY}));
         Assert.assertFalse(MathArrays.equals(new double[] {1d},
                                              new double[] {JdkMath.nextAfter(JdkMath.nextAfter(1d, 2d), 2d)}));
-
     }
 
     @Test

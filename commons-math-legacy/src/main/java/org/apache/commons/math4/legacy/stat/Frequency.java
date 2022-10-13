@@ -370,5 +370,4 @@ public class Frequency<T extends Comparable<T>> {
         Frequency<?> other = (Frequency<?>) obj;
         return freqTable.equals(other.freqTable);
     }
-
 }

@@ -51,5 +51,4 @@ public class DummyFieldStepInterpolator<T extends RealFieldElement<T>>
                                                                                    T time, T theta, T thetaH, T oneMinusThetaH) {
         return getGlobalCurrentState();
     }
-
 }

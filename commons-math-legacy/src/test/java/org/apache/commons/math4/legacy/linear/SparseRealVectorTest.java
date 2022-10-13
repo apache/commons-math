@@ -98,7 +98,6 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
         OpenMapRealVector v8 = new OpenMapRealVector(v1);
         Assert.assertEquals("testData len", 7, v8.getDimension());
         Assert.assertEquals("testData is 0.0 ", 0.0, v8.getEntry(6), 0);
-
     }
 
     /* Check that the operations do not throw an exception (cf. MATH-645). */
@@ -146,5 +145,4 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
             new Floor(), new Rint(), new Signum()
         };
     }
-
 }

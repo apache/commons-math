@@ -113,7 +113,6 @@ public class ChiSquareTest {
             }
         }
         return sumSq;
-
     }
 
     /**
@@ -210,7 +209,6 @@ public class ChiSquareTest {
                                           alpha, 0, 0.5);
         }
         return chiSquareTest(expected, observed) < alpha;
-
     }
 
     /**
@@ -284,7 +282,6 @@ public class ChiSquareTest {
             }
         }
         return sumSq;
-
     }
 
     /**
@@ -334,7 +331,6 @@ public class ChiSquareTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution = ChiSquaredDistribution.of(df);
         return 1 - distribution.cumulativeProbability(chiSquare(counts));
-
     }
 
     /**
@@ -391,7 +387,6 @@ public class ChiSquareTest {
                                           alpha, 0, 0.5);
         }
         return chiSquareTest(counts) < alpha;
-
     }
 
     /**
@@ -539,7 +534,6 @@ public class ChiSquareTest {
                 ChiSquaredDistribution.of((double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
-
     }
 
     /**
@@ -596,7 +590,6 @@ public class ChiSquareTest {
                                           alpha, 0, 0.5);
         }
         return chiSquareTestDataSetsComparison(observed1, observed2) < alpha;
-
     }
 
     /**
@@ -622,7 +615,6 @@ public class ChiSquareTest {
 
         MathArrays.checkRectangular(in);
         MathArrays.checkNonNegative(in);
-
     }
 
     /**
@@ -639,5 +631,4 @@ public class ChiSquareTest {
                 name + " " + index);
         }
     }
-
 }

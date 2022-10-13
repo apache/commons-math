@@ -80,5 +80,4 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
     protected void checkClearValue(StorelessUnivariateStatistic statistic) {
         Assert.assertEquals(0, statistic.getResult(), 0);
     }
-
 }

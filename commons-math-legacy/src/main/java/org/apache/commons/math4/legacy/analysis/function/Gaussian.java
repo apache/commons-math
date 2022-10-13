@@ -241,12 +241,9 @@ public class Gaussian implements UnivariateDifferentiableFunction {
 
                 coeff *= is;
                 f[n] = coeff * v;
-
             }
         }
 
         return t.compose(f);
-
     }
-
 }

@@ -71,5 +71,4 @@ public interface FieldSecondaryEquations<T extends RealFieldElement<T>> {
      */
     T[] computeDerivatives(T t, T[] primary, T[] primaryDot, T[] secondary)
         throws MaxCountExceededException, DimensionMismatchException;
-
 }

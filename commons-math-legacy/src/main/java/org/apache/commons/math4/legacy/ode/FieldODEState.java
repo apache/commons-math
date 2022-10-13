@@ -85,7 +85,6 @@ public class FieldODEState<T extends RealFieldElement<T>> {
         }
 
         return copied;
-
     }
 
     /** Get time.
@@ -135,5 +134,4 @@ public class FieldODEState<T extends RealFieldElement<T>> {
     public T[] getSecondaryState(final int index) {
         return index == 0 ? state.clone() : secondaryState[index - 1].clone();
     }
-
 }

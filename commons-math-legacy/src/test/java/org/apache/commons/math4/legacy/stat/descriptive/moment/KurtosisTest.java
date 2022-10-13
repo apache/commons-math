@@ -60,5 +60,4 @@ public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
         kurt.increment(1d);
         Assert.assertFalse(Double.isNaN(kurt.getResult()));
     }
-
 }

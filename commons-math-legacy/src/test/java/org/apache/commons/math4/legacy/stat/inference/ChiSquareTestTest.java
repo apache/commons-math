@@ -99,7 +99,6 @@ public class ChiSquareTestTest {
         } catch (NotPositiveException ex) {
             // expected
         }
-
     }
 
     @Test

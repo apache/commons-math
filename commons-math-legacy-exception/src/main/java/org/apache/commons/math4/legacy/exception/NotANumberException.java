@@ -33,5 +33,4 @@ public class NotANumberException extends MathIllegalNumberException {
     public NotANumberException() {
         super(LocalizedFormats.NAN_NOT_ALLOWED, Double.valueOf(Double.NaN));
     }
-
 }

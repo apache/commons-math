@@ -125,9 +125,7 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
 
             // update the abscissae array
             abscissae.add(x);
-
         }
-
     }
 
     /** Interpolate value at a specified abscissa.
@@ -156,7 +154,6 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
         }
 
         return value;
-
     }
 
     /** Interpolate value and first derivatives at a specified abscissa.
@@ -203,7 +200,5 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
         }
 
         return derivatives;
-
     }
-
 }

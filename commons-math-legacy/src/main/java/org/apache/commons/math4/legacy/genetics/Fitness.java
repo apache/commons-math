@@ -28,5 +28,4 @@ public interface Fitness {
      * @return fitness
      */
     double fitness();
-
 }

@@ -281,5 +281,4 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         RealMatrix rInv = new LUDecomposition(rAug).getSolver().getInverse();
         return rInv.multiply(rInv.transpose());
     }
-
 }

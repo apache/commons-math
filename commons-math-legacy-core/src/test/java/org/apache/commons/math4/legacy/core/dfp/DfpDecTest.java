@@ -562,5 +562,4 @@ public class DfpDecTest {
              pinf,
              DfpField.FLAG_OVERFLOW | DfpField.FLAG_INEXACT, "Next After #14");
     }
-
 }

@@ -169,5 +169,4 @@ public class RandomKeyTest {
         Assert.assertEquals("b", decodedData.get(1));
         Assert.assertEquals("c", decodedData.get(2));
     }
-
 }

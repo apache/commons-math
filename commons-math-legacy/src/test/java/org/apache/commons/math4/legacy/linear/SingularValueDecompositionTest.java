@@ -86,7 +86,6 @@ public class SingularValueDecompositionTest {
         Assert.assertEquals(n, svd.getS().getColumnDimension());
         Assert.assertEquals(n, svd.getV().getRowDimension());
         Assert.assertEquals(n, svd.getV().getColumnDimension());
-
     }
 
     /** Test based on a dimension 4 Hadamard matrix. */
@@ -123,7 +122,6 @@ public class SingularValueDecompositionTest {
         Assert.assertEquals(0.0,
                      halfCovariance.subtract(svd.getCovariance(6.0)).getNorm(),
                      1.0e-14);
-
     }
 
     /** test A = USVt */
@@ -141,7 +139,6 @@ public class SingularValueDecompositionTest {
         RealMatrix v = svd.getV();
         double norm = u.multiply(s).multiply(v.transpose()).subtract(matrix).getNorm();
         Assert.assertEquals(0, norm, normTolerance);
-
     }
 
     /** test that U is orthogonal */
@@ -197,7 +194,6 @@ public class SingularValueDecompositionTest {
         Assert.assertSame(u, svd.getU());
         Assert.assertSame(s, svd.getS());
         Assert.assertSame(v, svd.getV());
-
     }
 
     /** test matrices values */
@@ -236,7 +232,6 @@ public class SingularValueDecompositionTest {
         Assert.assertSame(u, svd.getU());
         Assert.assertSame(s, svd.getS());
         Assert.assertSame(v, svd.getV());
-
     }
 
      /** test MATH-465 */
@@ -327,5 +322,4 @@ public class SingularValueDecompositionTest {
         Assert.assertTrue(Double.isNaN(svd.getSingularValues()[0]));
         Assert.assertTrue(Double.isNaN(svd.getSingularValues()[1]));
     }
-
 }

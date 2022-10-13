@@ -163,7 +163,6 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
                 }
 
                 yDotK[k] = computeDerivatives(getStepStart().getTime().add(getStepSize().multiply(c[k-1])), yTmp);
-
             }
 
             // estimate the state at the end of the step
@@ -194,14 +193,12 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
                     setStepSize(finalTime.subtract(getStepStart().getTime()));
                 }
             }
-
         } while (!isLastStep());
 
         final FieldODEStateAndDerivative<T> finalState = getStepStart();
         setStepStart(null);
         setStepSize(null);
         return finalState;
-
     }
 
     /** Fast computation of a single step of ODE integration.
@@ -254,7 +251,6 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
             }
 
             yDotK[k] = equations.computeDerivatives(t0.add(h.multiply(c[k-1])), yTmp);
-
         }
 
         // estimate the state at the end of the step
@@ -267,7 +263,5 @@ public abstract class RungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
         }
 
         return y;
-
     }
-
 }

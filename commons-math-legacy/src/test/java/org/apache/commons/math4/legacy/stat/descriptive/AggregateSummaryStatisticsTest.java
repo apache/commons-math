@@ -120,7 +120,6 @@ public class AggregateSummaryStatisticsTest {
          *
          */
         Assert.assertEquals(totalStats.getSummary(), aggregate.getSummary());
-
     }
 
     /**
@@ -255,7 +254,6 @@ public class AggregateSummaryStatisticsTest {
         // Compare values
         StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
-
     }
 
     /**
@@ -335,5 +333,4 @@ public class AggregateSummaryStatisticsTest {
             return out;
         }
     }
-
 }

@@ -395,7 +395,6 @@ public final class SparseRealMatrixTest {
         Assert.assertEquals(2 * sol0 + 3 * sol1 - 2 * sol2, cst0, 1E-12);
         Assert.assertEquals(-1 * sol0 + 7 * sol1 + 6 * sol2, cst1, 1E-12);
         Assert.assertEquals(4 * sol0 - 3 * sol1 - 5 * sol2, cst2, 1E-12);
-
     }
 
     // test submatrix accessors
@@ -656,7 +655,6 @@ public final class SparseRealMatrixTest {
         } catch (MathIllegalArgumentException e) {
             // expected
         }
-
     }
 
     @Test

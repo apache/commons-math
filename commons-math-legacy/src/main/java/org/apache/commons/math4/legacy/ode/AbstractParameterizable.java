@@ -72,5 +72,4 @@ public abstract class AbstractParameterizable implements Parameterizable {
             throw new UnknownParameterException(name);
         }
     }
-
 }

@@ -118,7 +118,6 @@ public void handleStep(StepInterpolator interpolator, boolean isLast) throws Max
             maxValueError = JdkMath.max(error, maxValueError);
         }
     }
-
   }
 
   /**
@@ -157,5 +156,4 @@ public void handleStep(StepInterpolator interpolator, boolean isLast) throws Max
   public double getLastTime() {
     return lastTime;
   }
-
 }

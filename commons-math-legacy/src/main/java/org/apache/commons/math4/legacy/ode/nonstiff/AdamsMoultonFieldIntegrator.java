@@ -321,16 +321,13 @@ public class AdamsMoultonFieldIntegrator<T extends RealFieldElement<T>> extends 
                 rescale(hNew);
                 stepEnd = AdamsFieldStepInterpolator.taylor(getStepStart(), getStepStart().getTime().add(getStepSize()),
                                                             getStepSize(), scaled, nordsieck);
-
             }
-
         } while (!isLastStep());
 
         final FieldODEStateAndDerivative<T> finalState = getStepStart();
         setStepStart(null);
         setStepSize(null);
         return finalState;
-
     }
 
     /** Corrector for current state in Adams-Moulton method.
@@ -410,8 +407,6 @@ public class AdamsMoultonFieldIntegrator<T extends RealFieldElement<T>> extends 
             }
 
             return error.divide(mainSetDimension).sqrt();
-
         }
     }
-
 }

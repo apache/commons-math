@@ -71,7 +71,6 @@ public final class MidPointIntegratorTest {
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
         Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
-
     }
 
     /**
@@ -101,7 +100,6 @@ public final class MidPointIntegratorTest {
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
         Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
-
     }
 
     /**
@@ -140,7 +138,6 @@ public final class MidPointIntegratorTest {
         Assert.assertTrue(integrator.getIterations() < NUM_ITER);
         Assert.assertEquals(expectedEvaluations(integrator.getIterations()), integrator.getEvaluations());
         Assert.assertEquals(expected, result, tolerance);
-
     }
 
     /**

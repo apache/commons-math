@@ -46,7 +46,6 @@ public class EventFilterTest {
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
                     1.5 * JdkMath.PI, 30.5 * JdkMath.PI, JdkMath.PI, +1);
-
     }
 
     @Test
@@ -63,7 +62,6 @@ public class EventFilterTest {
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_INCREASING_EVENTS,
                     1.5 * JdkMath.PI, -30.5 * JdkMath.PI, JdkMath.PI, -1);
-
     }
 
     @Test
@@ -80,7 +78,6 @@ public class EventFilterTest {
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
                     1.5 * JdkMath.PI, 30.5 * JdkMath.PI, 0, +1);
-
     }
 
     @Test
@@ -97,7 +94,6 @@ public class EventFilterTest {
         // start point: g < 0
         testHistory(FilterType.TRIGGER_ONLY_DECREASING_EVENTS,
                     1.5 * JdkMath.PI, -30.5 * JdkMath.PI, 0, +1);
-
     }
 
     public void testHistory(FilterType type, double t0, double t1, double refSwitch, double signEven) {
@@ -126,7 +122,6 @@ public class EventFilterTest {
                 Assert.assertEquals(-signEven * JdkMath.sin(t), g, 1.0e-10);
             }
         }
-
     }
 
     @Test
@@ -153,7 +148,6 @@ public class EventFilterTest {
 
         Assert.assertEquals(5, allEvents.getEventCount());
         Assert.assertEquals(2, onlyIncreasing.getEventCount());
-
     }
 
     @Test
@@ -180,7 +174,6 @@ public class EventFilterTest {
 
         Assert.assertEquals(5, allEvents.getEventCount());
         Assert.assertEquals(3, onlyDecreasing.getEventCount());
-
     }
 
     @Test
@@ -213,7 +206,6 @@ public class EventFilterTest {
         Assert.assertEquals(5, allEvents.getEventCount());
         Assert.assertEquals(2, onlyIncreasing.getEventCount());
         Assert.assertEquals(3, onlyDecreasing.getEventCount());
-
     }
 
     private static class SineCosine implements FirstOrderDifferentialEquations {
@@ -270,6 +262,5 @@ public class EventFilterTest {
         public void resetState(double t, double[] y) {
             // in fact, we don't really reset anything for this test
         }
-
     }
 }

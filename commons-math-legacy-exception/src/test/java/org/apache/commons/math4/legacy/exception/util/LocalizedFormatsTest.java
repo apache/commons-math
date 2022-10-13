@@ -49,7 +49,6 @@ public class LocalizedFormatsTest {
             }
             Assert.assertEquals(language, bundle.getLocale().getLanguage());
         }
-
     }
 
     @Test
@@ -68,7 +67,6 @@ public class LocalizedFormatsTest {
             }
             Assert.assertEquals(language, bundle.getLocale().getLanguage());
         }
-
     }
 
     @Test
@@ -100,5 +98,4 @@ public class LocalizedFormatsTest {
             }
         }
     }
-
 }

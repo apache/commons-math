@@ -185,7 +185,6 @@ public class Logit implements UnivariateDifferentiableFunction {
             for (int i = 2; i < f.length; ++i) {
                 f[i] = f[i - 2];
             }
-
         } else {
 
             // function derivatives

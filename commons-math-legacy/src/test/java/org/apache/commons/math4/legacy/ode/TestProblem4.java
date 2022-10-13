@@ -120,7 +120,6 @@ public class TestProblem4
       y[0] = -y[0];
       y[1] = -y[1];
     }
-
   }
 
   private static class Stop implements EventHandler {
@@ -145,7 +144,5 @@ public class TestProblem4
     @Override
     public void resetState(double t, double[] y) {
     }
-
   }
-
 }

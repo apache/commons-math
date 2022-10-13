@@ -140,7 +140,6 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
                 return x.subtract(1).multiply(x).multiply(x).subtract(1);
             }
         });
-
     }
 
     private void compare(TestFunction f) {
@@ -174,7 +173,6 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         final int weightedNewtonEvaluations = 2 * newton.getEvaluations();
 
         Assert.assertTrue(weightedBracketingEvaluations < weightedNewtonEvaluations);
-
     }
 
     private abstract static class TestFunction implements UnivariateDifferentiableFunction {

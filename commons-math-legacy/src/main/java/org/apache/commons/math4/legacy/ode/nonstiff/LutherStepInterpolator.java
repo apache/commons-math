@@ -176,7 +176,5 @@ class LutherStepInterpolator extends RungeKuttaStepInterpolator {
                         coeffDot4 * yDot4 + coeffDot5 * yDot5 + coeffDot6 * yDot6 + coeffDot7 * yDot7;
             }
         }
-
     }
-
 }

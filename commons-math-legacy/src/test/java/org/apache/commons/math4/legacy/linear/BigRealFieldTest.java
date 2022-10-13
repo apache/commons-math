@@ -39,5 +39,4 @@ public class BigRealFieldTest {
         BigRealField field = BigRealField.getInstance();
         Assert.assertSame(field, TestUtils.serializeAndRecover(field));
     }
-
 }

@@ -349,7 +349,6 @@ public abstract class AbstractRealMatrix
             public double visit(final int row, final int column, final double value) {
                 return getEntry(selectedRows[row], selectedColumns[column]);
             }
-
         });
 
         return subMatrix;
@@ -399,7 +398,6 @@ public abstract class AbstractRealMatrix
             public void visit(final int row, final int column, final double value) {
                 destination[row - startRow][column - startColumn] = value;
             }
-
         }, startRow, endRow, startColumn, endColumn);
     }
 
@@ -651,7 +649,6 @@ public abstract class AbstractRealMatrix
             public void visit(final int row, final int column, final double value) {
                 out.setEntry(column, row, value);
             }
-
         });
 
         return out;

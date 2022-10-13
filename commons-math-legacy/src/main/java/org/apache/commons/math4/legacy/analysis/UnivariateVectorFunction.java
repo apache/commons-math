@@ -29,5 +29,4 @@ public interface UnivariateVectorFunction {
      * @return the value
      */
     double[] value(double x);
-
 }

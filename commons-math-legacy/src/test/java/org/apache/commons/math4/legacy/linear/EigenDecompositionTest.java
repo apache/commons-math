@@ -156,7 +156,6 @@ public class EigenDecompositionTest {
             Assert.assertEquals(refEigenValues[i], eigenValues[i], 1.0e-5);
             Assert.assertEquals(0, refEigenVectors[i].subtract(decomposition.getEigenvector(i)).getNorm(), 2.0e-7);
         }
-
     }
 
     @Test
@@ -203,7 +202,6 @@ public class EigenDecompositionTest {
                 Assert.assertEquals(0, refEigenVectors[i].subtract(decomposition.getEigenvector(i)).getNorm(), 1.0e-5);
             }
         }
-
     }
 
     @Test
@@ -248,7 +246,6 @@ public class EigenDecompositionTest {
                 Assert.assertEquals(0, refEigenVectors[i].subtract(decomposition.getEigenvector(i)).getNorm(), 1.0e-5);
             }
         }
-
     }
 
     /** test a matrix already in tridiagonal form. */
@@ -273,7 +270,6 @@ public class EigenDecompositionTest {
         for (int i = 0; i < ref.length; ++i) {
             Assert.assertEquals(ref[ref.length - i - 1], eigenValues[i], 2.0e-14);
         }
-
     }
 
     /** test dimensions */
@@ -774,11 +770,9 @@ public class EigenDecompositionTest {
                 for (int j = 0; j < size; ++j) {
                     dataI[j] *= inv;
                 }
-
             } while (norm2 * size < 0.01);
         }
 
         return MatrixUtils.createRealMatrix(data);
-
     }
 }

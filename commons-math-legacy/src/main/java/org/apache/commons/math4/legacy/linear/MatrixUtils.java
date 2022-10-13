@@ -692,7 +692,6 @@ public final class MatrixUtils {
                 instance.getClass().getDeclaredField(fieldName);
             f.setAccessible(true);
             f.set(instance, vector);
-
         } catch (NoSuchFieldException nsfe) {
             IOException ioe = new IOException();
             ioe.initCause(nsfe);
@@ -702,7 +701,6 @@ public final class MatrixUtils {
             ioe.initCause(iae);
             throw ioe;
         }
-
     }
 
     /** Serialize a {@link RealMatrix}.
@@ -800,7 +798,6 @@ public final class MatrixUtils {
                 instance.getClass().getDeclaredField(fieldName);
             f.setAccessible(true);
             f.set(instance, matrix);
-
         } catch (NoSuchFieldException nsfe) {
             IOException ioe = new IOException();
             ioe.initCause(nsfe);

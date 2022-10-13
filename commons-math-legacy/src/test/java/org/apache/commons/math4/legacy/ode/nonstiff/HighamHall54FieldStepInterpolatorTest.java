@@ -63,5 +63,4 @@ public class HighamHall54FieldStepInterpolatorTest extends RungeKuttaFieldStepIn
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 1.3e-16, 1.0e-50, 3.6e-15, 2.1e-16);
     }
-
 }

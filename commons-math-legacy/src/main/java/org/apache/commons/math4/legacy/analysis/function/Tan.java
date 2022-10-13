@@ -40,5 +40,4 @@ public class Tan implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.tan();
     }
-
 }

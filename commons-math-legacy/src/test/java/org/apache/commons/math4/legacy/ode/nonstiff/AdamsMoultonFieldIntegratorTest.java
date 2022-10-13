@@ -81,5 +81,4 @@ public class AdamsMoultonFieldIntegratorTest extends AdamsFieldIntegratorAbstrac
     public void testStartFailure() {
         doTestStartFailure(Decimal64Field.getInstance());
     }
-
 }

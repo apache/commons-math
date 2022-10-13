@@ -156,7 +156,6 @@ public class SimplexSolverTest {
         Assert.assertEquals(5.0, solution.getPoint()[0] + solution.getPoint()[1], epsilon);
         Assert.assertEquals(-10.0, solution.getPoint()[2], epsilon);
         Assert.assertEquals(-10.0, solution.getValue(), epsilon);
-
     }
 
     @Test(expected = NoFeasibleSolutionException.class)
@@ -903,5 +902,4 @@ public class SimplexSolverTest {
 
         return true;
     }
-
 }

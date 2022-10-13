@@ -40,5 +40,4 @@ public class Asin implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.asin();
     }
-
 }

@@ -78,7 +78,6 @@ public class EventStateTest {
         interpolator.storeTime(r2 + 0.4 * gap);
         Assert.assertTrue(es.evaluateStep(interpolator));
         Assert.assertEquals(r2, es.getEventTime(), tolerance);
-
     }
 
     // Jira: MATH-695
@@ -110,7 +109,6 @@ public class EventStateTest {
         double tEnd = integrator.integrate(equation, 0.0, y, target, y);
         Assert.assertEquals(target, tEnd, 1.0e-10);
         Assert.assertEquals(32.0, y[0], 1.0e-10);
-
     }
 
     private static class ResettingEvent implements EventHandler {
@@ -148,7 +146,6 @@ public class EventStateTest {
         public void resetState(double t, double[] y) {
             y[0] += 1.0;
         }
-
     }
 
     // Jira: MATH-965
@@ -196,7 +193,6 @@ public class EventStateTest {
         Assert.assertEquals( 1.0, equation.getTime(), 1.0e-10);
         Assert.assertEquals( 2.0, equation.getPrimaryState()[0], 1.0e-10);
         Assert.assertEquals(-3.0, equation.getSecondaryState(0)[0], 1.0e-10);
-
     }
 
     private static class SecondaryStateEvent implements EventHandler {
@@ -226,7 +222,6 @@ public class EventStateTest {
         @Override
         public void resetState(double t, double[] y) {
         }
-
     }
 
     @Test

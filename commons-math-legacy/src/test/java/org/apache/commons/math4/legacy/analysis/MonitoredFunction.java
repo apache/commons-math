@@ -44,5 +44,4 @@ public class MonitoredFunction implements UnivariateFunction {
 
     private int callsCount;
     private final UnivariateFunction f;
-
 }

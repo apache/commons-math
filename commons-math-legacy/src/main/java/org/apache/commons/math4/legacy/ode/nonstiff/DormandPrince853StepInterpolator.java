@@ -206,7 +206,6 @@ class DormandPrince853StepInterpolator
                 53995596795.0 / 518691437.0,                 210311225.0 / 7047894.0,
                    -1718875.0 / 39484.0,                      58000000.0 / 602131.0,
                    -1546875.0 / 39484.0,                   -1262172375.0 / 8429834.0}
-
     };
 
     /** Last evaluations. */
@@ -251,7 +250,6 @@ class DormandPrince853StepInterpolator
       yDotKLast = null;
       v         = null;
       vectorsInitialized = false;
-
     } else {
 
       final int dimension = interpolator.currentState.length;
@@ -270,9 +268,7 @@ class DormandPrince853StepInterpolator
       }
 
       vectorsInitialized = interpolator.vectorsInitialized;
-
     }
-
   }
 
   /** {@inheritDoc} */
@@ -303,7 +299,6 @@ class DormandPrince853StepInterpolator
     }
 
     vectorsInitialized = false;
-
   }
 
   /** {@inheritDoc} */
@@ -359,7 +354,6 @@ class DormandPrince853StepInterpolator
       }
 
       vectorsInitialized = true;
-
     }
 
     final double eta      = 1 - theta;
@@ -401,7 +395,6 @@ class DormandPrince853StepInterpolator
                     dot5 * v[5][i] + dot6 * v[6][i];
         }
     }
-
   }
 
   /** {@inheritDoc} */
@@ -445,7 +438,6 @@ class DormandPrince853StepInterpolator
           yTmp[j] = currentState[j] + h * s;
       }
       integrator.computeDerivatives(pT + C16 * h, yTmp, yDotKLast[2]);
-
   }
 
   /** {@inheritDoc} */
@@ -472,7 +464,6 @@ class DormandPrince853StepInterpolator
 
     // save the state of the base class
     super.writeExternal(out);
-
   }
 
   /** {@inheritDoc} */
@@ -495,7 +486,5 @@ class DormandPrince853StepInterpolator
 
     // read the base state
     super.readExternal(in);
-
   }
-
 }

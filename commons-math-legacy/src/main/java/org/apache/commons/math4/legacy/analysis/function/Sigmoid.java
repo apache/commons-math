@@ -167,7 +167,6 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
             // special handling near lower boundary, to avoid NaN
             f[0] = lo;
             Arrays.fill(f, 1, f.length, 0.0);
-
         } else {
 
             // the nth order derivative of sigmoid has the form:
@@ -196,16 +195,12 @@ public class Sigmoid implements UnivariateDifferentiableFunction {
 
                 coeff *= inv;
                 f[n]   = coeff * v;
-
             }
 
             // fix function value
             f[0] += lo;
-
         }
 
         return t.compose(f);
-
     }
-
 }

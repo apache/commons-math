@@ -105,7 +105,6 @@ public class GillFieldIntegrator<T extends RealFieldElement<T>>
         b[3] = b[0];
 
         return b;
-
     }
 
     /** {@inheritDoc} */
@@ -120,5 +119,4 @@ public class GillFieldIntegrator<T extends RealFieldElement<T>>
                                                 globalPreviousState, globalCurrentState,
                                                 mapper);
     }
-
 }

@@ -218,7 +218,5 @@ class LutherFieldStepInterpolator<T extends RealFieldElement<T>>
         }
 
         return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
-
     }
-
 }

@@ -358,7 +358,6 @@ public class RealMatrixFormat {
                     }
                 }
             }
-
         }
 
         if (!rowComponents.isEmpty()) {

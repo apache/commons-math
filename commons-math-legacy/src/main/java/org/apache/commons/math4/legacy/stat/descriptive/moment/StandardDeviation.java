@@ -265,5 +265,4 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic {
         NullArgumentException.check(dest);
         dest.variance = source.variance.copy();
     }
-
 }

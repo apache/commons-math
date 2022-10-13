@@ -41,5 +41,4 @@ public class BinaryMutationTest {
             Assert.assertEquals(1, numDifferent);
         }
     }
-
 }

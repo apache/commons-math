@@ -40,5 +40,4 @@ public class Acos implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.acos();
     }
-
 }

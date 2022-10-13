@@ -163,7 +163,6 @@ public class HelloWorldExample {
             }
             return String.format("(f=%s '%s')", getFitness(), sb.toString());
         }
-
     }
 
     private static class RandomCharacterMutation implements MutationPolicy {

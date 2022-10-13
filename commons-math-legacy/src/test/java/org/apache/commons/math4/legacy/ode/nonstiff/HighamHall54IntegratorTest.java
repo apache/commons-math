@@ -72,7 +72,6 @@ public class HighamHall54IntegratorTest {
       } catch(RuntimeException de) {
         // expected behavior
       }
-
   }
 
   @Test(expected=NumberIsTooSmallException.class)
@@ -95,7 +94,6 @@ public class HighamHall54IntegratorTest {
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       Assert.fail("an exception should have been thrown");
-
   }
 
   @Test
@@ -130,9 +128,7 @@ public class HighamHall54IntegratorTest {
       Assert.assertEquals(integ.getEvaluations(), calls);
       Assert.assertTrue(calls <= previousCalls);
       previousCalls = calls;
-
     }
-
   }
 
   @Test
@@ -192,7 +188,6 @@ public class HighamHall54IntegratorTest {
     Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
     Assert.assertEquals(0, integ.getEventHandlers().size());
-
   }
 
   @Test(expected=LocalException.class)
@@ -237,7 +232,6 @@ public class HighamHall54IntegratorTest {
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
-
   }
 
   private static class LocalException extends RuntimeException {
@@ -288,7 +282,6 @@ public class HighamHall54IntegratorTest {
     } catch (TooManyEvaluationsException tmee) {
         // Expected.
     }
-
 }
 
   @Test
@@ -348,7 +341,6 @@ public class HighamHall54IntegratorTest {
       } catch (NumberIsTooSmallException ie) {
         // expected behavior
       }
-
   }
 
   @Test
@@ -373,5 +365,4 @@ public class HighamHall54IntegratorTest {
     Assert.assertEquals(0.0, handler.getMaximalValueError(), 1.5e-4);
     Assert.assertEquals("Higham-Hall 5(4)", integ.getName());
   }
-
 }

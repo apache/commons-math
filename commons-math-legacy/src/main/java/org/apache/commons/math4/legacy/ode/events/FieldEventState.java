@@ -115,7 +115,6 @@ public class FieldEventState<T extends RealFieldElement<T>> {
         previousEventTime = null;
         increasing        = true;
         nextAction        = Action.CONTINUE;
-
     }
 
     /** Get the underlying event handler.
@@ -177,7 +176,6 @@ public class FieldEventState<T extends RealFieldElement<T>> {
             g0 = handler.g(interpolator.getInterpolatedState(tStart));
         }
         g0Positive = g0.getReal() >= 0;
-
     }
 
     /** Evaluate the impact of the proposed step on the event handler.
@@ -263,20 +261,17 @@ public class FieldEventState<T extends RealFieldElement<T>> {
                     ta = tb;
                     ga = gb;
                 }
-
             } else {
                 // no sign change: there is no event for now
                 ta = tb;
                 ga = gb;
             }
-
         }
 
         // no event during the whole step
         pendingEvent     = false;
         pendingEventTime = null;
         return false;
-
     }
 
     /** Get the occurrence time of the event triggered in the current step.
@@ -339,7 +334,5 @@ public class FieldEventState<T extends RealFieldElement<T>> {
         pendingEventTime  = null;
 
         return newState;
-
     }
-
 }

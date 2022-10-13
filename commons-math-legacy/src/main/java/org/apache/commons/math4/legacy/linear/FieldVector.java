@@ -286,5 +286,4 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @return array containing a copy of vector elements
      */
     T[] toArray();
-
 }

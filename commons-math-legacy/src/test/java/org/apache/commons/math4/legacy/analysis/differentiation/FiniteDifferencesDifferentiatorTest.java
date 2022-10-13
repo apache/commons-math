@@ -151,7 +151,6 @@ public class FiniteDifferencesDifferentiatorTest {
             Assert.assertEquals(expectedGood[i], maxErrorGood[i], 0.01 * expectedGood[i]);
             Assert.assertEquals(expectedBad[i],  maxErrorBad[i],  0.01 * expectedBad[i]);
         }
-
     }
 
     @Test(expected=NumberIsTooLargeException.class)
@@ -254,7 +253,6 @@ public class FiniteDifferencesDifferentiatorTest {
         // here, we did set the bounds, so evaluations are done within domain
         // using f(0.8), f(0.9), f(1.0)
         Assert.assertEquals(slope, properlyBounded.value(tHigh).getPartialDerivative(1), 1.0e-10);
-
     }
 
     @Test
@@ -276,7 +274,6 @@ public class FiniteDifferencesDifferentiatorTest {
         Assert.assertEquals(0.5 / JdkMath.sqrt(t01.getValue()), sqrt.value(t01).getPartialDerivative(1), 7.0e-3);
         DerivativeStructure t03 = new DerivativeStructure(1, 1, 0, 0.3);
         Assert.assertEquals(0.5 / JdkMath.sqrt(t03.getValue()), sqrt.value(t03).getPartialDerivative(1), 2.1e-7);
-
     }
 
     @Test
@@ -291,7 +288,6 @@ public class FiniteDifferencesDifferentiatorTest {
             public double[] value(double x) {
                 return new double[] { JdkMath.cos(x), JdkMath.sin(x) };
             }
-
         });
 
         for (double x = -10; x < 10; x += 0.1) {
@@ -312,7 +308,6 @@ public class FiniteDifferencesDifferentiatorTest {
             Assert.assertEquals(-cos, y[0].getPartialDerivative(2), 2.0e-11);
             Assert.assertEquals(-sin, y[1].getPartialDerivative(2), 2.0e-11);
         }
-
     }
 
     @Test
@@ -330,7 +325,6 @@ public class FiniteDifferencesDifferentiatorTest {
                     { JdkMath.cosh(x), JdkMath.sinh(x) }
                 };
             }
-
         });
 
         for (double x = -1; x < 1; x += 0.02) {
@@ -362,7 +356,6 @@ public class FiniteDifferencesDifferentiatorTest {
             Assert.assertEquals( cosh, y[1][0].getPartialDerivative(2), 6.0e-12);
             Assert.assertEquals( sinh, y[1][1].getPartialDerivative(2), 6.0e-12);
         }
-
     }
 
     @Test
@@ -398,5 +391,4 @@ public class FiniteDifferencesDifferentiatorTest {
            Assert.assertEquals(expectedError[i], maxError[i], 0.01 * expectedError[i]);
        }
     }
-
 }

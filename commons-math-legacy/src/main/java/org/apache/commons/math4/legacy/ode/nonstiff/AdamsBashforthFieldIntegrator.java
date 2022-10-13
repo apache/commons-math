@@ -229,11 +229,9 @@ public class AdamsBashforthFieldIntegrator<T extends RealFieldElement<T>> extend
 
             final T ratio  = predictedState[i].subtract(previousState[i]).add(variation).divide(tol);
             error = error.add(ratio.multiply(ratio));
-
         }
 
         return error.divide(mainSetDimension).sqrt();
-
     }
 
     /** {@inheritDoc} */
@@ -295,7 +293,6 @@ public class AdamsBashforthFieldIntegrator<T extends RealFieldElement<T>> extend
                                                                 getStepSize(),
                                                                 scaled,
                                                                 nordsieck);
-
                 }
             }
 
@@ -338,16 +335,12 @@ public class AdamsBashforthFieldIntegrator<T extends RealFieldElement<T>> extend
                 rescale(hNew);
                 stepEnd = AdamsFieldStepInterpolator.taylor(getStepStart(), getStepStart().getTime().add(getStepSize()),
                                                             getStepSize(), scaled, nordsieck);
-
             }
-
         } while (!isLastStep());
 
         final FieldODEStateAndDerivative<T> finalState = getStepStart();
         setStepStart(null);
         setStepSize(null);
         return finalState;
-
     }
-
 }

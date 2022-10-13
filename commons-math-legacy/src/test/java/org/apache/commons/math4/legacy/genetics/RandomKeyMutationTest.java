@@ -40,5 +40,4 @@ public class RandomKeyMutationTest {
             Assert.assertEquals(1,changes);
         }
     }
-
 }

@@ -109,5 +109,4 @@ public class ClassicalRungeKuttaFieldIntegrator<T extends RealFieldElement<T>>
                                                                globalPreviousState, globalCurrentState,
                                                                mapper);
     }
-
 }

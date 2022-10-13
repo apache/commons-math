@@ -37,5 +37,4 @@ public class MathIllegalArgumentException extends MathRuntimeException {
     public MathIllegalArgumentException(Localizable pattern, Object... args) {
         super(pattern, args);
     }
-
 }

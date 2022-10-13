@@ -159,7 +159,6 @@ public final class PolynomialFunctionNewtonFormTest {
             Assert.assertEquals(6.0,         y.getPartialDerivative(3), eps * 6.0);
             Assert.assertEquals(0.0,         y.getPartialDerivative(4), eps);
         }
-
     }
 
     /**

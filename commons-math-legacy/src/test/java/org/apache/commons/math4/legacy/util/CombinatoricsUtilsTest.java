@@ -75,7 +75,6 @@ public class CombinatoricsUtilsTest {
         Assert.assertEquals(22827, CombinatoricsUtils.stirlingS2(10, 6));
         Assert.assertEquals( 5880, CombinatoricsUtils.stirlingS2(10, 7));
         Assert.assertEquals(  750, CombinatoricsUtils.stirlingS2(10, 8));
-
     }
 
     @Test(expected=NotPositiveException.class)

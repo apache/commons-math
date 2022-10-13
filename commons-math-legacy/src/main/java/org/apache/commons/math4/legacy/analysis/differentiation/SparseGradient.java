@@ -316,7 +316,6 @@ public final class SparseGradient implements RealFieldElement<SparseGradient> {
             public Class<? extends FieldElement<SparseGradient>> getRuntimeClass() {
                 return SparseGradient.class;
             }
-
         };
     }
 
@@ -335,7 +334,6 @@ public final class SparseGradient implements RealFieldElement<SparseGradient> {
         final double k   = JdkMath.rint((value - rem) / a.value);
 
         return subtract(a.multiply(k));
-
     }
 
     /** {@inheritDoc} */
@@ -443,9 +441,7 @@ public final class SparseGradient implements RealFieldElement<SparseGradient> {
 
                 // remove scaling
                 return scaledH.scalb(middleExp);
-
             }
-
         }
     }
 
@@ -625,20 +621,17 @@ public final class SparseGradient implements RealFieldElement<SparseGradient> {
 
             // compute atan2(y, x) = 2 atan(y / (r + x))
             a = divide(r.add(x)).atan().multiply(2);
-
         } else {
 
             // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
             final SparseGradient tmp = divide(r.subtract(x)).atan().multiply(-2);
             a = tmp.add(tmp.value <= 0 ? -JdkMath.PI : JdkMath.PI);
-
         }
 
         // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly
         a.value = JdkMath.atan2(value, x.value);
 
         return a;
-
     }
 
     /** Two arguments arc tangent operation.
@@ -833,7 +826,6 @@ public final class SparseGradient implements RealFieldElement<SparseGradient> {
             .addProduct(a3, b3.value).getAsDouble();
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -912,7 +904,6 @@ public final class SparseGradient implements RealFieldElement<SparseGradient> {
         }
 
         return false;
-
     }
 
     /**

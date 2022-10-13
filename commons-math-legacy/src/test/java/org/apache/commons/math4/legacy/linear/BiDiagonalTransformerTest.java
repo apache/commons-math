@@ -52,7 +52,6 @@ public class BiDiagonalTransformerTest {
         Assert.assertEquals(n, transformer.getB().getColumnDimension());
         Assert.assertEquals(n, transformer.getV().getRowDimension());
         Assert.assertEquals(n, transformer.getV().getColumnDimension());
-
     }
 
     @Test
@@ -155,7 +154,6 @@ public class BiDiagonalTransformerTest {
         Assert.assertSame(u, transformer.getU());
         Assert.assertSame(b, transformer.getB());
         Assert.assertSame(v, transformer.getV());
-
     }
 
     @Test
@@ -188,7 +186,6 @@ public class BiDiagonalTransformerTest {
         Assert.assertSame(u, transformer.getU());
         Assert.assertSame(b, transformer.getB());
         Assert.assertSame(v, transformer.getV());
-
     }
 
     @Test
@@ -197,5 +194,4 @@ public class BiDiagonalTransformerTest {
         Assert.assertTrue(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare)).isUpperBiDiagonal());
         Assert.assertFalse(new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testNonSquare).transpose()).isUpperBiDiagonal());
     }
-
 }

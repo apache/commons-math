@@ -173,7 +173,6 @@ public class StorelessCovarianceTest {
         RealMatrix covarianceMatrix = covMatrix.getCovarianceMatrix();
 
         TestUtils.assertEquals("covariance matrix", createRealMatrix(rData, 7, 7), covarianceMatrix, 10E-7);
-
     }
 
     /**
@@ -258,7 +257,6 @@ public class StorelessCovarianceTest {
         }
         return new Array2DRowRealMatrix(matrixData);
     }
-
 
 }
 

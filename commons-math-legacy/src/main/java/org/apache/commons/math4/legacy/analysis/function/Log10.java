@@ -41,5 +41,4 @@ public class Log10 implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.log10();
     }
-
 }

@@ -36,5 +36,4 @@ public class NormalApproximationIntervalTest extends BinomialConfidenceIntervalA
         Assert.assertEquals(0.07793197, confidenceInterval.getLowerBound(), 1E-5);
         Assert.assertEquals(0.1220680, confidenceInterval.getUpperBound(), 1E-5);
     }
-
 }

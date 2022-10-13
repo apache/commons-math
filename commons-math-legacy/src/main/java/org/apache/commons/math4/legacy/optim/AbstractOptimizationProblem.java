@@ -107,5 +107,4 @@ public abstract class AbstractOptimizationProblem<PAIR>
             throw new TooManyIterationsException(max);
         }
     }
-
 }

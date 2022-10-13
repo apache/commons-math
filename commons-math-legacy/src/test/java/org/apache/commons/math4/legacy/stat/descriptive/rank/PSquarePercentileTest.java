@@ -136,7 +136,6 @@ public class PSquarePercentileTest extends
         // verified
         // new Markers(null, 0, PSquarePercentile.newEstimator());
         PSquarePercentile.newMarkers(null, 0);
-
     }
 
     @Test
@@ -168,7 +167,6 @@ public class PSquarePercentileTest extends
         p1.incrementAll(new double[] { 20, 21, 22, 23 });
         Assert.assertNotEquals(p1, p2);// though markers are non null, N
         // matches, results wont
-
     }
 
     @Test(expected = OutOfRangeException.class)
@@ -202,7 +200,6 @@ public class PSquarePercentileTest extends
         // If just one element of markers got changed then its still false.
         markersNew.processDataPoint(39);
         Assert.assertNotEquals(markers, markersNew);
-
     }
 
     @Test
@@ -386,7 +383,6 @@ public class PSquarePercentileTest extends
         Assert.assertEquals(3.0, p.evaluate(d), 1.0e-5);
         p = new PSquarePercentile(50);
         Assert.assertEquals(2d, p.evaluate(d), 1.0e-5);
-
     }
 
     @Test(expected = MathIllegalArgumentException.class)
@@ -404,7 +400,6 @@ public class PSquarePercentileTest extends
         PSquarePercentile p = new PSquarePercentile(-1.0);
         p.evaluate(d, 0, d.length);
         Assert.fail("This method has had to throw exception..but it is not..");
-
     }
 
     @Test(expected = MathIllegalArgumentException.class)
@@ -416,7 +411,6 @@ public class PSquarePercentileTest extends
         PSquarePercentile p = new PSquarePercentile(101.0);
         p.evaluate(d, 0, d.length);
         Assert.fail("This method has had to throw exception..but it is not..");
-
     }
 
     @Test
@@ -607,7 +601,6 @@ public class PSquarePercentileTest extends
         // Arrays.sort(input);
         doCalculatePercentile(0.50d, input);
         doCalculatePercentile(0.95d, input);
-
     }
 
     @Test
@@ -678,7 +671,6 @@ public class PSquarePercentileTest extends
 
                         11.39, 15.43, 15.92, 22.37, 34.6, 38.62, 18.9, 19.2,
                         27.6, 12.8, 13.7, 21.9
-
                 };
 
         PSquarePercentile psquared = new PSquarePercentile(50);
@@ -701,7 +693,6 @@ public class PSquarePercentileTest extends
         Assert.assertEquals(
                 String.format("Expected=%f, Actual=%f", expected, p2value),
                 expected, p2value, 0.25);
-
     }
 
     private final int TINY = 10;
@@ -754,7 +745,6 @@ public class PSquarePercentileTest extends
         data = AbstractRealDistribution.sample(TINY, sampler);
         doCalculatePercentile(50, data, 0.05);
         doCalculatePercentile(95, data, 0.05);
-
     }
 
     /**

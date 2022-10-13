@@ -72,5 +72,4 @@ public interface FieldStepInterpolator<T extends RealFieldElement<T>> {
    * integration
    */
   boolean isForward();
-
 }

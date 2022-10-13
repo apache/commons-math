@@ -691,7 +691,6 @@ public abstract class RealVectorAbstractTest {
             expected += JdkMath.abs(data[i]);
         }
         Assert.assertEquals("", expected, actual, 0d);
-
     }
 
     private void doTestGetLInfDistance(final boolean mixed) {
@@ -740,7 +739,6 @@ public abstract class RealVectorAbstractTest {
             expected = JdkMath.max(expected, JdkMath.abs(data[i]));
         }
         Assert.assertEquals("", expected, actual, 0d);
-
     }
 
     private void doTestMapBinaryOperation(final BinaryOperation op, final boolean inPlace) {
@@ -1299,7 +1297,6 @@ public abstract class RealVectorAbstractTest {
         }
         final double actual = v1.cosine(v2);
         Assert.assertEquals("", expected, actual, 0d);
-
     }
 
     @Test

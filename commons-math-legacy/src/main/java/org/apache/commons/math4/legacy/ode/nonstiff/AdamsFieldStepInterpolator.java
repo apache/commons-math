@@ -127,7 +127,6 @@ class AdamsFieldStepInterpolator<T extends RealFieldElement<T>> extends Abstract
                                                  newGlobalPreviousState, newGlobalCurrentState,
                                                  newSoftPreviousState, newSoftCurrentState,
                                                  newMapper);
-
     }
 
     /** {@inheritDoc} */
@@ -183,7 +182,5 @@ class AdamsFieldStepInterpolator<T extends RealFieldElement<T>> extends Abstract
         }
 
         return new FieldODEStateAndDerivative<>(time, estimatedState, estimatedDerivatives);
-
     }
-
 }

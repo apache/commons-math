@@ -93,11 +93,8 @@ public class ThreeEighthesIntegratorTest {
           Assert.assertTrue(timeError <= JdkMath.abs(previousTimeError));
         }
         previousTimeError = timeError;
-
       }
-
     }
-
   }
 
  @Test
@@ -118,7 +115,6 @@ public class ThreeEighthesIntegratorTest {
     Assert.assertTrue(handler.getMaximalValueError() < 4.0e-12);
     Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     Assert.assertEquals("3/8", integ.getName());
-
   }
 
   @Test
@@ -138,7 +134,6 @@ public class ThreeEighthesIntegratorTest {
     Assert.assertTrue(handler.getLastError() > 0.0004);
     Assert.assertTrue(handler.getMaximalValueError() > 0.005);
     Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-
   }
 
   @Test
@@ -210,7 +205,6 @@ public class ThreeEighthesIntegratorTest {
 
     private TestProblem3 pb;
     private double maxError = 0;
-
   }
 
   @Test
@@ -243,5 +237,4 @@ public class ThreeEighthesIntegratorTest {
           }
       }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
   }
-
 }

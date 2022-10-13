@@ -115,5 +115,4 @@ public class GaussNewtonOptimizerWithQRTest
             //expected for QR
         }
     }
-
 }

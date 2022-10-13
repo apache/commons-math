@@ -238,7 +238,6 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
         setStateInitialized(false);
 
         return state0;
-
     }
 
     /** Get the differential equations to integrate.
@@ -314,7 +313,6 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                 public int compare(FieldEventState<T> es0, FieldEventState<T> es1) {
                     return orderingSign * Double.compare(es0.getEventTime().getReal(), es1.getEventTime().getReal());
                 }
-
             });
 
             for (final FieldEventState<T> state : eventsStates) {
@@ -377,7 +375,6 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
                     // the event occurs during the current step
                     occurringEvents.add(currentEvent);
                 }
-
             }
 
             // last part of the step, after the last event
@@ -393,7 +390,6 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
             }
 
             return currentState;
-
     }
 
     /** Check the integration span.
@@ -413,7 +409,6 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
             throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
                                                 dt, threshold, false);
         }
-
     }
 
     /** Check if a reset occurred while last step was accepted.
@@ -463,5 +458,4 @@ public abstract class AbstractFieldIntegrator<T extends RealFieldElement<T>> imp
     protected boolean isLastStep() {
         return isLastStep;
     }
-
 }

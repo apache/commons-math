@@ -39,5 +39,4 @@ public interface MultivariateDifferentiableVectorFunction
      */
     DerivativeStructure[] value(DerivativeStructure[] point)
         throws MathIllegalArgumentException;
-
 }

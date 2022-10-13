@@ -59,5 +59,4 @@ public class MathIllegalStateException extends MathRuntimeException {
     public MathIllegalStateException() {
         this(LocalizedFormats.ILLEGAL_STATE);
     }
-
 }

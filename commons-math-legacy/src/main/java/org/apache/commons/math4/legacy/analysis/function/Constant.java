@@ -49,5 +49,4 @@ public class Constant implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return new DerivativeStructure(t.getFreeParameters(), t.getOrder(), c);
     }
-
 }

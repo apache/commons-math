@@ -91,5 +91,4 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         }
         return JdkMath.sqrt(sum / v.length);
     }
-
 }

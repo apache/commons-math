@@ -95,5 +95,4 @@ public class Decimal10 extends DfpDec {
     protected int getDecimalDigits() {
         return 10;
     }
-
 }

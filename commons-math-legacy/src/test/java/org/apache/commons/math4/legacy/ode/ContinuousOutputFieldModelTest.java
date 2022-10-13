@@ -89,7 +89,6 @@ public class ContinuousOutputFieldModelTest {
 
         Assert.assertEquals(0.0, maxError.getReal(),    1.0e-9);
         Assert.assertEquals(0.0, maxErrorDot.getReal(), 4.0e-7);
-
     }
 
     @Test
@@ -157,7 +156,6 @@ public class ContinuousOutputFieldModelTest {
             Assert.assertEquals(JdkMath.cos(t), interpolated.getState()[0].getReal(), 1.0e-7);
             Assert.assertEquals(JdkMath.sin(t), interpolated.getState()[1].getReal(), 1.0e-7);
         }
-
     }
 
     @Test
@@ -180,7 +178,6 @@ public class ContinuousOutputFieldModelTest {
 
         // no errors
         Assert.assertFalse(checkAppendError(field, cm, 1.0, 2.0, new double[] { 0.0, 1.0, -2.0 }));
-
     }
 
     private <T extends RealFieldElement<T>> boolean checkAppendError(Field<T> field, ContinuousOutputFieldModel<T> cm,
@@ -224,5 +221,4 @@ public class ContinuousOutputFieldModelTest {
     public void checkValue(double value, double reference) {
         Assert.assertTrue(JdkMath.abs(value - reference) < 1.0e-10);
     }
-
 }

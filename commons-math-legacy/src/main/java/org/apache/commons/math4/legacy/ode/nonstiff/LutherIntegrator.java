@@ -85,5 +85,4 @@ public class LutherIntegrator extends RungeKuttaIntegrator {
     public LutherIntegrator(final double step) {
         super("Luther", STATIC_C, STATIC_A, STATIC_B, new LutherStepInterpolator(), step);
     }
-
 }

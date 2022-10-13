@@ -484,7 +484,6 @@ public class BOBYQAOptimizer
             // have occurred since the last "alternative" iteration. If the length
             // of XNEW-XOPT is less than HALF*RHO, however, then there is a branch to
             // label 650 or 680 with NTRITS=-1, instead of calculating F at XNEW.
-
         }
         case 60: {
             printState(60); // XXX
@@ -558,7 +557,6 @@ public class BOBYQAOptimizer
             // zero. The appropriate changes are made to BMAT and to the second
             // derivatives of the current model, beginning with the changes to BMAT
             // that do not depend on ZMAT. VLAG is used temporarily for working space.
-
         }
         case 90: {
             printState(90); // XXX
@@ -663,7 +661,6 @@ public class BOBYQAOptimizer
             // only if rounding errors have reduced by at least a factor of two the
             // denominator of the formula for updating the H matrix. It provides a
             // useful safeguard, but is not invoked in most applications of BOBYQA.
-
         }
         case 210: {
             printState(210); // XXX
@@ -689,7 +686,6 @@ public class BOBYQAOptimizer
             // Calculate VLAG and BETA for the current choice of D. The scalar
             // product of D with XPT(K,.) is going to be held in W(NPT+K) for
             // use when VQUAD is calculated.
-
         }
         case 230: {
             printState(230); // XXX
@@ -766,7 +762,6 @@ public class BOBYQAOptimizer
                 // region step. Again RESCUE may be called if rounding errors have damaged_
                 // the chosen denominator, which is the reason for attempting to select
                 // KNEW before calculating the next value of the objective function.
-
             } else {
                 final double delsq = delta * delta;
                 scaden = ZERO;
@@ -812,7 +807,6 @@ public class BOBYQAOptimizer
 
             // Calculate the value of the objective function at XBASE+XNEW, unless
             //   the limit on the number of calculations of F has been reached.
-
         }
         case 360: {
             printState(360); // XXX
@@ -1392,7 +1386,6 @@ public class BOBYQAOptimizer
                 }
 
                 // Search along each of the other lines through XOPT and another point.
-
             } else {
                 vlag = slbd * (ONE - slbd);
                 final double tmp = subd * (ONE - subd);
@@ -1746,7 +1739,6 @@ public class BOBYQAOptimizer
 
                 // Set the off-diagonal second derivatives of the Lagrange functions and
                 // the initial quadratic model.
-
             } else {
                 zMatrix.setEntry(0, nfxm, recip);
                 zMatrix.setEntry(nfm, nfxm, recip);
@@ -2035,7 +2027,6 @@ public class BOBYQAOptimizer
             // Prepare for the alternative iteration by calculating some scalars
             // and by multiplying the reduced D by the second derivative matrix of
             // Q, where S holds the reduced D in the call of GGMULT.
-
         }
         case 100: {
             printState(100); // XXX

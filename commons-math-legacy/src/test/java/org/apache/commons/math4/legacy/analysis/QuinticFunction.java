@@ -37,5 +37,4 @@ public class QuinticFunction implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(DerivativeStructure t) {
         return t.subtract(1).multiply(t.subtract(0.5)).multiply(t).multiply(t.add(0.5)).multiply(t.add(1));
     }
-
 }

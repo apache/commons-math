@@ -199,5 +199,4 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
                                                    index, 0, start.length - 2);
         }
     }
-
 }

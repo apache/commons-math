@@ -247,7 +247,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                     DerivativeStructure result = DerivativeStructure.pow(a, ds);
                     checkEquals(reference, result, 1.0e-15);
                 }
-
             }
 
             // negative base: -1^x can be evaluated for integers only, so value is sometimes OK, derivatives are always NaN
@@ -357,7 +356,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 }
             }
         }
-
     }
 
     @Test
@@ -408,9 +406,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                                         JdkMath.abs(epsilon * dfdxdydz));
                     Assert.assertEquals(dfdxdydz, dsOther.getPartialDerivative(1, 1, 1),
                                         JdkMath.abs(epsilon * dfdxdydz));
-
                 }
-
             }
         }
     }
@@ -558,11 +554,8 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                         }
                     }
                 }
-
             }
-
         }
-
     }
 
     @Test
@@ -668,7 +661,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
 
         DerivativeStructure sqrt  = dsX.multiply(dsX).add(dsY.multiply(dsY)).sqrt();
         Assert.assertTrue(Double.isInfinite(sqrt.getValue()));
-
     }
 
     @Test
@@ -696,7 +688,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         Assert.assertEquals(-1,
                             DerivativeStructure.hypot(dsLarge, dsSmall).getPartialDerivative(0, 1),
                             1.0e-10);
-
     }
 
     @Test
@@ -1026,7 +1017,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 DerivativeStructure.atan2(new DerivativeStructure(2, 2, 1, -0.0),
                                           new DerivativeStructure(2, 2, 1, -0.0));
         Assert.assertEquals(-JdkMath.PI, nn.getValue(), 1.0e-15);
-
     }
 
     @Test
@@ -1211,7 +1201,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         DerivativeStructure plusZero = new DerivativeStructure(1, 1, 0, +0.0);
         Assert.assertEquals(+0.0, plusZero.abs().getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(+1.0, plusZero.abs().getPartialDerivative(1), 1.0e-15);
-
     }
 
     @Override
@@ -1235,7 +1224,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         Assert.assertEquals(+0.0, plusZero.signum().getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(0, Double.doubleToLongBits(plusZero.signum().getValue()));
         Assert.assertEquals( 0.0, plusZero.signum().getPartialDerivative(1), 1.0e-15);
-
     }
 
     @Test
@@ -1252,7 +1240,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         Assert.assertEquals(+0.0, x.rint().getPartialDerivative(1), 1.0e-15);
         Assert.assertEquals(-2.0, x.subtract(x.getField().getOne()).rint().getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(-1L, x.round());
-
     }
 
     @Test
@@ -1281,7 +1268,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         Assert.assertEquals(-1.0, plusOne.copySign(-0.0).getPartialDerivative(1), 1.0e-15);
         Assert.assertEquals(+1.0, plusOne.copySign(Double.NaN).getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(+1.0, plusOne.copySign(Double.NaN).getPartialDerivative(1), 1.0e-15);
-
     }
 
     @Test
@@ -1448,7 +1434,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         Assert.assertEquals(a[0].getValue(), abSumInline.getPartialDerivative(0, 0, 0, 1, 0, 0), 1.0e-15);
         Assert.assertEquals(a[1].getValue(), abSumInline.getPartialDerivative(0, 0, 0, 0, 1, 0), 1.0e-15);
         Assert.assertEquals(a[2].getValue(), abSumInline.getPartialDerivative(0, 0, 0, 0, 0, 1), 1.0e-15);
-
     }
 
     @Test
@@ -1474,7 +1459,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         Assert.assertEquals(a[0], abSumInline.getPartialDerivative(1, 0, 0), 1.0e-15);
         Assert.assertEquals(a[1], abSumInline.getPartialDerivative(0, 1, 0), 1.0e-15);
         Assert.assertEquals(a[2], abSumInline.getPartialDerivative(0, 0, 1), 1.0e-15);
-
     }
 
     @Test
@@ -1517,7 +1501,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * JdkMath.abs(v[1].getValue()));
             Assert.assertEquals(v[2].getValue(), lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * JdkMath.abs(v[2].getValue()));
             Assert.assertEquals(v[3].getValue(), lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * JdkMath.abs(v[3].getValue()));
-
         }
     }
 
@@ -1561,7 +1544,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * JdkMath.abs(v[1].getValue()));
             Assert.assertEquals(u[2], lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * JdkMath.abs(v[2].getValue()));
             Assert.assertEquals(u[3], lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * JdkMath.abs(v[3].getValue()));
-
         }
     }
 
@@ -1580,7 +1562,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             orders[i] = 1;
             Assert.assertEquals(derivatives[i], ds.getPartialDerivative(orders), 1.0e-15);
         }
-
     }
 
     private void checkEquals(DerivativeStructure ds1, DerivativeStructure ds2, double epsilon) {
@@ -1615,9 +1596,6 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             if (increment) {
                 return;
             }
-
         }
-
     }
-
 }

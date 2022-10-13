@@ -88,7 +88,6 @@ public class OneWayAnova {
 
         AnovaStats a = anovaStats(categoryData);
         return a.f;
-
     }
 
     /**
@@ -128,7 +127,6 @@ public class OneWayAnova {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final FDistribution fdist = FDistribution.of(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.f);
-
     }
 
     /**
@@ -170,7 +168,6 @@ public class OneWayAnova {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final FDistribution fdist = FDistribution.of(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.f);
-
     }
 
     /**
@@ -206,7 +203,6 @@ public class OneWayAnova {
         }
 
         return anovaStats(categoryDataSummaryStatistics, false);
-
     }
 
     /**
@@ -254,7 +250,6 @@ public class OneWayAnova {
                     alpha, 0, 0.5);
         }
         return anovaPValue(categoryData) < alpha;
-
     }
 
     /**
@@ -320,7 +315,6 @@ public class OneWayAnova {
         final double f = msbg / mswg;
 
         return new AnovaStats(dfbg, dfwg, f);
-
     }
 
     /**
@@ -350,5 +344,4 @@ public class OneWayAnova {
             this.f = f;
         }
     }
-
 }

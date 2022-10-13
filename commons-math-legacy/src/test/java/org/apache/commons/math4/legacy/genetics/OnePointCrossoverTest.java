@@ -57,5 +57,4 @@ public class OnePointCrossoverTest {
             Assert.assertEquals(p2[7], c2[7]);
         }
     }
-
 }

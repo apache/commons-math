@@ -71,7 +71,6 @@ public class GeneticAlgorithmTestBinary {
 
         Assert.assertTrue(bestFinal.compareTo(bestInitial) > 0);
         Assert.assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
-
     }
 
 
@@ -120,6 +119,5 @@ public class GeneticAlgorithmTestBinary {
         public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
             return new FindOnes(chromosomeRepresentation);
         }
-
     }
 }

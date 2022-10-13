@@ -362,7 +362,6 @@ public class BicubicInterpolatingFunction
 
         return a;
     }
-
 }
 
 /**
@@ -580,5 +579,4 @@ class BicubicFunction implements BivariateFunction {
     BivariateFunction partialDerivativeXY() {
         return partialDerivativeXY;
     }
-
 }

@@ -38,5 +38,4 @@ public class InvalidRepresentationException extends MathIllegalArgumentException
     public InvalidRepresentationException(Localizable pattern, Object ... args) {
        super(pattern, args);
     }
-
 }

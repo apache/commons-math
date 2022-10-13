@@ -102,7 +102,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
             }
             checkArray(regularB, fieldB);
             checkArray(regularC, fieldC);
-
         } catch (ClassNotFoundException cnfe) {
             Assert.fail(cnfe.getLocalizedMessage());
         } catch (IllegalAccessException iae) {
@@ -197,7 +196,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
         integ.addStepHandler(handler);
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
         Assert.fail("an exception should have been thrown");
-
     }
 
     @Test
@@ -228,9 +226,7 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
             Assert.assertEquals(integ.getEvaluations(), calls);
             Assert.assertTrue(calls <= previousCalls);
             previousCalls = calls;
-
         }
-
     }
 
     @Test
@@ -264,7 +260,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
       Assert.assertEquals(name, integ.getName());
       integ.clearEventHandlers();
       Assert.assertEquals(0, integ.getEventHandlers().size());
-
     }
 
     @Test(expected=LocalException.class)
@@ -307,7 +302,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
         }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
 
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
-
     }
 
     @Test
@@ -352,7 +346,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
         } catch (MaxCountExceededException mcee) {
             // Expected.
         }
-
     }
 
     @Test
@@ -419,7 +412,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
         Assert.assertEquals(0, handler.getMaximalValueError().getReal(), epsilonMaxValue);
         Assert.assertEquals(0, handler.getMaximalTimeError().getReal(),  epsilonMaxTime);
         Assert.assertEquals(name, integ.getName());
-
     }
 
     @Test
@@ -515,7 +507,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
                 Assert.assertEquals(derivatives[i][parameter], dYdP(result.getState()[i], parameter), epsilonPartials[parameter]);
             }
         }
-
     }
 
     private double dYdP(final DerivativeStructure y, final int parameter) {
@@ -563,7 +554,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
             this.dAlphadT0    = -omega.getReal();
             this.dAlphadY00   = y0[1].divide(r2).getReal();
             this.dAlphadY01   = y0[0].negate().divide(r2).getReal();
-
         }
 
         @Override
@@ -608,9 +598,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegratorAbstractTest {
                 { dY0dOmega, dY0dT0, dY0dY00, dY0dY01, dY0dT },
                 { dY1dOmega, dY1dT0, dY1dY00, dY1dY01, dY1dT }
             };
-
         }
-
     }
-
 }

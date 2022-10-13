@@ -553,7 +553,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
                     markerArray[3].toString(), markerArray[4].toString(),
                     markerArray[5].toString());
         }
-
     }
 
     /**

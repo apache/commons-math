@@ -293,7 +293,6 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
         } else {
             super.setSubMatrix(subMatrix, row, column);
         }
-
     }
 
     /** {@inheritDoc} */
@@ -383,7 +382,6 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */

@@ -52,7 +52,6 @@ public class FirstOrderConverterTest {
         Assert.assertTrue(JdkMath.abs(error) < JdkMath.abs(previousError));
       }
       previousError = error;
-
     }
   }
 
@@ -96,7 +95,6 @@ public class FirstOrderConverterTest {
           yDDot[i] = -omega2 * y[i];
         }
     }
-
   }
 
   private double integrateWithSpecifiedStep(double omega,
@@ -110,5 +108,4 @@ public class FirstOrderConverterTest {
     i.integrate(new FirstOrderConverter(new Equations(1, omega)), t0, y0, t, y);
     return y[0];
   }
-
 }

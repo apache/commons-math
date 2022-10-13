@@ -118,7 +118,6 @@ public class Sinc implements UnivariateDifferentiableFunction {
                            (1.0 / (i + 2) - scaledX2 * (1.0 / (6 * i + 24) - scaledX2 / (120 * i + 720)));
                 }
             }
-
         } else {
 
             final double inv = 1 / scaledX;
@@ -169,16 +168,13 @@ public class Sinc implements UnivariateDifferentiableFunction {
                     // cosine part
                     sc[k - 1] = (k - 1 - n) * sc[k - 1] + sc[k -2];
                     c         = c * scaledX2 + sc[k - 1];
-
                 }
                 sc[0] *= -n;
                 s      = s * scaledX2 + sc[0];
 
                 coeff *= inv;
                 f[n]   = coeff * (s * sin + c * scaledX * cos);
-
             }
-
         }
 
         if (normalized) {
@@ -190,7 +186,5 @@ public class Sinc implements UnivariateDifferentiableFunction {
         }
 
         return t.compose(f);
-
     }
-
 }

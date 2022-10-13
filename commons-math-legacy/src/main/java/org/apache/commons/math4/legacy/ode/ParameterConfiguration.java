@@ -63,5 +63,4 @@ class ParameterConfiguration implements Serializable {
     public void setHP(final double hParam) {
         this.hP = hParam;
     }
-
 }

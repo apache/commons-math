@@ -99,7 +99,6 @@ public class OneWayAnovaTest {
 
         Assert.assertEquals("ANOVA P-value",  0.904212960464,
                  testStatistic.anovaPValue(twoClasses), 1E-12);
-
     }
 
     @Test
@@ -131,7 +130,6 @@ public class OneWayAnovaTest {
 
         Assert.assertEquals("ANOVA P-value",  0.904212960464,
                  testStatistic.anovaPValue(twoClasses, false), 1E-12);
-
     }
 
     @Test
@@ -150,5 +148,4 @@ public class OneWayAnovaTest {
 
         Assert.assertFalse("ANOVA Test P>0.01", testStatistic.anovaTest(twoClasses, 0.01));
     }
-
 }

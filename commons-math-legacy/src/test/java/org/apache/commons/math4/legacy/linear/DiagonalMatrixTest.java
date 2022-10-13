@@ -73,7 +73,6 @@ public class DiagonalMatrixTest {
         // Check that the underlying is referenced.
         d[0] = 0;
         Assert.assertEquals(d[0], m.getEntry(0, 0), 0.0);
-
     }
 
     @Test(expected=DimensionMismatchException.class)
@@ -364,5 +363,4 @@ public class DiagonalMatrixTest {
         TestUtils.assertEquals("DiagonalMatrix.inverse() returns wrong result",
                 MatrixUtils.createRealIdentityMatrix(data.length), result, Math.ulp(1d));
     }
-
 }

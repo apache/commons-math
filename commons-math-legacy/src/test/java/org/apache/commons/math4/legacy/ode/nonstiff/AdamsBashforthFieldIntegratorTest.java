@@ -81,5 +81,4 @@ public class AdamsBashforthFieldIntegratorTest extends AdamsFieldIntegratorAbstr
     public void testStartFailure() {
         doTestStartFailure(Decimal64Field.getInstance());
     }
-
 }

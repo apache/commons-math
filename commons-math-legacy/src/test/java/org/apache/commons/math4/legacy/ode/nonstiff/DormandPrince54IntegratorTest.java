@@ -70,7 +70,6 @@ public class DormandPrince54IntegratorTest {
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       Assert.fail("an exception should have been thrown");
-
   }
 
   @Test
@@ -97,7 +96,6 @@ public class DormandPrince54IntegratorTest {
                     pb.getFinalTime(), new double[pb.getDimension()]);
     Assert.assertTrue(handler.wasLastSeen());
     Assert.assertEquals("Dormand-Prince 5(4)", integ.getName());
-
   }
 
   @Test
@@ -151,7 +149,6 @@ public class DormandPrince54IntegratorTest {
 
     private boolean lastSeen;
     private double  minStep;
-
   }
 
   @Test
@@ -192,9 +189,7 @@ public class DormandPrince54IntegratorTest {
       Assert.assertEquals(integ.getEvaluations(), calls);
       Assert.assertTrue(calls <= previousCalls);
       previousCalls = calls;
-
     }
-
   }
 
   @Test
@@ -229,7 +224,6 @@ public class DormandPrince54IntegratorTest {
     Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
     Assert.assertEquals(0, integ.getEventHandlers().size());
-
   }
 
   @Test
@@ -253,7 +247,6 @@ public class DormandPrince54IntegratorTest {
 
     Assert.assertEquals(integ.getEvaluations(), pb.getCalls());
     Assert.assertTrue(pb.getCalls() < 2800);
-
   }
 
   @Test
@@ -356,5 +349,4 @@ public class DormandPrince54IntegratorTest {
     private double  minStep;
     private double  maxStep;
   }
-
 }

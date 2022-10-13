@@ -207,7 +207,6 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         }
 
         return missingEntries;
-
     }
 
     /**
@@ -237,7 +236,6 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         }
 
         return false;
-
     }
 
     /**
@@ -321,9 +319,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
             }
 
             perturb >>= PERTURB_SHIFT;
-
         }
-
     }
 
     /**
@@ -381,7 +377,6 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         }
 
         return missingEntries;
-
     }
 
     /**
@@ -436,7 +431,6 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
             ++count;
         }
         return previous;
-
     }
 
     /**
@@ -468,7 +462,6 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         keys   = newKeys;
         values = newValues;
         states = newStates;
-
     }
 
     /**
@@ -517,7 +510,6 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
             } catch (NoSuchElementException nsee) { // NOPMD
                 // ignored
             }
-
         }
 
         /**
@@ -588,9 +580,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
                     throw new NoSuchElementException();
                 }
             }
-
         }
-
     }
 
     /**
@@ -614,5 +604,4 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     private T[] buildArray(final int length) {
         return (T[]) Array.newInstance(field.getRuntimeClass(), length);
     }
-
 }

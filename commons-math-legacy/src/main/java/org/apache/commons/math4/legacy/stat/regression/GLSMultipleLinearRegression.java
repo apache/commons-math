@@ -129,7 +129,5 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         RealVector residuals = calculateResiduals();
         double t = residuals.dotProduct(getOmegaInverse().operate(residuals));
         return t / (getX().getRowDimension() - getX().getColumnDimension());
-
     }
-
 }

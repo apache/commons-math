@@ -367,7 +367,6 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             }
             Assert.assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));
         }
-
     }
 
     @Test
@@ -437,7 +436,6 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         Assert.assertEquals(3d, getUnivariateStatistic().evaluate(specialValues,3,3),0d);
         reset(50, Percentile.EstimationType.R_2);
         Assert.assertEquals(3.5d, getUnivariateStatistic().evaluate(specialValues,3,3),0d);
-
     }
 
     @Test
@@ -508,7 +506,6 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
                 { Percentile.EstimationType.R_5, Double.NaN }, { Percentile.EstimationType.R_6, Double.NaN },
                 { Percentile.EstimationType.R_7, Double.NaN }, { Percentile.EstimationType.R_8, Double.NaN }, { Percentile.EstimationType.R_9, Double.NaN }
                 }, 50d, 0d);
-
     }
 
     @Test

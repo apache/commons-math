@@ -104,7 +104,6 @@ public class DormandPrince54StepInterpolatorTest {
     }
 
     Assert.assertTrue(maxError < 7.0e-10);
-
   }
 
   @Test
@@ -149,7 +148,5 @@ public class DormandPrince54StepInterpolatorTest {
       integ.integrate(pb,
               pb.getInitialTime(), pb.getInitialState(),
               pb.getFinalTime(), new double[pb.getDimension()]);
-
   }
-
 }

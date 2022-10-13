@@ -184,7 +184,6 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         d[6][13] = fraction(field,             58000000.0, 602131.0);
         d[6][14] = fraction(field,             -1546875.0, 39484.0);
         d[6][15] = fraction(field,          -1262172375.0, 8429834.0);
-
     }
 
     /** {@inheritDoc} */
@@ -296,7 +295,5 @@ class DormandPrince853FieldStepInterpolator<T extends RealFieldElement<T>>
         }
 
         return new FieldODEStateAndDerivative<>(time, interpolatedState, interpolatedDerivatives);
-
     }
-
 }

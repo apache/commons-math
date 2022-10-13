@@ -164,7 +164,6 @@ public class AccurateMathTest {
             maxErr = AccurateMath.max(maxErr, AccurateMath.abs(ref - tst) / AccurateMath.ulp(ref));
         }
         assertEquals(0, maxErr, 4);
-
     }
 
     @Test
@@ -1221,7 +1220,6 @@ public class AccurateMathTest {
 
         // 0xbf2e43753d36a223 0xbf2e43753d36a222 -> bf2e43753d36a222
         assertEquals(-2.3089223996676603E-4, AccurateMath.nextAfter(-2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
-
     }
 
     @Test
@@ -1950,7 +1948,6 @@ public class AccurateMathTest {
         }
 
         return fd.longValue();
-
     }
 
     private long poorManFloorMod(long a, long b) {
@@ -1972,5 +1969,4 @@ public class AccurateMathTest {
         assertEquals(x, AccurateMath.round(x), 0.0);
         //assertTrue(x == Math.round(x)); // fails with Java 7, fixed in Java 8
     }
-
 }

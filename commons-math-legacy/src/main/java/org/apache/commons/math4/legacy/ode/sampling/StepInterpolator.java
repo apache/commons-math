@@ -177,5 +177,4 @@ public interface StepInterpolator extends Externalizable {
    * during step finalization
    */
    StepInterpolator copy() throws MaxCountExceededException;
-
 }

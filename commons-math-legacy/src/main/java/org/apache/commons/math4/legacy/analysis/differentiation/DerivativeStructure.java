@@ -117,7 +117,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
             // the derivative of the variable with respect to itself is 1.
             data[DSCompiler.getCompiler(index, order).getSize()] = 1.0;
         }
-
     }
 
     /** Linear combination constructor.
@@ -551,9 +550,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
                 // remove scaling
                 return scaledH.scalb(middleExp);
-
             }
-
         }
     }
 
@@ -651,7 +648,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
             public Class<? extends FieldElement<DerivativeStructure>> getRuntimeClass() {
                 return DerivativeStructure.class;
             }
-
         };
     }
 
@@ -953,7 +949,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), all);
-
     }
 
     /** {@inheritDoc}
@@ -980,7 +975,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), all);
-
     }
 
     /** {@inheritDoc}
@@ -1025,7 +1019,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(getFreeParameters(), getOrder(), all);
-
     }
 
     /** {@inheritDoc}
@@ -1050,7 +1043,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         final double[] all = simpleValue.getAllDerivatives();
         all[0] = accurateValue;
         return new DerivativeStructure(getFreeParameters(), getOrder(), all);
-
     }
 
     /** {@inheritDoc}
@@ -1154,7 +1146,6 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         }
 
         return false;
-
     }
 
     /**

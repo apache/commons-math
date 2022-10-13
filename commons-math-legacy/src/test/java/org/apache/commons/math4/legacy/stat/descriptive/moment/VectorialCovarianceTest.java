@@ -79,6 +79,5 @@ public class VectorialCovarianceTest {
                 Assert.assertEquals(refC[i][j], c.getEntry(i, j), 1.0e-12);
             }
         }
-
     }
 }

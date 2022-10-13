@@ -103,5 +103,4 @@ enum Transformer {
      * @return transformed value of function g
      */
     protected abstract double transformed(double g);
-
 }

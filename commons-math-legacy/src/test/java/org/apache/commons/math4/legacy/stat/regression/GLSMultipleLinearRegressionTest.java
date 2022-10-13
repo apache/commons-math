@@ -290,7 +290,6 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             olsBetaStats.addValue(dist * dist);
             dist = glsBeta.getDistance(b);
             glsBetaStats.addValue(dist * dist);
-
         }
 
         // Verify that GLS is on average more efficient, lower variance

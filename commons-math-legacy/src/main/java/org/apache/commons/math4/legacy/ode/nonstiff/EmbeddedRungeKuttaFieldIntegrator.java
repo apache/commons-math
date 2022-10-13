@@ -125,7 +125,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
         setSafety(field.getZero().add(0.9));
         setMinReduction(field.getZero().add(0.2));
         setMaxGrowth(field.getZero().add(10.0));
-
     }
 
     /** Build a Runge-Kutta integrator with the given Butcher array.
@@ -158,7 +157,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
         setSafety(field.getZero().add(0.9));
         setMinReduction(field.getZero().add(0.2));
         setMaxGrowth(field.getZero().add(10.0));
-
     }
 
     /** Create a fraction.
@@ -283,7 +281,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                     }
 
                     yDotK[k] = computeDerivatives(getStepStart().getTime().add(getStepSize().multiply(c[k-1])), yTmp);
-
                 }
 
                 // estimate the state at the end of the step
@@ -303,7 +300,6 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                                                    RealFieldElement.max(minReduction, safety.multiply(error.pow(exp))));
                     hNew = filterStep(getStepSize().multiply(factor), forward, false);
                 }
-
             }
             final T   stepEnd = getStepStart().getTime().add(getStepSize());
             final T[] yDotTmp = (fsal >= 0) ? yDotK[fsal] : computeDerivatives(stepEnd, yTmp);
@@ -333,15 +329,12 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
                 if (filteredNextIsLast) {
                     hNew = finalTime.subtract(getStepStart().getTime());
                 }
-
             }
-
         } while (!isLastStep());
 
         final FieldODEStateAndDerivative<T> finalState = getStepStart();
         resetInternalState();
         return finalState;
-
     }
 
     /** Get the minimal reduction factor for stepsize control.
@@ -380,5 +373,4 @@ public abstract class EmbeddedRungeKuttaFieldIntegrator<T extends RealFieldEleme
      * @return error ratio, greater than 1 if step should be rejected
      */
     protected abstract T estimateError(T[][] yDotK, T[] y0, T[] y1, T h);
-
 }

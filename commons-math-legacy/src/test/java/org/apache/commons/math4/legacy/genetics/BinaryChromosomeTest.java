@@ -62,5 +62,4 @@ public class BinaryChromosomeTest {
         Assert.assertFalse(c1.isSame(c5));
         Assert.assertTrue(c1.isSame(c6));
     }
-
 }

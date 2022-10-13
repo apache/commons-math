@@ -91,7 +91,5 @@ public class JacobianFunctionTest {
                 {  radius * cLat,         0  }
             };
         }
-
     }
-
 }

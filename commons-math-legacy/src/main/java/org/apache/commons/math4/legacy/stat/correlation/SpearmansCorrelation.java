@@ -199,5 +199,4 @@ public class SpearmansCorrelation {
 
         return transformed;
     }
-
 }

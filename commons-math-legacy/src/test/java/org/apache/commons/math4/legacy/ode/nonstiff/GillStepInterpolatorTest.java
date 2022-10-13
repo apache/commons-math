@@ -92,7 +92,5 @@ public class GillStepInterpolatorTest {
     }
 
     Assert.assertTrue(maxError < 0.003);
-
   }
-
 }

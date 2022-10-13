@@ -63,5 +63,4 @@ public class DormandPrince54FieldStepInterpolatorTest extends RungeKuttaFieldSte
     public void nonFieldInterpolatorConsistency() {
         doNonFieldInterpolatorConsistency(Decimal64Field.getInstance(), 2.8e-17, 2.3e-16, 5.6e-16, 5.6e-17);
     }
-
 }

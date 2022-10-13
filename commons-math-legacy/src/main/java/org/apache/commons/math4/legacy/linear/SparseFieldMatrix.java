@@ -158,7 +158,6 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         } else {
             entries.put(key, value);
         }
-
     }
 
     /** {@inheritDoc} */

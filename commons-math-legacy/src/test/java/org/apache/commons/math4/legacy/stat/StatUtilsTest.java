@@ -107,7 +107,6 @@ public final class StatUtilsTest {
         } catch (RuntimeException e) {
             // expected
         }
-
     }
 
     @Test
@@ -472,7 +471,6 @@ public final class StatUtilsTest {
         for (int i = 0; i < out.length; i++) {
             Assert.assertTrue(Precision.equals(out[i], expectedSample[i], 1));
         }
-
     }
 
     /**
@@ -501,7 +499,6 @@ public final class StatUtilsTest {
         // check the mean an standard deviation
         Assert.assertEquals(0.0, stats.getMean(), distance);
         Assert.assertEquals(1.0, stats.getStandardDeviation(), distance);
-
     }
 
     @Test
@@ -548,5 +545,4 @@ public final class StatUtilsTest {
             // Expected
         }
     }
-
 }

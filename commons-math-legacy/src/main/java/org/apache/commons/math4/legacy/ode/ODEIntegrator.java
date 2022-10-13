@@ -154,5 +154,4 @@ public interface ODEIntegrator  {
      * @return number of evaluations of the differential equations function
      */
     int getEvaluations();
-
 }

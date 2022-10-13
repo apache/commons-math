@@ -65,5 +65,4 @@ public interface FieldFixedStepHandler<T extends RealFieldElement<T>> {
      * @param isLast true if the step is the last one
      */
     void handleStep(FieldODEStateAndDerivative<T> state, boolean isLast);
-
 }

@@ -111,7 +111,6 @@ public class CloseEventsTest {
         @Override
         public void resetState(double t, double[] y) {
         }
-
     }
 
     /** Some basic equations to integrate. */
@@ -127,7 +126,5 @@ public class CloseEventsTest {
             yDot[0] = 1.0;
             yDot[1] = 2.0;
         }
-
     }
-
 }

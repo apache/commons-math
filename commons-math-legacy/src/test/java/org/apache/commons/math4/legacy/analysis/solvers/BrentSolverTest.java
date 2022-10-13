@@ -258,7 +258,6 @@ public final class BrentSolverTest {
                 public double value(double x) {
                     return func.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
                 }
-
             };
 
         BrentSolver solver = new BrentSolver();

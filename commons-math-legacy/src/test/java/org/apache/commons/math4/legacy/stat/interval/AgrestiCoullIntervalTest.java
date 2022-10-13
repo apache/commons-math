@@ -36,5 +36,4 @@ public class AgrestiCoullIntervalTest extends BinomialConfidenceIntervalAbstract
         Assert.assertEquals(0.07993521, confidenceInterval.getLowerBound(), 1E-5);
         Assert.assertEquals(0.1243704, confidenceInterval.getUpperBound(), 1E-5);
     }
-
 }

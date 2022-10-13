@@ -51,5 +51,4 @@ public class RandomKeyMutation implements MutationPolicy {
 
         return originalRk.newFixedLengthChromosome(newRepr);
     }
-
 }

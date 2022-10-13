@@ -103,5 +103,4 @@ public class SobolSequenceGeneratorTest {
             Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
-
 }

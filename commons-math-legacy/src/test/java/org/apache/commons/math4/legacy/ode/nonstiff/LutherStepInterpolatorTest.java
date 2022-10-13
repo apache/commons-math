@@ -92,7 +92,5 @@ public class LutherStepInterpolatorTest {
         }
 
         Assert.assertTrue(maxError < 2.2e-7);
-
     }
-
 }

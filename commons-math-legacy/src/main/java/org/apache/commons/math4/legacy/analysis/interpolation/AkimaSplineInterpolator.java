@@ -243,6 +243,5 @@ public class AkimaSplineInterpolator
         }
 
         return new PolynomialSplineFunction(xvals, polynomials);
-
     }
 }

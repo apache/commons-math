@@ -40,5 +40,4 @@ public class Atanh implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.atanh();
     }
-
 }

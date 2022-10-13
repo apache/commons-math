@@ -115,6 +115,5 @@ public class ChromosomeTest {
         c4.searchForFitnessUpdate(pop);
         Assert.assertEquals(1, c4.getFitness(),0);
     }
-
 }
 

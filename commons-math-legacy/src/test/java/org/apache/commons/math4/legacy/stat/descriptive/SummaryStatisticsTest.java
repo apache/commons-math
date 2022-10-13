@@ -95,7 +95,6 @@ public class SummaryStatisticsTest {
                 u.getStandardDeviation() != 0.0);
         Assert.assertTrue("variance should not be zero (n = 2)",
                 u.getVariance() != 0.0);
-
     }
 
     @Test
@@ -225,7 +224,6 @@ public class SummaryStatisticsTest {
         u.setSumImpl(new Sum());
         SummaryStatistics.copy(u,v);
         Assert.assertEquals(u.getSumImpl(), v.getSumImpl());
-
     }
 
     private void verifySummary(SummaryStatistics u, StatisticalSummary s) {

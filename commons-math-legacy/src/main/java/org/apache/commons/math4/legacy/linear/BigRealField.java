@@ -82,5 +82,4 @@ public final class BigRealField implements Field<BigReal>, Serializable  {
         // return the singleton instance
         return LazyHolder.INSTANCE;
     }
-
 }

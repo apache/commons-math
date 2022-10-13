@@ -104,7 +104,6 @@ public class HighamHall54StepInterpolatorTest {
     }
 
     Assert.assertTrue(maxError < 1.6e-10);
-
   }
 
   @Test
@@ -149,7 +148,5 @@ public class HighamHall54StepInterpolatorTest {
     integ.integrate(pb,
             pb.getInitialTime(), pb.getInitialState(),
             pb.getFinalTime(), new double[pb.getDimension()]);
-
   }
-
 }

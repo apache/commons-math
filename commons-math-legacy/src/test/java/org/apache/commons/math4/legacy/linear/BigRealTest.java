@@ -82,7 +82,6 @@ public class BigRealTest {
         Assert.assertEquals(0, first.compareTo(third));
         Assert.assertEquals(1, first.compareTo(second));
         Assert.assertEquals(-1, second.compareTo(first));
-
     }
 
     @Test

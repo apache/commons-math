@@ -129,5 +129,4 @@ public class GaussNewtonOptimizerWithLUTest
             //expected for QR
         }
     }
-
 }

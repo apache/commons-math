@@ -148,7 +148,6 @@ public abstract class AbstractStepInterpolator
     this.primaryMapper    = primaryMapper;
     this.secondaryMappers = (secondaryMappers == null) ? null : secondaryMappers.clone();
     allocateInterpolatedArrays(y.length);
-
   }
 
   /** Copy constructor.
@@ -202,7 +201,6 @@ public abstract class AbstractStepInterpolator
     primaryMapper    = interpolator.primaryMapper;
     secondaryMappers = (interpolator.secondaryMappers == null) ?
                        null : interpolator.secondaryMappers.clone();
-
   }
 
   /** Allocate the various interpolated states arrays.
@@ -258,7 +256,6 @@ public abstract class AbstractStepInterpolator
     this.primaryMapper    = primary;
     this.secondaryMappers = secondary.clone();
     allocateInterpolatedArrays(y.length);
-
   }
 
   /** {@inheritDoc} */
@@ -270,7 +267,6 @@ public abstract class AbstractStepInterpolator
 
      // create the new independent instance
      return doCopy();
-
    }
 
    /** Really copy the finalized instance.
@@ -304,7 +300,6 @@ public abstract class AbstractStepInterpolator
 
     // the step is not finalized anymore
     finalized  = false;
-
   }
 
   /** Restrict step range to a limited part of the global step.
@@ -564,7 +559,6 @@ public double getCurrentTime() {
         ioe.initCause(mcee);
         throw ioe;
     }
-
   }
 
   /** Read the base state of the instance.
@@ -611,7 +605,5 @@ public double getCurrentTime() {
     finalized = true;
 
     return in.readDouble();
-
   }
-
 }

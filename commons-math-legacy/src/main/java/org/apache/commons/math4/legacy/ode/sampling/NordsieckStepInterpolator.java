@@ -136,7 +136,6 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
         // make sure the state and derivatives will depend on the new arrays
         setInterpolatedTime(getInterpolatedTime());
-
     }
 
     /** Rescale the instance.
@@ -162,7 +161,6 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         }
 
         scalingH = stepSize;
-
     }
 
     /**
@@ -214,7 +212,6 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             interpolatedDerivatives[j] =
                 (interpolatedDerivatives[j] + scaled[j] * normalizedAbscissa) / x;
         }
-
     }
 
     /** {@inheritDoc} */
@@ -247,7 +244,6 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         }
 
         // we don't save state variation, it will be recomputed
-
     }
 
     /** {@inheritDoc} */
@@ -287,7 +283,5 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         } else {
             stateVariation = null;
         }
-
     }
-
 }

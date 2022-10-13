@@ -30,5 +30,4 @@ public class TestProblem5 extends TestProblem1 {
     public TestProblem5() {
         setFinalConditions(2 * getInitialTime() - getFinalTime());
     }
-
 }

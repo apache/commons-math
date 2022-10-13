@@ -110,7 +110,5 @@ public void computeDerivatives(final double t, final double[] y, final double[] 
     // build the result state derivative
     System.arraycopy(zDot,  0, yDot, 0,         dimension);
     System.arraycopy(zDDot, 0, yDot, dimension, dimension);
-
   }
-
 }

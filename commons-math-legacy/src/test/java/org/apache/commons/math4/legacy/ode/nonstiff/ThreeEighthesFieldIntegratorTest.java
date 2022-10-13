@@ -57,7 +57,6 @@ public class ThreeEighthesFieldIntegratorTest extends RungeKuttaFieldIntegratorA
     @Override
     public void testBigStep() {
         doTestBigStep(Decimal64Field.getInstance(), 0.0004, 0.005, 1.0e-12, "3/8");
-
     }
 
     @Override
@@ -99,5 +98,4 @@ public class ThreeEighthesFieldIntegratorTest extends RungeKuttaFieldIntegratorA
     public void testPartialDerivatives() {
         doTestPartialDerivatives(3.2e-10, new double[] { 2.1e-9, 5.9e-10, 7.0e-11, 5.9e-10, 5.9e-10 });
     }
-
 }

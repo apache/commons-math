@@ -42,5 +42,4 @@ public interface FieldButcherArrayProvider<T extends RealFieldElement<T>> {
      * @return external weights for the high order method from Butcher array
      */
     T[] getB();
-
 }

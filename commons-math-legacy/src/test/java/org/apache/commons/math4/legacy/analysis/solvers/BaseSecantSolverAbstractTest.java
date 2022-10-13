@@ -255,5 +255,4 @@ public abstract class BaseSecantSolverAbstractTest {
                                                        allowedSolution);
         }
     }
-
 }

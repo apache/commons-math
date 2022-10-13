@@ -63,5 +63,4 @@ public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
         Assert.assertEquals(expectedWeightedValue(), mean.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
         Assert.assertEquals(expectedValue(), mean.evaluate(testArray, identicalWeightsArray, 0, testArray.length), getTolerance());
     }
-
 }

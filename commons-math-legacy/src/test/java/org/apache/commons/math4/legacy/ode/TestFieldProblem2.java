@@ -61,7 +61,6 @@ public class TestFieldProblem2<T extends RealFieldElement<T>>
         }
 
         return yDot;
-
     }
 
     @Override
@@ -74,5 +73,4 @@ public class TestFieldProblem2<T extends RealFieldElement<T>>
         }
         return y;
     }
-
 }

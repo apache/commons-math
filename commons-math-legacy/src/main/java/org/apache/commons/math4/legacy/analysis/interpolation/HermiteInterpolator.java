@@ -119,9 +119,7 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
 
             // update the abscissae array
             abscissae.add(x);
-
         }
-
     }
 
     /** Compute the interpolation polynomials.
@@ -152,7 +150,6 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
         }
 
         return polynomials;
-
     }
 
     /** Interpolate value at a specified abscissa.
@@ -184,7 +181,6 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
         }
 
         return value;
-
     }
 
     /** Interpolate value at a specified abscissa.
@@ -218,7 +214,6 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
         }
 
         return value;
-
     }
 
     /** Check interpolation can be performed.
@@ -238,5 +233,4 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
     private PolynomialFunction polynomial(double ... c) {
         return new PolynomialFunction(c);
     }
-
 }

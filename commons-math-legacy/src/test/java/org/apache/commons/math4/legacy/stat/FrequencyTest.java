@@ -342,5 +342,4 @@ public final class FrequencyTest {
         Assert.assertEquals(Float.valueOf(Float.POSITIVE_INFINITY), mode.get(1));
         Assert.assertEquals(Float.valueOf(Float.NaN), mode.get(2));
     }
-
 }

@@ -88,5 +88,4 @@ public interface BracketedUnivariateSolver<FUNC extends UnivariateFunction>
      */
     double solve(int maxEval, FUNC f, double min, double max, double startValue,
                  AllowedSolution allowedSolution);
-
 }

@@ -82,7 +82,6 @@ public class GraggBulirschStoerIntegratorTest {
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
-
   }
 
   @Test
@@ -144,9 +143,7 @@ public class GraggBulirschStoerIntegratorTest {
       Assert.assertEquals(integ.getEvaluations(), calls);
       Assert.assertTrue(calls <= previousCalls);
       previousCalls = calls;
-
     }
-
   }
 
   @Test
@@ -177,7 +174,6 @@ public class GraggBulirschStoerIntegratorTest {
     integ.setInterpolationControl(true, 3);
     Assert.assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
     integ.setInterpolationControl(true, -1);
-
   }
 
   private double getMaxError(FirstOrderIntegrator integrator, TestProblemAbstract pb)
@@ -222,7 +218,6 @@ public class GraggBulirschStoerIntegratorTest {
     Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
     Assert.assertEquals(0, integ.getEventHandlers().size());
-
   }
 
   @Test
@@ -246,7 +241,6 @@ public class GraggBulirschStoerIntegratorTest {
 
     Assert.assertEquals(integ.getEvaluations(), pb.getCalls());
     Assert.assertTrue(pb.getCalls() < 2150);
-
   }
 
   @Test
@@ -292,12 +286,10 @@ public class GraggBulirschStoerIntegratorTest {
               Assert.assertTrue(t <= JdkMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
           }
-
       };
 
       integ.setStepSizeControl(0, 1.0, 1.0e-6, 1.0e-8);
       integ.integrate(equations, start, new double[] { 1.0 }, end, new double[1]);
-
   }
 
   @Test
@@ -349,7 +341,6 @@ public class GraggBulirschStoerIntegratorTest {
               yDot[0] = 3.0;
           }
       }, t0, y, tend, y);
-
   }
 
   private static class KeplerStepHandler implements StepHandler {
@@ -432,5 +423,4 @@ public class GraggBulirschStoerIntegratorTest {
     private double  minStep;
     private double  maxStep;
   }
-
 }

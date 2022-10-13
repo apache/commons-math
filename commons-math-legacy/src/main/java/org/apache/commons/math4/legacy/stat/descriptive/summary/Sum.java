@@ -214,5 +214,4 @@ public class Sum extends AbstractStorelessUnivariateStatistic {
         dest.n = source.n;
         dest.value = source.value;
     }
-
 }

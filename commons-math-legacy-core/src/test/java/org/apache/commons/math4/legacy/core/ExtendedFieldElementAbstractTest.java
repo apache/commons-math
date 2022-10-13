@@ -552,5 +552,4 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         }
         return f;
     }
-
 }

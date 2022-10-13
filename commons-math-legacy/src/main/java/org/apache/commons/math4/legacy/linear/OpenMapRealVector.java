@@ -769,7 +769,6 @@ public class OpenMapRealVector extends SparseRealVector
         public int getIndex() {
             return iter.key();
         }
-
     }
 
     /**

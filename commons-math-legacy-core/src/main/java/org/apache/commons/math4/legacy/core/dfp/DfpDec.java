@@ -135,7 +135,6 @@ public class DfpDec extends Dfp {
         }
 
         return new DfpDec(d);
-
     }
 
     /** {@inheritDoc} */
@@ -364,5 +363,4 @@ public class DfpDec extends Dfp {
 
         return result;
     }
-
 }

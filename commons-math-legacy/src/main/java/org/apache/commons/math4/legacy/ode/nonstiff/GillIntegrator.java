@@ -70,5 +70,4 @@ public class GillIntegrator extends RungeKuttaIntegrator {
   public GillIntegrator(final double step) {
     super("Gill", STATIC_C, STATIC_A, STATIC_B, new GillStepInterpolator(), step);
   }
-
 }

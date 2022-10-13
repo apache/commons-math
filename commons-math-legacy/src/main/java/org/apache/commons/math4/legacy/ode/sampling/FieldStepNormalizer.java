@@ -176,7 +176,6 @@ public class FieldStepNormalizer<T extends RealFieldElement<T>> implements Field
 
         // initialize the underlying handler
         handler.init(initialState, finalTime);
-
     }
 
     /**
@@ -270,5 +269,4 @@ public class FieldStepNormalizer<T extends RealFieldElement<T>> implements Field
         }
         handler.handleStep(last, isLast);
     }
-
 }

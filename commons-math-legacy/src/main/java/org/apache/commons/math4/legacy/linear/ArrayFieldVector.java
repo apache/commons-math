@@ -1118,5 +1118,4 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
                                                 end, start, false);
         }
     }
-
 }

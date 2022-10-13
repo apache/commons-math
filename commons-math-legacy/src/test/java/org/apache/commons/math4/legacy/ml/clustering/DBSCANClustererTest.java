@@ -146,7 +146,6 @@ public class DBSCANClustererTest {
                 new DoublePoint(new int[] {14, 8}), // C
                 new DoublePoint(new int[] {7, 15}), // N - Noise, should not be present
                 new DoublePoint(new int[] {17, 8}), // D - single-link connected to C should not be present
-
         };
 
         final DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<>(3, 3);
@@ -186,5 +185,4 @@ public class DBSCANClustererTest {
         DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<>(2.0, 5);
         clusterer.cluster(null);
     }
-
 }

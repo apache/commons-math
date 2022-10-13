@@ -53,5 +53,4 @@ public class TournamentSelectionTest {
             return this.fitness;
         }
     }
-
 }

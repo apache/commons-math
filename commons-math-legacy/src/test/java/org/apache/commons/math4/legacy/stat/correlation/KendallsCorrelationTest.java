@@ -231,7 +231,6 @@ public class KendallsCorrelationTest extends PearsonsCorrelationTest {
 
         Assert.assertEquals(correlation.computeCorrelationMatrix(input),
                 new BlockRealMatrix(expected));
-
     }
 
     @Test

@@ -111,7 +111,6 @@ public class HermiteInterpolatorTest {
             for (int k = 0; k < p.length; ++k) {
                 checkPolynomial(p[k], result[k]);
             }
-
         }
     }
 
@@ -157,7 +156,6 @@ public class HermiteInterpolatorTest {
             for (int k = 0; k < p.length; ++k) {
                 checkPolynomial(p[k], result[k]);
             }
-
         }
     }
 
@@ -252,6 +250,5 @@ public class HermiteInterpolatorTest {
             Assert.assertEquals(0.0, cR[i], 1.0e-9);
         }
     }
-
 }
 

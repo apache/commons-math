@@ -126,7 +126,6 @@ public class ExpandableStatefulODE {
         }
 
         primaryMapper.insertEquationData(primaryStateDot, yDot);
-
     }
 
     /** Add a set of secondary equations to be integrated along with the primary set.
@@ -148,7 +147,6 @@ public class ExpandableStatefulODE {
         components.add(new SecondaryComponent(secondary, firstIndex));
 
         return components.size() - 1;
-
     }
 
     /** Get an equations mapper for the primary equations set.
@@ -199,7 +197,6 @@ public class ExpandableStatefulODE {
 
         // set the data
         System.arraycopy(primaryState, 0, this.primaryState, 0, primaryState.length);
-
     }
 
     /** Get primary part of the current state.
@@ -236,7 +233,6 @@ public class ExpandableStatefulODE {
 
         // set the data
         System.arraycopy(secondaryState, 0, localArray, 0, secondaryState.length);
-
     }
 
     /** Get secondary part of the current state.
@@ -275,7 +271,6 @@ public class ExpandableStatefulODE {
         for (final SecondaryComponent component : components) {
             component.mapper.extractEquationData(completeState, component.state);
         }
-
     }
 
     /** Get the complete current state.
@@ -295,7 +290,6 @@ public class ExpandableStatefulODE {
         }
 
         return completeState;
-
     }
 
     /** Components of the compound stateful ODE. */
@@ -324,7 +318,5 @@ public class ExpandableStatefulODE {
             state         = new double[n];
             stateDot      = new double[n];
         }
-
     }
-
 }

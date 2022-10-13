@@ -301,7 +301,6 @@ public final class AdamsNordsieckTransformer {
                     bDotI[j] = yDotI[j] - yDot0[j];
                 }
             }
-
         }
 
         // solve the linear system to get the best estimate of the Nordsieck vector [s2 ... sk],
@@ -317,7 +316,6 @@ public final class AdamsNordsieckTransformer {
             }
         }
         return truncatedX;
-
     }
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).
@@ -360,5 +358,4 @@ public final class AdamsNordsieckTransformer {
             }
         }
     }
-
 }

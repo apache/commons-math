@@ -67,7 +67,6 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                                 interpolator.getInterpolatedState(interpolator.getCurrentState().getTime()).getState()[i].getReal(),
                                 epsilon);
         }
-
     }
 
     @Test
@@ -93,7 +92,6 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
         }
         Assert.assertEquals(0.0, maxErrorSin, epsilonSin);
         Assert.assertEquals(0.0, maxErrorCos, epsilonCos);
-
     }
 
     @Test
@@ -131,13 +129,11 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
             maxErrorCos    = JdkMath.max(maxErrorCos,    fieldY[1].subtract(regularY[1]).abs().getReal());
             maxErrorSinDot = JdkMath.max(maxErrorSinDot, fieldYDot[0].subtract(regularYDot[0]).abs().getReal());
             maxErrorCosDot = JdkMath.max(maxErrorCosDot, fieldYDot[1].subtract(regularYDot[1]).abs().getReal());
-
         }
         Assert.assertEquals(0.0, maxErrorSin,    epsilonSin);
         Assert.assertEquals(0.0, maxErrorCos,    epsilonCos);
         Assert.assertEquals(0.0, maxErrorSinDot, epsilonSinDot);
         Assert.assertEquals(0.0, maxErrorCosDot, epsilonCosDot);
-
     }
 
     private <T extends RealFieldElement<T>>
@@ -187,7 +183,6 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
 
         return createInterpolator(field, t1 > t0, fieldYDotK, s0, s1, s0, s1,
                                   new FieldExpandableODE<>(eqn).getMapper());
-
     }
 
     private <T extends RealFieldElement<T>>
@@ -267,7 +262,6 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
                 y[i] = fieldCurrentY[i].getReal();
             }
             regularInterpolator.storeTime(fieldInterpolator.getCurrentState().getTime().getReal());
-
         } catch (ClassNotFoundException cnfe) {
             Assert.fail(cnfe.getLocalizedMessage());
         } catch (InstantiationException ie) {
@@ -281,7 +275,6 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
         }
 
         return regularInterpolator;
-
     }
 
     private static class SinCos<T extends RealFieldElement<T>> implements FirstOrderFieldDifferentialEquations<T> {
@@ -304,5 +297,4 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
             return yDot;
         }
     }
-
 }

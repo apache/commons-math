@@ -60,7 +60,6 @@ public class TestProblem2
     for (int i = 0; i < getDimension(); ++i) {
         yDot[i] = t * (t * t - y[i]);
     }
-
   }
 
   @Override
@@ -72,5 +71,4 @@ public class TestProblem2
     }
     return y;
   }
-
 }

@@ -118,7 +118,6 @@ public class SingularValueSolverTest {
                          solver.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
-
     }
 
     /** test condition number */
@@ -154,5 +153,4 @@ public class SingularValueSolverTest {
       });
       Assert.assertEquals(0, expected.subtract(pseudoInverse).getNorm(), 1.0e-9);
     }
-
 }

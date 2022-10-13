@@ -51,5 +51,4 @@ public class SumSincFunction implements MultivariateFunction {
         }
         return factor * sum;
     }
-
 }

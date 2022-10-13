@@ -64,7 +64,6 @@ public class QRSolverTest {
 
         solver = new QRDecomposition(MatrixUtils.createRealMatrix(testData4x3)).getSolver();
         Assert.assertTrue(solver.isNonSingular());
-
     }
 
     /** test solve dimension errors */
@@ -138,7 +137,6 @@ public class QRSolverTest {
             final double error = x.subtract(xRef.getColumnVector(i)).getNorm();
             Assert.assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());
         }
-
     }
 
     @Test
@@ -162,7 +160,6 @@ public class QRSolverTest {
         // despite perturbation, the least square solution should be pretty good
         RealMatrix x = new QRDecomposition(a).getSolver().solve(b);
         Assert.assertEquals(0, x.subtract(xRef).getNorm(), 0.01 * noise * p * q);
-
     }
 
     @Test

@@ -202,9 +202,7 @@ public class ImageEvolutionExample {
                 PolygonChromosome chromosome = (PolygonChromosome) bestFit;
                 chromosome.draw((Graphics2D) g, ref.getWidth(), ref.getHeight());
             }
-
         }
-
     }
 
     public static void main(String[] args) throws Exception {
@@ -226,5 +224,4 @@ public class ImageEvolutionExample {
         }
         return new ElitisticListPopulation(popList, popList.size(), 0.25);
     }
-
 }

@@ -45,5 +45,4 @@ public class MathUnsupportedOperationException extends MathRuntimeException {
     public MathUnsupportedOperationException(Localizable pattern, Object... args) {
         super(pattern, args);
     }
-
 }

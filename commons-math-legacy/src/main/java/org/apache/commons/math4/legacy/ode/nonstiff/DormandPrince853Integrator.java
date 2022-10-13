@@ -129,7 +129,6 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
      66578432.0/35198415.0, -1674902723.0/288716400.0,
      54980371265625.0/176692375811392.0, -734375.0/4826304.0,
      171414593.0/851261400.0, 137909.0/3084480.0}
-
   };
 
   /** Propagation weights Butcher array. */
@@ -280,7 +279,5 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
     }
 
     return JdkMath.abs(h) * error1 / JdkMath.sqrt(mainSetDimension * den);
-
   }
-
 }

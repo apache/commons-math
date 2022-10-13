@@ -142,5 +142,4 @@ public abstract class AdamsFieldIntegrator<T extends RealFieldElement<T>> extend
                                                  final Array2DRowFieldMatrix<T> highOrder) {
         transformer.updateHighOrderDerivativesPhase2(start, end, highOrder);
     }
-
 }

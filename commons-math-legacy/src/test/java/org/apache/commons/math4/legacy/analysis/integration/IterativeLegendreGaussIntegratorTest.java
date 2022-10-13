@@ -106,7 +106,6 @@ public class IterativeLegendreGaussIntegratorTest {
                     Assert.assertEquals(n + " " + degree + " " + i, reference, result, 1.0e-12 * (1.0 + JdkMath.abs(reference)));
                 }
             }
-
         }
     }
 
@@ -162,7 +161,6 @@ public class IterativeLegendreGaussIntegratorTest {
         int eval2   = gauss.getEvaluations();
         Assert.assertEquals(maxX * value, sum1 + sum2, 1.0e-7);
         Assert.assertTrue(eval1 + eval2 < 200);
-
     }
 
     private double exactIntegration(PolynomialFunction p, double a, double b) {

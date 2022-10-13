@@ -39,5 +39,4 @@ public class Identity implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t;
     }
-
 }

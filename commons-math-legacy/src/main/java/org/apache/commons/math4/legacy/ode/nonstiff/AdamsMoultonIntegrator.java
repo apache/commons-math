@@ -310,7 +310,6 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
                     // invalidate the derivatives, we need to restart from scratch
                     start(stepStart, y, t);
                     interpolator.reinitialize(stepStart, stepSize, scaled, nordsieck);
-
                 }
 
                 // stepsize control for next step
@@ -328,7 +327,6 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
 
                 interpolator.rescale(hNew);
             }
-
         } while (!isLastStep);
 
         // dispatch results
@@ -336,7 +334,6 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         equations.setCompleteState(y);
 
         resetInternalState();
-
     }
 
     /** Corrector for current state in Adams-Moulton method.
@@ -416,8 +413,6 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
             }
 
             return JdkMath.sqrt(error / mainSetDimension);
-
         }
     }
-
 }

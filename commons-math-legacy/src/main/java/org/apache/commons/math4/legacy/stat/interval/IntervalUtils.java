@@ -169,5 +169,4 @@ public final class IntervalUtils {
                                           confidenceLevel, 0, 1);
         }
     }
-
 }

@@ -45,5 +45,4 @@ public class CentroidCluster<T extends Clusterable> extends Cluster<T> {
     Clusterable getCenter() {
         return center;
     }
-
 }

@@ -129,7 +129,5 @@ class ClassicalRungeKuttaStepInterpolator
                         coeffDot1 * yDot1 + coeffDot23 * yDot23 + coeffDot4 * yDot4;
             }
         }
-
     }
-
 }

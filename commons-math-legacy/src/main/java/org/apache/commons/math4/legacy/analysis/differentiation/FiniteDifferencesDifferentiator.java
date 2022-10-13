@@ -154,7 +154,6 @@ public class FiniteDifferencesDifferentiator
         final double safety = JdkMath.ulp(halfSampleSpan);
         this.tMin = tLower + halfSampleSpan + safety;
         this.tMax = tUpper - halfSampleSpan - safety;
-
     }
 
     /**
@@ -203,7 +202,6 @@ public class FiniteDifferencesDifferentiator
 
             // update the top diagonal of the divided differences array
             top[i] = bottom[0];
-
         }
 
         // evaluate interpolation polynomial (represented by top diagonal) at t
@@ -227,7 +225,6 @@ public class FiniteDifferencesDifferentiator
         }
 
         return interpolation;
-
     }
 
     /** {@inheritDoc}
@@ -267,9 +264,7 @@ public class FiniteDifferencesDifferentiator
 
                 // evaluate derivatives
                 return evaluate(t, t0, y);
-
             }
-
         };
     }
 
@@ -321,9 +316,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 return value;
-
             }
-
         };
     }
 
@@ -379,10 +372,7 @@ public class FiniteDifferencesDifferentiator
                 }
 
                 return value;
-
             }
-
         };
     }
-
 }

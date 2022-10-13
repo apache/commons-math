@@ -67,5 +67,4 @@ public interface FixedStepHandler  {
    * @param isLast true if the step is the last one
    */
   void handleStep(double t, double[] y, double[] yDot, boolean isLast);
-
 }

@@ -176,5 +176,4 @@ public interface FieldEventHandler<T extends RealFieldElement<T>>  {
      * be added automatically by the integrator afterwards)
      */
     FieldODEState<T> resetState(FieldODEStateAndDerivative<T> state);
-
 }

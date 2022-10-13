@@ -53,7 +53,6 @@ public class DfpField implements Field<Dfp> {
 
         /** Rounds towards negative infinity. */
         ROUND_FLOOR;
-
     }
 
     /** IEEE 854-1987 flag for invalid operation. */
@@ -221,7 +220,6 @@ public class DfpField implements Field<Dfp> {
                 ln5            = new Dfp(this, ln5String);
                 ln5Split       = split(ln5String);
                 ln10           = new Dfp(this, ln10String);
-
             }
         } else {
             // dummy settings for unused constants
@@ -240,7 +238,6 @@ public class DfpField implements Field<Dfp> {
             ln5Split       = null;
             ln10           = null;
         }
-
     }
 
     /** Get the number of radix digits of the {@link Dfp} instances built by this factory.
@@ -597,7 +594,6 @@ public class DfpField implements Field<Dfp> {
             ln2String  = computeLn(highPrecisionTwo, highPrecisionOne, highPrecisionTwo).toString();
             ln5String  = computeLn(new Dfp(highPrecisionField, 5),  highPrecisionOne, highPrecisionTwo).toString();
             ln10String = computeLn(new Dfp(highPrecisionField, 10), highPrecisionOne, highPrecisionTwo).toString();
-
         }
     }
 
@@ -641,7 +637,6 @@ public class DfpField implements Field<Dfp> {
         }
 
         return one.divide(ak);
-
     }
 
     /** Compute exp(a).
@@ -669,7 +664,6 @@ public class DfpField implements Field<Dfp> {
         }
 
         return y;
-
     }
 
 
@@ -755,7 +749,5 @@ public class DfpField implements Field<Dfp> {
         }
 
         return y.multiply(two);
-
     }
-
 }

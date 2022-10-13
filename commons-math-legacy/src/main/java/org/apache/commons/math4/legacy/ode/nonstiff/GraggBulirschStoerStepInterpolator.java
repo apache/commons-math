@@ -146,7 +146,6 @@ class GraggBulirschStoerStepInterpolator
     this.yMidDots = yMidDots;
 
     resetTables(yMidDots.length + 4);
-
   }
 
   /** Copy constructor.
@@ -180,7 +179,6 @@ class GraggBulirschStoerStepInterpolator
       }
       currentDegree = interpolator.currentDegree;
     }
-
   }
 
   /** Reallocate the internal tables.
@@ -225,9 +223,7 @@ class GraggBulirschStoerStepInterpolator
       }
 
       currentDegree = 0;
-
     }
-
   }
 
   /** {@inheritDoc} */
@@ -288,12 +284,10 @@ class GraggBulirschStoerStepInterpolator
               polynomials[j+4][i] =
                   16 * (yMidDots[j][i] + fac1 * polynomials[j+2][i] - fac2 * polynomials[j][i]);
             }
-
           }
         }
       }
     }
-
   }
 
   /** Estimate interpolation error.
@@ -348,7 +342,6 @@ class GraggBulirschStoerStepInterpolator
             interpolatedState[i]       += t4 * c;
             interpolatedDerivatives[i] += (t4 * cDot + t4Dot * c) / h;
         }
-
     }
 
     if (h == 0) {
@@ -356,7 +349,6 @@ class GraggBulirschStoerStepInterpolator
         // we fix this by using the derivatives at midpoint
         System.arraycopy(yMidDots[1], 0, interpolatedDerivatives, 0, dimension);
     }
-
   }
 
   /** {@inheritDoc} */
@@ -376,7 +368,6 @@ class GraggBulirschStoerStepInterpolator
         out.writeDouble(polynomials[k][l]);
       }
     }
-
   }
 
   /** {@inheritDoc} */
@@ -401,7 +392,5 @@ class GraggBulirschStoerStepInterpolator
 
     // we can now set the interpolated time and state
     setInterpolatedTime(t);
-
   }
-
 }

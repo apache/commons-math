@@ -52,5 +52,4 @@ public class MedianOf3PivotingStrategy implements PivotingStrategy {
             }
         }
     }
-
 }

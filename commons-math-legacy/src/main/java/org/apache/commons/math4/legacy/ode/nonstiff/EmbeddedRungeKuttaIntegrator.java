@@ -126,7 +126,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
     setSafety(0.9);
     setMinReduction(0.2);
     setMaxGrowth(10.0);
-
   }
 
   /** Build a Runge-Kutta integrator with the given Butcher array.
@@ -164,7 +163,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
     setSafety(0.9);
     setMinReduction(0.2);
     setMaxGrowth(10.0);
-
   }
 
   /** Get the order of the method.
@@ -270,7 +268,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
           }
 
           computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
-
         }
 
         // estimate the state at the end of the step
@@ -291,7 +288,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
                            JdkMath.max(minReduction, safety * JdkMath.pow(error, exp)));
           hNew = filterStep(stepSize * factor, forward, false);
         }
-
       }
 
       // local error is small enough: accept the step, trigger events and step handlers
@@ -324,9 +320,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
           if (filteredNextIsLast) {
               hNew = t - stepStart;
           }
-
       }
-
     } while (!isLastStep);
 
     // dispatch results
@@ -334,7 +328,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
     equations.setCompleteState(y);
 
     resetInternalState();
-
   }
 
   /** Get the minimal reduction factor for stepsize control.
@@ -375,5 +368,4 @@ public abstract class EmbeddedRungeKuttaIntegrator
   protected abstract double estimateError(double[][] yDotK,
                                           double[] y0, double[] y1,
                                           double h);
-
 }

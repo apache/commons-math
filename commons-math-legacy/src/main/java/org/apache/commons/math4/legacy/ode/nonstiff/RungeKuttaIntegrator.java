@@ -154,7 +154,6 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
           }
 
           computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
-
       }
 
       // estimate the state at the end of the step
@@ -184,7 +183,6 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
               stepSize = t - stepStart;
           }
       }
-
     } while (!isLastStep);
 
     // dispatch results
@@ -193,7 +191,6 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
     stepStart = Double.NaN;
     stepSize  = Double.NaN;
-
   }
 
   /** Fast computation of a single step of ODE integration.
@@ -249,7 +246,6 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
           }
 
           equations.computeDerivatives(t0 + c[k-1] * h, yTmp, yDotK[k]);
-
       }
 
       // estimate the state at the end of the step
@@ -262,7 +258,5 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
       }
 
       return y;
-
   }
-
 }

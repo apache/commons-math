@@ -215,7 +215,5 @@ public abstract class UnivariateStatisticAbstractTest {
         // Check consistency of weighted evaluation methods
         Assert.assertEquals(weightedStatistic.evaluate(values, weights, 0, values.length),
                 weightedStatistic.evaluate(values, weights), Double.MIN_VALUE);
-
     }
-
 }

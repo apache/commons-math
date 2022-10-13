@@ -313,7 +313,6 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     public double estimateErrorVariance() {
         return calculateErrorVariance();
-
     }
 
     /**
@@ -382,5 +381,4 @@ public abstract class AbstractMultipleLinearRegression implements
         RealVector b = calculateBeta();
         return yVector.subtract(xMatrix.operate(b));
     }
-
 }

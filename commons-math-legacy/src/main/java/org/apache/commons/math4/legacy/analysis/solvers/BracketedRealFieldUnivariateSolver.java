@@ -138,5 +138,4 @@ public interface BracketedRealFieldUnivariateSolver<T extends RealFieldElement<T
      */
     T solve(int maxEval, RealFieldUnivariateFunction<T> f, T min, T max, T startValue,
             AllowedSolution allowedSolution);
-
 }

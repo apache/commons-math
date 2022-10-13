@@ -53,5 +53,4 @@ public interface WeightedEvaluation {
      */
     double evaluate(double[] values, double[] weights, int begin, int length)
     throws MathIllegalArgumentException;
-
 }

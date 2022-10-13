@@ -60,7 +60,6 @@ public class MultiKMeansPlusPlusClustererTest {
                 new DoublePoint(new int[] { 16,  6 }),
                 new DoublePoint(new int[] { 17,  4 }),
                 new DoublePoint(new int[] { 17,  7 })
-
         };
         List<CentroidCluster<DoublePoint>> clusters = transformer.cluster(Arrays.asList(points));
 
@@ -92,7 +91,5 @@ public class MultiKMeansPlusPlusClustererTest {
         Assert.assertTrue(cluster1Found);
         Assert.assertTrue(cluster2Found);
         Assert.assertTrue(cluster3Found);
-
     }
-
 }

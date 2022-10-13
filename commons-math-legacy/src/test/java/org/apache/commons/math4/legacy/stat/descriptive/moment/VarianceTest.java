@@ -113,7 +113,6 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         Assert.assertEquals(expectedValue(),
                 variance.evaluate(testArray, MathArrays.normalizeArray(identicalWeightsArray, testArray.length),
                         0, testArray.length), getTolerance());
-
     }
 
     @Test
@@ -140,5 +139,4 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         weights[begin] = Double.MIN_VALUE;
         Assertions.assertEquals(0.0, variance.evaluate(values, weights, begin, zeroLength + 1));
     }
-
 }

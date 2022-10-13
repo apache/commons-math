@@ -884,7 +884,6 @@ public final class AccurateMath {
             }
 
             intVal--;
-
         } else {
             if (intVal > 709) {
                 if (hiPrec != null) {
@@ -893,7 +892,6 @@ public final class AccurateMath {
                 }
                 return Double.POSITIVE_INFINITY;
             }
-
         }
 
         intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX + intVal];
@@ -1487,7 +1485,6 @@ public final class AccurateMath {
                         return +0.0;
                     }
                 }
-
             } else {
                 // y is a regular non-zero number
 
@@ -1569,12 +1566,9 @@ public final class AccurateMath {
                     final double result = exp(lna, z, null);
                     //result = result + result * z;
                     return result;
-
                 }
             }
-
         }
-
     }
 
     /**
@@ -1684,7 +1678,6 @@ public final class AccurateMath {
 
             // better accuracy estimate of reciprocal
             return Double.isNaN(error) ? splitInv : new Split(splitInv.high, splitInv.low - error / full);
-
         }
 
         /** Computes this^e.
@@ -1709,7 +1702,6 @@ public final class AccurateMath {
 
                 // accurate squaring d^(2(p+1)) = d^(2p) * d^(2p) using Veltkamp TwoProduct algorithm
                 d2p = d2p.multiply(d2p);
-
             }
 
             if (Double.isNaN(result.full)) {
@@ -1729,9 +1721,7 @@ public final class AccurateMath {
             } else {
                 return result;
             }
-
         }
-
     }
 
     /**
@@ -3138,7 +3128,6 @@ public final class AccurateMath {
                     mantissa++;
                 }
                 return Double.longBitsToDouble(sign | mantissa);
-
             } else {
                 // no need to compute the mantissa, the number scales down to 0
                 return (sign == 0L) ? 0.0 : -0.0;
@@ -3160,14 +3149,12 @@ public final class AccurateMath {
                 } else {
                     return (sign == 0L) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
                 }
-
             } else if (scaledExponent < 2047) {
                 return Double.longBitsToDouble(sign | (((long) scaledExponent) << 52) | mantissa);
             } else {
                 return (sign == 0L) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
             }
         }
-
     }
 
     /**
@@ -3222,7 +3209,6 @@ public final class AccurateMath {
                     mantissa++;
                 }
                 return Float.intBitsToFloat(sign | mantissa);
-
             } else {
                 // no need to compute the mantissa, the number scales down to 0
                 return (sign == 0) ? 0.0f : -0.0f;
@@ -3244,14 +3230,12 @@ public final class AccurateMath {
                 } else {
                     return (sign == 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
                 }
-
             } else if (scaledExponent < 255) {
                 return Float.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);
             } else {
                 return (sign == 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
             }
         }
-
     }
 
     /**

@@ -250,7 +250,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                     SparseGradient result = SparseGradient.pow(a, sg);
                     Assert.assertEquals(reference, result);
                 }
-
             }
 
             // negative base: -1^x can be evaluated for integers only, so value is sometimes OK, derivatives are always NaN
@@ -279,9 +278,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             Assert.assertEquals(Double.NEGATIVE_INFINITY, zeroZero.getDerivative(0), 1.0e-15);
             Assert.assertEquals(0.0, zeroZero.getDerivative(1), 1.0e-15);
             Assert.assertEquals(0.0, zeroZero.getDerivative(2), 1.0e-15);
-
         }
-
     }
 
     @Test
@@ -306,9 +303,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                     // df/dx = 1 + 5 y + 24 (8 z x - y)^2 z
                     double dfdx = 1 + 5 * y + 24 * z * JdkMath.pow(8 * z * x - y, 2);
                     Assert.assertEquals(dfdx, sg.getDerivative(0), JdkMath.abs(epsilon * dfdx));
-
                 }
-
             }
         }
     }
@@ -375,7 +370,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             Assert.assertTrue(Double.isInfinite(rootN.getDerivative(0)));
             Assert.assertTrue(rootN.getDerivative(0) > 0);
         }
-
     }
 
     @Test
@@ -432,7 +426,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                 SparseGradient ref = sgX.multiply(sgX).add(sgY.multiply(sgY)).sqrt();
                 SparseGradient zero = hypot.subtract(ref);
                 checkF0F1(zero, 0.0, 0.0, 0.0);
-
             }
         }
     }
@@ -449,7 +442,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
 
         SparseGradient sqrt  = sgX.multiply(sgX).add(sgY.multiply(sgY)).sqrt();
         Assert.assertTrue(Double.isInfinite(sqrt.getValue()));
-
     }
 
     @Test
@@ -477,7 +469,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         Assert.assertEquals(-1,
                             SparseGradient.hypot(sgLarge, sgSmall).getDerivative(1),
                             1.0e-10);
-
     }
 
     @Test
@@ -695,7 +686,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
                 SparseGradient.atan2(SparseGradient.createVariable(1, -0.0),
                                           SparseGradient.createVariable(1, -0.0));
         Assert.assertEquals(-JdkMath.PI, nn.getValue(), 1.0e-15);
-
     }
 
     @Test
@@ -834,7 +824,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         SparseGradient plusZero = SparseGradient.createVariable(0, +0.0);
         Assert.assertEquals(+0.0, plusZero.abs().getValue(), 1.0e-15);
         Assert.assertEquals(+1.0, plusZero.abs().getDerivative(0), 1.0e-15);
-
     }
 
     @Override
@@ -858,7 +847,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         Assert.assertEquals(+0.0, plusZero.signum().getValue(), 1.0e-15);
         Assert.assertEquals(0, Double.doubleToLongBits(plusZero.signum().getValue()));
         Assert.assertEquals( 0.0, plusZero.signum().getDerivative(0), 1.0e-15);
-
     }
 
     @Test
@@ -875,7 +863,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         Assert.assertEquals(+0.0, x.rint().getDerivative(0), 1.0e-15);
         Assert.assertEquals(-2.0, x.subtract(x.getField().getOne()).rint().getValue(), 1.0e-15);
         Assert.assertEquals(-1L, x.round(), 1.0e-15);
-
     }
 
     @Test
@@ -904,7 +891,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         Assert.assertEquals(-1.0, plusOne.copySign(-0.0).getDerivative(0), 1.0e-15);
         Assert.assertEquals(+1.0, plusOne.copySign(Double.NaN).getValue(), 1.0e-15);
         Assert.assertEquals(+1.0, plusOne.copySign(Double.NaN).getDerivative(0), 1.0e-15);
-
     }
 
     @Test
@@ -989,7 +975,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         Assert.assertEquals(a[0].getValue(), abSumInline.getDerivative(3), 1.0e-15);
         Assert.assertEquals(a[1].getValue(), abSumInline.getDerivative(4), 1.0e-15);
         Assert.assertEquals(a[2].getValue(), abSumInline.getDerivative(5), 1.0e-15);
-
     }
 
     @Test
@@ -1015,7 +1000,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         Assert.assertEquals(a[0], abSumInline.getDerivative(0), 1.0e-15);
         Assert.assertEquals(a[1], abSumInline.getDerivative(1), 1.0e-15);
         Assert.assertEquals(a[2], abSumInline.getDerivative(2), 1.0e-15);
-
     }
 
     @Test
@@ -1058,7 +1042,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             Assert.assertEquals(v[1].getValue(), lin.getDerivative(1), 1.0e-15 * JdkMath.abs(v[1].getValue()));
             Assert.assertEquals(v[2].getValue(), lin.getDerivative(2), 1.0e-15 * JdkMath.abs(v[2].getValue()));
             Assert.assertEquals(v[3].getValue(), lin.getDerivative(3), 1.0e-15 * JdkMath.abs(v[3].getValue()));
-
         }
     }
 
@@ -1102,7 +1085,6 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
             Assert.assertEquals(u[1], lin.getDerivative(1), 1.0e-15 * JdkMath.abs(v[1].getValue()));
             Assert.assertEquals(u[2], lin.getDerivative(2), 1.0e-15 * JdkMath.abs(v[2].getValue()));
             Assert.assertEquals(u[3], lin.getDerivative(3), 1.0e-15 * JdkMath.abs(v[3].getValue()));
-
         }
     }
 
@@ -1115,7 +1097,5 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         for (int i = 0; i < derivatives.length; ++i) {
             Assert.assertEquals(derivatives[i], sg.getDerivative(i), 1.0e-13);
         }
-
     }
-
 }

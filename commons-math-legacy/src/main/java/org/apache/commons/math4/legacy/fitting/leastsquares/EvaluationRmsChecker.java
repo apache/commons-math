@@ -72,5 +72,4 @@ public class EvaluationRmsChecker implements ConvergenceChecker<Evaluation> {
         return Precision.equals(prevRms, currRms, this.absTol) ||
                 Precision.equalsWithRelativeTolerance(prevRms, currRms, this.relTol);
     }
-
 }

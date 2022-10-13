@@ -60,5 +60,4 @@ public interface StatisticalSummary {
      * @return The sum or Double.NaN if no values have been added
      */
     double getSum();
-
 }

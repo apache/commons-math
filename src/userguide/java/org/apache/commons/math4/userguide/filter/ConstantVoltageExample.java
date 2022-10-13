@@ -171,7 +171,6 @@ public class ConstantVoltageExample {
         dataset.setLineColor(Color.black);
         dataset.setLineStyle(SeriesLineStyle.SOLID);
         dataset.setMarker(SeriesMarker.NONE);
-
     }
 
     public static Chart createChart(String title, int width, int height,
@@ -238,5 +237,4 @@ public class ConstantVoltageExample {
     public static void main(String[] args) {
         ExampleUtils.showExampleFrame(new Display());
     }
-
 }

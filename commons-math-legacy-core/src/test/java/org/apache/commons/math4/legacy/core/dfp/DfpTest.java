@@ -1641,7 +1641,6 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         Assert.assertTrue(ninf.negate().positiveOrNull());
         Assert.assertFalse(ninf.negate().strictlyNegative());
         Assert.assertTrue(ninf.negate().strictlyPositive());
-
     }
 
     @Test

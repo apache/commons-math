@@ -36,5 +36,4 @@ public interface UnivariateDifferentiableMatrixFunction
      * derivative order for example)
      */
     DerivativeStructure[][] value(DerivativeStructure x) throws MathIllegalArgumentException;
-
 }

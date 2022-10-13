@@ -215,5 +215,4 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic {
         dest.moment = source.moment.copy();
         dest.incMoment = source.incMoment;
     }
-
 }

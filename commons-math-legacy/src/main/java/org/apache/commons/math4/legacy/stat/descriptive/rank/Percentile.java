@@ -167,7 +167,6 @@ public class Percentile extends AbstractUnivariateStatistic {
             System.arraycopy(original.cachedPivots, 0, cachedPivots, 0, original.cachedPivots.length);
         }
         setQuantile(original.quantile);
-
     }
 
     /**

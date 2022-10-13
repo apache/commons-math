@@ -183,7 +183,6 @@ public class StepNormalizer implements StepHandler {
 
         // initialize the underlying handler
         handler.init(t0, y0, t);
-
     }
 
     /**

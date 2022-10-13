@@ -142,7 +142,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         Assert.assertEquals("testData len", 12, v14.getDimension());
         Assert.assertEquals("testData is 9.0 ", 9.0, v14.getEntry(2), 0);
         Assert.assertEquals("testData is 1.0 ", 1.0, v14.getEntry(3), 0);
-
     }
 
     @Test

@@ -114,5 +114,4 @@ public class ElitisticListPopulation extends ListPopulation {
     public double getElitismRate() {
         return this.elitismRate;
     }
-
 }

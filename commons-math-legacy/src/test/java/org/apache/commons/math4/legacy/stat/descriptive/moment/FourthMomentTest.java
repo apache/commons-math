@@ -42,5 +42,4 @@ public class FourthMomentTest extends StorelessUnivariateStatisticAbstractTest{
     public double expectedValue() {
        return this.fourthMoment;
     }
-
 }

@@ -167,7 +167,6 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             }
         }
         return res;
-
     }
 
     /**

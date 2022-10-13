@@ -116,7 +116,5 @@ class HighamHall54StepInterpolator
                     bDot0 * yDot0 + bDot2 * yDot2 + bDot3 * yDot3 + bDot4 * yDot4 + bDot5 * yDot5;
         }
     }
-
   }
-
 }

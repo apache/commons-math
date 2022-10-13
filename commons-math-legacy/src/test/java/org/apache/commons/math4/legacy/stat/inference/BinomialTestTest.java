@@ -87,7 +87,6 @@ public class BinomialTestTest {
             3, 0, 0.1, AlternativeHypothesis.TWO_SIDED), 1E-4);
         Assert.assertEquals(1, testStatistic.binomialTest(
             3, 0, 0.0, AlternativeHypothesis.TWO_SIDED), 1E-4);
-
     }
 
     @Test

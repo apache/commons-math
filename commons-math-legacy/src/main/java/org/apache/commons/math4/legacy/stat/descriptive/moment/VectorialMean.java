@@ -93,5 +93,4 @@ public class VectorialMean {
         VectorialMean other = (VectorialMean) obj;
         return Arrays.equals(means, other.means);
     }
-
 }

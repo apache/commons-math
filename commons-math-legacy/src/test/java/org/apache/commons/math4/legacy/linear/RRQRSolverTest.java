@@ -64,7 +64,6 @@ public class RRQRSolverTest {
 
         solver = new RRQRDecomposition(MatrixUtils.createRealMatrix(testData4x3), 1.0e-16).getSolver();
         Assert.assertTrue(solver.isNonSingular());
-
     }
 
     /** test solve dimension errors */
@@ -85,7 +84,6 @@ public class RRQRSolverTest {
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
-
     }
 
     /** test solve rank errors */
@@ -106,7 +104,6 @@ public class RRQRSolverTest {
         } catch (SingularMatrixException iae) {
             // expected behavior
         }
-
     }
 
     /** test solve */
@@ -141,7 +138,6 @@ public class RRQRSolverTest {
             final double error = x.subtract(xRef.getColumnVector(i)).getNorm();
             Assert.assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());
         }
-
     }
 
     @Test
@@ -165,7 +161,6 @@ public class RRQRSolverTest {
         // despite perturbation, the least square solution should be pretty good
         RealMatrix x = new RRQRDecomposition(a).getSolver().solve(b);
         Assert.assertEquals(0, x.subtract(xRef).getNorm(), 0.01 * noise * p * q);
-
     }
 
     @Test
@@ -185,7 +180,6 @@ public class RRQRSolverTest {
         // the last permuted unknown should have been set to 0
         RealMatrix permuted = rrqrd.getP().transpose().multiply(x);
         Assert.assertEquals(0.0, permuted.getSubMatrix(p, q - 1, 0, permuted.getColumnDimension() - 1).getNorm(), 0);
-
     }
 
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns) {

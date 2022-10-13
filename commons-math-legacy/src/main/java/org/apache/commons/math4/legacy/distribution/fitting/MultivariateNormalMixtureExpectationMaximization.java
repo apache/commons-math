@@ -435,7 +435,6 @@ public class MultivariateNormalMixtureExpectationMaximization {
             }
 
             return false;
-
         }
 
         /** {@inheritDoc} */

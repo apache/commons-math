@@ -296,5 +296,4 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         }
         return new Pair<>(normal, jTr);
     }
-
 }

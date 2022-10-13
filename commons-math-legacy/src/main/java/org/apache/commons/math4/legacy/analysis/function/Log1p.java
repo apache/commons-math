@@ -40,5 +40,4 @@ public class Log1p implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.log1p();
     }
-
 }

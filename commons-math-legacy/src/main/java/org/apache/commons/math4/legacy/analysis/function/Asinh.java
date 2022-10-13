@@ -40,5 +40,4 @@ public class Asinh implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.asinh();
     }
-
 }

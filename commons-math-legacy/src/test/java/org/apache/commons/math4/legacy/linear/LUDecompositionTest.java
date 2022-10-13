@@ -64,7 +64,6 @@ public class LUDecompositionTest {
         Assert.assertEquals(testData.length, LU.getU().getColumnDimension());
         Assert.assertEquals(testData.length, LU.getP().getRowDimension());
         Assert.assertEquals(testData.length, LU.getP().getColumnDimension());
-
     }
 
     /** test non-square matrix */
@@ -118,7 +117,6 @@ public class LUDecompositionTest {
         Assert.assertNull(lu.getL());
         Assert.assertNull(lu.getU());
         Assert.assertNull(lu.getP());
-
     }
 
     /** test that L is lower triangular with unit diagonal */
@@ -193,7 +191,6 @@ public class LUDecompositionTest {
             Assert.assertEquals(1, oneCount);
             Assert.assertEquals(0, otherCount);
         }
-
     }
 
     /** test singular */
@@ -246,7 +243,6 @@ public class LUDecompositionTest {
         Assert.assertSame(l, lu.getL());
         Assert.assertSame(u, lu.getU());
         Assert.assertSame(p, lu.getP());
-
     }
 
     /** test matrices values */

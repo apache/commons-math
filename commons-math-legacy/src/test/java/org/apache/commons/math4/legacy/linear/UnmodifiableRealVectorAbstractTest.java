@@ -314,7 +314,6 @@ public abstract class UnmodifiableRealVectorAbstractTest {
                               equals(uu, v));
             Assert.assertTrue(m.toGenericString() + ", wrong result",
                               equals(exp, act));
-
         } else {
             boolean flag = false;
             try {

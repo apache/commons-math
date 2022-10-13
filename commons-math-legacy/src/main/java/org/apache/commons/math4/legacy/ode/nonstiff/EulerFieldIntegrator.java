@@ -95,5 +95,4 @@ public class EulerFieldIntegrator<T extends RealFieldElement<T>> extends RungeKu
                                                  globalPreviousState, globalCurrentState,
                                                  mapper);
     }
-
 }

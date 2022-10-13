@@ -143,5 +143,4 @@ abstract class RungeKuttaFieldStepInterpolator<T extends RealFieldElement<T>>
         }
         return a;
     }
-
 }

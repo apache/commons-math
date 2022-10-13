@@ -40,5 +40,4 @@ public class Cosh implements UnivariateDifferentiableFunction {
     public DerivativeStructure value(final DerivativeStructure t) {
         return t.cosh();
     }
-
 }

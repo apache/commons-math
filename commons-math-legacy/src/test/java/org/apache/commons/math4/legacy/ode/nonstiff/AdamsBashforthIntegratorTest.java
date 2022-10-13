@@ -70,7 +70,6 @@ public class AdamsBashforthIntegratorTest {
           integ.integrate(pb,
                           pb.getInitialTime(), pb.getInitialState(),
                           pb.getFinalTime(), new double[pb.getDimension()]);
-
     }
 
     @Test
@@ -103,9 +102,7 @@ public class AdamsBashforthIntegratorTest {
             Assert.assertEquals(integ.getEvaluations(), calls);
             Assert.assertTrue(calls <= previousCalls);
             previousCalls = calls;
-
         }
-
     }
 
     @Test(expected = MaxCountExceededException.class)
@@ -121,7 +118,6 @@ public class AdamsBashforthIntegratorTest {
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
-
     }
 
     @Test
@@ -162,7 +158,6 @@ public class AdamsBashforthIntegratorTest {
                 Assert.assertTrue(handler.getMaximalValueError() < 5.0e-10);
             }
         }
-
     }
 
     @Test(expected=MathIllegalStateException.class)
@@ -185,7 +180,6 @@ public class AdamsBashforthIntegratorTest {
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
-
     }
 
     private static class PerfectStarter extends AbstractIntegrator {
@@ -212,7 +206,6 @@ public class AdamsBashforthIntegratorTest {
                 }
             }
         }
-
     }
 
     private static class PerfectInterpolator implements StepInterpolator {
@@ -296,7 +289,5 @@ public class AdamsBashforthIntegratorTest {
         public StepInterpolator copy() {
             return this;
         }
-
     }
-
 }

@@ -122,7 +122,6 @@ public class DummyStepInterpolator
             out.writeDouble(currentDerivative[i]);
         }
     }
-
   }
 
   /** Read the instance from an input channel.
@@ -147,7 +146,5 @@ public class DummyStepInterpolator
 
     // we can now set the interpolated time and state
     setInterpolatedTime(t);
-
   }
-
 }

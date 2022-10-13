@@ -57,7 +57,6 @@ public class MidpointFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstra
     @Override
     public void testBigStep() {
         doTestBigStep(Decimal64Field.getInstance(), 0.01, 0.05, 1.0e-12, "midpoint");
-
     }
 
     @Override
@@ -99,5 +98,4 @@ public class MidpointFieldIntegratorTest extends RungeKuttaFieldIntegratorAbstra
     public void testPartialDerivatives() {
         doTestPartialDerivatives(1.7e-4, new double[] { 1.0e-3, 2.8e-4, 3.8e-5, 2.8e-4, 2.8e-4 });
     }
-
 }

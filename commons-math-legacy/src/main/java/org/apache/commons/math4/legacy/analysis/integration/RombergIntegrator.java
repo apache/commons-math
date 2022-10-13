@@ -128,7 +128,5 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
             }
             olds = s;
         }
-
     }
-
 }

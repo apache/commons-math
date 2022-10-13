@@ -113,7 +113,6 @@ public class FieldExpandableODETest {
             Assert.assertEquals(-i, secondaryState2Dot[i].getReal(), 1.0e-15);
             Assert.assertEquals(-i, completeDot[i + main.getDimension() + secondary1.getDimension()].getReal(),  1.0e-15);
         }
-
     }
 
     @Test
@@ -339,7 +338,5 @@ public class FieldExpandableODETest {
             }
             return secondaryDot;
         }
-
     }
-
 }

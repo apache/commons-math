@@ -319,5 +319,4 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
     public int getNextIndex() {
         return count;
     }
-
 }

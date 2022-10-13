@@ -67,5 +67,4 @@ public class ThreeEighthesIntegrator extends RungeKuttaIntegrator {
   public ThreeEighthesIntegrator(final double step) {
     super("3/8", STATIC_C, STATIC_A, STATIC_B, new ThreeEighthesStepInterpolator(), step);
   }
-
 }

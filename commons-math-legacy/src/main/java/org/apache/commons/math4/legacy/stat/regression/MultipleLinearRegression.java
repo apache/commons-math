@@ -65,5 +65,4 @@ public interface MultipleLinearRegression {
      * @return standard errors of estimated regression parameters
      */
      double[] estimateRegressionParametersStandardErrors();
-
 }

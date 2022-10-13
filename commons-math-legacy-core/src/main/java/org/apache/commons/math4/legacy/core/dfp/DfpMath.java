@@ -189,7 +189,6 @@ public final class DfpMath {
 
             a -= trial;
             result = splitMult(result, r);
-
         } while (a >= 1);
 
         result[0] = result[0].add(result[1]);
@@ -240,7 +239,6 @@ public final class DfpMath {
 
             a -= trial;
             result = result.multiply(r);
-
         } while (a >= 1);
 
         if (invert) {
@@ -457,7 +455,6 @@ public final class DfpMath {
         y = y.multiply(a[0].getTwo());
 
         return split(y);
-
     }
 
     /** Computes x to the y power.<p>
@@ -657,7 +654,6 @@ public final class DfpMath {
         }
 
         return x.newInstance(r);
-
     }
 
     /** Computes sin(a)  Used when {@code {@code 0 < a < pi/4}}.
@@ -687,7 +683,6 @@ public final class DfpMath {
         }
 
         return y;
-
     }
 
     /** Computes cos(a)  Used when {@code 0 < a < pi/4}.
@@ -721,7 +716,6 @@ public final class DfpMath {
         }
 
         return y;
-
     }
 
     /** computes the sine of the argument.
@@ -767,7 +761,6 @@ public final class DfpMath {
         }
 
         return a.newInstance(y);
-
     }
 
     /** computes the cosine of the argument.
@@ -817,7 +810,6 @@ public final class DfpMath {
         }
 
         return a.newInstance(y);
-
     }
 
     /** computes the tangent of the argument.
@@ -850,7 +842,6 @@ public final class DfpMath {
         }
 
         return y;
-
     }
 
     /** Computes the arc tangent of the argument.
@@ -924,7 +915,6 @@ public final class DfpMath {
         }
 
         return a.newInstance(y);
-
     }
 
     /** computes the arc-sine of the argument.
@@ -953,5 +943,4 @@ public final class DfpMath {
 
         return a.newInstance(result);
     }
-
 }

@@ -103,7 +103,6 @@ public class ClassicalRungeKuttaIntegratorTest {
       for (int i = 0; i < y.length; ++i) {
           Assert.assertEquals(y0[i] * JdkMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
-
   }
 
   @Test
@@ -182,9 +181,7 @@ public class ClassicalRungeKuttaIntegratorTest {
         integ.clearEventHandlers();
         Assert.assertEquals(0, integ.getEventHandlers().size());
       }
-
     }
-
   }
 
   @Test
@@ -224,7 +221,6 @@ public class ClassicalRungeKuttaIntegratorTest {
     Assert.assertTrue(handler.getLastError() > 0.0004);
     Assert.assertTrue(handler.getMaximalValueError() > 0.005);
     Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-
   }
 
   @Test
@@ -344,11 +340,8 @@ public class ClassicalRungeKuttaIntegratorTest {
               Assert.assertTrue(t <= JdkMath.nextAfter(end,   Double.POSITIVE_INFINITY));
               yDot[0] = -100.0 * y[0];
           }
-
       };
 
       integ.integrate(equations, start, new double[] { 1.0 }, end, new double[1]);
-
   }
-
 }

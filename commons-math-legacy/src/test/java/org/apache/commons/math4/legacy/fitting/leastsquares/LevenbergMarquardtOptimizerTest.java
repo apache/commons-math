@@ -136,7 +136,6 @@ public class LevenbergMarquardtOptimizerTest
 
             Assert.assertTrue(!shouldFail);
             //TODO check it got the right answer
-
         } catch (DimensionMismatchException ee) {
             Assert.assertTrue(shouldFail);
         } catch (TooManyEvaluationsException ee) {

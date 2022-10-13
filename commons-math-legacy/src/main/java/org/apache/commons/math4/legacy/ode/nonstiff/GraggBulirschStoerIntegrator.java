@@ -229,7 +229,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     } else {
       this.stabilityReduction = stepsizeReductionFactor;
     }
-
   }
 
   /** Set the step size control factors.
@@ -282,7 +281,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     } else {
       this.stepControl4 = control4;
     }
-
   }
 
   /** Set the order control parameters.
@@ -329,7 +327,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     // reinitialize the arrays
     initializeArrays();
-
   }
 
   /** {@inheritDoc} */
@@ -340,7 +337,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     // reinitialize the arrays
     initializeArrays();
-
   }
 
   /** {@inheritDoc} */
@@ -355,7 +351,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     // reinitialize the arrays
     initializeArrays();
-
   }
 
   /** Initialize the integrator internal arrays. */
@@ -392,7 +387,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
         coeff[k][l] = 1.0 / (ratio * ratio - 1.0);
       }
     }
-
   }
 
   /** Set the interpolation order control parameter.
@@ -415,7 +409,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     } else {
       this.mudif = mudifControlParameter;
     }
-
   }
 
   /** Update scaling array.
@@ -505,7 +498,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           return false;
         }
       }
-
     }
 
     // correction of the last substep (at t0 + step)
@@ -514,7 +506,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     }
 
     return true;
-
   }
 
   /** Extrapolate a vector.
@@ -579,7 +570,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
       for (int l = 0; l < sequence[k]; ++l) {
         fk[k][l+1] = new double[y0.length];
       }
-
     }
 
     if (y != y0) {
@@ -640,7 +630,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
         }
 
         newStep = false;
-
       }
 
       stepSize = hNew;
@@ -669,7 +658,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           hNew   = JdkMath.abs(filterStep(stepSize * stabilityReduction, forward, false));
           reject = true;
           loop   = false;
-
         } else {
 
           // the substep was computed successfully
@@ -780,9 +768,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                   loop = false;
                 }
                 break;
-
               }
-
             }
           }
         }
@@ -833,7 +819,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
               }
             }
           }
-
         }
 
         if (mu >= 0) {
@@ -853,9 +838,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
               reject = true;
             }
           }
-
         }
-
       }
 
       if (! reject) {
@@ -915,11 +898,9 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           }
 
           targetIter = optimalIter;
-
         }
 
         newStep = true;
-
       }
 
       hNew = JdkMath.min(hNew, hInt);
@@ -935,7 +916,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
       } else {
         previousRejected = false;
       }
-
     } while (!isLastStep);
 
     // dispatch results
@@ -943,7 +923,5 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     equations.setCompleteState(y);
 
     resetInternalState();
-
   }
-
 }

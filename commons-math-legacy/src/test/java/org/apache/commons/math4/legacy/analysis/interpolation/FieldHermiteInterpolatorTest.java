@@ -126,9 +126,7 @@ public class FieldHermiteInterpolatorTest {
                                         1.0e-8 * JdkMath.abs(p[k].value(x.getReal())));
                 }
             }
-
         }
-
     }
 
     @Test
@@ -178,7 +176,6 @@ public class FieldHermiteInterpolatorTest {
                                         4.0e-8 * JdkMath.abs(p[k].value(x.getReal())));
                 }
             }
-
         }
     }
 
@@ -271,6 +268,5 @@ public class FieldHermiteInterpolatorTest {
         interpolator.addSamplePoint(Dfp25.of(1), new Dfp[] { Dfp25.of(0) });
         interpolator.addSamplePoint(Dfp25.of(1), new Dfp[] { Dfp25.of(1) });
     }
-
 }
 

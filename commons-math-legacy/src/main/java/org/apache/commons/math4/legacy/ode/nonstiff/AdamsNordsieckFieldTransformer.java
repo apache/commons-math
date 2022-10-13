@@ -177,7 +177,6 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
         shiftedP[0] = MathArrays.buildArray(field, rows);
         Arrays.fill(shiftedP[0], field.getZero());
         update = new Array2DRowFieldMatrix<>(pSolver.solve(new Array2DRowFieldMatrix<>(shiftedP, false)).getData());
-
     }
 
     /** Get the Nordsieck transformer for a given field and number of steps.
@@ -203,7 +202,6 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
                 map.put(field, t);
             }
             return t;
-
         }
     }
 
@@ -237,7 +235,6 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
         }
 
         return new Array2DRowFieldMatrix<>(pData, false);
-
     }
 
     /** Initialize the high order scaled derivatives at step start.
@@ -295,7 +292,6 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
                     bDotI[j] = yDotI[j].subtract(yDot0[j]);
                 }
             }
-
         }
 
         // solve the linear system to get the best estimate of the Nordsieck vector [s2 ... sk],
@@ -312,7 +308,6 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
             }
         }
         return truncatedX;
-
     }
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).
@@ -355,5 +350,4 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
             }
         }
     }
-
 }

@@ -29,5 +29,4 @@ public interface UnivariateVectorFunctionDifferentiator {
      * @return differential function
      */
     UnivariateDifferentiableVectorFunction differentiate(UnivariateVectorFunction function);
-
 }

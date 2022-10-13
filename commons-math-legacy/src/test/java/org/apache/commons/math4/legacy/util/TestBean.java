@@ -67,5 +67,4 @@ public class TestBean {
      */
     public void setZ(Double double1) {
     }
-
 }
