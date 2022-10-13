@@ -29,7 +29,7 @@ import org.apache.commons.math4.legacy.linear.AnyMatrix;
  *
  * @since 4.0
  */
-public class FieldDenseMatrix<T>
+public final class FieldDenseMatrix<T>
     implements AnyMatrix {
     /** Field. */
     private final Field<T> field;
@@ -37,7 +37,13 @@ public class FieldDenseMatrix<T>
     private final int rows;
     /** Number of columns. */
     private final int columns;
-    /** Data storage (in row-major order). */
+    /**
+     * Data storage (in row-major order).
+     *
+     * <p>Note: This is an Object[] that has been cast to T[] for convenience. It should not be
+     * exposed to avoid heap pollution. It is expected all entries stored in the array are
+     * instances of T.
+     */
     private final T[] data;
 
     /**
@@ -46,9 +52,10 @@ public class FieldDenseMatrix<T>
      * @param c Number of columns.
      * @throws IllegalArgumentException if {@code r <= 0} or {@code c <= 0}.
      */
-    protected FieldDenseMatrix(Field<T> f,
-                               int r,
-                               int c) {
+    @SuppressWarnings("unchecked")
+    private FieldDenseMatrix(Field<T> f,
+                             int r,
+                             int c) {
         if (r <= 0 ||
             c <= 0) {
             throw new IllegalArgumentException("Negative size");
