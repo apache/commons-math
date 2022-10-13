@@ -1140,8 +1140,8 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
         if (other instanceof DerivativeStructure) {
             final DerivativeStructure rhs = (DerivativeStructure)other;
-            return (getFreeParameters() == rhs.getFreeParameters()) &&
-                   (getOrder() == rhs.getOrder()) &&
+            return getFreeParameters() == rhs.getFreeParameters() &&
+                   getOrder() == rhs.getOrder() &&
                    MathArrays.equals(data, rhs.data);
         }
 

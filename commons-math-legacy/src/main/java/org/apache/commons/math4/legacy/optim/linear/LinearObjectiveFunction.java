@@ -105,7 +105,7 @@ public class LinearObjectiveFunction
         }
         if (other instanceof LinearObjectiveFunction) {
             LinearObjectiveFunction rhs = (LinearObjectiveFunction) other;
-          return (constantTerm == rhs.constantTerm) && coefficients.equals(rhs.coefficients);
+          return constantTerm == rhs.constantTerm && coefficients.equals(rhs.coefficients);
         }
 
         return false;

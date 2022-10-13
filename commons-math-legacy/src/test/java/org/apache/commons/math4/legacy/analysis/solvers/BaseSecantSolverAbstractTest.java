@@ -243,7 +243,7 @@ public abstract class BaseSecantSolverAbstractTest {
             return bracketing.solve(100, f, left, right, allowedSolution);
         } catch (ClassCastException cce) {
             double baseRoot = solver.solve(maxEval, f, left, right);
-            if ((baseRoot <= left) || (baseRoot >= right)) {
+            if (baseRoot <= left || baseRoot >= right) {
                 // the solution slipped out of interval
                 return Double.NaN;
             }

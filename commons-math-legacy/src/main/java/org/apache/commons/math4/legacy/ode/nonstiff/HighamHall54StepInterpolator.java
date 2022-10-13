@@ -79,7 +79,7 @@ class HighamHall54StepInterpolator
     final double bDot4 = theta * (375.0/16.0 + theta * (-625.0/8.0 + 125.0/2.0 * theta));
     final double bDot5 = theta * 5.0/8.0 * (2 * theta - 1);
 
-    if ((previousState != null) && (theta <= 0.5)) {
+    if (previousState != null && theta <= 0.5) {
         final double hTheta = h * theta;
         final double b0 = hTheta * (1.0 + theta * (-15.0/4.0  + theta * (16.0/3.0 - 5.0/2.0 * theta)));
         final double b2 = hTheta * (      theta * (459.0/32.0 + theta * (-243.0/8.0 + theta * 135.0/8.0)));

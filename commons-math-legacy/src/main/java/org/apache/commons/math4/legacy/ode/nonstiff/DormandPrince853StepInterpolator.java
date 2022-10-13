@@ -366,7 +366,7 @@ class DormandPrince853StepInterpolator
     final double dot5 = theta2 * (3 + theta * (-12 + theta * (15 - 6 * theta)));
     final double dot6 = theta2 * theta * (4 + theta * (-15 + theta * (18 - 7 * theta)));
 
-    if ((previousState != null) && (theta <= 0.5)) {
+    if (previousState != null && theta <= 0.5) {
         for (int i = 0; i < interpolatedState.length; ++i) {
             interpolatedState[i] = previousState[i] +
                     theta * h * (v[0][i] +

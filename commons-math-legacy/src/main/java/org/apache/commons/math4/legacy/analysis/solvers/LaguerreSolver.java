@@ -242,8 +242,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
         public boolean isRoot(double min, double max, Complex z) {
             if (isSequence(min, z.getReal(), max)) {
                 double tolerance = JdkMath.max(getRelativeAccuracy() * z.abs(), getAbsoluteAccuracy());
-                return (JdkMath.abs(z.getImaginary()) <= tolerance) ||
-                     (z.abs() <= getFunctionValueAccuracy());
+                return JdkMath.abs(z.getImaginary()) <= tolerance ||
+                     z.abs() <= getFunctionValueAccuracy();
             }
             return false;
         }

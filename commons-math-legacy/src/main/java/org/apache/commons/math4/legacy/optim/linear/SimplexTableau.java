@@ -288,8 +288,8 @@ class SimplexTableau {
             }
 
             // artificial variables
-            if ((constraint.getRelationship() == Relationship.EQ) ||
-                (constraint.getRelationship() == Relationship.GEQ)) {
+            if (constraint.getRelationship() == Relationship.EQ ||
+                constraint.getRelationship() == Relationship.GEQ) {
                 matrix.setEntry(0, getArtificialVariableOffset() + artificialVar, 1);
                 matrix.setEntry(row, getArtificialVariableOffset() + artificialVar++, 1);
                 matrix.setRowVector(0, matrix.getRowVector(0).subtract(matrix.getRowVector(row)));
@@ -546,7 +546,7 @@ class SimplexTableau {
         Integer row = null;
         for (int i = 0; i < getHeight(); i++) {
             final double entry = getEntry(i, col);
-            if (Precision.equals(entry, 1d, maxUlps) && (row == null)) {
+            if (Precision.equals(entry, 1d, maxUlps) && row == null) {
                 row = i;
             } else if (!Precision.equals(entry, 0d, maxUlps)) {
                 return null;
@@ -854,12 +854,12 @@ class SimplexTableau {
 
       if (other instanceof SimplexTableau) {
           SimplexTableau rhs = (SimplexTableau) other;
-          return (restrictToNonNegative  == rhs.restrictToNonNegative) &&
-                 (numDecisionVariables   == rhs.numDecisionVariables) &&
-                 (numSlackVariables      == rhs.numSlackVariables) &&
-                 (numArtificialVariables == rhs.numArtificialVariables) &&
-                 (epsilon                == rhs.epsilon) &&
-                 (maxUlps                == rhs.maxUlps) &&
+          return restrictToNonNegative  == rhs.restrictToNonNegative &&
+                 numDecisionVariables   == rhs.numDecisionVariables &&
+                 numSlackVariables      == rhs.numSlackVariables &&
+                 numArtificialVariables == rhs.numArtificialVariables &&
+                 epsilon                == rhs.epsilon &&
+                 maxUlps                == rhs.maxUlps &&
                  f.equals(rhs.f) &&
                  constraints.equals(rhs.constraints) &&
                  tableau.equals(rhs.tableau);

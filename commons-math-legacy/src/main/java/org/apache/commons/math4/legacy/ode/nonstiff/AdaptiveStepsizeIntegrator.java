@@ -201,7 +201,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * ignore the value and compute the initial step size by itself)
    */
   public void setInitialStepSize(final double initialStepSize) {
-    if ((initialStepSize < minStep) || (initialStepSize > maxStep)) {
+    if (initialStepSize < minStep || initialStepSize > maxStep) {
       initialStep = -1.0;
     } else {
       initialStep = initialStepSize;
@@ -217,11 +217,11 @@ public abstract class AdaptiveStepsizeIntegrator
 
       mainSetDimension = equations.getPrimaryMapper().getDimension();
 
-      if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != mainSetDimension)) {
+      if (vecAbsoluteTolerance != null && vecAbsoluteTolerance.length != mainSetDimension) {
           throw new DimensionMismatchException(mainSetDimension, vecAbsoluteTolerance.length);
       }
 
-      if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != mainSetDimension)) {
+      if (vecRelativeTolerance != null && vecRelativeTolerance.length != mainSetDimension) {
           throw new DimensionMismatchException(mainSetDimension, vecRelativeTolerance.length);
       }
   }
@@ -261,7 +261,7 @@ public abstract class AdaptiveStepsizeIntegrator
       yDotOnScale2 += ratio * ratio;
     }
 
-    double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?
+    double h = (yOnScale2 < 1.0e-10 || yDotOnScale2 < 1.0e-10) ?
                1.0e-6 : (0.01 * JdkMath.sqrt(yOnScale2 / yDotOnScale2));
     if (! forward) {
       h = -h;

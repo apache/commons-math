@@ -259,7 +259,7 @@ public final class HarmonicCurveFitter extends SimpleCurveFitter {
             double c1 = sy2 * sxz - sxy * syz;
             double c2 = sxy * sxz - sx2 * syz;
             double c3 = sx2 * sy2 - sxy * sxy;
-            if ((c1 / c2 < 0) || (c2 / c3 < 0)) {
+            if (c1 / c2 < 0 || c2 / c3 < 0) {
                 final int last = observations.length - 1;
                 // Range of the observations, assuming that the
                 // observations are sorted.

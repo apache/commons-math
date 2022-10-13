@@ -293,7 +293,7 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
         final StepInterpolator sMed = steps.get(iMed);
         final double tMed = 0.5 * (sMed.getPreviousTime() + sMed.getCurrentTime());
 
-        if ((JdkMath.abs(tMed - tMin) < 1e-6) || (JdkMath.abs(tMax - tMed) < 1e-6)) {
+        if (JdkMath.abs(tMed - tMin) < 1e-6 || JdkMath.abs(tMax - tMed) < 1e-6) {
           // too close to the bounds, we estimate using a simple dichotomy
           index = iMed;
         } else {
@@ -325,7 +325,7 @@ public void handleStep(final StepInterpolator interpolator, final boolean isLast
 
       // now the table slice is very small, we perform an iterative search
       index = iMin;
-      while ((index <= iMax) && (locatePoint(time, steps.get(index)) > 0)) {
+      while (index <= iMax && locatePoint(time, steps.get(index)) > 0) {
         ++index;
       }
 

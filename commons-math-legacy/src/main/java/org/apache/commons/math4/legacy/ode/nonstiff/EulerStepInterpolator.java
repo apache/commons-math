@@ -84,7 +84,7 @@ class EulerStepInterpolator
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta,
                                           final double oneMinusThetaH) {
-      if ((previousState != null) && (theta <= 0.5)) {
+      if (previousState != null && theta <= 0.5) {
           for (int i = 0; i < interpolatedState.length; ++i) {
               interpolatedState[i] = previousState[i] + theta * h * yDotK[0][i];
           }

@@ -238,7 +238,7 @@ public class GTest {
             throws NotPositiveException, NotStrictlyPositiveException,
             DimensionMismatchException, OutOfRangeException, MaxCountExceededException {
 
-        if ((alpha <= 0) || (alpha > 0.5)) {
+        if (alpha <= 0 || alpha > 0.5) {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                     alpha, 0, 0.5);
         }

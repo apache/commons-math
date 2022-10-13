@@ -210,7 +210,7 @@ public class BracketingNthOrderBrentSolver
             // check convergence of bracketing interval
             final double xTol = getAbsoluteAccuracy() +
                                 getRelativeAccuracy() * JdkMath.max(JdkMath.abs(xA), JdkMath.abs(xB));
-            if (((xB - xA) <= xTol) || (JdkMath.max(absYA, absYB) < getFunctionValueAccuracy())) {
+            if (xB - xA <= xTol || JdkMath.max(absYA, absYB) < getFunctionValueAccuracy()) {
                 switch (allowed) {
                 case ANY_SIDE :
                     return absYA < absYB ? xA : xB;
@@ -257,7 +257,7 @@ public class BracketingNthOrderBrentSolver
                 System.arraycopy(x, start, tmpX, start, end - start);
                 nextX = guessX(targetY, tmpX, y, start, end);
 
-                if (!((nextX > xA) && (nextX < xB))) {
+                if (!(nextX > xA && nextX < xB)) {
                     // the guessed root is not strictly inside of the tightest bracketing interval
 
                     // the guessed root is either not strictly inside the interval or it
@@ -274,7 +274,7 @@ public class BracketingNthOrderBrentSolver
                     // we need to do one more attempt
                     nextX = Double.NaN;
                 }
-            } while (Double.isNaN(nextX) && (end - start > 1));
+            } while (Double.isNaN(nextX) && end - start > 1);
 
             if (Double.isNaN(nextX)) {
                 // fall back to bisection
@@ -291,7 +291,7 @@ public class BracketingNthOrderBrentSolver
                 return nextX;
             }
 
-            if ((nbPoints > 2) && (end - start != nbPoints)) {
+            if (nbPoints > 2 && end - start != nbPoints) {
 
                 // we have been forced to ignore some points to keep bracketing,
                 // they are probably too far from the root, drop them from now on

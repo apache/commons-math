@@ -284,9 +284,9 @@ public class EventState {
                                                                    baseRoot, tb, ta, AllowedSolution.LEFT_SIDE);
                     }
 
-                    if ((!Double.isNaN(previousEventTime)) &&
-                        (JdkMath.abs(root - ta) <= convergence) &&
-                        (JdkMath.abs(root - previousEventTime) <= convergence)) {
+                    if (!Double.isNaN(previousEventTime) &&
+                        JdkMath.abs(root - ta) <= convergence &&
+                        JdkMath.abs(root - previousEventTime) <= convergence) {
                         // we have either found nothing or found (again ?) a past event,
                         // retry the substep excluding this value, and taking care to have the
                         // required sign in case the g function is noisy around its zero and
@@ -308,7 +308,7 @@ public class EventState {
                             return true;
                         }
                     } else if (Double.isNaN(previousEventTime) ||
-                               (JdkMath.abs(previousEventTime - root) > convergence)) {
+                               JdkMath.abs(previousEventTime - root) > convergence) {
                         pendingEventTime = root;
                         pendingEvent = true;
                         return true;
@@ -354,7 +354,7 @@ public class EventState {
         t0 = t;
         g0 = handler.g(t, y);
 
-        if (pendingEvent && (JdkMath.abs(pendingEventTime - t) <= convergence)) {
+        if (pendingEvent && JdkMath.abs(pendingEventTime - t) <= convergence) {
             // force the sign to its value "just after the event"
             previousEventTime = t;
             g0Positive        = increasing;
@@ -382,7 +382,7 @@ public class EventState {
      */
     public boolean reset(final double t, final double[] y) {
 
-        if (!(pendingEvent && (JdkMath.abs(pendingEventTime - t) <= convergence))) {
+        if (!(pendingEvent && JdkMath.abs(pendingEventTime - t) <= convergence)) {
             return false;
         }
 
@@ -392,8 +392,8 @@ public class EventState {
         pendingEvent      = false;
         pendingEventTime  = Double.NaN;
 
-        return (nextAction == EventHandler.Action.RESET_STATE) ||
-               (nextAction == EventHandler.Action.RESET_DERIVATIVES);
+        return nextAction == EventHandler.Action.RESET_STATE ||
+               nextAction == EventHandler.Action.RESET_DERIVATIVES;
     }
 
     /** Local wrapper to propagate exceptions. */

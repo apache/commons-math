@@ -63,7 +63,7 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction {
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
-        while ((n > 1) && (c[n - 1] == 0)) {
+        while (n > 1 && c[n - 1] == 0) {
             --n;
         }
         this.coefficients = new double[n];

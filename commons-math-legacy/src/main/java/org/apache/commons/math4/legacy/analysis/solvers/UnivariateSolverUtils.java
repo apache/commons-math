@@ -314,7 +314,7 @@ public final class UnivariateSolverUtils {
         double delta = 0;
 
         for (int numIterations = 0;
-             (numIterations < maximumIterations) && (a > lowerBound || b < upperBound);
+             numIterations < maximumIterations && (a > lowerBound || b < upperBound);
              ++numIterations) {
 
             final double previousA  = a;
@@ -398,7 +398,7 @@ public final class UnivariateSolverUtils {
     public static boolean isSequence(final double start,
                                      final double mid,
                                      final double end) {
-        return (start < mid) && (mid < end);
+        return start < mid && mid < end;
     }
 
     /**

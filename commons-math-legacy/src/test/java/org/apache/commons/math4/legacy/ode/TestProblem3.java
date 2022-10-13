@@ -88,7 +88,7 @@ public class TestProblem3
     double E = t;
     double d = 0;
     double corr = 999.0;
-    for (int i = 0; (i < 50) && (JdkMath.abs(corr) > 1.0e-12); ++i) {
+    for (int i = 0; i < 50 && JdkMath.abs(corr) > 1.0e-12; ++i) {
       double f2  = e * JdkMath.sin(E);
       double f0  = d - f2;
       double f1  = 1 - e * JdkMath.cos(E);

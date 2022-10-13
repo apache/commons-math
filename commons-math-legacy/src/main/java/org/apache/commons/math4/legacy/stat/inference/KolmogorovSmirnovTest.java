@@ -337,7 +337,7 @@ public class KolmogorovSmirnovTest {
      * @throws NullArgumentException if {@code data} is null
      */
     public boolean kolmogorovSmirnovTest(ContinuousDistribution distribution, double[] data, double alpha) {
-        if ((alpha <= 0) || (alpha > 0.5)) {
+        if (alpha <= 0 || alpha > 0.5) {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, alpha, 0, 0.5);
         }
         return kolmogorovSmirnovTest(distribution, data) < alpha;

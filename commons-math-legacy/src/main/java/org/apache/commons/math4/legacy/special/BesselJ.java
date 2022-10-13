@@ -254,8 +254,7 @@ public class BesselJ
         // Check for out of range arguments.
         // ---------------------------------------------------------------------
         final int magx = (int) x;
-        if ((nb > 0) && (x >= X_MIN) && (x <= X_MAX) && (alpha >= 0) &&
-            (alpha < 1)) {
+        if (nb > 0 && x >= X_MIN && x <= X_MAX && alpha >= 0 && alpha < 1) {
             // ---------------------------------------------------------------------
             // Initialize result array to zero.
             // ---------------------------------------------------------------------
@@ -291,7 +290,7 @@ public class BesselJ
                     tempb = -halfx * halfx;
                 }
                 b[0] = tempa + (tempa * tempb / alpem);
-                if ((x != 0) && (b[0] == 0)) {
+                if (x != 0 && b[0] == 0) {
                     ncalc = 0;
                 }
                 if (nb != 1) {
@@ -313,13 +312,13 @@ public class BesselJ
                                 tempa = 0;
                             }
                             b[n] = tempa + (tempa * tempb / alpem);
-                            if ((b[n] == 0) && (ncalc > n)) {
+                            if (b[n] == 0 && ncalc > n) {
                                 ncalc = n;
                             }
                         }
                     }
                 }
-            } else if ((x > 25.0) && (nb <= magx + 1)) {
+            } else if (x > 25.0 && nb <= magx + 1) {
                 // ---------------------------------------------------------------------
                 // Asymptotic series for X > 25
                 // ---------------------------------------------------------------------

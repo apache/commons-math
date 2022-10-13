@@ -890,8 +890,8 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         throws OutOfRangeException, MatrixDimensionMismatchException {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
-        if ((matrix.getRowDimension() != 1) ||
-            (matrix.getColumnDimension() != nCols)) {
+        if (matrix.getRowDimension() != 1 ||
+            matrix.getColumnDimension() != nCols) {
             throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
                                                        matrix.getColumnDimension(),
                                                        1, nCols);
@@ -974,8 +974,8 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         throws OutOfRangeException, MatrixDimensionMismatchException {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
-        if ((matrix.getRowDimension() != nRows) ||
-            (matrix.getColumnDimension() != 1)) {
+        if (matrix.getRowDimension() != nRows ||
+            matrix.getColumnDimension() != 1) {
             throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
                                                        matrix.getColumnDimension(),
                                                        nRows, 1);

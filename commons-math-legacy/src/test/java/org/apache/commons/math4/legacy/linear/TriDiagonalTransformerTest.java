@@ -114,7 +114,7 @@ public class TriDiagonalTransformerTest {
         final int cols = m.getColumnDimension();
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
-                if ((i < j - 1) || (i > j + 1)) {
+                if (i < j - 1 || i > j + 1) {
                     Assert.assertEquals(0, m.getEntry(i, j), 1.0e-16);
                 }
             }

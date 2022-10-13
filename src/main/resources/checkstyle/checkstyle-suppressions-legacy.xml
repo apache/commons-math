@@ -38,6 +38,21 @@
   <suppress checks="LocalFinalVariableName" files=".*[/\\]SingularValueDecomposition.java" />
   <suppress checks="LocalFinalVariableName" files=".*[/\\]gauss[/\\]Legendre.*" />
 
+  <!-- Sometimes parentheses can help readability -->
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]MullerSolver\.java$" lines="177-179" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]UnivariateSolverUtils\.java$" lines="123,387" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]SparseGradient\.java$" lines="385,396" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]DerivativeStructure\.java$" lines="468,481" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]SimpleCurveFitter\.java$" lines="321-322" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]LevenbergMarquardtOptimizer\.java$" lines="527,741" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]EnumeratedDistribution\.java$" lines="128-129" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]SimpleRegression\.java$" lines="823" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]MillerUpdatingRegression\.java$" lines="172-173" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]GraggBulirschStoerIntegrator\.java$" lines="638-639,679,767" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]MultiDirectionalTransform\.java$" lines="94" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]NelderMeadTransform\.java$" lines="109" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]BaseMultiStartMultivariateOptimizer\.java$" lines="190" />
+
   <!-- Be more lenient on tests. -->
   <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />
   <suppress checks="MultipleStringLiterals" files=".*[/\\]test[/\\].*" />

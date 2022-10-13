@@ -103,11 +103,11 @@ public class BiDiagonalTransformerTest {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 if (rows < cols) {
-                    if ((i < j) || (i > j + 1)) {
+                    if (i < j || i > j + 1) {
                         Assert.assertEquals(0, m.getEntry(i, j), 1.0e-16);
                     }
                 } else {
-                    if ((i < j - 1) || (i > j)) {
+                    if (i < j - 1 || i > j) {
                         Assert.assertEquals(0, m.getEntry(i, j), 1.0e-16);
                     }
                 }

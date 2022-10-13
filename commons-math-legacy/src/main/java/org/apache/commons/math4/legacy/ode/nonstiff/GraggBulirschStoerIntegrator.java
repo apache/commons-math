@@ -224,7 +224,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     this.maxIter     = (maxNumIter   <= 0) ? 2 : maxNumIter;
     this.maxChecks   = (maxNumChecks <= 0) ? 1 : maxNumChecks;
 
-    if ((stepsizeReductionFactor < 0.0001) || (stepsizeReductionFactor > 0.9999)) {
+    if (stepsizeReductionFactor < 0.0001 || stepsizeReductionFactor > 0.9999) {
       this.stabilityReduction = 0.5;
     } else {
       this.stabilityReduction = stepsizeReductionFactor;
@@ -258,25 +258,25 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   public void setControlFactors(final double control1, final double control2,
                                 final double control3, final double control4) {
 
-    if ((control1 < 0.0001) || (control1 > 0.9999)) {
+    if (control1 < 0.0001 || control1 > 0.9999) {
       this.stepControl1 = 0.65;
     } else {
       this.stepControl1 = control1;
     }
 
-    if ((control2 < 0.0001) || (control2 > 0.9999)) {
+    if (control2 < 0.0001 || control2 > 0.9999) {
       this.stepControl2 = 0.94;
     } else {
       this.stepControl2 = control2;
     }
 
-    if ((control3 < 0.0001) || (control3 > 0.9999)) {
+    if (control3 < 0.0001 || control3 > 0.9999) {
       this.stepControl3 = 0.02;
     } else {
       this.stepControl3 = control3;
     }
 
-    if ((control4 < 1.0001) || (control4 > 999.9)) {
+    if (control4 < 1.0001 || control4 > 999.9) {
       this.stepControl4 = 4.0;
     } else {
       this.stepControl4 = control4;
@@ -309,17 +309,17 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   public void setOrderControl(final int maximalOrder,
                               final double control1, final double control2) {
 
-    if ((maximalOrder <= 6) || (maximalOrder % 2 != 0)) {
+    if (maximalOrder <= 6 || maximalOrder % 2 != 0) {
       this.maxOrder = 18;
     }
 
-    if ((control1 < 0.0001) || (control1 > 0.9999)) {
+    if (control1 < 0.0001 || control1 > 0.9999) {
       this.orderControl1 = 0.8;
     } else {
       this.orderControl1 = control1;
     }
 
-    if ((control2 < 0.0001) || (control2 > 0.9999)) {
+    if (control2 < 0.0001 || control2 > 0.9999) {
       this.orderControl2 = 0.9;
     } else {
       this.orderControl2 = control2;
@@ -358,7 +358,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     final int size = maxOrder / 2;
 
-    if ((sequence == null) || (sequence.length != size)) {
+    if (sequence == null || sequence.length != size) {
       // all arrays should be reallocated with the right size
       sequence        = new int[size];
       costPerStep     = new int[size];
@@ -404,7 +404,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     this.useInterpolationError = useInterpolationErrorForControl;
 
-    if ((mudifControlParameter <= 0) || (mudifControlParameter >= 7)) {
+    if (mudifControlParameter <= 0 || mudifControlParameter >= 7) {
       this.mudif = 4;
     } else {
       this.mudif = mudifControlParameter;
@@ -483,7 +483,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
       computeDerivatives(t, yEnd, f[j+1]);
 
       // stability check
-      if (performTest && (j <= maxChecks) && (k < maxIter)) {
+      if (performTest && j <= maxChecks && k < maxIter) {
         double initialNorm = 0.0;
         for (int l = 0; l < scale.length; ++l) {
           final double ratio = f[0][l] / scale[l];
@@ -676,7 +676,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
             }
             error = JdkMath.sqrt(error / mainSetDimension);
 
-            if ((error > 1.0e15) || ((k > 1) && (error > maxError))) {
+            if (error > 1.0e15 || (k > 1 && error > maxError)) {
               // error is too big, we reduce the global step
               hNew   = JdkMath.abs(filterStep(stepSize * stabilityReduction, forward, false));
               reject = true;
@@ -697,7 +697,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
               switch (k - targetIter) {
 
               case -1 :
-                if ((targetIter > 1) && ! previousRejected) {
+                if (targetIter > 1 && !previousRejected) {
 
                   // check if we can stop iterations now
                   if (error <= 1.0) {
@@ -715,9 +715,9 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                       reject = true;
                       loop   = false;
                       targetIter = k;
-                      if ((targetIter > 1) &&
-                          (costPerTimeUnit[targetIter-1] <
-                           orderControl1 * costPerTimeUnit[targetIter])) {
+                      if (targetIter > 1 &&
+                          costPerTimeUnit[targetIter-1] <
+                          orderControl1 * costPerTimeUnit[targetIter]) {
                         --targetIter;
                       }
                       hNew = optimalStep[targetIter];
@@ -740,9 +740,9 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                     // we reject the step immediately
                     reject = true;
                     loop = false;
-                    if ((targetIter > 1) &&
-                        (costPerTimeUnit[targetIter-1] <
-                         orderControl1 * costPerTimeUnit[targetIter])) {
+                    if (targetIter > 1 &&
+                        costPerTimeUnit[targetIter-1] <
+                        orderControl1 * costPerTimeUnit[targetIter]) {
                       --targetIter;
                     }
                     hNew = optimalStep[targetIter];
@@ -753,9 +753,9 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
               case 1 :
                 if (error > 1.0) {
                   reject = true;
-                  if ((targetIter > 1) &&
-                      (costPerTimeUnit[targetIter-1] <
-                       orderControl1 * costPerTimeUnit[targetIter])) {
+                  if (targetIter > 1 &&
+                      costPerTimeUnit[targetIter-1] <
+                      orderControl1 * costPerTimeUnit[targetIter]) {
                     --targetIter;
                   }
                   hNew = optimalStep[targetIter];
@@ -764,7 +764,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                 break;
 
               default :
-                if ((firstTime || isLastStep) && (error <= 1.0)) {
+                if ((firstTime || isLastStep) && error <= 1.0) {
                   loop = false;
                 }
                 break;
@@ -868,8 +868,8 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           }
         } else {
           optimalIter = k - 1;
-          if ((k > 2) &&
-              (costPerTimeUnit[k-2] < orderControl1 * costPerTimeUnit[k-1])) {
+          if (k > 2 &&
+              costPerTimeUnit[k-2] < orderControl1 * costPerTimeUnit[k-1]) {
             optimalIter = k - 2;
           }
           if (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[optimalIter]) {
@@ -887,8 +887,8 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
           if (optimalIter <= k) {
             hNew = optimalStep[optimalIter];
           } else {
-            if ((k < targetIter) &&
-                (costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[k-1])) {
+            if (k < targetIter &&
+                costPerTimeUnit[k] < orderControl2 * costPerTimeUnit[k-1]) {
               hNew = filterStep(optimalStep[k] * costPerStep[optimalIter+1] / costPerStep[k],
                                forward, false);
             } else {

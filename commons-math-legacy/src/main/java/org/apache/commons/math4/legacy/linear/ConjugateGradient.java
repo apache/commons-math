@@ -193,7 +193,7 @@ public class ConjugateGradient
                 z = m.operate(r);
             }
             final double rhoNext = r.dotProduct(z);
-            if (check && (rhoNext <= 0.)) {
+            if (check && rhoNext <= 0) {
                 final NonPositiveDefiniteOperatorException e;
                 e = new NonPositiveDefiniteOperatorException();
                 final ExceptionContext context = e.getContext();
@@ -208,7 +208,7 @@ public class ConjugateGradient
             }
             q = a.operate(p);
             final double pq = p.dotProduct(q);
-            if (check && (pq <= 0.)) {
+            if (check && pq <= 0) {
                 final NonPositiveDefiniteOperatorException e;
                 e = new NonPositiveDefiniteOperatorException();
                 final ExceptionContext context = e.getContext();

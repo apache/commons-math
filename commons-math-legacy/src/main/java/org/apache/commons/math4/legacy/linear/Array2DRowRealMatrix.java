@@ -338,7 +338,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public int getColumnDimension() {
-        return ((data == null) || (data[0] == null)) ? 0 : data[0].length;
+        return (data == null || data[0] == null) ? 0 : data[0].length;
     }
 
     /** {@inheritDoc} */

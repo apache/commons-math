@@ -301,7 +301,7 @@ public final class PolynomialsUtils {
             }
 
             final JacobiKey otherK = (JacobiKey) key;
-            return (v == otherK.v) && (w == otherK.w);
+            return v == otherK.v && w == otherK.w;
         }
     }
 

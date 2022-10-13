@@ -129,7 +129,7 @@ class LutherStepInterpolator extends RungeKuttaStepInterpolator {
         final double coeffDot6 =      theta * ((833 - 343 * Q) / 150.0 + theta * ((-637 + 357 * Q) / 30.0 + theta * ((392 - 287 * Q) / 15.0 + theta * (-49 + 49 * Q) /  5.0)));
         final double coeffDot7 =      theta * (   3            /   5.0 + theta * (   -3                   + theta *     3));
 
-        if ((previousState != null) && (theta <= 0.5)) {
+        if (previousState != null && theta <= 0.5) {
 
             final double coeff1    =  1 + theta * ( -27            /   5.0 + theta * (   12                   + theta * ( -47            /  4.0 + theta *   21           /  5.0)));
             final double coeff2    =  0;

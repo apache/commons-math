@@ -656,7 +656,7 @@ public final class BlockFieldMatrixTest {
         m.setSubMatrix(sub.getData(), 2, 2);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                if ((i < 2) || (i > n - 3) || (j < 2) || (j > n - 3)) {
+                if (i < 2 || i > n - 3 || j < 2 || j > n - 3) {
                     Assert.assertEquals(Dfp25.of(0), m.getEntry(i, j));
                 } else {
                     Assert.assertEquals(Dfp25.of(1), m.getEntry(i, j));

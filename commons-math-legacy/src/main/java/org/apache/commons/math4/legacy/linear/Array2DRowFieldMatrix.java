@@ -403,7 +403,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     /** {@inheritDoc} */
     @Override
     public int getColumnDimension() {
-        return ((data == null) || (data[0] == null)) ? 0 : data[0].length;
+        return (data == null || data[0] == null) ? 0 : data[0].length;
     }
 
     /** {@inheritDoc} */

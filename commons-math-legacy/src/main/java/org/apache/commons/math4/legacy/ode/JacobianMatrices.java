@@ -347,7 +347,7 @@ public class JacobianMatrices {
             throws MaxCountExceededException, DimensionMismatchException {
 
             // Lazy initialization
-            if (dirtyParameter && (paramDim != 0)) {
+            if (dirtyParameter && paramDim != 0) {
                 jacobianProviders.add(new ParameterJacobianWrapper(jode, pode, selectedParameters));
                 dirtyParameter = false;
             }
@@ -380,7 +380,7 @@ public class JacobianMatrices {
                 int startIndex = stateDim * stateDim;
                 for (ParameterConfiguration param: selectedParameters) {
                     boolean found = false;
-                    for (int k = 0 ; (!found) && (k < jacobianProviders.size()); ++k) {
+                    for (int k = 0 ; !found && k < jacobianProviders.size(); ++k) {
                         final ParameterJacobianProvider provider = jacobianProviders.get(k);
                         if (provider.isSupported(param.getParameterName())) {
                             provider.computeParameterJacobian(t, y, yDot,

@@ -364,7 +364,7 @@ public abstract class AbstractRealMatrix
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         final int rowsCount    = endRow + 1 - startRow;
         final int columnsCount = endColumn + 1 - startColumn;
-        if ((destination.length < rowsCount) || (destination[0].length < columnsCount)) {
+        if (destination.length < rowsCount || destination[0].length < columnsCount) {
             throw new MatrixDimensionMismatchException(destination.length, destination[0].length,
                                                        rowsCount, columnsCount);
         }
@@ -409,8 +409,8 @@ public abstract class AbstractRealMatrix
         MatrixDimensionMismatchException {
         MatrixUtils.checkSubMatrixIndex(this, selectedRows, selectedColumns);
         final int nCols = selectedColumns.length;
-        if ((destination.length < selectedRows.length) ||
-            (destination[0].length < nCols)) {
+        if (destination.length < selectedRows.length ||
+            destination[0].length < nCols) {
             throw new MatrixDimensionMismatchException(destination.length, destination[0].length,
                                                        selectedRows.length, selectedColumns.length);
         }
@@ -480,8 +480,8 @@ public abstract class AbstractRealMatrix
         throws OutOfRangeException, MatrixDimensionMismatchException {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
-        if ((matrix.getRowDimension() != 1) ||
-            (matrix.getColumnDimension() != nCols)) {
+        if (matrix.getRowDimension() != 1 ||
+            matrix.getColumnDimension() != nCols) {
             throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
                                                        matrix.getColumnDimension(),
                                                        1, nCols);
@@ -511,8 +511,8 @@ public abstract class AbstractRealMatrix
         throws OutOfRangeException, MatrixDimensionMismatchException {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
-        if ((matrix.getRowDimension() != nRows) ||
-            (matrix.getColumnDimension() != 1)) {
+        if (matrix.getRowDimension() != nRows ||
+            matrix.getColumnDimension() != 1) {
             throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
                                                        matrix.getColumnDimension(),
                                                        nRows, 1);

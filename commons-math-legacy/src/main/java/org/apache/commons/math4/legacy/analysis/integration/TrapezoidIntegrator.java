@@ -149,7 +149,7 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
                 final double delta = JdkMath.abs(t - oldt);
                 final double rLimit =
                     getRelativeAccuracy() * (JdkMath.abs(oldt) + JdkMath.abs(t)) * 0.5;
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
+                if (delta <= rLimit || delta <= getAbsoluteAccuracy()) {
                     return t;
                 }
             }

@@ -367,7 +367,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         final int rowsCount    = endRow + 1 - startRow;
         final int columnsCount = endColumn + 1 - startColumn;
-        if ((destination.length < rowsCount) || (destination[0].length < columnsCount)) {
+        if (destination.length < rowsCount || destination[0].length < columnsCount) {
             throw new MatrixDimensionMismatchException(destination.length,
                                                        destination[0].length,
                                                        rowsCount,
@@ -407,8 +407,8 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         NullArgumentException, OutOfRangeException {
         // safety checks
         checkSubMatrixIndex(selectedRows, selectedColumns);
-        if ((destination.length < selectedRows.length) ||
-            (destination[0].length < selectedColumns.length)) {
+        if (destination.length < selectedRows.length ||
+            destination[0].length < selectedColumns.length) {
             throw new MatrixDimensionMismatchException(destination.length,
                                                        destination[0].length,
                                                        selectedRows.length,
@@ -480,8 +480,8 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         throws OutOfRangeException, MatrixDimensionMismatchException {
         checkRowIndex(row);
         final int nCols = getColumnDimension();
-        if ((matrix.getRowDimension() != 1) ||
-            (matrix.getColumnDimension() != nCols)) {
+        if (matrix.getRowDimension() != 1 ||
+            matrix.getColumnDimension() != nCols) {
             throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
                                                        matrix.getColumnDimension(),
                                                        1, nCols);
@@ -512,8 +512,8 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         throws OutOfRangeException, MatrixDimensionMismatchException {
         checkColumnIndex(column);
         final int nRows = getRowDimension();
-        if ((matrix.getRowDimension() != nRows) ||
-            (matrix.getColumnDimension() != 1)) {
+        if (matrix.getRowDimension() != nRows ||
+            matrix.getColumnDimension() != 1) {
             throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
                                                        matrix.getColumnDimension(),
                                                        nRows, 1);

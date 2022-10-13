@@ -169,7 +169,7 @@ public class LUDecomposition {
      * @return the L matrix (or null if decomposed matrix is singular)
      */
     public RealMatrix getL() {
-        if ((cachedL == null) && !singular) {
+        if (cachedL == null && !singular) {
             final int m = pivot.length;
             cachedL = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
@@ -189,7 +189,7 @@ public class LUDecomposition {
      * @return the U matrix (or null if decomposed matrix is singular)
      */
     public RealMatrix getU() {
-        if ((cachedU == null) && !singular) {
+        if (cachedU == null && !singular) {
             final int m = pivot.length;
             cachedU = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
@@ -212,7 +212,7 @@ public class LUDecomposition {
      * @see #getPivot()
      */
     public RealMatrix getP() {
-        if ((cachedP == null) && !singular) {
+        if (cachedP == null && !singular) {
             final int m = pivot.length;
             cachedP = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {

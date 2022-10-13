@@ -102,7 +102,7 @@ class ThreeEighthesStepInterpolator
       final double coeffDot2  = coeffDot3 * (5 - 6 * theta);
       final double coeffDot4  = coeffDot3 * (2 * theta - 1);
 
-      if ((previousState != null) && (theta <= 0.5)) {
+      if (previousState != null && theta <= 0.5) {
           final double s          = theta * h / 8.0;
           final double fourTheta2 = 4 * theta * theta;
           final double coeff1     = s * (8 - 15 * theta + 2 * fourTheta2);

@@ -318,7 +318,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
                 System.arraycopy(x, start, tmpX, start, end - start);
                 nextX = guessX(targetY, tmpX, y, start, end);
 
-                if (!((nextX.subtract(xA).getReal() > 0) && (nextX.subtract(xB).getReal() < 0))) {
+                if (!(nextX.subtract(xA).getReal() > 0 && nextX.subtract(xB).getReal() < 0)) {
                     // the guessed root is not strictly inside of the tightest bracketing interval
 
                     // the guessed root is either not strictly inside the interval or it
@@ -335,7 +335,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
                     // we need to do one more attempt
                     nextX = nan;
                 }
-            } while (Double.isNaN(nextX.getReal()) && (end - start > 1));
+            } while (Double.isNaN(nextX.getReal()) && end - start > 1);
 
             if (Double.isNaN(nextX.getReal())) {
                 // fall back to bisection
@@ -353,7 +353,7 @@ public class FieldBracketingNthOrderBrentSolver<T extends RealFieldElement<T>>
                 return nextX;
             }
 
-            if ((nbPoints > 2) && (end - start != nbPoints)) {
+            if (nbPoints > 2 && end - start != nbPoints) {
 
                 // we have been forced to ignore some points to keep bracketing,
                 // they are probably too far from the root, drop them from now on

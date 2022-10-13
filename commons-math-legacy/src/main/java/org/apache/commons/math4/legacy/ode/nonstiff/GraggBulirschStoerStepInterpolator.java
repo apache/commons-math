@@ -239,7 +239,7 @@ class GraggBulirschStoerStepInterpolator
    */
   public void computeCoefficients(final int mu, final double h) {
 
-    if ((polynomials == null) || (polynomials.length <= (mu + 4))) {
+    if (polynomials == null || polynomials.length <= (mu + 4)) {
       resetTables(mu + 4);
     }
 

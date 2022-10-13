@@ -289,7 +289,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      */
     @Override
     public void addObservations(final double[][] x,final double[] y) throws ModelSpecificationException {
-        if ((x == null) || (y == null) || (x.length != y.length)) {
+        if (x == null || y == null || x.length != y.length) {
             throw new ModelSpecificationException(
                   LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                   (x == null) ? 0 : x.length,

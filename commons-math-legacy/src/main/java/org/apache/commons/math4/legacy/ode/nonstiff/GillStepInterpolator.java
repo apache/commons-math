@@ -109,7 +109,7 @@ class GillStepInterpolator
     final double coeffDot3  = cDot23  * ONE_PLUS_INV_SQRT_2;
     final double coeffDot4  = theta * (twoTheta - 1);
 
-    if ((previousState != null) && (theta <= 0.5)) {
+    if (previousState != null && theta <= 0.5) {
         final double s         = theta * h / 6.0;
         final double c23       = s * (6 * theta - fourTheta2);
         final double coeff1    = s * (6 - 9 * theta + fourTheta2);

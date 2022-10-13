@@ -122,7 +122,7 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
             if (i >= getMinimalIterationCount()) {
                 final double delta  = JdkMath.abs(s - olds);
                 final double rLimit = getRelativeAccuracy() * (JdkMath.abs(olds) + JdkMath.abs(s)) * 0.5;
-                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
+                if (delta <= rLimit || delta <= getAbsoluteAccuracy()) {
                     return s;
                 }
             }

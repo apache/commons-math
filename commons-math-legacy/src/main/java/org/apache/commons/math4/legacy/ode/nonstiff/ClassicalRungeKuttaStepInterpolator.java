@@ -98,7 +98,7 @@ class ClassicalRungeKuttaStepInterpolator
         final double coeffDot1     = oneMinusTheta * oneMinus2Theta;
         final double coeffDot23    = 2 * theta * oneMinusTheta;
         final double coeffDot4     = -theta * oneMinus2Theta;
-        if ((previousState != null) && (theta <= 0.5)) {
+        if (previousState != null && theta <= 0.5) {
             final double fourTheta2     = 4 * theta * theta;
             final double s             = theta * h / 6.0;
             final double coeff1        = s * ( 6 - 9 * theta + fourTheta2);

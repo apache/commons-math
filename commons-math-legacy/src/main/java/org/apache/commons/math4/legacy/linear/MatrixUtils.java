@@ -830,7 +830,7 @@ public final class MatrixUtils {
     public static void solveLowerTriangularSystem(RealMatrix rm, RealVector b)
         throws DimensionMismatchException, MathArithmeticException,
         NonSquareMatrixException {
-        if ((rm == null) || (b == null) || ( rm.getRowDimension() != b.getDimension())) {
+        if (rm == null || b == null || rm.getRowDimension() != b.getDimension()) {
             throw new DimensionMismatchException(
                     (rm == null) ? 0 : rm.getRowDimension(),
                     (b == null) ? 0 : b.getDimension());
@@ -875,7 +875,7 @@ public final class MatrixUtils {
     public static void solveUpperTriangularSystem(RealMatrix rm, RealVector b)
         throws DimensionMismatchException, MathArithmeticException,
         NonSquareMatrixException {
-        if ((rm == null) || (b == null) || ( rm.getRowDimension() != b.getDimension())) {
+        if (rm == null || b == null || rm.getRowDimension() != b.getDimension()) {
             throw new DimensionMismatchException(
                     (rm == null) ? 0 : rm.getRowDimension(),
                     (b == null) ? 0 : b.getDimension());

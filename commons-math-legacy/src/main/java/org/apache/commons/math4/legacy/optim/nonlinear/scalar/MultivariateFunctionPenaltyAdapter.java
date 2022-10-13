@@ -162,7 +162,7 @@ public class MultivariateFunctionPenaltyAdapter
     public double value(double[] point) {
 
         for (int i = 0; i < scale.length; ++i) {
-            if ((point[i] < lower[i]) || (point[i] > upper[i])) {
+            if (point[i] < lower[i] || point[i] > upper[i]) {
                 // bound violation starting at this component
                 double sum = 0;
                 for (int j = i; j < scale.length; ++j) {

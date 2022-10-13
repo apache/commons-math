@@ -90,7 +90,7 @@ class MidpointStepInterpolator
     final double coeffDot2 = 2 * theta;
     final double coeffDot1 = 1 - coeffDot2;
 
-    if ((previousState != null) && (theta <= 0.5)) {
+    if (previousState != null && theta <= 0.5) {
         final double coeff1    = theta * oneMinusThetaH;
         final double coeff2    = theta * theta * h;
         for (int i = 0; i < interpolatedState.length; ++i) {

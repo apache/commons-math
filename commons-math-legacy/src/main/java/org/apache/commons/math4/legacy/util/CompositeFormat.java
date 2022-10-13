@@ -172,9 +172,9 @@ public final class CompositeFormat {
 
         final int startIndex = pos.getIndex();
         final int endIndex = startIndex + expected.length();
-        if ((startIndex >= source.length()) ||
-            (endIndex > source.length()) ||
-            (source.substring(startIndex, endIndex).compareTo(expected) != 0)) {
+        if (startIndex >= source.length() ||
+            endIndex > source.length() ||
+            source.substring(startIndex, endIndex).compareTo(expected) != 0) {
             // set index back to start, error index should be the start index
             pos.setIndex(startIndex);
             pos.setErrorIndex(startIndex);

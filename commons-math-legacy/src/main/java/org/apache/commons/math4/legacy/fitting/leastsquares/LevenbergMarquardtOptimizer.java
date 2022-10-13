@@ -484,12 +484,12 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 if (ratio <= 0.25) {
                     double tmp =
                         (actRed < 0) ? (0.5 * dirDer / (dirDer + 0.5 * actRed)) : 0.5;
-                        if ((0.1 * currentCost >= previousCost) || (tmp < 0.1)) {
+                        if (0.1 * currentCost >= previousCost || tmp < 0.1) {
                             tmp = 0.1;
                         }
                         delta = tmp * JdkMath.min(delta, 10.0 * lmNorm);
                         lmPar /= tmp;
-                } else if ((lmPar == 0) || (ratio >= 0.75)) {
+                } else if (lmPar == 0 || ratio >= 0.75) {
                     delta = 2 * lmNorm;
                     lmPar *= 0.5;
                 }
@@ -885,7 +885,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         // singular, then obtain a least squares solution
         int nSing = solvedCols;
         for (int j = 0; j < solvedCols; ++j) {
-            if ((lmDiag[j] == 0) && (nSing == solvedCols)) {
+            if (lmDiag[j] == 0 && nSing == solvedCols) {
                 nSing = j;
             }
             if (nSing < solvedCols) {

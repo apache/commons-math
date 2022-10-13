@@ -168,7 +168,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
      * @return the L matrix (or null if decomposed matrix is singular)
      */
     public FieldMatrix<T> getL() {
-        if ((cachedL == null) && !singular) {
+        if (cachedL == null && !singular) {
             final int m = pivot.length;
             cachedL = new Array2DRowFieldMatrix<>(field, m, m);
             for (int i = 0; i < m; ++i) {
@@ -188,7 +188,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
      * @return the U matrix (or null if decomposed matrix is singular)
      */
     public FieldMatrix<T> getU() {
-        if ((cachedU == null) && !singular) {
+        if (cachedU == null && !singular) {
             final int m = pivot.length;
             cachedU = new Array2DRowFieldMatrix<>(field, m, m);
             for (int i = 0; i < m; ++i) {
@@ -211,7 +211,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
      * @see #getPivot()
      */
     public FieldMatrix<T> getP() {
-        if ((cachedP == null) && !singular) {
+        if (cachedP == null && !singular) {
             final int m = pivot.length;
             cachedP = new Array2DRowFieldMatrix<>(field, m, m);
             for (int i = 0; i < m; ++i) {

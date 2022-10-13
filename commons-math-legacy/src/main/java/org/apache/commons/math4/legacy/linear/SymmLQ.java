@@ -546,7 +546,7 @@ public class SymmLQ
              */
             this.r1 = this.b.copy();
             this.y = this.m == null ? this.b.copy() : this.m.operate(this.r1);
-            if ((this.m != null) && this.check) {
+            if (this.m != null && this.check) {
                 checkSymmetry(this.m, this.r1, this.y, this.m.operate(this.y));
             }
 
@@ -789,7 +789,7 @@ public class SymmLQ
                 throw new SingularOperatorException();
             }
             rnorm = JdkMath.min(cgnorm, lqnorm);
-            hasConverged = (cgnorm <= epsx) || (cgnorm <= epsr);
+            hasConverged = cgnorm <= epsx || cgnorm <= epsr;
         }
 
         /**

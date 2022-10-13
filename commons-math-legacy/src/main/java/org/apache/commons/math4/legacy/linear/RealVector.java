@@ -205,11 +205,11 @@ public abstract class RealVector {
     protected void checkIndices(final int start, final int end)
         throws NumberIsTooSmallException, OutOfRangeException {
         final int dim = getDimension();
-        if ((start < 0) || (start >= dim)) {
+        if (start < 0 || start >= dim) {
             throw new OutOfRangeException(LocalizedFormats.INDEX, start, 0,
                                           dim - 1);
         }
-        if ((end < 0) || (end >= dim)) {
+        if (end < 0 || end >= dim) {
             throw new OutOfRangeException(LocalizedFormats.INDEX, end, 0,
                                           dim - 1);
         }
