@@ -339,7 +339,7 @@ public class ElkanKMeansPlusPlusClusterer<T extends Clusterable>
      * @param c index of the cluster
      * @return true if conditions above satisfied false otherwise
      */
-    private static boolean isSkipNext(int partitions[],
+    private static boolean isSkipNext(int[] partitions,
                                       double[] u,
                                       double[][] l,
                                       double[][] dcc,
