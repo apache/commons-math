@@ -43,7 +43,7 @@
 Apache Commons Math
 ===================
 
-[![Build Status](https://travis-ci.com/apache/commons-math.svg)](https://travis-ci.com/apache/commons-math)
+[![Build Status](https://github.com/apache/commons-math/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-math/actions/workflows/maven.yml)
 [![Coverage Status](https://codecov.io/gh/apache/commons-math/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-math)
 <!--
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math-parent/)
