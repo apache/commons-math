@@ -69,7 +69,6 @@
     <math.commons.geometry.version>1.0</math.commons.geometry.version>
     <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>
     <math.commons.math3.version>3.6.1</math.commons.math3.version>
-    <math.junit5.version>5.7.2</math.junit5.version>
     <math.surefire.version>3.0.0-M5</math.surefire.version>
     <math.antrun.version>1.8</math.antrun.version>
     <!-- Workaround to avoid duplicating config files. -->
@@ -266,14 +265,12 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>${math.junit5.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
-      <version>${math.junit5.version}</version>
       <scope>test</scope>
     </dependency>
 
