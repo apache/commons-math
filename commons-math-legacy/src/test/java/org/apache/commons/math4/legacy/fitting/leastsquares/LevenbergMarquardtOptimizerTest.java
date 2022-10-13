@@ -291,25 +291,40 @@ public class LevenbergMarquardtOptimizerTest
 
         // First guess for the center's coordinates and radius.
         final double[] init = { 118, 659, 115 };
-        final Optimum optimum
-            = optimizer.optimize(builder(circle).maxIterations(50).start(init).build());
+
+        final Optimum optimum = optimizer.optimize(
+                builder(circle).maxIterations(50).start(init).build());
+
         final int numEval = optimum.getEvaluations();
         Assert.assertTrue(numEval > 1);
 
         // Build a new problem with a validator that amounts to cheating.
+
+        // Note we cannot return a fixed point.
+        // The optimiser relies on computing a predicted reduction in the cost
+        // function (preRed) and an actual reduction (actRed). The ratio between them must be
+        // non-zero to indicate the step reduced the cost function. If a threshold is not
+        // achieved then the step is rejected and the optimiser can cycle through many iterations
+        // not moving anywhere until alternative thresholds reduce to a level that terminate
+        // the cycle.
+        // Here we take the current point and move it towards an acceptable answer
+        // given the problem (the previous optimum). This should speed up the optimiser.
+        // This can still fail to reduce the iterations when the adjusted step moves
+        // to a sub-optimal position in the cost function.
         final ParameterValidator cheatValidator
             = new ParameterValidator() {
                     @Override
                     public RealVector validate(RealVector params) {
-                        // Cheat: return the optimum found previously.
-                        return optimum.getPoint();
+                        // Cheat: Move towards the optimum found previously.
+                        final RealVector direction = optimum.getPoint().subtract(params);
+                        return params.add(direction.mapMultiply(0.75));
                     }
                 };
 
         final Optimum cheatOptimum
             = optimizer.optimize(builder(circle).maxIterations(50).start(init).parameterValidator(cheatValidator).build());
         final int cheatNumEval = cheatOptimum.getEvaluations();
-        Assert.assertTrue(cheatNumEval < numEval);
+        Assert.assertTrue("n=" + numEval + " nc=" + cheatNumEval, cheatNumEval < numEval);
         // System.out.println("n=" + numEval + " nc=" + cheatNumEval);
     }
 
