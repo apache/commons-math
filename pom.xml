@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>53</version>
+    <version>54</version>
   </parent>
 
   <artifactId>commons-math-parent</artifactId>
@@ -46,6 +46,8 @@
     <commons.osgi.symbolicName>org.apache.commons.math4</commons.osgi.symbolicName>
     <!-- OSGi -->
     <commons.osgi.export>org.apache.commons.math4</commons.osgi.export>
+    <!-- This flag should only be true in the dist-archive module. -->
+    <commons.release.isDistModule>false</commons.release.isDistModule>
     <!-- do not use snapshot suffix here -->
     <commons.release.version>4.0</commons.release.version>
     <commons.release.desc>(requires Java 8+)</commons.release.desc>
@@ -72,6 +74,8 @@
     <math.antrun.version>1.8</math.antrun.version>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}</math.parent.dir>
+    <!-- Multi-module support fixed in commons-parent 55 -->
+    <cyclonedx.skip>true</cyclonedx.skip>
 
     <!-- Increase from commons-parent -->
     <commons.jacoco.methodRatio>1.00</commons.jacoco.methodRatio>
@@ -134,10 +138,16 @@
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-math.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf/commons-math.git</url>
   </scm>
+
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/MATH</url>
   </issueManagement>
+
+  <ciManagement>
+    <system>GitHub</system>
+    <url>https://github.com/apache/commons-math/actions</url>
+  </ciManagement>
 
   <distributionManagement>
     <site>
@@ -413,6 +423,8 @@
             <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
             <exclude>dist-archive/**</exclude>
             <exclude>**/site-content/**</exclude>
+            <!-- Moved to commons-parent 55 -->
+            <exclude>.gitattributes</exclude>
 
             <!-- MANIFEST files cannot have any comments, so we can't put license header -->
             <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
@@ -434,7 +446,6 @@
             <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
                  available under a BSD-style license (see LICENSE.txt) -->
             <exclude>src/main/resources/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201</exclude>
-
           </excludes>
         </configuration>
       </plugin>
@@ -492,6 +503,8 @@
             <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
             <exclude>dist-archive/**</exclude>
             <exclude>**/site-content/**</exclude>
+            <!-- Moved to commons-parent 55 -->
+            <exclude>.gitattributes</exclude>
           </excludes>
         </configuration>
       </plugin>
