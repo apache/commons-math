@@ -140,7 +140,6 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${commons.spotbugs.version}</version>
         <configuration>
           <skip>true</skip>
         </configuration>

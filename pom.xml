@@ -83,9 +83,6 @@
        to collect the artifacts from other modules. -->
     <commons.jxr.version>2.5</commons.jxr.version>
 
-    <!-- Override CP 47 -->
-    <commons.spotbugs.version>4.3.0</commons.spotbugs.version>
-
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
@@ -341,7 +338,6 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${commons.spotbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
@@ -538,7 +534,6 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${commons.spotbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
