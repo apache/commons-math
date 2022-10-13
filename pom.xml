@@ -906,6 +906,11 @@ This is avoided by creating an empty directory when svn is not available.
       <id>ericbarnhill</id>
       <email>ericbarnhill at apache dot org</email>
     </developer>
+    <developer>
+      <name>Alex Herbert</name>
+      <id>aherbert</id>
+      <email>aherbert at apache dot org</email>
+    </developer>
   </developers>
   <contributors>
     <contributor>
@@ -1138,9 +1143,6 @@ This is avoided by creating an empty directory when svn is not available.
     </contributor>
     <contributor>
       <name>Artavazd Balaian</name>
-    </contributor>
-    <contributor>
-      <name>Alex Herbert</name>
     </contributor>
     <contributor>
       <name>Samy Badjoudj</name>
