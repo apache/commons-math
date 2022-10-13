@@ -37,7 +37,7 @@ public class LinearObjectiveFunction
     implements MultivariateFunction,
                OptimizationData {
     /** Coefficients of the linear equation (c<sub>i</sub>). */
-    private final transient RealVector coefficients;
+    private final RealVector coefficients;
     /** Constant term of the linear equation. */
     private final double constantTerm;
 

@@ -41,7 +41,7 @@ import org.apache.commons.math4.legacy.linear.RealVector;
  */
 public class LinearConstraint {
     /** Coefficients of the constraint (left hand side). */
-    private final transient RealVector coefficients;
+    private final RealVector coefficients;
     /** Relationship between left and right hand sides {@code (=, <=, >=)}. */
     private final Relationship relationship;
     /** Value of the constraint (right hand side). */

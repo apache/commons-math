@@ -59,7 +59,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  */
 public class DerivativeStructure implements RealFieldElement<DerivativeStructure> {
     /** Compiler for the current dimensions. */
-    private transient DSCompiler compiler;
+    private DSCompiler compiler;
 
     /** Combined array holding all values. */
     private final double[] data;

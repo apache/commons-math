@@ -94,7 +94,7 @@ class SimplexTableau {
     private final List<String> columnLabels = new ArrayList<>();
 
     /** Simple tableau. */
-    private transient Array2DRowRealMatrix tableau;
+    private Array2DRowRealMatrix tableau;
 
     /** Number of decision variables. */
     private final int numDecisionVariables;
