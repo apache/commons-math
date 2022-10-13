@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.numbers.combinatorics.FactorialDouble;
+import org.apache.commons.numbers.combinatorics.Factorial;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /** Class holding "compiled" computation rules for derivative structures.
@@ -123,9 +123,6 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * @since 3.1
  */
 public final class DSCompiler {
-    /** Cache for factorials. */
-    private static final FactorialDouble FACTORIAL = FactorialDouble.create().withCache(30);
-
     /** Array of all compilers created so far. */
     private static AtomicReference<DSCompiler[][]> compilers =
             new AtomicReference<>(null);
@@ -1759,7 +1756,7 @@ public final class DSCompiler {
             for (int k = 0; k < orders.length; ++k) {
                 if (orders[k] > 0) {
                     try {
-                        term *= JdkMath.pow(delta[k], orders[k]) / FACTORIAL.value(orders[k]);
+                        term *= JdkMath.pow(delta[k], orders[k]) / Factorial.doubleValue(orders[k]);
                     } catch (NotPositiveException e) {
                         // this cannot happen
                         throw new MathInternalError(e);
