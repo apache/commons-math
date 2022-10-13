@@ -185,19 +185,19 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
      * @return bins statistics.
      */
     private List<SummaryStatistics> createBinStats(double[] input) {
-        final List<SummaryStatistics> binStats = new ArrayList<>();
+        final List<SummaryStatistics> stats = new ArrayList<>();
 
         for (int i = 0; i < binCount; i++) {
-            binStats.add(i, new SummaryStatistics());
+            stats.add(i, new SummaryStatistics());
         }
 
         // Second pass though the data.
         for (int i = 0; i < input.length; i++) {
             final double v = input[i];
-            binStats.get(findBin(v)).addValue(v);
+            stats.get(findBin(v)).addValue(v);
         }
 
-        return binStats;
+        return stats;
     }
 
     /**
