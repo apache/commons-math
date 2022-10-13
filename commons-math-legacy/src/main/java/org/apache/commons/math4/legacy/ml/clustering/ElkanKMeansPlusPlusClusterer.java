@@ -133,9 +133,10 @@ public class ElkanKMeansPlusPlusClusterer<T extends Clusterable>
 
         final double[] deltas = new double[k];
         VectorialMean[] means = new VectorialMean[k];
-        for (int it = 0, changes = 0, max = getMaxIterations();
+        for (int it = 0, max = getMaxIterations();
              it < max;
-             it++, changes = 0) {
+             it++) {
+            int changes = 0;
             // Step I.
             // Compute inter-cluster distances.
             updateIntraCentersDistances(centers, dcc, s);
