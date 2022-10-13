@@ -40,18 +40,18 @@
          name of the base package evolves with major release numbers
          (see "commons.osgi.symbolicName", below). -->
     <commons.componentid>math</commons.componentid>
-    <!-- The Java Module System Name -->
-    <commons.module.name>org.apache.commons.math4</commons.module.name>
+    <!-- OSGi -->
     <!-- This value must reflect the current name of the base package. -->
     <commons.osgi.symbolicName>org.apache.commons.math4</commons.osgi.symbolicName>
-    <!-- OSGi -->
     <commons.osgi.export>org.apache.commons.math4</commons.osgi.export>
+    <!-- The Java Module System Name -->
+    <commons.automatic.module.name>org.apache.commons.math4</commons.automatic.module.name>
     <!-- This flag should only be true in the dist-archive module. -->
     <commons.release.isDistModule>false</commons.release.isDistModule>
     <!-- do not use snapshot suffix here -->
     <commons.release.version>4.0</commons.release.version>
-    <commons.release.desc>(requires Java 8+)</commons.release.desc>
     <commons.rc.version>RC1</commons.rc.version>
+    <commons.release.desc>(requires Java 8+)</commons.release.desc>
     <commons.binary.suffix>-bin</commons.binary.suffix>
 
     <commons.jira.id>MATH</commons.jira.id>
@@ -71,15 +71,15 @@
     <!-- Multi-module support fixed in commons-parent 55 -->
     <cyclonedx.skip>true</cyclonedx.skip>
 
-    <!-- Increase from commons-parent -->
-    <commons.jacoco.methodRatio>1.00</commons.jacoco.methodRatio>
-    <!-- Set to true when coverage goals are achieved -->
-    <commons.jacoco.haltOnFailure>false</commons.jacoco.haltOnFailure>
-
     <!-- Fix to avoid JXR 3.0.0 forking the lifecycle phase 'compile' during site report
        jxr:aggregate. If compile is forked, the dist-archive build fails when attempting
        to collect the artifacts from other modules. -->
     <commons.jxr.version>2.5</commons.jxr.version>
+
+    <!-- Increase from commons-parent -->
+    <commons.jacoco.methodRatio>1.00</commons.jacoco.methodRatio>
+    <!-- Set to true when coverage goals are achieved -->
+    <commons.jacoco.haltOnFailure>false</commons.jacoco.haltOnFailure>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
@@ -90,10 +90,6 @@
     <math.jgit.buildnumber.version>1.2.10</math.jgit.buildnumber.version>
     <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
 
-    <!-- Workaround to avoid the SVN site checkout in all modules.
-         This flag should be deactivated by child modules. -->
-    <perform.site.checkout>true</perform.site.checkout>
-
     <!--
         Override so that "mvn commons:download-page" will generates a web page
         referring to the files created by the "dist-archive" module.
@@ -102,7 +98,13 @@
     <commons.release.name>commons-math4-${project.version}</commons.release.name>
     <!-- Java8+ requires additional Javadoc qualifier for scripts such as MathJax -->
     <allowscript.javadoc.qualifier>--allow-script-in-comments</allowscript.javadoc.qualifier>
+    <!-- Check for all javadoc errors -->
     <doclint.javadoc.qualifier>-Xdoclint:all</doclint.javadoc.qualifier>
+
+    <!-- Workaround to avoid the SVN site checkout in all modules.
+         This flag should be deactivated by child modules. -->
+    <perform.site.checkout>true</perform.site.checkout>
+
   </properties>
 
   <modules> <!-- Do not change the ordering of the 4 blocks below. -->
@@ -435,7 +437,8 @@
         <configuration>
           <archive combine.children="append">
             <manifestEntries>
-              <Automatic-Module-Name>${commons.module.name}</Automatic-Module-Name>
+              <!-- Java 9 -->
+              <Automatic-Module-Name>${commons.automatic.module.name}</Automatic-Module-Name>
             </manifestEntries>
           </archive>
         </configuration>

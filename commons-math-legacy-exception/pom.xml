@@ -33,7 +33,7 @@
 
   <properties>
     <!-- The Java Module System Name -->
-    <commons.module.name>org.apache.commons.math4.legacy.exception</commons.module.name>
+    <commons.automatic.module.name>org.apache.commons.math4.legacy.exception</commons.automatic.module.name>
     <!-- This value must reflect the current name of the base package. -->
     <commons.osgi.symbolicName>org.apache.commons.math4.legacy.exception</commons.osgi.symbolicName>
     <!-- OSGi -->
