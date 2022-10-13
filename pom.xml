@@ -61,8 +61,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <math.pmd.version>3.14.0</math.pmd.version>
     <math.pmd.dep.version>6.37.0</math.pmd.dep.version>
-    <math.checkstyle.version>3.1.0</math.checkstyle.version>
-    <math.checkstyle.dep.version>8.29</math.checkstyle.dep.version>
     <math.mathjax.version>2.7.2</math.mathjax.version>
     <math.commons.numbers.version>1.1-SNAPSHOT</math.commons.numbers.version>
     <math.commons.rng.version>1.5</math.commons.rng.version>
@@ -319,13 +317,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>${math.checkstyle.dep.version}</version>
-          </dependency>
-        </dependencies>
         <configuration>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <configLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
@@ -338,7 +329,6 @@
           <logViolationsToConsole>true</logViolationsToConsole>
           <failOnViolation>true</failOnViolation>
           <resourceExcludes>NOTICE,LICENSE,**/*.properties</resourceExcludes>
-          <excludes>**/generated/**.java</excludes>
         </configuration>
         <executions>
           <execution>
@@ -470,11 +460,6 @@
     <pluginManagement>
 
       <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${math.checkstyle.version}</version>
-        </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -535,14 +520,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${math.checkstyle.version}</version>
         <configuration>
           <configLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle.xml</configLocation>
           <headerLocation>${math.parent.dir}/src/main/resources/checkstyle/license-header.txt</headerLocation>
           <suppressionsLocation>${math.parent.dir}/src/main/resources/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <includeResources>false</includeResources>
-          <excludes>**/generated/**.java</excludes>
         </configuration>
         <reportSets>
           <reportSet>
