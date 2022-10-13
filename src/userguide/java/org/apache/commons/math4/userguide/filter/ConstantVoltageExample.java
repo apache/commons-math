@@ -122,12 +122,12 @@ public class ConstantVoltageExample {
         final MeasurementModel mm = new DefaultMeasurementModel(H, R);
         final KalmanFilter filter = new KalmanFilter(pm, mm);
 
-        final List<Number> xAxis = new ArrayList<Number>();
-        final List<Number> realVoltageSeries = new ArrayList<Number>();
-        final List<Number> measuredVoltageSeries = new ArrayList<Number>();
-        final List<Number> kalmanVoltageSeries = new ArrayList<Number>();
+        final List<Number> xAxis = new ArrayList<>();
+        final List<Number> realVoltageSeries = new ArrayList<>();
+        final List<Number> measuredVoltageSeries = new ArrayList<>();
+        final List<Number> kalmanVoltageSeries = new ArrayList<>();
 
-        final List<Number> covSeries = new ArrayList<Number>();
+        final List<Number> covSeries = new ArrayList<>();
         
         for (int i = 0; i < 300; i++) {
             xAxis.add(i);

@@ -55,7 +55,7 @@ public class GeneticAlgorithmTestPermutations {
 
         // initialize a new genetic algorithm
         GeneticAlgorithm ga = new GeneticAlgorithm(
-                new OnePointCrossover<Integer>(),
+                new OnePointCrossover<>(),
                 CROSSOVER_RATE,
                 new RandomKeyMutation(),
                 MUTATION_RATE,

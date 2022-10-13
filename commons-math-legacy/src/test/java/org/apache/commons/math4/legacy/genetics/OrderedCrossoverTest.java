@@ -34,7 +34,7 @@ public class OrderedCrossoverTest {
         final DummyListChromosome p1c = new DummyListChromosome(p1);
         final DummyListChromosome p2c = new DummyListChromosome(p2);
 
-        final CrossoverPolicy cp = new OrderedCrossover<Integer>();
+        final CrossoverPolicy cp = new OrderedCrossover<>();
 
         for (int i = 0; i < 20; i++) {
             final Set<Integer> parentSet1 = new HashSet<>(Arrays.asList(p1));
@@ -66,7 +66,7 @@ public class OrderedCrossoverTest {
         final BinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final BinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
-        final CrossoverPolicy cp = new OrderedCrossover<Integer>();
+        final CrossoverPolicy cp = new OrderedCrossover<>();
         cp.crossover(p1c, p2c);
     }
 
@@ -82,7 +82,7 @@ public class OrderedCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new OrderedCrossover<Integer>();
+        final CrossoverPolicy cp = new OrderedCrossover<>();
         cp.crossover(p1c, p2c);
     }
 
@@ -98,7 +98,7 @@ public class OrderedCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new OrderedCrossover<Integer>();
+        final CrossoverPolicy cp = new OrderedCrossover<>();
         cp.crossover(p1c, p2c);
     }
 }

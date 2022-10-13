@@ -34,7 +34,7 @@ public class NPointCrossoverTest {
         final BinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final BinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
-        final CrossoverPolicy cp = new NPointCrossover<Integer>(1);
+        final CrossoverPolicy cp = new NPointCrossover<>(1);
         cp.crossover(p1c,p2c);
     }
 
@@ -46,7 +46,7 @@ public class NPointCrossoverTest {
         final BinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final BinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
-        final CrossoverPolicy cp = new NPointCrossover<Integer>(15);
+        final CrossoverPolicy cp = new NPointCrossover<>(15);
         cp.crossover(p1c,p2c);
     }
 
@@ -62,7 +62,7 @@ public class NPointCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new NPointCrossover<Integer>(1);
+        final CrossoverPolicy cp = new NPointCrossover<>(1);
         cp.crossover(p1c,p2c);
     }
 
@@ -78,7 +78,7 @@ public class NPointCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new NPointCrossover<Integer>(1);
+        final CrossoverPolicy cp = new NPointCrossover<>(1);
         cp.crossover(p1c,p2c);
     }
 

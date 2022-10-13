@@ -172,12 +172,12 @@ public class DBSCANClustererTest {
 
     @Test(expected = MathIllegalArgumentException.class)
     public void testNegativeEps() {
-        new DBSCANClusterer<DoublePoint>(-2.0, 5);
+        new DBSCANClusterer<>(-2.0, 5);
     }
 
     @Test(expected = MathIllegalArgumentException.class)
     public void testNegativeMinPts() {
-        new DBSCANClusterer<DoublePoint>(2.0, -5);
+        new DBSCANClusterer<>(2.0, -5);
     }
 
     @Test(expected = NullArgumentException.class)

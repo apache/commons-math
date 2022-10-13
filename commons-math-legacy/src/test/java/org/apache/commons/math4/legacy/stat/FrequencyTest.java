@@ -260,10 +260,10 @@ public final class FrequencyTest {
         Assert.assertEquals(1, f.getCount(ONE_LONG));
         Assert.assertEquals(0, f.getCount(TWO_LONG));
 
-        Frequency<Long> g = new Frequency<Long>();
+        Frequency<Long> g = new Frequency<>();
         g.addValue(TWO_LONG);
 
-        Frequency<Long> h = new Frequency<Long>();
+        Frequency<Long> h = new Frequency<>();
         h.addValue(THREE_LONG);
 
         List<Frequency<Long>> coll = new ArrayList<>();

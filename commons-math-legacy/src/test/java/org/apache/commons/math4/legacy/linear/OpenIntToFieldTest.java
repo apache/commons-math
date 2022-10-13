@@ -96,7 +96,7 @@ public class OpenIntToFieldTest {
     }
 
     private void assertPutAndGet(OpenIntToFieldHashMap<Dfp> map) {
-        assertPutAndGet(map, 0, new HashSet<Integer>());
+        assertPutAndGet(map, 0, new HashSet<>());
     }
 
     private void assertPutAndGet(OpenIntToFieldHashMap<Dfp> map, int mapSize,

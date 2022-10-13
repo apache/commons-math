@@ -93,7 +93,7 @@ public class OpenIntToDoubleHashMapTest {
     }
 
     private void assertPutAndGet(OpenIntToDoubleHashMap map) {
-        assertPutAndGet(map, 0, new HashSet<Integer>());
+        assertPutAndGet(map, 0, new HashSet<>());
     }
 
     private void assertPutAndGet(OpenIntToDoubleHashMap map, int mapSize,

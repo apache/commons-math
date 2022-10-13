@@ -31,7 +31,7 @@ public class CycleCrossoverTest {
         final DummyListChromosome p1c = new DummyListChromosome(p1);
         final DummyListChromosome p2c = new DummyListChromosome(p2);
 
-        final CrossoverPolicy cp = new CycleCrossover<Integer>();
+        final CrossoverPolicy cp = new CycleCrossover<>();
         final ChromosomePair pair = cp.crossover(p1c, p2c);
 
         final Integer[] c1 = ((DummyListChromosome) pair.getFirst()).getRepresentation().toArray(new Integer[p1.length]);
@@ -52,7 +52,7 @@ public class CycleCrossoverTest {
         final DummyListChromosome p1c = new DummyListChromosome(p1);
         final DummyListChromosome p2c = new DummyListChromosome(p2);
 
-        final CrossoverPolicy cp = new CycleCrossover<Integer>();
+        final CrossoverPolicy cp = new CycleCrossover<>();
         final ChromosomePair pair = cp.crossover(p1c, p2c);
 
         final Integer[] c1 = ((DummyListChromosome) pair.getFirst()).getRepresentation().toArray(new Integer[p1.length]);
@@ -113,7 +113,7 @@ public class CycleCrossoverTest {
         final BinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final BinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
-        final CrossoverPolicy cp = new CycleCrossover<Integer>();
+        final CrossoverPolicy cp = new CycleCrossover<>();
         cp.crossover(p1c, p2c);
     }
 
@@ -129,7 +129,7 @@ public class CycleCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new CycleCrossover<Integer>();
+        final CrossoverPolicy cp = new CycleCrossover<>();
         cp.crossover(p1c, p2c);
     }
 
@@ -145,7 +145,7 @@ public class CycleCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new CycleCrossover<Integer>();
+        final CrossoverPolicy cp = new CycleCrossover<>();
         cp.crossover(p1c, p2c);
     }
 }

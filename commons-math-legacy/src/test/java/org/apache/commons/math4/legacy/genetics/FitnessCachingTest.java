@@ -44,7 +44,7 @@ public class FitnessCachingTest {
     public void testFitnessCaching() {
         // initialize a new genetic algorithm
         GeneticAlgorithm ga = new GeneticAlgorithm(
-                new OnePointCrossover<Integer>(),
+                new OnePointCrossover<>(),
                 CROSSOVER_RATE, // all selected chromosomes will be recombined (=crosssover)
                 new BinaryMutation(),
                 MUTATION_RATE, // no mutation

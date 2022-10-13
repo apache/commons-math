@@ -289,7 +289,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
         // there is at least one point
         final int pointDimension = points.get(0).getPoint().length;
         for (int i = 0; i < k; i++) {
-            clusters.add(new CentroidCluster<T>(new DoublePoint(new double[pointDimension])));
+            clusters.add(new CentroidCluster<>(new DoublePoint(new double[pointDimension])));
         }
 
         int iteration = 0;
@@ -327,7 +327,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
                 i++;
             }
             MathArrays.scaleInPlace(1.0 / sum, arr);
-            newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+            newClusters.add(new CentroidCluster<>(new DoublePoint(arr)));
             j++;
         }
         clusters.clear();

@@ -125,7 +125,7 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
     }
     
     public static Chromosome randomChromosome(int polygonLength, int polygonCount) {
-        List<Polygon> list = new ArrayList<Polygon>(polygonCount);
+        List<Polygon> list = new ArrayList<>(polygonCount);
         for (int j = 0; j < polygonCount; j++) {
             list.add(Polygon.randomPolygon(polygonLength));
         }

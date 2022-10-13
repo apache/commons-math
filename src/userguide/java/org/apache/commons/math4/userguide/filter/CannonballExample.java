@@ -214,12 +214,12 @@ public class CannonballExample {
         final MeasurementModel mm = new DefaultMeasurementModel(H, R);
         final KalmanFilter filter = new KalmanFilter(pm, mm);
 
-        final List<Number> realX = new ArrayList<Number>();
-        final List<Number> realY = new ArrayList<Number>();
-        final List<Number> measuredX = new ArrayList<Number>();
-        final List<Number> measuredY = new ArrayList<Number>();
-        final List<Number> kalmanX = new ArrayList<Number>();
-        final List<Number> kalmanY = new ArrayList<Number>();
+        final List<Number> realX = new ArrayList<>();
+        final List<Number> realY = new ArrayList<>();
+        final List<Number> measuredX = new ArrayList<>();
+        final List<Number> measuredY = new ArrayList<>();
+        final List<Number> kalmanX = new ArrayList<>();
+        final List<Number> kalmanY = new ArrayList<>();
         
         for (int i = 0; i < iterations; i++) {
 

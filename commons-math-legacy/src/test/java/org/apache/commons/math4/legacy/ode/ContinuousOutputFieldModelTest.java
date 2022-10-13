@@ -45,7 +45,7 @@ public class ContinuousOutputFieldModelTest {
         double minStep = 0;
         double maxStep = pb.getFinalTime().subtract(pb.getInitialState().getTime()).getReal();
         FirstOrderFieldIntegrator<T> integ = new DormandPrince54FieldIntegrator<>(field, minStep, maxStep, 1.0e-8, 1.0e-8);
-        integ.addStepHandler(new ContinuousOutputFieldModel<T>());
+        integ.addStepHandler(new ContinuousOutputFieldModel<>());
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
         ContinuousOutputFieldModel<T> cm = (ContinuousOutputFieldModel<T>) integ.getStepHandlers().iterator().next();
         cm.getInterpolatedState(pb.getInitialState().getTime().multiply(2).subtract(pb.getFinalTime()));
@@ -145,7 +145,7 @@ public class ContinuousOutputFieldModelTest {
         // merge the two half circles
         ContinuousOutputFieldModel<T> cm = new ContinuousOutputFieldModel<>();
         cm.append(cm2);
-        cm.append(new ContinuousOutputFieldModel<T>());
+        cm.append(new ContinuousOutputFieldModel<>());
         cm.append(cm1);
 
         // check circle

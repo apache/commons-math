@@ -47,7 +47,7 @@ public class BaseRuleFactoryTest {
 
         final ThreadPoolExecutor exec
             = new ThreadPoolExecutor(3, numTasks, 1, TimeUnit.SECONDS,
-                                     new ArrayBlockingQueue<Runnable>(2));
+                                     new ArrayBlockingQueue<>(2));
 
         final List<Future<Pair<double[], double[]>>> results
             = new ArrayList<>();

@@ -182,7 +182,7 @@ public class ClusterAlgorithmComparison {
                                               double maxY) {
         double rangeX = maxX - minX;
         double rangeY = maxY - minY;
-        List<DoublePoint> points = new ArrayList<DoublePoint>();
+        List<DoublePoint> points = new ArrayList<>();
         for (Vector2D p : input) {
             double[] arr = p.toArray();
             arr[0] = (arr[0] - minX) / rangeX * 2 - 1;
@@ -212,18 +212,18 @@ public class ClusterAlgorithmComparison {
             datasets.add(normalize(makeBlobs(nSamples, 3, 1.0, -10, 10, true, rng), -12, 12, -12, 12));
             datasets.add(normalize(makeRandom(nSamples), -1, 1, -1, 1));
 
-            List<Pair<String, Clusterer<DoublePoint>>> algorithms = new ArrayList<Pair<String, Clusterer<DoublePoint>>>();
+            List<Pair<String, Clusterer<DoublePoint>>> algorithms = new ArrayList<>();
             
             algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=2)",
-                                                                    new KMeansPlusPlusClusterer<DoublePoint>(2)));
+                                                                    new KMeansPlusPlusClusterer<>(2)));
             algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=3)",
-                                                                    new KMeansPlusPlusClusterer<DoublePoint>(3)));
+                                                                    new KMeansPlusPlusClusterer<>(3)));
             algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=2)",
-                                                                    new FuzzyKMeansClusterer<DoublePoint>(3, 2)));
+                                                                    new FuzzyKMeansClusterer<>(3, 2)));
             algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=10)",
-                                                                    new FuzzyKMeansClusterer<DoublePoint>(3, 10)));
+                                                                    new FuzzyKMeansClusterer<>(3, 10)));
             algorithms.add(new Pair<String, Clusterer<DoublePoint>>("DBSCAN\n(eps=.1, min=3)",
-                                                                    new DBSCANClusterer<DoublePoint>(0.1, 3)));
+                                                                    new DBSCANClusterer<>(0.1, 3)));
             
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.VERTICAL;

@@ -80,7 +80,7 @@ public class FuzzyKMeansClustererTest {
 
     @Test(expected = MathIllegalArgumentException.class)
     public void testTooSmallFuzzynessFactor() {
-        new FuzzyKMeansClusterer<DoublePoint>(3, 1.0);
+        new FuzzyKMeansClusterer<>(3, 1.0);
     }
 
     @Test(expected = NullArgumentException.class)

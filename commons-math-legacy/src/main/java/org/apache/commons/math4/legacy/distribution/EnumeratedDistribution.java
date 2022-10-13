@@ -189,7 +189,7 @@ public class EnumeratedDistribution<T> {
          * @param rng Random number generator.
          */
         Sampler(UniformRandomProvider rng) {
-            sampler = new DiscreteProbabilityCollectionSampler<T>(rng, singletons, probabilities);
+            sampler = new DiscreteProbabilityCollectionSampler<>(rng, singletons, probabilities);
         }
 
         /**

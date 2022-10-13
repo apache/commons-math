@@ -51,7 +51,7 @@ public class HelloWorldExample {
         long startTime = System.currentTimeMillis();
 
         // initialize a new genetic algorithm
-        GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<Character>(), CROSSOVER_RATE,
+        GeneticAlgorithm ga = new GeneticAlgorithm(new OnePointCrossover<>(), CROSSOVER_RATE,
                                                    new RandomCharacterMutation(), MUTATION_RATE,
                                                    new TournamentSelection(TOURNAMENT_ARITY));
 
@@ -104,7 +104,7 @@ public class HelloWorldExample {
     }
     
     private static Population getInitialPopulation() {
-        List<Chromosome> popList = new LinkedList<Chromosome>();
+        List<Chromosome> popList = new LinkedList<>();
 
         for (int i = 0; i < POPULATION_SIZE; i++) {
             popList.add(new StringChromosome(randomRepresentation(DIMENSION)));
@@ -176,7 +176,7 @@ public class HelloWorldExample {
             
             int mutationIndex = GeneticAlgorithm.getRandomGenerator().nextInt(characters.size());
 
-            List<Character> mutatedChromosome = new ArrayList<Character>(characters);
+            List<Character> mutatedChromosome = new ArrayList<>(characters);
             char newValue = (char) (32 + GeneticAlgorithm.getRandomGenerator().nextInt(127 - 32));
             mutatedChromosome.set(mutationIndex, newValue);
 

@@ -42,12 +42,12 @@ public class UniformCrossoverTest {
 
     @Test(expected = OutOfRangeException.class)
     public void testRatioTooLow() {
-        new UniformCrossover<Integer>(-0.5d);
+        new UniformCrossover<>(-0.5d);
     }
 
     @Test(expected = OutOfRangeException.class)
     public void testRatioTooHigh() {
-        new UniformCrossover<Integer>(1.5d);
+        new UniformCrossover<>(1.5d);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class UniformCrossoverTest {
         final DummyBinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final DummyBinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
-        final CrossoverPolicy cp = new UniformCrossover<Integer>(ratio);
+        final CrossoverPolicy cp = new UniformCrossover<>(ratio);
 
         // make a number of rounds
         for (int i = 0; i < 20; i++) {
@@ -113,7 +113,7 @@ public class UniformCrossoverTest {
         final BinaryChromosome p1c = new DummyBinaryChromosome(p1);
         final BinaryChromosome p2c = new DummyBinaryChromosome(p2);
 
-        final CrossoverPolicy cp = new UniformCrossover<Integer>(0.5d);
+        final CrossoverPolicy cp = new UniformCrossover<>(0.5d);
         cp.crossover(p1c, p2c);
     }
 
@@ -130,7 +130,7 @@ public class UniformCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new UniformCrossover<Integer>(0.5d);
+        final CrossoverPolicy cp = new UniformCrossover<>(0.5d);
         cp.crossover(p1c, p2c);
     }
 
@@ -147,7 +147,7 @@ public class UniformCrossoverTest {
             }
         };
 
-        final CrossoverPolicy cp = new UniformCrossover<Integer>(0.5d);
+        final CrossoverPolicy cp = new UniformCrossover<>(0.5d);
         cp.crossover(p1c, p2c);
     }
 }

@@ -125,7 +125,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 .model(new MultivariateJacobianFunction() {
                     @Override
                     public Pair<RealVector, RealMatrix> value(final RealVector point) {
-                        return new Pair<RealVector, RealMatrix>(
+                        return new Pair<>(
                                 new ArrayRealVector(
                                         new double[]{
                                                 JdkMath.pow(point.getEntry(0), 4)

@@ -135,7 +135,7 @@ public class ImageEvolutionExample {
             });
 
             // initialize a new genetic algorithm
-            ga = new GeneticAlgorithm(new UniformCrossover<Polygon>(0.5), 1.0,
+            ga = new GeneticAlgorithm(new UniformCrossover<>(0.5), 1.0,
                                       new RandomPolygonMutation(MUTATION_RATE, MUTATION_CHANGE), 1.0,
                                       new TournamentSelection(TOURNAMENT_ARITY));
 
@@ -218,7 +218,7 @@ public class ImageEvolutionExample {
     }
 
     private static Population getInitialPopulation() {
-        List<Chromosome> popList = new LinkedList<Chromosome>();
+        List<Chromosome> popList = new LinkedList<>();
         for (int i = 0; i < POPULATION_SIZE; i++) {
             popList.add(PolygonChromosome.randomChromosome(POLYGON_LENGTH, POLYGON_COUNT));
         }

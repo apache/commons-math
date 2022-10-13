@@ -208,7 +208,7 @@ public class Frequency<T extends Comparable<T>> {
         }
         Comparator<? super T> c = freqTable.comparator();
         if (c == null) {
-            c = new NaturalComparator<T>();
+            c = new NaturalComparator<>();
         }
         long result = 0;
 

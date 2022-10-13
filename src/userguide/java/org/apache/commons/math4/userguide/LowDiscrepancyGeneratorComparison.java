@@ -129,9 +129,9 @@ public class LowDiscrepancyGeneratorComparison {
             int[] datasets = new int[] { 256, 1000, 2500, 1000 };
             List<Pair<String, RandomVectorGenerator>> generators = new ArrayList<Pair<String, RandomVectorGenerator>>();
 
-            generators.add(new Pair<String, RandomVectorGenerator>("Uncorrelated\nUniform(JDK)",
-                                                                   new UncorrelatedRandomVectorGenerator(2, new UniformRandomGenerator(RandomSource.create(RandomSource.JDK)))));
-            generators.add(new Pair<String, RandomVectorGenerator>("Independent\nRandom(MT)", new RandomVectorGenerator() {
+            generators.add(new Pair<>("Uncorrelated\nUniform(JDK)",
+                                      new UncorrelatedRandomVectorGenerator(2, new UniformRandomGenerator(RandomSource.create(RandomSource.JDK)))));
+            generators.add(new Pair<>("Independent\nRandom(MT)", new RandomVectorGenerator() {
 
                 final UniformRandomProvider[] rngs = new UniformRandomProvider[] {
                     RandomSource.create(RandomSource.MT, 123456789),
@@ -146,8 +146,8 @@ public class LowDiscrepancyGeneratorComparison {
                 }
                 
             }));            
-            generators.add(new Pair<String, RandomVectorGenerator>("HaltonSequence", new HaltonSequenceGenerator(2)));            
-            generators.add(new Pair<String, RandomVectorGenerator>("SobolSequence", new SobolSequenceGenerator(2)));            
+            generators.add(new Pair<>("HaltonSequence", new HaltonSequenceGenerator(2)));            
+            generators.add(new Pair<>("SobolSequence", new SobolSequenceGenerator(2)));            
             
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.VERTICAL;

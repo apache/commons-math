@@ -72,16 +72,16 @@ public final class StandAlone implements Callable<Void> {
         final DistanceMeasure distance = new EuclideanDistance();
 
         cluster(image,
-                new ElkanKMeansPlusPlusClusterer<ImageData.PixelClusterable>(numClusters,
-                                                                             maxIter,
-                                                                             distance,
-                                                                             rng),
+                new ElkanKMeansPlusPlusClusterer<>(numClusters,
+                                                   maxIter,
+                                                   distance,
+                                                   rng),
                 "elkan");
         cluster(image,
-                new KMeansPlusPlusClusterer<ImageData.PixelClusterable>(numClusters,
-                                                                        maxIter,
-                                                                        distance,
-                                                                        rng),
+                new KMeansPlusPlusClusterer<>(numClusters,
+                                              maxIter,
+                                              distance,
+                                              rng),
                 "kmeans");
 
         return null;

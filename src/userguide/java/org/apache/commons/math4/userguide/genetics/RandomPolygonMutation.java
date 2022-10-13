@@ -40,7 +40,7 @@ public class RandomPolygonMutation implements MutationPolicy {
         PolygonChromosome polygons = (PolygonChromosome) chromosome;
         List<Polygon> repr = polygons.getPolygonRepresentation();
 
-        List<Polygon> newRepr = new ArrayList<Polygon>(repr.size());
+        List<Polygon> newRepr = new ArrayList<>(repr.size());
         for (Polygon p : repr) {
             newRepr.add(p.mutate(mutationRate, mutationAmount));
         }

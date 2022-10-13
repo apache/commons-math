@@ -73,7 +73,7 @@ public class EvaluationTest {
                 .model(new MultivariateJacobianFunction() {
                     @Override
                     public Pair<RealVector, RealMatrix> value(RealVector point) {
-                        return new Pair<RealVector, RealMatrix>(
+                        return new Pair<>(
                                 new ArrayRealVector(new double[]{1, 2}),
                                 MatrixUtils.createRealIdentityMatrix(2)
                         );
@@ -98,7 +98,7 @@ public class EvaluationTest {
                 .model(new MultivariateJacobianFunction() {
                     @Override
                     public Pair<RealVector, RealMatrix> value(RealVector point) {
-                        return new Pair<RealVector, RealMatrix>(
+                        return new Pair<>(
                                 new ArrayRealVector(2),
                                 MatrixUtils.createRealDiagonalMatrix(new double[]{1, 1e-2})
                         );
@@ -139,7 +139,7 @@ public class EvaluationTest {
                         Assert.assertArrayEquals(
                                 point.toArray(), actualPoint.toArray(), Precision.EPSILON);
                         //return values
-                        return new Pair<RealVector, RealMatrix>(
+                        return new Pair<>(
                                 new ArrayRealVector(new double[]{3, 4}),
                                 MatrixUtils.createRealMatrix(new double[][]{{5, 6}, {7, 8}})
                         );
