@@ -257,7 +257,7 @@ public class LevenbergMarquardtOptimizerTest
         factory.samples(numPoints).forEach(circle::addPoint);
 
         // First guess for the center's coordinates and radius.
-        final double[] init = { 90, 659, 115 };
+        final double[] init = { 118, 659, 115 };
 
         final Optimum optimum = optimizer.optimize(
                 builder(circle).maxIterations(50).start(init).build());
@@ -290,7 +290,7 @@ public class LevenbergMarquardtOptimizerTest
         factory.samples(numPoints).forEach(circle::addPoint);
 
         // First guess for the center's coordinates and radius.
-        final double[] init = { 90, 659, 115 };
+        final double[] init = { 118, 659, 115 };
         final Optimum optimum
             = optimizer.optimize(builder(circle).maxIterations(50).start(init).build());
         final int numEval = optimum.getEvaluations();
