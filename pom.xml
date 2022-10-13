@@ -70,7 +70,6 @@
     <math.commons.statistics.version>1.0-SNAPSHOT</math.commons.statistics.version>
     <math.commons.math3.version>3.6.1</math.commons.math3.version>
     <math.surefire.version>3.0.0-M5</math.surefire.version>
-    <math.antrun.version>1.8</math.antrun.version>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}</math.parent.dir>
     <!-- Multi-module support fixed in commons-parent 55 -->
@@ -648,7 +647,6 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>${math.antrun.version}</version>
             <executions>
               <!-- For multi-module builds, only the parent directory requires a site checkout.
                    This task will create an empty directory as the site checkout is missing. -->
@@ -708,7 +706,6 @@ This is avoided by creating an empty directory when svn is not available.
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-            <version>${math.antrun.version}</version>
             <executions>
               <execution>
                 <id>remove-checkout</id>
