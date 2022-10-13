@@ -79,7 +79,8 @@ public class HermiteParametricTest extends GaussianQuadratureAbstractTest {
 
     @Override
     public double getExpectedValue(final int n) {
-        if (n % 2 == 1) {
+        if ((n & 1) == 1) {
+            // n is odd
             return 0;
         }
 

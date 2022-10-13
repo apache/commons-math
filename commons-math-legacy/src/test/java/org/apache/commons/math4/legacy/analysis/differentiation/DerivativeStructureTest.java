@@ -547,7 +547,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                     Assert.assertTrue(correctRoot.getPartialDerivative(1) > 0);
                     for (int order = 2; order <= maxOrder; ++order) {
                         Assert.assertTrue(Double.isInfinite(correctRoot.getPartialDerivative(order)));
-                        if ((order % 2) == 0) {
+                        if ((order & 1) == 0) {
                             Assert.assertTrue(correctRoot.getPartialDerivative(order) < 0);
                         } else {
                             Assert.assertTrue(correctRoot.getPartialDerivative(order) > 0);

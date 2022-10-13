@@ -116,7 +116,7 @@ public class EventFilterTest {
             double t = t0 + (t1 - t0) * rng.nextDouble();
             double g = eventFilter.g(t, new double[] { JdkMath.sin(t), JdkMath.cos(t) });
             int turn = (int) JdkMath.floor((t - refSwitch) / (2 * JdkMath.PI));
-            if (turn % 2 == 0) {
+            if ((turn & 1) == 0) {
                 Assert.assertEquals( signEven * JdkMath.sin(t), g, 1.0e-10);
             } else {
                 Assert.assertEquals(-signEven * JdkMath.sin(t), g, 1.0e-10);

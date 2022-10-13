@@ -77,7 +77,8 @@ public class LegendreParametricTest extends GaussianQuadratureAbstractTest {
 
     @Override
     public double getExpectedValue(final int n) {
-        if (n % 2 == 1) {
+        if ((n & 1) == 1) {
+            // n is odd
             return 0;
         }
         return 2d / (n + 1);

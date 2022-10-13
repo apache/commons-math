@@ -85,7 +85,7 @@ public class SymmetricGaussIntegrator extends GaussIntegrator {
             s = t;
         }
 
-        if (ruleLength % 2 != 0) {
+        if ((ruleLength & 1) != 0) {
             final double w = getWeight(iMax);
 
             final double y = w * f.value(0d) - c;

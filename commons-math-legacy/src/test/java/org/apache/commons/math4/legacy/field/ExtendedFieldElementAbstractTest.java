@@ -250,7 +250,7 @@ public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElemen
         for (double x = -0.9; x < 0.9; x += 0.05) {
             for (int n = 1; n < 5; ++n) {
                 if (x < 0) {
-                    if (n % 2 == 1) {
+                    if ((n & 1) == 1) {
                         checkRelative(-JdkMath.pow(-x, 1.0 / n), build(x).rootN(n));
                     }
                 } else {

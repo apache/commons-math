@@ -185,7 +185,7 @@ public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal
         // Note: as written, the test for oddness will work for negative
         // integers too (although it is not necessary here), preventing
         // a FindBugs warning.
-        if (numberOfPoints % 2 != 0) {
+        if ((numberOfPoints & 1) != 0) {
             BigDecimal pmc = BigDecimal.ONE;
             for (int j = 1; j < numberOfPoints; j += 2) {
                 final BigDecimal b_j = new BigDecimal(j, mContext);

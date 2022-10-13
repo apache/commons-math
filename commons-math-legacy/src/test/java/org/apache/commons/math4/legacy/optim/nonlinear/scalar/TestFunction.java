@@ -156,7 +156,7 @@ public enum TestFunction {
         }),
     // https://scholarship.rice.edu/handle/1911/16304
     ROSENBROCK(dim -> {
-            if (dim % 2 != 0) {
+            if ((dim & 1) != 0) {
                 throw new IllegalArgumentException("Must be a multiple of 2 (was: " + dim + ")");
             }
             final int last = dim / 2;

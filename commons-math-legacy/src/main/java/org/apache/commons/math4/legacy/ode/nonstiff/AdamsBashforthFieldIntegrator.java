@@ -220,7 +220,7 @@ public class AdamsBashforthFieldIntegrator<T extends RealFieldElement<T>> extend
             // apply Taylor formula from high order to low order,
             // for the sake of numerical accuracy
             T variation = getField().getZero();
-            int sign = predictedNordsieck.getRowDimension() % 2 == 0 ? -1 : 1;
+            int sign = (predictedNordsieck.getRowDimension() & 1) == 0 ? -1 : 1;
             for (int k = predictedNordsieck.getRowDimension() - 1; k >= 0; --k) {
                 variation = variation.add(predictedNordsieck.getEntry(k, i).multiply(sign));
                 sign      = -sign;

@@ -215,7 +215,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
             // apply Taylor formula from high order to low order,
             // for the sake of numerical accuracy
             double variation = 0;
-            int sign = predictedNordsieck.getRowDimension() % 2 == 0 ? -1 : 1;
+            int sign = (predictedNordsieck.getRowDimension() & 1) == 0 ? -1 : 1;
             for (int k = predictedNordsieck.getRowDimension() - 1; k >= 0; --k) {
                 variation += sign * predictedNordsieck.getEntry(k, i);
                 sign       = -sign;

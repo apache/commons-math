@@ -260,7 +260,7 @@ public class PolynomialsUtilsTest {
               +26876802183334044115405d
         };
         for (int i = 0; i < l40.length; ++i) {
-            if (i % 2 == 0) {
+            if ((i & 1) == 0) {
                 double ci = numerators[i / 2] / denominator;
                 Assert.assertEquals(ci, l40[i], JdkMath.abs(ci) * 1e-15);
             } else {

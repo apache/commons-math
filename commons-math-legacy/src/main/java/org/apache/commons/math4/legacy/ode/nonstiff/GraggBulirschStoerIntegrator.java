@@ -309,7 +309,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   public void setOrderControl(final int maximalOrder,
                               final double control1, final double control2) {
 
-    if (maximalOrder <= 6 || maximalOrder % 2 != 0) {
+    if (maximalOrder <= 6 || (maximalOrder & 1) != 0) {
       this.maxOrder = 18;
     }
 

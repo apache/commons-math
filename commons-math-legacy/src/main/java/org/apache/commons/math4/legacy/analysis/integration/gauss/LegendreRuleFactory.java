@@ -120,7 +120,7 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
         // Note: as written, the test for oddness will work for negative
         // integers too (although it is not necessary here), preventing
         // a FindBugs warning.
-        if (numberOfPoints % 2 != 0) {
+        if ((numberOfPoints & 1) != 0) {
             double pmc = 1;
             for (int j = 1; j < numberOfPoints; j += 2) {
                 pmc = -j * pmc / (j + 1);

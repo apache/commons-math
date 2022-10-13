@@ -200,14 +200,14 @@ public final class SimpsonIntegratorTest {
         // sum ~ h/3 * [ f(x0) + 4f(x1) + 2f(x2) + 4f(x3) + 2f(x4) ... + 4f(xn-1) + f(xn) ]
         // h = (b-a)/n
         // f(xi) = f(a + i*h)
-        assert n > 0 && n % 2 == 0 : "n must be strictly positive and even";
+        assert n > 0 && (n & 1) == 0 : "n must be strictly positive and even";
         final double h = (b - a) / n;
         double sum4 = 0;
         double sum2 = 0;
         for (int i = 1; i < n; i++) {
             // Alternate sums that are multiplied by 4 and 2
             final double fxi = f.value(a + i * h);
-            if (i % 2 == 0) {
+            if ((i & 1) == 0) {
                 sum2 += fxi;
             } else {
                 sum4 += fxi;

@@ -155,8 +155,8 @@ public class CycleCrossover<T> implements CrossoverPolicy {
                 idx = parent1Rep.indexOf(item);
             }
 
-            // for even cycles: swap the child elements on the indices found in this cycle
-            if (cycle++ % 2 != 0) {
+            // for odd cycles: swap the child elements on the indices found in this cycle
+            if ((cycle++ & 1) != 0) {
                 for (int i : indices) {
                     T tmp = child1Rep.get(i);
                     child1Rep.set(i, child2Rep.get(i));
