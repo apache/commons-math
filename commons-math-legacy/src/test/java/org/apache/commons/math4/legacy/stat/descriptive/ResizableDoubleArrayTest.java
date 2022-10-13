@@ -451,7 +451,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         // Wrong type
         ResizableDoubleArray first = new ResizableDoubleArray();
-        Double other = new Double(2);
+        Double other = Double.valueOf(2);
         Assert.assertFalse(first.equals(other));
 
         // Null

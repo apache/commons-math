@@ -194,7 +194,7 @@ public abstract class UnivariateStatisticAbstractTest {
             double value = valueDist.sample();
             values[i] = value;
             for (int j = 0; j < intWeights[i]; j++) {
-                valuesList.add(new Double(value));
+                valuesList.add(Double.valueOf(value));
             }
         }
 

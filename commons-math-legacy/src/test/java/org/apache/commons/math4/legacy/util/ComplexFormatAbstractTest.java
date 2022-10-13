@@ -362,7 +362,7 @@ public abstract class ComplexFormatAbstractTest {
     public void testFormatObjectStringBufferFieldPositionWitNumber() {
         ComplexFormat cf = ComplexFormat.getInstance(getLocale());
         String source = "1" + getDecimalCharacter() + "23";
-        Number expected = new Double(1.23);
+        Number expected = Double.valueOf(1.23);
         String formatted = cf.format(expected, new StringBuffer(), new FieldPosition(0)).toString();
         Assert.assertEquals(source, formatted);
     }

@@ -101,8 +101,8 @@ class DummyRuleFactory extends BaseRuleFactory<Double> {
         final Double[] p = new Double[order];
         final Double[] w = new Double[order];
         for (int i = 0; i < order; i++) {
-            p[i] = new Double(i);
-            w[i] = new Double(i);
+            p[i] = Double.valueOf(i);
+            w[i] = Double.valueOf(i);
         }
         return new Pair<>(p, w);
     }

@@ -187,8 +187,8 @@ public class EnumeratedRealDistributionTest {
     @Test
     public void testIssue942() {
         List<Pair<Object,Double>> list = new ArrayList<>();
-        list.add(new Pair<Object, Double>(new Object() {}, new Double(0)));
-        list.add(new Pair<Object, Double>(new Object() {}, new Double(1)));
+        list.add(new Pair<Object, Double>(new Object() {}, Double.valueOf(0)));
+        list.add(new Pair<Object, Double>(new Object() {}, Double.valueOf(1)));
         final UniformRandomProvider rng = RandomSource.WELL_512_A.create();
         Assert.assertEquals(1, new EnumeratedDistribution<>(list).createSampler(rng).sample(1).length);
     }

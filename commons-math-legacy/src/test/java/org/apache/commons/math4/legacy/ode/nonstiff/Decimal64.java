@@ -237,8 +237,8 @@ public class Decimal64 extends Number
      * {@inheritDoc}
      *
      * The current implementation returns the same value as
-     * <center> {@code new Double(this.doubleValue()).compareTo(new
-     * Double(o.doubleValue()))} </center>
+     * <center> {@code Double.valueOf(this.doubleValue()).compareTo(
+     * Double.valueOf(o.doubleValue()))} </center>
      *
      * @see Double#compareTo(Double)
      */
