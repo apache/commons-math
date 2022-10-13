@@ -43,19 +43,4 @@
     <math.jira.component>legacy-exception</math.jira.component>
   </properties>
 
-  <dependencies>
-
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <rerunFailingTestsCount>4</rerunFailingTestsCount>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
 </project>
