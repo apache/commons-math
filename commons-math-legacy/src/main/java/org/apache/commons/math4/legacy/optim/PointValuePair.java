@@ -82,10 +82,9 @@ public final class PointValuePair extends Pair<double[], Double> {
         if (o instanceof PointValuePair) {
             final PointValuePair other = (PointValuePair) o;
 
-            return getValue().equals(other.getValue()) ?
+            return getValue().equals(other.getValue()) &&
                 Arrays.equals(getPointRef(),
-                              other.getPointRef()) :
-                false;
+                              other.getPointRef());
         }
 
         return false;
