@@ -51,7 +51,7 @@
     <math.picocli.version>3.9.5</math.picocli.version>
     <math.rng.version>1.4</math.rng.version>
     <math.geometry.version>1.0</math.geometry.version>
-    <math.imaging.version>1.0-alpha3-SNAPSHOT</math.imaging.version>
+    <math.imaging.version>1.0-alpha3</math.imaging.version>
     <math.slf4j.version>1.7.32</math.slf4j.version>
 
     <!-- Disable JApiCmp failures (but keep the report). The examples API is allowed to change. -->
