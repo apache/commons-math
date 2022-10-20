@@ -20,25 +20,35 @@ package org.apache.commons.math4.neuralnet.sofm.util;
 import org.junit.Test;
 import org.junit.Assert;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Tests for {@link ExponentialDecayFunction} class
  */
 public class ExponentialDecayFunctionTest {
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testPrecondition1() {
-        new ExponentialDecayFunction(0d, 0d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                new ExponentialDecayFunction(0d, 0d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testPrecondition2() {
-        new ExponentialDecayFunction(1d, 0d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                new ExponentialDecayFunction(1d, 0d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testPrecondition3() {
-        new ExponentialDecayFunction(1d, 1d, 100);
+        assertThrows(IllegalArgumentException.class, () ->
+                new ExponentialDecayFunction(1d, 1d, 100));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testPrecondition4() {
-        new ExponentialDecayFunction(1d, 0.2, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                new ExponentialDecayFunction(1d, 0.2, 0));
     }
 
     @Test
@@ -52,4 +62,5 @@ public class ExponentialDecayFunctionTest {
         Assert.assertEquals(valueAtN, f.applyAsDouble(n), 0d);
         Assert.assertEquals(0, f.applyAsDouble(Long.MAX_VALUE), 0d);
     }
+
 }
