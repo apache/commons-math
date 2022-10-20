@@ -150,9 +150,7 @@ class HessenbergTransformer {
                 }
 
                 // copy upper triangular part of the matrix
-                for (int j = i; j < m; ++j) {
-                    h[i][j] = householderVectors[i][j];
-                }
+                System.arraycopy(householderVectors[i], i, h[i], i, m - i);
             }
             cachedH = MatrixUtils.createRealMatrix(h);
         }
