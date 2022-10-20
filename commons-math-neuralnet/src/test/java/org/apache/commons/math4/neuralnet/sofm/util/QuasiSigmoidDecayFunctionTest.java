@@ -20,21 +20,29 @@ package org.apache.commons.math4.neuralnet.sofm.util;
 import org.junit.Test;
 import org.junit.Assert;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Tests for {@link QuasiSigmoidDecayFunction} class
  */
 public class QuasiSigmoidDecayFunctionTest {
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testPrecondition1() {
-        new QuasiSigmoidDecayFunction(0d, -1d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                new QuasiSigmoidDecayFunction(0d, -1d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testPrecondition3() {
-        new QuasiSigmoidDecayFunction(1d, 0d, 100);
+        assertThrows(IllegalArgumentException.class, () ->
+                new QuasiSigmoidDecayFunction(1d, 0d, 100));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testPrecondition4() {
-        new QuasiSigmoidDecayFunction(1d, -1d, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                new QuasiSigmoidDecayFunction(1d, -1d, 0));
     }
 
     @Test
@@ -49,4 +57,5 @@ public class QuasiSigmoidDecayFunctionTest {
         Assert.assertEquals(slope, f.applyAsDouble(n + 1) - f.applyAsDouble(n), 1e-4);
         Assert.assertEquals(0, f.applyAsDouble(Long.MAX_VALUE), 0d);
     }
+
 }
