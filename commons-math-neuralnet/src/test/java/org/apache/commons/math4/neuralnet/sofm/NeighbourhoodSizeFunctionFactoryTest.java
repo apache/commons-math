@@ -20,25 +20,35 @@ package org.apache.commons.math4.neuralnet.sofm;
 import org.junit.Test;
 import org.junit.Assert;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Tests for {@link NeighbourhoodSizeFunctionFactory} class.
  */
 public class NeighbourhoodSizeFunctionFactoryTest {
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition1() {
-        NeighbourhoodSizeFunctionFactory.exponentialDecay(0, 0, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                NeighbourhoodSizeFunctionFactory.exponentialDecay(0, 0, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition2() {
-        NeighbourhoodSizeFunctionFactory.exponentialDecay(1, 0, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                NeighbourhoodSizeFunctionFactory.exponentialDecay(1, 0, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition3() {
-        NeighbourhoodSizeFunctionFactory.exponentialDecay(1, 1, 100);
+        assertThrows(IllegalArgumentException.class, () ->
+                NeighbourhoodSizeFunctionFactory.exponentialDecay(1, 1, 100));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition4() {
-        NeighbourhoodSizeFunctionFactory.exponentialDecay(2, 1, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                NeighbourhoodSizeFunctionFactory.exponentialDecay(2, 1, 0));
     }
 
     @Test
@@ -54,17 +64,22 @@ public class NeighbourhoodSizeFunctionFactoryTest {
         Assert.assertEquals(0, f.value(Long.MAX_VALUE));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testQuasiSigmoidDecayPrecondition1() {
-        NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(0d, -1d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(0d, -1d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testQuasiSigmoidDecayPrecondition3() {
-        NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(1d, 0d, 100);
+        assertThrows(IllegalArgumentException.class, () ->
+                NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(1d, 0d, 100));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testQuasiSigmoidDecayPrecondition4() {
-        NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(1d, -1d, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                NeighbourhoodSizeFunctionFactory.quasiSigmoidDecay(1d, -1d, 0));
     }
 
     @Test
@@ -78,4 +93,5 @@ public class NeighbourhoodSizeFunctionFactoryTest {
         Assert.assertEquals(init, f.value(0), 0d);
         Assert.assertEquals(0, f.value(Long.MAX_VALUE), 0d);
     }
+
 }
