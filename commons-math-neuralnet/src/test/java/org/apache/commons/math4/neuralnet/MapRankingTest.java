@@ -29,10 +29,13 @@ import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.math4.neuralnet.oned.NeuronString;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Tests for {@link MapRanking} class.
  */
 public class MapRankingTest {
+
     /*
      * Test assumes that the network is
      *
@@ -94,15 +97,16 @@ public class MapRankingTest {
         Assert.assertEquals(3, allBest.size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testRankPrecondition() {
         final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
         final FeatureInitializer init
             = new OffsetFeatureInitializer(FeatureInitializerFactory.uniform(rng, -0.1, 0.1));
         final FeatureInitializer[] initArray = {init};
 
-        new MapRanking(new NeuronString(3, false, initArray).getNetwork(),
-                       new EuclideanDistance()).rank(new double[] {-1}, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                new MapRanking(new NeuronString(3, false, initArray).getNetwork(),
+                        new EuclideanDistance()).rank(new double[]{-1}, 0));
     }
 
     @Test
@@ -121,4 +125,5 @@ public class MapRankingTest {
             Assert.assertEquals(expected[i], sorted.get(i).getIdentifier());
         }
     }
+
 }
