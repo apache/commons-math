@@ -36,32 +36,37 @@ import org.apache.commons.math4.neuralnet.Network;
 import org.apache.commons.math4.neuralnet.Neuron;
 import org.apache.commons.math4.neuralnet.SquareNeighbourhood;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Tests for {@link NeuronSquareMesh2D} and {@link Network} functionality for
  * a two-dimensional network.
  */
 public class NeuronSquareMesh2DTest {
+
     private final UniformRandomProvider rng = RandomSource.SPLIT_MIX_64.create();
     private final FeatureInitializer init = FeatureInitializerFactory.uniform(rng, 0, 2);
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMinimalNetworkSize1() {
         final FeatureInitializer[] initArray = {init};
 
-        new NeuronSquareMesh2D(1, false,
-                               2, false,
-                               SquareNeighbourhood.VON_NEUMANN,
-                               initArray);
+        assertThrows(IllegalArgumentException.class, () ->
+                new NeuronSquareMesh2D(1, false,
+                        2, false,
+                        SquareNeighbourhood.VON_NEUMANN,
+                        initArray));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testMinimalNetworkSize2() {
         final FeatureInitializer[] initArray = {init};
 
-        new NeuronSquareMesh2D(2, false,
-                               0, false,
-                               SquareNeighbourhood.VON_NEUMANN,
-                               initArray);
+        assertThrows(IllegalArgumentException.class, () ->
+                new NeuronSquareMesh2D(2, false,
+                        0, false,
+                        SquareNeighbourhood.VON_NEUMANN,
+                        initArray));
     }
 
     @Test
@@ -887,4 +892,5 @@ public class NeuronSquareMesh2DTest {
             }
         }
     }
+
 }
