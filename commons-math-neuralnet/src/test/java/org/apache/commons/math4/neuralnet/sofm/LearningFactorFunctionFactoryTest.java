@@ -20,29 +20,41 @@ package org.apache.commons.math4.neuralnet.sofm;
 import org.junit.Test;
 import org.junit.Assert;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Tests for {@link LearningFactorFunctionFactory} class.
  */
 public class LearningFactorFunctionFactoryTest {
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition0() {
-        LearningFactorFunctionFactory.exponentialDecay(0d, 0d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.exponentialDecay(0d, 0d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition1() {
-        LearningFactorFunctionFactory.exponentialDecay(1 + 1e-10, 0d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.exponentialDecay(1 + 1e-10, 0d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition2() {
-        LearningFactorFunctionFactory.exponentialDecay(1d, 0d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.exponentialDecay(1d, 0d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition3() {
-        LearningFactorFunctionFactory.exponentialDecay(1d, 1d, 100);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.exponentialDecay(1d, 1d, 100));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testExponentialDecayPrecondition4() {
-        LearningFactorFunctionFactory.exponentialDecay(1d, 0.2, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.exponentialDecay(1d, 0.2, 0));
     }
 
     @Test
@@ -58,21 +70,28 @@ public class LearningFactorFunctionFactoryTest {
         Assert.assertEquals(0, f.value(Long.MAX_VALUE), 0d);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testQuasiSigmoidDecayPrecondition0() {
-        LearningFactorFunctionFactory.quasiSigmoidDecay(0d, -1d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.quasiSigmoidDecay(0d, -1d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testQuasiSigmoidDecayPrecondition1() {
-        LearningFactorFunctionFactory.quasiSigmoidDecay(1 + 1e-10, -1d, 2);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.quasiSigmoidDecay(1 + 1e-10, -1d, 2));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testQuasiSigmoidDecayPrecondition3() {
-        LearningFactorFunctionFactory.quasiSigmoidDecay(1d, 0d, 100);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.quasiSigmoidDecay(1d, 0d, 100));
     }
-    @Test(expected = IllegalArgumentException.class)
+
+    @Test
     public void testQuasiSigmoidDecayPrecondition4() {
-        LearningFactorFunctionFactory.quasiSigmoidDecay(1d, -1d, 0);
+        assertThrows(IllegalArgumentException.class, () ->
+                LearningFactorFunctionFactory.quasiSigmoidDecay(1d, -1d, 0));
     }
 
     @Test
@@ -88,4 +107,5 @@ public class LearningFactorFunctionFactoryTest {
         Assert.assertEquals(slope, f.value(n) - f.value(n - 1), 1e-2);
         Assert.assertEquals(0, f.value(Long.MAX_VALUE), 0d);
     }
+
 }
