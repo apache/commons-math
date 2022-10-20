@@ -23,26 +23,32 @@ import org.junit.Test;
 
 import org.apache.commons.math3.analysis.function.Sin;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
  * Tests for {@link TransformUtils}.
  */
 public class TransformUtilsTest {
+
     private static final Sin SIN_FUNCTION = new Sin();
     private static final DoubleUnaryOperator SIN = x -> SIN_FUNCTION.value(x);
 
-    @Test(expected = TransformException.class)
+    @Test
     public void testSampleWrongBounds() {
-        TransformUtils.sample(SIN, Math.PI, 0.0, 10);
+        assertThrows(TransformException.class, () ->
+                TransformUtils.sample(SIN, Math.PI, 0.0, 10));
     }
 
-    @Test(expected = TransformException.class)
+    @Test
     public void testSampleNegativeNumberOfPoints() {
-        TransformUtils.sample(SIN, 0.0, Math.PI, -1);
+        assertThrows(TransformException.class, () ->
+                TransformUtils.sample(SIN, 0.0, Math.PI, -1));
     }
 
-    @Test(expected = TransformException.class)
+    @Test
     public void testSampleNullNumberOfPoints() {
-        TransformUtils.sample(SIN, 0.0, Math.PI, 0);
+        assertThrows(TransformException.class, () ->
+                TransformUtils.sample(SIN, 0.0, Math.PI, 0));
     }
 
     @Test
@@ -56,4 +62,5 @@ public class TransformUtilsTest {
             Assert.assertEquals("x = " + x, Math.sin(x), actual[i], 1e-15);
         }
     }
+
 }
