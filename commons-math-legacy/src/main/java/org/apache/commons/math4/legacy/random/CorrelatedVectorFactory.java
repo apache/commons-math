@@ -139,25 +139,22 @@ public class CorrelatedVectorFactory {
      * @return a generator of vectors with correlated components.
      */
     private Supplier<double[]> with(final ContinuousSampler sampler) {
-        return new Supplier<double[]>() {
-            @Override
-            public double[] get() {
-                // Uncorrelated vector.
-                final double[] uncorrelated = new double[lengthUncorrelated];
-                for (int i = 0; i < lengthUncorrelated; i++) {
-                    uncorrelated[i] = sampler.sample();
-                }
-
-                // Correlated vector.
-                final double[] correlated = mean.clone();
-                for (int i = 0; i < correlated.length; i++) {
-                    for (int j = 0; j < lengthUncorrelated; j++) {
-                        correlated[i] += root.getEntry(i, j) * uncorrelated[j];
-                    }
-                }
-
-                return correlated;
+        return () -> {
+            // Uncorrelated vector.
+            final double[] uncorrelated = new double[lengthUncorrelated];
+            for (int i = 0; i < lengthUncorrelated; i++) {
+                uncorrelated[i] = sampler.sample();
             }
+
+            // Correlated vector.
+            final double[] correlated = mean.clone();
+            for (int i = 0; i < correlated.length; i++) {
+                for (int j = 0; j < lengthUncorrelated; j++) {
+                    correlated[i] += root.getEntry(i, j) * uncorrelated[j];
+                }
+            }
+
+            return correlated;
         };
     }
 }

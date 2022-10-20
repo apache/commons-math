@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Collections;
 import java.util.function.UnaryOperator;
 import java.util.function.DoublePredicate;
 
@@ -218,7 +217,7 @@ public final class Simplex implements OptimizationData {
             newPoints.add(new PointValuePair(coord, value, false));
         }
 
-        Collections.sort(newPoints, comparator);
+        newPoints.sort(comparator);
         return new Simplex(newPoints);
     }
 

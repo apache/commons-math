@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
 import java.util.function.IntSupplier;
@@ -273,7 +272,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             // Additional optimizations.
             // Reference to counter in the "main" search in order to retrieve
             // the total number of evaluations in the "best list" search.
-            final IntSupplier evalCount = () -> getEvaluations();
+            final IntSupplier evalCount = this::getEvaluations;
 
             return bestListSearch(evalFunc,
                                   comparator,
@@ -425,7 +424,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
 
                 // Store better candidate and reorder the list.
                 list.set(last, candidate);
-                Collections.sort(list, comp);
+                list.sort(comp);
             }
         }
     }

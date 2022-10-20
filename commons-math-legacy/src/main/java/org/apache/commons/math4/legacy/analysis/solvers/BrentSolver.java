@@ -96,7 +96,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
 
         double root = Double.NaN;
         try {
-            root = rf.findRoot(arg -> computeObjectiveValue(arg),
+            root = rf.findRoot(this::computeObjectiveValue,
                                min, initial, max);
         } catch (IllegalArgumentException e) {
             // Redundant calls in order to throw the expected exceptions.

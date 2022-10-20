@@ -313,7 +313,7 @@ public class FastHadamardTransform implements RealTransform {
         if (inverse) {
             return f -> TransformUtils.scaleInPlace(fht(f), 1d / f.length);
         } else {
-            return f -> fht(f);
+            return this::fht;
         }
     }
 }

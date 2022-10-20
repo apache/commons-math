@@ -233,7 +233,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
     public static <S> List<Double> comparatorPermutation(final List<S> data,
                                                          final Comparator<S> comparator) {
         List<S> sortedData = new ArrayList<>(data);
-        Collections.sort(sortedData, comparator);
+        sortedData.sort(comparator);
 
         return inducedPermutation(data, sortedData);
     }

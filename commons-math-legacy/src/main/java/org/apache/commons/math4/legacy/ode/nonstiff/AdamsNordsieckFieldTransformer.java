@@ -170,9 +170,9 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
         // Nordsieck to multistep, then shifting rows to represent step advance
         // then applying inverse transform
         T[][] shiftedP = bigP.getData();
-        for (int i = shiftedP.length - 1; i > 0; --i) {
-            // shift rows
-            shiftedP[i] = shiftedP[i - 1];
+        // shift rows
+        if (shiftedP.length - 1 > 0) {
+            System.arraycopy(shiftedP, 0, shiftedP, 1, shiftedP.length - 1);
         }
         shiftedP[0] = MathArrays.buildArray(field, rows);
         Arrays.fill(shiftedP[0], field.getZero());
@@ -190,11 +190,7 @@ public final class AdamsNordsieckFieldTransformer<T extends RealFieldElement<T>>
     getInstance(final Field<T> field, final int nSteps) {
         synchronized(CACHE) {
             Map<Field<? extends RealFieldElement<?>>,
-                      AdamsNordsieckFieldTransformer<? extends RealFieldElement<?>>> map = CACHE.get(nSteps);
-            if (map == null) {
-                map = new HashMap<>();
-                CACHE.put(nSteps, map);
-            }
+                    AdamsNordsieckFieldTransformer<? extends RealFieldElement<?>>> map = CACHE.computeIfAbsent(nSteps, k -> new HashMap<>());
             @SuppressWarnings("unchecked")
             AdamsNordsieckFieldTransformer<T> t = (AdamsNordsieckFieldTransformer<T>) map.get(field);
             if (t == null) {
