@@ -133,7 +133,7 @@ public class LevenbergMarquardtOptimizerTest
 
             optimizer.optimize(problem);
 
-            Assert.assertTrue(!shouldFail);
+            Assert.assertFalse(shouldFail);
             //TODO check it got the right answer
         } catch (DimensionMismatchException ee) {
             Assert.assertTrue(shouldFail);
