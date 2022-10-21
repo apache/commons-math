@@ -104,9 +104,13 @@ public class MapRankingTest {
             = new OffsetFeatureInitializer(FeatureInitializerFactory.uniform(rng, -0.1, 0.1));
         final FeatureInitializer[] initArray = {init};
 
+        final EuclideanDistance distance = new EuclideanDistance();
+        final Network network = new NeuronString(3, false, initArray).getNetwork();
+        final MapRanking mapRanking = new MapRanking(network, distance);
+
         assertThrows(IllegalArgumentException.class, () ->
-                new MapRanking(new NeuronString(3, false, initArray).getNetwork(),
-                        new EuclideanDistance()).rank(new double[]{-1}, 0));
+                mapRanking.rank(new double[]{-1}, 0)
+        );
     }
 
     @Test
