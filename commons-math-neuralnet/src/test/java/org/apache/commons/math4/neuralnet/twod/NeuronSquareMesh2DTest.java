@@ -53,9 +53,9 @@ public class NeuronSquareMesh2DTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 new NeuronSquareMesh2D(1, false,
-                        2, false,
-                        SquareNeighbourhood.VON_NEUMANN,
-                        initArray));
+                                       2, false,
+                                       SquareNeighbourhood.VON_NEUMANN,
+                                       initArray));
     }
 
     @Test
@@ -64,9 +64,9 @@ public class NeuronSquareMesh2DTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 new NeuronSquareMesh2D(2, false,
-                        0, false,
-                        SquareNeighbourhood.VON_NEUMANN,
-                        initArray));
+                                       0, false,
+                                       SquareNeighbourhood.VON_NEUMANN,
+                                       initArray));
     }
 
     @Test
