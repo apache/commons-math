@@ -99,11 +99,11 @@ class HighamHall54StepInterpolator
         }
     } else {
         final double theta2 = theta * theta;
-        final double b0 = h * (-1.0/12.0 + theta * (1.0 + theta * (-15.0/4.0 + theta * (16.0/3.0 + theta * -5.0/2.0))));
-        final double b2 = h * (-27.0/32.0 + theta2 * (459.0/32.0 + theta * (-243.0/8.0 + theta * 135.0/8.0)));
-        final double b3 = h * (4.0/3.0 + theta2 * (-22.0 + theta * (152.0/3.0  + theta * -30.0)));
+        final double b0 = h * (-1.0/12.0   + theta  * (1.0        + theta * (-15.0/4.0   + theta * (16.0/3.0 + theta * -5.0/2.0))));
+        final double b2 = h * (-27.0/32.0  + theta2 * (459.0/32.0 + theta * (-243.0/8.0  + theta * 135.0/8.0)));
+        final double b3 = h * (4.0/3.0     + theta2 * (-22.0      + theta * (152.0/3.0   + theta * -30.0)));
         final double b4 = h * (-125.0/96.0 + theta2 * (375.0/32.0 + theta * (-625.0/24.0 + theta * 125.0/8.0)));
-        final double b5 = h * (-5.0/48.0 + theta2 * (-5.0/16.0 + theta * 5.0/12.0));
+        final double b5 = h * (-5.0/48.0   + theta2 * (-5.0/16.0  + theta *  5.0/12.0));
         for (int i = 0; i < interpolatedState.length; ++i) {
             final double yDot0 = yDotK[0][i];
             final double yDot2 = yDotK[2][i];
