@@ -433,10 +433,10 @@ public final class AccurateMath {
 
         // y = y + 1/y
         temp = ya + recipa;
-        yb += -(temp - ya - recipa);
+        yb -= (temp - ya - recipa);
         ya = temp;
         temp = ya + recipb;
-        yb += -(temp - ya - recipb);
+        yb -= (temp - ya - recipb);
         ya = temp;
 
         double result = ya + yb;
@@ -515,10 +515,10 @@ public final class AccurateMath {
 
             // y = y + 1/y
             temp = ya + recipa;
-            yb += -(temp - ya - recipa);
+            yb -= (temp - ya - recipa);
             ya = temp;
             temp = ya + recipb;
-            yb += -(temp - ya - recipb);
+            yb -= (temp - ya - recipb);
             ya = temp;
 
             result = ya + yb;
@@ -551,10 +551,10 @@ public final class AccurateMath {
 
             // y = y - 1/y
             temp = ya + ra;
-            yb += -(temp - ya - ra);
+            yb -= (temp - ya - ra);
             ya = temp;
             temp = ya + rb;
-            yb += -(temp - ya - rb);
+            yb -= (temp - ya - rb);
             ya = temp;
 
             result = ya + yb;
@@ -615,14 +615,14 @@ public final class AccurateMath {
             double na = -1.0 + ya;
             double nb = -(na + 1.0 - ya);
             double temp = na + yb;
-            nb += -(temp - na - yb);
+            nb -= (temp - na - yb);
             na = temp;
 
             /* Denominator */
             double da = 1.0 + ya;
             double db = -(da - 1.0 - ya);
             temp = da + yb;
-            db += -(temp - da - yb);
+            db -= (temp - da - yb);
             da = temp;
 
             temp = da * HEX_40000000;
@@ -660,7 +660,7 @@ public final class AccurateMath {
             double da = 2.0 + ya;
             double db = -(da - 2.0 - ya);
             double temp = da + yb;
-            db += -(temp - da - yb);
+            db -= (temp - da - yb);
             da = temp;
 
             temp = da * HEX_40000000;
@@ -922,7 +922,7 @@ public final class AccurateMath {
         z = z * epsilon + 0.1666666505023083;
         z = z * epsilon + 0.5000000000042687;
         z = z * epsilon + 1.0;
-        z = z * epsilon + -3.940510424527919E-20;
+        z = z * epsilon - 3.940510424527919E-20;
 
         /* Compute (intPartA+intPartB) * (fracPartA+fracPartB) by binomial
        expansion.
@@ -1045,32 +1045,32 @@ public final class AccurateMath {
         ya = temp;
 
         temp = ya + zb * baseA;
-        yb += -(temp - ya - zb * baseA);
+        yb -= (temp - ya - zb * baseA);
         ya = temp;
 
         temp = ya + zb * baseB;
-        yb += -(temp - ya - zb * baseB);
+        yb -= (temp - ya - zb * baseB);
         ya = temp;
 
         //ya = ya + za + baseA;
         //yb = yb + zb + baseB;
         temp = ya + baseA;
-        yb += -(temp - baseA - ya);
+        yb -= (temp - baseA - ya);
         ya = temp;
 
         temp = ya + za;
         //yb += (ya > za) ? -(temp - ya - za) : -(temp - za - ya);
-        yb += -(temp - ya - za);
+        yb -= (temp - ya - za);
         ya = temp;
 
         temp = ya + baseB;
         //yb += (ya > baseB) ? -(temp - ya - baseB) : -(temp - baseB - ya);
-        yb += -(temp - ya - baseB);
+        yb -= (temp - ya - baseB);
         ya = temp;
 
         temp = ya + zb;
         //yb += (ya > zb) ? -(temp - ya - zb) : -(temp - zb - ya);
-        yb += -(temp - ya - zb);
+        yb -= (temp - ya - zb);
         ya = temp;
 
         if (negative) {
@@ -1296,9 +1296,9 @@ public final class AccurateMath {
          using standard double precision */
             lnza = -0.16624882440418567;
             lnza = lnza * epsilon + 0.19999954120254515;
-            lnza = lnza * epsilon + -0.2499999997677497;
+            lnza = lnza * epsilon - 0.2499999997677497;
             lnza = lnza * epsilon + 0.3333333333332802;
-            lnza = lnza * epsilon + -0.5;
+            lnza = lnza * epsilon - 0.5;
             lnza = lnza * epsilon + 1.0;
             lnza *= epsilon;
         }
@@ -1734,9 +1734,9 @@ public final class AccurateMath {
         double x2 = x * x;
 
         double p = 2.7553817452272217E-6;
-        p = p * x2 + -1.9841269659586505E-4;
+        p = p * x2 - 1.9841269659586505E-4;
         p = p * x2 + 0.008333333333329196;
-        p = p * x2 + -0.16666666666666666;
+        p = p * x2 - 0.16666666666666666;
         //p *= x2;
         //p *= x;
         p = p * x2 * x;
@@ -1754,9 +1754,9 @@ public final class AccurateMath {
         double x2 = x * x;
 
         double p = 2.479773539153719E-5;
-        p = p * x2 + -0.0013888888689039883;
+        p = p * x2 - 0.0013888888689039883;
         p = p * x2 + 0.041666666666621166;
-        p = p * x2 + -0.49999999999999994;
+        p = p * x2 - 0.49999999999999994;
         p *= x2;
 
         return p;
@@ -2544,7 +2544,7 @@ public final class AccurateMath {
             double zb = -(za - 1d - temp2);
             temp2 = xb * ttA + xa * ttB;
             temp = za + temp2;
-            zb += -(temp - za - temp2);
+            zb -= (temp - za - temp2);
             za = temp;
 
             zb += xb * ttB;
@@ -2605,7 +2605,7 @@ public final class AccurateMath {
         double za = eighths + ya;
         double zb = -(za - eighths - ya);
         temp = za + yb;
-        zb += -(temp - za - yb);
+        zb -= (temp - za - yb);
         za = temp;
 
         double result = za + zb;
@@ -2769,7 +2769,7 @@ public final class AccurateMath {
         double zb = -(za - 1.0 - ya);
 
         temp = za + yb;
-        zb += -(temp - za - yb);
+        zb -= (temp - za - yb);
         za = temp;
 
         /* Square root */
@@ -2845,7 +2845,7 @@ public final class AccurateMath {
         double zb = -(za - 1.0 - ya);
 
         temp = za + yb;
-        zb += -(temp - za - yb);
+        zb -= (temp - za - yb);
         za = temp;
 
         /* Square root */
@@ -2922,7 +2922,7 @@ public final class AccurateMath {
         /* Estimate the cube root of mant by polynomial */
         double est = -0.010714690733195933;
         est = est * mant + 0.0875862700108075;
-        est = est * mant + -0.3058015757857271;
+        est = est * mant - 0.3058015757857271;
         est = est * mant + 0.7249995199969751;
         est = est * mant + 0.5039018405998233;
 
@@ -4201,12 +4201,12 @@ public final class AccurateMath {
                 a = -k * 7.549789948768648E-8;
                 double b = remA;
                 remA = a + b;
-                remB += -(remA - b - a);
+                remB -= (remA - b - a);
 
                 a = -k * 6.123233995736766E-17;
                 b = remA;
                 remA = a + b;
-                remB += -(remA - b - a);
+                remB -= (remA - b - a);
 
                 if (remA > 0) {
                     break;
