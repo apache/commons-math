@@ -316,8 +316,8 @@ public class SummaryStatistics implements StatisticalSummary {
      * among the values that have been added.
      * <p>
      * Returns <code>Double.NaN</code> if no data values have been added and
-     * returns <code>0</code> if there is just one value in the data set.</p>
-     * <p>
+     * returns <code>0</code> if there is just one value in the data set.
+     * </p>
      * @return second central moment statistic
      * @since 2.0
      */
