@@ -386,6 +386,10 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      * Stores the given {@code candidate} if its fitness is better than
      * that of the last (assumed to be the worst) point in {@code list}.
      *
+     * <p>If the list is below the maximum size then the {@code candidate}
+     * is added if it is not already in the list. The list is sorted
+     * when it reaches the maximum size.
+     *
      * @param candidate Point to be stored.
      * @param comp Fitness comparator.
      * @param list Starting points (modified in-place).
@@ -406,11 +410,13 @@ public class SimplexOptimizer extends MultivariateOptimizer {
                 if (Arrays.equals(pPoint, candidatePoint)) {
                     // Point was already stored.
                     return;
-                } else {
-                    // Store candidate.
-                    list.add(candidate);
-                    return;
                 }
+            }
+            // Store candidate.
+            list.add(candidate);
+            // Sort the list when required
+            if (list.size() == max) {
+                Collections.sort(list, comp);
             }
         } else {
             final int last = max - 1;
