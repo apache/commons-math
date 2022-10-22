@@ -41,6 +41,9 @@
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}/..</math.parent.dir>
     <math.jira.component>legacy</math.jira.component>
+
+    <!-- Disable PMD to reduce build verbosity. -->
+    <pmd.skip>true</pmd.skip>
   </properties>
 
   <dependencies>
