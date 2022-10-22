@@ -118,7 +118,6 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
             s = 0.5 * (max - min) *
                       (baseIntegrator.computeObjectiveValue(min) +
                        baseIntegrator.computeObjectiveValue(max));
-            return s;
         } else {
             final long np = 1L << (n-1);           // number of new points in this stage
             double sum = 0;
@@ -133,8 +132,8 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
             }
             // add the new sum to previously calculated result
             s = 0.5 * (s + sum * spacing);
-            return s;
         }
+        return s;
     }
 
     /** {@inheritDoc} */

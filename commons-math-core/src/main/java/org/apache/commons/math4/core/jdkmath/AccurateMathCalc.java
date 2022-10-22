@@ -141,8 +141,6 @@ final class AccurateMathCalc {
                 temps[0] = -temps[0];
                 temps[1] = -temps[1];
                 splitAdd(as, temps, result);
-                COSINE_TABLE_A[i] = result[0];
-                COSINE_TABLE_B[i] = result[1];
             } else {
                 xs[0] = SINE_TABLE_A[i / 2];
                 xs[1] = SINE_TABLE_B[i / 2];
@@ -166,9 +164,9 @@ final class AccurateMathCalc {
                 temps[0] = -temps[0];
                 temps[1] = -temps[1];
                 splitAdd(result, temps, result);
-                COSINE_TABLE_A[i] = result[0];
-                COSINE_TABLE_B[i] = result[1];
             }
+            COSINE_TABLE_A[i] = result[0];
+            COSINE_TABLE_B[i] = result[1];
         }
 
         /* Compute tangent = sine/cosine */
@@ -326,15 +324,15 @@ final class AccurateMathCalc {
      * @param split placeholder where to place the result
      */
     private static void split(final double d, final double[] split) {
+        final double a;
         if (d < 8e298 && d > -8e298) {
-            final double a = d * HEX_40000000;
+            a = d * HEX_40000000;
             split[0] = (d + a) - a;
-            split[1] = d - split[0];
         } else {
-            final double a = d * 9.31322574615478515625E-10;
+            a = d * 9.31322574615478515625E-10;
             split[0] = (d + a - d) * HEX_40000000;
-            split[1] = d - split[0];
         }
+        split[1] = d - split[0];
     }
 
     /** Recompute a split.
@@ -345,15 +343,15 @@ final class AccurateMathCalc {
         final double c = a[0] + a[1];
         final double d = -(c - a[0] - a[1]);
 
+        double z;
         if (c < 8e298 && c > -8e298) { // MAGIC NUMBER
-            double z = c * HEX_40000000;
+            z = c * HEX_40000000;
             a[0] = (c + z) - z;
-            a[1] = c - a[0] + d;
         } else {
-            double z = c * 9.31322574615478515625E-10;
+            z = c * 9.31322574615478515625E-10;
             a[0] = (c + z - c) * HEX_40000000;
-            a[1] = c - a[0] + d;
         }
+        a[1] = c - a[0] + d;
     }
 
     /** Multiply two numbers in split form.

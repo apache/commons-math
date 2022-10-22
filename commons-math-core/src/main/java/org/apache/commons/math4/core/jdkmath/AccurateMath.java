@@ -488,8 +488,8 @@ public final class AccurateMath {
 
         double result;
 
+        double[] hiPrec = new double[2];
         if (x > 0.25) {
-            double[] hiPrec = new double[2];
             exp(x, 0.0, hiPrec);
 
             double ya = hiPrec[0] + hiPrec[1];
@@ -522,9 +522,7 @@ public final class AccurateMath {
             ya = temp;
 
             result = ya + yb;
-            result *= 0.5;
         } else {
-            double[] hiPrec = new double[2];
             expm1(x, hiPrec);
 
             double ya = hiPrec[0] + hiPrec[1];
@@ -558,8 +556,8 @@ public final class AccurateMath {
             ya = temp;
 
             result = ya + yb;
-            result *= 0.5;
         }
+        result *= 0.5;
 
         if (negate) {
             result = -result;
@@ -3144,12 +3142,8 @@ public final class AccurateMath {
                 ++scaledExponent;
                 mantissa &= 0x000fffffffffffffL;
 
-                if (scaledExponent < 2047) {
-                    return Double.longBitsToDouble(sign | (((long) scaledExponent) << 52) | mantissa);
-                } else {
-                    return (sign == 0L) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
-                }
-            } else if (scaledExponent < 2047) {
+            }
+            if (scaledExponent < 2047) {
                 return Double.longBitsToDouble(sign | (((long) scaledExponent) << 52) | mantissa);
             } else {
                 return (sign == 0L) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
@@ -3225,12 +3219,8 @@ public final class AccurateMath {
                 ++scaledExponent;
                 mantissa &= 0x007fffff;
 
-                if (scaledExponent < 255) {
-                    return Float.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);
-                } else {
-                    return (sign == 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
-                }
-            } else if (scaledExponent < 255) {
+            }
+            if (scaledExponent < 255) {
                 return Float.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);
             } else {
                 return (sign == 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;

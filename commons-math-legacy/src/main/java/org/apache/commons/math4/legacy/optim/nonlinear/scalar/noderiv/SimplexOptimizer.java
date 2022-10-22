@@ -403,14 +403,11 @@ public class SimplexOptimizer extends MultivariateOptimizer {
             // List is not fully populated yet.
             for (PointValuePair p : list) {
                 final double[] pPoint = p.getPoint();
-                if (Arrays.equals(pPoint, candidatePoint)) {
-                    // Point was already stored.
-                    return;
-                } else {
+                if (!Arrays.equals(pPoint, candidatePoint)) {
                     // Store candidate.
                     list.add(candidate);
-                    return;
                 }
+                return;
             }
         } else {
             final int last = max - 1;
