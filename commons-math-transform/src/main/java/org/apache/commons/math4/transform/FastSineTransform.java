@@ -188,7 +188,7 @@ public class FastSineTransform implements RealTransform {
         } else {
             return normalization == Norm.ORTHO ?
                 f -> TransformUtils.scaleInPlace(fst(f), Math.sqrt(2d / f.length)) :
-                f -> fst(f);
+                this::fst;
         }
     }
 

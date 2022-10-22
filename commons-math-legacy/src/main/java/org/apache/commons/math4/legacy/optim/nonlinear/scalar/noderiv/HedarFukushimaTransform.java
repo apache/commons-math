@@ -19,7 +19,6 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.function.UnaryOperator;
 import java.util.function.DoublePredicate;
 import org.apache.commons.rng.UniformRandomProvider;
@@ -132,7 +131,7 @@ public class HedarFukushimaTransform
         for (int k = 1; k < size; k++) {
             // Perform reflections of the "k" worst points.
             final List<PointValuePair> reflected = reflectPoints(original, k, eval);
-            Collections.sort(reflected, comp);
+            reflected.sort(comp);
 
             // Check whether the best of the reflected points is better than the
             // current overall best.

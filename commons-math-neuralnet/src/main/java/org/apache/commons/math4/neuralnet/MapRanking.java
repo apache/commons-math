@@ -19,7 +19,6 @@ package org.apache.commons.math4.neuralnet;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import org.apache.commons.math4.neuralnet.internal.NeuralNetException;
@@ -94,7 +93,7 @@ public class MapRanking {
                 list.add(p);
                 if (list.size() > 1) {
                     // Sort if there is more than 1 element.
-                    Collections.sort(list, PairNeuronDouble.COMPARATOR);
+                    list.sort(PairNeuronDouble.COMPARATOR);
                 }
             } else {
                 final int last = list.size() - 1;
@@ -102,7 +101,7 @@ public class MapRanking {
                     list.set(last, p); // Replace worst entry.
                     if (last > 0) {
                         // Sort if there is more than 1 element.
-                        Collections.sort(list, PairNeuronDouble.COMPARATOR);
+                        list.sort(PairNeuronDouble.COMPARATOR);
                     }
                 }
             }

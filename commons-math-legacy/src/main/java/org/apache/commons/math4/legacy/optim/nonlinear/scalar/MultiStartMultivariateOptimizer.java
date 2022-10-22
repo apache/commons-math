@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
@@ -65,7 +64,7 @@ public class MultiStartMultivariateOptimizer
      */
     @Override
     public PointValuePair[] getOptima() {
-        Collections.sort(optima, getPairComparator());
+        optima.sort(getPairComparator());
         return optima.toArray(new PointValuePair[0]);
     }
 

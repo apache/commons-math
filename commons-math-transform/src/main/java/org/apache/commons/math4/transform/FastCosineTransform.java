@@ -181,7 +181,7 @@ public class FastCosineTransform implements RealTransform {
         } else {
             return normalization == Norm.ORTHO ?
                 f -> TransformUtils.scaleInPlace(fct(f), Math.sqrt(2d / (f.length - 1))) :
-                f -> fct(f);
+                this::fct;
         }
     }
 

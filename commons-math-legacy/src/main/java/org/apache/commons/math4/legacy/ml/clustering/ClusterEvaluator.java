@@ -50,6 +50,6 @@ public interface ClusterEvaluator {
     static <T extends Clusterable> ClusterRanking ranking(ClusterEvaluator eval) {
         return eval.isBetterScore(1, 2) ?
             clusters -> 1 / eval.score(clusters) :
-            clusters -> eval.score(clusters);
+            eval::score;
     }
 }

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math4.legacy.fitting;
 
-import java.util.Collections;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -206,7 +205,7 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
          */
         protected List<WeightedObservedPoint> sortObservations(Collection<WeightedObservedPoint> unsorted) {
             final List<WeightedObservedPoint> observations = new ArrayList<>(unsorted);
-            Collections.sort(observations, CMP);
+            observations.sort(CMP);
             return observations;
         }
 
