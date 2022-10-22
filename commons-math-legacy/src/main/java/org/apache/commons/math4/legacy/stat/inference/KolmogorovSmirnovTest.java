@@ -669,7 +669,7 @@ public class KolmogorovSmirnovTest {
             throw new TooManyIterationsException(MAXIMUM_PARTIAL_SUM_COUNT);
         }
         return ret + (sqrtHalfPi / (sqrtN * n)) * (sum / (3240 * z6 * z4) +
-                + sum2 / (108 * z6));
+                sum2 / (108 * z6));
     }
 
     /**
