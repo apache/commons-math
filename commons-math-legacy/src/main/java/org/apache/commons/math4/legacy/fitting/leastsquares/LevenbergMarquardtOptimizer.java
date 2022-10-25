@@ -349,9 +349,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             //residuals already have weights applied
             double[] weightedResidual = currentResiduals;
-            for (int i = 0; i < nR; i++) {
-                qtf[i] = weightedResidual[i];
-            }
+            System.arraycopy(weightedResidual, 0, qtf, 0, nR);
 
             // compute Qt.res
             qTy(qtf, internalData);
