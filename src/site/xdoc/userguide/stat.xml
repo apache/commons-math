@@ -209,7 +209,7 @@ mean = StatUtils.mean(values, 0, 3);
         <dd>Use a <code>DescriptiveStatistics</code> instance with
         window size set to 100
         <source>
-// Create a DescriptiveStats instance and set the window size to 100
+// Create a DescriptiveStatistics instance and set the window size to 100
 DescriptiveStatistics stats = new DescriptiveStatistics();
 stats.setWindowSize(100);
 
@@ -219,6 +219,7 @@ stats.setWindowSize(100);
 long nLines = 0;
 while (line != null) {
         line = in.readLine();
+        nLines++;
         stats.addValue(Double.parseDouble(line.trim()));
         if (nLines == 100) {
                 nLines = 0;
