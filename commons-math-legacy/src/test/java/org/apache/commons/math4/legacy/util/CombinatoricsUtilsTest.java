@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math4.legacy.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
@@ -32,9 +28,6 @@ import org.junit.Test;
  *
  */
 public class CombinatoricsUtilsTest {
-
-    /** cached binomial coefficients */
-    private static final List<Map<Integer, Long>> binomialCache = new ArrayList<>();
 
     @Test
     public void testStirlingS2() {
