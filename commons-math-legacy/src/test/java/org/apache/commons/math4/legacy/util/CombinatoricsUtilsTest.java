@@ -20,68 +20,67 @@ import org.apache.commons.math4.legacy.exception.MathArithmeticException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test cases for the {@link CombinatoricsUtils} class.
- *
  */
 public class CombinatoricsUtilsTest {
 
     @Test
     public void testStirlingS2() {
 
-        Assert.assertEquals(1, CombinatoricsUtils.stirlingS2(0, 0));
+        Assertions.assertEquals(1, CombinatoricsUtils.stirlingS2(0, 0));
 
         for (int n = 1; n < 30; ++n) {
-            Assert.assertEquals(0, CombinatoricsUtils.stirlingS2(n, 0));
-            Assert.assertEquals(1, CombinatoricsUtils.stirlingS2(n, 1));
+            Assertions.assertEquals(0, CombinatoricsUtils.stirlingS2(n, 0));
+            Assertions.assertEquals(1, CombinatoricsUtils.stirlingS2(n, 1));
             if (n > 2) {
-                Assert.assertEquals((1L << (n - 1)) - 1L, CombinatoricsUtils.stirlingS2(n, 2));
-                Assert.assertEquals(BinomialCoefficient.value(n, 2),
+                Assertions.assertEquals((1L << (n - 1)) - 1L, CombinatoricsUtils.stirlingS2(n, 2));
+                Assertions.assertEquals(BinomialCoefficient.value(n, 2),
                                     CombinatoricsUtils.stirlingS2(n, n - 1));
             }
-            Assert.assertEquals(1, CombinatoricsUtils.stirlingS2(n, n));
+            Assertions.assertEquals(1, CombinatoricsUtils.stirlingS2(n, n));
         }
-        Assert.assertEquals(536870911L, CombinatoricsUtils.stirlingS2(30, 2));
-        Assert.assertEquals(576460752303423487L, CombinatoricsUtils.stirlingS2(60, 2));
+        Assertions.assertEquals(536870911L, CombinatoricsUtils.stirlingS2(30, 2));
+        Assertions.assertEquals(576460752303423487L, CombinatoricsUtils.stirlingS2(60, 2));
 
-        Assert.assertEquals(   25, CombinatoricsUtils.stirlingS2( 5, 3));
-        Assert.assertEquals(   90, CombinatoricsUtils.stirlingS2( 6, 3));
-        Assert.assertEquals(   65, CombinatoricsUtils.stirlingS2( 6, 4));
-        Assert.assertEquals(  301, CombinatoricsUtils.stirlingS2( 7, 3));
-        Assert.assertEquals(  350, CombinatoricsUtils.stirlingS2( 7, 4));
-        Assert.assertEquals(  140, CombinatoricsUtils.stirlingS2( 7, 5));
-        Assert.assertEquals(  966, CombinatoricsUtils.stirlingS2( 8, 3));
-        Assert.assertEquals( 1701, CombinatoricsUtils.stirlingS2( 8, 4));
-        Assert.assertEquals( 1050, CombinatoricsUtils.stirlingS2( 8, 5));
-        Assert.assertEquals(  266, CombinatoricsUtils.stirlingS2( 8, 6));
-        Assert.assertEquals( 3025, CombinatoricsUtils.stirlingS2( 9, 3));
-        Assert.assertEquals( 7770, CombinatoricsUtils.stirlingS2( 9, 4));
-        Assert.assertEquals( 6951, CombinatoricsUtils.stirlingS2( 9, 5));
-        Assert.assertEquals( 2646, CombinatoricsUtils.stirlingS2( 9, 6));
-        Assert.assertEquals(  462, CombinatoricsUtils.stirlingS2( 9, 7));
-        Assert.assertEquals( 9330, CombinatoricsUtils.stirlingS2(10, 3));
-        Assert.assertEquals(34105, CombinatoricsUtils.stirlingS2(10, 4));
-        Assert.assertEquals(42525, CombinatoricsUtils.stirlingS2(10, 5));
-        Assert.assertEquals(22827, CombinatoricsUtils.stirlingS2(10, 6));
-        Assert.assertEquals( 5880, CombinatoricsUtils.stirlingS2(10, 7));
-        Assert.assertEquals(  750, CombinatoricsUtils.stirlingS2(10, 8));
+        Assertions.assertEquals(   25, CombinatoricsUtils.stirlingS2( 5, 3));
+        Assertions.assertEquals(   90, CombinatoricsUtils.stirlingS2( 6, 3));
+        Assertions.assertEquals(   65, CombinatoricsUtils.stirlingS2( 6, 4));
+        Assertions.assertEquals(  301, CombinatoricsUtils.stirlingS2( 7, 3));
+        Assertions.assertEquals(  350, CombinatoricsUtils.stirlingS2( 7, 4));
+        Assertions.assertEquals(  140, CombinatoricsUtils.stirlingS2( 7, 5));
+        Assertions.assertEquals(  966, CombinatoricsUtils.stirlingS2( 8, 3));
+        Assertions.assertEquals( 1701, CombinatoricsUtils.stirlingS2( 8, 4));
+        Assertions.assertEquals( 1050, CombinatoricsUtils.stirlingS2( 8, 5));
+        Assertions.assertEquals(  266, CombinatoricsUtils.stirlingS2( 8, 6));
+        Assertions.assertEquals( 3025, CombinatoricsUtils.stirlingS2( 9, 3));
+        Assertions.assertEquals( 7770, CombinatoricsUtils.stirlingS2( 9, 4));
+        Assertions.assertEquals( 6951, CombinatoricsUtils.stirlingS2( 9, 5));
+        Assertions.assertEquals( 2646, CombinatoricsUtils.stirlingS2( 9, 6));
+        Assertions.assertEquals(  462, CombinatoricsUtils.stirlingS2( 9, 7));
+        Assertions.assertEquals( 9330, CombinatoricsUtils.stirlingS2(10, 3));
+        Assertions.assertEquals(34105, CombinatoricsUtils.stirlingS2(10, 4));
+        Assertions.assertEquals(42525, CombinatoricsUtils.stirlingS2(10, 5));
+        Assertions.assertEquals(22827, CombinatoricsUtils.stirlingS2(10, 6));
+        Assertions.assertEquals( 5880, CombinatoricsUtils.stirlingS2(10, 7));
+        Assertions.assertEquals(  750, CombinatoricsUtils.stirlingS2(10, 8));
     }
 
-    @Test(expected=NotPositiveException.class)
+    @Test
     public void testStirlingS2NegativeN() {
-        CombinatoricsUtils.stirlingS2(3, -1);
+        Assertions.assertThrows(NotPositiveException.class, () -> CombinatoricsUtils.stirlingS2(3, -1));
     }
 
-    @Test(expected=NumberIsTooLargeException.class)
+    @Test
     public void testStirlingS2LargeK() {
-        CombinatoricsUtils.stirlingS2(3, 4);
+        Assertions.assertThrows(NumberIsTooLargeException.class, () -> CombinatoricsUtils.stirlingS2(3, 4));
     }
 
-    @Test(expected=MathArithmeticException.class)
+    @Test
     public void testStirlingS2Overflow() {
-        CombinatoricsUtils.stirlingS2(26, 9);
+        Assertions.assertThrows(MathArithmeticException.class, () -> CombinatoricsUtils.stirlingS2(26, 9));
     }
 }
