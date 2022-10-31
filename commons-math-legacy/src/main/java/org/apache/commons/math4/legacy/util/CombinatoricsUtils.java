@@ -101,6 +101,10 @@ public final class CombinatoricsUtils {
             } else if (k == 1 || k == n) {
                 return 1;
             } else if (k == 2) {
+                if (n > 64) {
+                    throw new MathArithmeticException(LocalizedFormats.ARGUMENT_OUTSIDE_DOMAIN,
+                        n, 0, stirlingS2.length - 1);
+                }
                 return (1L << (n - 1)) - 1L;
             } else if (k == n - 1) {
                 return BinomialCoefficient.value(n, 2);

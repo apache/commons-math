@@ -82,5 +82,8 @@ public class CombinatoricsUtilsTest {
     @Test
     public void testStirlingS2Overflow() {
         Assertions.assertThrows(MathArithmeticException.class, () -> CombinatoricsUtils.stirlingS2(26, 9));
+
+        Assertions.assertEquals(9223372036854775807L, CombinatoricsUtils.stirlingS2(64, 2));
+        Assertions.assertThrows(MathArithmeticException.class, () -> CombinatoricsUtils.stirlingS2(65, 2));
     }
 }
