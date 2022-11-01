@@ -23,6 +23,11 @@
   </bannerRight>
 
   <body>
+    <head>
+      <![CDATA[<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>]]>
+    </head>
+
     <menu name="Math">
       <item name="Overview" href="/index.html"/>
       <item name="Downloads" href="http://commons.apache.org/math/download_math.cgi"/>
@@ -81,10 +86,6 @@
       <item name="Machine Learning"        href="/userguide/ml.html"/>
       <item name="Exceptions"              href="/userguide/exceptions.html"/>
     </menu>
-
-    <head>
-      <![CDATA[<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>]]>
-    </head>
 
   </body>
 </project>
