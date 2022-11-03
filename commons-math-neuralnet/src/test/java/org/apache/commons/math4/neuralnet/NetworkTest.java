@@ -18,6 +18,7 @@
 package org.apache.commons.math4.neuralnet;
 
 import java.util.Collection;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 import org.junit.Assert;
@@ -108,25 +109,16 @@ public class NetworkTest {
     }
 
     @Test
-    public void testIterationOrder() {
+    public void testIdentifierAssignment() {
         final FeatureInitializer[] initArray = {init};
-        final Network net = new NeuronSquareMesh2D(4, false,
-                                                   3, true,
-                                                   SquareNeighbourhood.VON_NEUMANN,
-                                                   initArray).getNetwork();
+        final long[] ids = getIdentifiers(new NeuronSquareMesh2D(4, false,
+                                                                3, true,
+                                                                SquareNeighbourhood.VON_NEUMANN,
+                                                                initArray).getNetwork());
 
-        // Check that the comparator provides a specific order.
-        boolean isUnspecifiedOrder = false;
-        long previousId = Long.MIN_VALUE;
-        for (Neuron n : net.getNeurons()) {
-            final long currentId = n.getIdentifier();
-            if (currentId < previousId) {
-                isUnspecifiedOrder = true;
-                break;
-            }
-            previousId = currentId;
-        }
-        Assert.assertFalse(isUnspecifiedOrder);
+        Assert.assertEquals(12, ids.length);
+        Assert.assertEquals(0, ids[0]);
+        Assert.assertEquals(11, ids[ids.length - 1]);
     }
 
     /*
@@ -168,5 +160,21 @@ public class NetworkTest {
         copyNeighbours = copy.getNeighbours(copyNeuron0);
         Assert.assertFalse(netNeighbours.contains(netNeuron1));
         Assert.assertTrue(copyNeighbours.contains(copyNeuron1));
+    }
+
+    /**
+     * @param net Network.
+     * @return the sorted list identifiers.
+     */
+    private long[] getIdentifiers(Network net) {
+        final Collection<Neuron> neurons = net.getNeurons();
+        final long[] identifiers = new long[neurons.size()];
+
+        int idx = 0;
+        for (Neuron n : neurons) {
+            identifiers[idx++] = n.getIdentifier();
+        }
+        Arrays.sort(identifiers);
+        return identifiers;
     }
 }
