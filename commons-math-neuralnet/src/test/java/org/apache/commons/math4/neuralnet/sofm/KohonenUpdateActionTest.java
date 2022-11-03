@@ -68,11 +68,7 @@ public class KohonenUpdateActionTest {
         //    all neuron's features get closer to the input's features.
 
         final double[] features = new double[] {0.3};
-        final double[] distancesBefore = new double[netSize];
-        int count = 0;
-        for (Neuron n : net) {
-            distancesBefore[count++] = dist.applyAsDouble(n.getFeatures(), features);
-        }
+        final double[] distancesBefore = getDistances(net, dist, features);
         final Neuron bestBefore = rank.rank(features, 1).get(0);
 
         // Initial distance from the best match is larger than zero.
@@ -80,11 +76,7 @@ public class KohonenUpdateActionTest {
 
         update.update(net, features);
 
-        final double[] distancesAfter = new double[netSize];
-        count = 0;
-        for (Neuron n : net) {
-            distancesAfter[count++] = dist.applyAsDouble(n.getFeatures(), features);
-        }
+        final double[] distancesAfter = getDistances(net, dist, features);
         final Neuron bestAfter = rank.rank(features, 1).get(0);
 
         Assert.assertEquals(bestBefore, bestAfter);
@@ -95,5 +87,24 @@ public class KohonenUpdateActionTest {
             // All distances have decreased.
             Assert.assertTrue(distancesAfter[i] < distancesBefore[i]);
         }
+    }
+
+    /**
+     * Gets the distance of each Neuron to the specified features.
+     * Distances are returned ordered by the Neuron ID.
+     *
+     * @param net Network
+     * @param dist Distance measure
+     * @param features Feature vector
+     * @return the distances
+     */
+    private static double[] getDistances(Network net,
+                                         DistanceMeasure dist,
+                                         double[] features) {
+        return net.getNeurons()
+                  .stream()
+                  .sorted((a, b) -> Long.compare(a.getIdentifier(), b.getIdentifier()))
+                  .mapToDouble(n -> dist.applyAsDouble(n.getFeatures(), features))
+                  .toArray();
     }
 }
