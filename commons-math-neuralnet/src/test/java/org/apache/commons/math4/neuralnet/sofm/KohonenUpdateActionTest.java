@@ -69,9 +69,8 @@ public class KohonenUpdateActionTest {
 
         final double[] features = new double[] {0.3};
         final double[] distancesBefore = new double[netSize];
-        int count = 0;
         for (Neuron n : net) {
-            distancesBefore[count++] = dist.applyAsDouble(n.getFeatures(), features);
+            distancesBefore[(int) n.getIdentifier()] = dist.applyAsDouble(n.getFeatures(), features);
         }
         final Neuron bestBefore = rank.rank(features, 1).get(0);
 
@@ -81,9 +80,8 @@ public class KohonenUpdateActionTest {
         update.update(net, features);
 
         final double[] distancesAfter = new double[netSize];
-        count = 0;
         for (Neuron n : net) {
-            distancesAfter[count++] = dist.applyAsDouble(n.getFeatures(), features);
+            distancesAfter[(int) n.getIdentifier()] = dist.applyAsDouble(n.getFeatures(), features);
         }
         final Neuron bestAfter = rank.rank(features, 1).get(0);
 

@@ -26,7 +26,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Collections;
 import java.util.Map;
-import java.util.LinkedHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -45,8 +44,8 @@ import org.apache.commons.math4.neuralnet.internal.NeuralNetException;
 public class Network
     implements Iterable<Neuron> {
     /** Neurons. */
-    private final Map<Long, Neuron> neuronMap
-        = Collections.synchronizedMap(new LinkedHashMap<>());
+    private final ConcurrentHashMap<Long, Neuron> neuronMap
+        = new ConcurrentHashMap<>();
     /** Next available neuron identifier. */
     private final AtomicLong nextId;
     /** Neuron's features set size. */

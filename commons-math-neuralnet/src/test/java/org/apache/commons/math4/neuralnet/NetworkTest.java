@@ -107,28 +107,6 @@ public class NetworkTest {
         Assert.assertEquals(1, net.getNeighbours(net.getNeuron(3)).size());
     }
 
-    @Test
-    public void testIterationOrder() {
-        final FeatureInitializer[] initArray = {init};
-        final Network net = new NeuronSquareMesh2D(4, false,
-                                                   3, true,
-                                                   SquareNeighbourhood.VON_NEUMANN,
-                                                   initArray).getNetwork();
-
-        // Check that the comparator provides a specific order.
-        boolean isUnspecifiedOrder = false;
-        long previousId = Long.MIN_VALUE;
-        for (Neuron n : net.getNeurons()) {
-            final long currentId = n.getIdentifier();
-            if (currentId < previousId) {
-                isUnspecifiedOrder = true;
-                break;
-            }
-            previousId = currentId;
-        }
-        Assert.assertFalse(isUnspecifiedOrder);
-    }
-
     /*
      * Test assumes that the network is
      *
