@@ -86,11 +86,6 @@
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
 
-    <!-- Temporary fix to replace svn-based build number with git-based build number -->
-    <buildnumber.skip>true</buildnumber.skip>
-    <math.jgit.buildnumber.version>1.2.10</math.jgit.buildnumber.version>
-    <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
-
     <!--
         Override so that "mvn commons:download-page" will generates a web page
         referring to the files created by the "dist-archive" module.
@@ -396,8 +391,24 @@
             <manifestEntries>
               <!-- Java 9 -->
               <Automatic-Module-Name>${commons.module.name}</Automatic-Module-Name>
+              <!-- Add entries from CP that are not inherited (for reasons unknown).
+                   Replace ${implementation.build} property with the unique git build number. -->
+              <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+              <Implementation-Build>${buildNumber}; ${maven.build.timestamp}</Implementation-Build>
+              <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+              <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
             </manifestEntries>
           </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <configuration>
+          <!-- buildnumber-maven-plugin:
+            "for git getLastChangedRevision() returns null instead of the last revision"
+            Override CP to use the last revision of the repository (OK for release jars). -->
+          <useLastCommittedRevision>false</useLastCommittedRevision>
         </configuration>
       </plugin>
     </plugins>
@@ -506,33 +517,6 @@
   </reporting>
 
   <profiles>
-    <profile>
-      <id>jgit-buildnumber</id>
-      <activation>
-        <file>
-          <exists>.git</exists>
-        </file>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>ru.concerteza.buildnumber</groupId>
-            <artifactId>maven-jgit-buildnumber-plugin</artifactId>
-            <version>${math.jgit.buildnumber.version}</version>
-            <executions>
-              <execution>
-                <phase>generate-resources</phase>
-                <goals>
-                  <goal>extract-buildnumber</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <!-- Override a parent property if the SVN site checkout should not be performed.
            This should activate for child modules. -->
