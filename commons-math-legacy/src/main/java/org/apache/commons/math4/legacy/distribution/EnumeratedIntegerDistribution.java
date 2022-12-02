@@ -218,16 +218,6 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public DiscreteDistribution.Sampler createSampler(final UniformRandomProvider rng) {
-        return new DiscreteDistribution.Sampler() {
-            /** Delegate. */
-            private final EnumeratedDistribution<Integer>.Sampler inner =
-                innerDistribution.createSampler(rng);
-
-            /** {@inheritDoc} */
-            @Override
-            public int sample() {
-                return inner.sample();
-            }
-        };
+        return innerDistribution.createSampler(rng)::sample;
     }
 }

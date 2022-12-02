@@ -249,16 +249,6 @@ public class EnumeratedRealDistribution
     /** {@inheritDoc} */
     @Override
     public ContinuousDistribution.Sampler createSampler(final UniformRandomProvider rng) {
-        return new ContinuousDistribution.Sampler() {
-            /** Delegate. */
-            private final EnumeratedDistribution<Double>.Sampler inner =
-                innerDistribution.createSampler(rng);
-
-            /** {@inheritDoc} */
-            @Override
-            public double sample() {
-                return inner.sample();
-            }
-        };
+        return innerDistribution.createSampler(rng)::sample;
     }
 }
