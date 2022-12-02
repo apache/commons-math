@@ -45,7 +45,7 @@
     <commons.osgi.symbolicName>org.apache.commons.math4</commons.osgi.symbolicName>
     <commons.osgi.export>org.apache.commons.math4</commons.osgi.export>
     <!-- The Java Module System Name -->
-    <commons.automatic.module.name>org.apache.commons.math4</commons.automatic.module.name>
+    <commons.module.name>org.apache.commons.math4</commons.module.name>
     <!-- This flag should only be true in the dist-archive module. -->
     <commons.release.isDistModule>false</commons.release.isDistModule>
     <!-- do not use snapshot suffix here -->
@@ -395,7 +395,7 @@
           <archive combine.children="append">
             <manifestEntries>
               <!-- Java 9 -->
-              <Automatic-Module-Name>${commons.automatic.module.name}</Automatic-Module-Name>
+              <Automatic-Module-Name>${commons.module.name}</Automatic-Module-Name>
             </manifestEntries>
           </archive>
         </configuration>

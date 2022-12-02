@@ -39,7 +39,7 @@
     <commons.osgi.symbolicName>org.apache.commons.math4.examples.sofm.chineserings</commons.osgi.symbolicName>
     <commons.osgi.export>org.apache.commons.math4.examples.sofm.chineserings</commons.osgi.export>
     <!-- Java 9+ -->
-    <commons.automatic.module.name>org.apache.commons.math4.examples.sofm.chineserings</commons.automatic.module.name>
+    <commons.module.name>org.apache.commons.math4.examples.sofm.chineserings</commons.module.name>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}/../../..</math.parent.dir>
 

@@ -33,7 +33,7 @@
 
   <properties>
     <!-- The Java Module System Name -->
-    <commons.automatic.module.name>org.apache.commons.math4.legacy.core</commons.automatic.module.name>
+    <commons.module.name>org.apache.commons.math4.legacy.core</commons.module.name>
     <!-- This value must reflect the current name of the base package. -->
     <commons.osgi.symbolicName>org.apache.commons.math4.legacy.core</commons.osgi.symbolicName>
     <!-- OSGi -->
