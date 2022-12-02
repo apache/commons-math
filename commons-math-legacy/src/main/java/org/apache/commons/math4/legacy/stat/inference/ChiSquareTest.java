@@ -157,7 +157,7 @@ public class ChiSquareTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution =
             ChiSquaredDistribution.of(expected.length - 1.0);
-        return 1.0 - distribution.cumulativeProbability(chiSquare(expected, observed));
+        return distribution.survivalProbability(chiSquare(expected, observed));
     }
 
     /**
@@ -330,7 +330,7 @@ public class ChiSquareTest {
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution = ChiSquaredDistribution.of(df);
-        return 1 - distribution.cumulativeProbability(chiSquare(counts));
+        return distribution.survivalProbability(chiSquare(counts));
     }
 
     /**
@@ -532,7 +532,7 @@ public class ChiSquareTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution =
                 ChiSquaredDistribution.of((double) observed1.length - 1);
-        return 1 - distribution.cumulativeProbability(
+        return distribution.survivalProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
     }
 

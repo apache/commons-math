@@ -122,7 +122,7 @@ public class BinomialTest {
         final BinomialDistribution distribution = BinomialDistribution.of(numberOfTrials, probability);
         switch (alternativeHypothesis) {
         case GREATER_THAN:
-            return 1 - distribution.cumulativeProbability(numberOfSuccesses - 1);
+            return distribution.survivalProbability(numberOfSuccesses - 1);
         case LESS_THAN:
             return distribution.cumulativeProbability(numberOfSuccesses);
         case TWO_SIDED:

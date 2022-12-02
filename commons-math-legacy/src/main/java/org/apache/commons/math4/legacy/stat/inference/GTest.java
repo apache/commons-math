@@ -155,7 +155,7 @@ public class GTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution =
                 ChiSquaredDistribution.of(expected.length - 1.0);
-        return 1.0 - distribution.cumulativeProbability(g(expected, observed));
+        return distribution.survivalProbability(g(expected, observed));
     }
 
     /**
@@ -186,7 +186,7 @@ public class GTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution =
                 ChiSquaredDistribution.of(expected.length - 2.0);
-        return 1.0 - distribution.cumulativeProbability(g(expected, observed));
+        return distribution.survivalProbability(g(expected, observed));
     }
 
     /**
@@ -476,7 +476,7 @@ public class GTest {
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final ChiSquaredDistribution distribution =
                 ChiSquaredDistribution.of((double) observed1.length - 1);
-        return 1 - distribution.cumulativeProbability(
+        return distribution.survivalProbability(
                 gDataSetsComparison(observed1, observed2));
     }
 

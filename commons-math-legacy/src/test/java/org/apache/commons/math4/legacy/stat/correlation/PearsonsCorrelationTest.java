@@ -237,7 +237,7 @@ public class PearsonsCorrelationTest {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < i; j++) {
                 double t = JdkMath.abs(rValues.getEntry(i, j)) / stdErrors.getEntry(i, j);
-                double p = 2 * (1 - tDistribution.cumulativeProbability(t));
+                double p = 2 * tDistribution.survivalProbability(t);
                 Assert.assertEquals(p, pValues.getEntry(i, j), 10E-15);
             }
         }

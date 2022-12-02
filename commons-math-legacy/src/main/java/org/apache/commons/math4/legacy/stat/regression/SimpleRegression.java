@@ -695,7 +695,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
         // No advertised NotStrictlyPositiveException here - will return NaN above
         TDistribution distribution = TDistribution.of(n - 2d);
         return getSlopeStdErr() *
-            distribution.inverseCumulativeProbability(1d - alpha / 2d);
+            distribution.inverseSurvivalProbability(alpha / 2d);
     }
 
     /**
@@ -726,7 +726,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
         }
         // No advertised NotStrictlyPositiveException here - will return NaN above
         TDistribution distribution = TDistribution.of(n - 2d);
-        return 2d * (1.0 - distribution.cumulativeProbability(
+        return 2d * (distribution.survivalProbability(
                     JdkMath.abs(getSlope()) / getSlopeStdErr()));
     }
 

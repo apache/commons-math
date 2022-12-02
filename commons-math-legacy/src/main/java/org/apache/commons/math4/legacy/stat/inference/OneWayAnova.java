@@ -104,9 +104,9 @@ public class OneWayAnova {
      * {@link org.apache.commons.statistics.distribution.FDistribution
      * commons-math F Distribution implementation} to estimate the exact
      * p-value, using the formula<pre>
-     *   p = 1 - cumulativeProbability(F)</pre>
-     * where <code>F</code> is the F value and <code>cumulativeProbability</code>
-     * is the commons-math implementation of the F distribution.
+     *   p = survivalProbability(F)</pre>
+     * where <code>F</code> is the F value and <code>survivalProbability = 1 - cumulativeProbability</code>
+     * is the commons-statistics implementation of the F distribution.
      *
      * @param categoryData <code>Collection</code> of <code>double[]</code>
      * arrays each containing data for one category
@@ -126,7 +126,7 @@ public class OneWayAnova {
         // No try-catch or advertised exception because args are valid
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final FDistribution fdist = FDistribution.of(a.dfbg, a.dfwg);
-        return 1.0 - fdist.cumulativeProbability(a.f);
+        return fdist.survivalProbability(a.f);
     }
 
     /**
@@ -142,9 +142,9 @@ public class OneWayAnova {
      * {@link org.apache.commons.statistics.distribution.FDistribution
      * commons-math F Distribution implementation} to estimate the exact
      * p-value, using the formula<pre>
-     *   p = 1 - cumulativeProbability(F)</pre>
-     * where <code>F</code> is the F value and <code>cumulativeProbability</code>
-     * is the commons-math implementation of the F distribution.
+     *   p = survivalProbability(F)</pre>
+     * where <code>F</code> is the F value and <code>survivalProbability = 1 - cumulativeProbability</code>
+     * is the commons-statistics implementation of the F distribution.
      *
      * @param categoryData <code>Collection</code> of {@link SummaryStatistics}
      * each containing data for one category
@@ -167,7 +167,7 @@ public class OneWayAnova {
         final AnovaStats a = anovaStats(categoryData, allowOneElementData);
         // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
         final FDistribution fdist = FDistribution.of(a.dfbg, a.dfwg);
-        return 1.0 - fdist.cumulativeProbability(a.f);
+        return fdist.survivalProbability(a.f);
     }
 
     /**
@@ -221,9 +221,9 @@ public class OneWayAnova {
      * {@link org.apache.commons.statistics.distribution.FDistribution
      * commons-math F Distribution implementation} to estimate the exact
      * p-value, using the formula<pre>
-     *   p = 1 - cumulativeProbability(F)</pre>
-     * where <code>F</code> is the F value and <code>cumulativeProbability</code>
-     * is the commons-math implementation of the F distribution.
+     *   p = survivalProbability(F)</pre>
+     * where <code>F</code> is the F value and <code>survivalProbability = 1 - cumulativeProbability</code>
+     * is the commons-statistics implementation of the F distribution.
      * <p>True is returned iff the estimated p-value is less than alpha.</p>
      *
      * @param categoryData <code>Collection</code> of <code>double[]</code>
