@@ -23,8 +23,6 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.sampling.distribution.InverseTransformDiscreteSampler;
-import org.apache.commons.rng.sampling.distribution.DiscreteInverseCumulativeProbabilityFunction;
-import org.apache.commons.rng.sampling.distribution.DiscreteSampler;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
@@ -194,31 +192,7 @@ public abstract class AbstractIntegerDistribution
     /**{@inheritDoc} */
     @Override
     public DiscreteDistribution.Sampler createSampler(final UniformRandomProvider rng) {
-        return new DiscreteDistribution.Sampler() {
-            /**
-             * Inversion method distribution sampler.
-             */
-            private final DiscreteSampler sampler =
-                new InverseTransformDiscreteSampler(rng, createICPF());
-
-            /** {@inheritDoc} */
-            @Override
-            public int sample() {
-                return sampler.sample();
-            }
-        };
-    }
-
-    /**
-     * @return an instance for use by {@link #createSampler(UniformRandomProvider)}
-     */
-    private DiscreteInverseCumulativeProbabilityFunction createICPF() {
-        return new DiscreteInverseCumulativeProbabilityFunction() {
-            /** {@inheritDoc} */
-            @Override
-            public int inverseCumulativeProbability(double p) {
-                return AbstractIntegerDistribution.this.inverseCumulativeProbability(p);
-            }
-        };
+        // Inversion method distribution sampler.
+        return InverseTransformDiscreteSampler.of(rng, this::inverseCumulativeProbability)::sample;
     }
 }
