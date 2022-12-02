@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.distribution;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -68,7 +68,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
                NotFiniteNumberException,
                NotANumberException {
         innerDistribution = new EnumeratedDistribution<>(createDistribution(singletons,
-                                                                                   probabilities));
+                                                                            probabilities));
     }
 
     /**
@@ -78,7 +78,7 @@ public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
      * @param data input dataset
      */
     public EnumeratedIntegerDistribution(final int[] data) {
-        final Map<Integer, Integer> dataMap = new HashMap<>();
+        final Map<Integer, Integer> dataMap = new LinkedHashMap<>();
         for (int value : data) {
             dataMap.merge(value, 1, Integer::sum);
         }
