@@ -77,25 +77,24 @@ The minimum version of the Java platform required to compile and use
 Users are encouraged to upgrade to this version, and to the new
  components listed above (they are now Commons Math's dependencies).
 
-For codes that are now located in the 'commons-math-legacy' module,
- upgrading will be a matter of changing the top-level package name:
+For code now located in the 'commons-math-legacy' module, upgrading
+ will be a matter of changing the top-level package name:
  From 'org.apache.commons.math3' to 'org.apache.commons.math4.legacy'.
- Codes that are now located in the 'commons-math-legacy-core' module
- comprise classes that moved from packages 'org.apache.commons.math3'
- and 'org.apache.commons.math3.util' (e.g. 'MathArrays') over to
- package 'org.apache.commons.math4.legacy.core'.
+ Code in the 'commons-math-legacy-core' module comprise classes that
+ moved from package 'org.apache.commons.math3' and package
+ 'org.apache.commons.math3.util' (e.g. 'MathArrays') to package
+ 'org.apache.commons.math4.legacy.core'.
 
 Notes:
- Class 'FastMath' has been renamed 'AccurateMath' (now located in
- package 'org.apache.commons.math4.legacy.core.jdkmath').
+ Class 'FastMath' was renamed 'AccurateMath' (now located in package
+ 'org.apache.commons.math4.legacy.core.jdkmath').
 
 Caveat:
  Although hundreds of issues have been fixed (see 'git log' and the
  reports in the bug-tracking system of all the listed components),
- many remain, due to the lack of human resources necessary in order
- to support the whole codebase.  [The Commons Math maintenance
- nightmare was one of the main reasons for creating more focused
- components.]
+ many remain due to the lack of human resources necessary in order
+ to support the whole codebase (it was one of the main reasons for
+ creating more focused components).
 ">
       <action dev="aherbert" type="update" issue="MATH-1653">
         Remove class "CombinatoricsUtils" (in package "o.a.c.m.util").
