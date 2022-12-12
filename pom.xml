@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>54</version>
+    <version>55</version>
   </parent>
 
   <artifactId>commons-math-parent</artifactId>
@@ -69,8 +69,6 @@
     <math.commons.math3.version>3.6.1</math.commons.math3.version>
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}</math.parent.dir>
-    <!-- Multi-module support fixed in commons-parent 55 -->
-    <cyclonedx.skip>true</cyclonedx.skip>
 
     <!-- Fix to avoid JXR 3.0.0 forking the lifecycle phase 'compile' during site report
        jxr:aggregate. If compile is forked, the dist-archive build fails when attempting
@@ -344,8 +342,6 @@
             <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
             <exclude>dist-archive/**</exclude>
             <exclude>**/site-content/**</exclude>
-            <!-- Moved to commons-parent 55 -->
-            <exclude>.gitattributes</exclude>
 
             <!-- MANIFEST files cannot have any comments, so we can't put license header -->
             <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
@@ -427,8 +423,6 @@
             <exclude>src/site/resources/release-notes/RELEASE-NOTES-*.txt</exclude>
             <exclude>dist-archive/**</exclude>
             <exclude>**/site-content/**</exclude>
-            <!-- Moved to commons-parent 55 -->
-            <exclude>.gitattributes</exclude>
           </excludes>
         </configuration>
       </plugin>
