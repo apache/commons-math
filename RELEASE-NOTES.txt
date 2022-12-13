@@ -1,0 +1,224 @@
+
+              Apache Commons Math 4.0-beta1 RELEASE NOTES
+
+The Apache Commons Math team is pleased to announce the release of commons-math-parent-4.0-beta1
+
+The Apache Commons Math project is a library of lightweight mathematics
+    and statistics components addressing common practical problems.
+
+This is a major release that requires source changes in applications.
+Lower-level functionality has been split off to new components, often
+with bug-fixes, performance enhancements and improved API:
+ Commons RNG,
+ Commons Numbers,
+ Commons Geometry,
+ Commons Statistics.
+Functionality still within Commons Math has been modularized and
+partly refactored.
+This is a work-in-progress (help welcome).
+Codes for which the refactoring has not been undertaken (or was
+deemed incomplete) have been moved to 'legacy' modules.
+The minimum version of the Java platform required to compile and use
+Commons Math is Java 8.
+Users are encouraged to upgrade to this version, and to the new
+components listed above (they are now Commons Math's dependencies).
+For code now located in the 'commons-math-legacy' module, upgrading
+will be a matter of changing the top-level package name:
+From 'org.apache.commons.math3' to 'org.apache.commons.math4.legacy'.
+Code in the 'commons-math-legacy-core' module comprise classes that
+moved from package 'org.apache.commons.math3' and package
+'org.apache.commons.math3.util' (e.g. 'MathArrays') to package
+'org.apache.commons.math4.legacy.core'.
+Notes:
+Class 'FastMath' was renamed 'AccurateMath' (now located in package
+'org.apache.commons.math4.legacy.core.jdkmath').
+Caveat:
+Although hundreds of issues have been fixed (see 'git log' and the
+reports in the bug-tracking system of all the listed components),
+many remain due to the lack of human resources necessary in order
+to support the whole codebase (it was one of the main reasons for
+creating more focused components).
+
+Changes in this version include:
+
+New features:
+o MATH-1648:  "BicubicInterpolator": Provide partial derivatives of interpolating functions. Thanks to Alessandro Moscatelli. 
+o MATH-1371:  Add "ElkanKMeansPlusPlusClusterer" clustering algorithm. Thanks to Artem Barger. 
+o MATH-1622:  Update class "SimplexOptimizer" (in package "o.a.c.m.legacy.optim.nonlinear.scalar.noderiv")
+        to support simulated annealing. 
+o MATH-1551:  "Percentile": Partial support for weighted data. Thanks to Allen Yu. 
+o MATH-1529:  "AkimaSplineInterpolator": Option to use alternative weights. 
+o MATH-1509:  Add "MiniBatchKMeansClusterer" clustering algorithm. Thanks to Chen Tao. 
+o MATH-1519:  Add "Calinski-Harabsz" clustering evaluator. Thanks to Chen Tao. 
+o MATH-1516:  Interface for ranking a list of clusters. 
+o MATH-1477:  "MillerUpdatingRegression": Fixed "ArrayIndexOutOfBounds" exception. Thanks to Chee Sing Lee. 
+o MATH-1459:  Create a way to automatically calculate a Jacobian matrix using a differentiator. Thanks to Adrian Porter. 
+o MATH-1426:  "DescriptiveStatistics": allow "Double[]" as initializer. Thanks to Karl Richter. 
+o MATH-1383:  Dependency toward the "Commons Rng" component. 
+o MATH-1015:  Gauss-Laguerre quadrature. Thanks to Thomas Neidhart. 
+o MATH-1350:  Improved code coverage (unit tests). Thanks to Rob Tompkins. 
+o MATH-1336:  New 64-bits RNG implementations. On 64-bits systems, they are ~35% faster than
+        "java.util.Random" for generating "long" or "double" values. They also guarantee
+        much better randomness than "Random" (cf. MATH-1327). 
+o MATH-1335:  Refactoring of uniform random number generator functionality: new API
+        implemented in package "o.a.c.m.rng". 
+o MATH-1337:  Adaptor class from new API ("o.a.c.m.rng.RandomSource") to old API
+        ("o.a.c.m.random.RandomGenerator"). 
+o MATH-1327:  Report on performance and correctness of the new RNG implementations. 
+o MATH-1314:  Javadoc of the new RNG API ("o.a.c.m.rng") mentions the "seed problem". 
+o MATH-1158:  New interface for sampling from distribution (package "o.a.c.m.distribution"). 
+o MATH-1351:  New sampler API for "MultivariateRealDistribution". 
+o MATH-1348:  Adaptor for using one of the new RNG implementations where an instance of
+        "java.util.Random" is required. 
+o MATH-1295:  "FactorialLog": Cache-based computation of the "log factorial" function (implemented
+        as an inner class of "CombinatoricsUtils" in package "o.a.c.m.util"). Thanks to Aleksei Dievskii. 
+o MATH-1271:  Added divideUnsigned and remainderUnsigned to ArithmeticUtils. Thanks to Qualtagh. 
+o           Added a fast implementation of IEEEremainder in FastMath. 
+o MATH-945:  Added method "T log10()" to interface "RealFieldElement". 
+o MATH-1039:  Added logDensity(double) to RealDistribution and logProbability(int)
+        to IntegerDistribution interface. The implementations have already been
+        updated in release 3.3. Thanks to Aleksei Dievskii. 
+
+Fixed Bugs:
+o MATH-1647:  "HaltonSequenceGenerator": Raise exception when precondition is not met. Thanks to Maksym Bohachov. 
+o MATH-1462:  "EmpiricalDistribution": Use constant kernel for bins that contain up to 3 values. 
+o MATH-1379:  Fix "LoessInterpolator" (in package "o.a.c.m.legacy.analysis.interpolation"). Thanks to Richard Wilkinson. 
+o MATH-1617:  Class "BigReal": Fix equality check. Thanks to Ng Tsz Sum. 
+o MATH-1613:  Decrease maximum number of iterations in "SimpsonIntegrator" and
+        "TrapezoidIntegrator" (due to the available range of the internal
+        counter of function evaluations). 
+o MATH-1431:  "EmpiricalDistribution" handles empty bin. Thanks to Artem Onuchin. 
+o MATH-1565:  Add context to "OutOfRangeException". Thanks to Randy Strauss. 
+o MATH-1558:  "MidPointIntegrator": Fix iterative procedure in order to actually benefit
+        from evaluations performed at earlier stages. Thanks to Sam Ritchie. 
+o MATH-1555:  "Atan2": Documentation issue. Thanks to Laurent Galluccio. 
+o MATH-1549:  "SimplexTableau": Internally "scale down" the problem definition when the
+        constraints are defined with large numbers, in order to avoid spurious
+        exceptions caused by floating-point accuracy errors. Thanks to Mohammad Rezaei. 
+o MATH-1548:  Avoid inefficiencies in computing the standard quality measures of a SOFM. 
+o MATH-1537:  Clean-up (typos and unused "import" statements). Thanks to Jin Xu. 
+o MATH-1531:  "EmpiricalDistribution": Workaround to avoid spurious exception. 
+o MATH-1511:  Issue in site generation and developers documentation. 
+o MATH-1518:  Remove code duplication by moving method to class "Cluster". 
+o MATH-1388:  Avoid overflow. 
+o MATH-1401:  "ClopperPearsonInterval": Missing cases. Thanks to Michele De Stefano. 
+o MATH-1463:  "IntegerSequence.incrementor": Throw "NoSuchElementException" from "next" method. 
+o MATH-1458:  "SimpsonIntegrator": Fixed iteration. Thanks to Alex Herbert. 
+o MATH-1419:  "PolynomialSplineFunction": incorrect usage of exception. Thanks to Hang Park. 
+o MATH-1413:  add generics to the Frequency class 
+o MATH-1417:  "RRQRDecomposition": bug in method "performHouseholderReflection". Thanks to Jean-Francois Lecomte. 
+o MATH-1381:  Fix "BinomialTest": P-value larger than 1. Thanks to Kexin Xie. 
+o MATH-1382:  "MultivariateNormalDistribution": performance improvement (by
+        removing unnecessary copying). Thanks to Stefan Bunk. 
+o MATH-1405:  "KolmogorovSmirnovTest": bug in "fixTies". Thanks to Daniil Finkel. 
+o MATH-1376:  "SimplexOptimizer": Wrong value of iteration number was passed to the convergence checker. Thanks to Thomas Weise. 
+o MATH-1319:  Major refactoring of package "o.a.c.m.random". 
+o MATH-1366:  Removed obsolete RNG API (replaced by classes under "o.a.c.m.rng"). 
+o MATH-1340:  Avoid exception swallowing (in class "TestUtils"). 
+o MATH-1339:  Avoid redundant object creation. 
+o MATH-1356:  "HypergeometricDistribution": Handle special cases that produced NaN. 
+o MATH-1343:  "BetaDistribution": Removed unnecessary recomputation. 
+o MATH-1124:  "JDKRandomGenerator": Method "nextInt(int)" now throws a "NotStrictlyPositiveException".
+        The class now delegates to (rather inherits from) "java.util.Random". 
+o MATH-1300:  "AbstractRandomGenerator" and "BitsStreamGenerator": Remove a redundant call
+        to the random data provider. Thanks to Rostislav Krasny. 
+o MATH-1231:  Lifted unnecessary restriction on constructor's argument of
+        "MicrosphereInterpolator" (package "o.a.c.m.analysis.interpolation"). 
+o MATH-1230:  The "SimplexSolver" will now throw a "DimensionMismatchException"
+        when calling "optimize(...)" with linear constraints whose dimension
+        does not match the dimension of the objective function. 
+o MATH-1222:  Use Double.isNaN rather than x != x in FastMath. Thanks to Benedikt Ritter. 
+o MATH-1143:  Added helper methods to FunctionUtils for univariate and multivariate differentiable functions conversion. 
+o MATH-964:  Removed unused package private class PollardRho in package primes. 
+o MATH-1221:  Improve performance of "ZipfDistribution" by caching the nth generalized harmonic. 
+o MATH-1205:  Methods "evaluate(...)" of class "Variance" changed the internal state
+        although it was stated differently in the javadoc. 
+o MATH-1191:  Fixed ignored method parameters in QRDecomposition protected methods. 
+o MATH-1212:  Changed javadoc as the RandomDataGenerator class does not implement
+        an interface anymore (the previous interface has been deprecated in
+        3.X and removed in 4.0). 
+
+Changes:
+o MATH-1653:  Remove class "CombinatoricsUtils" (in package "o.a.c.m.util").
+        Functionality is in "Commons Numbers" combinatorics package. 
+o MATH-1640:  Do not change caller's arguments in "KMeansPlusPlusClusterer":
+        A negative value for "maxIterations" will raise an exception. 
+o MATH-1629:  Throw "ArithmeticException" instead of "MathArithmeticException". 
+o MATH-1630:  Introduce "JdkMath" class for redirecting calls to either JDK or CM
+        implementations of the functions defined in "java.lang.Math". 
+o           Simplify assertions with simpler equivalent. Thanks to Arturo Bernal. 
+o MATH-1573:  Remove redundant local variables. Thanks to Arturo Bernal. 
+o MATH-1572:  Simplify conditional expressions. Thanks to Arturo Bernal. 
+o MATH-1616:  Refactor "EmpiricalDistribution" class (in package "o.a.c.m.legacy.distribution"). 
+o MATH-1595:  Clean up "o.a.c.math4.legacy.random" package. 
+o MATH-1615:  Remove class "StableRandomGenerator" (in package "o.a.c.m.legacy.random"). 
+o MATH-1614:  Refactor "SimplexOptimizer" (in package "o.a.c.m.legacy.optim.nonlinear.scalar.noderiv"). 
+o MATH-1582:  Transforms codes moved into a dedicated maven module. 
+o MATH-1578:  ANN codes moved into a dedicated maven module. 
+o MATH-1575:  Modularization set-up: All codes were moved into a "legacy" maven module.
+        WIP: Functionalities should gradually be moved into dedicated modules. 
+o MATH-1562:  Add "Automatic-Module-Name" entry to JAR manifest file. Thanks to Frank Ulbricht. 
+o MATH-1554:  Remove package "o.a.c.math4.geometry". 
+o MATH-1547:  More flexible ranking of SOFM. 
+o MATH-1530:  "SplineInterpolator": Improved performance. Thanks to Yassine Damerdji. 
+o MATH-1524:  Code reuse. Thanks to Chen Tao. 
+o MATH-1522:  Remove generic parameter in clustering evaluator interfaces. Thanks to Chen Tao. 
+o MATH-1523:  Abstract class "ClusterEvaluator" replaced by an interface. 
+o MATH-1408:  Do not use exceptions for control flow 
+o MATH-1362:  Removed deprecated class "Incrementor" (replaced by "IntegerSequence.Incrementor"). 
+o MATH-1506:  Removed class "MultidimensionalCounter" (ported to "Commons Numbers"). 
+o MATH-1504:  Removed class "BigFraction" (ported to "Commons Numbers"). 
+o MATH-1446:  Removed class "Fraction" (ported to "Commons Numbers"). 
+o MATH-1469:  Removed most codes in package "o.a.c.m.geometry".
+        "Commons Math" now depends on "Commons Geometry". 
+o MATH-1481:  "SobolSequenceGenerator": Update data file. Thanks to Théophile Charmont. 
+o MATH-1389:  Performance improvement for Array2DRowRealMatrix.getSubMatrix() Thanks to Christoph Dibak. 
+o MATH-1377:  "SimplexOptimizer": Slight performance improvement. 
+o MATH-1318:  "o.a.c.m.special.Gamma.digamma": Improved performance (through the use of
+        the reflection formula for negative arguments). Thanks to Eric Prescott-Gagnon. 
+o MATH-1305:  "AbstractRandomGenerator" and "BitsStreamGenerator": Slight performance
+        improvement of the "nextBytes" method (particularly when the number of
+        requested bytes is a multiple of 4). Thanks to Rostislav Krasny. 
+o MATH-853:  "MathRuntimeException" is now the base class for all commons-math
+        exceptions (except for "NullArgumentException" which extends
+        "NullPointerException"). 
+o MATH-1205:  The abstract class "AbstractStorelessUnivariateStatistic" does not
+        extend anymore from "AbstractUnivariateStatistic". 
+o MATH-1205:  Default implementation of
+        "AbstractStorelessUnivariateStatistic#equals(Object)"
+        will only return true if both instances have the same type. Previously
+        different statistics were considered to be equal if their current state
+        happened to be equal. 
+o MATH-1205:  Default implementations of "AbstractStorelessUnivariateStatistic#evaluate(...)"
+        do not alter the internal state anymore. Instead a temporary copy of
+        the statistic is created for evaluation purposes. 
+o MATH-1206:  Added new API methods in "LeastSquaresProblem.Evaluation" (package
+        "o.a.c.m.fitting.leastsquares"). 
+o MATH-1210:  "QRDecomposition": include information about the condition that
+        triggers a "SingularMatrixException". 
+o MATH-757:  Removed broken synchronization support in "ResizableDoubleArray". 
+o MATH-869:  "SpearmansCorrelation" will now throw an "MathIllegalArgumentException"
+        if provided with a "NaturalRanking" instance that uses "REMOVED" as "NaNStrategy". 
+o MATH-869:  "NullArgumentException" extends now "java.lang.NullPointerException"
+        instead of "MathIllegalArgumentException". 
+o MATH-839:  Renamed "cumulativeProbability(double, double)" to "probability(double, double)"
+        in "IntegerDistribution" and "RealDistribution". Thanks to Gilles Sadowski. 
+o MATH-1155:  WELL type pseudo-random number generators have been refactored:
+        the cached indirection index tables per instance are now stored
+        in a static instance. This reduces the initialization cost when
+        creating a new instance. 
+o MATH-825:  Method "LaguerreSolver#laguerre(...)" has been made private. Thanks to Gilles Sadowski. 
+o MATH-760:  Field "windowSize" in "DescriptiveStatistics" has been made private. Thanks to sebb. 
+
+Removed:
+o MATH-1205:  Removed methods "test(...)" from "AbstractUnivariateStatistic".
+        The already existing methods "MathArrays#verifyValues(...)" shall
+        be used instead. 
+o MATH-1050:  Removed "ArithmeticUtils#pow(int, long)" and "ArithmeticUtils#pow(long, long)". 
+
+For complete information on Apache Commons Math, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Math website:
+
+http://commons.apache.org/proper/commons-math/
+
+
