@@ -148,11 +148,17 @@ In particular:
    about the API docs of the new release.
  * Estimate a release date (taking into account the release vote delay) and
    insert it in the "src/changes/changes.xml" file.
- * Update the "pom.xml" to contain the final version number and not a SNAPSHOT:
-   Assuming that the release version will be "4.0-beta1", modify the "<version>" tag to
-   read:
+ * Update all the "pom.xml" files to contain the final version number and not
+   a SNAPSHOT: Assuming that the release version will be "4.0-beta1", the
+   "<version>" should read:
 
     <version>4.0-beta1</version>
+
+   This can be done for all modules with command
+     $ mvn versions:set -DnewVersion=4.0-beta1 -DgenerateBackupPoms=false
+
+   Note: Perform a "grep" in order to ensure that all occurences have been
+   updated correctly.
 
    Modify the section of "<properties>" that also refers to version numbers.
    You should uncomment the "<commons.rc.version>" line and indicate the
@@ -275,7 +281,7 @@ in the settings.xml file.
 
 You can then run
 
-  $ mvn clean deploy -Prelease
+  $ mvn -Duser.name="__Your_Apache_id__" clean deploy -Prelease
 
 which will transfer the artifacts to the Nexus repository located at
   https://repository.apache.org/index.html#stagingRepositories
