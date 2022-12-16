@@ -201,7 +201,7 @@ Check you did not forget any file:
   $ git status
 
 Commit the changes:
-  $ git commit -m "Create release candidate."
+  $ git commit -m "Release candidate."
 
 
 (8)
@@ -287,18 +287,12 @@ which will transfer the artifacts to the Nexus repository located at
   https://repository.apache.org/index.html#stagingRepositories
 
 This process transfers more files than really needed in the the "staging" (i.e.
-non official) maven repository. The files expected in the repository are
-commons-math3-3.4.pom, commons-math3-3.4.jar, commons-math3-3.4.javadoc,
-commons-math3-3.4.sources, commons-math3-3.4.test-sources commons-math3-3.4.tests,
-the associated fingerprints (<file-name>.md5 and <file-name>.sha1) and the signatures
-<file-name>.asc. Note that Nexus automatically adds "md5" and "sha1" checksums files
-to the "asc" files (cryptographic signature). These fingerprints on signatures are
-spurious and have to be manually removed from Nexus staging area. The process also
-transfers the complete source and binaries distributions files
-commons-math3-3.4.-bin.tar.gz, commons-math3-3.4.-bin.zip, commons-math3-3.4.-src.tar.gz,
-commons-math3-3.4.-src.zip as well as the associated .md5 and .sha1 fingerprints and the
-.asc signatures. These are not really maven artifacts but rather distribution archives,
-and they belong elsewhere, so they must also been removed from the Nexus staging
+non official) maven repository.
+The files expected in the repository are the POM files and the JAR files.
+However the process also transfers the complete source and binaries distributions
+files: Those ZIP and TAR.GZ files are not really maven artifacts but rather
+distribution archives, and they belong elsewhere, so they must also been removed
+(together with their fingerprint and checksum files) from the Nexus staging
 repository.
 
 As a measure of sanity check,  repository must be manually "closed" before other
@@ -307,6 +301,10 @@ How to "close" the staging repository is explained at this page:
   http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-closing
 
 (12)
+[Actions described in this section are now performed by the
+"commons-release-pugin".  So this section is now obsolete (and should
+probably be removed.]
+
 Upload the other distribution files to the Apache servers.
 
 The archive files have been created during the previous step. They have been put
@@ -342,56 +340,82 @@ haven't setup your login on home.apache.org you will need to go to
 https://id.apache.org/, login and copy the contents of your ~/.ssh/id_rsa.pub
 file to "SSH Key (authorized_keys line)". Then run these commands:
 
-  $ mvn site
+  $ mvn -Prelease site site:stage
   $ cd target
-  $ mv site commons-math-3.4-RC1-site
-  $ lftp sftp://__Your_apache_login__@home.apache.org/
+  $ mv staging commons-math-4.0-beta1-site
+  $ lftp sftp://__Your_apache_login__@home.apache.org
      lftp you@home.apache.org:~> cd public_html
-     lftp you@home.apache.org:~/public_html> mirror -R commons-math-3.4-RC1-site
+     lftp you@home.apache.org:~/public_html> mirror -R commons-math-4.0-beta1-site
      lftp you@home.apache.org:~/public_html> bye
 
 
 (14)
 Call to vote by sending a message to the "dev" ML with subject
-"[VOTE][RC1] Release Commons Math 3.4". You can use the following example as
+"[VOTE][RC1] Release Commons Math 4.0-beta1". You can use the following example as
 a starting point, replacing the URLs with the appropriate ones:
 ----------
-This is a [VOTE] for releasing Apache Commons Math 3.4 from release candidate 1.
+This is a VOTE for releasing Apache Commons Math v4.0-beta1 (from RC1).
 
 Tag name:
-  MATH_3_4_RC1 (signature can be checked from git using 'git tag -v')
+  commons-math-4.0-beta1-RC1
+
+  Command for checking out the project corresponding to this tag:
+    $ git clone https://gitbox.apache.org/repos/asf/commons-math.git --branch commons-math-4.0-beta1-RC1
+
+  From within the "commons-math" directory created by the above command, you
+  can
+   1. check the tag signature with
+     $ git tag -v commons-math-4.0-beta1-RC1
+
+   2. build the project with the command
+     $ mvn
 
 Tag URL:
-  <https://gitbox.apache.org/repos/asf?p=commons-math.git;a=commit;h=cf4a9d70c9ac24dd7196995390171150e4e56451>
+  https://gitbox.apache.org/repos/asf?p=commons-math.git;a=commit;h=12ad3420a77611557603d1c7893d588610b2463a
 
 Commit ID the tag points at:
-  cf4a9d70c9ac24dd7196995390171150e4e56451
+  12ad3420a77611557603d1c7893d588610b2463a
 
 Site:
-  <http://home.apache.org/~__Your_apache_login__/commons-math-3.4-RC1-site>
+  http://home.apache.org/~erans/commons-math-4.0-beta1-site/
 
-Distribution files:
+Distribution files and release notes:
   https://dist.apache.org/repos/dist/dev/commons/math/
 
-Distribution files hashes (SHA1):
-  e02c981d49c1f12b1fc237e69cb551a5620e57b4 commons-math3-3.4-bin.tar.gz
-  11965eb97033d4d6ef0aeb902f1450641f40d3c5 commons-math3-3.4-bin.zip
-  ce3efda70ac8f850f15154b38438bc337adc027a commons-math3-3.4-src.tar.gz
-  d343c885a9d6eea611403f7f92ff580911363681 commons-math3-3.4-src.zip
+  To verify the integrity of the distribution files, you can
+
+  1. download them with the command
+     $ wget -nH --cut-dirs=8 \
+        https://dist.apache.org/repos/dist/dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.tar.gz \
+        https://dist.apache.org/repos/dist/dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.zip \
+        https://dist.apache.org/repos/dist/dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.tar.gz \
+        https://dist.apache.org/repos/dist/dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.zip
+
+  2. copy/paste the following excerpt (hash of the distribution files)
+     into a text file (say "sha512.txt"):
+---CUT---
+# <hash> <file>
+4a535ba815bd74eab4890d2a99ecfbe719927521b547119d68b03d87e6984f6ca41b9ee66cd4bd37bfc77762f0146227b7bd4a2157500aabfa20ce674fc9f8ab commons-math-4.0-beta1-bin.tar.gz
+3951e7d287032cb2beb966a5259c5ce6c64830fa9570a4659e4e36b74eecfd941ccc8c729dff1b9db1d695301e6a83e2ec35e49c54520c35d93146bfcafcf024 commons-math-4.0-beta1-bin.zip
+668f552c444c7328bfb4e73bfba031e00d56212fc38a5d587ac9809ae63547b1caec7edb46a808dd62054601aaca696c3afa9fc4b6e5daa38d8c0db0f31a2ccd commons-math-4.0-beta1-src.tar.gz
+829be0c697a225087442b4b2b5ffdb8cbc337ab4d170b2a815f231528795278b68612bf1cdd6ace2e68880556789d960c07f19c42c6329165ebb2d79426337f8 commons-math-4.0-beta1-src.zip
+---CUT---
+
+   3. run the command
+      $ sha512sum -c sha512.txt
 
 KEYS file to check signatures:
   http://www.apache.org/dist/commons/KEYS
 
-Maven artifacts:
-  https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.4/
+Maven artefacts:
+  https://repository.apache.org/content/repositories/orgapachecommons-1613/
 
 [ ] +1 Release it.
 [ ] +0 Go ahead; I don't care.
 [ ] -0 There are a few minor glitches: ...
 [ ] -1 No, do not release it because ...
 
-This vote will close in 72 hours, at YYYY-MM-DDThh:mm:ssZ (this is UTC
-time).
+This vote will be open for at least 72 hours.
 ----------
 
 
