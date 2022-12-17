@@ -18,7 +18,7 @@
 <project name="Math">
   <bannerRight>
     <name>Commons Math</name>
-    <src>/images/math.gif</src>
+    <src>https://commons.apache.org/proper/commons-math/images/commons_math.small.png</src>
     <href>/index.html</href>
   </bannerRight>
 
