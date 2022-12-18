@@ -116,7 +116,7 @@ obs.add(-0.99, 2.221135431136975);
 obs.add(-0.98, 2.09985277659314);
 obs.add(-0.97, 2.0211192647627025);
 // ... Lots of lines omitted ...
-obs.addt(0.99, -2.4345814727089854);
+obs.add(0.99, -2.4345814727089854);
 
 // Instantiate a third-degree polynomial fitter.
 final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(3);
