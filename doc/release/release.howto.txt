@@ -429,51 +429,48 @@ After correcting the problems, you'll likely have to start again from step 3,
 (16)
 After at least 72 hours have elapsed, send a "[VOTE][RESULT]" mail to
 summarize the outcome of the vote. This should tally the votes cast,
-and state which are binding (PMC members). The vote needs at least three +1's
-from PMC members to pass.
+and state which are binding (PMC members). The tally must have at least
+three "+1" votes from PMC members to pass.
 
 
 (17)
 The distribution files must be moved from the development area to the release
 area of the Apache dist server:
 
-$ svnmucc -U https://dist.apache.org/repos/dist \
+$ svnmucc -u "__Your_apache_login__" \
+          -U https://dist.apache.org/repos/dist \
           rm release/commons/math/README.html \
-          mv dev/commons/math/README.html release/commons/math/README.html \
+          mv dev/commons/math/4.0-beta1-RC1/README.html release/commons/math/README.html \
           rm release/commons/math/RELEASE-NOTES.txt \
-          mv dev/commons/math/RELEASE-NOTES.txt release/commons/math/RELEASE-NOTES.txt \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz release/commons/math/binaries/commons-math3-3.4-bin.tar.gz \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz.asc release/commons/math/binaries/commons-math3-3.4-bin.tar.gz.asc \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz.md5 release/commons/math/binaries/commons-math3-3.4-bin.tar.gz.md5 \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz.sha1 release/commons/math/binaries/commons-math3-3.4-bin.tar.gz.sha1 \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip release/commons/math/binaries/commons-math3-3.4-bin.zip \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip.asc release/commons/math/binaries/commons-math3-3.4-bin.zip.asc \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip.md5 release/commons/math/binaries/commons-math3-3.4-bin.zip.md5 \
-          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip.sha1 release/commons/math/binaries/commons-math3-3.4-bin.zip.sha1 \
-          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz release/commons/math/source/commons-math3-3.4-src.tar.gz \
-          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz.asc release/commons/math/source/commons-math3-3.4-src.tar.gz.asc \
-          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz.md5 release/commons/math/source/commons-math3-3.4-src.tar.gz.md5 \
-          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz.sha1 release/commons/math/source/commons-math3-3.4-src.tar.gz.sha1 \
-          mv dev/commons/math/source/commons-math3-3.4-src.zip release/commons/math/source/commons-math3-3.4-src.zip \
-          mv dev/commons/math/source/commons-math3-3.4-src.zip.asc release/commons/math/source/commons-math3-3.4-src.zip.asc \
-          mv dev/commons/math/source/commons-math3-3.4-src.zip.md5 release/commons/math/source/commons-math3-3.4-src.zip.md5 \
-          mv dev/commons/math/source/commons-math3-3.4-src.zip.sha1 release/commons/math/source/commons-math3-3.4-src.zip.sha1 \
-          -m "Publish commons-math 3.4 Release"
+          mv dev/commons/math/4.0-beta1-RC1/RELEASE-NOTES.txt release/commons/math/RELEASE-NOTES.txt \
+          mv dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.tar.gz release/commons/math/binaries/commons-math4-4.0-beta1-bin.tar.gz \
+          mv dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.tar.gz.asc release/commons/math/binaries/commons-math4-4.0-beta1-bin.tar.gz.asc \
+          mv dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.tar.gz.sha512 release/commons/math/binaries/commons-math4-4.0-beta1-bin.tar.gz.sha512 \
+          mv dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.zip release/commons/math/binaries/commons-math4-4.0-beta1-bin.zip \
+          mv dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.zip.asc release/commons/math/binaries/commons-math4-4.0-beta1-bin.zip.asc \
+          mv dev/commons/math/4.0-beta1-RC1/binaries/commons-math-4.0-beta1-bin.zip.sha512 release/commons/math/binaries/commons-math4-4.0-beta1-bin.zip.sha512 \
+          mv dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.tar.gz release/commons/math/source/commons-math4-4.0-beta1-src.tar.gz \
+          mv dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.tar.gz.asc release/commons/math/source/commons-math4-4.0-beta1-src.tar.gz.asc \
+          mv dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.tar.gz.sha512 release/commons/math/source/commons-math4-4.0-beta1-src.tar.gz.sha512 \
+          mv dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.zip release/commons/math/source/commons-math4-4.0-beta1-src.zip \
+          mv dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.zip.asc release/commons/math/source/commons-math4-4.0-beta1-src.zip.asc \
+          mv dev/commons/math/4.0-beta1-RC1/source/commons-math-4.0-beta1-src.zip.sha512 release/commons/math/source/commons-math4-4.0-beta1-src.zip.sha512 \
+          -m "Publish Commons Math 4.0-beta1 release"
 
 
 (18)
-Release (a.k.a. "promote") the artifacts on the Nexus server, as shown here:
+Release the artifacts on the Nexus server, as shown here:
   http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-releasing
 
 
 (19)
 Publish the web site. This is done by first committing the web site to the staging area, and then
-by publishing the staging area (which is shared among all commons components.
+by publishing the staging area (that is shared by all commons components).
 
 In order to commit the web site to the staging area, look at the subversion
 workspace that was automatically checked out during the 'mvn site' command in
 folder site-content. Note that svn commits in the site-content directory are
-immediately synced with the live site and so your changes shoule show up in a
+immediately synced with the live site and so your changes should show up in a
 few minutes once you commit the new site. You can also check out the site
 directly by yourself elsewhere:
 
@@ -490,29 +487,40 @@ Check for possibly new files:
 and "svn add" them if necessary.
 
 Commit the new contents of the web site:
- $ svn commit -m "updating site after official release of version 3.4"
+ $ svn commit -m "Web site update after release of Commons Math (4.0-beta1)."
 
 Beware the commit command may be very long (several hours ...).
 
 (20)
-The javadocs for several version is kept available on the website under the javadocs directory.
-This corresponds to a huge number of files which never changes, so they are not retrieved by
-default in the working copy when running 'svn checkout'. These javadocs must therefore be
-copied manually using server side copy from the apidocs directory after release, in order for
-the links to former versions to work. This is done as follows:
+The javadocs for the previous stable version is kept available on the
+website under the "javadocs" directory.
+A long-term (server-side) copy of the new release's "apidocs" is done with
+the following command:
 
-  $ svn cp -m "copying 3.4 apidocs to versioned directory for the long-term links" \
+  $ svn cp -m "Copying 4.0-beta1 apidocs to versioned directory." \
         https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/apidocs \
-        https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/javadocs/api-3.4
+        https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/javadocs/api-4.0-beta1
 
-Now wait a few minutes for the live site to fully sync and then check
-http://commons.apache.org/proper/commons-math/ to make sure everything looks
-correct.
+Wait a few minutes for the live site to fully synchronize, and then check
+    http://commons.apache.org/proper/commons-math/
+to make sure everything looks correct.
 
 (21)
-Put the official final tag to point at the same commit as the last release candidate tag:
+In the git repository, put the official final tag to point at the same commit
+as the _last_ release candidate tag:
 
-  $ git tag -s -m "RC1 becomes the 3.4 official version." MATH_3_4 cf4a9d70c9ac24dd7196995390171150e4e56451
+  $ git tag -v commons-math-4.0-beta1-RC1
+
+Check the commit hash then add the release tag.
+Note: The 'rel/' prefix adds the tag to the release section of the tags.
+This cannot be deleted once pushed to the main repository due to restrictions
+on this section of the tag namespace (preventing deletion of official release
+tags).
+
+  $ git checkout 4.0-beta1-release
+  $ git tag -u "__Your_key_id__" -s -m "RC1 becomes v4.0-beta1 official release." rel/commons-math-4.0-beta1 [commit hash]
+  $ git tag -v rel/commons-math-4.0-beta1
+  $ git log -1
   $ git push --tags
 
 
