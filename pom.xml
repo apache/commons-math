@@ -118,6 +118,7 @@
     <module>commons-math-legacy</module>
 
     <!-- 4. Modules that depend on "legacy" codes. -->
+    <module>commons-math-docs</module>
     <module>commons-math-examples</module>
 
   </modules>
@@ -209,12 +210,6 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
       <scope>test</scope>
     </dependency>
 

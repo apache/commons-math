@@ -89,7 +89,7 @@
       <li><a href="fitting.html">org.apache.commons.math4.fitting</a> - Curve Fitting</li>
       <li><a href="ml.html">org.apache.commons.math4.ml</a> - Machine Learning</li>
     </ul>
-    Package javadocs are <a href="../apidocs/index.html">here</a>
+    Package javadocs are <a href="../commons-math-docs/apidocs/index.html">here</a>.
     </p>
 </subsection>
 

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-math-parent</artifactId>
+    <version>4.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>commons-math-docs</artifactId>
+  <!-- do not set packaging to pom, because otherwise we will receive 
+       "Not executing Javadoc as the project is not a Java classpath-capable package" -->
+
+  <name>Apache Commons Math Documentation</name>
+  <description>Aggregator module to genenerate Apache Commons Math documentation.</description>
+
+  <properties>
+    <checkstyle.skip>true</checkstyle.skip>
+    <animal.sniffer.skip>true</animal.sniffer.skip>
+    <!-- Workaround to avoid duplicating config files. -->
+    <math.parent.dir>${basedir}/..</math.parent.dir>
+    <!-- Skip the standard build plugins to avoid processing this 'jar' as an artifact. -->
+    <maven.resources.skip>true</maven.resources.skip>
+    <maven.source.skip>true</maven.source.skip>
+    <maven.main.skip>true</maven.main.skip>
+    <maven.test.skip>true</maven.test.skip>
+    <maven.install.skip>true</maven.install.skip>
+    <maven.deploy.skip>true</maven.deploy.skip>
+    <!-- Simple site -->
+    <pmd.skip>true</pmd.skip>
+    <cpd.skip>true</cpd.skip>
+    <spotbugs.skip>true</spotbugs.skip>
+    <checkstyle.skip>true</checkstyle.skip>
+    <changes.jira.skip>true</changes.jira.skip>
+    <skipSurefireReport>true</skipSurefireReport>
+    <!-- Disable javadoc errors so an aggregate is always created. -->
+    <doclint.javadoc.qualifier>-Xdoclint:none</doclint.javadoc.qualifier>
+  </properties>
+
+  <!-- Depend on all other modules -->
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math4-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math4-neuralnet</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math4-transform</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math4-legacy-exception</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math4-legacy-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math4-legacy</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+
+    <plugins>
+      <plugin>
+        <!-- This plugin has no skip property - use an invalid phase -->
+        <groupId>org.spdx</groupId>
+        <artifactId>spdx-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>build-spdx</id>
+            <goals>
+              <goal>createSPDX</goal>
+            </goals>
+            <phase>None</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <skipIfEmpty>true</skipIfEmpty>
+        </configuration>
+      </plugin>
+
+      <!-- Create aggregate javadoc jar using 'mvn javadoc:aggregate-jar' -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <reportOutputDirectory>${project.build.directory}/apidocs</reportOutputDirectory>
+          <includeDependencySources>true</includeDependencySources>
+          <doctitle>Apache Commons Math ${project.version}</doctitle>
+          <windowtitle>Apache Commons Math ${project.version}</windowtitle>
+          <use>true</use>
+          <version>false</version>
+          <!-- Do not configure groups as modules do not have sub-packages -->
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <!-- Create aggregate javadoc site report -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <reportOutputDirectory>${project.build.directory}/apidocs</reportOutputDirectory>
+          <includeDependencySources>true</includeDependencySources>
+          <doctitle>Apache Commons Math ${project.version}</doctitle>
+          <windowtitle>Apache Commons Math ${project.version}</windowtitle>
+          <use>true</use>
+          <version>false</version>
+          <groups>
+            <group>
+              <title>Core Package</title>
+              <packages>org.apache.commons.math4.core*</packages>
+            </group>
+            <group>
+              <title>Neural Network Package</title>
+              <packages>org.apache.commons.math4.neuralnet*</packages>
+            </group>
+            <group>
+              <title>Transform Package</title>
+              <packages>org.apache.commons.math4.transform*</packages>
+            </group>
+            <group>
+              <title>Legacy Package</title>
+              <packages>org.apache.commons.math4.legacy*</packages>
+            </group>
+          </groups>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!-- Create an aggregate report from the *parent* directory using:
+
+           mvn jacoco:report-aggregate
+
+           Requires that tests have already been run with the jacoco user agent.
+           If executed within this directory then jacoco does not collect the
+           executions from the module dependencies. -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${commons.jacoco.version}</version>
+        <configuration>
+          <title>Apache Commons Math</title>
+          <footer>Code Coverage Report for Apache Commons Math ${project.version}</footer>
+          <includes>
+            <!-- Analyze class files only to exclude shaded agent JAR from report -->
+            <include>**/*.class</include>
+          </includes>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>
