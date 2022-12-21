@@ -131,7 +131,24 @@
           <windowtitle>Apache Commons Math ${project.version}</windowtitle>
           <use>true</use>
           <version>false</version>
-          <!-- Do not configure groups as modules do not have sub-packages -->
+          <groups>
+            <group>
+              <title>Core Package</title>
+              <packages>org.apache.commons.math4.core*</packages>
+            </group>
+            <group>
+              <title>Neural Network Package</title>
+              <packages>org.apache.commons.math4.neuralnet*</packages>
+            </group>
+            <group>
+              <title>Transform Package</title>
+              <packages>org.apache.commons.math4.transform*</packages>
+            </group>
+            <group>
+              <title>Legacy Package</title>
+              <packages>org.apache.commons.math4.legacy*</packages>
+            </group>
+          </groups>
         </configuration>
       </plugin>
 
