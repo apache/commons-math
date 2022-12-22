@@ -55,7 +55,7 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="TBD" date="TBD" description="TBD">
     </release>
 
-    <release version="4.0" date="XXXX-XX-XX" description="
+    <release version="4.0-beta1" date="2022-12-20" description="
 This is a major release that requires source changes in applications.
 
 Lower-level functionality has been split off to new components, often
