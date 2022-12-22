@@ -21,11 +21,11 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-math-examples</artifactId>
-    <version>4.0-beta1</version>
+    <version>4.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>examples-sofm</artifactId>
-  <version>4.0-beta1</version>
+  <version>4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>SOFM</name>
 

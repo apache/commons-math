@@ -25,7 +25,7 @@
   </parent>
 
   <artifactId>commons-math-parent</artifactId>
-  <version>4.0-beta1</version>
+  <version>4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Apache Commons Math</name>
   <description>
@@ -540,9 +540,8 @@
                 </goals>
                 <configuration>
                   <target name="empty-checkout" unless="${perform.site.checkout}">
-                    <mkdir dir="${commons.scmPubCheckoutDirectory}"/>
-                    <echo file="${commons.scmPubCheckoutDirectory}${file.separator}README"
-                          message="The '${commons.scmPubCheckoutDirectory}' directory is empty in child modules."/>
+                    <mkdir dir="${commons.scmPubCheckoutDirectory}" />
+                    <echo file="${commons.scmPubCheckoutDirectory}${file.separator}README" message="The '${commons.scmPubCheckoutDirectory}' directory is empty in child modules." />
                   </target>
                 </configuration>
               </execution>
@@ -560,7 +559,7 @@
                       <arg line="checkout --depth immediates ${commons.scmPubUrl} ${commons.scmPubCheckoutDirectory}" />
                     </exec>
                     <!-- Create the directory in the event that no svn exectuable is on the path -->
-                    <mkdir dir="${commons.scmPubCheckoutDirectory}"/>
+                    <mkdir dir="${commons.scmPubCheckoutDirectory}" />
 
                     <echo file="${commons.scmPubCheckoutDirectory}.README">The '${commons.scmPubCheckoutDirectory}' directory is controlled by "subversion".
 Running "svn up" will download *all* the files of the live web site at
@@ -597,8 +596,8 @@ This is avoided by creating an empty directory when svn is not available.
                 </goals>
                 <configuration>
                   <target name="remove-checkout">
-                    <delete dir="${commons.scmPubCheckoutDirectory}" quiet="true"/>
-                    <delete file="${commons.scmPubCheckoutDirectory}.README" quiet="true"/>
+                    <delete dir="${commons.scmPubCheckoutDirectory}" quiet="true" />
+                    <delete file="${commons.scmPubCheckoutDirectory}.README" quiet="true" />
                   </target>
                 </configuration>
               </execution>
@@ -761,7 +760,7 @@ This is avoided by creating an empty directory when svn is not available.
       <email>billbarker at apache dot org</email>
     </developer>
     <developer>
-      <name>S&#233;bastien Brisard</name>
+      <name>Sébastien Brisard</name>
       <id>celestin</id>
       <email>celestin at apache dot org</email>
     </developer>
@@ -858,7 +857,7 @@ This is avoided by creating an empty directory when svn is not available.
       <name>Peter Andrews</name>
     </contributor>
     <contributor>
-      <name>R&#233;mi Arntzen</name>
+      <name>Rémi Arntzen</name>
     </contributor>
     <contributor>
       <name>Matt Adereth</name>
@@ -927,7 +926,7 @@ This is avoided by creating an empty directory when svn is not available.
       <name>Hank Grabowski</name>
     </contributor>
     <contributor>
-      <name>Bernhard Gr&#252;newaldt</name>
+      <name>Bernhard Grünewaldt</name>
     </contributor>
     <contributor>
       <name>Elliotte Rusty Harold</name>
@@ -1005,7 +1004,7 @@ This is avoided by creating an empty directory when svn is not available.
       <name>Andreas Rieger</name>
     </contributor>
     <contributor>
-      <name>S&#233;bastien Riou</name>
+      <name>Sébastien Riou</name>
     </contributor>
     <contributor>
       <name>Karl Richter</name>
@@ -1056,7 +1055,7 @@ This is avoided by creating an empty directory when svn is not available.
       <name>Andrew Waterman</name>
     </contributor>
     <contributor>
-      <name>J&#246;rg Weimar</name>
+      <name>Jörg Weimar</name>
     </contributor>
     <contributor>
       <name>Christian Winter</name>
