@@ -569,40 +569,30 @@ Switch back to master and merge the X.Y-release branch
 
 (24)
 Allow for the web site mirrors to be updated (possibly several hours); then
-send (from your apache account) a release announcement to the following ML:
-  announce@apache.org
-  dev@commons.apache.org
-  user@commons.apache.org
+send (from your ASF email address) a release announcement to the following
+mailing lists:
+  announce@apache.org, dev@commons.apache.org, user@commons.apache.org
 
 If you don't have it setup already you can follow these instructions to send
 email from your apache account :
 
-https://reference.apache.org/committer/email#sendingemailfromyourapacheorgemailaddress
+https://infra.apache.org/committer-email.html
 
 You can use the following message as a template:
 
 ----------
-The Apache Commons Team is pleased to announce the availability of:
+The ASF "Commons" team is pleased to announce the availability of
+  Commons Math (version 4.0-beta1)
 
-Apache Commons Math 3.6.1
+The release notes can be reviewed at
+  https://www.apache.org/dist/commons/math/RELEASE-NOTES.txt
 
-Apache Commons Math is a library of lightweight, self-contained mathematics and
-statistics components addressing the most common problems not available in the
-Java programming language or Commons Lang.
+Distribution packages can be downloaded from
+  https://commons.apache.org/math/download_math.cgi
 
-The release notes can be reviewed at:
-http://www.apache.org/dist/commons/math/RELEASE-NOTES.txt
+When downloading, please verify signatures using
+  https://downloads.apache.org/commons/KEYS
 
-Distribution packages can be downloaded from:
-https://commons.apache.org/proper/commons-math/download_math.cgi
-
-When downloading, please verify signatures using the KEYS file available at:
-http://www.apache.org/dist/commons
-
-Maven artifacts are also available in the central Maven repository:
-
-http://repo1.maven.org/maven2/org/apache/commons/
-
-The Apache Commons Team
+Maven artifacts are also available from the Maven Central repository:
+  https://repo.maven.apache.org/maven2/org/apache/commons
 ----------
-
