@@ -498,8 +498,8 @@ A long-term (server-side) copy of the new release's "apidocs" is done with
 the following command:
 
   $ svn cp -m "Copying 4.0-beta1 apidocs to versioned directory." \
-        https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/apidocs \
-        https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/javadocs/api-4.0-beta1
+      https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/commons-math-docs/apidocs \
+      https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/javadocs/api-4.0-beta1
 
 Wait a few minutes for the live site to fully synchronize, and then check
     http://commons.apache.org/proper/commons-math/
@@ -525,22 +525,38 @@ tags).
 
 
 (22)
-Clean up files and prepare for next version (here we assume it will be 3.5):
+Clean up files and prepare for next version (here we assume it will be 4.0):
 
-edit "doap_math.rdf" to add the just released version date.
+  (22a)
+  Edit "doap_math.rdf" to add the just released version date.
 
-edit "pom.xml" so it contains
- 
-       <version>3.5-SNAPSHOT</version>
+  (22b)
+  Edit every "pom.xml" file (i.e. for each module) to contain
 
-edit "src/changes/changes.xml" to add a new section for the next release, setting
-the release date to "TBD" and the description to the empty string.
+    <version>4.0-SNAPSHOT</version>
 
-Double-check "pom.xml" *really* has a -SNAPSHOT version and commit everything:
+  This can be done using maven:
 
-  $ git add doap_math.rdf pom.xml src/changes/changes.xml
-  $ git commit -m "preparing next version 3.5"
-  $ git push
+    $ mvn release:update-versions -DautoVersionSubmodules=true -Prelease -Pcommons-math-examples
+
+  You will only be prompted for the desired version number.
+
+  This may miss the dist-archive/pom.xml for all the dependencies.
+  This should be updated manually.
+
+  Double-check that the "pom.xml" files *really* have a "-SNAPSHOT" suffix
+  in the "<version>" property:
+
+  $ git grep '4.0-SNAPSHOT'    [new version number]
+  $ git grep '<version>'
+
+
+  (22c)
+  Edit "src/changes/changes.xml" to add a new section for the next release, setting
+  the release date to "TBD" and the description to the empty string.
+
+  (22d)
+  Commit everything.
 
 
 (23)
