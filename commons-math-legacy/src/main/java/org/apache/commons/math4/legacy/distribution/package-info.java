@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 /**
- * Implementations of common discrete and continuous distributions.
- * [Mostly moved to the "Commons Statistics" project (cf. JIRA: MATH-1443).]
+ * Implementations of probability distributions.
+ *
+ * Many common discrete and continuous distributions are available in
+ * <a href="https://commons.apache.org/statistics">Commons Statistics</a>.
  */
 package org.apache.commons.math4.legacy.distribution;

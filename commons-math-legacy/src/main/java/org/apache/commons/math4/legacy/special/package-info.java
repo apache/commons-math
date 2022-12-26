@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 /**
- * Implementations of special functions such as Beta and Gamma.
+ * Implementations of special functions.
+ * Note that Beta and Gamma functions are available in
+ * <a href="https://commons.apache.org/numbers">Commons Numbers</a>.
  */
 package org.apache.commons.math4.legacy.special;
