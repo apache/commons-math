@@ -34,6 +34,7 @@ import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
@@ -569,6 +570,24 @@ public final class MathArrays {
         for (int i = 0; i < in.length; i++) {
             if (Double.isNaN(in[i])) {
                 throw new NotANumberException();
+            }
+        }
+    }
+
+    /**
+     * Check that all the elements are real numbers.
+     *
+     * @param val Arguments.
+     * @throws NotFiniteNumberException if any values of the array is not a
+     * finite real number.
+     */
+    public static void checkFinite(final double[] val)
+        throws NotFiniteNumberException {
+        for (int i = 0; i < val.length; i++) {
+            final double x = val[i];
+            if (Double.isInfinite(x) ||
+                Double.isNaN(x)) {
+                throw new NotFiniteNumberException(val[i]);
             }
         }
     }

@@ -31,6 +31,7 @@ import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
@@ -756,5 +757,27 @@ public class MathArraysTest {
     @Test(expected = NullPointerException.class)
     public void testUniqueNullArgument() {
         MathArrays.unique(null);
+    }
+
+    @Test
+    public void testCheckFinite() {
+        try {
+            MathArrays.checkFinite(new double[] {0, -1, Double.POSITIVE_INFINITY, -2, 3});
+            Assert.fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
+        try {
+            MathArrays.checkFinite(new double[] {1, Double.NEGATIVE_INFINITY, -2, 3});
+            Assert.fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
+        try {
+            MathArrays.checkFinite(new double[] {4, 3, -1, Double.NaN, -2, 1});
+            Assert.fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
     }
 }
