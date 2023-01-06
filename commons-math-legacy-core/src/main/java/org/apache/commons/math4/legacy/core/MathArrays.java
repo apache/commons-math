@@ -552,9 +552,9 @@ public final class MathArrays {
      * @since 3.1
      */
     public static void checkPositive(final double[] in) {
-        for (int i = 0; i < in.length; i++) {
-            if (in[i] <= 0) {
-                throw new NotStrictlyPositiveException(in[i]);
+        for (double x : in) {
+            if (x <= 0) {
+                throw new NotStrictlyPositiveException(x);
             }
         }
     }
@@ -567,8 +567,8 @@ public final class MathArrays {
      * @since 3.4
      */
     public static void checkNotNaN(final double[] in) {
-        for (int i = 0; i < in.length; i++) {
-            if (Double.isNaN(in[i])) {
+        for (double x : in) {
+            if (Double.isNaN(x)) {
                 throw new NotANumberException();
             }
         }
@@ -597,9 +597,9 @@ public final class MathArrays {
      * @since 3.1
      */
     public static void checkNonNegative(final long[] in) {
-        for (int i = 0; i < in.length; i++) {
-            if (in[i] < 0) {
-                throw new NotPositiveException(in[i]);
+        for (long i : in) {
+            if (i < 0) {
+                throw new NotPositiveException(i);
             }
         }
     }
