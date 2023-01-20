@@ -14,7 +14,7 @@
 # limitations under the License.
 
 github:
-  description: "Miscellaneous math-related utilities"
+  description: "Apache Commons Math"
   homepage: https://commons.apache.org/math
   labels:
     - java
