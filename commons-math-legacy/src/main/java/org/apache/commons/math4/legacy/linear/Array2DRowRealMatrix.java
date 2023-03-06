@@ -22,10 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
-import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
 /**
@@ -49,12 +46,11 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      *
      * @param rowDimension Number of rows in the new matrix.
      * @param columnDimension Number of columns in the new matrix.
-     * @throws NotStrictlyPositiveException if the row or column dimension is
-     * not positive.
+     * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException
+     * if the row or column dimension is not positive.
      */
     public Array2DRowRealMatrix(final int rowDimension,
-                                final int columnDimension)
-        throws NotStrictlyPositiveException {
+                                final int columnDimension) {
         super(rowDimension, columnDimension);
         data = new double[rowDimension][columnDimension];
     }
@@ -72,8 +68,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #Array2DRowRealMatrix(double[][], boolean)
      */
-    public Array2DRowRealMatrix(final double[][] d)
-        throws DimensionMismatchException, NoDataException, NullArgumentException {
+    public Array2DRowRealMatrix(final double[][] d) {
         copyIn(d);
     }
 
@@ -93,9 +88,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #Array2DRowRealMatrix(double[][])
      */
-    public Array2DRowRealMatrix(final double[][] d, final boolean copyArray)
-        throws DimensionMismatchException, NoDataException,
-        NullArgumentException {
+    public Array2DRowRealMatrix(final double[][] d, final boolean copyArray) {
         if (copyArray) {
             copyIn(d);
         } else {
@@ -137,8 +130,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public RealMatrix createMatrix(final int rowDimension,
-                                   final int columnDimension)
-        throws NotStrictlyPositiveException {
+                                   final int columnDimension) {
         return new Array2DRowRealMatrix(rowDimension, columnDimension);
     }
 
@@ -156,8 +148,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @throws MatrixDimensionMismatchException if {@code m} is not the same
      * size as {@code this}.
      */
-    public Array2DRowRealMatrix add(final Array2DRowRealMatrix m)
-        throws MatrixDimensionMismatchException {
+    public Array2DRowRealMatrix add(final Array2DRowRealMatrix m) {
         // Safety check.
         checkAdd(m);
 
@@ -184,8 +175,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @throws MatrixDimensionMismatchException if {@code m} is not the same
      * size as {@code this}.
      */
-    public Array2DRowRealMatrix subtract(final Array2DRowRealMatrix m)
-        throws MatrixDimensionMismatchException {
+    public Array2DRowRealMatrix subtract(final Array2DRowRealMatrix m) {
         checkAdd(m);
 
         final int rowCount    = getRowDimension();
@@ -211,8 +201,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @throws DimensionMismatchException if
      * {@code columnDimension(this) != rowDimension(m)}
      */
-    public Array2DRowRealMatrix multiply(final Array2DRowRealMatrix m)
-        throws DimensionMismatchException {
+    public Array2DRowRealMatrix multiply(final Array2DRowRealMatrix m) {
         checkMultiply(m);
 
         final int nRows = this.getRowDimension();
@@ -263,9 +252,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public void setSubMatrix(final double[][] subMatrix, final int row,
-                             final int column)
-        throws NoDataException, OutOfRangeException,
-        DimensionMismatchException, NullArgumentException {
+                             final int column) {
         if (data == null) {
             if (row > 0) {
                 throw new MathIllegalStateException(LocalizedFormats.FIRST_ROWS_NOT_INITIALIZED_YET, row);
@@ -297,8 +284,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
 
     /** {@inheritDoc} */
     @Override
-    public double getEntry(final int row, final int column)
-        throws OutOfRangeException {
+    public double getEntry(final int row, final int column) {
         try {
             return data[row][column];
         } catch (IndexOutOfBoundsException e) {
@@ -311,8 +297,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
 
     /** {@inheritDoc} */
     @Override
-    public void setEntry(final int row, final int column, final double value)
-        throws OutOfRangeException {
+    public void setEntry(final int row, final int column, final double value) {
         MatrixUtils.checkMatrixIndex(this, row, column);
         data[row][column] = value;
     }
@@ -320,8 +305,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public void addToEntry(final int row, final int column,
-                           final double increment)
-        throws OutOfRangeException {
+                           final double increment) {
         MatrixUtils.checkMatrixIndex(this, row, column);
         data[row][column] += increment;
     }
@@ -329,8 +313,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public void multiplyEntry(final int row, final int column,
-                              final double factor)
-        throws OutOfRangeException {
+                              final double factor) {
         MatrixUtils.checkMatrixIndex(this, row, column);
         data[row][column] *= factor;
     }
@@ -349,8 +332,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
 
     /** {@inheritDoc} */
     @Override
-    public double[] operate(final double[] v)
-        throws DimensionMismatchException {
+    public double[] operate(final double[] v) {
         final int nRows = this.getRowDimension();
         final int nCols = this.getColumnDimension();
         if (v.length != nCols) {
@@ -370,8 +352,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
 
     /** {@inheritDoc} */
     @Override
-    public double[] preMultiply(final double[] v)
-        throws DimensionMismatchException {
+    public double[] preMultiply(final double[] v) {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nRows) {
@@ -393,8 +374,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public RealMatrix getSubMatrix(final int startRow, final int endRow,
-                                   final int startColumn, final int endColumn)
-            throws OutOfRangeException, NumberIsTooSmallException {
+                                   final int startColumn, final int endColumn) {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         final int rowCount = endRow - startRow + 1;
         final int columnCount = endColumn - startColumn + 1;
@@ -442,8 +422,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
                                  final int startRow, final int endRow,
-                                 final int startColumn, final int endColumn)
-        throws OutOfRangeException, NumberIsTooSmallException {
+                                 final int startColumn, final int endColumn) {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -460,8 +439,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     @Override
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
                                  final int startRow, final int endRow,
-                                 final int startColumn, final int endColumn)
-        throws OutOfRangeException, NumberIsTooSmallException {
+                                 final int startColumn, final int endColumn) {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -507,8 +485,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     @Override
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
                                     final int startRow, final int endRow,
-                                    final int startColumn, final int endColumn)
-        throws OutOfRangeException, NumberIsTooSmallException {
+                                    final int startColumn, final int endColumn) {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -525,8 +502,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     @Override
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
                                     final int startRow, final int endRow,
-                                    final int startColumn, final int endColumn)
-        throws OutOfRangeException, NumberIsTooSmallException {
+                                    final int startColumn, final int endColumn) {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -561,15 +537,13 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @throws DimensionMismatchException if the input array is not rectangular.
      * @throws NullArgumentException if the input array is {@code null}.
      */
-    private void copyIn(final double[][] in)
-        throws DimensionMismatchException, NoDataException, NullArgumentException {
+    private void copyIn(final double[][] in) {
         setSubMatrix(in, 0, 0);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double[] getRow(final int row)
-        throws OutOfRangeException {
+    public double[] getRow(final int row) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         final double[] out = new double[nCols];
@@ -580,8 +554,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public void setRow(final int row,
-                       final double[] array)
-        throws OutOfRangeException, MatrixDimensionMismatchException {
+                       final double[] array) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
