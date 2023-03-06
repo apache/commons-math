@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="erans" type="update" issue="MATH-1654" due-to="Cyril de Catheu">
+        "Array2DRowRealMatrix": Performance enhancement ("getEntry").
+      </action>
     </release>
 
     <release version="4.0-beta1" date="2022-12-20" description="
