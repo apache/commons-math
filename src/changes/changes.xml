@@ -52,7 +52,50 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Apache Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="TBD" date="TBD" description="TBD">
+    <!-- <release version="TBD" date="TBD" description="TBD">
+    </release> -->
+
+    <release version="4.0-beta2" date="TBD" description="
+This is a major release that requires source changes in applications.
+
+Lower-level functionality has been split off to new components, often
+ with bug-fixes, performance enhancements and improved API:
+  Commons RNG,
+  Commons Numbers,
+  Commons Geometry,
+  Commons Statistics.
+
+Functionality still within Commons Math has been modularized and
+ partly refactored.
+ This is a work-in-progress (help welcome).
+ Codes for which the refactoring has not been undertaken (or was
+ deemed incomplete) have been moved to 'legacy' modules.
+
+The minimum version of the Java platform required to compile and use
+ Commons Math is Java 8.
+
+Users are encouraged to upgrade to this version, and to the new
+ components listed above (they are now Commons Math's dependencies).
+
+For code now located in the 'commons-math-legacy' module, upgrading
+ will be a matter of changing the top-level package name:
+ From 'org.apache.commons.math3' to 'org.apache.commons.math4.legacy'.
+ Code in the 'commons-math-legacy-core' module comprise classes that
+ moved from package 'org.apache.commons.math3' and package
+ 'org.apache.commons.math3.util' (e.g. 'MathArrays') to package
+ 'org.apache.commons.math4.legacy.core'.
+
+Notes:
+ Class 'FastMath' was renamed 'AccurateMath' (now located in package
+ 'org.apache.commons.math4.legacy.core.jdkmath').
+
+Caveat:
+ Although hundreds of issues have been fixed (see 'git log' and the
+ reports in the bug-tracking system of all the listed components),
+ many remain due to the lack of human resources necessary in order
+ to support the whole codebase (it was one of the main reasons for
+ creating more focused components).
+">
     </release>
 
     <release version="4.0-beta1" date="2022-12-20" description="
