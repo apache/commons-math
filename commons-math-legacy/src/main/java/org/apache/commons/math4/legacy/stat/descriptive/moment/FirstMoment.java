@@ -67,10 +67,15 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic {
      * Create a FirstMoment instance.
      */
     FirstMoment() {
-        n = 0;
-        m1 = Double.NaN;
-        dev = Double.NaN;
-        nDev = Double.NaN;
+        this(0, Double.NaN, Double.NaN, Double.NaN);
+    }
+
+    // package private ctor
+    FirstMoment(long n, double m1, double dev, double nDev) {
+        this.n = n;
+        this.m1 = m1;
+        this.dev = dev;
+        this.nDev = nDev;
     }
 
     /**
