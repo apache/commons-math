@@ -85,7 +85,14 @@ public abstract class MultivariateOptimizer
                 continue;
             }
             if (data instanceof ObjectiveFunction) {
-                function = ((ObjectiveFunction) data).getObjectiveFunction();
+                final MultivariateFunction delegate = ((ObjectiveFunction) data).getObjectiveFunction();
+                function = new MultivariateFunction() {
+                        @Override
+                        public double value(double[] point) {
+                            incrementEvaluationCount();
+                            return delegate.value(point);
+                        }
+                    };
                 continue;
             }
         }
@@ -99,6 +106,14 @@ public abstract class MultivariateOptimizer
     }
 
     /**
+     * @return a wrapper that delegates to the user-supplied function,
+     * and counts the number of evaluations.
+     */
+    protected MultivariateFunction getObjectiveFunction() {
+        return function;
+    }
+
+    /**
      * Computes the objective function value.
      * This method <em>must</em> be called by subclasses to enforce the
      * evaluation counter limit.
@@ -107,9 +122,11 @@ public abstract class MultivariateOptimizer
      * @return the objective function value at the specified point.
      * @throws org.apache.commons.math4.legacy.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
+     *
+     * @deprecated Use {@link #getObjectiveFunction()} instead.
      */
+    @Deprecated
     public double computeObjectiveValue(double[] params) {
-        super.incrementEvaluationCount();
         return function.value(params);
     }
 }

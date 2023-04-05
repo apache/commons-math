@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="erans" type="update" issue="MATH-1657" due-to="François Laferrière">
+        Small refactoring of the "evaluation counter" in optimizers' base class:
+        Provide (protected) accessor (to replace method "computeObjectiveValue").
+      </action>
       <action dev="erans" type="update" issue="MATH-1654" due-to="Cyril de Catheu">
         "Array2DRowRealMatrix": Performance enhancement ("getEntry").
       </action>

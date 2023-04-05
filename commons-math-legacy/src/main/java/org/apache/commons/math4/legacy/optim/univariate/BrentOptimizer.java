@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.optim.univariate;
 
+import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
@@ -116,6 +117,7 @@ public class BrentOptimizer extends UnivariateOptimizer {
         final double lo = getMin();
         final double mid = getStartValue();
         final double hi = getMax();
+        final UnivariateFunction func = getObjectiveFunction();
 
         // Optional additional convergence criteria.
         final ConvergenceChecker<UnivariatePointValuePair> checker
@@ -136,7 +138,7 @@ public class BrentOptimizer extends UnivariateOptimizer {
         double w = x;
         double d = 0;
         double e = 0;
-        double fx = computeObjectiveValue(x);
+        double fx = func.value(x);
         if (!isMinim) {
             fx = -fx;
         }
@@ -222,7 +224,7 @@ public class BrentOptimizer extends UnivariateOptimizer {
                     u = x + d;
                 }
 
-                double fu = computeObjectiveValue(u);
+                double fu = func.value(u);
                 if (!isMinim) {
                     fu = -fu;
                 }

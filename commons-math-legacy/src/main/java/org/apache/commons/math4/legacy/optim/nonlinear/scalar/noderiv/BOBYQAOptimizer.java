@@ -17,6 +17,7 @@
 // CHECKSTYLE: stop all
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
+import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
@@ -826,7 +827,7 @@ public class BOBYQAOptimizer
                 }
             }
 
-            f = computeObjectiveValue(currentBest.toArray());
+            f = getObjectiveFunction().value(currentBest.toArray());
 
             if (!isMinimize) {
                 f = -f;
@@ -1682,7 +1683,7 @@ public class BOBYQAOptimizer
                 }
             }
 
-            final double objectiveValue = computeObjectiveValue(currentBest.toArray());
+            final double objectiveValue = getObjectiveFunction().value(currentBest.toArray());
             final double f = isMinimize ? objectiveValue : -objectiveValue;
             final int numEval = getEvaluations(); // nfm + 1
             fAtInterpolationPoints.setEntry(nfm, f);

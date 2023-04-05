@@ -105,7 +105,14 @@ public abstract class UnivariateOptimizer
                 continue;
             }
             if (data instanceof UnivariateObjectiveFunction) {
-                function = ((UnivariateObjectiveFunction) data).getObjectiveFunction();
+                final UnivariateFunction delegate = ((UnivariateObjectiveFunction) data).getObjectiveFunction();
+                function = new UnivariateFunction() {
+                        @Override
+                        public double value(double point) {
+                            incrementEvaluationCount();
+                            return delegate.value(point);
+                        }
+                    };
                 continue;
             }
             if (data instanceof GoalType) {
@@ -135,6 +142,14 @@ public abstract class UnivariateOptimizer
     }
 
     /**
+     * @return a wrapper that delegates to the user-supplied function,
+     * and counts the number of evaluations.
+     */
+    protected UnivariateFunction getObjectiveFunction() {
+        return function;
+    }
+
+    /**
      * Computes the objective function value.
      * This method <em>must</em> be called by subclasses to enforce the
      * evaluation counter limit.
@@ -143,9 +158,11 @@ public abstract class UnivariateOptimizer
      * @return the objective function value at the specified point.
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
+     *
+     * @deprecated Use {@link #getObjectiveFunction()} instead.
      */
+    @Deprecated
     protected double computeObjectiveValue(double x) {
-        super.incrementEvaluationCount();
         return function.value(x);
     }
 }

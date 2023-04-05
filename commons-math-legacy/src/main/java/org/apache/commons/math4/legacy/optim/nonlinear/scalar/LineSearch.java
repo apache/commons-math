@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
+import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.univariate.BracketFinder;
 import org.apache.commons.math4.legacy.optim.univariate.BrentOptimizer;
@@ -73,9 +74,9 @@ public class LineSearch {
      *
      * @param optimizer Optimizer on behalf of which the line search
      * be performed.
-     * Its {@link MultivariateOptimizer#computeObjectiveValue(double[])
-     * computeObjectiveValue} method will be called by the
-     * {@link #search(double[],double[]) search} method.
+     * Its {@link MultivariateOptimizer#getObjectiveFunction() objective
+     * function} will be called by the {@link #search(double[],double[])
+     * search} method.
      * @param relativeTolerance Search will stop when the function relative
      * difference between successive iterations is below this value.
      * @param absoluteTolerance Search will stop when the function absolute
@@ -111,6 +112,7 @@ public class LineSearch {
     public UnivariatePointValuePair search(final double[] startPoint,
                                            final double[] direction) {
         final int n = startPoint.length;
+        final MultivariateFunction func = mainOptimizer.getObjectiveFunction();
         final UnivariateFunction f = new UnivariateFunction() {
             /** {@inheritDoc} */
             @Override
@@ -119,7 +121,7 @@ public class LineSearch {
                 for (int i = 0; i < n; i++) {
                     x[i] = startPoint[i] + alpha * direction[i];
                 }
-                return mainOptimizer.computeObjectiveValue(x);
+                return func.value(x);
             }
         };
 

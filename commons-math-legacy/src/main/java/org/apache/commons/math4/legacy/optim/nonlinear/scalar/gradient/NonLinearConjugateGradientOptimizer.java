@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.gradient;
 
+import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
@@ -171,6 +172,7 @@ public class NonLinearConjugateGradientOptimizer
         final ConvergenceChecker<PointValuePair> checker = getConvergenceChecker();
         final double[] point = getStartPoint();
         final GoalType goal = getGoalType();
+        final MultivariateFunction func = getObjectiveFunction();
         final int n = point.length;
         double[] r = computeObjectiveGradient(point);
         if (goal == GoalType.MINIMIZE) {
@@ -192,7 +194,7 @@ public class NonLinearConjugateGradientOptimizer
         while (true) {
             incrementIterationCount();
 
-            final double objective = computeObjectiveValue(point);
+            final double objective = func.value(point);
             PointValuePair previous = current;
             current = new PointValuePair(point, objective);
             if (previous != null && checker.converged(getIterations(), previous, current)) {

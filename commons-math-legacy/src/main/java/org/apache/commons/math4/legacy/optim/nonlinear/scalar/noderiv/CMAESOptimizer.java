@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
@@ -885,14 +886,15 @@ public class CMAESOptimizer
          * @return the objective value + penalty for violated bounds.
          */
         public ValuePenaltyPair value(final double[] point) {
+            final MultivariateFunction func = CMAESOptimizer.this.getObjectiveFunction();
             double value;
-            double penalty=0.0;
+            double penalty = 0;
             if (isRepairMode) {
                 double[] repaired = repair(point);
-                value = CMAESOptimizer.this.computeObjectiveValue(repaired);
-                penalty =  penalty(point, repaired);
+                value = func.value(repaired);
+                penalty = penalty(point, repaired);
             } else {
-                value = CMAESOptimizer.this.computeObjectiveValue(point);
+                value = func.value(point);
             }
             value = isMinimize ? value : -value;
             penalty = isMinimize ? penalty : -penalty;

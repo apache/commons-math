@@ -174,9 +174,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     protected PointValuePair doOptimize() {
         checkParameters();
 
-        // Indirect call to "computeObjectiveValue" in order to update the
-        // evaluations counter.
-        final MultivariateFunction evalFunc = this::computeObjectiveValue;
+        final MultivariateFunction evalFunc = getObjectiveFunction();
 
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final Comparator<PointValuePair> comparator = (o1, o2) -> {

@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv;
 
 import java.util.Arrays;
+import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
@@ -169,6 +170,7 @@ public class PowellOptimizer
 
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
+        final MultivariateFunction func = getObjectiveFunction();
         final int n = guess.length;
 
         final double[][] direc = new double[n][n];
@@ -180,7 +182,7 @@ public class PowellOptimizer
             = getConvergenceChecker();
 
         double[] x = guess;
-        double fVal = computeObjectiveValue(x);
+        double fVal = func.value(x);
         double[] x1 = x.clone();
         while (true) {
             incrementIterationCount();
@@ -234,7 +236,7 @@ public class PowellOptimizer
             }
 
             x1 = x.clone();
-            fX2 = computeObjectiveValue(x2);
+            fX2 = func.value(x2);
 
             if (fX > fX2) {
                 double t = 2 * (fX + fX2 - 2 * fVal);
