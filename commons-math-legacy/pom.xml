@@ -150,7 +150,7 @@
             <id>default-test</id>
             <configuration>
               <excludes>
-                <exclude>**/SimplexOptimizerTest</exclude>
+                <exclude>**/SimplexOptimizer*Test</exclude>
               </excludes>
             </configuration>
           </execution>
@@ -163,8 +163,9 @@
             </goals>
             <configuration>
               <rerunFailingTestsCount>14</rerunFailingTestsCount>
+              <printSummary>false</printSummary>
               <includes>
-                <include>**/SimplexOptimizerTest</include>
+                <include>**/SimplexOptimizer*Test</include>
               </includes>
             </configuration>
           </execution>
