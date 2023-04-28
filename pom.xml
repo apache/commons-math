@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>56</version>
+    <version>57</version>
   </parent>
 
   <artifactId>commons-math-parent</artifactId>
