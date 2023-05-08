@@ -38,8 +38,8 @@ jobs:
         distribution: temurin
         java-version: ${{ matrix.java }}
         cache: 'maven'
-    - name: Build with Maven including the docs-archive module using a profile
-      run: mvn -V -Pdocs test jacoco:report-aggregate --no-transfer-progress
+    - name: Build with Maven
+      run: mvn -V test jacoco:report-aggregate --no-transfer-progress
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
