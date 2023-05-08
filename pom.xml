@@ -721,20 +721,7 @@ This is avoided by creating an empty directory when svn is not available.
 
     <profile>
       <id>release</id>
-      <modules> <!-- Do not change the ordering of the 4 blocks below. -->
-
-        <!-- 1. Modules that do not depend on "legacy" codes. -->
-        <module>commons-math-core</module>
-        <module>commons-math-neuralnet</module>
-        <module>commons-math-transform</module>
-
-        <!-- 2. Modularized (but not refactored) legacy functionalities. -->
-        <module>commons-math-legacy-exception</module>
-        <module>commons-math-legacy-core</module>
-
-        <!-- 3. Non-modularized legacy functionalities. -->
-        <module>commons-math-legacy</module>
-
+      <modules>
         <module>dist-archive</module>
       </modules>
     </profile>
