@@ -992,9 +992,9 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     }
 
     /**
-     * Computes a hashcode for the matrix.
+     * Computes a hash code for the matrix.
      *
-     * @return hashcode for matrix
+     * @return hash code for matrix
      */
     @Override
     public int hashCode() {

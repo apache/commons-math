@@ -1659,7 +1659,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         Dfp var6 = var1.newDfp(-0.0d);
         Dfp var5 = var1.newDfp(0L);
 
-        // Checks the contract:  equals-hashcode on var5 and var6
+        // Checks the contract:  equals-hash code on var5 and var6
         Assert.assertTrue(var5.equals(var6) ? var5.hashCode() == var6.hashCode() : true);
     }
 

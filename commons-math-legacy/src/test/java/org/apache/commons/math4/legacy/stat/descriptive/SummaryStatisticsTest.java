@@ -174,7 +174,7 @@ public class SummaryStatisticsTest {
         u.addValue(4d);
         Assert.assertNotEquals("different n's should make instances not equal", t, u);
         Assert.assertNotEquals("different n's should make instances not equal", u, t);
-        Assert.assertTrue("different n's should make hashcodes different",
+        Assert.assertTrue("different n's should make hash codes different",
                 u.hashCode() != t.hashCode());
 
         //Add data in same order to t
@@ -184,7 +184,7 @@ public class SummaryStatisticsTest {
         t.addValue(4d);
         Assert.assertEquals("summaries based on same data should be equal", t, u);
         Assert.assertEquals("summaries based on same data should be equal", u, t);
-        Assert.assertEquals("summaries based on same data should have same hashcodes",
+        Assert.assertEquals("summaries based on same data should have same hash codes",
                 u.hashCode(), t.hashCode());
 
         // Clear and make sure summaries are indistinguishable from empty summary

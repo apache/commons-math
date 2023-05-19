@@ -86,37 +86,37 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         int emptyHash = statistic.hashCode();
         statistic2 = (StorelessUnivariateStatistic) getUnivariateStatistic();
         Assert.assertEquals("empty stats should be equal", statistic, statistic2);
-        Assert.assertEquals("empty stats should have the same hashcode",
+        Assert.assertEquals("empty stats should have the same hash code",
                 emptyHash, statistic2.hashCode());
 
         statistic.increment(1d);
         Assert.assertEquals("reflexive, non-empty", statistic, statistic);
         Assert.assertNotEquals("non-empty, compared to empty", statistic, statistic2);
         Assert.assertNotEquals("non-empty, compared to empty", statistic2, statistic);
-        Assert.assertTrue("non-empty stat should have different hashcode from empty stat",
+        Assert.assertTrue("non-empty stat should have different hash code from empty stat",
                 statistic.hashCode() != emptyHash);
 
         statistic2.increment(1d);
         Assert.assertEquals("stats with same data should be equal", statistic, statistic2);
-        Assert.assertEquals("stats with same data should have the same hashcode",
+        Assert.assertEquals("stats with same data should have the same hash code",
                 statistic.hashCode(), statistic2.hashCode());
 
         statistic.increment(Double.POSITIVE_INFINITY);
         Assert.assertNotEquals("stats with different n's should not be equal", statistic2, statistic);
-        Assert.assertTrue("stats with different n's should have different hashcodes",
+        Assert.assertTrue("stats with different n's should have different hash codes",
                 statistic.hashCode() != statistic2.hashCode());
 
         statistic2.increment(Double.POSITIVE_INFINITY);
         Assert.assertEquals("stats with same data should be equal", statistic, statistic2);
-        Assert.assertEquals("stats with same data should have the same hashcode",
+        Assert.assertEquals("stats with same data should have the same hash code",
                 statistic.hashCode(), statistic2.hashCode());
 
         statistic.clear();
         statistic2.clear();
         Assert.assertEquals("cleared stats should be equal", statistic, statistic2);
-        Assert.assertEquals("cleared stats should have thashcode of empty stat",
+        Assert.assertEquals("cleared stats should have thash code of empty stat",
                 emptyHash, statistic2.hashCode());
-        Assert.assertEquals("cleared stats should have thashcode of empty stat",
+        Assert.assertEquals("cleared stats should have thash code of empty stat",
                 emptyHash, statistic.hashCode());
     }
 
