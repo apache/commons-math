@@ -76,7 +76,7 @@ Please note that the last official version (3.6.1) is quite old and not supporte
 Bug reports should be filed against the current development version.
 
 <!--
-Alternatively you can pull it from the central Maven repositories:
+Alternatively, you can pull it from the central Maven repositories:
 
 ```xml
 <dependency>
