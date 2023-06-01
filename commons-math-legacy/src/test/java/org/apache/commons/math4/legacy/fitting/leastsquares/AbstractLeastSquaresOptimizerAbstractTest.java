@@ -545,7 +545,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 .checker(new ConvergenceChecker<Evaluation>() {
                     @Override
                     public boolean converged(int iteration, Evaluation previous, Evaluation current) {
-                        Assert.assertFalse(previous.getPoint().equals(current.getPoint()));
+                        Assert.assertNotEquals(previous.getPoint(), current.getPoint());
                         Assert.assertArrayEquals(new double[3], previous.getPoint().toArray(), 0);
                         Assert.assertArrayEquals(new double[] {1, 2, 3}, current.getPoint().toArray(), TOL);
                         checked[0] = true;

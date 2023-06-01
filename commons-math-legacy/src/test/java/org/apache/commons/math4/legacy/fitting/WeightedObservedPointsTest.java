@@ -71,7 +71,7 @@ public class WeightedObservedPointsTest {
 
         store.add(new WeightedObservedPoint(1, 2, 3));
         store.add(new WeightedObservedPoint(2, -1, -2));
-        Assert.assertTrue(store.toList().size() == 2);
+        Assert.assertEquals(2, store.toList().size());
 
         store.clear();
         Assert.assertTrue(store.toList().isEmpty());

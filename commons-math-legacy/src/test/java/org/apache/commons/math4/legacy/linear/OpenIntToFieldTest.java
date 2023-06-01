@@ -139,7 +139,7 @@ public class OpenIntToFieldTest {
         OpenIntToFieldHashMap<Dfp> map = createFromJavaMap(field);
 
         for (Map.Entry<Integer, Dfp> mapEntry : generated.entrySet()) {
-            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertEquals(field.getZero(), map.get(mapEntry.getKey()));
         }
     }
 

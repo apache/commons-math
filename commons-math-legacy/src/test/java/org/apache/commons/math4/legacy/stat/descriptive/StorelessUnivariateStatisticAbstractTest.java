@@ -80,7 +80,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
             (StorelessUnivariateStatistic) getUnivariateStatistic();
         StorelessUnivariateStatistic statistic2 = null;
 
-        Assert.assertFalse("non-null, compared to null", statistic.equals(statistic2));
+        Assert.assertNotEquals("non-null, compared to null", statistic, statistic2);
         Assert.assertEquals("reflexive, non-null", statistic, statistic);
 
         int emptyHash = statistic.hashCode();
