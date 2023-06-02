@@ -304,7 +304,7 @@ public final class DfpMath {
 
     /** Returns the natural logarithm of a.
      * a is first split into three parts such that {@code a = (10000^h)(2^j)k}.
-     * ln(a) is computed by {@code ln(a) = ln(5)*h + ln(2)*(h+j) + ln(k)}.
+     * ln(a) is computed by {@code ln(a) = ln(5)*4h + ln(2)*(4h+j) + ln(k)}.
      * k is in the range {@code 2/3 < k <4/3} and is passed on to a series expansion.
      * @param a number from which logarithm is requested
      * @return log(a)
