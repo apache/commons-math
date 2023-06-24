@@ -433,7 +433,7 @@ public class CMAESOptimizer
             if (max(diagD) / min(diagD) > 1e7) {
                 break generationLoop;
             }
-            // user defined termination
+            // user-defined termination
             if (getConvergenceChecker() != null) {
                 final PointValuePair current
                     = new PointValuePair(bestArx.getColumn(0),
