@@ -252,7 +252,7 @@
         <p>
           Typical usage:
         </p>
-        <source>UnivariateFunction function = // some user defined function object
+        <source>UnivariateFunction function = // some user-defined function object
 final double relativeAccuracy = 1.0e-12;
 final double absoluteAccuracy = 1.0e-8;
 final int    maxOrder         = 5;
@@ -261,7 +261,7 @@ double c = solver.solve(100, function, 1.0, 5.0, AllowedSolution.LEFT_SIDE);</so
         <p>
           Force bracketing, by refining a base solution found by a non-bracketing solver:
         </p>
-        <source>UnivariateFunction function = // some user defined function object
+        <source>UnivariateFunction function = // some user-defined function object
 final double relativeAccuracy = 1.0e-12;
 final double absoluteAccuracy = 1.0e-8;
 UnivariateSolver nonBracketing = new BrentSolver(relativeAccuracy, absoluteAccuracy);

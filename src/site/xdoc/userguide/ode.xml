@@ -355,7 +355,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           point of view.
         </p>
         <p>
-          The parameters are identified by a name (a simple user defined string), which are also specified at <a
+          The parameters are identified by a name (a simple user-defined string), which are also specified at <a
           href="../apidocs/org/apache/commons/math4/ode/JacobianMatrices.html">JacobianMatrices</a> class construction. If the ODE
           is simple enough that the user can implement df(t, y, p)/dp<sub>k</sub> directly for some of the parameters p<sub>k</sub>,
           then they can provide one or more classes implementing the <a
