@@ -42,7 +42,7 @@ package org.apache.commons.math4.legacy.optim;
  *
  * @since 3.0
  */
-public interface ConvergenceChecker<PAIR> {
+public interface ConvergenceChecker<PAIR> extends OptimizationData {
     /**
      * Check if the optimization algorithm has converged.
      *

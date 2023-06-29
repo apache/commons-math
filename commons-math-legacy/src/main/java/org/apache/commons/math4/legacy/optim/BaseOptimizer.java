@@ -39,7 +39,7 @@ public abstract class BaseOptimizer<PAIR> {
     private static final MaxIterCallback MAX_ITER_CALLBACK = new MaxIterCallback();
 
     /** Convergence checker. */
-    private final ConvergenceChecker<PAIR> checker;
+    private ConvergenceChecker<PAIR> checker;
     /** Maximum number of evaluations. */
     private int maxEvaluations;
     /** Maximum number of iterations. */
@@ -141,6 +141,7 @@ public abstract class BaseOptimizer<PAIR> {
      * <ul>
      *  <li>{@link MaxEval}</li>
      *  <li>{@link MaxIter}</li>
+     *  <li>{@link ConvergenceChecker}</li>
      * </ul>
      * @return a point/value pair that satisfies the convergence criteria.
      * @throws TooManyEvaluationsException if the maximal number of
@@ -210,6 +211,7 @@ public abstract class BaseOptimizer<PAIR> {
      * <ul>
      *  <li>{@link MaxEval}</li>
      *  <li>{@link MaxIter}</li>
+     *  <li>{@link ConvergenceChecker}</li>
      * </ul>
      */
     protected void parseOptimizationData(OptimizationData... optData) {
@@ -222,6 +224,10 @@ public abstract class BaseOptimizer<PAIR> {
             }
             if (data instanceof MaxIter) {
                 maxIterations = ((MaxIter) data).getMaxIter();
+                continue;
+            }
+            if (data instanceof ConvergenceChecker) {
+                checker = (ConvergenceChecker<PAIR>) data;
                 continue;
             }
         }
