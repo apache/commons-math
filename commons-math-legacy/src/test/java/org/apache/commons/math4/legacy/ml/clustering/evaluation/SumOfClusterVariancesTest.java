@@ -24,9 +24,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.legacy.ml.clustering.Cluster;
-import org.apache.commons.math4.legacy.ml.clustering.DoublePoint;
-import org.apache.commons.math4.legacy.ml.clustering.ClusterEvaluator;
+import org.apache.commons.math4.clustering.Cluster;
+import org.apache.commons.math4.clustering.ClusterEvaluator;
+import org.apache.commons.math4.clustering.DoublePoint;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
 import org.junit.Before;
 import org.junit.Test;

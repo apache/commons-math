@@ -18,7 +18,8 @@ package org.apache.commons.math4.legacy.ml.clustering;
 
 import java.util.Arrays;
 import java.util.List;
-
+import org.apache.commons.math4.clustering.Cluster;
+import org.apache.commons.math4.clustering.DoublePoint;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.junit.Assert;

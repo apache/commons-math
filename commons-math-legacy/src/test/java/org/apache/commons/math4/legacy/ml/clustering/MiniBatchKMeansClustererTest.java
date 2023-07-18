@@ -17,6 +17,9 @@
 
 package org.apache.commons.math4.legacy.ml.clustering;
 
+import org.apache.commons.math4.clustering.ClusterEvaluator;
+import org.apache.commons.math4.clustering.Clusterable;
+import org.apache.commons.math4.clustering.DoublePoint;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ml.clustering.evaluation.CalinskiHarabasz;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
@@ -91,7 +94,7 @@ public class MiniBatchKMeansClustererTest {
 
     /**
      * Generate points around 4 circles.
-     * @param rng RNG.
+     * @param random
      * @return Generated points.
      */
     private List<DoublePoint> generateCircles(UniformRandomProvider random) {

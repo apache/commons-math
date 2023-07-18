@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.legacy.ml.clustering;
 
+import org.apache.commons.math4.clustering.Cluster;
+import org.apache.commons.math4.clustering.Clusterable;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;

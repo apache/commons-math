@@ -19,7 +19,9 @@ package org.apache.commons.math4.legacy.ml.clustering;
 
 import java.util.Collection;
 import java.util.List;
-
+import org.apache.commons.math4.clustering.ClusterEvaluator;
+import org.apache.commons.math4.clustering.ClusterRanking;
+import org.apache.commons.math4.clustering.Clusterable;
 import org.apache.commons.math4.legacy.ml.clustering.evaluation.SumOfClusterVariances;
 
 /**

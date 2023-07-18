@@ -18,10 +18,9 @@
 package org.apache.commons.math4.legacy.ml.clustering.evaluation;
 
 import java.util.List;
-
-import org.apache.commons.math4.legacy.ml.clustering.Cluster;
-import org.apache.commons.math4.legacy.ml.clustering.Clusterable;
-import org.apache.commons.math4.legacy.ml.clustering.ClusterEvaluator;
+import org.apache.commons.math4.clustering.ClusterEvaluator;
+import org.apache.commons.math4.clustering.Clusterable;
+import org.apache.commons.math4.clustering.Cluster;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 
@@ -35,7 +34,8 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
  *
  * @since 3.3
  */
-public class SumOfClusterVariances implements ClusterEvaluator {
+public class SumOfClusterVariances implements ClusterEvaluator
+{
     /** The distance measure to use when evaluating the cluster. */
     private final DistanceMeasure measure;
 

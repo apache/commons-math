@@ -17,10 +17,10 @@
 
 package org.apache.commons.math4.legacy.ml.clustering.evaluation;
 
+import org.apache.commons.math4.clustering.ClusterEvaluator;
+import org.apache.commons.math4.clustering.Clusterable;
 import org.apache.commons.math4.legacy.exception.InsufficientDataException;
-import org.apache.commons.math4.legacy.ml.clustering.Cluster;
-import org.apache.commons.math4.legacy.ml.clustering.ClusterEvaluator;
-import org.apache.commons.math4.legacy.ml.clustering.Clusterable;
+import org.apache.commons.math4.clustering.Cluster;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 import java.util.Collection;
@@ -37,7 +37,8 @@ import java.util.List;
  * @see <a href="https://www.tandfonline.com/doi/abs/10.1080/03610927408827101">A dendrite method for cluster
  * analysis</a>
  */
-public class CalinskiHarabasz implements ClusterEvaluator {
+public class CalinskiHarabasz implements ClusterEvaluator
+{
     /** {@inheritDoc} */
     @Override
     public double score(List<? extends Cluster<? extends Clusterable>> clusters) {

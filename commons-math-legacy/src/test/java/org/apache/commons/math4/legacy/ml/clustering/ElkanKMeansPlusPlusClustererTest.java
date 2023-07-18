@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.math4.clustering.DoublePoint;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,7 +33,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.VectorialMean;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
- * Tests for {@link ElkanKmeansPlusPlusClusterer}.
+ * Tests for {@link ElkanKMeansPlusPlusClusterer}.
  */
 public class ElkanKMeansPlusPlusClustererTest {
     @Test

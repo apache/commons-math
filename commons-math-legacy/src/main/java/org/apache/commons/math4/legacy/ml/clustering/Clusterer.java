@@ -18,7 +18,8 @@ package org.apache.commons.math4.legacy.ml.clustering;
 
 import java.util.Collection;
 import java.util.List;
-
+import org.apache.commons.math4.clustering.Cluster;
+import org.apache.commons.math4.clustering.Clusterable;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 
 /**

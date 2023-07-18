@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.legacy.ml.clustering;
+package org.apache.commons.math4.clustering;
 
 import java.util.List;
 

@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
+import org.apache.commons.math4.clustering.Clusterable;
+import org.apache.commons.math4.clustering.DoublePoint;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;

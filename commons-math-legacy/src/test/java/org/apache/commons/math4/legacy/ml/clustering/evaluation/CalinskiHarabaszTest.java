@@ -17,9 +17,9 @@
 
 package org.apache.commons.math4.legacy.ml.clustering.evaluation;
 
+import org.apache.commons.math4.clustering.ClusterEvaluator;
 import org.apache.commons.math4.legacy.ml.clustering.CentroidCluster;
-import org.apache.commons.math4.legacy.ml.clustering.ClusterEvaluator;
-import org.apache.commons.math4.legacy.ml.clustering.DoublePoint;
+import org.apache.commons.math4.clustering.DoublePoint;
 import org.apache.commons.math4.legacy.ml.clustering.KMeansPlusPlusClusterer;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;

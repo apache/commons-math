@@ -15,25 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.legacy.ml.clustering;
-
-import java.util.List;
+package org.apache.commons.math4.clustering;
 
 /**
- * Evaluates the quality of a set of clusters.
- * It is assumed that
- * <ul>
- *  <li>rank is positive,</li>
- *  <li>higher rank means better clustering.</li>
- * </ul>
+ * Interface for n-dimensional points that can be clustered together.
+ * @since 3.2
  */
-@FunctionalInterface
-public interface ClusterRanking {
+public interface Clusterable {
+
     /**
-     * Computes the rank (higher is better).
+     * Gets the n-dimensional point.
      *
-     * @param clusters Clusters to be evaluated.
-     * @return the rank of the provided {@code clusters}.
+     * @return the point array
      */
-    double compute(List<? extends Cluster<? extends Clusterable>> clusters);
+    double[] getPoint();
 }

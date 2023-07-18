@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.ml.clustering;
 
+import org.apache.commons.math4.clustering.Clusterable;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;

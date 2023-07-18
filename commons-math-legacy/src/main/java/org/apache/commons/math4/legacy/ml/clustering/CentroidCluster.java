@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math4.legacy.ml.clustering;
 
+import org.apache.commons.math4.clustering.Cluster;
+import org.apache.commons.math4.clustering.Clusterable;
+
 /**
  * A Cluster used by centroid-based clustering algorithms.
  * <p>
@@ -25,7 +28,8 @@ package org.apache.commons.math4.legacy.ml.clustering;
  * @param <T> the type of points that can be clustered
  * @since 3.2
  */
-public class CentroidCluster<T extends Clusterable> extends Cluster<T> {
+public class CentroidCluster<T extends Clusterable> extends Cluster<T>
+{
     /** Center of the cluster. */
     private final Clusterable center;
 

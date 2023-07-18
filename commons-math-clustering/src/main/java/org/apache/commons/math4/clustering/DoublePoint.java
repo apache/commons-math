@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math4.legacy.ml.clustering;
+package org.apache.commons.math4.clustering;
 
 import java.util.Arrays;
 
@@ -23,7 +23,8 @@ import java.util.Arrays;
  * A simple implementation of {@link Clusterable} for points with double coordinates.
  * @since 3.2
  */
-public class DoublePoint implements Clusterable {
+public class DoublePoint implements Clusterable
+{
     /** Point coordinates. */
     private final double[] point;
 

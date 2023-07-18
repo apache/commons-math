@@ -32,8 +32,8 @@ import org.apache.commons.imaging.ImageFormat;
 import org.apache.commons.imaging.ImageFormats;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.ImageWriteException;
-import org.apache.commons.math4.legacy.ml.clustering.Clusterable;
-import org.apache.commons.math4.legacy.ml.clustering.Cluster;
+import org.apache.commons.math4.clustering.Cluster;
+import org.apache.commons.math4.clustering.Clusterable;
 
 /**
  * Retrieve pixel contents from an image file.
@@ -120,7 +120,8 @@ final class ImageData {
      * Instances are mutable; they keep a reference to the original
      * image data.
      */
-    class PixelClusterable implements Clusterable {
+    class PixelClusterable implements Clusterable
+    {
         /** Pixel abscissa. */
         private final int x;
         /** Pixel ordinate. */
