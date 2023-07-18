@@ -23,8 +23,7 @@ import java.util.Arrays;
  * A simple implementation of {@link Clusterable} for points with double coordinates.
  * @since 3.2
  */
-public class DoublePoint implements Clusterable
-{
+public class DoublePoint implements Clusterable {
     /** Point coordinates. */
     private final double[] point;
 
@@ -48,7 +47,7 @@ public class DoublePoint implements Clusterable
      */
     public DoublePoint(final int[] point) {
         this.point = new double[point.length];
-        for ( int i = 0; i < point.length; i++) {
+        for (int i = 0; i < point.length; i++) {
             this.point[i] = point[i];
         }
     }

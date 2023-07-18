@@ -34,8 +34,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
  *
  * @since 3.3
  */
-public class SumOfClusterVariances implements ClusterEvaluator
-{
+public class SumOfClusterVariances implements ClusterEvaluator {
     /** The distance measure to use when evaluating the cluster. */
     private final DistanceMeasure measure;
 

@@ -28,8 +28,7 @@ import org.apache.commons.math4.clustering.Clusterable;
  * @param <T> the type of points that can be clustered
  * @since 3.2
  */
-public class CentroidCluster<T extends Clusterable> extends Cluster<T>
-{
+public class CentroidCluster<T extends Clusterable> extends Cluster<T> {
     /** Center of the cluster. */
     private final Clusterable center;
 

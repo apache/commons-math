@@ -19,7 +19,6 @@ package org.apache.commons.math4.clustering;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.math4.clustering.Clusterable;
 
 /**
  * Cluster holding a set of {@link Clusterable} points.

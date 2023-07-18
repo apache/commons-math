@@ -120,8 +120,7 @@ final class ImageData {
      * Instances are mutable; they keep a reference to the original
      * image data.
      */
-    class PixelClusterable implements Clusterable
-    {
+    class PixelClusterable implements Clusterable {
         /** Pixel abscissa. */
         private final int x;
         /** Pixel ordinate. */
