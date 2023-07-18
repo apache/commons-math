@@ -40,12 +40,4 @@
     <math.parent.dir>${basedir}/..</math.parent.dir>
     <math.jira.component>clustering</math.jira.component>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 </project>
