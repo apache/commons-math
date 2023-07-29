@@ -32,6 +32,7 @@
   <description>Aggregator module to genenerate Apache Commons Math documentation.</description>
 
   <properties>
+    <moditect.skip>true</moditect.skip>
     <checkstyle.skip>true</checkstyle.skip>
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <!-- Workaround to avoid duplicating config files. -->
