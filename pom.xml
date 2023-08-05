@@ -366,6 +366,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+        <failOnWarnings>true</failOnWarnings>
           <!-- Java API links configured in commons-parent create redirect warnings on JDK 17.
             The links are not required as detectJavaApiLink=true (default). -->
           <links combine.self="override">
