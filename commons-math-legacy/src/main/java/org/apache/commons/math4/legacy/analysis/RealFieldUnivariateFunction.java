@@ -34,16 +34,19 @@ import org.apache.commons.math4.legacy.core.RealFieldElement;
  *     // The x value that caused the problem.
  *     private final SomeFieldType x;
  *
- *     public LocalException(SomeFieldType x) {
+ *     LocalException(SomeFieldType x) {
  *         this.x = x;
  *     }
  *
- *     public double getX() {
+ *     SomeFieldType getX() {
  *         return x;
  *     }
  * }
  *
  * private static class MyFunction implements FieldUnivariateFunction&lt;SomeFieldType&gt; {
+ *
+ *     // ... function set-up
+ *
  *     public SomeFieldType value(SomeFieldType x) {
  *         SomeFieldType y = hugeFormula(x);
  *         if (somethingBadHappens) {
