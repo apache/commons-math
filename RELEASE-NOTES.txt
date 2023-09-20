@@ -1,7 +1,7 @@
 
               Apache Commons Math 4.0-beta1 RELEASE NOTES
 
-The Apache Commons Math team is pleased to announce the release of commons-math-parent-4.0-beta1
+The Apache Commons Math team is pleased to announce the release of commons-math4-parent-4.0-beta1
 
 The Apache Commons Math project is a library of lightweight mathematics
     and statistics components addressing common practical problems.

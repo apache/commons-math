@@ -46,10 +46,10 @@ Apache Commons Math
 [![Build Status](https://github.com/apache/commons-math/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-math/actions/workflows/maven.yml)
 [![Coverage Status](https://codecov.io/gh/apache/commons-math/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-math)
 <!--
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math-parent/)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math4-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math4-parent/)
 -->
 <!--
-[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-math-parent/4.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-math-parent/4.0)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-math4-parent/4.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-math4-parent/4.0)
 -->
 
 "Commons Math" is undergoing major changes towards the next release (4.0):
@@ -81,7 +81,7 @@ Alternatively, you can pull it from the central Maven repositories:
 ```xml
 <dependency>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-math-parent</artifactId>
+  <artifactId>commons-math4-parent</artifactId>
   <version>4.0</version>
 </dependency>
 ```
