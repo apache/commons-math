@@ -51,4 +51,34 @@
 
   </dependencies>
 
+  <profiles>
+    <!-- Ignore lack of comments in the LocalizedFormats class -->
+    <profile>
+      <id>jdk17-javadoc</id>
+      <activation>
+        <jdk>[17</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <failOnWarnings>false</failOnWarnings>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <reporting>
+        <plugins>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <failOnWarnings>false</failOnWarnings>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+    </profile>
+  </profiles>
+
 </project>
