@@ -24,7 +24,7 @@
     <version>59</version>
   </parent>
 
-  <artifactId>commons-math-parent</artifactId>
+  <artifactId>commons-math4-parent</artifactId>
   <version>4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Apache Commons Math</name>
