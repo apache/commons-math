@@ -39,8 +39,6 @@ under the License.
     <commons.siteOutputDirectory>${basedir}/../target/site</commons.siteOutputDirectory>
     <commons.releaseNotesLocation>${basedir}/../RELEASE-NOTES.txt</commons.releaseNotesLocation>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.releaseManagerName>Gilles Sadowski</commons.releaseManagerName>
-    <commons.releaseManagerKey>B39617E095CD748DFE505816703413011E22D5B8</commons.releaseManagerKey>
   </properties>
 
   <build>
