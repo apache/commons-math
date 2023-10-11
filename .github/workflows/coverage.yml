@@ -39,7 +39,7 @@ jobs:
         java-version: ${{ matrix.java }}
         cache: 'maven'
     - name: Build with Maven
-      run: mvn -V test jacoco:report-aggregate --no-transfer-progress
+      run: mvn --show-version --batch-mode --no-transfer-progress test jacoco:report-aggregate
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
