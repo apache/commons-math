@@ -56,8 +56,8 @@ public final class PolynomialFunctionTest {
      *
      * <p>This will test the function f(x) = 3*x - 1.5</p>
      * <p>This will have the values
-     *  <tt>f(0) = -1.5, f(-1) = -4.5, f(-2.5) = -9,
-     *      f(0.5) = 0, f(1.5) = 3</tt> and {@code f(3) = 7.5}
+     *  <code>f(0) = -1.5, f(-1) = -4.5, f(-2.5) = -9,
+     *      f(0.5) = 0, f(1.5) = 3</code> and {@code f(3) = 7.5}
      * </p>
      */
     @Test
