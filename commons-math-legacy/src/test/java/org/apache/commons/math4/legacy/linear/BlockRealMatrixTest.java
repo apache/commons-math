@@ -1227,14 +1227,14 @@ public final class BlockRealMatrixTest {
         Assert.assertEquals(m,TestUtils.serializeAndRecover(m));
     }
 
-    private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
+    private static final class SetVisitor extends DefaultRealMatrixChangingVisitor {
         @Override
         public double visit(int i, int j, double value) {
             return i + j / 1024.0;
         }
     }
 
-    private static class GetVisitor extends DefaultRealMatrixPreservingVisitor {
+    private static final class GetVisitor extends DefaultRealMatrixPreservingVisitor {
         private int count = 0;
         @Override
         public void visit(int i, int j, double value) {

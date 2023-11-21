@@ -178,7 +178,7 @@ public class EulerStepInterpolatorTest {
     Assert.assertTrue(maxError < 0.001);
   }
 
-  private static class DummyIntegrator extends RungeKuttaIntegrator {
+  private static final class DummyIntegrator extends RungeKuttaIntegrator {
 
 
       protected DummyIntegrator(RungeKuttaStepInterpolator prototype) {

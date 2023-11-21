@@ -436,7 +436,7 @@ class SchurTransformer {
      * Internal data structure holding the current shift information.
      * Contains variable names as present in the original JAMA code.
      */
-    private static class ShiftInfo {
+    private static final class ShiftInfo {
         // CHECKSTYLE: stop all
 
         /** x shift info. */

@@ -123,7 +123,7 @@ public class DormandPrince54IntegratorTest {
       Assert.assertEquals("Dormand-Prince 5(4)", integ.getName());
   }
 
-  private static class DP54SmallLastHandler implements StepHandler {
+  private static final class DP54SmallLastHandler implements StepHandler {
 
     DP54SmallLastHandler(double minStep) {
       lastSeen = false;
@@ -269,7 +269,7 @@ public class DormandPrince54IntegratorTest {
     Assert.assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
   }
 
-  private static class KeplerHandler implements StepHandler {
+  private static final class KeplerHandler implements StepHandler {
     KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
     }
@@ -309,7 +309,7 @@ public class DormandPrince54IntegratorTest {
     private TestProblem3 pb;
   }
 
-  private static class VariableHandler implements StepHandler {
+  private static final class VariableHandler implements StepHandler {
     VariableHandler() {
       firstTime = true;
       minStep = 0;

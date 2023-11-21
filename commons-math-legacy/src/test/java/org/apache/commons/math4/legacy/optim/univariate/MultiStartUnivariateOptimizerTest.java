@@ -121,7 +121,7 @@ public class MultiStartUnivariateOptimizerTest {
         Assert.assertNull(optimizer.getOptima()[0]);
     }
 
-    private static class LocalException extends RuntimeException {
+    private static final class LocalException extends RuntimeException {
         private static final long serialVersionUID = 1194682757034350629L;
     }
 }

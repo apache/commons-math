@@ -116,7 +116,7 @@ public class DummyStepInterpolatorTest {
     }
   }
 
-  private static class BadStepInterpolator extends DummyStepInterpolator {
+  private static final class BadStepInterpolator extends DummyStepInterpolator {
       BadStepInterpolator(double[] y, boolean forward) {
           super(y, new double[y.length], forward);
       }
@@ -126,7 +126,7 @@ public class DummyStepInterpolatorTest {
       }
   }
 
-  private static class LocalException extends RuntimeException {
+  private static final class LocalException extends RuntimeException {
     private static final long serialVersionUID = 1L;
   }
 }

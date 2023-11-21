@@ -116,7 +116,7 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
     /**
      * Sampler.
      */
-    private class MixtureSampler implements MultivariateRealDistribution.Sampler {
+    private final class MixtureSampler implements MultivariateRealDistribution.Sampler {
         /** RNG. */
         private final UniformRandomProvider rng;
         /** Sampler for each of the distribution in the mixture. */

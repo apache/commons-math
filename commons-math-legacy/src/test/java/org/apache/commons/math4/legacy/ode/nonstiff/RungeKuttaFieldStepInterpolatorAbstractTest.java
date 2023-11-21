@@ -277,7 +277,7 @@ public abstract class RungeKuttaFieldStepInterpolatorAbstractTest {
         return regularInterpolator;
     }
 
-    private static class SinCos<T extends RealFieldElement<T>> implements FirstOrderFieldDifferentialEquations<T> {
+    private static final class SinCos<T extends RealFieldElement<T>> implements FirstOrderFieldDifferentialEquations<T> {
         private final Field<T> field;
         protected SinCos(final Field<T> field) {
             this.field = field;

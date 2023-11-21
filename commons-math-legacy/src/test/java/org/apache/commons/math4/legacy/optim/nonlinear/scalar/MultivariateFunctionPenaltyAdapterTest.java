@@ -147,7 +147,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
         Assert.assertEquals(biQuadratic.getBoundedYOptimum(), optimum.getPoint()[1], 2e-7);
     }
 
-    private static class BiQuadratic implements MultivariateFunction {
+    private static final class BiQuadratic implements MultivariateFunction {
 
         private final double xOptimum;
         private final double yOptimum;

@@ -307,7 +307,7 @@ public class JacobianMatricesTest {
         }
     }
 
-    private static class Brusselator extends AbstractParameterizable
+    private static final class Brusselator extends AbstractParameterizable
         implements MainStateJacobianProvider, ParameterJacobianProvider {
 
         public static final String B = "b";
@@ -363,7 +363,7 @@ public class JacobianMatricesTest {
         }
     }
 
-    private static class ParamBrusselator extends AbstractParameterizable
+    private static final class ParamBrusselator extends AbstractParameterizable
         implements FirstOrderDifferentialEquations, ParameterizedODE {
 
         public static final String B = "b";
@@ -413,7 +413,7 @@ public class JacobianMatricesTest {
     }
 
     /** ODE representing a point moving on a circle with provided center and angular rate. */
-    private static class Circle extends AbstractParameterizable
+    private static final class Circle extends AbstractParameterizable
         implements MainStateJacobianProvider, ParameterJacobianProvider {
 
         public static final String CX = "cx";
@@ -512,7 +512,7 @@ public class JacobianMatricesTest {
     }
 
     /** ODE representing a point moving on a circle with provided center and angular rate. */
-    private static class ParameterizedCircle extends AbstractParameterizable
+    private static final class ParameterizedCircle extends AbstractParameterizable
         implements FirstOrderDifferentialEquations, ParameterizedODE {
 
         public static final String CX = "cx";

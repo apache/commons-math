@@ -143,7 +143,7 @@ public class MultivariateFunctionMappingAdapterTest {
         Assert.assertEquals(biQuadratic.getBoundedYOptimum(), bounded[1], 1e-7);
     }
 
-    private static class BiQuadratic implements MultivariateFunction {
+    private static final class BiQuadratic implements MultivariateFunction {
 
         private final double xOptimum;
         private final double yOptimum;

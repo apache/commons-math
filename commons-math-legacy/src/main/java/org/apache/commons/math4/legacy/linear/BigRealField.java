@@ -69,7 +69,7 @@ public final class BigRealField implements Field<BigReal>, Serializable  {
     /** Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
-    private static class LazyHolder {
+    private static final class LazyHolder {
         /** Cached field instance. */
         private static final BigRealField INSTANCE = new BigRealField();
     }

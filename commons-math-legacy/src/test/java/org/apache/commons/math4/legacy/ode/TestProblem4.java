@@ -91,7 +91,7 @@ public class TestProblem4
     return y;
   }
 
-  private static class Bounce implements EventHandler {
+  private static final class Bounce implements EventHandler {
 
     private int sign;
 
@@ -122,7 +122,7 @@ public class TestProblem4
     }
   }
 
-  private static class Stop implements EventHandler {
+  private static final class Stop implements EventHandler {
 
     Stop() {
     }

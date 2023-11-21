@@ -338,7 +338,7 @@ public class AdamsMoultonFieldIntegrator<T extends RealFieldElement<T>> extends 
      * </pre>
      * </p>
      */
-    private class Corrector implements FieldMatrixPreservingVisitor<T> {
+    private final class Corrector implements FieldMatrixPreservingVisitor<T> {
 
         /** Previous state. */
         private final T[] previous;

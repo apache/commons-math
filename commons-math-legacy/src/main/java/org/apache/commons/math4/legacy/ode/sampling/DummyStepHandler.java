@@ -74,7 +74,7 @@ public final class DummyStepHandler implements StepHandler {
     /** Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
-    private static class LazyHolder {
+    private static final class LazyHolder {
         /** Cached field instance. */
         private static final DummyStepHandler INSTANCE = new DummyStepHandler();
     }

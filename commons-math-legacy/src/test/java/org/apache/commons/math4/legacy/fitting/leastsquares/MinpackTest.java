@@ -612,7 +612,7 @@ public class MinpackTest {
         public abstract double[] computeValue(double[] variables);
     }
 
-    private static class LinearFullRankFunction extends MinpackFunction {
+    private static final class LinearFullRankFunction extends MinpackFunction {
 
         LinearFullRankFunction(int m, int n, double x0,
                                double theoreticalStartCost,
@@ -650,7 +650,7 @@ public class MinpackTest {
         }
     }
 
-    private static class LinearRank1Function extends MinpackFunction {
+    private static final class LinearRank1Function extends MinpackFunction {
 
         LinearRank1Function(int m, int n, double x0,
                             double theoreticalStartCost,
@@ -684,7 +684,7 @@ public class MinpackTest {
         }
     }
 
-    private static class LinearRank1ZeroColsAndRowsFunction extends MinpackFunction {
+    private static final class LinearRank1ZeroColsAndRowsFunction extends MinpackFunction {
 
         LinearRank1ZeroColsAndRowsFunction(int m, int n, double x0) {
             super(m, buildArray(n, x0),
@@ -727,7 +727,7 @@ public class MinpackTest {
         }
     }
 
-    private static class RosenbrockFunction extends MinpackFunction {
+    private static final class RosenbrockFunction extends MinpackFunction {
         RosenbrockFunction(double[] startParams, double theoreticalStartCost) {
             super(2, startParams, 0.0, buildArray(2, 1.0));
         }
@@ -746,7 +746,7 @@ public class MinpackTest {
         }
     }
 
-    private static class HelicalValleyFunction extends MinpackFunction {
+    private static final class HelicalValleyFunction extends MinpackFunction {
         HelicalValleyFunction(double[] startParams,
                               double theoreticalStartCost) {
             super(3, startParams, 0.0, new double[] { 1.0, 0.0, 0.0 });
@@ -791,7 +791,7 @@ public class MinpackTest {
         private static final double twoPi = 2.0 * JdkMath.PI;
     }
 
-    private static class PowellSingularFunction extends MinpackFunction {
+    private static final class PowellSingularFunction extends MinpackFunction {
 
         PowellSingularFunction(double[] startParams,
                                double theoreticalStartCost) {
@@ -830,7 +830,7 @@ public class MinpackTest {
         private static final double sqrt10 = JdkMath.sqrt(10.0);
   }
 
-    private static class FreudensteinRothFunction extends MinpackFunction {
+    private static final class FreudensteinRothFunction extends MinpackFunction {
 
         FreudensteinRothFunction(double[] startParams,
                                  double theoreticalStartCost,
@@ -860,7 +860,7 @@ public class MinpackTest {
         }
     }
 
-    private static class BardFunction extends MinpackFunction {
+    private static final class BardFunction extends MinpackFunction {
 
         BardFunction(double x0,
                      double theoreticalStartCost,
@@ -908,7 +908,7 @@ public class MinpackTest {
         };
     }
 
-    private static class KowalikOsborneFunction extends MinpackFunction {
+    private static final class KowalikOsborneFunction extends MinpackFunction {
 
         KowalikOsborneFunction(double[] startParams,
                                double theoreticalStartCost,
@@ -963,7 +963,7 @@ public class MinpackTest {
         };
     }
 
-    private static class MeyerFunction extends MinpackFunction {
+    private static final class MeyerFunction extends MinpackFunction {
 
         MeyerFunction(double[] startParams,
                       double theoreticalStartCost,
@@ -1013,7 +1013,7 @@ public class MinpackTest {
         };
     }
 
-    private static class WatsonFunction extends MinpackFunction {
+    private static final class WatsonFunction extends MinpackFunction {
 
         WatsonFunction(int n, double x0,
                        double theoreticalStartCost,
@@ -1083,7 +1083,7 @@ public class MinpackTest {
         }
     }
 
-    private static class Box3DimensionalFunction extends MinpackFunction {
+    private static final class Box3DimensionalFunction extends MinpackFunction {
 
         Box3DimensionalFunction(int m, double[] startParams,
                                 double theoreticalStartCost) {
@@ -1122,7 +1122,7 @@ public class MinpackTest {
         }
     }
 
-    private static class JennrichSampsonFunction extends MinpackFunction {
+    private static final class JennrichSampsonFunction extends MinpackFunction {
 
         JennrichSampsonFunction(int m, double[] startParams,
                                 double theoreticalStartCost,
@@ -1157,7 +1157,7 @@ public class MinpackTest {
         }
     }
 
-    private static class BrownDennisFunction extends MinpackFunction {
+    private static final class BrownDennisFunction extends MinpackFunction {
 
         BrownDennisFunction(int m, double[] startParams,
                             double theoreticalStartCost,
@@ -1204,7 +1204,7 @@ public class MinpackTest {
         }
     }
 
-    private static class ChebyquadFunction extends MinpackFunction {
+    private static final class ChebyquadFunction extends MinpackFunction {
 
         private static double[] buildChebyquadArray(int n, double factor) {
             double[] array = new double[n];
@@ -1281,7 +1281,7 @@ public class MinpackTest {
         }
     }
 
-    private static class BrownAlmostLinearFunction extends MinpackFunction {
+    private static final class BrownAlmostLinearFunction extends MinpackFunction {
 
         BrownAlmostLinearFunction(int m, double factor,
                                   double theoreticalStartCost,
@@ -1341,7 +1341,7 @@ public class MinpackTest {
         }
     }
 
-    private static class Osborne1Function extends MinpackFunction {
+    private static final class Osborne1Function extends MinpackFunction {
 
         Osborne1Function(double[] startParams,
                          double theoreticalStartCost,
@@ -1393,7 +1393,7 @@ public class MinpackTest {
         };
     }
 
-    private static class Osborne2Function extends MinpackFunction {
+    private static final class Osborne2Function extends MinpackFunction {
 
         Osborne2Function(double[] startParams,
                          double theoreticalStartCost,

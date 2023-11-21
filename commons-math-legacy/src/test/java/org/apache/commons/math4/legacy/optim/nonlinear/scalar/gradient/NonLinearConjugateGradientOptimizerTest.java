@@ -430,7 +430,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         Assert.assertEquals(48.135167894, center.getY(), 1.0e-6);
     }
 
-    private static class LinearProblem {
+    private static final class LinearProblem {
         private final RealMatrix factors;
         private final double[] target;
 

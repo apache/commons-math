@@ -304,7 +304,7 @@ public final class LeastSquaresFactory {
      * Combine a {@link MultivariateVectorFunction} with a {@link
      * MultivariateMatrixFunction} to produce a {@link MultivariateJacobianFunction}.
      */
-    private static class LocalValueAndJacobianFunction
+    private static final class LocalValueAndJacobianFunction
         implements ValueAndJacobianFunction {
         /** Model. */
         private final MultivariateVectorFunction value;
@@ -350,7 +350,7 @@ public final class LeastSquaresFactory {
      * LeastSquaresProblem}.
      * @since 3.3
      */
-    private static class LocalLeastSquaresProblem
+    private static final class LocalLeastSquaresProblem
             extends AbstractOptimizationProblem<Evaluation>
             implements LeastSquaresProblem {
 

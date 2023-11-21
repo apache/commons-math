@@ -427,7 +427,7 @@ public class NaturalRanking implements RankingAlgorithm {
      * to sort an array of IntDoublePairs by value.  Note that the
      * implicitly defined natural ordering is NOT consistent with equals.
      */
-    private static class IntDoublePair implements Comparable<IntDoublePair>  {
+    private static final class IntDoublePair implements Comparable<IntDoublePair>  {
 
         /** Value of the pair. */
         private final double value;

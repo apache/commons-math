@@ -176,7 +176,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                           nEval < maxEvaluations);
     }
 
-    private static class Gaussian2D implements MultivariateFunction {
+    private static final class Gaussian2D implements MultivariateFunction {
         private final double[] maximumPosition;
         private final double std;
 

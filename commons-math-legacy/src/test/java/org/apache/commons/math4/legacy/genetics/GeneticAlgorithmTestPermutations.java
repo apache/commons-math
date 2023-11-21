@@ -103,7 +103,7 @@ public class GeneticAlgorithmTestPermutations {
      *
      * The goal is to sort the sequence.
      */
-    private static class MinPermutations extends RandomKey<Integer> {
+    private static final class MinPermutations extends RandomKey<Integer> {
 
         MinPermutations(List<Double> representation) {
             super(representation);

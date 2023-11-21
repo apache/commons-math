@@ -352,7 +352,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
      *
      * @since 2.0
      */
-    private static class AggregatingSummaryStatistics extends SummaryStatistics {
+    private static final class AggregatingSummaryStatistics extends SummaryStatistics {
 
         /**
          * The serialization version of this class.

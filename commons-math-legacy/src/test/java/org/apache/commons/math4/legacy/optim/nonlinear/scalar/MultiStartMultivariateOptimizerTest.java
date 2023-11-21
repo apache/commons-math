@@ -113,7 +113,7 @@ public class MultiStartMultivariateOptimizerTest {
         Assert.assertTrue("optimum=" + optimum.getValue(), optimum.getValue() < 5e-5);
     }
 
-    private static class Rosenbrock implements MultivariateFunction {
+    private static final class Rosenbrock implements MultivariateFunction {
         private int count;
 
         Rosenbrock() {

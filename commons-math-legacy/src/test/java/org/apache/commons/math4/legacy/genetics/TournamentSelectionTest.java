@@ -40,7 +40,7 @@ public class TournamentSelectionTest {
         }
     }
 
-    private static class DummyChromosome extends Chromosome {
+    private static final class DummyChromosome extends Chromosome {
         private final int fitness;
 
         DummyChromosome() {

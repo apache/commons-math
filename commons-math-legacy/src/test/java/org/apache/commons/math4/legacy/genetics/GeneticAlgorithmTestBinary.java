@@ -94,7 +94,7 @@ public class GeneticAlgorithmTestBinary {
      *
      * The goal is to set all bits (genes) to 1.
      */
-    private static class FindOnes extends BinaryChromosome {
+    private static final class FindOnes extends BinaryChromosome {
 
         FindOnes(List<Integer> representation) {
             super(representation);

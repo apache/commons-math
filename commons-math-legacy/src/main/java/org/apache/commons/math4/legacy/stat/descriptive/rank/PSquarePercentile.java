@@ -824,7 +824,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      *
      * @param <E> type for fixed capacity list
      */
-    private static class FixedCapacityList<E> extends ArrayList<E> {
+    private static final class FixedCapacityList<E> extends ArrayList<E> {
         /**
          * Capacity of the list.
          */

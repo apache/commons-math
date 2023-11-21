@@ -201,7 +201,7 @@ public class MultivariateFunctionMappingAdapter
     }
 
     /** Local class for no bounds mapping. */
-    private static class NoBoundsMapper implements Mapper {
+    private static final class NoBoundsMapper implements Mapper {
         /** {@inheritDoc} */
         @Override
         public double unboundedToBounded(final double y) {
@@ -216,7 +216,7 @@ public class MultivariateFunctionMappingAdapter
     }
 
     /** Local class for lower bounds mapping. */
-    private static class LowerBoundMapper implements Mapper {
+    private static final class LowerBoundMapper implements Mapper {
         /** Low bound. */
         private final double lower;
 
@@ -243,7 +243,7 @@ public class MultivariateFunctionMappingAdapter
     }
 
     /** Local class for upper bounds mapping. */
-    private static class UpperBoundMapper implements Mapper {
+    private static final class UpperBoundMapper implements Mapper {
 
         /** Upper bound. */
         private final double upper;
@@ -269,7 +269,7 @@ public class MultivariateFunctionMappingAdapter
     }
 
     /** Local class for lower and bounds mapping. */
-    private static class LowerUpperBoundMapper implements Mapper {
+    private static final class LowerUpperBoundMapper implements Mapper {
         /** Function from unbounded to bounded. */
         private final UnivariateFunction boundingFunction;
         /** Function from bounded to unbounded. */

@@ -183,7 +183,7 @@ public class GillIntegratorTest {
     Assert.assertEquals(8.0, y[0], 1.0e-12);
   }
 
-  private static class KeplerStepHandler implements StepHandler {
+  private static final class KeplerStepHandler implements StepHandler {
     KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
     }

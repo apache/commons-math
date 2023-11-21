@@ -105,7 +105,7 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
         return y;
     }
 
-    private static class Bounce<T extends RealFieldElement<T>> implements FieldEventHandler<T> {
+    private static final class Bounce<T extends RealFieldElement<T>> implements FieldEventHandler<T> {
 
         private int sign;
 
@@ -138,7 +138,7 @@ public class TestFieldProblem4<T extends RealFieldElement<T>>
         }
     }
 
-    private static class Stop<T extends RealFieldElement<T>> implements FieldEventHandler<T> {
+    private static final class Stop<T extends RealFieldElement<T>> implements FieldEventHandler<T> {
 
         Stop() {
         }

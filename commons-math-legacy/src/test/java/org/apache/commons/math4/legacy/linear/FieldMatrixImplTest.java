@@ -1068,7 +1068,7 @@ public final class FieldMatrixImplTest {
         Assert.assertEquals(m,TestUtils.serializeAndRecover(m));
     }
 
-    private static class SetVisitor extends DefaultFieldMatrixChangingVisitor<Dfp> {
+    private static final class SetVisitor extends DefaultFieldMatrixChangingVisitor<Dfp> {
         SetVisitor() {
             super(Dfp25.ZERO);
         }
@@ -1078,7 +1078,7 @@ public final class FieldMatrixImplTest {
         }
     }
 
-    private static class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Dfp> {
+    private static final class GetVisitor extends DefaultFieldMatrixPreservingVisitor<Dfp> {
         private int count;
         GetVisitor() {
             super(Dfp25.ZERO);

@@ -397,7 +397,7 @@ public class EventState {
     }
 
     /** Local wrapper to propagate exceptions. */
-    private static class LocalMaxCountExceededException extends RuntimeException {
+    private static final class LocalMaxCountExceededException extends RuntimeException {
 
         /** Serializable UID. */
         private static final long serialVersionUID = 20120901L;

@@ -117,7 +117,7 @@ final class OptimTestUtils {
         return ThreadLocalRandomSource.current(RandomSource.MWC_256);
     }
 
-    private static class Basis {
+    private static final class Basis {
         private double[][] basis;
         private final MarsagliaNormalizedGaussianSampler rand = MarsagliaNormalizedGaussianSampler.of(rng()); // use not always the same basis
 

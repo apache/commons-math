@@ -89,7 +89,7 @@ public class ElitisticListPopulationTest {
         new ElitisticListPopulation(chromosomes, 100, rate);
     }
 
-    private static class DummyChromosome extends Chromosome {
+    private static final class DummyChromosome extends Chromosome {
         private final int fitness;
 
         DummyChromosome() {

@@ -391,7 +391,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
     /**
      * Class used for sorting user-supplied data.
      */
-    private static class DataRow implements Comparable<DataRow> {
+    private static final class DataRow implements Comparable<DataRow> {
         /** One data row. */
         private final double[] row;
         /** Mean of the data row. */

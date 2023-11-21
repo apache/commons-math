@@ -234,7 +234,7 @@ public class HighamHall54IntegratorTest {
                       pb.getFinalTime(), new double[pb.getDimension()]);
   }
 
-  private static class LocalException extends RuntimeException {
+  private static final class LocalException extends RuntimeException {
     private static final long serialVersionUID = 3041292643919807960L;
   }
 
