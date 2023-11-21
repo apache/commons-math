@@ -117,6 +117,7 @@ public class DummyStepInterpolatorTest {
   }
 
   private static final class BadStepInterpolator extends DummyStepInterpolator {
+      private static final long serialVersionUID = 1;
       BadStepInterpolator(double[] y, boolean forward) {
           super(y, new double[y.length], forward);
       }

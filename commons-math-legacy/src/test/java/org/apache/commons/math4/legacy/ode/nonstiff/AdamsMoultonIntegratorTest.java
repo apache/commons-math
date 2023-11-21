@@ -197,6 +197,7 @@ public class AdamsMoultonIntegratorTest {
     }
 
     private static final class PerfectInterpolator implements StepInterpolator {
+        private static final long serialVersionUID = 1;
         private final TestProblemAbstract problem;
         private double previousTime;
         private double currentTime;
