@@ -77,7 +77,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
      * An evaluation of a {@link LeastSquaresProblem} at a particular point. This class
      * also computes several quantities derived from the value and its Jacobian.
      */
-    public interface Evaluation {
+    interface Evaluation {
 
         /**
          * Get the covariance matrix of the optimized parameters. <br> Note that this
