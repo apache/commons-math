@@ -52,6 +52,8 @@
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]MultiDirectionalTransform\.java$" lines="94" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]NelderMeadTransform\.java$" lines="109" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]BaseMultiStartMultivariateOptimizer\.java$" lines="190" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]EventState\.java$" lines="258,297,299" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]FieldEventState\.java$" lines="220,241,243" />
 
   <!-- Be more lenient on tests. -->
   <suppress checks="Javadoc" files=".*[/\\]test[/\\].*" />

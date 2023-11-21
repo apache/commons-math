@@ -625,7 +625,7 @@ public class CMAESOptimizer
         oldFac += 1 - ccov1Sep - ccovmuSep;
         diagC = diagC.scalarMultiply(oldFac) // regard old matrix
             .add(square(pc).scalarMultiply(ccov1Sep)) // plus rank one update
-            .add((times(diagC, square(bestArz).multiply(weights))) // plus rank mu update
+            .add(times(diagC, square(bestArz).multiply(weights)) // plus rank mu update
                  .scalarMultiply(ccovmuSep));
         diagD = sqrt(diagC); // replaces eig(C)
         if (diagonalOnly > 1 &&
