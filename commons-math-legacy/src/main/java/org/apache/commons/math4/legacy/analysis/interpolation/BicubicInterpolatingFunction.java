@@ -362,221 +362,222 @@ public class BicubicInterpolatingFunction
 
         return a;
     }
-}
-
-/**
- * Bicubic function.
- */
-class BicubicFunction implements BivariateFunction {
-    /** Number of points. */
-    private static final short N = 4;
-    /** Coefficients. */
-    private final double[][] a;
-    /** First partial derivative along x. */
-    private final BivariateFunction partialDerivativeX;
-    /** First partial derivative along y. */
-    private final BivariateFunction partialDerivativeY;
-    /** Second partial derivative along x. */
-    private final BivariateFunction partialDerivativeXX;
-    /** Second partial derivative along y. */
-    private final BivariateFunction partialDerivativeYY;
-    /** Second crossed partial derivative. */
-    private final BivariateFunction partialDerivativeXY;
 
     /**
-     * Simple constructor.
-     *
-     * @param coeff Spline coefficients.
-     * @param xR x spacing.
-     * @param yR y spacing.
-     * @param initializeDerivatives Whether to initialize the internal data
-     * needed for calling any of the methods that compute the partial derivatives
-     * this function.
+     * Bicubic function.
      */
-    BicubicFunction(double[] coeff,
-                    double xR,
-                    double yR,
-                    boolean initializeDerivatives) {
-        a = new double[N][N];
-        for (int j = 0; j < N; j++) {
-            final double[] aJ = a[j];
-            for (int i = 0; i < N; i++) {
-                aJ[i] = coeff[i * N + j];
-            }
-        }
+    static final class BicubicFunction implements BivariateFunction {
+        /** Number of points. */
+        private static final short N = 4;
+        /** Coefficients. */
+        private final double[][] a;
+        /** First partial derivative along x. */
+        private final BivariateFunction partialDerivativeX;
+        /** First partial derivative along y. */
+        private final BivariateFunction partialDerivativeY;
+        /** Second partial derivative along x. */
+        private final BivariateFunction partialDerivativeXX;
+        /** Second partial derivative along y. */
+        private final BivariateFunction partialDerivativeYY;
+        /** Second crossed partial derivative. */
+        private final BivariateFunction partialDerivativeXY;
 
-        if (initializeDerivatives) {
-            // Compute all partial derivatives functions.
-            final double[][] aX = new double[N][N];
-            final double[][] aY = new double[N][N];
-            final double[][] aXX = new double[N][N];
-            final double[][] aYY = new double[N][N];
-            final double[][] aXY = new double[N][N];
-
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-                    final double c = a[i][j];
-                    aX[i][j] = i * c;
-                    aY[i][j] = j * c;
-                    aXX[i][j] = (i - 1) * aX[i][j];
-                    aYY[i][j] = (j - 1) * aY[i][j];
-                    aXY[i][j] = j * aX[i][j];
+        /**
+         * Simple constructor.
+         *
+         * @param coeff Spline coefficients.
+         * @param xR x spacing.
+         * @param yR y spacing.
+         * @param initializeDerivatives Whether to initialize the internal data
+         * needed for calling any of the methods that compute the partial derivatives
+         * this function.
+         */
+        BicubicFunction(double[] coeff,
+                        double xR,
+                        double yR,
+                        boolean initializeDerivatives) {
+            a = new double[N][N];
+            for (int j = 0; j < N; j++) {
+                final double[] aJ = a[j];
+                for (int i = 0; i < N; i++) {
+                    aJ[i] = coeff[i * N + j];
                 }
             }
 
-            partialDerivativeX = (double x, double y) -> {
-                final double x2 = x * x;
-                final double[] pX = {0, 1, x, x2};
+            if (initializeDerivatives) {
+                // Compute all partial derivatives functions.
+                final double[][] aX = new double[N][N];
+                final double[][] aY = new double[N][N];
+                final double[][] aXX = new double[N][N];
+                final double[][] aYY = new double[N][N];
+                final double[][] aXY = new double[N][N];
 
-                final double y2 = y * y;
-                final double y3 = y2 * y;
-                final double[] pY = {1, y, y2, y3};
+                for (int i = 0; i < N; i++) {
+                    for (int j = 0; j < N; j++) {
+                        final double c = a[i][j];
+                        aX[i][j] = i * c;
+                        aY[i][j] = j * c;
+                        aXX[i][j] = (i - 1) * aX[i][j];
+                        aYY[i][j] = (j - 1) * aY[i][j];
+                        aXY[i][j] = j * aX[i][j];
+                    }
+                }
 
-                return apply(pX, 1, pY, 0, aX) / xR;
-            };
-            partialDerivativeY = (double x, double y) -> {
-                final double x2 = x * x;
-                final double x3 = x2 * x;
-                final double[] pX = {1, x, x2, x3};
+                partialDerivativeX = (double x, double y) -> {
+                    final double x2 = x * x;
+                    final double[] pX = {0, 1, x, x2};
 
-                final double y2 = y * y;
-                final double[] pY = {0, 1, y, y2};
+                    final double y2 = y * y;
+                    final double y3 = y2 * y;
+                    final double[] pY = {1, y, y2, y3};
 
-                return apply(pX, 0, pY, 1, aY) / yR;
-            };
-            partialDerivativeXX = (double x, double y) -> {
-                final double[] pX = {0, 0, 1, x};
+                    return apply(pX, 1, pY, 0, aX) / xR;
+                };
+                partialDerivativeY = (double x, double y) -> {
+                    final double x2 = x * x;
+                    final double x3 = x2 * x;
+                    final double[] pX = {1, x, x2, x3};
 
-                final double y2 = y * y;
-                final double y3 = y2 * y;
-                final double[] pY = {1, y, y2, y3};
+                    final double y2 = y * y;
+                    final double[] pY = {0, 1, y, y2};
 
-                return apply(pX, 2, pY, 0, aXX) / (xR * xR);
-            };
-            partialDerivativeYY = (double x, double y) -> {
-                final double x2 = x * x;
-                final double x3 = x2 * x;
-                final double[] pX = {1, x, x2, x3};
+                    return apply(pX, 0, pY, 1, aY) / yR;
+                };
+                partialDerivativeXX = (double x, double y) -> {
+                    final double[] pX = {0, 0, 1, x};
 
-                final double[] pY = {0, 0, 1, y};
+                    final double y2 = y * y;
+                    final double y3 = y2 * y;
+                    final double[] pY = {1, y, y2, y3};
 
-                return apply(pX, 0, pY, 2, aYY) / (yR * yR);
-            };
-            partialDerivativeXY = (double x, double y) -> {
-                final double x2 = x * x;
-                final double[] pX = {0, 1, x, x2};
+                    return apply(pX, 2, pY, 0, aXX) / (xR * xR);
+                };
+                partialDerivativeYY = (double x, double y) -> {
+                    final double x2 = x * x;
+                    final double x3 = x2 * x;
+                    final double[] pX = {1, x, x2, x3};
 
-                final double y2 = y * y;
-                final double[] pY = {0, 1, y, y2};
+                    final double[] pY = {0, 0, 1, y};
 
-                return apply(pX, 1, pY, 1, aXY) / (xR * yR);
-            };
-        } else {
-            partialDerivativeX = null;
-            partialDerivativeY = null;
-            partialDerivativeXX = null;
-            partialDerivativeYY = null;
-            partialDerivativeXY = null;
+                    return apply(pX, 0, pY, 2, aYY) / (yR * yR);
+                };
+                partialDerivativeXY = (double x, double y) -> {
+                    final double x2 = x * x;
+                    final double[] pX = {0, 1, x, x2};
+
+                    final double y2 = y * y;
+                    final double[] pY = {0, 1, y, y2};
+
+                    return apply(pX, 1, pY, 1, aXY) / (xR * yR);
+                };
+            } else {
+                partialDerivativeX = null;
+                partialDerivativeY = null;
+                partialDerivativeXX = null;
+                partialDerivativeYY = null;
+                partialDerivativeXY = null;
+            }
         }
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double value(double x, double y) {
-        if (x < 0 || x > 1) {
-            throw new OutOfRangeException(x, 0, 1);
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public double value(double x, double y) {
+            if (x < 0 || x > 1) {
+                throw new OutOfRangeException(x, 0, 1);
+            }
+            if (y < 0 || y > 1) {
+                throw new OutOfRangeException(y, 0, 1);
+            }
+
+            final double x2 = x * x;
+            final double x3 = x2 * x;
+            final double[] pX = {1, x, x2, x3};
+
+            final double y2 = y * y;
+            final double y3 = y2 * y;
+            final double[] pY = {1, y, y2, y3};
+
+            return apply(pX, 0, pY, 0, a);
         }
-        if (y < 0 || y > 1) {
-            throw new OutOfRangeException(y, 0, 1);
+
+        /**
+         * Compute the value of the bicubic polynomial.
+         *
+         * <p>Assumes the powers are zero below the provided index, and 1 at the provided
+         * index. This allows skipping some zero products and optimising multiplication
+         * by one.
+         *
+         * @param pX Powers of the x-coordinate.
+         * @param i Index of pX[i] == 1
+         * @param pY Powers of the y-coordinate.
+         * @param j Index of pX[j] == 1
+         * @param coeff Spline coefficients.
+         * @return the interpolated value.
+         */
+        private static double apply(double[] pX, int i, double[] pY, int j, double[][] coeff) {
+            // assert pX[i] == 1
+            double result = sumOfProducts(coeff[i], pY, j);
+            while (++i < N) {
+                final double r = sumOfProducts(coeff[i], pY, j);
+                result += r * pX[i];
+            }
+            return result;
         }
 
-        final double x2 = x * x;
-        final double x3 = x2 * x;
-        final double[] pX = {1, x, x2, x3};
-
-        final double y2 = y * y;
-        final double y3 = y2 * y;
-        final double[] pY = {1, y, y2, y3};
-
-        return apply(pX, 0, pY, 0, a);
-    }
-
-    /**
-     * Compute the value of the bicubic polynomial.
-     *
-     * <p>Assumes the powers are zero below the provided index, and 1 at the provided
-     * index. This allows skipping some zero products and optimising multiplication
-     * by one.
-     *
-     * @param pX Powers of the x-coordinate.
-     * @param i Index of pX[i] == 1
-     * @param pY Powers of the y-coordinate.
-     * @param j Index of pX[j] == 1
-     * @param coeff Spline coefficients.
-     * @return the interpolated value.
-     */
-    private static double apply(double[] pX, int i, double[] pY, int j, double[][] coeff) {
-        // assert pX[i] == 1
-        double result = sumOfProducts(coeff[i], pY, j);
-        while (++i < N) {
-            final double r = sumOfProducts(coeff[i], pY, j);
-            result += r * pX[i];
+        /**
+         * Compute the sum of products starting from the provided index.
+         * Assumes that factor {@code b[j] == 1}.
+         *
+         * @param a Factors.
+         * @param b Factors.
+         * @param j Index to initialise the sum.
+         * @return the double
+         */
+        private static double sumOfProducts(double[] a, double[] b, int j) {
+            // assert b[j] == 1
+            final Sum sum = Sum.of(a[j]);
+            while (++j < N) {
+                sum.addProduct(a[j], b[j]);
+            }
+            return sum.getAsDouble();
         }
-        return result;
-    }
 
-    /**
-     * Compute the sum of products starting from the provided index.
-     * Assumes that factor {@code b[j] == 1}.
-     *
-     * @param a Factors.
-     * @param b Factors.
-     * @param j Index to initialise the sum.
-     * @return the double
-     */
-    private static double sumOfProducts(double[] a, double[] b, int j) {
-        // assert b[j] == 1
-        final Sum sum = Sum.of(a[j]);
-        while (++j < N) {
-            sum.addProduct(a[j], b[j]);
+        /**
+         * @return the partial derivative wrt {@code x}.
+         */
+        BivariateFunction partialDerivativeX() {
+            return partialDerivativeX;
         }
-        return sum.getAsDouble();
-    }
 
-    /**
-     * @return the partial derivative wrt {@code x}.
-     */
-    BivariateFunction partialDerivativeX() {
-        return partialDerivativeX;
-    }
+        /**
+         * @return the partial derivative wrt {@code y}.
+         */
+        BivariateFunction partialDerivativeY() {
+            return partialDerivativeY;
+        }
 
-    /**
-     * @return the partial derivative wrt {@code y}.
-     */
-    BivariateFunction partialDerivativeY() {
-        return partialDerivativeY;
-    }
+        /**
+         * @return the second partial derivative wrt {@code x}.
+         */
+        BivariateFunction partialDerivativeXX() {
+            return partialDerivativeXX;
+        }
 
-    /**
-     * @return the second partial derivative wrt {@code x}.
-     */
-    BivariateFunction partialDerivativeXX() {
-        return partialDerivativeXX;
-    }
+        /**
+         * @return the second partial derivative wrt {@code y}.
+         */
+        BivariateFunction partialDerivativeYY() {
+            return partialDerivativeYY;
+        }
 
-    /**
-     * @return the second partial derivative wrt {@code y}.
-     */
-    BivariateFunction partialDerivativeYY() {
-        return partialDerivativeYY;
-    }
-
-    /**
-     * @return the second partial cross-derivative.
-     */
-    BivariateFunction partialDerivativeXY() {
-        return partialDerivativeXY;
+        /**
+         * @return the second partial cross-derivative.
+         */
+        BivariateFunction partialDerivativeXY() {
+            return partialDerivativeXY;
+        }
     }
 }
+

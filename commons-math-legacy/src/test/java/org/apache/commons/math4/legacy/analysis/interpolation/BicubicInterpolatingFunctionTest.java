@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.analysis.interpolation;
 
 import java.util.function.DoubleBinaryOperator;
 import org.apache.commons.math4.legacy.analysis.BivariateFunction;
+import org.apache.commons.math4.legacy.analysis.interpolation.BicubicInterpolatingFunction.BicubicFunction;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
