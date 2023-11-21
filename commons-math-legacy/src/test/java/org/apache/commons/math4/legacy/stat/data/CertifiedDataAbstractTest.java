@@ -137,8 +137,8 @@ public abstract class CertifiedDataAbstractTest {
         try {
             // Get the value of prop
             String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
-            Method meth = bean.getClass().getMethod(prop, new Class[0]);
-            Object property = meth.invoke(bean, new Object[0]);
+            Method meth = bean.getClass().getMethod(prop);
+            Object property = meth.invoke(bean);
             if (meth.getReturnType().equals(Double.TYPE)) {
                 return (Double) property;
             } else if (meth.getReturnType().equals(Long.TYPE)) {
