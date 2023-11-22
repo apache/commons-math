@@ -4082,7 +4082,7 @@ public final class AccurateMath {
     }
 
     /** Enclose large data table in nested static class so it's only loaded on first access. */
-    private static class ExpIntTable {
+    private static final class ExpIntTable {
         /** Exponential evaluated at integer values,
          * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX].
          */
@@ -4121,7 +4121,7 @@ public final class AccurateMath {
     }
 
     /** Enclose large data table in nested static class so it's only loaded on first access. */
-    private static class ExpFracTable {
+    private static final class ExpFracTable {
         /** Exponential over the range of 0 - 1 in increments of 2^-10
          * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
          * 1024 = 2^10
@@ -4154,7 +4154,7 @@ public final class AccurateMath {
     }
 
     /** Enclose large data table in nested static class so it's only loaded on first access. */
-    private static class lnMant {
+    private static final class lnMant {
         /** Extended precision logarithm table over the range 1 - 2 in increments of 2^-10. */
         private static final double[][] LN_MANT;
 

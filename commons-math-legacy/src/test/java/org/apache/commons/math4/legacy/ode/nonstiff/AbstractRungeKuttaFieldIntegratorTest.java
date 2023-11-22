@@ -374,7 +374,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
     }
 
-    private static class KeplerHandler<T extends RealFieldElement<T>> implements FieldStepHandler<T> {
+    private static final class KeplerHandler<T extends RealFieldElement<T>> implements FieldStepHandler<T> {
         private T maxError;
         private final TestFieldProblem3<T> pb;
         private final double expectedMaxError;
@@ -580,7 +580,7 @@ public abstract class AbstractRungeKuttaFieldIntegratorTest {
         return y.getPartialDerivative(orders);
     }
 
-    private static class SinCos implements FirstOrderFieldDifferentialEquations<DerivativeStructure> {
+    private static final class SinCos implements FirstOrderFieldDifferentialEquations<DerivativeStructure> {
 
         private final DerivativeStructure omega;
         private       DerivativeStructure r;

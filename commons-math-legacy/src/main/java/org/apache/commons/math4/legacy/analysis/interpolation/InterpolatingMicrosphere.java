@@ -328,7 +328,7 @@ public class InterpolatingMicrosphere {
     /**
      * Microsphere "facet" (surface element).
      */
-    private static class Facet {
+    private static final class Facet {
         /** Normal vector characterizing a surface element. */
         private final double[] normal;
 
@@ -353,7 +353,7 @@ public class InterpolatingMicrosphere {
     /**
      * Data associated with each {@link Facet}.
      */
-    private static class FacetData {
+    private static final class FacetData {
         /** Illumination received from the sample. */
         private final double illumination;
         /** Data value of the sample. */

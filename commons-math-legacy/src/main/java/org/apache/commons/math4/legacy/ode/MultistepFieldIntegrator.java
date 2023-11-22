@@ -348,7 +348,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
 
     /** Specialized step handler storing the first step.
      */
-    private class FieldNordsieckInitializer implements FieldStepHandler<T> {
+    private final class FieldNordsieckInitializer implements FieldStepHandler<T> {
 
         /** Equation mapper. */
         private final FieldEquationsMapper<T> mapper;
@@ -430,7 +430,7 @@ public abstract class MultistepFieldIntegrator<T extends RealFieldElement<T>>
     }
 
     /** Marker exception used ONLY to stop the starter integrator after first step. */
-    private static class InitializationCompletedMarkerException
+    private static final class InitializationCompletedMarkerException
         extends RuntimeException {
 
         /** Serializable version identifier. */

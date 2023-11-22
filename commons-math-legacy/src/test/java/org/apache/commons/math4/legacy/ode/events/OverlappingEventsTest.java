@@ -131,7 +131,7 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
     }
 
     /** State events for this unit test. */
-    private class Event implements EventHandler {
+    private static final class Event implements EventHandler {
         /** The index of the continuous variable to use. */
         private final int idx;
 

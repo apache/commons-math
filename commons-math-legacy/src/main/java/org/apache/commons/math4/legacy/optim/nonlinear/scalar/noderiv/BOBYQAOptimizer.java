@@ -2453,7 +2453,7 @@ public class BOBYQAOptimizer
      * Marker for code paths that are not explored with the current unit tests.
      * If the path becomes explored, it should just be removed from the code.
      */
-    private static class PathIsExploredException extends RuntimeException {
+    private static final class PathIsExploredException extends RuntimeException {
         /** Serializable UID. */
         private static final long serialVersionUID = 745350979634801853L;
 

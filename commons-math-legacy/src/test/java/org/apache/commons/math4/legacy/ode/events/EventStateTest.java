@@ -111,7 +111,7 @@ public class EventStateTest {
         Assert.assertEquals(32.0, y[0], 1.0e-10);
     }
 
-    private static class ResettingEvent implements EventHandler {
+    private static final class ResettingEvent implements EventHandler {
 
         private static double lastTriggerTime = Double.NEGATIVE_INFINITY;
         private final double tEvent;
@@ -195,7 +195,7 @@ public class EventStateTest {
         Assert.assertEquals(-3.0, equation.getSecondaryState(0)[0], 1.0e-10);
     }
 
-    private static class SecondaryStateEvent implements EventHandler {
+    private static final class SecondaryStateEvent implements EventHandler {
 
         private int index;
         private final double target;
@@ -252,7 +252,7 @@ public class EventStateTest {
         Assert.assertEquals( 9.0 + 1.0 / 128, tEnd, 1.0 / 32.0);
     }
 
-    private class CloseEventsGenerator implements EventHandler {
+    private static final class CloseEventsGenerator implements EventHandler {
 
         private final double r1;
         private final double r2;

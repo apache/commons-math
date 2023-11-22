@@ -279,7 +279,7 @@ public class BracketFinder {
     /**
      * Utility for incrementing a counter at each function evaluation.
      */
-    private class FunctionEvaluator {
+    private final class FunctionEvaluator {
         /** Function. */
         private final UnivariateFunction func;
         /** Counter. */

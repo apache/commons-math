@@ -366,7 +366,7 @@ public class DormandPrince853IntegratorTest {
       integ.integrate(sincos, t0, y0, t, y);
   }
 
-  private static class SchedulingChecker implements StepHandler, EventHandler {
+  private static final class SchedulingChecker implements StepHandler, EventHandler {
 
       private int index;
       private double tMin;
@@ -404,7 +404,7 @@ public class DormandPrince853IntegratorTest {
       }
   }
 
-  private static class KeplerHandler implements StepHandler {
+  private static final class KeplerHandler implements StepHandler {
     KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
     }
@@ -444,7 +444,7 @@ public class DormandPrince853IntegratorTest {
     private TestProblem3 pb;
   }
 
-  private static class VariableHandler implements StepHandler {
+  private static final class VariableHandler implements StepHandler {
     VariableHandler() {
         firstTime = true;
         minStep = 0;

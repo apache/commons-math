@@ -46,7 +46,7 @@ public class JacobianFunctionTest {
     }
 
     /* Maps (latitude, longitude) to (x, y, z) */
-    private static class SphereMapping implements MultivariateDifferentiableVectorFunction {
+    private static final class SphereMapping implements MultivariateDifferentiableVectorFunction {
 
         private final double radius;
 

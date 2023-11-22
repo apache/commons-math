@@ -115,7 +115,7 @@ public class KMeansPlusPlusClustererTest {
      * A helper class for testSmallDistances(). This class is similar to DoublePoint, but
      * it defines a different distanceFrom() method that tends to return distances less than 1.
      */
-    private class CloseDistance extends EuclideanDistance {
+    private static final class CloseDistance extends EuclideanDistance {
         private static final long serialVersionUID = 1L;
 
         @Override

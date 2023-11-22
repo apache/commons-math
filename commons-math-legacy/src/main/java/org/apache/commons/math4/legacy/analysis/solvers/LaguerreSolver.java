@@ -229,7 +229,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
     /**
      * Class for searching all (complex) roots.
      */
-    private class ComplexSolver {
+    private final class ComplexSolver {
         /**
          * Check whether the given complex root is actually a real zero
          * in the given interval, within the solver tolerance level.

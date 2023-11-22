@@ -552,7 +552,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      * Code should be further refactored in order to not pass around arguments
      * that will modified in-place (cf. "work" arrays).
      */
-    private static class InternalData {
+    private static final class InternalData {
         /** Weighted Jacobian. */
         private final double[][] weightedJacobian;
         /** Columns permutation array. */

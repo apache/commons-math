@@ -258,7 +258,7 @@ public class LutherIntegratorTest {
                         pb.getFinalTime(), new double[pb.getDimension()]);
     }
 
-    private static class KeplerHandler implements StepHandler {
+    private static final class KeplerHandler implements StepHandler {
         KeplerHandler(TestProblem3 pb) {
             this.pb = pb;
             maxError = 0;

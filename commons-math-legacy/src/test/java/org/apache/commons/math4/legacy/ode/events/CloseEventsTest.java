@@ -71,7 +71,7 @@ public class CloseEventsTest {
 
 
     /** Trigger an event at a particular time. */
-    private static class TimeDetector implements EventHandler {
+    private static final class TimeDetector implements EventHandler {
 
         /** time of the event to trigger. */
         private final double eventT;

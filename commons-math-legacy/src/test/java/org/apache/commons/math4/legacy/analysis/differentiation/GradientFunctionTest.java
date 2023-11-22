@@ -55,7 +55,7 @@ public class GradientFunctionTest {
         }
     }
 
-    private static class EuclideanDistance implements MultivariateDifferentiableFunction {
+    private static final class EuclideanDistance implements MultivariateDifferentiableFunction {
 
         @Override
         public double value(double[] point) {

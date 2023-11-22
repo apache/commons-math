@@ -344,7 +344,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
      * </pre>
      * </p>
      */
-    private class Corrector implements RealMatrixPreservingVisitor {
+    private final class Corrector implements RealMatrixPreservingVisitor {
 
         /** Previous state. */
         private final double[] previous;

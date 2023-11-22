@@ -236,7 +236,7 @@ public class SymmLQ
      * the current number of evaluations of matrix-vector products.
      * </p>
      */
-    private static class State {
+    private static final class State {
         /** The cubic root of {@link #MACH_PREC}. */
         static final double CBRT_MACH_PREC;
 

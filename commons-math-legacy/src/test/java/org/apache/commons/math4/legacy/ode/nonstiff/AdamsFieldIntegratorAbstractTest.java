@@ -181,7 +181,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         integ.integrate(new FieldExpandableODE<>(pb), pb.getInitialState(), pb.getFinalTime());
     }
 
-    private static class PerfectStarter<T extends RealFieldElement<T>> extends AbstractFieldIntegrator<T> {
+    private static final class PerfectStarter<T extends RealFieldElement<T>> extends AbstractFieldIntegrator<T> {
 
         private final PerfectInterpolator<T> interpolator;
         private final int nbSteps;
@@ -210,7 +210,7 @@ public abstract class AdamsFieldIntegratorAbstractTest {
         }
     }
 
-    private static class PerfectInterpolator<T extends RealFieldElement<T>> implements FieldStepInterpolator<T> {
+    private static final class PerfectInterpolator<T extends RealFieldElement<T>> implements FieldStepInterpolator<T> {
         private final TestFieldProblemAbstract<T> problem;
         private T previousTime;
         private T currentTime;

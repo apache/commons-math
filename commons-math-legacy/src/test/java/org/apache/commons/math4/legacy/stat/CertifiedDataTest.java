@@ -104,8 +104,7 @@ public class CertifiedDataTest {
         } else {
             s = (SummaryStatistics) u;
         }
-        u.getClass().getDeclaredMethod(
-                "clear", new Class[]{}).invoke(u, new Object[]{});
+        u.getClass().getDeclaredMethod("clear").invoke(u);
         mean = Double.NaN;
         std = Double.NaN;
 

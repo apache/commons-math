@@ -71,7 +71,7 @@ public class FirstOrderConverterTest {
     Assert.assertTrue(JdkMath.abs(error) > 0.1);
   }
 
-  private static class Equations
+  private static final class Equations
     implements SecondOrderDifferentialEquations {
 
      private int n;

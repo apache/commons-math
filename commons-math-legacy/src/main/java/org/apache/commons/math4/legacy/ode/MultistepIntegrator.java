@@ -347,7 +347,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     }
 
     /** Specialized step handler storing the first step. */
-    private class NordsieckInitializer implements StepHandler {
+    private final class NordsieckInitializer implements StepHandler {
 
         /** Steps counter. */
         private int count;
@@ -440,7 +440,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     }
 
     /** Marker exception used ONLY to stop the starter integrator after first step. */
-    private static class InitializationCompletedMarkerException
+    private static final class InitializationCompletedMarkerException
         extends RuntimeException {
 
         /** Serializable version identifier. */

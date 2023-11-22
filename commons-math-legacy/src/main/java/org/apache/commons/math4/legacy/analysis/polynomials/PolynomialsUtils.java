@@ -264,7 +264,7 @@ public final class PolynomialsUtils {
     }
 
     /** Inner class for Jacobi polynomials keys. */
-    private static class JacobiKey {
+    private static final class JacobiKey {
 
         /** First exponent. */
         private final int v;

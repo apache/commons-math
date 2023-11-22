@@ -551,7 +551,7 @@ public final class EmpiricalDistribution extends AbstractRealDistribution
     /**
      * Constant distribution.
      */
-    private static class ConstantContinuousDistribution implements ContinuousDistribution {
+    private static final class ConstantContinuousDistribution implements ContinuousDistribution {
         /** Constant value of the distribution. */
         private final double value;
 

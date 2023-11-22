@@ -24,6 +24,7 @@ import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.OptimTestUtils.FourExtrema;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
@@ -65,7 +66,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                GoalType.MINIMIZE,
                105,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xM, f.yP}, f.valueXmYp),
+               new PointValuePair(new double[] {FourExtrema.xM, FourExtrema.yP}, FourExtrema.valueXmYp),
                1e-6);
     }
     @Test
@@ -76,7 +77,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                GoalType.MAXIMIZE,
                100,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xM, f.yM}, f.valueXmYm),
+               new PointValuePair(new double[] {FourExtrema.xM, FourExtrema.yM}, FourExtrema.valueXmYm),
                1e-6);
     }
     @Test
@@ -87,7 +88,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                GoalType.MINIMIZE,
                100,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xP, f.yM}, f.valueXpYm),
+               new PointValuePair(new double[] {FourExtrema.xP, FourExtrema.yM}, FourExtrema.valueXpYm),
                1e-6);
     }
     @Test
@@ -98,7 +99,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                GoalType.MAXIMIZE,
                110,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xP, f.yP}, f.valueXpYp),
+               new PointValuePair(new double[] {FourExtrema.xP, FourExtrema.yP}, FourExtrema.valueXpYp),
                1e-6);
     }
 
@@ -176,7 +177,7 @@ public class SimplexOptimizerMultiDirectionalTest {
                           nEval < maxEvaluations);
     }
 
-    private static class Gaussian2D implements MultivariateFunction {
+    private static final class Gaussian2D implements MultivariateFunction {
         private final double[] maximumPosition;
         private final double std;
 

@@ -625,7 +625,7 @@ public class CMAESOptimizer
         oldFac += 1 - ccov1Sep - ccovmuSep;
         diagC = diagC.scalarMultiply(oldFac) // regard old matrix
             .add(square(pc).scalarMultiply(ccov1Sep)) // plus rank one update
-            .add((times(diagC, square(bestArz).multiply(weights))) // plus rank mu update
+            .add(times(diagC, square(bestArz).multiply(weights)) // plus rank mu update
                  .scalarMultiply(ccovmuSep));
         diagD = sqrt(diagC); // replaces eig(C)
         if (diagonalOnly > 1 &&
@@ -801,7 +801,7 @@ public class CMAESOptimizer
      * Used to sort fitness values. Sorting is always in lower value first
      * order.
      */
-    private static class DoubleIndex implements Comparable<DoubleIndex> {
+    private static final class DoubleIndex implements Comparable<DoubleIndex> {
         /** Value to compare. */
         private final double value;
         /** Index into sorted array. */
@@ -847,7 +847,7 @@ public class CMAESOptimizer
     /**
      * Stores the value and penalty (for repair of out of bounds point).
      */
-    private static class ValuePenaltyPair {
+    private static final class ValuePenaltyPair {
         /** Objective function value. */
         private double value;
         /** Penalty value for repair of out out of bounds points. */
@@ -868,7 +868,7 @@ public class CMAESOptimizer
      * Normalizes fitness values to the range [0,1]. Adds a penalty to the
      * fitness value if out of range.
      */
-    private class FitnessFunction {
+    private final class FitnessFunction {
         /**
          * Flag indicating whether the objective variables are forced into their
          * bounds if defined.

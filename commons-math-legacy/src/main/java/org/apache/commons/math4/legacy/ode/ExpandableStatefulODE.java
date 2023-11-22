@@ -293,7 +293,7 @@ public class ExpandableStatefulODE {
     }
 
     /** Components of the compound stateful ODE. */
-    private static class SecondaryComponent {
+    private static final class SecondaryComponent {
 
         /** Secondary differential equation. */
         private final SecondaryEquations equation;

@@ -330,7 +330,7 @@ public class Frequency<T extends Comparable<T>> {
      *
      * @param <U> the type of the objects compared
      */
-    private static class NaturalComparator<U extends Comparable<U>> implements Comparator<U> {
+    private static final class NaturalComparator<U extends Comparable<U>> implements Comparator<U> {
         /**
          * Compare the two {@link Comparable Comparable} arguments.
          * This method is equivalent to:

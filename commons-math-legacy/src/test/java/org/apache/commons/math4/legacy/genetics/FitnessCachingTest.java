@@ -80,7 +80,7 @@ public class FitnessCachingTest {
         return new ElitisticListPopulation(popList, popList.size(), ELITISM_RATE);
     }
 
-    private static class DummyCountingBinaryChromosome extends DummyBinaryChromosome {
+    private static final class DummyCountingBinaryChromosome extends DummyBinaryChromosome {
 
         DummyCountingBinaryChromosome(List<Integer> representation) {
             super(representation);

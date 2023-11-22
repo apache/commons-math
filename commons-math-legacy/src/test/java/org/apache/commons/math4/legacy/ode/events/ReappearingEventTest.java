@@ -64,7 +64,7 @@ public class ReappearingEventTest {
         return integrator.integrate(new Ode(), t0, y, tEnd, y);
     }
 
-    private static class Ode implements FirstOrderDifferentialEquations {
+    private static final class Ode implements FirstOrderDifferentialEquations {
         @Override
         public int getDimension() {
             return 7;

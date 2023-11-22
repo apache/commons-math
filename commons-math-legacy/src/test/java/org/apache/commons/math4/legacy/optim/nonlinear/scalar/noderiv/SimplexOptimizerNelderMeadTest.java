@@ -28,6 +28,7 @@ import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LeastSquaresConverter;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.OptimTestUtils.FourExtrema;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
@@ -136,7 +137,7 @@ public class SimplexOptimizerNelderMeadTest {
                GoalType.MINIMIZE,
                105,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xM, f.yP}, f.valueXmYp),
+               new PointValuePair(new double[] {FourExtrema.xM, FourExtrema.yP}, FourExtrema.valueXmYp),
                1e-6);
     }
     @Test
@@ -147,7 +148,7 @@ public class SimplexOptimizerNelderMeadTest {
                GoalType.MAXIMIZE,
                100,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xM, f.yM}, f.valueXmYm),
+               new PointValuePair(new double[] {FourExtrema.xM, FourExtrema.yM}, FourExtrema.valueXmYm),
                1e-6);
     }
     @Test
@@ -158,7 +159,7 @@ public class SimplexOptimizerNelderMeadTest {
                GoalType.MINIMIZE,
                100,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xP, f.yM}, f.valueXpYm),
+               new PointValuePair(new double[] {FourExtrema.xP, FourExtrema.yM}, FourExtrema.valueXpYm),
                1e-6);
     }
     @Test
@@ -169,7 +170,7 @@ public class SimplexOptimizerNelderMeadTest {
                GoalType.MAXIMIZE,
                110,
                Simplex.alongAxes(OptimTestUtils.point(2, 0.2, 1e-2)),
-               new PointValuePair(new double[] {f.xP, f.yP}, f.valueXpYp),
+               new PointValuePair(new double[] {FourExtrema.xP, FourExtrema.yP}, FourExtrema.valueXpYp),
                1e-6);
     }
 

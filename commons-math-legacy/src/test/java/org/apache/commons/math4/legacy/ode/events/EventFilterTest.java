@@ -208,7 +208,7 @@ public class EventFilterTest {
         Assert.assertEquals(3, onlyDecreasing.getEventCount());
     }
 
-    private static class SineCosine implements FirstOrderDifferentialEquations {
+    private static final class SineCosine implements FirstOrderDifferentialEquations {
         @Override
         public int getDimension() {
             return 2;

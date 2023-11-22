@@ -270,7 +270,7 @@ public abstract class BaseOptimizer<PAIR> {
      * Defines the action to perform when reaching the maximum number
      * of evaluations.
      */
-    private static class MaxEvalCallback
+    private static final class MaxEvalCallback
         implements IntegerSequence.Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}
@@ -286,7 +286,7 @@ public abstract class BaseOptimizer<PAIR> {
      * Defines the action to perform when reaching the maximum number
      * of evaluations.
      */
-    private static class MaxIterCallback
+    private static final class MaxIterCallback
         implements IntegerSequence.Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}

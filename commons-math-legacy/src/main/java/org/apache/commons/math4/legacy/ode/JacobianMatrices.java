@@ -332,7 +332,7 @@ public class JacobianMatrices {
      * by forcing the use of {@link JacobianMatrices#registerVariationalEquations(ExpandableStatefulODE)}.
      * </p>
      */
-    private class JacobiansSecondaryEquations implements SecondaryEquations {
+    private final class JacobiansSecondaryEquations implements SecondaryEquations {
 
         /** {@inheritDoc} */
         @Override
@@ -410,7 +410,7 @@ public class JacobianMatrices {
     /** Wrapper class to compute jacobian matrices by finite differences for ODE
      *  which do not compute them by themselves.
      */
-    private static class MainStateJacobianWrapper implements MainStateJacobianProvider {
+    private static final class MainStateJacobianWrapper implements MainStateJacobianProvider {
 
         /** Raw ODE without jacobians computation skill to be wrapped into a MainStateJacobianProvider. */
         private final FirstOrderDifferentialEquations ode;
