@@ -31,6 +31,7 @@ import org.apache.commons.math4.legacy.optim.SimpleValueChecker;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunctionGradient;
+import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LineSearchTolerance;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -104,15 +105,15 @@ public class NonLinearConjugateGradientOptimizerTest {
             = new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         optimizer.optimize(new MaxEval(100),
                            problem.getObjectiveFunction(),
                            problem.getObjectiveFunctionGradient(),
                            GoalType.MINIMIZE,
                            new InitialGuess(new double[] { 0 }),
                            new SimpleBounds(new double[] { -1 },
-                                            new double[] { 1 }));
+                                            new double[] { 1 }),
+                           new LineSearchTolerance(1e-3, 1e-3, 1));
     }
 
     @Test
@@ -121,14 +122,14 @@ public class NonLinearConjugateGradientOptimizerTest {
             = new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 0 }));
+                                 new InitialGuess(new double[] { 0 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
         Assert.assertEquals(0.0, optimum.getValue(), 1.0e-10);
 
@@ -144,14 +145,14 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 0, 0 }));
+                                 new InitialGuess(new double[] { 0, 0 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
         Assert.assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
         Assert.assertEquals(0.0, optimum.getValue(), 1.0e-10);
@@ -169,14 +170,14 @@ public class NonLinearConjugateGradientOptimizerTest {
         }, new double[] { 0.0, 1.1, 2.2, 3.3, 4.4, 5.5 });
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 0, 0, 0, 0, 0, 0 }));
+                                 new InitialGuess(new double[] { 0, 0, 0, 0, 0, 0 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         for (int i = 0; i < problem.target.length; ++i) {
             Assert.assertEquals(0.55 * i, optimum.getPoint()[i], 1.0e-10);
         }
@@ -191,14 +192,14 @@ public class NonLinearConjugateGradientOptimizerTest {
         }, new double[] { 1, 1, 1});
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 0, 0, 0 }));
+                                 new InitialGuess(new double[] { 0, 0, 0 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
         Assert.assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
         Assert.assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
@@ -234,7 +235,6 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
            = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                      new SimpleValueChecker(1e-13, 1e-13),
-                                                     1e-7, 1e-7, 1,
                                                      preconditioner);
 
         PointValuePair optimum
@@ -242,7 +242,8 @@ public class NonLinearConjugateGradientOptimizerTest {
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 0, 0, 0, 0, 0, 0 }));
+                                 new InitialGuess(new double[] { 0, 0, 0, 0, 0, 0 }),
+                                 new LineSearchTolerance(1e-7, 1e-7, 1));
 
         final double[] result = optimum.getPoint();
         final double[] expected = {3, 4, -1, -2, 1 + epsilon, 1 - epsilon};
@@ -264,14 +265,14 @@ public class NonLinearConjugateGradientOptimizerTest {
         }, new double[] { 1, 1, 1 });
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 0, 0, 0 }));
+                                 new InitialGuess(new double[] { 0, 0, 0 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertTrue(optimum.getValue() > 0.5);
     }
 
@@ -285,14 +286,14 @@ public class NonLinearConjugateGradientOptimizerTest {
         }, new double[] { 32, 23, 33, 31 });
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-13, 1e-13),
-                                                      1e-15, 1e-15, 1);
+                                                      new SimpleValueChecker(1e-13, 1e-13));
         PointValuePair optimum1
             = optimizer.optimize(new MaxEval(200),
                                  problem1.getObjectiveFunction(),
                                  problem1.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 0, 1, 2, 3 }));
+                                 new InitialGuess(new double[] { 0, 1, 2, 3 }),
+                                 new LineSearchTolerance(1e-15, 1e-15, 1));
         Assert.assertEquals(1.0, optimum1.getPoint()[0], 1.0e-4);
         Assert.assertEquals(1.0, optimum1.getPoint()[1], 1.0e-3);
         Assert.assertEquals(1.0, optimum1.getPoint()[2], 1.0e-4);
@@ -330,14 +331,14 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 7, 6, 5, 4 }));
+                                 new InitialGuess(new double[] { 7, 6, 5, 4 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertEquals(0, optimum.getValue(), 1.0e-10);
     }
 
@@ -352,14 +353,14 @@ public class NonLinearConjugateGradientOptimizerTest {
         }, new double[] { 3.0, 12.0, -1.0, 7.0, 1.0 });
         NonLinearConjugateGradientOptimizer optimizer
            = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                     new SimpleValueChecker(1e-6, 1e-6),
-                                                     1e-3, 1e-3, 1);
+                                                     new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 2, 2, 2, 2, 2, 2 }));
+                                 new InitialGuess(new double[] { 2, 2, 2, 2, 2, 2 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertEquals(0, optimum.getValue(), 1.0e-10);
     }
 
@@ -373,14 +374,14 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 1, 1 }));
+                                 new InitialGuess(new double[] { 1, 1 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertEquals(2.0, optimum.getPoint()[0], 1.0e-8);
         Assert.assertEquals(1.0, optimum.getPoint()[1], 1.0e-8);
     }
@@ -395,14 +396,14 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3, 1);
+                                                      new SimpleValueChecker(1e-6, 1e-6));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 1, 1 }));
+                                 new InitialGuess(new double[] { 1, 1 }),
+                                 new LineSearchTolerance(1e-3, 1e-3, 1));
         Assert.assertTrue(optimum.getValue() > 0.1);
     }
 
@@ -416,14 +417,14 @@ public class NonLinearConjugateGradientOptimizerTest {
         problem.addPoint( 45.0,  97.0);
         NonLinearConjugateGradientOptimizer optimizer
            = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
-                                                     new SimpleValueChecker(1e-30, 1e-30),
-                                                     1e-15, 1e-13, 1);
+                                                     new SimpleValueChecker(1e-30, 1e-30));
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
                                  problem.getObjectiveFunctionGradient(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 98.680, 47.345 }));
+                                 new InitialGuess(new double[] { 98.680, 47.345 }),
+                                 new LineSearchTolerance(1e-15, 1e-13, 1));
         Vector2D center = Vector2D.of(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         Assert.assertEquals(69.960161753, problem.getRadius(center), 1.0e-8);
         Assert.assertEquals(96.075902096, center.getX(), 1.0e-7);

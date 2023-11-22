@@ -27,8 +27,6 @@ import org.apache.commons.math4.legacy.optim.OptimizationData;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GradientMultivariateOptimizer;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LineSearch;
-
 
 /**
  * Non-linear conjugate gradient optimizer.
@@ -36,6 +34,8 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LineSearch;
  * This class supports both the Fletcher-Reeves and the Polak-Ribière
  * update formulas for the conjugate search directions.
  * It also supports optional preconditioning.
+ * <br>
+ * Line search must be setup via {@link org.apache.commons.math4.legacy.optim.nonlinear.scalar.LineSearchTolerance}.
  * <br>
  * Constraints are not supported: the call to
  * {@link #optimize(OptimizationData[]) optimize} will throw
@@ -49,8 +49,6 @@ public class NonLinearConjugateGradientOptimizer
     private final Formula updateFormula;
     /** Preconditioner (may be null). */
     private final Preconditioner preconditioner;
-    /** Line search algorithm. */
-    private final LineSearch line;
 
     /**
      * Available choices of update formulas for the updating the parameter
@@ -78,50 +76,19 @@ public class NonLinearConjugateGradientOptimizer
     }
 
     /**
-     * Constructor with default tolerances for the line search (1e-8) and
-     * {@link IdentityPreconditioner preconditioner}.
-     *
-     * @param updateFormula formula to use for updating the &beta; parameter,
-     * must be one of {@link Formula#FLETCHER_REEVES} or
-     * {@link Formula#POLAK_RIBIERE}.
-     * @param checker Convergence checker.
-     */
-    public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
-                                               ConvergenceChecker<PointValuePair> checker) {
-        this(updateFormula,
-             checker,
-             1e-8,
-             1e-8,
-             1e-8,
-             new IdentityPreconditioner());
-    }
-
-    /**
      * Constructor with default {@link IdentityPreconditioner preconditioner}.
      *
      * @param updateFormula formula to use for updating the &beta; parameter,
      * must be one of {@link Formula#FLETCHER_REEVES} or
      * {@link Formula#POLAK_RIBIERE}.
      * @param checker Convergence checker.
-     * @param relativeTolerance Relative threshold for line search.
-     * @param absoluteTolerance Absolute threshold for line search.
-     * @param initialBracketingRange Extent of the initial interval used to
-     * find an interval that brackets the optimum in order to perform the
-     * line search.
      *
-     * @see LineSearch#LineSearch(org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimizer,double,double,double)
      * @since 3.3
      */
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
-                                               ConvergenceChecker<PointValuePair> checker,
-                                               double relativeTolerance,
-                                               double absoluteTolerance,
-                                               double initialBracketingRange) {
+                                               ConvergenceChecker<PointValuePair> checker) {
         this(updateFormula,
              checker,
-             relativeTolerance,
-             absoluteTolerance,
-             initialBracketingRange,
              new IdentityPreconditioner());
     }
 
@@ -131,29 +98,16 @@ public class NonLinearConjugateGradientOptimizer
      * {@link Formula#POLAK_RIBIERE}.
      * @param checker Convergence checker.
      * @param preconditioner Preconditioner.
-     * @param relativeTolerance Relative threshold for line search.
-     * @param absoluteTolerance Absolute threshold for line search.
-     * @param initialBracketingRange Extent of the initial interval used to
-     * find an interval that brackets the optimum in order to perform the
-     * line search.
      *
-     * @see LineSearch#LineSearch(org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimizer, double, double, double)
      * @since 3.3
      */
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
                                                ConvergenceChecker<PointValuePair> checker,
-                                               double relativeTolerance,
-                                               double absoluteTolerance,
-                                               double initialBracketingRange,
                                                final Preconditioner preconditioner) {
         super(checker);
 
         this.updateFormula = updateFormula;
         this.preconditioner = preconditioner;
-        line = new LineSearch(this,
-                              relativeTolerance,
-                              absoluteTolerance,
-                              initialBracketingRange);
     }
 
     /**
@@ -190,6 +144,8 @@ public class NonLinearConjugateGradientOptimizer
             delta += r[i] * searchDirection[i];
         }
 
+        createLineSearch();
+
         PointValuePair current = null;
         while (true) {
             incrementIterationCount();
@@ -197,12 +153,13 @@ public class NonLinearConjugateGradientOptimizer
             final double objective = func.value(point);
             PointValuePair previous = current;
             current = new PointValuePair(point, objective);
-            if (previous != null && checker.converged(getIterations(), previous, current)) {
+            if (previous != null &&
+                checker.converged(getIterations(), previous, current)) {
                 // We have found an optimum.
                 return current;
             }
 
-            final double step = line.search(point, searchDirection).getPoint();
+            final double step = lineSearch(point, searchDirection).getPoint();
 
             // Validate new point.
             for (int i = 0; i < point.length; ++i) {

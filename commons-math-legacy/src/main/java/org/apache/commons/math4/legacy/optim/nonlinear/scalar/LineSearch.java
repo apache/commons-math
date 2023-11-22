@@ -32,7 +32,12 @@ import org.apache.commons.math4.legacy.optim.univariate.UnivariatePointValuePair
  * direction.
  *
  * @since 3.3
+ * @deprecated as of 4.0-beta2.
+ * Class is now encapsulated in {@link MultivariateOptimizer}.
+ * Subclasses should call {@link MultivariateOptimizer#createLineSearch()}
+ * and {@link MultivariateOptimizer#lineSearch(double[],double[])} instead.
  */
+@Deprecated
 public class LineSearch {
     /**
      * Value that will pass the precondition check for {@link BrentOptimizer}

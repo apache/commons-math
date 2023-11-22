@@ -23,8 +23,10 @@ import org.apache.commons.math4.legacy.core.IntegerSequence;
 /**
  * Base class for implementing optimizers.
  * It contains the boiler-plate code for counting the number of evaluations
- * of the objective function and the number of iterations of the algorithm,
- * and storing the convergence checker.
+ * of the objective function and the number of iterations of the algorithm.
+ * It also stores a {@link ConvergenceChecker convergence checker}, as well
+ * as {@link Tolerance default tolerances} (how the checker and tolerances
+ * are used is determined by subclasses).
  * <em>It is not a "user" class.</em>
  *
  * @param <PAIR> Type of the point/value pair returned by the optimization
@@ -48,6 +50,10 @@ public abstract class BaseOptimizer<PAIR> {
     private IntegerSequence.Incrementor evaluations;
     /** Iterations counter. */
     private IntegerSequence.Incrementor iterations;
+    /** Relative tolerance. */
+    private double relativeTolerance = 1e-6;
+    /** Absolute tolerance. */
+    private double absoluteTolerance = 1e-6;
 
     /**
      * @param checker Convergence checker.
@@ -67,6 +73,16 @@ public abstract class BaseOptimizer<PAIR> {
         this.checker = checker;
         this.maxEvaluations = maxEval;
         this.maxIterations = maxIter;
+    }
+
+    /** @return the relative tolerance. */
+    protected double getRelativeTolerance() {
+        return relativeTolerance;
+    }
+
+    /** @return the absolute tolerance. */
+    protected double getAbsoluteTolerance() {
+        return absoluteTolerance;
     }
 
     /**
@@ -142,6 +158,7 @@ public abstract class BaseOptimizer<PAIR> {
      *  <li>{@link MaxEval}</li>
      *  <li>{@link MaxIter}</li>
      *  <li>{@link ConvergenceChecker}</li>
+     *  <li>{@link Tolerance}</li>
      * </ul>
      * @return a point/value pair that satisfies the convergence criteria.
      * @throws TooManyEvaluationsException if the maximal number of
@@ -229,6 +246,12 @@ public abstract class BaseOptimizer<PAIR> {
             if (data instanceof ConvergenceChecker) {
                 checker = (ConvergenceChecker<PAIR>) data;
                 continue;
+            }
+            if (data instanceof Tolerance) {
+               final Tolerance tol = (Tolerance) data;
+               relativeTolerance = tol.getRelativeTolerance();
+               absoluteTolerance = tol.getAbsoluteTolerance();
+               continue;
             }
         }
     }

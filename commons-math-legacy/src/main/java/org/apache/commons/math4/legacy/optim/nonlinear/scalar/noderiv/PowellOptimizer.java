@@ -25,7 +25,6 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.optim.ConvergenceChecker;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math4.legacy.optim.nonlinear.scalar.LineSearch;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math4.legacy.optim.univariate.UnivariatePointValuePair;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
@@ -40,8 +39,6 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * function value between two successive iterations. It is however possible
  * to define a custom convergence checker that might terminate the algorithm
  * earlier.
- * <br>
- * Line search is performed by the {@link LineSearch} class.
  * <br>
  * Constraints are not supported: the call to
  * {@link #optimize(org.apache.commons.math4.legacy.optim.OptimizationData...)} will throw
@@ -61,18 +58,14 @@ public class PowellOptimizer
      * Minimum relative tolerance.
      */
     private static final double MIN_RELATIVE_TOLERANCE = 2 * JdkMath.ulp(1d);
-    /**
-     * Relative threshold.
-     */
+    /** Relative threshold. */
     private final double relativeThreshold;
-    /**
-     * Absolute threshold.
-     */
+    /** Absolute threshold. */
     private final double absoluteThreshold;
-    /**
-     * Line search.
-     */
-    private final LineSearch line;
+    /** Relative threshold. */
+    private final double lineSearchRelativeThreshold;
+    /** Absolute threshold. */
+    private final double lineSearchAbsoluteThreshold;
 
     /**
      * This constructor allows to specify a user-defined convergence checker,
@@ -120,14 +113,11 @@ public class PowellOptimizer
         if (abs <= 0) {
             throw new NotStrictlyPositiveException(abs);
         }
+
         relativeThreshold = rel;
         absoluteThreshold = abs;
-
-        // Create the line search optimizer.
-        line = new LineSearch(this,
-                              lineRel,
-                              lineAbs,
-                              1d);
+        lineSearchRelativeThreshold = lineRel;
+        lineSearchAbsoluteThreshold = lineAbs;
     }
 
     /**
@@ -168,6 +158,9 @@ public class PowellOptimizer
     protected PointValuePair doOptimize() {
         checkParameters();
 
+        // Line search optimizer.
+        createLineSearch();
+
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final MultivariateFunction func = getObjectiveFunction();
@@ -198,7 +191,7 @@ public class PowellOptimizer
 
                 fX2 = fVal;
 
-                final UnivariatePointValuePair optimum = line.search(x, d);
+                final UnivariatePointValuePair optimum = lineSearch(x, d);
                 fVal = optimum.getValue();
                 alphaMin = optimum.getPoint();
                 final double[][] result = newPointAndDirection(x, d, alphaMin);
@@ -246,7 +239,7 @@ public class PowellOptimizer
                 t -= delta * temp * temp;
 
                 if (t < 0.0) {
-                    final UnivariatePointValuePair optimum = line.search(x, d);
+                    final UnivariatePointValuePair optimum = lineSearch(x, d);
                     fVal = optimum.getValue();
                     alphaMin = optimum.getPoint();
                     final double[][] result = newPointAndDirection(x, d, alphaMin);

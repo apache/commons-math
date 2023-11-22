@@ -44,10 +44,7 @@ public class MultiStartMultivariateOptimizerTest {
         circle.addPoint(110.0, -20.0);
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
-        // TODO: the wrapper around NonLinearConjugateGradientOptimizer is a temporary hack for
-        // version 3.1 of the library. It should be removed when NonLinearConjugateGradientOptimizer
-        // will officially be declared as implementing MultivariateDifferentiableOptimizer
-        GradientMultivariateOptimizer underlying
+        final GradientMultivariateOptimizer underlying
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-10, 1e-10));
         final Supplier<double[]> generator = gaussianRandom(new double[] { 50, 50 },
@@ -62,12 +59,13 @@ public class MultiStartMultivariateOptimizerTest {
                                  circle.getObjectiveFunctionGradient(),
                                  new NelderMeadTransform(),
                                  GoalType.MINIMIZE,
-                                 new InitialGuess(new double[] { 98.680, 47.345 }));
+                                 new InitialGuess(new double[] { 98.680, 47.345 }),
+                                 new LineSearchTolerance(1e-10, 1e-10, 1));
         Assert.assertEquals(1000, optimizer.getMaxEvaluations());
-        PointValuePair[] optima = optimizer.getOptima();
+        final PointValuePair[] optima = optimizer.getOptima();
         Assert.assertEquals(nbStarts, optima.length);
         for (PointValuePair o : optima) {
-            // we check the results of all intermediate restarts here (there are 10 such results)
+            // Check the results of all intermediate restarts.
             Vector2D center = Vector2D.of(o.getPointRef()[0], o.getPointRef()[1]);
             Assert.assertEquals(69.9597, circle.getRadius(center), 1e-3);
             Assert.assertEquals(96.07535, center.getX(), 1.4e-3);
