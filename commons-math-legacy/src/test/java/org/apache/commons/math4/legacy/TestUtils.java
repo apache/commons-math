@@ -250,7 +250,7 @@ public final class TestUtils {
      */
     public static void assertEquals(final String message,
         final double[] expected, final RealVector actual, final double delta) {
-        final String msgAndSep = message.equals("") ? "" : message + ", ";
+        final String msgAndSep = message.isEmpty() ? "" : message + ", ";
         Assert.assertEquals(msgAndSep + "dimension", expected.length,
             actual.getDimension());
         for (int i = 0; i < expected.length; i++) {
@@ -272,7 +272,7 @@ public final class TestUtils {
      */
     public static void assertEquals(final String message,
         final RealVector expected, final RealVector actual, final double delta) {
-        final String msgAndSep = message.equals("") ? "" : message + ", ";
+        final String msgAndSep = message.isEmpty() ? "" : message + ", ";
         Assert.assertEquals(msgAndSep + "dimension", expected.getDimension(),
             actual.getDimension());
         final int dim = expected.getDimension();

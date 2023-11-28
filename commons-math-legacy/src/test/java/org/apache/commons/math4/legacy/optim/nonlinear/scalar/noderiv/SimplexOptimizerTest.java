@@ -509,7 +509,7 @@ public class SimplexOptimizerTest {
             final List<Integer> list = new ArrayList<>();
 
             if (str == null ||
-                str.equals("")) {
+                str.isEmpty()) {
                 for (int i = 0; i <= dim; i++) {
                     list.add(i);
                 }
