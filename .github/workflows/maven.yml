@@ -15,7 +15,18 @@
 
 name: Java CI
 
-on: [push, pull_request]
+on:
+  # allow direct trigger
+  workflow_dispatch:
+  # Don't trigger if other workfiles change
+  push:
+    paths-ignore:
+      - '**/workflows/*.yml'
+      - '!**/workflows/maven.yml'
+  pull_request:
+    paths-ignore:
+      - '**/workflows/*.yml'
+      - '!**/workflows/maven.yml'
 
 permissions:
   contents: read
