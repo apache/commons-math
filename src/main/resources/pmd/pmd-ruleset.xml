@@ -97,14 +97,6 @@
                or @Image='BigFraction']"/>
     </properties>
   </rule>
-  <rule ref="category/java/design.xml/ExcessiveClassLength">
-    <properties>
-      <property name="violationSuppressXPath"
-        value="//ClassOrInterfaceType[@Image='Complex'
-               or @Image='Fraction'
-               or @Image='BigFraction']"/>
-    </properties>
-  </rule>
   <rule ref="category/java/design.xml/GodClass">
     <properties>
       <property name="violationSuppressXPath"
@@ -129,15 +121,6 @@
       <property name="violationSuppressXPath"
         value="//ClassOrInterfaceType[@Image='Complex'
                or @Image='Fraction'
-               or @Image='BigFraction']"/>
-    </properties>
-  </rule>
-
-  <!-- Long methods are based on reference implementations. -->
-  <rule ref="category/java/design.xml/ExcessiveMethodLength">
-    <properties>
-      <property name="violationSuppressXPath"
-        value="//ClassOrInterfaceType[@Image='Complex'
                or @Image='BigFraction']"/>
     </properties>
   </rule>
