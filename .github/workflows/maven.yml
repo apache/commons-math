@@ -34,10 +34,11 @@ permissions:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false # Run all the versions, but show overall status as failed if one fails
       matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
         java: [ 8, 11, 17 ]
 
     steps:
