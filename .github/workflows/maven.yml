@@ -24,6 +24,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    continue-on-error: true # Test if failure applies to all Java versions
     strategy:
       matrix:
         java: [ 8, 11, 17 ]
