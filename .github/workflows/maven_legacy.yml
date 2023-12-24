@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
   # self trigger
   push:
-    include:
+    paths:
       - '**/workflows/maven_legacy.yml'
       - 'commons-math-legacy/**'
 
