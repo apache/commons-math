@@ -517,9 +517,9 @@ public class CMAESOptimizerTest {
                            new Sigma(inSigma),
                            new PopulationSize(lambda));
 
-        Assert.assertEquals(expected.getValue(), result.getValue(), fTol);
+        Assert.assertEquals("Delta: " + fTol, expected.getValue(), result.getValue(), fTol);
         for (int i = 0; i < dim; i++) {
-            Assert.assertEquals(expected.getPoint()[i], result.getPoint()[i], pointTol);
+            Assert.assertEquals("Delta: " + pointTol, expected.getPoint()[i], result.getPoint()[i], pointTol);
         }
 
         Assert.assertTrue(optim.getIterations() > 0);

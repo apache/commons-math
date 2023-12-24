@@ -65,7 +65,7 @@ public class UnivariatePeriodicInterpolatorTest {
             final double y = f.value(x);
             final double yP = fP.value(x);
 
-            Assert.assertEquals("x=" + x, y, yP, Math.ulp(1d));
+            Assert.assertEquals("(Delta: ulp(1)) x=" + x, y, yP, Math.ulp(1d));
         }
 
         // Test interpolation outside the primary interval.
@@ -75,7 +75,7 @@ public class UnivariatePeriodicInterpolatorTest {
             final double yIn = fP.value(xIn);
             final double yOut = fP.value(xOut);
 
-            Assert.assertEquals(yIn, yOut, 1e-7);
+            Assert.assertEquals("Delta: 1e-7", yIn, yOut, 1e-7);
         }
     }
 
