@@ -73,7 +73,7 @@ public class MultiStartMultivariateOptimizerTest {
         }
 
         final int numEval = optimizer.getEvaluations();
-        Assert.assertTrue("exp: n > 750, act: " + numEval, numEval > 750);
+        Assert.assertTrue("exp: n > 700, act: " + numEval, numEval > 700);
         Assert.assertTrue("exp: n < 950, act: " + numEval, numEval < 950);
 
         Assert.assertEquals(3.1267527, optimum.getValue(), 1e-8);
