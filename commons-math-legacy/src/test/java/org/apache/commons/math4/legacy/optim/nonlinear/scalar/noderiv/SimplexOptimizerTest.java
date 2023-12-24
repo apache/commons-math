@@ -232,7 +232,7 @@ public class SimplexOptimizerTest {
 
             final int nEval = optim.getEvaluations();
             Assertions.assertTrue(nEval < functionEvaluations,
-                                  () -> name + ": nEval=" + nEval);
+                                  () -> name + ": nEval=" + nEval + " < " + functionEvaluations);
         }
 
         /**

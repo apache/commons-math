@@ -245,7 +245,7 @@ public class SimplexOptimizerNelderMeadTest {
         Assert.assertEquals(name + ": distance to optimum", 0d, dist, tol);
 
         final int nEval = optim.getEvaluations();
-        Assert.assertTrue(name + ": nEval=" + nEval,
+        Assert.assertTrue(name + ": nEval=" + nEval + " < " + maxEvaluations,
                           nEval < maxEvaluations);
     }
 }
