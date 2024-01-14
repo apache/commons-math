@@ -18,6 +18,6 @@
  * This package contains functionality related to random numbers.
  *
  * Note that a wide range of utilities are available in
- * <a href="http://commons.apache.org/rng">Commons RNG</a>.
+ * <a href="https://commons.apache.org/rng">Commons RNG</a>.
  */
 package org.apache.commons.math4.legacy.random;

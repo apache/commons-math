@@ -16,7 +16,7 @@
  */
 /**
  * Utilities based on the {@link org.apache.commons.numbers.field.Field Field}
- * functionality defined in <a href="http://commons.apache.org/numbers">
+ * functionality defined in <a href="https://commons.apache.org/numbers">
  * Commons Numbers</a>.
  */
 package org.apache.commons.math4.legacy.field;
