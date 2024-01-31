@@ -405,7 +405,7 @@ Distribution files and release notes:
       $ sha512sum -c sha512.txt
 
 KEYS file to check signatures:
-  http://www.apache.org/dist/commons/KEYS
+  http://downloads.apache.org/commons/KEYS
 
 Maven artefacts:
   https://repository.apache.org/content/repositories/orgapachecommons-1613/
@@ -585,7 +585,7 @@ The ASF "Commons" team is pleased to announce the availability of
   Commons Math (version 4.0-beta1)
 
 The release notes can be reviewed at
-  https://www.apache.org/dist/commons/math/RELEASE-NOTES.txt
+  https://downloads.apache.org/commons/math/RELEASE-NOTES.txt
 
 Distribution packages can be downloaded from
   https://commons.apache.org/math/download_math.cgi
