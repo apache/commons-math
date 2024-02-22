@@ -286,8 +286,11 @@ public class NaturalRankingTest {
      */
     @Test
     public void testNullStrategies() {
-        NaturalRanking ranking = new NaturalRanking((NaNStrategy) null, (TiesStrategy) null);
-        Assert.assertEquals(ranking.getNanStrategy(), NaturalRanking.DEFAULT_NAN_STRATEGY);
-        Assert.assertEquals(ranking.getTiesStrategy(), NaturalRanking.DEFAULT_TIES_STRATEGY);
+        Assert.assertThrows(NullPointerException.class, () -> {
+            new NaturalRanking((NaNStrategy) null, (TiesStrategy) null);
+        });
+        Assert.assertThrows(NullPointerException.class, () -> {
+            new NaturalRanking(NaturalRanking.DEFAULT_NAN_STRATEGY, (TiesStrategy) null);
+        });
     }
 }

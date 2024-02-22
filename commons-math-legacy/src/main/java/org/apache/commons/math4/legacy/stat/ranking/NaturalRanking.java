@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -158,8 +159,8 @@ public class NaturalRanking implements RankingAlgorithm {
     private NaturalRanking(NaNStrategy nanStrategy,
                            TiesStrategy tiesStrategy,
                            UniformRandomProvider random) {
-        this.nanStrategy = nanStrategy != null ? nanStrategy : DEFAULT_NAN_STRATEGY;
-        this.tiesStrategy = tiesStrategy != null ? tiesStrategy : DEFAULT_TIES_STRATEGY;
+        this.nanStrategy = Objects.requireNonNull(nanStrategy, "nanStrategy");
+        this.tiesStrategy = Objects.requireNonNull(tiesStrategy, "tiesStrategy");
         this.random = random;
     }
 
