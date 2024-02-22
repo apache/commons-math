@@ -158,8 +158,8 @@ public class NaturalRanking implements RankingAlgorithm {
     private NaturalRanking(NaNStrategy nanStrategy,
                            TiesStrategy tiesStrategy,
                            UniformRandomProvider random) {
-        this.nanStrategy = nanStrategy;
-        this.tiesStrategy = tiesStrategy;
+        this.nanStrategy = nanStrategy != null ? nanStrategy : DEFAULT_NAN_STRATEGY;
+        this.tiesStrategy = tiesStrategy != null ? tiesStrategy : DEFAULT_TIES_STRATEGY;
         this.random = random;
     }
 
