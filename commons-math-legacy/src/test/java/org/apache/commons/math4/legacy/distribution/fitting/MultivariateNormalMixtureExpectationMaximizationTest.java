@@ -56,9 +56,9 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
 
     @Test(expected = NumberIsTooSmallException.class)
     public void testMultipleColumnsRequired() {
-        // Data should have at least 2 columns
+        // Data should have at least 1 column
         double[][] data = new double[][] {
-                { 1 }, { 2 }
+                {}, {}
         };
         new MultivariateNormalMixtureExpectationMaximization(data);
     }
