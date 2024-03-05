@@ -81,7 +81,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
      * @throws DimensionMismatchException if rows of data have different numbers
      *             of columns
      * @throws NumberIsTooSmallException if the number of columns in the data is
-     *             less than 2
+     *             less than 1
      */
     public MultivariateNormalMixtureExpectationMaximization(double[][] data)
         throws NotStrictlyPositiveException,
@@ -99,9 +99,9 @@ public class MultivariateNormalMixtureExpectationMaximization {
                 throw new DimensionMismatchException(data[i].length,
                                                      data[0].length);
             }
-            if (data[i].length < 2) {
+            if (data[i].length < 1) {
                 throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_TOO_SMALL,
-                                                    data[i].length, 2, true);
+                                                    data[i].length, 1, true);
             }
             this.data[i] = Arrays.copyOf(data[i], data[i].length);
         }
