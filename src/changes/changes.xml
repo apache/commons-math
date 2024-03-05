@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="update">
+        "MultivariateNormalMixtureExpectationMaximization": Allow fitting single column data.
+      </action>
       <action dev="erans" type="update" issue="MATH-1658">
         Allow convergence checker to be specified as "OptimizationData".
       </action>
@@ -105,9 +108,6 @@ Caveat:
       </action>
       <action dev="erans" type="update" issue="MATH-1654" due-to="Cyril de Catheu">
         "Array2DRowRealMatrix": Performance enhancement ("getEntry").
-      </action>
-      <action dev="ggregory" type="update" due-to="Gary Gregory">
-        Bump commons-parent from 57 to 58.
       </action>
     </release>
 
