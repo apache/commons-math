@@ -159,6 +159,43 @@ public class DBSCANClustererTest {
     }
 
     @Test
+    public void minPtsIncludesInitialPoint() {
+        final DoublePoint[] points = {
+                new DoublePoint(new double[] { 4.0, 5.0 }),
+                new DoublePoint(new double[] { 6.0, 5.0 }),
+                new DoublePoint(new double[] { 5.0, 5.0 }),
+                new DoublePoint(new double[] { 5.0, 4.0 }),
+                new DoublePoint(new double[] { 5.0, 6.0 })
+        };
+
+        final DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<>(1.0, 5);
+        final List<Cluster<DoublePoint>> clusters = clusterer.cluster(Arrays.asList(points));
+
+        Assert.assertEquals(1, clusters.size());
+    }
+
+    @Test
+    public void minPtsIncludesSeedPoint() {
+        final DoublePoint[] points = {
+                new DoublePoint(new double[] { 4.0, 5.0 }),
+                new DoublePoint(new double[] { 6.0, 5.0 }),
+                new DoublePoint(new double[] { 5.0, 5.0 }),
+                new DoublePoint(new double[] { 5.0, 4.0 }),
+                new DoublePoint(new double[] { 5.0, 6.0 }),
+                new DoublePoint(new double[]{ 5.8090169943749475, 6.587785252292473 }),
+                new DoublePoint(new double[]{ 5.3090169943749475, 6.951056516295154 }),
+                new DoublePoint(new double[]{ 4.6909830056250525, 6.951056516295154 }),
+                new DoublePoint(new double[]{ 4.1909830056250525, 6.587785252292473 }),
+        };
+
+        final DBSCANClusterer<DoublePoint> clusterer = new DBSCANClusterer<>(1.0, 5);
+        final List<Cluster<DoublePoint>> clusters = clusterer.cluster(Arrays.asList(points));
+
+        Assert.assertEquals(1, clusters.size());
+        Assert.assertEquals(9, clusters.get(0).getPoints().size());
+    }
+
+    @Test
     public void testGetEps() {
         final DBSCANClusterer<DoublePoint> transformer = new DBSCANClusterer<>(2.0, 5);
         Assert.assertEquals(2.0, transformer.getEps(), 0.0);
