@@ -294,7 +294,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
      * @return Multivariate normal mixture model estimated from the data
      * @throws NumberIsTooLargeException if {@code numComponents} is greater
      * than the number of data rows.
-     * @throws NumberIsTooSmallException if {@code numComponents < 2}.
+     * @throws NumberIsTooSmallException if {@code numComponents < 1}.
      * @throws NotStrictlyPositiveException if data has less than 2 rows
      * @throws DimensionMismatchException if rows of data have different numbers
      *             of columns
@@ -306,8 +306,8 @@ public class MultivariateNormalMixtureExpectationMaximization {
         if (data.length < 2) {
             throw new NotStrictlyPositiveException(data.length);
         }
-        if (numComponents < 2) {
-            throw new NumberIsTooSmallException(numComponents, 2, true);
+        if (numComponents < 1) {
+            throw new NumberIsTooSmallException(numComponents, 1, true);
         }
         if (numComponents > data.length) {
             throw new NumberIsTooLargeException(numComponents, data.length, true);
