@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.stat.regression;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.LUDecomposition;
 import org.apache.commons.math4.legacy.linear.QRDecomposition;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
@@ -56,6 +55,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     /** Cached QR decomposition of X matrix. */
     private QRDecomposition qr;
 
+    /** Matrix operations helper. */
+    private MatrixOperations matrixOperations;
+
     /** Singularity threshold for QR decomposition. */
     private final double threshold;
 
@@ -75,6 +77,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     public OLSMultipleLinearRegression(final double threshold) {
         this.threshold = threshold;
+        this.matrixOperations = new MatrixOperations();
     }
 
     /**
@@ -124,26 +127,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * called beforehand.
      */
     public RealMatrix calculateHat() {
-        // Create augmented identity matrix
-        RealMatrix q = qr.getQ();
-        final int p = qr.getR().getColumnDimension();
-        final int n = q.getColumnDimension();
-        // No try-catch or advertised NotStrictlyPositiveException - NPE above if n < 3
-        Array2DRowRealMatrix augI = new Array2DRowRealMatrix(n, n);
-        double[][] augIData = augI.getDataRef();
-        for (int i = 0; i < n; i++) {
-            for (int j =0; j < n; j++) {
-                if (i == j && i < p) {
-                    augIData[i][j] = 1d;
-                } else {
-                    augIData[i][j] = 0d;
-                }
-            }
-        }
-
-        // Compute and return Hat matrix
-        // No DME advertised - args valid if we get here
-        return q.multiply(augI).multiply(q.transpose());
+        return matrixOperations.calculateHat(qr);
     }
 
     /**
@@ -179,7 +163,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     public double calculateResidualSumOfSquares() {
         final RealVector residuals = calculateResiduals();
         // No advertised DME, args are valid
-        return residuals.dotProduct(residuals);
+        return matrixOperations.calculateResidualSumOfSquares(residuals);
     }
 
     /**
