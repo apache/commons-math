@@ -416,6 +416,15 @@ public final class AccurateMath {
         }
         exp(x, 0.0, highPrecisionValues);
 
+        return getCoshResult(highPrecisionValues);
+    }
+
+    /**
+     * Get the result for cosh.
+     * @param highPrecisionValues the precision values calculated.
+     * @return the result of the cosh function.
+     */
+    private static double getCoshResult(double[] highPrecisionValues) {
         double ya = highPrecisionValues[0] + highPrecisionValues[1];
         double yb = -(ya - highPrecisionValues[0] - highPrecisionValues[1]);
 
