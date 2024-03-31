@@ -389,7 +389,10 @@ public final class AccurateMath {
         // for numbers with magnitude 20 or so,
         // exp(-z) can be ignored in comparison with exp(z)
 
-        if (x > 20) {
+        int PositiveThreshold = 20;
+        int NegativeThreshold = -20;
+
+        if (x > PositiveThreshold) {
             if (x >= LOG_MAX_VALUE) {
                 // Avoid overflow (MATH-905).
                 final double t = exp(0.5 * x);
@@ -397,7 +400,7 @@ public final class AccurateMath {
             } else {
                 return 0.5 * exp(x);
             }
-        } else if (x < -20) {
+        } else if (x < NegativeThreshold) {
             if (x <= -LOG_MAX_VALUE) {
                 // Avoid overflow (MATH-905).
                 final double t = exp(-0.5 * x);
@@ -440,6 +443,8 @@ public final class AccurateMath {
         ya = temp;
 
         double result = ya + yb;
+
+
         result *= 0.5;
         return result;
     }
