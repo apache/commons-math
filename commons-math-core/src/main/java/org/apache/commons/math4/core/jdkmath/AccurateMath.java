@@ -1176,8 +1176,10 @@ public final class AccurateMath {
             }
         }
 
+        boolean isExpNegOneOrZero = (exp == -1 || exp == 0);
+        boolean isXOne = x < 1.01 && x > 0.99;
 
-        if ((exp == -1 || exp == 0) && x < 1.01 && x > 0.99 && hiPrec == null) {
+        if (isExpNegOneOrZero && isXOne && hiPrec == null) {
             /* The normal method doesn't work well in the range [0.99, 1.01], so call do a straight
            polynomial expansion in higer precision. */
 
