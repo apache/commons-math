@@ -18,10 +18,12 @@
 package org.apache.commons.math4.legacy.ode;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
@@ -198,5 +200,35 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
             throw new MathIllegalArgumentException(LocalizedFormats.ARGUMENT_OUTSIDE_DOMAIN,
                                                    index, 0, start.length - 2);
         }
+    }
+
+    /** Get the current time derivative of the complete state vector.
+     * @param t current value of the independent <I>time</I> variable
+     * @param y array containing the current value of the complete state vector
+     * @return time derivative of the complete state vector
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+     * @exception DimensionMismatchException if arrays dimensions do not match equations settings
+     */
+    public T[] computeDerivatives(final T t, final T[] y, FirstOrderFieldDifferentialEquations<T> primary,
+                                  List<FieldSecondaryEquations<T>> components)
+            throws MaxCountExceededException, DimensionMismatchException {
+
+        final T[] yDot = MathArrays.buildArray(t.getField(), getTotalDimension());
+
+        // compute derivatives of the primary equations
+        int index = 0;
+        final T[] primaryState    = extractEquationData(index, y);
+        final T[] primaryStateDot = primary.computeDerivatives(t, primaryState);
+        insertEquationData(index, primaryStateDot, yDot);
+
+        // Add contribution for secondary equations
+        while (++index < getNumberOfEquations()) {
+            final T[] componentState    = extractEquationData(index, y);
+            final T[] componentStateDot = components.get(index - 1).computeDerivatives(t, primaryState, primaryStateDot,
+                    componentState);
+            insertEquationData(index, componentStateDot, yDot);
+        }
+
+        return yDot;
     }
 }

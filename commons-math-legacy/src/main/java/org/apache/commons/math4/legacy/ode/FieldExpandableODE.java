@@ -122,22 +122,6 @@ public class FieldExpandableODE<T extends RealFieldElement<T>> {
     public T[] computeDerivatives(final T t, final T[] y)
         throws MaxCountExceededException, DimensionMismatchException {
 
-        final T[] yDot = MathArrays.buildArray(t.getField(), mapper.getTotalDimension());
-
-        // compute derivatives of the primary equations
-        int index = 0;
-        final T[] primaryState    = mapper.extractEquationData(index, y);
-        final T[] primaryStateDot = primary.computeDerivatives(t, primaryState);
-        mapper.insertEquationData(index, primaryStateDot, yDot);
-
-        // Add contribution for secondary equations
-        while (++index < mapper.getNumberOfEquations()) {
-            final T[] componentState    = mapper.extractEquationData(index, y);
-            final T[] componentStateDot = components.get(index - 1).computeDerivatives(t, primaryState, primaryStateDot,
-                                                                                       componentState);
-            mapper.insertEquationData(index, componentStateDot, yDot);
-        }
-
-        return yDot;
+        return mapper.computeDerivatives(t, y, primary, components);
     }
 }
