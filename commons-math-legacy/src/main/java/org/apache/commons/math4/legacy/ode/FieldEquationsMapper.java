@@ -205,6 +205,8 @@ public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Seri
     /** Get the current time derivative of the complete state vector.
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the complete state vector
+     * @param primary differential equations of first order
+     * @param components list of the field secondary equations
      * @return time derivative of the complete state vector
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      * @exception DimensionMismatchException if arrays dimensions do not match equations settings
