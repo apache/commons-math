@@ -410,14 +410,14 @@ public final class AccurateMath {
             }
         }
 
-        final double[] hiPrec = new double[2];
+        final double[] highPrecisionValues = new double[2];
         if (x < 0.0) {
             x = -x;
         }
-        exp(x, 0.0, hiPrec);
+        exp(x, 0.0, highPrecisionValues);
 
-        double ya = hiPrec[0] + hiPrec[1];
-        double yb = -(ya - hiPrec[0] - hiPrec[1]);
+        double ya = highPrecisionValues[0] + highPrecisionValues[1];
+        double yb = -(ya - highPrecisionValues[0] - highPrecisionValues[1]);
 
         double temp = ya * HEX_40000000;
         double yaa = ya + temp - temp;
