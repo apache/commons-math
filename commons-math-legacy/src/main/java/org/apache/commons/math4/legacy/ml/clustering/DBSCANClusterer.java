@@ -140,7 +140,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
                 continue;
             }
             final List<T> neighbors = getNeighbors(point, points);
-            if (neighbors.size() >= minPts) {
+            if (neighbors.size() >= minPts - 1) {
                 // DBSCAN does not care about center points
                 final Cluster<T> cluster = new Cluster<>();
                 clusters.add(expandCluster(cluster, point, neighbors, points, visited));
@@ -178,7 +178,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
             // only check non-visited points
             if (pStatus == null) {
                 final List<T> currentNeighbors = getNeighbors(current, points);
-                if (currentNeighbors.size() >= minPts) {
+                if (currentNeighbors.size() >= minPts - 1) {
                     seeds = merge(seeds, currentNeighbors);
                 }
             }
