@@ -30,7 +30,7 @@
   <subsection name="2.1 Overview"
               href="overview">
     <p>
-      Utilities in package <a href="../apidocs/org/apache/commons/math4/legacy/random/package-summary.html">
+      Utilities in package <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/random/package-summary.html">
       o.a.c.m.legacy.random</a> often uses an underlying "source of randomness": A pseudo-random
       number generator (PRNG) that produces sequences of numbers that are uniformly distributed
       within their range.
@@ -48,7 +48,7 @@
     </p>
     <p>
       When the components are correlated however, generating them is more difficult.
-      The <a href="../apidocs/org/apache/commons/math4/legacy/random/CorrelatedVectorFactory.html">
+      The <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/random/CorrelatedVectorFactory.html">
       CorrelatedVectorFactory</a> class provides this service.
       In this case, a complete covariance matrix must be provided (instead of a
       simple standard deviations vector) gathering both the variance and the
@@ -114,9 +114,9 @@ RealMatrix covariance = MatrixUtils.createRealMatrix(cov);
       is completely deterministic), their unique properties give them an important advantage for quasi-Monte Carlo simulations.<br/>
       Currently, the following low-discrepancy sequences are supported:
       <ul>
-        <li><a href="../apidocs/org/apache/commons/math4/legacy/random/SobolSequenceGenerator.html">
+        <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/random/SobolSequenceGenerator.html">
         Sobol sequence</a> (pre-configured up to dimension 1000)</li>
-        <li><a href="../apidocs/org/apache/commons/math4/legacy/random/HaltonSequenceGenerator.html">
+        <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/random/HaltonSequenceGenerator.html">
         Halton sequence</a> (pre-configured up to dimension 40)</li>
       </ul>
 

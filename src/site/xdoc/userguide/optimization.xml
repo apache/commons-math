@@ -26,7 +26,7 @@
   <body>
     <section name="12 Optimization">
       <p><em>The contents of this section currently describes deprecated classes.</em>
-        Please refer to the new <a href="../apidocs/org/apache/commons/math4/optim/package-summary.html">API
+        Please refer to the new <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optim/package-summary.html">API
         description</a>.
       </p>
       <p>Least squares optimizers are not in this package anymore, they have been moved
@@ -61,7 +61,7 @@
         </p>
         <p>
         The type of goal, i.e. minimization or maximization, is defined by the enumerated
-        <a href="../apidocs/org/apache/commons/math4/optimization/GoalType.html">
+        <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/GoalType.html">
         GoalType</a> which has only two values: <code>MAXIMIZE</code> and <code>MINIMIZE</code>.
         </p>
         <p>
@@ -70,21 +70,21 @@
         are only four interfaces defining the common behavior of optimizers, one for each
         supported type of objective function:
         <ul>
-          <li><a href="../apidocs/org/apache/commons/math4/optimization/univariate/UnivariateOptimizer.html">
+          <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/univariate/UnivariateOptimizer.html">
               UnivariateOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">
+              href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/UnivariateFunction.html">
               univariate real functions</a></li>
-          <li><a href="../apidocs/org/apache/commons/math4/optimization/MultivariateOptimizer.html">
+          <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/MultivariateOptimizer.html">
               MultivariateOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math4/analysis/MultivariateFunction.html">
+              href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/MultivariateFunction.html">
               multivariate real functions</a></li>
-          <li><a href="../apidocs/org/apache/commons/math4/optimization/DifferentiableMultivariateOptimizer.html">
+          <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/DifferentiableMultivariateOptimizer.html">
               DifferentiableMultivariateOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math4/analysis/DifferentiableMultivariateFunction.html">
+              href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/DifferentiableMultivariateFunction.html">
               differentiable multivariate real functions</a></li>
-          <li><a href="../apidocs/org/apache/commons/math4/optimization/DifferentiableMultivariateVectorOptimizer.html">
+          <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/DifferentiableMultivariateVectorOptimizer.html">
               DifferentiableMultivariateVectorOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math4/analysis/DifferentiableMultivariateVectorFunction.html">
+              href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/DifferentiableMultivariateVectorFunction.html">
               differentiable multivariate vectorial functions</a></li>
         </ul>
         </p>
@@ -92,14 +92,14 @@
         <p>
         Despite there are only four types of supported optimizers, it is possible to optimize
         a transform a <a
-        href="../apidocs/org/apache/commons/math4/analysis/MultivariateVectorFunction.html">
+        href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/MultivariateVectorFunction.html">
         non-differentiable multivariate vectorial function</a> by converting it to a <a
-        href="../apidocs/org/apache/commons/math4/analysis/MultivariateFunction.html">
+        href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/MultivariateFunction.html">
         non-differentiable multivariate real function</a> thanks to the <a
-        href="../apidocs/org/apache/commons/math4/optimization/LeastSquaresConverter.html">
+        href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/LeastSquaresConverter.html">
         LeastSquaresConverter</a> helper class. The transformed function can be optimized using
         any implementation of the <a
-        href="../apidocs/org/apache/commons/math4/optimization/MultivariateOptimizer.html">
+        href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/MultivariateOptimizer.html">
         MultivariateOptimizer</a> interface.
         </p>
 
@@ -113,7 +113,7 @@
       </subsection>
       <subsection name="12.2 Univariate Functions" href="univariate">
         <p>
-          A <a href="../apidocs/org/apache/commons/math4/optimization/univariate/UnivariateOptimizer.html">
+          A <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/univariate/UnivariateOptimizer.html">
           UnivariateOptimizer</a> is used to find the minimal values of a univariate real-valued
           function <code>f</code>.
         </p>
@@ -164,16 +164,16 @@
           The <code>direct</code> package provides four solvers:
           <ul>
             <li>the classical <a
-                href="../apidocs/org/apache/commons/math4/optimization/direct/NelderMeadSimplex.html">
+                href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/direct/NelderMeadSimplex.html">
                 Nelder-Mead</a> method,</li>
             <li>Virginia Torczon's <a
-                href="../apidocs/org/apache/commons/math4/optimization/direct/MultiDirectionalSimplex.html">
+                href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/direct/MultiDirectionalSimplex.html">
                 multi-directional</a> method,</li>
             <li>Nikolaus Hansen's <a
-               href="../apidocs/org/apache/commons/math4/optimization/direct/CMAESOptimizer.html">
+               href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/direct/CMAESOptimizer.html">
                </a>Covariance Matrix Adaptation Evolution Strategy (CMA-ES),</li>
             <li>Mike Powell's <a
-               href="../apidocs/org/apache/commons/math4/optimization/direct/BOBYQAOptimizer.html">
+               href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/direct/BOBYQAOptimizer.html">
                BOBYQA</a> method.
             </li>
           </ul>
@@ -181,9 +181,9 @@
         <p>
           The first two simplex-based methods do not handle simple bounds constraints by themselves.
           However there are two adapters(<a
-          href="../apidocs/org/apache/commons/math4/optimization/direct/MultivariateFunctionMappingAdapter.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/direct/MultivariateFunctionMappingAdapter.html">
           MultivariateFunctionMappingAdapter</a> and <a
-          href="../apidocs/org/apache/commons/math4/optimization/direct/MultivariateFunctionPenaltyAdapter.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/direct/MultivariateFunctionPenaltyAdapter.html">
           MultivariateFunctionPenaltyAdapter</a>) that can be used to wrap the user function in
           such a way the wrapped function is unbounded and can be used with these optimizers, despite
           the fact the underlying function is still bounded and will be called only with feasible
@@ -237,15 +237,15 @@
         <p>
           Two optimizers are available in the general package, both devoted to least-squares
           problems. The first one is based on the <a
-          href="../apidocs/org/apache/commons/math4/optimization/general/GaussNewtonOptimizer.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/general/GaussNewtonOptimizer.html">
           Gauss-Newton</a> method. The second one is the <a
-          href="../apidocs/org/apache/commons/math4/optimization/general/LevenbergMarquardtOptimizer.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/general/LevenbergMarquardtOptimizer.html">
           Levenberg-Marquardt</a> method.
         </p>
         <p>
           In order to solve a vectorial optimization problem, the user must provide it as
           an object implementing the <a
-          href="../apidocs/org/apache/commons/math4/analysis/DifferentiableMultivariateVectorFunction.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/DifferentiableMultivariateVectorFunction.html">
           DifferentiableMultivariateVectorFunction</a> interface. The object will be provided to
           the <code>estimate</code> method of the optimizer, along with the target and weight arrays,
           thus allowing the optimizer to compute the residuals at will. The last parameter to the
@@ -311,7 +311,7 @@
 </table>
 
 <p>
-First we need to implement the interface <a href="../apidocs/org/apache/commons/math4/analysis/DifferentiableMultivariateVectorFunction.html">DifferentiableMultivariateVectorFunction</a>.
+First we need to implement the interface <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/DifferentiableMultivariateVectorFunction.html">DifferentiableMultivariateVectorFunction</a>.
 This requires the implementation of the method signatures:
 </p>
 
@@ -571,17 +571,17 @@ C: 16.324008168386605
     </dd></dl>
         <p>
           In addition to least squares solving, the <a
-          href="../apidocs/org/apache/commons/math4/optimization/general/NonLinearConjugateGradientOptimizer.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/general/NonLinearConjugateGradientOptimizer.html">
           NonLinearConjugateGradientOptimizer</a> class provides a non-linear conjugate gradient algorithm
           to optimize <a
-          href="../apidocs/org/apache/commons/math4/analysis/DifferentiableMultivariateFunction.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/DifferentiableMultivariateFunction.html">
           DifferentiableMultivariateFunction</a>. Both the Fletcher-Reeves and the Polak-Ribi&#232;re
           search direction update methods are supported. It is also possible to set up a preconditioner
           or to change the line-search algorithm of the inner loop if desired (the default one is a Brent
           solver).
         </p>
         <p>
-          The <a href="../apidocs/org/apache/commons/math4/optimization/direct/PowellOptimizer.html">
+          The <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optimization/direct/PowellOptimizer.html">
           PowellOptimizer</a> provides an optimization method for non-differentiable functions.
         </p>
       </subsection>

@@ -41,9 +41,9 @@
         </p>
         <p>
           Two engines devoted to least-squares problems are available. The first one is
-          based on the <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/GaussNewtonOptimizer.html">
+          based on the <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/GaussNewtonOptimizer.html">
           Gauss-Newton</a> method. The second one is the <a
-          href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LevenbergMarquardtOptimizer.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LevenbergMarquardtOptimizer.html">
           Levenberg-Marquardt</a> method.
         </p>
       </subsection>
@@ -67,12 +67,12 @@
         </p>
         <p>
           The elements of the list above can be provided as an implementation of the
-          <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LeastSquaresProblem.html">
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LeastSquaresProblem.html">
           LeastSquaresProblem</a> interface. However, this is cumbersome to do directly, so some helper
           classes are available. The first helper is a mutable builder:
-          <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LeastSquaresBuilder.html">
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LeastSquaresBuilder.html">
           LeastSquaresBuilder</a>. The second helper is an utility factory:
-          <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LeastSquaresFactory.html">
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LeastSquaresFactory.html">
           LeastSquaresFactory</a>.
         </p>
         <p>
@@ -109,13 +109,13 @@
           be available. There are two ways to provide this:
           <ul>
             <li>provide one
-            <a href="../apidocs/org/apache/commons/math4/analysis/MultivariateVectorFunction.html">MultivariateVectorFunction</a>
+            <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/MultivariateVectorFunction.html">MultivariateVectorFunction</a>
             instance for computing the components values and one
-            <a href="../apidocs/org/apache/commons/math4/analysis/MultivariateMatrixFunction.html">MultivariateMatrixFunction</a>
+            <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/MultivariateMatrixFunction.html">MultivariateMatrixFunction</a>
             instance for computing the components derivatives (i.e. the Jacobian matrix) with
             respect to the parameters,</li>
             <li>or provide one
-            <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
+            <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
             instance for computing both the components values and their derivatives simultaneously.</li>
           </ul>
           The first alternative is best suited for models which are not computationally intensive
@@ -125,16 +125,16 @@
         </p>
         <p>
           The <code>point</code> parameter of the <code>value</code> methods in the
-          <a href="../apidocs/org/apache/commons/math4/analysis/MultivariateVectorFunction.html">MultivariateVectorFunction</a>,
-          <a href="../apidocs/org/apache/commons/math4/analysis/MultivariateMatrixFunction.html">MultivariateMatrixFunction</a>,
-          or <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/MultivariateVectorFunction.html">MultivariateVectorFunction</a>,
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/MultivariateMatrixFunction.html">MultivariateMatrixFunction</a>,
+          or <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
           interfaces will contain the parameters p<sub>k</sub>. The values will be the model components
           model<sub>i</sub> and the derivatives will be the derivatives of the model components
           with respect to the parameters dmodel<sub>i</sub>/dp<sub>k</sub>.
         </p>
         <p>
           There are no requirements on how to compute value and derivatives. The
-          <a href="../apidocs/org/apache/commons/math4/analysis/differentiation/DerivativeStructure.html">
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/analysis/differentiation/DerivativeStructure.html">
           DerivativeStructure</a> class may be useful to compute analytically derivatives in
           difficult cases, but this class is not mandated by the API which only expects the derivatives
           as a Jacobian matrix containing primitive double entries.
@@ -147,7 +147,7 @@
           if the model functions are themselves separated, i.e. it can be used only with the first
           alternative above. Setting up the <code>lazyEvaluation</code> flag to <code>true</code> in the builder
           or factory and setting up the model function as one
-          <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/MultivariateJacobianFunction.html">MultivariateJacobianFunction</a>
           instance at the same time will trigger an illegal state exception telling that the model function
           misses required functionality.
         </p>
@@ -164,7 +164,7 @@
        </p>
        <p>
          Both ways are achieved by setting up a
-         <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/ParameterValidator.html">ParameterValidator</a>
+         <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/ParameterValidator.html">ParameterValidator</a>
          instance. The input of the value and jacobian model functions will always be the output of
          the parameter validator if one exists.
        </p>
@@ -217,26 +217,26 @@
         </p>
         <p>
           Convergence checking is delegated to a dedicated interface from the <code>optim</code>
-          package: <a href="../apidocs/org/apache/commons/math4/optim/ConvergenceChecker.html">
+          package: <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optim/ConvergenceChecker.html">
           ConvergenceChecker</a>, parameterized with either the specific
-          <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
           class used for least squares problems or the general
-          <a href="../apidocs/org/apache/commons/math4/optim/PointVectorValuePair.html">PointVectorValuePair</a>.
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optim/PointVectorValuePair.html">PointVectorValuePair</a>.
           Each time convergence is checked, both the previous
           and the current evaluations of the least squares problem are provided, so the checker can
           compare them and decide whereas convergence has been reached or not. The predefined convergence
           checker implementations that can be useful for least squares fitting are:
           <ul>
-            <li><a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/EvaluationRmsChecker.html">EvaluationRmsChecker</a>,
+            <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/EvaluationRmsChecker.html">EvaluationRmsChecker</a>,
             which uses only the normalized cost (square-root of the sum of squared of the residuals,
             divided by the number of measurements),</li>
-            <li><a href="../apidocs/org/apache/commons/math4/optim/SimpleVectorValueChecker.html">SimpleVectorValueChecker</a>,
+            <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optim/SimpleVectorValueChecker.html">SimpleVectorValueChecker</a>,
             which uses the model components themselves (<em>not</em> the residuals),</li>
-            <li><a href="../apidocs/org/apache/commons/math4/optim/SimplePointChecker.html">SimplePointChecker&lt;PointVectorValuePair&gt;</a>,
+            <li><a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optim/SimplePointChecker.html">SimplePointChecker&lt;PointVectorValuePair&gt;</a>,
             which uses the parameters.</li>
           </ul>
           Of course, users can also provide their own implementation of the
-          <a href="../apidocs/org/apache/commons/math4/optim/ConvergenceChecker.html">ConvergenceChecker</a>
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/optim/ConvergenceChecker.html">ConvergenceChecker</a>
           interface.
         </p>
       </subsection>
@@ -246,9 +246,9 @@
           Once the least squares problem has been created, using either the builder or the factory,
           it is passed to an optimization engine for solving. Two engines devoted to least-squares
           problems are available. The first one is
-          based on the <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/GaussNewtonOptimizer.html">
+          based on the <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/GaussNewtonOptimizer.html">
           Gauss-Newton</a> method. The second one is the <a
-          href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LevenbergMarquardtOptimizer.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LevenbergMarquardtOptimizer.html">
           Levenberg-Marquardt</a> method. For both increased readability and in order to leverage
           possible future changes in the configuration, it is recommended to use the fluent-style API to
           build and configure the optimizers. This means creating a first temporary version of the optimizer
@@ -286,12 +286,12 @@
 
         <p>
           The <a
-          href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LeastSquaresOptimizer.Optimum.html">
+          href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LeastSquaresOptimizer.Optimum.html">
           LeastSquaresOptimizer.Optimum</a> class is a specialized
-          <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
           with additional methods te retrieve the number of evaluations and number of iterations performed.
           The most important methods are inherited from the
-          <a href="../apidocs/org/apache/commons/math4/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
+          <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/fitting/leastsquares/LeastSquaresProblem.Evaluation.html">Evaluation</a>
           class and correspond to the point (i.e. the parameters), cost, Jacobian, RMS, covariance ...
         </p>
       </subsection>

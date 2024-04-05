@@ -105,9 +105,9 @@
   <p>
     When the actual parameters provided to a method or the internal state of an object
     make a computation meaningless, a
-    <a href="../apidocs/org/apache/commons/math4/exception/MathIllegalArgumentException.html">
+    <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/exception/MathIllegalArgumentException.html">
       MathIllegalArgumentException</a> or
-    <a href="../apidocs/org/apache/commons/math4/exception/MathIllegalStateException.html">
+    <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/exception/MathIllegalStateException.html">
     MathIllegalStateException</a> may be thrown. Exact conditions under which runtime
     exceptions (and any other exceptions) are thrown are specified in the javadoc method
     comments.
@@ -119,7 +119,7 @@
   <p>
     As of version 2.2, the policy for dealing with null references is as
     follows: When an argument is unexpectedly null, a
-    <a href="../apidocs/org/apache/commons/math4/exception/NullArgumentException.html">
+    <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/exception/NullArgumentException.html">
     NullArgumentException</a> is raised to signal the illegal argument. Note that this
     class does not inherit from the standard <code>NullPointerException</code> but is a subclass
     of <code>MathIllegalArgumentException</code>.

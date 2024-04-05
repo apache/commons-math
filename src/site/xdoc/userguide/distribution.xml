@@ -33,12 +33,12 @@
           Commons Math provides
           <ul>
             <li>
-              an <a href="../apidocs/org/apache/commons/math4/legacy/distribution/EnumeratedDistribution.html">
+              an <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/distribution/EnumeratedDistribution.html">
               EnumeratedDistribution</a> class that represents discrete distributions of a finite,
               enumerated set of values.
             </li>
             <li>
-              a <a href="../apidocs/org/apache/commons/math4/legacy/distribution/MultiVariateNormalDistribution.html">
+              a <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/distribution/MultiVariateNormalDistribution.html">
               MultivariateNormalDistribution</a> interface that represents multivariate Gaussian
               distributions.
             </li>
