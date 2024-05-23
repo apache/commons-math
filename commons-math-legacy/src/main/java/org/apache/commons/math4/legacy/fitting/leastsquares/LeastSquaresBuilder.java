@@ -81,7 +81,7 @@ public class LeastSquaresBuilder {
      * Configure the max evaluations.
      *
      * @param newMaxEvaluations the maximum number of evaluations permitted.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder maxEvaluations(final int newMaxEvaluations) {
         this.maxEvaluations = newMaxEvaluations;
@@ -92,7 +92,7 @@ public class LeastSquaresBuilder {
      * Configure the max iterations.
      *
      * @param newMaxIterations the maximum number of iterations permitted.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder maxIterations(final int newMaxIterations) {
         this.maxIterations = newMaxIterations;
@@ -103,7 +103,7 @@ public class LeastSquaresBuilder {
      * Configure the convergence checker.
      *
      * @param newChecker the convergence checker.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder checker(final ConvergenceChecker<Evaluation> newChecker) {
         this.checker = newChecker;
@@ -116,7 +116,7 @@ public class LeastSquaresBuilder {
      * This function is an overloaded version of {@link #checker(ConvergenceChecker)}.
      *
      * @param newChecker the convergence checker.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder checkerPair(final ConvergenceChecker<PointVectorValuePair> newChecker) {
         return this.checker(LeastSquaresFactory.evaluationChecker(newChecker));
@@ -127,7 +127,7 @@ public class LeastSquaresBuilder {
      *
      * @param value the model function value
      * @param jacobian the Jacobian of {@code value}
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder model(final MultivariateVectorFunction value,
                                      final MultivariateMatrixFunction jacobian) {
@@ -138,7 +138,7 @@ public class LeastSquaresBuilder {
      * Configure the model function.
      *
      * @param newModel the model function value and Jacobian
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder model(final MultivariateJacobianFunction newModel) {
         this.model = newModel;
@@ -149,7 +149,7 @@ public class LeastSquaresBuilder {
      * Configure the observed data.
      *
      * @param newTarget the observed data.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder target(final RealVector newTarget) {
         this.target = newTarget;
@@ -160,7 +160,7 @@ public class LeastSquaresBuilder {
      * Configure the observed data.
      *
      * @param newTarget the observed data.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder target(final double[] newTarget) {
         return target(new ArrayRealVector(newTarget, false));
@@ -170,7 +170,7 @@ public class LeastSquaresBuilder {
      * Configure the initial guess.
      *
      * @param newStart the initial guess.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder start(final RealVector newStart) {
         this.start = newStart;
@@ -181,7 +181,7 @@ public class LeastSquaresBuilder {
      * Configure the initial guess.
      *
      * @param newStart the initial guess.
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder start(final double[] newStart) {
         return start(new ArrayRealVector(newStart, false));
@@ -191,7 +191,7 @@ public class LeastSquaresBuilder {
      * Configure the weight matrix.
      *
      * @param newWeight the weight matrix
-     * @return this
+     * @return {@code this} instance.
      */
     public LeastSquaresBuilder weight(final RealMatrix newWeight) {
         this.weight = newWeight;
