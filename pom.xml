@@ -59,8 +59,7 @@
     <commons.encoding>UTF-8</commons.encoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <!-- MathJax configuration also includes the prerequisite polyfill.min.js script.
-         See the maven-javadoc-plugin plugin. -->
+    <!-- MathJax configuration. See the maven-javadoc-plugin plugin. -->
     <math.mathjax.url>https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js</math.mathjax.url>
     <math.commons.numbers.version>1.1</math.commons.numbers.version>
     <math.commons.rng.version>1.5</math.commons.rng.version>
@@ -372,7 +371,7 @@
           <links combine.self="override">
           </links>
           <!--  Enable MathJax -->
-          <additionalOptions>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6"&gt;&lt;/script&gt;&lt;script type="text/javascript" async src="${math.mathjax.url}"&gt;&lt;/script&gt;'</additionalOptions>
+          <additionalOptions>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script type="text/javascript" async src="${math.mathjax.url}"&gt;&lt;/script&gt;'</additionalOptions>
         </configuration>
       </plugin>
       <plugin>
@@ -500,7 +499,7 @@
           <links combine.self="override">
           </links>
           <!--  Enable MathJax -->
-          <additionalOptions>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6"&gt;&lt;/script&gt;&lt;script type="text/javascript" async src="${math.mathjax.url}"&gt;&lt;/script&gt;'</additionalOptions>
+          <additionalOptions>${doclint.javadoc.qualifier} ${allowscript.javadoc.qualifier} -header '&lt;script type="text/javascript" async src="${math.mathjax.url}"&gt;&lt;/script&gt;'</additionalOptions>
         </configuration>
       </plugin>
     </plugins>
@@ -522,7 +521,7 @@
     </profile>
     <profile>
       <!-- Runs if the SVN site checkout does not exist.
-           This is either obtained using svn (for the parent) or an empty directory is created. 
+           This is either obtained using svn (for the parent) or an empty directory is created.
            The site-content directory is used when updating the live site. -->
       <id>site-checkout</id>
       <build>
