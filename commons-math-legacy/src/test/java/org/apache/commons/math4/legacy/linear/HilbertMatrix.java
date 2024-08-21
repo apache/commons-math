@@ -28,7 +28,7 @@ public class HilbertMatrix
     /**
      * Creates a new instance of this class.
      *
-     * @param n Size of the matrix to be created..
+     * @param n Size of the matrix to be created.
      */
     public HilbertMatrix(final int n) {
         this.n = n;
