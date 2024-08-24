@@ -72,7 +72,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
     public RandomKey(final List<Double> representation) throws InvalidRepresentationException {
         super(representation);
         // store the sorted representation
-        List<Double> sortedRepr = new ArrayList<> (getRepresentation());
+        List<Double> sortedRepr = new ArrayList<>(getRepresentation());
         Collections.sort(sortedRepr);
         sortedRepresentation = Collections.unmodifiableList(sortedRepr);
         // store the permutation of [0,1,...,n-1] list for toString() and isSame() methods
@@ -126,10 +126,10 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
         }
 
         // do not modify the original representation
-        List<Double> reprCopy = new ArrayList<> (representation);
+        List<Double> reprCopy = new ArrayList<>(representation);
 
         // now find the indices in the original repr and use them for permuting
-        List<S> res = new ArrayList<> (l);
+        List<S> res = new ArrayList<>(l);
         for (int i=0; i<l; i++) {
             int index = reprCopy.indexOf(sortedRepr.get(i));
             res.add(sequence.get(index));
@@ -264,7 +264,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
         }
         int l = originalData.size();
 
-        List<S> origDataCopy = new ArrayList<> (originalData);
+        List<S> origDataCopy = new ArrayList<>(originalData);
 
         Double[] res = new Double[l];
         for (int i=0; i<l; i++) {
@@ -291,7 +291,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      * @return list of integers from 0 to l-1
      */
     private static List<Integer> baseSequence(final int l) {
-        List<Integer> baseSequence = new ArrayList<> (l);
+        List<Integer> baseSequence = new ArrayList<>(l);
         for (int i=0; i<l; i++) {
             baseSequence.add(i);
         }

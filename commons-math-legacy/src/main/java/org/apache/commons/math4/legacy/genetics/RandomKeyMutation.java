@@ -46,7 +46,7 @@ public class RandomKeyMutation implements MutationPolicy {
         List<Double> repr = originalRk.getRepresentation();
         int rInd = GeneticAlgorithm.getRandomGenerator().nextInt(repr.size());
 
-        List<Double> newRepr = new ArrayList<> (repr);
+        List<Double> newRepr = new ArrayList<>(repr);
         newRepr.set(rInd, GeneticAlgorithm.getRandomGenerator().nextDouble());
 
         return originalRk.newFixedLengthChromosome(newRepr);

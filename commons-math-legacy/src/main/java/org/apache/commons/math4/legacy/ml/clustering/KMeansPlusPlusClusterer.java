@@ -302,7 +302,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
 
         // Convert to list for indexed access. Make it unmodifiable, since removal of items
         // would screw up the logic of this method.
-        final List<T> pointList = Collections.unmodifiableList(new ArrayList<> (points));
+        final List<T> pointList = Collections.unmodifiableList(new ArrayList<>(points));
 
         // The number of points in the list.
         final int numPoints = pointList.size();
@@ -386,7 +386,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
 
                 final T p = pointList.get(nextPointIndex);
 
-                resultSet.add(new CentroidCluster<T> (p));
+                resultSet.add(new CentroidCluster<>(p));
 
                 // Mark it as taken.
                 taken[nextPointIndex] = true;
