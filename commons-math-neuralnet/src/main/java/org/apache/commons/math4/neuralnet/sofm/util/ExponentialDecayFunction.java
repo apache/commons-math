@@ -80,4 +80,11 @@ public class ExponentialDecayFunction implements LongToDoubleFunction {
     public double applyAsDouble(long numCall) {
         return a * Math.exp(-numCall * oneOverB);
     }
+
+    /**
+     * Prevent finalizer attack (cf. "SpotBugs").
+     */
+    protected final void finalize() {
+        // Do nothing.
+    }
 }

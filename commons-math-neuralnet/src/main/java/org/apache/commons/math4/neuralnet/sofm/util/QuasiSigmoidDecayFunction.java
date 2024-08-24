@@ -82,4 +82,11 @@ public class QuasiSigmoidDecayFunction implements LongToDoubleFunction {
     public double applyAsDouble(long numCall) {
         return scale * sigmoid.applyAsDouble((double) numCall);
     }
+
+    /**
+     * Prevent finalizer attack (cf. "SpotBugs").
+     */
+    protected final void finalize() {
+        // Do nothing.
+    }
 }

@@ -184,4 +184,11 @@ public class NeuronString {
             network.addLink(network.getNeuron(size - 1), network.getNeuron(0));
         }
     }
+
+    /**
+     * Prevent finalizer attack (cf. "SpotBugs").
+     */
+    protected final void finalize() {
+        // Do nothing.
+    }
 }

@@ -101,4 +101,11 @@ public class LocationFinder {
     public Location getLocation(Neuron n) {
         return locations.get(n.getIdentifier());
     }
+
+    /**
+     * Prevent finalizer attack (cf. "SpotBugs").
+     */
+    protected final void finalize() {
+        // Do nothing.
+    }
 }

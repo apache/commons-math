@@ -815,4 +815,11 @@ public class NeuronSquareMesh2D
             return mean;
         }
     }
+
+    /**
+     * Prevent finalizer attack (cf. "SpotBugs").
+     */
+    protected final void finalize() {
+        // Do nothing.
+    }
 }
