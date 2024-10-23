@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="erans" type="update" issue="MATH-1669" due-to="Wolff Bock von Wuelfingen">
+        Javadoc: Fix broken link.
+      </action>
       <action dev="aherbert" type="update">
         "MultivariateNormalMixtureExpectationMaximization": Allow fitting single column data.
       </action>

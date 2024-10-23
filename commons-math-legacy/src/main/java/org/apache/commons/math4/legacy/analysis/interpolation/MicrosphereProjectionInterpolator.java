@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 /**
  * Interpolator that implements the algorithm described in
  * <em>William Dudziak</em>'s
- * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
+ * <a href="http://rave.ohiolink.edu/etdc/view?acc_num=akron1183403994">MS thesis</a>.
  *
  * @since 3.6
  */
