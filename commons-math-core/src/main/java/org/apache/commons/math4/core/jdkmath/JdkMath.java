@@ -208,192 +208,820 @@ public final class JdkMath {
     private static final DoubleUnaryOperator ULP_DOUBLE;
     /** ulp(x). */
     private static final FloatUnaryOperator ULP_FLOAT;
-
-    /** Available implementations of {@link Math} functions. */
-    public enum Impl {
-        /** {@link AccurateMath Commons Math}. */
-        CM,
-        /** {@link Math JDK}. */
-        JDK
-    }
+    /** Default Implementation is CommonMathImplementation. */
+    private static final MathImplementation DEFAULT_IMPLEMENTATION = new CommonsMathImplementation();
 
     static {
-        final String prop = System.getProperty(PROPERTY_KEY);
-        final Impl impl = prop != null ?
-            Impl.valueOf(prop) :
-            Impl.CM;
-
-
-        switch (impl) {
-        case CM:
-            PI = AccurateMath.PI;
-            E = AccurateMath.E;
-            ABS_INT = AccurateMath::abs;
-            ABS_LONG = AccurateMath::abs;
-            ABS_FLOAT = AccurateMath::abs;
-            ABS_DOUBLE = AccurateMath::abs;
-            ACOS = AccurateMath::acos;
-            ACOSH = AccurateMath::acosh;
-            ADDEXACT_INT = AccurateMath::addExact;
-            ADDEXACT_LONG = AccurateMath::addExact;
-            ASIN = AccurateMath::asin;
-            ASINH = AccurateMath::asinh;
-            ATAN = AccurateMath::atan;
-            ATAN2 = AccurateMath::atan2;
-            ATANH = AccurateMath::atanh;
-            CBRT = AccurateMath::cbrt;
-            CEIL = AccurateMath::ceil;
-            COPYSIGN_FLOAT = AccurateMath::copySign;
-            COPYSIGN_DOUBLE = AccurateMath::copySign;
-            COS = AccurateMath::cos;
-            COSH = AccurateMath::cosh;
-            DECREMENTEXACT_INT = AccurateMath::decrementExact;
-            DECREMENTEXACT_LONG = AccurateMath::decrementExact;
-            EXP = AccurateMath::exp;
-            EXPM1 = AccurateMath::expm1;
-            FLOOR = AccurateMath::floor;
-            FLOORDIV_INT = AccurateMath::floorDiv;
-            FLOORDIV_LONG = AccurateMath::floorDiv;
-            FLOORMOD_INT = AccurateMath::floorMod;
-            FLOORMOD_LONG = AccurateMath::floorMod;
-            GETEXPONENT_FLOAT = AccurateMath::getExponent;
-            GETEXPONENT_DOUBLE = AccurateMath::getExponent;
-            HYPOT = AccurateMath::hypot;
-            IEEEREMAINDER = AccurateMath::IEEEremainder;
-            INCREMENTEXACT_INT = AccurateMath::incrementExact;
-            INCREMENTEXACT_LONG = AccurateMath::incrementExact;
-            LOG = AccurateMath::log;
-            LOG10 = AccurateMath::log10;
-            LOG1P = AccurateMath::log1p;
-            MAX_INT = AccurateMath::max;
-            MAX_LONG = AccurateMath::max;
-            MAX_FLOAT = AccurateMath::max;
-            MAX_DOUBLE = AccurateMath::max;
-            MIN_INT = AccurateMath::min;
-            MIN_LONG = AccurateMath::min;
-            MIN_FLOAT = AccurateMath::min;
-            MIN_DOUBLE = AccurateMath::min;
-            MULTIPLYEXACT_INT = AccurateMath::multiplyExact;
-            MULTIPLYEXACT_LONG = AccurateMath::multiplyExact;
-            NEGATEEXACT_INT = Math::negateExact; // Not implemented.
-            NEGATEEXACT_LONG = Math::negateExact; // Not implemented.
-            NEXTAFTER_FLOAT = AccurateMath::nextAfter;
-            NEXTAFTER_DOUBLE = AccurateMath::nextAfter;
-            NEXTDOWN_FLOAT = AccurateMath::nextDown;
-            NEXTDOWN_DOUBLE = AccurateMath::nextDown;
-            NEXTUP_FLOAT = AccurateMath::nextUp;
-            NEXTUP_DOUBLE = AccurateMath::nextUp;
-            POW = AccurateMath::pow;
-            RANDOM = Math::random; // Not implemented.
-            RINT = AccurateMath::rint;
-            ROUND_DOUBLE = AccurateMath::round;
-            ROUND_FLOAT = AccurateMath::round;
-            SCALB_DOUBLE = AccurateMath::scalb;
-            SCALB_FLOAT = AccurateMath::scalb;
-            SIGNUM_DOUBLE = AccurateMath::signum;
-            SIGNUM_FLOAT = AccurateMath::signum;
-            SQRT = Math::sqrt; // Not implemented.
-            SIN = AccurateMath::sin;
-            SINH = AccurateMath::sinh;
-            SUBTRACTEXACT_INT = AccurateMath::subtractExact;
-            SUBTRACTEXACT_LONG = AccurateMath::subtractExact;
-            TAN = AccurateMath::tan;
-            TANH = AccurateMath::tanh;
-            TODEGREES = AccurateMath::toDegrees;
-            TOINTEXACT = AccurateMath::toIntExact;
-            TORADIANS = AccurateMath::toRadians;
-            ULP_DOUBLE = AccurateMath::ulp;
-            ULP_FLOAT = AccurateMath::ulp;
-            break;
-
-        case JDK:
-            PI = Math.PI;
-            E = Math.E;
-            ABS_INT = Math::abs;
-            ABS_LONG = Math::abs;
-            ABS_FLOAT = Math::abs;
-            ABS_DOUBLE = Math::abs;
-            ACOS = Math::acos;
-            ACOSH = AccurateMath::acosh; // Not implemented.
-            ADDEXACT_INT = Math::addExact;
-            ADDEXACT_LONG = Math::addExact;
-            ASIN = Math::asin;
-            ASINH = AccurateMath::asinh; // Not implemented.
-            ATAN = Math::atan;
-            ATAN2 = Math::atan2;
-            ATANH = AccurateMath::atanh; // Not implemented.
-            CBRT = Math::cbrt;
-            CEIL = Math::ceil;
-            COPYSIGN_FLOAT = Math::copySign;
-            COPYSIGN_DOUBLE = Math::copySign;
-            COS = Math::cos;
-            COSH = Math::cosh;
-            DECREMENTEXACT_INT = Math::decrementExact;
-            DECREMENTEXACT_LONG = Math::decrementExact;
-            EXP = Math::exp;
-            EXPM1 = Math::expm1;
-            FLOOR = Math::floor;
-            FLOORDIV_INT = Math::floorDiv;
-            FLOORDIV_LONG = Math::floorDiv;
-            FLOORMOD_INT = Math::floorMod;
-            FLOORMOD_LONG = Math::floorMod;
-            GETEXPONENT_FLOAT = Math::getExponent;
-            GETEXPONENT_DOUBLE = Math::getExponent;
-            HYPOT = Math::hypot;
-            IEEEREMAINDER = Math::IEEEremainder;
-            INCREMENTEXACT_INT = Math::incrementExact;
-            INCREMENTEXACT_LONG = Math::incrementExact;
-            LOG = Math::log;
-            LOG10 = Math::log10;
-            LOG1P = Math::log1p;
-            MAX_INT = Math::max;
-            MAX_LONG = Math::max;
-            MAX_FLOAT = Math::max;
-            MAX_DOUBLE = Math::max;
-            MIN_INT = Math::min;
-            MIN_LONG = Math::min;
-            MIN_FLOAT = Math::min;
-            MIN_DOUBLE = Math::min;
-            MULTIPLYEXACT_INT = Math::multiplyExact;
-            MULTIPLYEXACT_LONG = Math::multiplyExact;
-            NEGATEEXACT_INT = Math::negateExact;
-            NEGATEEXACT_LONG = Math::negateExact;
-            NEXTAFTER_FLOAT = Math::nextAfter;
-            NEXTAFTER_DOUBLE = Math::nextAfter;
-            NEXTDOWN_FLOAT = Math::nextDown;
-            NEXTDOWN_DOUBLE = Math::nextDown;
-            NEXTUP_FLOAT = Math::nextUp;
-            NEXTUP_DOUBLE = Math::nextUp;
-            POW = Math::pow;
-            RANDOM = Math::random;
-            RINT = Math::rint;
-            ROUND_DOUBLE = Math::round;
-            ROUND_FLOAT = Math::round;
-            SCALB_DOUBLE = Math::scalb;
-            SCALB_FLOAT = Math::scalb;
-            SIGNUM_DOUBLE = Math::signum;
-            SIGNUM_FLOAT = Math::signum;
-            SIN = Math::sin;
-            SINH = Math::sinh;
-            SQRT = Math::sqrt;
-            SUBTRACTEXACT_INT = Math::subtractExact;
-            SUBTRACTEXACT_LONG = Math::subtractExact;
-            TAN = Math::tan;
-            TANH = Math::tanh;
-            TODEGREES = Math::toDegrees;
-            TOINTEXACT = Math::toIntExact;
-            TORADIANS = Math::toRadians;
-            ULP_DOUBLE = Math::ulp;
-            ULP_FLOAT = Math::ulp;
-            break;
-
-        default:
-            throw new IllegalStateException("Internal error"); // Should never happen.
-        }
+        MathImplementation mathImplementation = getMathImplementation();
+        PI = mathImplementation.getPI();
+        E = mathImplementation.getE();
+        ABS_INT = mathImplementation.getABS_INT();
+        ABS_LONG = mathImplementation.getABS_LONG();
+        ABS_FLOAT = mathImplementation.getABS_FLOAT();
+        ABS_DOUBLE = mathImplementation.getABS_DOUBLE();
+        ACOS = mathImplementation.getACOS();
+        ACOSH = mathImplementation.getACOSH();
+        ADDEXACT_INT = mathImplementation.getADDEXACT_INT();
+        ADDEXACT_LONG = mathImplementation.getADDEXACT_LONG();
+        ASIN = mathImplementation.getASIN();
+        ASINH = mathImplementation.getASINH();
+        ATAN = mathImplementation.getATAN();
+        ATAN2 = mathImplementation.getATAN2();
+        ATANH = mathImplementation.getATANH();
+        CBRT = mathImplementation.getCBRT();
+        CEIL = mathImplementation.getCEIL();
+        COPYSIGN_FLOAT = mathImplementation.getCOPYSIGN_FLOAT();
+        COPYSIGN_DOUBLE = mathImplementation.getCOPYSIGN_DOUBLE();
+        COS = mathImplementation.getCOS();
+        COSH = mathImplementation.getCOSH();
+        DECREMENTEXACT_INT = mathImplementation.getDECREMENTEXACT_INT();
+        DECREMENTEXACT_LONG = mathImplementation.getDECREMENTEXACT_LONG();
+        EXP = mathImplementation.getEXP();
+        EXPM1 = mathImplementation.getEXPM1();
+        FLOOR = mathImplementation.getFLOOR();
+        FLOORDIV_INT = mathImplementation.getFLOORDIV_INT();
+        FLOORDIV_LONG = mathImplementation.getFLOORDIV_LONG();
+        FLOORMOD_INT = mathImplementation.getFLOORMOD_INT();
+        FLOORMOD_LONG = mathImplementation.getFLOORMOD_LONG();
+        GETEXPONENT_FLOAT = mathImplementation.getGETEXPONENT_FLOAT();
+        GETEXPONENT_DOUBLE = mathImplementation.getGETEXPONENT_DOUBLE();
+        HYPOT = mathImplementation.getHYPOT();
+        IEEEREMAINDER = mathImplementation.getIEEEREMAINDER();
+        INCREMENTEXACT_INT = mathImplementation.getINCREMENTEXACT_INT();
+        INCREMENTEXACT_LONG = mathImplementation.getINCREMENTEXACT_LONG();
+        LOG = mathImplementation.getLOG();
+        LOG10 = mathImplementation.getLOG10();
+        LOG1P = mathImplementation.getLOG1P();
+        MAX_INT = mathImplementation.getMAX_INT();
+        MAX_LONG = mathImplementation.getMAX_LONG();
+        MAX_FLOAT = mathImplementation.getMAX_FLOAT();
+        MAX_DOUBLE = mathImplementation.getMAX_DOUBLE();
+        MIN_INT = mathImplementation.getMIN_INT();
+        MIN_LONG = mathImplementation.getMIN_LONG();
+        MIN_FLOAT = mathImplementation.getMIN_FLOAT();
+        MIN_DOUBLE = mathImplementation.getMIN_DOUBLE();
+        MULTIPLYEXACT_INT = mathImplementation.getMULTIPLYEXACT_INT();
+        MULTIPLYEXACT_LONG = mathImplementation.getMULTIPLYEXACT_LONG();
+        NEGATEEXACT_INT = mathImplementation.getNEGATEEXACT_INT(); // Not implemented.
+        NEGATEEXACT_LONG = mathImplementation.getNEGATEEXACT_LONG(); // Not implemented.
+        NEXTAFTER_FLOAT = mathImplementation.getNEXTAFTER_FLOAT();
+        NEXTAFTER_DOUBLE = mathImplementation.getNEXTAFTER_DOUBLE();
+        NEXTDOWN_FLOAT = mathImplementation.getNEXTDOWN_FLOAT();
+        NEXTDOWN_DOUBLE = mathImplementation.getNEXTDOWN_DOUBLE();
+        NEXTUP_FLOAT = mathImplementation.getNEXTUP_FLOAT();
+        NEXTUP_DOUBLE = mathImplementation.getNEXTUP_DOUBLE();
+        POW = mathImplementation.getPOW();
+        RANDOM = mathImplementation.getRANDOM(); // Not implemented.
+        RINT = mathImplementation.getRINT();
+        ROUND_DOUBLE = mathImplementation.getROUND_DOUBLE();
+        ROUND_FLOAT = mathImplementation.getROUND_FLOAT();
+        SCALB_DOUBLE = mathImplementation.getSCALB_DOUBLE();
+        SCALB_FLOAT = mathImplementation.getSCALB_FLOAT();
+        SIGNUM_DOUBLE = mathImplementation.getSIGNUM_DOUBLE();
+        SIGNUM_FLOAT = mathImplementation.getSIGNUM_FLOAT();
+        SQRT = mathImplementation.getSQRT(); // Not implemented.
+        SIN = mathImplementation.getSIN();
+        SINH = mathImplementation.getSINH();
+        SUBTRACTEXACT_INT = mathImplementation.getSUBTRACTEXACT_INT();
+        SUBTRACTEXACT_LONG = mathImplementation.getSUBTRACTEXACT_LONG();
+        TAN = mathImplementation.getTAN();
+        TANH = mathImplementation.getTANH();
+        TODEGREES = mathImplementation.getTODEGREES();
+        TOINTEXACT = mathImplementation.getTOINTEXACT();
+        TORADIANS = mathImplementation.getTORADIANS();
+        ULP_DOUBLE = mathImplementation.getULP_DOUBLE();
+        ULP_FLOAT = mathImplementation.getULP_FLOAT();
     }
 
     /** Utility class. */
     private JdkMath() {}
+
+    /** Available implementations of {@link Math} functions. */
+    private interface MathImplementation {
+        double getPI();
+        double getE();
+        IntUnaryOperator getABS_INT();
+        LongUnaryOperator getABS_LONG();
+        FloatUnaryOperator getABS_FLOAT();
+        DoubleUnaryOperator getABS_DOUBLE();
+        DoubleUnaryOperator getACOS();
+        DoubleUnaryOperator getACOSH();
+        IntBinaryOperator getADDEXACT_INT();
+        LongBinaryOperator getADDEXACT_LONG();
+        DoubleUnaryOperator getASIN();
+        DoubleUnaryOperator getASINH();
+        DoubleUnaryOperator getATAN();
+        DoubleBinaryOperator getATAN2();
+        DoubleUnaryOperator getATANH();
+        DoubleUnaryOperator getCBRT();
+        DoubleUnaryOperator getCEIL();
+        FloatBinaryOperator getCOPYSIGN_FLOAT();
+        DoubleBinaryOperator getCOPYSIGN_DOUBLE();
+        DoubleUnaryOperator getCOS();
+        DoubleUnaryOperator getCOSH();
+        IntUnaryOperator getDECREMENTEXACT_INT();
+        LongUnaryOperator getDECREMENTEXACT_LONG();
+        DoubleUnaryOperator getEXP();
+        DoubleUnaryOperator getEXPM1();
+        DoubleUnaryOperator getFLOOR();
+        IntBinaryOperator getFLOORDIV_INT();
+        LongBinaryOperator getFLOORDIV_LONG();
+        IntBinaryOperator getFLOORMOD_INT();
+        LongBinaryOperator getFLOORMOD_LONG();
+        FloatToIntFunction getGETEXPONENT_FLOAT();
+        DoubleToIntFunction getGETEXPONENT_DOUBLE();
+        DoubleBinaryOperator getHYPOT();
+        DoubleBinaryOperator getIEEEREMAINDER();
+        IntUnaryOperator getINCREMENTEXACT_INT();
+        LongUnaryOperator getINCREMENTEXACT_LONG();
+        DoubleUnaryOperator getLOG();
+        DoubleUnaryOperator getLOG10();
+        DoubleUnaryOperator getLOG1P();
+        IntBinaryOperator getMAX_INT();
+        LongBinaryOperator getMAX_LONG();
+        FloatBinaryOperator getMAX_FLOAT();
+        DoubleBinaryOperator getMAX_DOUBLE();
+        IntBinaryOperator getMIN_INT();
+        LongBinaryOperator getMIN_LONG();
+        FloatBinaryOperator getMIN_FLOAT();
+        DoubleBinaryOperator getMIN_DOUBLE();
+        IntBinaryOperator getMULTIPLYEXACT_INT();
+        LongBinaryOperator getMULTIPLYEXACT_LONG();
+        IntUnaryOperator getNEGATEEXACT_INT();
+        LongUnaryOperator getNEGATEEXACT_LONG();
+        FloatDouble2FloatOperator getNEXTAFTER_FLOAT();
+        DoubleBinaryOperator getNEXTAFTER_DOUBLE();
+        FloatUnaryOperator getNEXTDOWN_FLOAT();
+        DoubleUnaryOperator getNEXTDOWN_DOUBLE();
+        FloatUnaryOperator getNEXTUP_FLOAT();
+        DoubleUnaryOperator getNEXTUP_DOUBLE();
+        DoubleBinaryOperator getPOW();
+        DoubleSupplier getRANDOM();
+        DoubleUnaryOperator getRINT();
+        DoubleToLongFunction getROUND_DOUBLE();
+        FloatToIntFunction getROUND_FLOAT();
+        DoubleInt2DoubleOperator getSCALB_DOUBLE();
+        FloatInt2FloatOperator getSCALB_FLOAT();
+        FloatUnaryOperator getSIGNUM_FLOAT();
+        DoubleUnaryOperator getSIGNUM_DOUBLE();
+        DoubleUnaryOperator getSIN();
+        DoubleUnaryOperator getSINH();
+        DoubleUnaryOperator getSQRT();
+        IntBinaryOperator getSUBTRACTEXACT_INT();
+        LongBinaryOperator getSUBTRACTEXACT_LONG();
+        DoubleUnaryOperator getTAN();
+        DoubleUnaryOperator getTANH();
+        DoubleUnaryOperator getTODEGREES();
+        LongToIntFunction getTOINTEXACT();
+        DoubleUnaryOperator getTORADIANS();
+        DoubleUnaryOperator getULP_DOUBLE();
+        FloatUnaryOperator getULP_FLOAT();
+    }
+
+    /** {@link AccurateMath Commons Math}. */
+    private static class CommonsMathImplementation implements MathImplementation {
+        @Override
+        public double getPI() {
+            return AccurateMath.PI;
+        }
+        @Override
+        public double getE() {
+            return AccurateMath.E;
+        }
+        @Override
+        public IntUnaryOperator getABS_INT() {
+            return AccurateMath::abs;
+        }
+        @Override
+        public LongUnaryOperator getABS_LONG() {
+            return AccurateMath::abs;
+        }
+        @Override
+        public FloatUnaryOperator getABS_FLOAT() {
+            return AccurateMath::abs;
+        }
+        @Override
+        public DoubleUnaryOperator getABS_DOUBLE() {
+            return AccurateMath::abs;
+        }
+        @Override
+        public DoubleUnaryOperator getACOS() {
+            return AccurateMath::acos;
+        }
+
+        @Override
+        public DoubleUnaryOperator getACOSH() {
+            return AccurateMath::acosh;
+        }
+        @Override
+        public IntBinaryOperator getADDEXACT_INT() {
+            return AccurateMath::addExact;
+        }
+        @Override
+        public LongBinaryOperator getADDEXACT_LONG() {
+            return AccurateMath::addExact;
+        }
+        @Override
+        public DoubleUnaryOperator getASIN() {
+            return AccurateMath::asin;
+        }
+        @Override
+        public DoubleUnaryOperator getASINH() {
+            return AccurateMath::asinh;
+        }
+        @Override
+        public DoubleUnaryOperator getATAN() {
+            return AccurateMath::atan;
+        }
+        @Override
+        public DoubleBinaryOperator getATAN2() {
+            return AccurateMath::atan2;
+        }
+        @Override
+        public DoubleUnaryOperator getATANH() {
+            return AccurateMath::atanh;
+        }
+        @Override
+        public DoubleUnaryOperator getCBRT() {
+            return AccurateMath::cbrt;
+        }
+        @Override
+        public DoubleUnaryOperator getCEIL() {
+            return AccurateMath::ceil;
+        }
+        @Override
+        public FloatBinaryOperator getCOPYSIGN_FLOAT() {
+            return AccurateMath::copySign;
+        }
+        @Override
+        public DoubleBinaryOperator getCOPYSIGN_DOUBLE() {
+            return AccurateMath::copySign;
+        }
+        @Override
+        public DoubleUnaryOperator getCOS() {
+            return AccurateMath::cos;
+        }
+        @Override
+        public DoubleUnaryOperator getCOSH() {
+            return AccurateMath::cosh;
+        }
+        @Override
+        public IntUnaryOperator getDECREMENTEXACT_INT() {
+            return AccurateMath::decrementExact;
+        }
+        @Override
+        public LongUnaryOperator getDECREMENTEXACT_LONG() {
+            return AccurateMath::decrementExact;
+        }
+        @Override
+        public DoubleUnaryOperator getEXP() {
+            return AccurateMath::exp;
+        }
+        @Override
+        public DoubleUnaryOperator getEXPM1() {
+            return AccurateMath::expm1;
+        }
+        @Override
+        public DoubleUnaryOperator getFLOOR() {
+            return AccurateMath::floor;
+        }
+
+        @Override
+        public IntBinaryOperator getFLOORDIV_INT() {
+            return AccurateMath::floorDiv;
+        }
+        @Override
+        public LongBinaryOperator getFLOORDIV_LONG() {
+            return AccurateMath::floorDiv;
+        }
+        @Override
+        public IntBinaryOperator getFLOORMOD_INT() {
+            return AccurateMath::floorMod;
+        }
+        @Override
+        public LongBinaryOperator getFLOORMOD_LONG() {
+            return AccurateMath::floorMod;
+        }
+        @Override
+        public FloatToIntFunction getGETEXPONENT_FLOAT() {
+            return AccurateMath::getExponent;
+        }
+        @Override
+        public DoubleToIntFunction getGETEXPONENT_DOUBLE() {
+            return AccurateMath::getExponent;
+        }
+        @Override
+        public DoubleBinaryOperator getHYPOT() {
+            return AccurateMath::hypot;
+        }
+        @Override
+        public DoubleBinaryOperator getIEEEREMAINDER() {
+            return AccurateMath::IEEEremainder;
+        }
+        @Override
+        public IntUnaryOperator getINCREMENTEXACT_INT() {
+            return AccurateMath::incrementExact;
+        }
+        @Override
+        public LongUnaryOperator getINCREMENTEXACT_LONG() {
+            return AccurateMath::incrementExact;
+        }
+        @Override
+        public DoubleUnaryOperator getLOG() {
+            return AccurateMath::log;
+        }
+        @Override
+        public DoubleUnaryOperator getLOG10() {
+            return AccurateMath::log10;
+        }
+        @Override
+        public DoubleUnaryOperator getLOG1P() {
+            return AccurateMath::log1p;
+        }
+        @Override
+        public IntBinaryOperator getMAX_INT() {
+            return AccurateMath::max;
+        }
+        @Override
+        public LongBinaryOperator getMAX_LONG() {
+            return AccurateMath::max;
+        }
+        @Override
+        public FloatBinaryOperator getMAX_FLOAT() {
+            return AccurateMath::max;
+        }
+        @Override
+        public DoubleBinaryOperator getMAX_DOUBLE() {
+            return AccurateMath::max;
+        }
+        @Override
+        public IntBinaryOperator getMIN_INT() {
+            return AccurateMath::min;
+        }
+        @Override
+        public LongBinaryOperator getMIN_LONG() {
+            return AccurateMath::min;
+        }
+        @Override
+        public FloatBinaryOperator getMIN_FLOAT() {
+            return AccurateMath::min;
+        }
+        @Override
+        public DoubleBinaryOperator getMIN_DOUBLE() {
+            return AccurateMath::min;
+        }
+        @Override
+        public IntBinaryOperator getMULTIPLYEXACT_INT() {
+            return AccurateMath::multiplyExact;
+        }
+        @Override
+        public LongBinaryOperator getMULTIPLYEXACT_LONG() {
+            return AccurateMath::multiplyExact;
+        }
+        @Override
+        public IntUnaryOperator getNEGATEEXACT_INT() {
+            return Math::negateExact;
+        }
+        @Override
+        public LongUnaryOperator getNEGATEEXACT_LONG() {
+            return Math::negateExact;
+        }
+        @Override
+        public FloatDouble2FloatOperator getNEXTAFTER_FLOAT() {
+            return AccurateMath::nextAfter;
+        }
+        @Override
+        public DoubleBinaryOperator getNEXTAFTER_DOUBLE() {
+            return AccurateMath::nextAfter;
+        }
+        @Override
+        public FloatUnaryOperator getNEXTDOWN_FLOAT() {
+            return AccurateMath::nextDown;
+        }
+        @Override
+        public DoubleUnaryOperator getNEXTDOWN_DOUBLE() {
+            return AccurateMath::nextDown;
+        }
+        @Override
+        public FloatUnaryOperator getNEXTUP_FLOAT() {
+            return AccurateMath::nextUp;
+        }
+        @Override
+        public DoubleUnaryOperator getNEXTUP_DOUBLE() {
+            return AccurateMath::nextUp;
+        }
+        @Override
+        public DoubleBinaryOperator getPOW() {
+            return AccurateMath::pow;
+        }
+        @Override
+        public DoubleSupplier getRANDOM() {
+            return Math::random;
+        }
+        @Override
+        public DoubleUnaryOperator getRINT() {
+            return AccurateMath::rint;
+        }
+        @Override
+        public DoubleToLongFunction getROUND_DOUBLE() {
+            return AccurateMath::round;
+        }
+        @Override
+        public FloatToIntFunction getROUND_FLOAT() {
+            return AccurateMath::round;
+        }
+        @Override
+        public DoubleInt2DoubleOperator getSCALB_DOUBLE() {
+            return AccurateMath::scalb;
+        }
+        @Override
+        public FloatInt2FloatOperator getSCALB_FLOAT() {
+            return AccurateMath::scalb;
+        }
+        @Override
+        public FloatUnaryOperator getSIGNUM_FLOAT() {
+            return AccurateMath::signum;
+        }
+        @Override
+        public DoubleUnaryOperator getSIGNUM_DOUBLE() {
+            return AccurateMath::signum;
+        }
+        @Override
+        public DoubleUnaryOperator getSIN() {
+            return AccurateMath::sin;
+        }
+        @Override
+        public DoubleUnaryOperator getSINH() {
+            return AccurateMath::sinh;
+        }
+        @Override
+        public DoubleUnaryOperator getSQRT() {
+            return Math::sqrt;
+        }
+        @Override
+        public IntBinaryOperator getSUBTRACTEXACT_INT() {
+            return AccurateMath::subtractExact;
+        }
+        @Override
+        public LongBinaryOperator getSUBTRACTEXACT_LONG() {
+            return AccurateMath::subtractExact;
+        }
+        @Override
+        public DoubleUnaryOperator getTAN() {
+            return AccurateMath::tan;
+        }
+        @Override
+        public DoubleUnaryOperator getTANH() {
+            return AccurateMath::tanh;
+        }
+        @Override
+        public DoubleUnaryOperator getTODEGREES() {
+            return AccurateMath::toDegrees;
+        }
+        @Override
+        public LongToIntFunction getTOINTEXACT() {
+            return AccurateMath::toIntExact;
+        }
+        @Override
+        public DoubleUnaryOperator getTORADIANS() {
+            return AccurateMath::toRadians;
+        }
+        @Override
+        public DoubleUnaryOperator getULP_DOUBLE() {
+            return AccurateMath::ulp;
+        }
+        @Override
+        public FloatUnaryOperator getULP_FLOAT() {
+            return AccurateMath::ulp;
+        }
+    }
+
+    /** {@link Math JDK}. */
+    private static class JdkMathImplementation implements MathImplementation {
+        @Override
+        public double getPI() {
+            return Math.PI;
+        }
+        @Override
+        public double getE() {
+            return Math.E;
+        }
+        @Override
+        public IntUnaryOperator getABS_INT() {
+            return Math::abs;
+        }
+        @Override
+        public LongUnaryOperator getABS_LONG() {
+            return Math::abs;
+        }
+        @Override
+        public FloatUnaryOperator getABS_FLOAT() {
+            return Math::abs;
+        }
+        @Override
+        public DoubleUnaryOperator getABS_DOUBLE() {
+            return Math::abs;
+        }
+        @Override
+        public DoubleUnaryOperator getACOS() {
+            return Math::acos;
+        }
+        @Override
+        public DoubleUnaryOperator getACOSH() {
+            return AccurateMath::acosh;
+        }
+        @Override
+        public IntBinaryOperator getADDEXACT_INT() {
+            return Math::addExact;
+        }
+        @Override
+        public LongBinaryOperator getADDEXACT_LONG() {
+            return Math::addExact;
+        }
+        @Override
+        public DoubleUnaryOperator getASIN() {
+            return Math::asin;
+        }
+        @Override
+        public DoubleUnaryOperator getASINH() {
+            return AccurateMath::asinh;
+        }
+        @Override
+        public DoubleUnaryOperator getATAN() {
+            return Math::atan;
+        }
+        @Override
+        public DoubleBinaryOperator getATAN2() {
+            return Math::atan2;
+        }
+        @Override
+        public DoubleUnaryOperator getATANH() {
+            return AccurateMath::atanh;
+        }
+        @Override
+        public DoubleUnaryOperator getCBRT() {
+            return Math::cbrt;
+        }
+        @Override
+        public DoubleUnaryOperator getCEIL() {
+            return Math::ceil;
+        }
+        @Override
+        public FloatBinaryOperator getCOPYSIGN_FLOAT() {
+            return Math::copySign;
+        }
+        @Override
+        public DoubleBinaryOperator getCOPYSIGN_DOUBLE() {
+            return Math::copySign;
+        }
+        @Override
+        public DoubleUnaryOperator getCOS() {
+            return Math::cos;
+        }
+        @Override
+        public DoubleUnaryOperator getCOSH() {
+            return Math::cosh;
+        }
+        @Override
+        public IntUnaryOperator getDECREMENTEXACT_INT() {
+            return Math::decrementExact;
+        }
+        @Override
+        public LongUnaryOperator getDECREMENTEXACT_LONG() {
+            return Math::decrementExact;
+        }
+        @Override
+        public DoubleUnaryOperator getEXP() {
+            return Math::exp;
+        }
+        @Override
+        public DoubleUnaryOperator getEXPM1() {
+            return Math::expm1;
+        }
+        @Override
+        public DoubleUnaryOperator getFLOOR() {
+            return Math::floor;
+        }
+        @Override
+        public IntBinaryOperator getFLOORDIV_INT() {
+            return Math::floorDiv;
+        }
+        @Override
+        public LongBinaryOperator getFLOORDIV_LONG() {
+            return Math::floorDiv;
+        }
+        @Override
+        public IntBinaryOperator getFLOORMOD_INT() {
+            return Math::floorMod;
+        }
+        @Override
+        public LongBinaryOperator getFLOORMOD_LONG() {
+            return Math::floorMod;
+        }
+        @Override
+        public FloatToIntFunction getGETEXPONENT_FLOAT() {
+            return Math::getExponent;
+        }
+        @Override
+        public DoubleToIntFunction getGETEXPONENT_DOUBLE() {
+            return Math::getExponent;
+        }
+        @Override
+        public DoubleBinaryOperator getHYPOT() {
+            return Math::hypot;
+        }
+        @Override
+        public DoubleBinaryOperator getIEEEREMAINDER() {
+            return Math::IEEEremainder;
+        }
+        @Override
+        public IntUnaryOperator getINCREMENTEXACT_INT() {
+            return Math::incrementExact;
+        }
+        @Override
+        public LongUnaryOperator getINCREMENTEXACT_LONG() {
+            return Math::incrementExact;
+        }
+        @Override
+        public DoubleUnaryOperator getLOG() {
+            return Math::log;
+        }
+        @Override
+        public DoubleUnaryOperator getLOG10() {
+            return Math::log10;
+        }
+        @Override
+        public DoubleUnaryOperator getLOG1P() {
+            return Math::log1p;
+        }
+        @Override
+        public IntBinaryOperator getMAX_INT() {
+            return Math::max;
+        }
+        @Override
+        public LongBinaryOperator getMAX_LONG() {
+            return Math::max;
+        }
+        @Override
+        public FloatBinaryOperator getMAX_FLOAT() {
+            return Math::max;
+        }
+        @Override
+        public DoubleBinaryOperator getMAX_DOUBLE() {
+            return Math::max;
+        }
+        @Override
+        public IntBinaryOperator getMIN_INT() {
+            return Math::min;
+        }
+        @Override
+        public LongBinaryOperator getMIN_LONG() {
+            return Math::min;
+        }
+        @Override
+        public FloatBinaryOperator getMIN_FLOAT() {
+            return Math::min;
+        }
+        @Override
+        public DoubleBinaryOperator getMIN_DOUBLE() {
+            return Math::min;
+        }
+        @Override
+        public IntBinaryOperator getMULTIPLYEXACT_INT() {
+            return Math::multiplyExact;
+        }
+        @Override
+        public LongBinaryOperator getMULTIPLYEXACT_LONG() {
+            return Math::multiplyExact;
+        }
+        @Override
+        public IntUnaryOperator getNEGATEEXACT_INT() {
+            return Math::negateExact;
+        }
+        @Override
+        public LongUnaryOperator getNEGATEEXACT_LONG() {
+            return Math::negateExact;
+        }
+        @Override
+        public FloatDouble2FloatOperator getNEXTAFTER_FLOAT() {
+            return Math::nextAfter;
+        }
+        @Override
+        public DoubleBinaryOperator getNEXTAFTER_DOUBLE() {
+            return Math::nextAfter;
+        }
+        @Override
+        public FloatUnaryOperator getNEXTDOWN_FLOAT() {
+            return Math::nextDown;
+        }
+        @Override
+        public DoubleUnaryOperator getNEXTDOWN_DOUBLE() {
+            return Math::nextDown;
+        }
+        @Override
+        public FloatUnaryOperator getNEXTUP_FLOAT() {
+            return Math::nextUp;
+        }
+        @Override
+        public DoubleUnaryOperator getNEXTUP_DOUBLE() {
+            return Math::nextUp;
+        }
+        @Override
+        public DoubleBinaryOperator getPOW() {
+            return Math::pow;
+        }
+        @Override
+        public DoubleSupplier getRANDOM() {
+            return Math::random;
+        }
+        @Override
+        public DoubleUnaryOperator getRINT() {
+            return Math::rint;
+        }
+        @Override
+        public DoubleToLongFunction getROUND_DOUBLE() {
+            return Math::round;
+        }
+        @Override
+        public FloatToIntFunction getROUND_FLOAT() {
+            return Math::round;
+        }
+        @Override
+        public DoubleInt2DoubleOperator getSCALB_DOUBLE() {
+            return Math::scalb;
+        }
+        @Override
+        public FloatInt2FloatOperator getSCALB_FLOAT() {
+            return Math::scalb;
+        }
+        @Override
+        public FloatUnaryOperator getSIGNUM_FLOAT() {
+            return Math::signum;
+        }
+        @Override
+        public DoubleUnaryOperator getSIGNUM_DOUBLE() {
+            return Math::signum;
+        }
+        @Override
+        public DoubleUnaryOperator getSIN() {
+            return Math::sin;
+        }
+        @Override
+        public DoubleUnaryOperator getSINH() {
+            return Math::sinh;
+        }
+        @Override
+        public DoubleUnaryOperator getSQRT() {
+            return Math::sqrt;
+        }
+        @Override
+        public IntBinaryOperator getSUBTRACTEXACT_INT() {
+            return Math::subtractExact;
+        }
+        @Override
+        public LongBinaryOperator getSUBTRACTEXACT_LONG() {
+            return Math::subtractExact;
+        }
+        @Override
+        public DoubleUnaryOperator getTAN() {
+            return Math::tan;
+        }
+        @Override
+        public DoubleUnaryOperator getTANH() {
+            return Math::tanh;
+        }
+        @Override
+        public DoubleUnaryOperator getTODEGREES() {
+            return Math::toDegrees;
+        }
+        @Override
+        public LongToIntFunction getTOINTEXACT() {
+            return Math::toIntExact;
+        }
+        @Override
+        public DoubleUnaryOperator getTORADIANS() {
+            return Math::toRadians;
+        }
+        @Override
+        public DoubleUnaryOperator getULP_DOUBLE() {
+            return Math::ulp;
+        }
+        @Override
+        public FloatUnaryOperator getULP_FLOAT() {
+            return Math::ulp;
+        }
+    }
+
+    /**
+     * Sets the implementation type.
+     * @return the MathImplementation object.
+     */
+    private static MathImplementation getMathImplementation() {
+        final String prop = System.getProperty(PROPERTY_KEY);
+        return prop != null && prop.equalsIgnoreCase("JDK") ?
+                new JdkMathImplementation() :
+                DEFAULT_IMPLEMENTATION;
+    }
 
     /**
      * @param x Number.
