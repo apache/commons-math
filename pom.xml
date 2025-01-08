@@ -1054,6 +1054,9 @@ This is avoided by creating an empty directory when svn is not available.
     <contributor>
       <name>Samy Badjoudj</name>
     </contributor>
+    <contributor>
+      <name>Michael Scholz</name>
+    </contributor>
   </contributors>
 
 </project>
