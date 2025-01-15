@@ -299,8 +299,8 @@ public abstract class RealTransformerAbstractTest {
         final double[] expected = transform(x, type);
         final double[] actual = transformer.apply(x);
         for (int i = 0; i < n; i++) {
-            final String msg = String.format("%d, %d", n, i);
             final double delta = tol * Math.abs(expected[i]);
+            final String msg = String.format("%d, %d (%g, %g)", n, i, tol, delta);
             Assert.assertEquals(msg, expected[i], actual[i], delta);
         }
     }
