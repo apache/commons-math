@@ -96,6 +96,7 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="engelen" type="update" due-to="Dependabot">Bump org.apache.commons:commons-rng-bom from 1.5 to 1.6 #244</action>
       <action dev="erans" type="update" issue="MATH-1669" due-to="Wolff Bock von Wuelfingen">
         Javadoc: Fix broken link.
       </action>
