@@ -49,7 +49,7 @@
     <math.jira.component>examples</math.jira.component>
 
     <math.imaging.version>1.0-alpha3</math.imaging.version>
-    <math.picocli.version>3.9.5</math.picocli.version>
+    <math.picocli.version>4.7.6</math.picocli.version>
 
     <!-- Disable JApiCmp failures (but keep the report). The examples API is allowed to change. -->
     <commons.japicmp.breakBuildOnBinaryIncompatibleModifications>false</commons.japicmp.breakBuildOnBinaryIncompatibleModifications>
