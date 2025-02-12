@@ -376,7 +376,7 @@ public abstract class RealDistributionAbstractTest {
 
     //------------------ Getters / Setters for test instance data -----------
     /**
-     * @return Returns the cumulativeTestPoints.
+     * @return the cumulativeTestPoints.
      */
     protected double[] getCumulativeTestPoints() {
         return cumulativeTestPoints;
@@ -390,7 +390,7 @@ public abstract class RealDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the cumulativeTestValues.
+     * @return the cumulativeTestValues.
      */
     protected double[] getCumulativeTestValues() {
         return cumulativeTestValues;
@@ -412,7 +412,7 @@ public abstract class RealDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the distribution.
+     * @return the distribution.
      */
     protected ContinuousDistribution getDistribution() {
         return distribution;
@@ -426,7 +426,7 @@ public abstract class RealDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the inverseCumulativeTestPoints.
+     * @return the inverseCumulativeTestPoints.
      */
     protected double[] getInverseCumulativeTestPoints() {
         return inverseCumulativeTestPoints;
@@ -440,7 +440,7 @@ public abstract class RealDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the inverseCumulativeTestValues.
+     * @return the inverseCumulativeTestValues.
      */
     protected double[] getInverseCumulativeTestValues() {
         return inverseCumulativeTestValues;
@@ -454,7 +454,7 @@ public abstract class RealDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the tolerance.
+     * @return the tolerance.
      */
     protected double getTolerance() {
         return tolerance;

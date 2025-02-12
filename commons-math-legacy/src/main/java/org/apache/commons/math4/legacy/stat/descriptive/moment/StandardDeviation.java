@@ -228,7 +228,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic {
     }
 
     /**
-     * @return Returns the isBiasCorrected.
+     * @return the isBiasCorrected.
      */
     public boolean isBiasCorrected() {
         return variance.isBiasCorrected();

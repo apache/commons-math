@@ -407,7 +407,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
      * copy of the underlying data -- i.e., it is not a reference to the
      * stored data.
      *
-     * @return returns the current set of numbers in the order in which they
+     * @return the current set of numbers in the order in which they
      *         were added to this set
      */
     public double[] getValues() {
@@ -419,7 +419,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
      * sorted in ascending order.  The returned array is a fresh
      * copy of the underlying data -- i.e., it is not a reference to the
      * stored data.
-     * @return returns the current set of
+     * @return the current set of
      * numbers sorted in ascending order
      */
     public double[] getSortedValues() {

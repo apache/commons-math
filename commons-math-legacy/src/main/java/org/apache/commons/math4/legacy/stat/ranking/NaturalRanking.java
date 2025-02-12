@@ -166,7 +166,7 @@ public class NaturalRanking implements RankingAlgorithm {
     /**
      * Return the NaNStrategy.
      *
-     * @return returns the NaNStrategy
+     * @return the NaNStrategy
      */
     public NaNStrategy getNanStrategy() {
         return nanStrategy;

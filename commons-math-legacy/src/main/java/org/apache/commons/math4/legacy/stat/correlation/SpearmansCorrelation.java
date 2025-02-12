@@ -168,7 +168,7 @@ public class SpearmansCorrelation {
      *
      * @param xArray first data array
      * @param yArray second data array
-     * @return Returns Spearman's rank correlation coefficient for the two arrays
+     * @return Spearman's rank correlation coefficient for the two arrays
      * @throws DimensionMismatchException if the arrays lengths do not match
      * @throws MathIllegalArgumentException if the array length is less than 2
      */

@@ -227,7 +227,7 @@ public class Covariance {
      * @param xArray first data array
      * @param yArray second data array
      * @param biasCorrected if true, returned value will be bias-corrected
-     * @return returns the covariance for the two arrays
+     * @return the covariance for the two arrays
      * @throws  MathIllegalArgumentException if the arrays lengths do not match or
      * there is insufficient data
      */
@@ -262,7 +262,7 @@ public class Covariance {
      *
      * @param xArray first data array
      * @param yArray second data array
-     * @return returns the covariance for the two arrays
+     * @return the covariance for the two arrays
      * @throws  MathIllegalArgumentException if the arrays lengths do not match or
      * there is insufficient data
      */

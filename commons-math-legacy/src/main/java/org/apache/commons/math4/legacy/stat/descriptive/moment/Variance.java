@@ -585,7 +585,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements We
     }
 
     /**
-     * @return Returns the isBiasCorrected.
+     * @return the isBiasCorrected.
      */
     public boolean isBiasCorrected() {
         return isBiasCorrected;

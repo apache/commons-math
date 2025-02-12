@@ -148,7 +148,7 @@ public class KendallsCorrelation {
      *
      * @param xArray first data array
      * @param yArray second data array
-     * @return Returns Kendall's Tau rank correlation coefficient for the two arrays
+     * @return Kendall's Tau rank correlation coefficient for the two arrays
      * @throws DimensionMismatchException if the arrays lengths do not match
      */
     public double correlation(final double[] xArray, final double[] yArray)

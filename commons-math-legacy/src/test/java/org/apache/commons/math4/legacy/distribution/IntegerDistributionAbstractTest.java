@@ -312,7 +312,7 @@ public abstract class IntegerDistributionAbstractTest {
 
     //------------------ Getters / Setters for test instance data -----------
     /**
-     * @return Returns the cumulativeTestPoints.
+     * @return the cumulativeTestPoints.
      */
     protected int[] getCumulativeTestPoints() {
         return cumulativeTestPoints;
@@ -326,7 +326,7 @@ public abstract class IntegerDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the cumulativeTestValues.
+     * @return the cumulativeTestValues.
      */
     protected double[] getCumulativeTestValues() {
         return cumulativeTestValues;
@@ -340,7 +340,7 @@ public abstract class IntegerDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the densityTestPoints.
+     * @return the densityTestPoints.
      */
     protected int[] getDensityTestPoints() {
         return densityTestPoints;
@@ -354,7 +354,7 @@ public abstract class IntegerDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the densityTestValues.
+     * @return the densityTestValues.
      */
     protected double[] getDensityTestValues() {
         return densityTestValues;
@@ -368,7 +368,7 @@ public abstract class IntegerDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the distribution.
+     * @return the distribution.
      */
     protected DiscreteDistribution getDistribution() {
         return distribution;
@@ -382,7 +382,7 @@ public abstract class IntegerDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the inverseCumulativeTestPoints.
+     * @return the inverseCumulativeTestPoints.
      */
     protected double[] getInverseCumulativeTestPoints() {
         return inverseCumulativeTestPoints;
@@ -396,7 +396,7 @@ public abstract class IntegerDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the inverseCumulativeTestValues.
+     * @return the inverseCumulativeTestValues.
      */
     protected int[] getInverseCumulativeTestValues() {
         return inverseCumulativeTestValues;
@@ -410,7 +410,7 @@ public abstract class IntegerDistributionAbstractTest {
     }
 
     /**
-     * @return Returns the tolerance.
+     * @return the tolerance.
      */
     protected double getTolerance() {
         return tolerance;
