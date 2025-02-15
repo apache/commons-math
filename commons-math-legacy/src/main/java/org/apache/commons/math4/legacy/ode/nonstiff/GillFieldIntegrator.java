@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * This class implements the Gill fourth order Runge-Kutta
- * integrator for Ordinary Differential Equations .
+ * integrator for Ordinary Differential Equations.
 
  * <p>This method is an explicit Runge-Kutta method, its Butcher-array
  * is the following one :
