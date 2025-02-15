@@ -555,9 +555,7 @@ public double getCurrentTime() {
         // finalize the step (and don't bother saving the now true flag)
         finalizeStep();
     } catch (MaxCountExceededException mcee) {
-        final IOException ioe = new IOException(mcee.getLocalizedMessage());
-        ioe.initCause(mcee);
-        throw ioe;
+        throw new IOException(mcee.getLocalizedMessage(), mcee);
     }
   }
 

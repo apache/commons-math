@@ -692,14 +692,8 @@ public final class MatrixUtils {
                 instance.getClass().getDeclaredField(fieldName);
             f.setAccessible(true);
             f.set(instance, vector);
-        } catch (NoSuchFieldException nsfe) {
-            IOException ioe = new IOException();
-            ioe.initCause(nsfe);
-            throw ioe;
-        } catch (IllegalAccessException iae) {
-            IOException ioe = new IOException();
-            ioe.initCause(iae);
-            throw ioe;
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IOException(e);
         }
     }
 
@@ -798,14 +792,8 @@ public final class MatrixUtils {
                 instance.getClass().getDeclaredField(fieldName);
             f.setAccessible(true);
             f.set(instance, matrix);
-        } catch (NoSuchFieldException nsfe) {
-            IOException ioe = new IOException();
-            ioe.initCause(nsfe);
-            throw ioe;
-        } catch (IllegalAccessException iae) {
-            IOException ioe = new IOException();
-            ioe.initCause(iae);
-            throw ioe;
+        } catch (NoSuchFieldException | IllegalAccessException nsfe) {
+            throw new IOException(nsfe);
         }
     }
 

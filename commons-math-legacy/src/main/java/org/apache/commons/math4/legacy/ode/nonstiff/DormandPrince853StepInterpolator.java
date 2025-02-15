@@ -449,9 +449,7 @@ class DormandPrince853StepInterpolator
         // save the local attributes
         finalizeStep();
     } catch (MaxCountExceededException mcee) {
-        final IOException ioe = new IOException(mcee.getLocalizedMessage());
-        ioe.initCause(mcee);
-        throw ioe;
+        throw new IOException(mcee.getLocalizedMessage(), mcee);
     }
 
     final int dimension = (currentState == null) ? -1 : currentState.length;
