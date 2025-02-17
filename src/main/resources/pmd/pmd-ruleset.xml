@@ -33,9 +33,7 @@
     <exclude name="ShortVariable" />
     <exclude name="LongVariable" />
     <exclude name="CommentDefaultAccessModifier" />
-    <exclude name="DefaultPackage" />
     <exclude name="CallSuperInConstructor" />
-    <exclude name="AbstractNaming" />
     <exclude name="UselessParentheses" />
     <exclude name="AtLeastOneConstructor" />
     <exclude name="GenericsNaming" />
@@ -53,9 +51,6 @@
     <exclude name="CommentSize" />
   </rule>
   <rule ref="category/java/errorprone.xml">
-    <!-- This rule is known to be poor with Java 5 and later:
-      https://github.com/pmd/pmd/issues/873 -->
-    <exclude name="DataflowAnomalyAnalysis" />
   </rule>
   <rule ref="category/java/multithreading.xml">
     <!-- <exclude name="..." /> -->
