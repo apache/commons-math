@@ -45,9 +45,9 @@ with a new-line in the release notes. (These spaces are ignored when displaying 
 If the output is not quite correct, check for invisible trailing spaces!
 -->
 
-<document xmlns="http://maven.apache.org/changes/1.0.0"
+<document xmlns="http://maven.apache.org/changes/2.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/xsd/changes-1.0.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/changes/2.0.0 https://maven.apache.org/xsd/changes-2.0.0.xsd">
   <properties>
     <title>Apache Commons Math Release Notes</title>
   </properties>
@@ -96,6 +96,7 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="sebb" type="update">Bump Commons Parent from 78 to 81</action>
       <action dev="engelen" type="update" due-to="Dependabot">Bump org.apache.commons:commons-rng-bom from 1.5 to 1.6 #244</action>
       <action dev="erans" type="update" issue="MATH-1669" due-to="Wolff Bock von Wuelfingen">
         Javadoc: Fix broken link.
