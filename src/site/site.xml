@@ -24,7 +24,7 @@
 
   <body>
     <head>
-      <![CDATA[<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>]]>
+      <![CDATA[<script id="MathJax-script" async src="https://commons.apache.org/js/mathjax/tex-mml-chtml.js"></script>]]>
     </head>
 
     <menu name="Math">

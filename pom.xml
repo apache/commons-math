@@ -60,7 +60,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <!-- MathJax configuration. See the maven-javadoc-plugin plugin. -->
-    <math.mathjax.url>https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js</math.mathjax.url>
+    <math.mathjax.url>https://commons.apache.org/js/mathjax/tex-mml-chtml.js</math.mathjax.url>
     <math.commons.numbers.version>1.2</math.commons.numbers.version>
     <math.commons.rng.version>1.6</math.commons.rng.version>
     <math.commons.geometry.version>1.0</math.commons.geometry.version>
