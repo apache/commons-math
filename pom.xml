@@ -707,14 +707,6 @@ This is avoided by creating an empty directory when svn is not available.
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>org.eluder.coveralls</groupId>
-            <artifactId>coveralls-maven-plugin</artifactId>
-            <version>${commons.coveralls.version}</version>
-            <configuration>
-              <timestampFormat>${commons.coveralls.timestampFormat}</timestampFormat>
-            </configuration>
-          </plugin>
         </plugins>
       </build>
     </profile>
