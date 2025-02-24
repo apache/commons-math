@@ -48,7 +48,7 @@
     <math.parent.dir>${basedir}/..</math.parent.dir>
     <math.jira.component>examples</math.jira.component>
 
-    <math.imaging.version>1.0-alpha3</math.imaging.version>
+    <math.imaging.version>1.0-alpha5</math.imaging.version>
     <math.picocli.version>4.7.6</math.picocli.version>
 
     <!-- Disable JApiCmp failures (but keep the report). The examples API is allowed to change. -->
