@@ -140,7 +140,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
      * Construct a DescriptiveStatistics instance with an infinite window
      * and the initial data values in {@code initialDoubleArray}.
      * If {@code initialDoubleArray} is {@code null}, then this constructor
-     * corresponds to {@link #DescriptiveStatistics() }.
+     * corresponds to {@link #DescriptiveStatistics()}.
      *
      * @param initialDoubleArray the initial Double[].
      */
