@@ -30,8 +30,6 @@ import java.awt.image.WritableRaster;
 import org.apache.commons.imaging.Imaging;
 import org.apache.commons.imaging.ImageFormat;
 import org.apache.commons.imaging.ImageFormats;
-import org.apache.commons.imaging.ImageReadException;
-import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.math4.legacy.ml.clustering.Clusterable;
 import org.apache.commons.math4.legacy.ml.clustering.Cluster;
 
@@ -69,8 +67,6 @@ final class ImageData {
             return new ImageData(Imaging.getBufferedImage(new File(file)));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
-        } catch (ImageReadException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -103,8 +99,6 @@ final class ImageData {
                                format);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
-        } catch (ImageWriteException e) {
-            throw new RuntimeException(e);
         }
     }
 
