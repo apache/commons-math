@@ -134,9 +134,9 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction {
 
 
     /** {@inheritDoc}
-     * @since 3.1
      * @throws NoDataException if {@code coefficients} is empty.
      * @throws NullArgumentException if {@code coefficients} is {@code null}.
+     * @since 3.1
      */
     @Override
     public DerivativeStructure value(final DerivativeStructure t)

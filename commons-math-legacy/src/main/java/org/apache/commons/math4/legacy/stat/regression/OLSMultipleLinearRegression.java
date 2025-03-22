@@ -172,9 +172,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * Returns the sum of squared residuals.
      *
      * @return residual sum of squares
-     * @since 2.2
      * @throws org.apache.commons.math4.legacy.linear.SingularMatrixException if the design matrix is singular
      * @throws NullPointerException if the data for the model have not been loaded
+     * @since 2.2
      */
     public double calculateResidualSumOfSquares() {
         final RealVector residuals = calculateResiduals();
