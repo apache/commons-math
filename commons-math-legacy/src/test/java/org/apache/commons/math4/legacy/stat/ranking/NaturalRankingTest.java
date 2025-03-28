@@ -279,4 +279,18 @@ public class NaturalRankingTest {
         double[] ranks = ranking.rank(data);
         TestUtils.assertEquals(data, ranks, 0d);
     }
+
+    /**
+     * Tests NaturalRanking constructor with null strategies as inputs.
+     * These should be switched to the default strategies.
+     */
+    @Test
+    public void testNullStrategies() {
+        Assert.assertThrows(NullPointerException.class, () -> {
+            new NaturalRanking((NaNStrategy) null, (TiesStrategy) null);
+        });
+        Assert.assertThrows(NullPointerException.class, () -> {
+            new NaturalRanking(NaturalRanking.DEFAULT_NAN_STRATEGY, (TiesStrategy) null);
+        });
+    }
 }
