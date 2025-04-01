@@ -22,9 +22,9 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
-import org.apache.commons.math4.legacy.stat.ranking.NaturalRanking;
-import org.apache.commons.math4.legacy.stat.ranking.RankingAlgorithm;
+import org.apache.commons.statistics.ranking.NaNStrategy;
+import org.apache.commons.statistics.ranking.NaturalRanking;
+import org.apache.commons.statistics.ranking.RankingAlgorithm;
 
 /**
  * Spearman's rank correlation. This implementation performs a rank
@@ -179,8 +179,8 @@ public class SpearmansCorrelation {
             throw new MathIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION,
                                                    xArray.length, 2);
         } else {
-            return new PearsonsCorrelation().correlation(rankingAlgorithm.rank(xArray),
-                                                         rankingAlgorithm.rank(yArray));
+            return new PearsonsCorrelation().correlation(rankingAlgorithm.apply(xArray),
+                                                         rankingAlgorithm.apply(yArray));
         }
     }
 
@@ -194,7 +194,7 @@ public class SpearmansCorrelation {
     private RealMatrix rankTransform(final RealMatrix matrix) {
         RealMatrix transformed = matrix.copy();
         for (int i = 0; i < transformed.getColumnDimension(); i++) {
-            transformed.setColumn(i, rankingAlgorithm.rank(transformed.getColumn(i)));
+            transformed.setColumn(i, rankingAlgorithm.apply(transformed.getColumn(i)));
         }
 
         return transformed;

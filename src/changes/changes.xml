@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="update" issue="MATH-1672">
+        Removed o.a.c.m.legacy.stat.ranking package. Functionality has been
+        transferred to Commons Statistics ranking.
+      </action>
       <action dev="aherbert" type="update" issue="MATH-1673">
         Removed o.a.c.m.legacy.stat.inference package. Functionality has been
         transferred to Commons Statistics inference.

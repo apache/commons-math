@@ -28,9 +28,9 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractUnivariateStatistic;
-import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
+import org.apache.commons.statistics.ranking.NaNStrategy;
 
 /**
  * Provides percentile computation.

@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatisticAbstractTest;
-import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
+import org.apache.commons.statistics.ranking.NaNStrategy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

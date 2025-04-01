@@ -21,8 +21,8 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.stat.ranking.NaNStrategy;
-import org.apache.commons.math4.legacy.stat.ranking.NaturalRanking;
+import org.apache.commons.statistics.ranking.NaNStrategy;
+import org.apache.commons.statistics.ranking.NaturalRanking;
 import org.junit.Assert;
 import org.junit.Test;
 
