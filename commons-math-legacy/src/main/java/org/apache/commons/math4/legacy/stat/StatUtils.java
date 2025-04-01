@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.stat;
 
 import java.util.List;
-
+import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
@@ -32,11 +32,12 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.Max;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Product;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.statistics.descriptive.Quantile;
+import org.apache.commons.statistics.descriptive.Quantile.EstimationMethod;
 
 /**
  * StatUtils provides static methods for computing statistics based on data
@@ -69,7 +70,7 @@ public final class StatUtils {
     private static final Variance VARIANCE = new Variance();
 
     /** percentile. */
-    private static final Percentile PERCENTILE = new Percentile();
+    private static final Quantile QUANTILE = Quantile.withDefaults().with(EstimationMethod.HF6).withCopy(false);
 
     /** geometric mean. */
     private static final GeometricMean GEOMETRIC_MEAN = new GeometricMean();
@@ -624,10 +625,11 @@ public final class StatUtils {
      * @param values input array of values
      * @param p the percentile value to compute
      * @return the percentile value or Double.NaN if the array is empty
-     * @throws MathIllegalArgumentException if <code>values</code> is null or p is invalid
+     * @throws IllegalArgumentException if <code>values</code> is null or p is invalid
      */
     public static double percentile(final double[] values, final double p) throws MathIllegalArgumentException {
-        return PERCENTILE.evaluate(values,p);
+        MathArrays.verifyValues(values, 0, 0);
+        return QUANTILE.evaluate(values, p / 100);
     }
 
     /**
@@ -653,11 +655,12 @@ public final class StatUtils {
      * @param begin the first (0-based) element to include in the computation
      * @param length the number of array elements to include
      * @return the percentile value
-     * @throws MathIllegalArgumentException if the parameters are not valid or the input array is null
+     * @throws IllegalArgumentException if the parameters are not valid or the input array is null
      */
     public static double percentile(final double[] values, final int begin, final int length, final double p)
         throws MathIllegalArgumentException {
-        return PERCENTILE.evaluate(values, begin, length, p);
+        MathArrays.verifyValues(values, begin, length);
+        return QUANTILE.evaluateRange(values, begin, begin + length, p / 100);
     }
 
     /**

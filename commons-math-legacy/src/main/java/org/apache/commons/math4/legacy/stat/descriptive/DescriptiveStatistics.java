@@ -23,6 +23,7 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Kurtosis;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
@@ -30,7 +31,6 @@ import org.apache.commons.math4.legacy.stat.descriptive.moment.Skewness;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.Max;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
@@ -89,7 +89,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
     private UnivariateStatistic minImpl = new Min();
 
     /** Percentile statistic implementation - can be reset by setter. */
-    private UnivariateStatistic percentileImpl = new Percentile();
+    private UnivariateStatistic percentileImpl = Percentile.create(50);
 
     /** Skewness statistic implementation - can be reset by setter. */
     private UnivariateStatistic skewnessImpl = new Skewness();
@@ -789,8 +789,8 @@ public class DescriptiveStatistics implements StatisticalSummary {
         dest.varianceImpl = source.varianceImpl.copy();
         dest.sumsqImpl = source.sumsqImpl.copy();
         dest.geometricMeanImpl = source.geometricMeanImpl.copy();
-        dest.kurtosisImpl = source.kurtosisImpl;
-        dest.skewnessImpl = source.skewnessImpl;
-        dest.percentileImpl = source.percentileImpl;
+        dest.kurtosisImpl = source.kurtosisImpl.copy();
+        dest.skewnessImpl = source.skewnessImpl.copy();
+        dest.percentileImpl = source.percentileImpl.copy();
     }
 }

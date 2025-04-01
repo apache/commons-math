@@ -20,12 +20,12 @@ import java.util.Locale;
 
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.Max;
 import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
 import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.numbers.core.Precision;
@@ -399,7 +399,7 @@ public class DescriptiveStatisticsTest {
     // Test UnivariateStatistics impls for setter injection tests
 
     /**
-     * A new way to compute the mean
+     * A new way to compute the mean.
      */
     static class DeepMean implements UnivariateStatistic {
 
@@ -419,11 +419,13 @@ public class DescriptiveStatisticsTest {
     }
 
     /**
-     * Test percentile implementation - wraps a Percentile
+     * Test percentile implementation - wraps a Percentile.
      */
     static class GoodPercentile implements UnivariateStatistic {
-        private final Percentile percentile = new Percentile();
+        private final Percentile percentile = Percentile.create(50);
+        private double q;
         public void setQuantile(double quantile) {
+            q = quantile;
             percentile.setQuantile(quantile);
         }
         @Override
@@ -437,48 +439,53 @@ public class DescriptiveStatisticsTest {
         @Override
         public UnivariateStatistic copy() {
             GoodPercentile result = new GoodPercentile();
-            result.setQuantile(percentile.getQuantile());
+            result.setQuantile(q);
             return result;
         }
     }
 
     /**
-     * Test percentile subclass - another "new math" impl
-     * Always returns currently set quantile
+     * Test percentile subclass - another "new math" impl.
+     * Always returns currently set quantile.
      */
-    static class SubPercentile extends Percentile {
+    static class SubPercentile implements UnivariateStatistic {
+        private double q;
+        public void setQuantile(double quantile) {
+            q = quantile;
+        }
         @Override
         public double evaluate(double[] values, int begin, int length) {
-            return getQuantile();
+            return q;
         }
         @Override
         public double evaluate(double[] values) {
-            return getQuantile();
-        }
-        private static final long serialVersionUID = 8040701391045914979L;
-        @Override
-        public Percentile copy() {
-            SubPercentile result = new SubPercentile();
-            return result;
-        }
-    }
-
-    /**
-     * "Bad" test percentile implementation - no setQuantile
-     */
-    static class BadPercentile implements UnivariateStatistic {
-        private final Percentile percentile = new Percentile();
-        @Override
-        public double evaluate(double[] values, int begin, int length) {
-            return percentile.evaluate(values, begin, length);
-        }
-        @Override
-        public double evaluate(double[] values) {
-            return percentile.evaluate(values);
+            return q;
         }
         @Override
         public UnivariateStatistic copy() {
-            return new BadPercentile();
+            SubPercentile result = new SubPercentile();
+            result.q = this.q;
+            return result;
+        }
+    }
+
+    /**
+     * "Bad" test percentile implementation - no setQuantile method.
+     */
+    static class BadPercentile implements UnivariateStatistic {
+        @Override
+        public double evaluate(double[] values, int begin, int length) {
+            // Not used
+            return Double.NaN;
+        }
+        @Override
+        public double evaluate(double[] values) {
+            // Not used
+            return Double.NaN;
+        }
+        @Override
+        public UnivariateStatistic copy() {
+            return this;
         }
     }
 }
