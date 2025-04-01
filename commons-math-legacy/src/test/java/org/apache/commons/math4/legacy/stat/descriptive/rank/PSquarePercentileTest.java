@@ -25,6 +25,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import org.apache.commons.statistics.distribution.LogNormalDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
+import org.apache.commons.statistics.descriptive.Quantile;
+import org.apache.commons.statistics.descriptive.Quantile.EstimationMethod;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.math4.legacy.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
@@ -546,43 +548,48 @@ public class PSquarePercentileTest extends
         }
     }
 
-    private void doCalculatePercentile(Double percentile, Number[] test) {
-        doCalculatePercentile(percentile, test, Double.MAX_VALUE);
+    private void doCalculatePercentile(Double percentile, Number[] test, boolean copy) {
+        // TODO: Correct this delta so the test does more than simply checking
+        // the result is either NaN or finite.
+        doCalculatePercentile(percentile, test, Double.MAX_VALUE, copy);
     }
 
     private void doCalculatePercentile(Double percentile, Number[] test,
-            double delta) {
+            double delta, boolean copy) {
         PSquarePercentile psquared = new PSquarePercentile(percentile);
         for (Number value : test) {
             psquared.increment(value.doubleValue());
         }
-
-        Percentile p2 = new Percentile(percentile * 100);
 
         double[] dall = new double[test.length];
         for (int i = 0; i < test.length; i++) {
             dall[i] = test[i].doubleValue();
         }
 
-        Double referenceValue = p2.evaluate(dall);
+        double referenceValue = computePercentile(dall, percentile, copy);
         assertValues(psquared.getResult(), referenceValue, delta);
     }
 
     private void doCalculatePercentile(double percentile, double[] test,
-            double delta) {
+            double delta, boolean copy) {
         PSquarePercentile psquared = new PSquarePercentile(percentile);
         for (double value : test) {
             psquared.increment(value);
         }
 
-        Percentile p2 =
-                new Percentile(percentile < 1 ? percentile * 100 : percentile);
         /*
          * double[] dall = new double[test.length]; for (int i = 0; i <
          * test.length; i++) dall[i] = test[i];
          */
-        Double referenceValue = p2.evaluate(test);
+        double referenceValue = computePercentile(test, percentile, copy);
         assertValues(psquared.getResult(), referenceValue, delta);
+    }
+
+    private double computePercentile(double[] test, double percentile, boolean copy) {
+        return Quantile.withDefaults()
+            .with(EstimationMethod.HF6)
+            .withCopy(copy)
+            .evaluate(test, percentile / 100);
     }
 
     @Test
@@ -599,56 +606,56 @@ public class PSquarePercentileTest extends
             input[i] = seedInput[i % seedInput.length] + i;
         }
         // Arrays.sort(input);
-        doCalculatePercentile(0.50d, input);
-        doCalculatePercentile(0.95d, input);
+        doCalculatePercentile(50d, input, true);
+        doCalculatePercentile(95d, input, false);
     }
 
     @Test
     public void test99Percentile() {
         Double[] test = randomTestData(100, 10000);
-        doCalculatePercentile(0.99d, test);
+        doCalculatePercentile(99d, test, false);
     }
 
     @Test
     public void test90Percentile() {
         Double[] test = randomTestData(100, 10000);
-        doCalculatePercentile(0.90d, test);
+        doCalculatePercentile(90d, test, false);
     }
 
     @Test
     public void test20Percentile() {
         Double[] test = randomTestData(100, 100000);
-        doCalculatePercentile(0.20d, test);
+        doCalculatePercentile(20d, test, false);
     }
 
     @Test
     public void test5Percentile() {
         Double[] test = randomTestData(50, 990000);
-        doCalculatePercentile(0.50d, test);
+        doCalculatePercentile(50d, test, false);
     }
 
     @Test
     public void test99PercentileHighValues() {
         Double[] test = randomTestData(100000, 10000);
-        doCalculatePercentile(0.99d, test);
+        doCalculatePercentile(99d, test, false);
     }
 
     @Test
     public void test90PercentileHighValues() {
         Double[] test = randomTestData(100000, 100000);
-        doCalculatePercentile(0.90d, test);
+        doCalculatePercentile(90d, test, false);
     }
 
     @Test
     public void test20PercentileHighValues() {
         Double[] test = randomTestData(100000, 100000);
-        doCalculatePercentile(0.20d, test);
+        doCalculatePercentile(20d, test, false);
     }
 
     @Test
     public void test5PercentileHighValues() {
         Double[] test = randomTestData(100000, 100000);
-        doCalculatePercentile(0.05d, test);
+        doCalculatePercentile(5d, test, false);
     }
 
     @Test
@@ -711,40 +718,40 @@ public class PSquarePercentileTest extends
         double data[];
 
         data = AbstractRealDistribution.sample(VERY_LARGE, sampler);
-        doCalculatePercentile(50, data, 0.0001);
-        doCalculatePercentile(95, data, 0.0001);
+        doCalculatePercentile(50, data, 0.0001, true);
+        doCalculatePercentile(95, data, 0.0001, false);
 
         data = AbstractRealDistribution.sample(LARGE, sampler);
-        doCalculatePercentile(50, data, 0.001);
-        doCalculatePercentile(95, data, 0.001);
+        doCalculatePercentile(50, data, 0.001, true);
+        doCalculatePercentile(95, data, 0.001, false);
 
         data = AbstractRealDistribution.sample(VERY_BIG, sampler);
-        doCalculatePercentile(50, data, 0.001);
-        doCalculatePercentile(95, data, 0.001);
+        doCalculatePercentile(50, data, 0.001, true);
+        doCalculatePercentile(95, data, 0.001, false);
 
         data = AbstractRealDistribution.sample(BIG, sampler);
-        doCalculatePercentile(50, data, 0.001);
-        doCalculatePercentile(95, data, 0.001);
+        doCalculatePercentile(50, data, 0.001, true);
+        doCalculatePercentile(95, data, 0.001, false);
 
         data = AbstractRealDistribution.sample(STANDARD, sampler);
-        doCalculatePercentile(50, data, 0.005);
-        doCalculatePercentile(95, data, 0.005);
+        doCalculatePercentile(50, data, 0.005, true);
+        doCalculatePercentile(95, data, 0.005, false);
 
         data = AbstractRealDistribution.sample(MEDIUM, sampler);
-        doCalculatePercentile(50, data, 0.005);
-        doCalculatePercentile(95, data, 0.005);
+        doCalculatePercentile(50, data, 0.005, true);
+        doCalculatePercentile(95, data, 0.005, false);
 
         data = AbstractRealDistribution.sample(NOMINAL, sampler);
-        doCalculatePercentile(50, data, 0.01);
-        doCalculatePercentile(95, data, 0.01);
+        doCalculatePercentile(50, data, 0.01, true);
+        doCalculatePercentile(95, data, 0.01, false);
 
         data = AbstractRealDistribution.sample(SMALL, sampler);
-        doCalculatePercentile(50, data, 0.01);
-        doCalculatePercentile(95, data, 0.01);
+        doCalculatePercentile(50, data, 0.01, true);
+        doCalculatePercentile(95, data, 0.01, false);
 
         data = AbstractRealDistribution.sample(TINY, sampler);
-        doCalculatePercentile(50, data, 0.05);
-        doCalculatePercentile(95, data, 0.05);
+        doCalculatePercentile(50, data, 0.05, true);
+        doCalculatePercentile(95, data, 0.05, false);
     }
 
     /**
