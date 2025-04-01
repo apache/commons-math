@@ -175,8 +175,10 @@
 
       <dependency>
         <groupId>org.apache.commons</groupId>
-        <artifactId>commons-statistics-distribution</artifactId>
+        <artifactId>commons-statistics-bom</artifactId>
         <version>${math.commons.statistics.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
 
       <dependency>

@@ -53,7 +53,6 @@
         <li>Generating random numbers with more restrictions (e.g distribution, range) than what
             is possible using the JDK</li>
         <li>Generating random samples and/or datasets that are "like" the data in an input file</li>
-        <li>Performing statistical significance tests</li>
         <li>Miscellaneous mathematical functions such as factorials, binomial
             coefficients and "special functions" (e.g. gamma, beta functions)</li>
     </ul></p>
@@ -72,7 +71,7 @@
     <p>
     Commons Math is divided into sixteen subpackages, based on functionality provided.
     <ul>
-      <li><a href="stat.html">org.apache.commons.math4.stat</a> - statistics, statistical tests</li>
+      <li><a href="stat.html">org.apache.commons.math4.stat</a> - statistics</li>
       <li><a href="analysis.html">org.apache.commons.math4.analysis</a> - rootfinding, integration, interpolation, polynomials</li>
       <li><a href="random.html">org.apache.commons.math4.random</a> - random numbers, strings and data generation</li>
       <li><a href="special.html">org.apache.commons.math4.special</a> - special functions (Gamma, Beta) </li>

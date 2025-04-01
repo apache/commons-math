@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="update" issue="MATH-1673">
+        Removed o.a.c.m.legacy.stat.inference package. Functionality has been
+        transferred to Commons Statistics inference.
+      </action>
       <action dev="sebb" type="fix">Drop coveralls, as no longer used</action>
       <action dev="sebb" type="update">Bump Commons Parent from 78 to 81</action>
       <action dev="sebb" type="update">Bump picocli from 3.9.5 to 4.7.6</action>

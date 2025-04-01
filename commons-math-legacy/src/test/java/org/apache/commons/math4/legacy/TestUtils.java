@@ -22,19 +22,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
-
-import org.junit.Assert;
-
-import org.apache.commons.numbers.complex.Complex;
-import org.apache.commons.numbers.core.Precision;
-import org.apache.commons.statistics.distribution.ContinuousDistribution;
-import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
-import org.apache.commons.math4.legacy.util.ComplexFormat;
+import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.linear.FieldMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
-import org.apache.commons.math4.legacy.stat.inference.ChiSquareTest;
+import org.apache.commons.math4.legacy.util.ComplexFormat;
+import org.apache.commons.numbers.complex.Complex;
+import org.apache.commons.numbers.core.Precision;
+import org.apache.commons.statistics.distribution.ContinuousDistribution;
+import org.apache.commons.statistics.inference.ChiSquareTest;
+import org.apache.commons.statistics.inference.SignificanceResult;
+import org.junit.Assert;
 
 /**
  */
@@ -467,17 +466,17 @@ public final class TestUtils {
      * @param alpha significance level of the test
      */
     public static void assertChiSquareAccept(String[] valueLabels, double[] expected, long[] observed, double alpha) {
-        ChiSquareTest chiSquareTest = new ChiSquareTest();
+        final SignificanceResult result = ChiSquareTest.withDefaults().test(expected, observed);
 
         // Fail if we can reject null hypothesis that distributions are the same
-        if (chiSquareTest.chiSquareTest(expected, observed, alpha)) {
+        if (result.reject(alpha)) {
             StringBuilder msgBuffer = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
             msgBuffer.append("Chisquare test failed");
             msgBuffer.append(" p-value = ");
-            msgBuffer.append(chiSquareTest.chiSquareTest(expected, observed));
+            msgBuffer.append(result.getPValue());
             msgBuffer.append(" chisquare statistic = ");
-            msgBuffer.append(chiSquareTest.chiSquare(expected, observed));
+            msgBuffer.append(result.getStatistic());
             msgBuffer.append(". \n");
             msgBuffer.append("value\texpected\tobserved\n");
             for (int i = 0; i < expected.length; i++) {
