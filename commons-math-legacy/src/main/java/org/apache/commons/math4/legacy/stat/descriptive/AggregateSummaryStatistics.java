@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.stat.descriptive;
 
 import java.util.Collection;
 import java.util.Iterator;
-
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 
 /**
@@ -246,20 +246,6 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
     }
 
     /**
-     * Returns a statistic related to the Second Central Moment.  Specifically,
-     * what is returned is the sum of squared deviations from the sample mean
-     * among the all of the aggregated data.
-     *
-     * @return second central moment statistic
-     * @see SummaryStatistics#getSecondMoment()
-     */
-    public double getSecondMoment() {
-        synchronized (statistics) {
-            return statistics.getSecondMoment();
-        }
-    }
-
-    /**
      * Return a {@link StatisticalSummaryValues} instance reporting current
      * aggregate statistics.
      *
@@ -315,17 +301,13 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
         double min = current.getMin();
         double sum = current.getSum();
         double max = current.getMax();
-        double var = current.getVariance();
-        double m2 = var * (n - 1d);
+        // Assume bias corrected variance to compute the sum-of-squared deviations from the mean
+        double m2 = current.getVariance() * (n - 1d);
         double mean = current.getMean();
         while (iterator.hasNext()) {
             current = iterator.next();
-            if (current.getMin() < min || Double.isNaN(min)) {
-                min = current.getMin();
-            }
-            if (current.getMax() > max || Double.isNaN(max)) {
-                max = current.getMax();
-            }
+            min = JdkMath.min(min, current.getMin());
+            max = JdkMath.max(max, current.getMax());
             sum += current.getSum();
             final double oldN = n;
             final double curN = current.getN();
@@ -353,12 +335,6 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
      * @since 2.0
      */
     private static final class AggregatingSummaryStatistics extends SummaryStatistics {
-
-        /**
-         * The serialization version of this class.
-         */
-        private static final long serialVersionUID = 1L;
-
         /**
          * An additional SummaryStatistics into which values added to these.
          * statistics (and possibly others) are aggregated
