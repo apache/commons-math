@@ -19,21 +19,21 @@ package org.apache.commons.math4.legacy.stat.descriptive;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.GeometricMean;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Kurtosis;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Max;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Mean;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Min;
 import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Percentile;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.GeometricMean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Kurtosis;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Skewness;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Max;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math4.core.jdkmath.JdkMath;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Skewness;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Sum;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.SumOfSquares;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Variance;
 
 
 /**
@@ -74,34 +74,34 @@ public class DescriptiveStatistics implements StatisticalSummary {
     private ResizableDoubleArray eDA = new ResizableDoubleArray();
 
     /** Mean statistic implementation - can be reset by setter. */
-    private UnivariateStatistic meanImpl = new Mean();
+    private UnivariateStatistic meanImpl = Mean.getInstance();
 
     /** Geometric mean statistic implementation - can be reset by setter. */
-    private UnivariateStatistic geometricMeanImpl = new GeometricMean();
+    private UnivariateStatistic geometricMeanImpl = GeometricMean.getInstance();
 
     /** Kurtosis statistic implementation - can be reset by setter. */
-    private UnivariateStatistic kurtosisImpl = new Kurtosis();
+    private UnivariateStatistic kurtosisImpl = Kurtosis.getInstance();
 
     /** Maximum statistic implementation - can be reset by setter. */
-    private UnivariateStatistic maxImpl = new Max();
+    private UnivariateStatistic maxImpl = Max.getInstance();
 
     /** Minimum statistic implementation - can be reset by setter. */
-    private UnivariateStatistic minImpl = new Min();
+    private UnivariateStatistic minImpl = Min.getInstance();
 
     /** Percentile statistic implementation - can be reset by setter. */
     private UnivariateStatistic percentileImpl = Percentile.create(50);
 
     /** Skewness statistic implementation - can be reset by setter. */
-    private UnivariateStatistic skewnessImpl = new Skewness();
+    private UnivariateStatistic skewnessImpl = Skewness.getInstance();
 
     /** Variance statistic implementation - can be reset by setter. */
-    private UnivariateStatistic varianceImpl = new Variance();
+    private UnivariateStatistic varianceImpl = Variance.getInstance();
 
     /** Sum of squares statistic implementation - can be reset by setter. */
-    private UnivariateStatistic sumsqImpl = new SumOfSquares();
+    private UnivariateStatistic sumsqImpl = SumOfSquares.getInstance();
 
     /** Sum statistic implementation - can be reset by setter. */
-    private UnivariateStatistic sumImpl = new Sum();
+    private UnivariateStatistic sumImpl = Sum.getInstance();
 
     /**
      * Construct a {@code DescriptiveStatistics} instance with an infinite
@@ -245,17 +245,6 @@ public class DescriptiveStatistics implements StatisticalSummary {
     @Override
     public double getVariance() {
         return apply(varianceImpl);
-    }
-
-    /**
-     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
-     * population variance</a> of the available values.
-     *
-     * @return The population variance, Double.NaN if no values have been added,
-     * or 0.0 for a single value set.
-     */
-    public double getPopulationVariance() {
-        return apply(new Variance(false));
     }
 
     /**
