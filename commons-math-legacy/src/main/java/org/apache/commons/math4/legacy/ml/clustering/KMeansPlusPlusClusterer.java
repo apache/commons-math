@@ -24,10 +24,9 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
 import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
-
+import org.apache.commons.statistics.descriptive.Variance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -431,11 +430,11 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
 
                 // compute the distance variance of the current cluster
                 final Clusterable center = cluster.getCenter();
-                final Variance stat = new Variance();
+                final Variance stat = Variance.create();
                 for (final T point : cluster.getPoints()) {
-                    stat.increment(distance(point, center));
+                    stat.accept(distance(point, center));
                 }
-                final double variance = stat.getResult();
+                final double variance = stat.getAsDouble();
 
                 // select the cluster with the largest variance
                 if (variance > maxVariance) {

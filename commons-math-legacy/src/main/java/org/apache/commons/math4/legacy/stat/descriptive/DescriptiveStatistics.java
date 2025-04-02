@@ -236,8 +236,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
      * Returns the (sample) variance of the available values.
      *
      * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #getPopulationVariance()} for the non-bias-corrected
-     * population variance.</p>
+     * the denominator).</p>
      *
      * @return The variance, Double.NaN if no values have been added
      * or 0.0 for a single value set.
@@ -450,9 +449,8 @@ public class DescriptiveStatistics implements StatisticalSummary {
             ((Percentile) percentileImpl).setQuantile(p);
         } else {
             try {
-                percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME,
-                        new Class[] {Double.TYPE}).invoke(percentileImpl,
-                                new Object[] {Double.valueOf(p)});
+                percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME, Double.TYPE)
+                    .invoke(percentileImpl, Double.valueOf(p));
             } catch (NoSuchMethodException e1) { // Setter guard should prevent
                 throw new MathIllegalStateException(
                       LocalizedFormats.PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD,
@@ -639,9 +637,8 @@ public class DescriptiveStatistics implements StatisticalSummary {
     public synchronized void setPercentileImpl(UnivariateStatistic percentileImpl)
     throws MathIllegalArgumentException {
         try {
-            percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME,
-                    new Class[] {Double.TYPE}).invoke(percentileImpl,
-                            new Object[] {Double.valueOf(50.0d)});
+            percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME, Double.TYPE)
+                .invoke(percentileImpl, Double.valueOf(50.0d));
         } catch (NoSuchMethodException e1) {
             throw new MathIllegalArgumentException(
                   LocalizedFormats.PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD,

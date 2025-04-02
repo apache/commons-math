@@ -26,15 +26,17 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
  */
 public class VectorialMean {
     /** Means for each component. */
-    private final Mean[] means;
+    private final org.apache.commons.statistics.descriptive.Mean[] means;
+    /** Sample count. */
+    private long n;
 
     /** Constructs a VectorialMean.
      * @param dimension vectors dimension
      */
     public VectorialMean(int dimension) {
-        means = new Mean[dimension];
+        means = new org.apache.commons.statistics.descriptive.Mean[dimension];
         for (int i = 0; i < dimension; ++i) {
-            means[i] = new Mean();
+            means[i] = org.apache.commons.statistics.descriptive.Mean.create();
         }
     }
 
@@ -48,8 +50,9 @@ public class VectorialMean {
             throw new DimensionMismatchException(v.length, means.length);
         }
         for (int i = 0; i < v.length; ++i) {
-            means[i].increment(v[i]);
+            means[i].accept(v[i]);
         }
+        n++;
     }
 
     /**
@@ -59,7 +62,7 @@ public class VectorialMean {
     public double[] getResult() {
         double[] result = new double[means.length];
         for (int i = 0; i < result.length; ++i) {
-            result[i] = means[i].getResult();
+            result[i] = means[i].getAsDouble();
         }
         return result;
     }
@@ -69,7 +72,7 @@ public class VectorialMean {
      * @return number of vectors in the sample
      */
     public long getN() {
-        return (means.length == 0) ? 0 : means[0].getN();
+        return (means.length == 0) ? 0 : n;
     }
 
     /** {@inheritDoc} */
@@ -77,7 +80,7 @@ public class VectorialMean {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode(means);
+        result = prime * result + Arrays.hashCode(getResult());
         return result;
     }
 
@@ -91,6 +94,6 @@ public class VectorialMean {
             return false;
         }
         VectorialMean other = (VectorialMean) obj;
-        return Arrays.equals(means, other.means);
+        return Arrays.equals(getResult(), other.getResult());
     }
 }

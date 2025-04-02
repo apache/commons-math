@@ -16,51 +16,26 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
-import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
+import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluationAbstractTest;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
+ * Test cases for the {@link Mean} class.
  */
-public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
+public class MeanTest extends WeightedEvaluationAbstractTest {
 
-    protected Mean stat;
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public UnivariateStatistic getUnivariateStatistic() {
+    public WeightedEvaluation getWeightedEvaluation() {
         return new Mean();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public double expectedValue() {
-        return this.mean;
+        return weightedMean;
     }
 
-    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
-    public double expectedWeightedValue() {
-        return this.weightedMean;
-    }
-
-    @Test
-    public void testSmallSamples() {
-        Mean mean = new Mean();
-        Assert.assertTrue(Double.isNaN(mean.getResult()));
-        mean.increment(1d);
-        Assert.assertEquals(1d, mean.getResult(), 0);
-    }
-
-    @Test
-    public void testWeightedMean() {
-        Mean mean = new Mean();
-        Assert.assertEquals(expectedWeightedValue(), mean.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
-        Assert.assertEquals(expectedValue(), mean.evaluate(testArray, identicalWeightsArray, 0, testArray.length), getTolerance());
+    @Override
+    public double expectedUnweightedValue() {
+        return mean;
     }
 }

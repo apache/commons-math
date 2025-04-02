@@ -17,7 +17,6 @@
 package org.apache.commons.math4.legacy.stat.descriptive;
 
 import org.apache.commons.math4.legacy.TestUtils;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.SecondMoment;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -118,17 +117,6 @@ public abstract class StorelessUnivariateStatisticAbstractTest
                 emptyHash, statistic2.hashCode());
         Assert.assertEquals("cleared stats should have thash code of empty stat",
                 emptyHash, statistic.hashCode());
-    }
-
-    @Test
-    public void testMomentSmallSamples() {
-        UnivariateStatistic stat = getUnivariateStatistic();
-        if (stat instanceof SecondMoment) {
-            SecondMoment moment = (SecondMoment) getUnivariateStatistic();
-            Assert.assertTrue(Double.isNaN(moment.getResult()));
-            moment.increment(1d);
-            Assert.assertEquals(0d, moment.getResult(), 0);
-        }
     }
 
     /**

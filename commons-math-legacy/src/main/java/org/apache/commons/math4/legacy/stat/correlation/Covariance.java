@@ -21,8 +21,6 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 
 /**
  * Computes covariances for pairs of arrays or columns of a matrix.
@@ -162,7 +160,6 @@ public class Covariance {
     protected RealMatrix computeCovarianceMatrix(RealMatrix matrix, boolean biasCorrected)
     throws MathIllegalArgumentException {
         int dimension = matrix.getColumnDimension();
-        Variance variance = new Variance(biasCorrected);
         RealMatrix outMatrix = new BlockRealMatrix(dimension, dimension);
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < i; j++) {
@@ -170,7 +167,8 @@ public class Covariance {
               outMatrix.setEntry(i, j, cov);
               outMatrix.setEntry(j, i, cov);
             }
-            outMatrix.setEntry(i, i, variance.evaluate(matrix.getColumn(i)));
+            outMatrix.setEntry(i, i, org.apache.commons.statistics.descriptive.Variance.of(
+                matrix.getColumn(i)).setBiased(!biasCorrected).getAsDouble());
         }
         return outMatrix;
     }
@@ -233,7 +231,6 @@ public class Covariance {
      */
     public double covariance(final double[] xArray, final double[] yArray, boolean biasCorrected)
         throws MathIllegalArgumentException {
-        Mean mean = new Mean();
         double result = 0d;
         int length = xArray.length;
         if (length != yArray.length) {
@@ -243,8 +240,8 @@ public class Covariance {
             throw new MathIllegalArgumentException(
                   LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, length, 2);
         } else {
-            double xMean = mean.evaluate(xArray);
-            double yMean = mean.evaluate(yArray);
+            double xMean = org.apache.commons.statistics.descriptive.Mean.of(xArray).getAsDouble();
+            double yMean = org.apache.commons.statistics.descriptive.Mean.of(yArray).getAsDouble();
             for (int i = 0; i < length; i++) {
                 double xDev = xArray[i] - xMean;
                 double yDev = yArray[i] - yMean;

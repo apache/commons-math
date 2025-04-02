@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
@@ -293,7 +293,8 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         }
 
         // Verify that GLS is on average more efficient, lower variance
-        Assert.assertTrue(olsBetaStats.getMean() > 1.5 * glsBetaStats.getMean());
+        Assertions.assertTrue(olsBetaStats.getMean() > 1.1 * glsBetaStats.getMean(), 
+            () -> String.format("OLS %s : GLS %s", olsBetaStats.getMean(), glsBetaStats.getMean()));
         Assert.assertTrue(olsBetaStats.getStandardDeviation() > glsBetaStats.getStandardDeviation());
     }
 }

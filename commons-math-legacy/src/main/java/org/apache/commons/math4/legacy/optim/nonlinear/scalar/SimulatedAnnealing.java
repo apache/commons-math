@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 import java.util.function.BiFunction;
 import java.util.function.DoublePredicate;
 import org.apache.commons.rng.UniformRandomProvider;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.StandardDeviation;
+import org.apache.commons.statistics.descriptive.StandardDeviation;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
 import org.apache.commons.math4.legacy.optim.nonlinear.scalar.noderiv.Simplex;
 
@@ -164,11 +164,11 @@ public class SimulatedAnnealing implements OptimizationData {
 
             return (previousTemperature, simplex) -> {
                 // Standard deviation of the values of the objective function.
-                final StandardDeviation stddev = new StandardDeviation();
+                final StandardDeviation stddev = StandardDeviation.create();
                 for (int i = 0; i < simplex.getSize(); i++) {
-                    stddev.increment(simplex.get(i).getValue());
+                    stddev.accept(simplex.get(i).getValue());
                 }
-                final double sigma = stddev.getResult();
+                final double sigma = stddev.getAsDouble();
 
                 final double a = previousTemperature * Math.log(1 + delta);
                 final double b = 3 * sigma;

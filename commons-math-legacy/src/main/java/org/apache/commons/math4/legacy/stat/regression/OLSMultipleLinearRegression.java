@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.linear.QRDecomposition;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
 import org.apache.commons.math4.legacy.stat.StatUtils;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.SecondMoment;
+import org.apache.commons.statistics.descriptive.Mean;
 
 /**
  * <p>Implements ordinary least squares (OLS) to estimate the parameters of a
@@ -161,10 +161,17 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @since 2.2
      */
     public double calculateTotalSumOfSquares() {
+        final double[] y = getY().toArray();
         if (isNoIntercept()) {
-            return StatUtils.sumSq(getY().toArray());
+            return StatUtils.sumSq(y);
         } else {
-            return new SecondMoment().evaluate(getY().toArray());
+            final double m = Mean.of(y).getAsDouble();
+            double s = 0;
+            for (final double v : y) {
+                final double d = v - m;
+                s += d * d;
+            }
+            return s;
         }
     }
 

@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.linear.ArrayRealVector;
 import org.apache.commons.math4.legacy.linear.NonSquareMatrixException;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
+import org.apache.commons.statistics.descriptive.Variance;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
@@ -347,7 +347,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @return Y variance
      */
     protected double calculateYVariance() {
-        return new Variance().evaluate(yVector.toArray());
+        return Variance.of(yVector.toArray()).getAsDouble();
     }
 
     /**
