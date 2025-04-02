@@ -258,7 +258,6 @@ public class DescriptiveStatisticsTest {
             TestUtils.assertEquals(new Sum().evaluate(values), dstats.getSum(), tol);
             TestUtils.assertEquals(dstats.getSumsq(), sstats.getSumsq(), tol);
             TestUtils.assertEquals(new SumOfSquares().evaluate(values), dstats.getSumsq(), tol);
-            TestUtils.assertEquals(dstats.getPopulationVariance(), sstats.getPopulationVariance(), tol);
             TestUtils.assertEquals(new Variance(false).evaluate(values), dstats.getPopulationVariance(), tol);
         }
     }

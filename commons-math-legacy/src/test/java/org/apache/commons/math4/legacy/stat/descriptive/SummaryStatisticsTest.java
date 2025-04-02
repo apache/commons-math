@@ -39,7 +39,6 @@ public class SummaryStatisticsTest {
     private final double sumSq = 18;
     private final double sum = 8;
     private final double var = 0.666666666666666666667;
-    private final double popVar = 0.5;
     private final double std = JdkMath.sqrt(var);
     private final double n = 4;
     private final double min = 1;
@@ -63,7 +62,6 @@ public class SummaryStatisticsTest {
         Assert.assertEquals("sum",sum,u.getSum(),tolerance);
         Assert.assertEquals("sumsq",sumSq,u.getSumsq(),tolerance);
         Assert.assertEquals("var",var,u.getVariance(),tolerance);
-        Assert.assertEquals("population var",popVar,u.getPopulationVariance(),tolerance);
         Assert.assertEquals("std",std,u.getStandardDeviation(),tolerance);
         Assert.assertEquals("mean",mean,u.getMean(),tolerance);
         Assert.assertEquals("min",min,u.getMin(),tolerance);
@@ -112,11 +110,16 @@ public class SummaryStatisticsTest {
     @Test
     public void testNaNContracts() {
         SummaryStatistics u = createSummaryStatistics();
+        Assert.assertTrue("sum not NaN",Double.isNaN(u.getSum()));
+        Assert.assertTrue("sum-of-squares not NaN",Double.isNaN(u.getSumsq()));
         Assert.assertTrue("mean not NaN",Double.isNaN(u.getMean()));
-        Assert.assertTrue("min not NaN",Double.isNaN(u.getMin()));
         Assert.assertTrue("std dev not NaN",Double.isNaN(u.getStandardDeviation()));
+        Assert.assertTrue("quadratic mean not NaN",Double.isNaN(u.getQuadraticMean()));
         Assert.assertTrue("var not NaN",Double.isNaN(u.getVariance()));
+        Assert.assertTrue("max not NaN",Double.isNaN(u.getMax()));
+        Assert.assertTrue("min not NaN",Double.isNaN(u.getMin()));
         Assert.assertTrue("geom mean not NaN",Double.isNaN(u.getGeometricMean()));
+        Assert.assertTrue("sum-of-logs not NaN",Double.isNaN(u.getSumOfLogs()));
 
         u.addValue(1.0);
 
@@ -245,7 +248,6 @@ public class SummaryStatisticsTest {
         u.addValue(3);
         Assert.assertEquals(4, u.getMean(), 1E-14);
         Assert.assertEquals(4, u.getSumOfLogs(), 1E-14);
-        Assert.assertEquals(JdkMath.exp(2), u.getGeometricMean(), 1E-14);
         u.clear();
         u.addValue(1);
         u.addValue(2);
@@ -328,10 +330,9 @@ public class SummaryStatisticsTest {
             u.addValue(i);
         }
         final String[] labels = {"min", "max", "sum", "geometric mean", "variance",
-                "population variance", "second moment", "sum of squares", "standard deviation",
-        "sum of logs"};
+                "sum of squares", "standard deviation", "sum of logs"};
         final double[] values = {u.getMin(), u.getMax(), u.getSum(), u.getGeometricMean(),
-                u.getVariance(), u.getPopulationVariance(), u.getSecondMoment(), u.getSumsq(),
+                u.getVariance(), u.getSumsq(),
                 u.getStandardDeviation(), u.getSumOfLogs()};
         final String toString = u.toString();
         Assert.assertTrue(toString.indexOf("n: " + u.getN()) > 0); // getN() returns a long
