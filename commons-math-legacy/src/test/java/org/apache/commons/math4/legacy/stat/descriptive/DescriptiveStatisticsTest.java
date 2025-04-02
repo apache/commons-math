@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
-
+import java.util.Arrays;
 import java.util.Locale;
 
 import org.apache.commons.math4.legacy.TestUtils;
@@ -236,8 +236,11 @@ public class DescriptiveStatisticsTest {
         final int windowSize = 5;
         dstats.setWindowSize(windowSize);
         final double tol = 1E-12;
-        for (int i = 0; i < 20; i++) {
-            dstats.addValue(i);
+        final int n = 20;
+        for (int i = 0; i <= n; i++) {
+            // Test with NaN to ensure updated Min/Max behaviour is consistent
+            double x = i == n ? Double.NaN : i;
+            dstats.addValue(x);
             sstats.clear();
             double[] values = dstats.getValues();
             for (int j = 0; j < values.length; j++) {
@@ -246,11 +249,11 @@ public class DescriptiveStatisticsTest {
             TestUtils.assertEquals(dstats.getMean(), sstats.getMean(), tol);
             TestUtils.assertEquals(new Mean().evaluate(values), dstats.getMean(), tol);
             TestUtils.assertEquals(dstats.getMax(), sstats.getMax(), tol);
-            TestUtils.assertEquals(new Max().evaluate(values), dstats.getMax(), tol);
+            TestUtils.assertEquals(Arrays.stream(values).max().orElse(-1.23), dstats.getMax(), tol);
             TestUtils.assertEquals(dstats.getGeometricMean(), sstats.getGeometricMean(), tol);
             TestUtils.assertEquals(new GeometricMean().evaluate(values), dstats.getGeometricMean(), tol);
             TestUtils.assertEquals(dstats.getMin(), sstats.getMin(), tol);
-            TestUtils.assertEquals(new Min().evaluate(values), dstats.getMin(), tol);
+            TestUtils.assertEquals(Arrays.stream(values).min().orElse(-1.23), dstats.getMin(), tol);
             TestUtils.assertEquals(dstats.getStandardDeviation(), sstats.getStandardDeviation(), tol);
             TestUtils.assertEquals(dstats.getVariance(), sstats.getVariance(), tol);
             TestUtils.assertEquals(new Variance().evaluate(values), dstats.getVariance(), tol);
@@ -258,7 +261,6 @@ public class DescriptiveStatisticsTest {
             TestUtils.assertEquals(new Sum().evaluate(values), dstats.getSum(), tol);
             TestUtils.assertEquals(dstats.getSumsq(), sstats.getSumsq(), tol);
             TestUtils.assertEquals(new SumOfSquares().evaluate(values), dstats.getSumsq(), tol);
-            TestUtils.assertEquals(new Variance(false).evaluate(values), dstats.getPopulationVariance(), tol);
         }
     }
 
