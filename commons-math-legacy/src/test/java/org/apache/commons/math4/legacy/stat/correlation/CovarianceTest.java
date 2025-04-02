@@ -21,7 +21,6 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -204,9 +203,9 @@ public class CovarianceTest {
         final RealMatrix covarianceMatrix = new Covariance(matrix).getCovarianceMatrix();
 
         // Variances on the diagonal
-        Variance variance = new Variance();
         for (int i = 0; i < 5; i++) {
-            Assert.assertEquals(variance.evaluate(matrix.getColumn(i)), covarianceMatrix.getEntry(i,i), 10E-14);
+            Assert.assertEquals(org.apache.commons.statistics.descriptive.Variance.of(matrix.getColumn(i)).getAsDouble(),
+                covarianceMatrix.getEntry(i,i), 10E-14);
         }
 
         // Symmetry, column-consistency
@@ -220,7 +219,7 @@ public class CovarianceTest {
             repeatedColumns.setColumnMatrix(i, matrix.getColumnMatrix(0));
         }
         RealMatrix repeatedCovarianceMatrix = new Covariance(repeatedColumns).getCovarianceMatrix();
-        double columnVariance = variance.evaluate(matrix.getColumn(0));
+        double columnVariance = org.apache.commons.statistics.descriptive.Variance.of(matrix.getColumn(0)).getAsDouble();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Assert.assertEquals(columnVariance, repeatedCovarianceMatrix.getEntry(i, j), 10E-14);

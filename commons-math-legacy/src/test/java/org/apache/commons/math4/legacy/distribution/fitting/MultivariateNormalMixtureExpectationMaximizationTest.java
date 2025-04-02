@@ -26,7 +26,6 @@ import org.apache.commons.math4.legacy.exception.ConvergenceException;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
-import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.core.Pair;
 import org.junit.Assert;
@@ -153,24 +152,21 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
             {5.090902706507635, 8.68540656355283},
         };
 
-        final RealMatrix[] correctCovMats = new Array2DRowRealMatrix[2];
-
-        correctCovMats[0] = new Array2DRowRealMatrix(new double[][] {
-                { 4.537422569229048, 3.5266152281729304 },
-                { 3.5266152281729304, 6.175448814169779 } });
-
-        correctCovMats[1] = new Array2DRowRealMatrix( new double[][] {
-                { 2.886778573963039, 1.5257474543463154 },
-                { 1.5257474543463154, 3.3794567673616918 } });
+        final double[][][] correctCovMats = new double[][][] {
+            {{4.537422569229048, 3.5266152281729304},
+             {3.5266152281729304, 6.175448814169779}},
+            {{2.886778573963039, 1.5257474543463154},
+             {1.5257474543463154, 3.3794567673616918}}
+        };
 
         final MultivariateNormalDistribution[] correctMVNs = new
                 MultivariateNormalDistribution[2];
 
         correctMVNs[0] = new MultivariateNormalDistribution(correctMeans[0],
-                correctCovMats[0].getData());
+                correctCovMats[0]);
 
         correctMVNs[1] = new MultivariateNormalDistribution(correctMeans[1],
-                correctCovMats[1].getData());
+                correctCovMats[1]);
 
         final MixtureMultivariateNormalDistribution initialMix
             = MultivariateNormalMixtureExpectationMaximization.estimate(getTestSamples(), 2);
@@ -185,7 +181,7 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
             Assert.assertArrayEquals(correctMeans[i], means, 0.0);
 
             final RealMatrix covMat = component.getValue().getCovariances();
-            Assert.assertEquals(correctCovMats[i], covMat);
+            assertArrayEquals(correctCovMats[i], covMat.getData(), 1e-15);
             i++;
         }
     }
@@ -302,6 +298,13 @@ public class MultivariateNormalMixtureExpectationMaximizationTest {
                 assertArrayEquals(covar[i][j], c[j], relError);
             }
             i++;
+        }
+    }
+
+    private static void assertArrayEquals(double[][] e, double[][] a, double relError) {
+        Assert.assertEquals("length", e.length, a.length);
+        for (int i = 0; i < e.length; i++) {
+            assertArrayEquals(e[i], a[i], relError);
         }
     }
 

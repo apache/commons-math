@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.ml.clustering.Cluster;
 import org.apache.commons.math4.legacy.ml.clustering.Clusterable;
 import org.apache.commons.math4.legacy.ml.clustering.ClusterEvaluator;
 import org.apache.commons.math4.legacy.ml.distance.DistanceMeasure;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
+import org.apache.commons.statistics.descriptive.Variance;
 
 /**
  * Computes the sum of intra-cluster distance variances according to the formula:
@@ -56,12 +56,12 @@ public class SumOfClusterVariances implements ClusterEvaluator {
                 final Clusterable center = cluster.centroid();
 
                 // compute the distance variance of the current cluster
-                final Variance stat = new Variance();
+                final Variance stat = Variance.create();
                 for (final Clusterable point : cluster.getPoints()) {
-                    stat.increment(distance(point, center));
+                    stat.accept(distance(point, center));
                 }
 
-                varianceSum += stat.getResult();
+                varianceSum += stat.getAsDouble();
             }
         }
         return varianceSum;

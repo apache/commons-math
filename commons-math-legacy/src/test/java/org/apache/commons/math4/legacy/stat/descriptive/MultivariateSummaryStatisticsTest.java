@@ -16,15 +16,15 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-
 import java.util.Locale;
 
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessMean;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Assert;
 
 /**
@@ -55,7 +55,7 @@ public class MultivariateSummaryStatisticsTest {
         Assert.assertEquals(6, u.getMean()[1], 1E-14);
         u.clear();
         u.setMeanImpl(new StorelessUnivariateStatistic[] {
-                        new Mean(), new Mean()
+                        StorelessMean.create(), StorelessMean.create()
                       }); // OK after clear
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
@@ -241,7 +241,7 @@ public class MultivariateSummaryStatisticsTest {
     public void testNaNContracts() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
         Assert.assertTrue(Double.isNaN(u.getMean()[0]));
-        Assert.assertTrue(Double.isNaN(u.getMin()[0]));
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, u.getMin()[0]);
         Assert.assertTrue(Double.isNaN(u.getStandardDeviation()[0]));
         Assert.assertTrue(Double.isNaN(u.getGeometricMean()[0]));
 

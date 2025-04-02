@@ -16,75 +16,36 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.summary;
 
-import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatistic;
-import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
-import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
+import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluationAbstractTest;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
+ * Test cases for the {@link Product} class.
  */
-public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
+class ProductTest extends WeightedEvaluationAbstractTest {
 
-    protected Product stat;
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public UnivariateStatistic getUnivariateStatistic() {
+    public WeightedEvaluation getWeightedEvaluation() {
         return new Product();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public double getTolerance() {
-        return 10E8;    //sic -- big absolute error due to only 15 digits of accuracy in double
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public double expectedValue() {
-        return this.product;
-    }
-
-    /** Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
-    public double expectedWeightedValue() {
-        return this.weightedProduct;
-    }
-
-    @Test
-    public void testSpecialValues() {
-        Product product = new Product();
-        Assert.assertEquals(1, product.getResult(), 0);
-        product.increment(1);
-        Assert.assertEquals(1, product.getResult(), 0);
-        product.increment(Double.POSITIVE_INFINITY);
-        Assert.assertEquals(Double.POSITIVE_INFINITY, product.getResult(), 0);
-        product.increment(Double.NEGATIVE_INFINITY);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, product.getResult(), 0);
-        product.increment(Double.NaN);
-        Assert.assertTrue(Double.isNaN(product.getResult()));
-        product.increment(1);
-        Assert.assertTrue(Double.isNaN(product.getResult()));
-    }
-
-    @Test
-    public void testWeightedProduct() {
-        Product product = new Product();
-        Assert.assertEquals(expectedWeightedValue(),
-                            product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
-        Assert.assertEquals(expectedValue(),
-                            product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
+        return weightedProduct;
     }
 
     @Override
-    protected void checkClearValue(StorelessUnivariateStatistic statistic){
-        Assert.assertEquals(1, statistic.getResult(), 0);
+    public double expectedUnweightedValue() {
+        return product;
+    }
+
+    @Override
+    public double emptyValue() {
+        return 1;
+    }
+
+    @Override
+    public double getTolerance() {
+        return 1e9; //sic -- big absolute error due to only 15 digits of accuracy in double
     }
 }

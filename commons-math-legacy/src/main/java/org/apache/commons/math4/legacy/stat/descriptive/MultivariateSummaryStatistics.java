@@ -22,14 +22,14 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.GeometricMean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
 import org.apache.commons.math4.legacy.stat.descriptive.moment.VectorialCovariance;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Max;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfLogs;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessGeometricMean;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessMax;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessMean;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessMin;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessSum;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessSumOfLogs;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessSumOfSquares;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.numbers.core.Precision;
@@ -117,13 +117,13 @@ public class MultivariateSummaryStatistics
         meanImpl    = new StorelessUnivariateStatistic[k];
 
         for (int i = 0; i < k; ++i) {
-            sumImpl[i]     = new Sum();
-            sumSqImpl[i]   = new SumOfSquares();
-            minImpl[i]     = new Min();
-            maxImpl[i]     = new Max();
-            sumLogImpl[i]  = new SumOfLogs();
-            geoMeanImpl[i] = new GeometricMean();
-            meanImpl[i]    = new Mean();
+            sumImpl[i]     = StorelessSum.create();
+            sumSqImpl[i]   = StorelessSumOfSquares.create();
+            minImpl[i]     = StorelessMin.create();
+            maxImpl[i]     = StorelessMax.create();
+            sumLogImpl[i]  = StorelessSumOfLogs.create();
+            geoMeanImpl[i] = StorelessGeometricMean.create();
+            meanImpl[i]    = StorelessMean.create();
         }
 
         covarianceImpl =
@@ -395,15 +395,17 @@ public class MultivariateSummaryStatistics
      */
     @Override
     public int hashCode() {
-        int result = 31 + Arrays.hashCode(getGeometricMean());
-        result = result * 31 + Arrays.hashCode(getGeometricMean());
+        // This does not have to use all the statistics.
+        // Here we avoid duplicate use of stats that are related.
+        // - sum-of-logs; geometric mean
+        // - mean; sum + n
+        // - variance; sum-of-squares + sum + n
+        int result = 31 + Arrays.hashCode(getSumLog());
         result = result * 31 + Arrays.hashCode(getMax());
-        result = result * 31 + Arrays.hashCode(getMean());
         result = result * 31 + Arrays.hashCode(getMin());
         result = result * 31 + Double.hashCode(getN());
         result = result * 31 + Arrays.hashCode(getSum());
         result = result * 31 + Arrays.hashCode(getSumSq());
-        result = result * 31 + Arrays.hashCode(getSumLog());
         result = result * 31 + getCovariance().hashCode();
         return result;
     }

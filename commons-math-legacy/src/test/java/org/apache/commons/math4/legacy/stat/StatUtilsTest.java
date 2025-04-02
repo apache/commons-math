@@ -51,7 +51,6 @@ public final class StatUtilsTest {
         Assert.assertEquals("sum", SUM, StatUtils.sum(values), TOLERANCE);
         Assert.assertEquals("sumsq", SUMSQ, StatUtils.sumSq(values), TOLERANCE);
         Assert.assertEquals("var", VAR, StatUtils.variance(values), TOLERANCE);
-        Assert.assertEquals("var with mean", VAR, StatUtils.variance(values, MEAN), TOLERANCE);
         Assert.assertEquals("mean", MEAN, StatUtils.mean(values), TOLERANCE);
         Assert.assertEquals("min", MIN, StatUtils.min(values), TOLERANCE);
         Assert.assertEquals("max", MAX, StatUtils.max(values), TOLERANCE);
@@ -130,8 +129,8 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
-        TestUtils.assertEquals(0, StatUtils.sumSq(x), TOLERANCE);
-        TestUtils.assertEquals(0, StatUtils.sumSq(x, 0, 0), TOLERANCE);
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumSq(x), TOLERANCE);
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumSq(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
@@ -165,8 +164,8 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
-        TestUtils.assertEquals(1, StatUtils.product(x), TOLERANCE);
-        TestUtils.assertEquals(1, StatUtils.product(x, 0, 0), TOLERANCE);
+        TestUtils.assertEquals(Double.NaN, StatUtils.product(x), TOLERANCE);
+        TestUtils.assertEquals(Double.NaN, StatUtils.product(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
@@ -200,8 +199,8 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
-        TestUtils.assertEquals(0, StatUtils.sumLog(x), TOLERANCE);
-        TestUtils.assertEquals(0, StatUtils.sumLog(x, 0, 0), TOLERANCE);
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumLog(x), TOLERANCE);
+        TestUtils.assertEquals(Double.NaN, StatUtils.sumLog(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
@@ -260,10 +259,6 @@ public final class StatUtilsTest {
         // test many
         x = new double[] {ONE, TWO, TWO, THREE};
         TestUtils.assertEquals(0.5, StatUtils.variance(x, 2, 2), TOLERANCE);
-
-        // test precomputed mean
-        x = new double[] {ONE, TWO, TWO, THREE};
-        TestUtils.assertEquals(0.5, StatUtils.variance(x,2.5, 2, 2), TOLERANCE);
     }
 
     @Test
@@ -288,10 +283,6 @@ public final class StatUtilsTest {
         // test many
         x = new double[] {ONE, TWO, TWO, THREE};
         TestUtils.assertEquals(0.25, StatUtils.populationVariance(x, 0, 2), TOLERANCE);
-
-        // test precomputed mean
-        x = new double[] {ONE, TWO, TWO, THREE};
-        TestUtils.assertEquals(0.25, StatUtils.populationVariance(x, 2.5, 2, 2), TOLERANCE);
     }
 
 
@@ -318,17 +309,19 @@ public final class StatUtilsTest {
         x = new double[] {ONE, TWO, TWO, THREE};
         TestUtils.assertEquals(THREE, StatUtils.max(x, 1, 3), TOLERANCE);
 
-        // test first nan is ignored
-        x = new double[] {NAN, TWO, THREE};
-        TestUtils.assertEquals(THREE, StatUtils.max(x), TOLERANCE);
+        // Legacy behaviour
 
-        // test middle nan is ignored
-        x = new double[] {ONE, NAN, THREE};
-        TestUtils.assertEquals(THREE, StatUtils.max(x), TOLERANCE);
-
-        // test last nan is ignored
-        x = new double[] {ONE, TWO, NAN};
-        TestUtils.assertEquals(TWO, StatUtils.max(x), TOLERANCE);
+//        // test first nan is ignored
+//        x = new double[] {NAN, TWO, THREE};
+//        TestUtils.assertEquals(THREE, StatUtils.max(x), TOLERANCE);
+//
+//        // test middle nan is ignored
+//        x = new double[] {ONE, NAN, THREE};
+//        TestUtils.assertEquals(THREE, StatUtils.max(x), TOLERANCE);
+//
+//        // test last nan is ignored
+//        x = new double[] {ONE, TWO, NAN};
+//        TestUtils.assertEquals(TWO, StatUtils.max(x), TOLERANCE);
 
         // test all nan returns nan
         x = new double[] {NAN, NAN, NAN};
@@ -358,17 +351,19 @@ public final class StatUtilsTest {
         x = new double[] {ONE, TWO, TWO, THREE};
         TestUtils.assertEquals(TWO, StatUtils.min(x, 1, 3), TOLERANCE);
 
-        // test first nan is ignored
-        x = new double[] {NAN, TWO, THREE};
-        TestUtils.assertEquals(TWO, StatUtils.min(x), TOLERANCE);
+        // Legacy behaviour
 
-        // test middle nan is ignored
-        x = new double[] {ONE, NAN, THREE};
-        TestUtils.assertEquals(ONE, StatUtils.min(x), TOLERANCE);
-
-        // test last nan is ignored
-        x = new double[] {ONE, TWO, NAN};
-        TestUtils.assertEquals(ONE, StatUtils.min(x), TOLERANCE);
+//        // test first nan is ignored
+//        x = new double[] {NAN, TWO, THREE};
+//        TestUtils.assertEquals(TWO, StatUtils.min(x), TOLERANCE);
+//
+//        // test middle nan is ignored
+//        x = new double[] {ONE, NAN, THREE};
+//        TestUtils.assertEquals(ONE, StatUtils.min(x), TOLERANCE);
+//
+//        // test last nan is ignored
+//        x = new double[] {ONE, TWO, NAN};
+//        TestUtils.assertEquals(ONE, StatUtils.min(x), TOLERANCE);
 
         // test all nan returns nan
         x = new double[] {NAN, NAN, NAN};

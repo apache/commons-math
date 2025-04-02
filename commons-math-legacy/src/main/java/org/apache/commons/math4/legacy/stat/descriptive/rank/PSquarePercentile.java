@@ -47,7 +47,8 @@ import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStati
  * <p>
  * Note: This implementation is not synchronized and produces an approximate
  * result. For small samples, where data can be stored and processed in memory,
- * {@link Percentile} should be used.</p>
+ * {@link org.apache.commons.math4.legacy.stat.StatUtils#percentile(double[], double) StatUtils.percentile}
+ * should be used.</p>
  */
 public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     implements StorelessUnivariateStatistic {

@@ -175,7 +175,8 @@ public class SemiVariance extends AbstractUnivariateStatistic {
      @Override
      public double evaluate(final double[] values, final int start, final int length)
          throws MathIllegalArgumentException {
-         double m = (new Mean()).evaluate(values, start, length);
+         MathArrays.verifyValues(values, start, length);
+         double m = org.apache.commons.statistics.descriptive.Mean.ofRange(values, start, start + length).getAsDouble();
          return evaluate(values, m, varianceDirection, biasCorrected, 0, values.length);
      }
 
@@ -191,7 +192,8 @@ public class SemiVariance extends AbstractUnivariateStatistic {
       */
      public double evaluate(final double[] values, Direction direction)
          throws MathIllegalArgumentException {
-         double m = (new Mean()).evaluate(values);
+         MathArrays.verifyValues(values, 0, 0);
+         double m = org.apache.commons.statistics.descriptive.Mean.of(values).getAsDouble();
          return evaluate(values, m, direction, biasCorrected, 0, values.length);
      }
 

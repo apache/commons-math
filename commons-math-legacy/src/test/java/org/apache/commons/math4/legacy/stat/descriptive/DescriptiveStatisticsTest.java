@@ -15,24 +15,20 @@
  * limitations under the License.
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
+
 import java.util.Arrays;
 import java.util.Locale;
-
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.stat.StatUtils;
 import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Percentile;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.GeometricMean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Max;
-import org.apache.commons.math4.legacy.stat.descriptive.rank.Min;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test cases for the {@link DescriptiveStatistics} class.
@@ -42,6 +38,25 @@ public class DescriptiveStatisticsTest {
 
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new DescriptiveStatistics();
+    }
+
+    @Test
+    public void testEmpty() {
+        final DescriptiveStatistics stats = createDescriptiveStatistics();
+
+        final double[] x = {};
+        Assertions.assertEquals(StatUtils.mean(x), stats.getMean());
+        Assertions.assertEquals(StatUtils.geometricMean(x), stats.getGeometricMean());
+        final double v = StatUtils.variance(x);
+        Assertions.assertEquals(v, stats.getVariance());
+        Assertions.assertEquals(JdkMath.sqrt(v), stats.getStandardDeviation());
+        Assertions.assertEquals(Double.NaN, stats.getQuadraticMean());
+        Assertions.assertEquals(Double.NaN, stats.getKurtosis());
+        Assertions.assertEquals(Double.NaN, stats.getSkewness());
+        Assertions.assertEquals(StatUtils.max(x), stats.getMax());
+        Assertions.assertEquals(StatUtils.min(x), stats.getMin());
+        Assertions.assertEquals(StatUtils.sum(x), stats.getSum());
+        Assertions.assertEquals(StatUtils.sumSq(x), stats.getSumsq());
     }
 
     @Test
@@ -247,20 +262,20 @@ public class DescriptiveStatisticsTest {
                 sstats.addValue(values[j]);
             }
             TestUtils.assertEquals(dstats.getMean(), sstats.getMean(), tol);
-            TestUtils.assertEquals(new Mean().evaluate(values), dstats.getMean(), tol);
+            TestUtils.assertEquals(org.apache.commons.statistics.descriptive.Mean.of(values).getAsDouble(), dstats.getMean(), tol);
             TestUtils.assertEquals(dstats.getMax(), sstats.getMax(), tol);
             TestUtils.assertEquals(Arrays.stream(values).max().orElse(-1.23), dstats.getMax(), tol);
             TestUtils.assertEquals(dstats.getGeometricMean(), sstats.getGeometricMean(), tol);
-            TestUtils.assertEquals(new GeometricMean().evaluate(values), dstats.getGeometricMean(), tol);
+            TestUtils.assertEquals(org.apache.commons.statistics.descriptive.GeometricMean.of(values).getAsDouble(), dstats.getGeometricMean(), tol);
             TestUtils.assertEquals(dstats.getMin(), sstats.getMin(), tol);
             TestUtils.assertEquals(Arrays.stream(values).min().orElse(-1.23), dstats.getMin(), tol);
             TestUtils.assertEquals(dstats.getStandardDeviation(), sstats.getStandardDeviation(), tol);
             TestUtils.assertEquals(dstats.getVariance(), sstats.getVariance(), tol);
-            TestUtils.assertEquals(new Variance().evaluate(values), dstats.getVariance(), tol);
+            TestUtils.assertEquals(org.apache.commons.statistics.descriptive.Variance.of(values).getAsDouble(), dstats.getVariance(), tol);
             TestUtils.assertEquals(dstats.getSum(), sstats.getSum(), tol);
-            TestUtils.assertEquals(new Sum().evaluate(values), dstats.getSum(), tol);
+            TestUtils.assertEquals(org.apache.commons.statistics.descriptive.Sum.of(values).getAsDouble(), dstats.getSum(), tol);
             TestUtils.assertEquals(dstats.getSumsq(), sstats.getSumsq(), tol);
-            TestUtils.assertEquals(new SumOfSquares().evaluate(values), dstats.getSumsq(), tol);
+            TestUtils.assertEquals(org.apache.commons.statistics.descriptive.SumOfSquares.of(values).getAsDouble(), dstats.getSumsq(), tol);
         }
     }
 

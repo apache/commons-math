@@ -16,53 +16,31 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import org.apache.commons.math4.legacy.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
-import org.apache.commons.math4.legacy.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
-import org.junit.Assert;
-import org.junit.Test;
+import java.util.Arrays;
+import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
+import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluationAbstractTest;
+import org.apache.commons.statistics.descriptive.Mean;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
- * Test cases for the {@link UnivariateStatistic} class.
- *
+ * Test cases for the {@link Variance} class.
  */
-public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
+public class VarianceTest extends WeightedEvaluationAbstractTest {
 
-    protected Variance stat;
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public UnivariateStatistic getUnivariateStatistic() {
+    public WeightedEvaluation getWeightedEvaluation() {
         return new Variance();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public double expectedValue() {
-        return this.var;
+        return weightedVariance;
     }
 
-    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
-    public double expectedWeightedValue() {
-        return this.weightedVar;
-    }
-
-    /**
-     * Make sure Double.NaN is returned iff n = 0
-     *
-     */
-    @Test
-    public void testNaN() {
-        StandardDeviation std = new StandardDeviation();
-        Assert.assertTrue(Double.isNaN(std.getResult()));
-        std.increment(1d);
-        Assert.assertEquals(0d, std.getResult(), 0);
+    @Override
+    public double expectedUnweightedValue() {
+        return variance;
     }
 
     /**
@@ -70,73 +48,24 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
      */
     @Test
     public void testPopulation() {
-        double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
-        SecondMoment m = new SecondMoment();
-        m.incrementAll(values);  // side effect is to add values
-        Variance v1 = new Variance();
+        final double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
+        final double[] weights = new double[values.length];
+        Arrays.fill(weights, 1);
+        final Variance v1 = new Variance();
         v1.setBiasCorrected(false);
-        Assert.assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
-        v1.incrementAll(values);
-        Assert.assertEquals(populationVariance(values), v1.getResult(), 1E-14);
-        v1 = new Variance(false, m);
-        Assert.assertEquals(populationVariance(values), v1.getResult(), 1E-14);
-        v1 = new Variance(false);
-        Assert.assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
-        v1.incrementAll(values);
-        Assert.assertEquals(populationVariance(values), v1.getResult(), 1E-14);
+        Assertions.assertEquals(populationVariance(values), v1.evaluate(values, weights), 1E-14);
     }
 
     /**
      * Definitional formula for population variance
      */
     protected double populationVariance(double[] v) {
-        double mean = new Mean().evaluate(v);
+        final double mean = Mean.of(v).getAsDouble();
         double sum = 0;
         for (int i = 0; i < v.length; i++) {
            sum += (v[i] - mean) * (v[i] - mean);
         }
         return sum / v.length;
     }
-
-    @Test
-    public void testWeightedVariance() {
-        Variance variance = new Variance();
-        Assert.assertEquals(expectedWeightedValue(),
-                variance.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
-
-        // All weights = 1 -> weighted variance = unweighted variance
-        Assert.assertEquals(expectedValue(),
-                variance.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
-
-        // All weights the same -> when weights are normalized to sum to the length of the values array,
-        // weighted variance = unweighted value
-        Assert.assertEquals(expectedValue(),
-                variance.evaluate(testArray, MathArrays.normalizeArray(identicalWeightsArray, testArray.length),
-                        0, testArray.length), getTolerance());
-    }
-
-    @Test
-    public void testZeroWeights() {
-        Variance variance = new Variance();
-        final double[] values = {1, 2, 3, 4};
-        final double[] weights = new double[values.length];
-
-        // No weights
-        Assertions.assertThrows(MathIllegalArgumentException.class, () -> {
-            variance.evaluate(values, weights);
-        });
-
-        // No length
-        final int begin = 1;
-        final int zeroLength = 0;
-        Assertions.assertEquals(Double.NaN, variance.evaluate(values, weights, begin, zeroLength));
-
-        // One weight (must be non-zero)
-        Assertions.assertThrows(MathIllegalArgumentException.class, () -> {
-            variance.evaluate(values, weights, begin, zeroLength + 1);
-        });
-
-        weights[begin] = Double.MIN_VALUE;
-        Assertions.assertEquals(0.0, variance.evaluate(values, weights, begin, zeroLength + 1));
-    }
 }
+

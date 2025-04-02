@@ -18,14 +18,13 @@ package org.apache.commons.math4.legacy.stat.descriptive;
 
 
 import org.apache.commons.math4.legacy.TestUtils;
+import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.GeometricMean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Mean;
-import org.apache.commons.math4.legacy.stat.descriptive.moment.Variance;
-import org.apache.commons.math4.legacy.stat.descriptive.summary.Sum;
+import org.apache.commons.math4.legacy.stat.StatUtils;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 /**
  * Test cases for the {@link SummaryStatistics} class.
  */
@@ -47,6 +46,24 @@ public class SummaryStatisticsTest {
 
     protected SummaryStatistics createSummaryStatistics() {
         return new SummaryStatistics();
+    }
+
+    @Test
+    public void testEmpty() {
+        final SummaryStatistics stats = createSummaryStatistics();
+
+        final double[] x = {};
+        Assertions.assertEquals(StatUtils.sum(x), stats.getSum());
+        Assertions.assertEquals(StatUtils.sumSq(x), stats.getSumsq());
+        Assertions.assertEquals(StatUtils.mean(x), stats.getMean());
+        final double v = StatUtils.variance(x);
+        Assertions.assertEquals(JdkMath.sqrt(v), stats.getStandardDeviation());
+        Assertions.assertEquals(Double.NaN, stats.getQuadraticMean());
+        Assertions.assertEquals(v, stats.getVariance());
+        Assertions.assertEquals(StatUtils.max(x), stats.getMax());
+        Assertions.assertEquals(StatUtils.min(x), stats.getMin());
+        Assertions.assertEquals(StatUtils.geometricMean(x), stats.getGeometricMean());
+        Assertions.assertEquals(StatUtils.sumLog(x), stats.getSumOfLogs());
     }
 
     /** test stats */
@@ -224,9 +241,12 @@ public class SummaryStatisticsTest {
 
         // Check implementation pointers are preserved
         u.clear();
-        u.setSumImpl(new Sum());
+        u.setSumImpl(new SumStat());
         SummaryStatistics.copy(u,v);
-        Assert.assertEquals(u.getSumImpl(), v.getSumImpl());
+        // This copy should be functionally distinct (i.e. no shared state) but
+        // the implementation type should be the same.
+        Assert.assertNotSame(u.getSumImpl(), v.getSumImpl());
+        Assert.assertEquals(u.getSumImpl().getClass(), v.getSumImpl().getClass());
     }
 
     private void verifySummary(SummaryStatistics u, StatisticalSummary s) {
@@ -242,8 +262,8 @@ public class SummaryStatisticsTest {
     @Test
     public void testSetterInjection() {
         SummaryStatistics u = createSummaryStatistics();
-        u.setMeanImpl(new Sum());
-        u.setSumLogImpl(new Sum());
+        u.setMeanImpl(new SumStat());
+        u.setSumLogImpl(new SumStat());
         u.addValue(1);
         u.addValue(3);
         Assert.assertEquals(4, u.getMean(), 1E-14);
@@ -253,7 +273,7 @@ public class SummaryStatisticsTest {
         u.addValue(2);
         Assert.assertEquals(3, u.getMean(), 1E-14);
         u.clear();
-        u.setMeanImpl(new Mean()); // OK after clear
+        u.setMeanImpl(new SumStat()); // OK after clear
     }
 
     @Test
@@ -262,7 +282,7 @@ public class SummaryStatisticsTest {
         u.addValue(1);
         u.addValue(3);
         try {
-            u.setMeanImpl(new Sum());
+            u.setMeanImpl(new SumStat());
             Assert.fail("Expecting MathIllegalStateException");
         } catch (MathIllegalStateException ex) {
             // expected
@@ -288,39 +308,44 @@ public class SummaryStatisticsTest {
     }
 
     /**
-     * JIRA: MATH-691
+     * JIRA: MATH-691.
+     * Setting the variance implementation causes the StandardDevitaion to be NaN.
      */
     @Test
     public void testOverrideVarianceWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
-        stats.setVarianceImpl(new Variance(false)); //use "population variance"
+        stats.setVarianceImpl(new SumStat());
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new Variance(false)).evaluate(scores),stats.getVariance(), 0);
+        final double expected = new SumStat().evaluate(scores);
+        Assert.assertEquals(expected, stats.getVariance(), 0);
+        Assert.assertEquals(JdkMath.sqrt(expected), stats.getStandardDeviation(), 0);
     }
 
     @Test
     public void testOverrideMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
-        stats.setMeanImpl(new Mean());
+        stats.setMeanImpl(new SumStat());
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new Mean()).evaluate(scores),stats.getMean(), 0);
+        final double expected = new SumStat().evaluate(scores);
+        Assert.assertEquals(expected, stats.getMean(), 0);
     }
 
     @Test
     public void testOverrideGeoMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
-        stats.setGeoMeanImpl(new GeometricMean());
+        stats.setGeoMeanImpl(new SumStat());
         for(double i : scores) {
           stats.addValue(i);
         }
-        Assert.assertEquals((new GeometricMean()).evaluate(scores),stats.getGeometricMean(), 0);
+        final double expected = new SumStat().evaluate(scores);
+        Assert.assertEquals(expected, stats.getGeometricMean(), 0);
     }
 
     @Test
@@ -339,5 +364,60 @@ public class SummaryStatisticsTest {
         for (int i = 0; i < values.length; i++) {
             Assert.assertTrue(toString.indexOf(labels[i] + ": " + String.valueOf(values[i])) > 0);
         }
+    }
+
+    private static final class SumStat implements StorelessUnivariateStatistic {
+        private double s = 0;
+
+        @Override
+        public double evaluate(double[] values) throws MathIllegalArgumentException {
+            double s = 0;
+            for (final double x : values) {
+                s += x;
+            }
+            return s;
+        }
+
+        @Override
+        public double evaluate(double[] values, int begin, int length) throws MathIllegalArgumentException {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public void increment(double d) {
+            s += d;
+        }
+
+        @Override
+        public void incrementAll(double[] values) throws MathIllegalArgumentException {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public void incrementAll(double[] values, int start, int length) throws MathIllegalArgumentException {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public double getResult() {
+            return s;
+        }
+
+        @Override
+        public long getN() {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public void clear() {
+            s = 0;
+        }
+
+        @Override
+        public StorelessUnivariateStatistic copy() {
+            final SumStat r = new SumStat();
+            r.s = s;
+            return r;
+        } 
     }
 }
