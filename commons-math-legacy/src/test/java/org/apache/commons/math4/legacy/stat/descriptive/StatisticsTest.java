@@ -16,10 +16,15 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
+import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.exception.OutOfRangeException;
+import org.apache.commons.math4.legacy.stat.descriptive.Statistics.Percentile;
 import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessSumOfSquares;
 import org.apache.commons.math4.legacy.stat.descriptive.Statistics.SumOfSquares;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Test cases for the {@link Statistics} class.
@@ -41,5 +46,23 @@ public class StatisticsTest {
         Assertions.assertThrows(IllegalStateException.class, s::getN);
         Assertions.assertThrows(IllegalStateException.class, () -> s.evaluate(x));
         Assertions.assertThrows(IllegalStateException.class, () -> s.evaluate(x, 0, 1));
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {-1, 101, Double.NaN})
+    public void testInvalidPercentileThrows(double p) {
+        final Percentile stat = Percentile.create(50);
+        Assertions.assertThrows(OutOfRangeException.class, () -> stat.setQuantile(p));
+        Assertions.assertThrows(OutOfRangeException.class, () -> Percentile.create(p));
+    }
+
+    @Test
+    public void testPercentile() {
+        final Percentile stat = Percentile.create(50);
+        Assertions.assertThrows(NullArgumentException.class, () -> stat.evaluate(null));
+        Assertions.assertEquals(Double.NaN, stat.evaluate(new double[] {}));
+        Assertions.assertEquals(1, stat.evaluate(new double[] {1}));
+        Assertions.assertEquals(1.5, stat.evaluate(new double[] {1, 2}));
+        Assertions.assertEquals(2, stat.evaluate(new double[] {1, 2, 3}));
     }
 }

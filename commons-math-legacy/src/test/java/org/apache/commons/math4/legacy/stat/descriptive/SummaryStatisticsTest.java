@@ -289,6 +289,79 @@ public class SummaryStatisticsTest {
         }
     }
 
+    /**
+     * Test when all the default implementations are overridden.
+     */
+    @Test
+    public void testSetterAll() {
+        final SummaryStatistics u = createSummaryStatistics();
+        Assertions.assertThrows(NullPointerException.class, () -> u.setSumImpl(null));
+        Assertions.assertThrows(NullPointerException.class, () -> u.setSumsqImpl(null));
+        Assertions.assertThrows(NullPointerException.class, () -> u.setMinImpl(null));
+        Assertions.assertThrows(NullPointerException.class, () -> u.setMaxImpl(null));
+        Assertions.assertThrows(NullPointerException.class, () -> u.setSumLogImpl(null));
+        Assertions.assertThrows(NullPointerException.class, () -> u.setGeoMeanImpl(null));
+        Assertions.assertThrows(NullPointerException.class, () -> u.setMeanImpl(null));
+        Assertions.assertThrows(NullPointerException.class, () -> u.setVarianceImpl(null));
+        // Distinct implementations
+        u.setSumImpl(new SumStat(1));
+        u.setSumsqImpl(new SumStat(2));
+        u.setMinImpl(new SumStat(3));
+        u.setMaxImpl(new SumStat(4));
+        u.setSumLogImpl(new SumStat(5));
+        u.setGeoMeanImpl(new SumStat(6));
+        u.setMeanImpl(new SumStat(7));
+        u.setVarianceImpl(new SumStat(8));
+        u.addValue(1);
+        Assertions.assertEquals(2, u.getSum());
+        Assertions.assertEquals(3, u.getSumsq());
+        Assertions.assertEquals(4, u.getMin());
+        Assertions.assertEquals(5, u.getMax());
+        Assertions.assertEquals(6, u.getSumOfLogs());
+        Assertions.assertEquals(7, u.getGeometricMean());
+        Assertions.assertEquals(8, u.getMean());
+        Assertions.assertEquals(9, u.getVariance());
+        // Test getters return the correct implementation
+        Assertions.assertEquals(2, u.getSumImpl().getResult());
+        Assertions.assertEquals(3, u.getSumsqImpl().getResult());
+        Assertions.assertEquals(4, u.getMinImpl().getResult());
+        Assertions.assertEquals(5, u.getMaxImpl().getResult());
+        Assertions.assertEquals(6, u.getSumLogImpl().getResult());
+        Assertions.assertEquals(7, u.getGeoMeanImpl().getResult());
+        Assertions.assertEquals(8, u.getMeanImpl().getResult());
+        Assertions.assertEquals(9, u.getVarianceImpl().getResult());
+        // Test copy
+        final SummaryStatistics v = u.copy();
+        Assertions.assertEquals(2, v.getSum());
+        Assertions.assertEquals(3, v.getSumsq());
+        Assertions.assertEquals(4, v.getMin());
+        Assertions.assertEquals(5, v.getMax());
+        Assertions.assertEquals(6, v.getSumOfLogs());
+        Assertions.assertEquals(7, v.getGeometricMean());
+        Assertions.assertEquals(8, v.getMean());
+        Assertions.assertEquals(9, v.getVariance());
+        // Test the return NaN contract when empty
+        u.clear();
+        Assertions.assertEquals(Double.NaN, u.getSum());
+        Assertions.assertEquals(Double.NaN, u.getSumsq());
+        Assertions.assertEquals(Double.NaN, u.getMin());
+        Assertions.assertEquals(Double.NaN, u.getMax());
+        Assertions.assertEquals(Double.NaN, u.getSumOfLogs());
+        Assertions.assertEquals(Double.NaN, u.getGeometricMean());
+        Assertions.assertEquals(Double.NaN, u.getMean());
+        Assertions.assertEquals(Double.NaN, u.getVariance());
+        // Test refilling
+        u.addValue(1);
+        Assertions.assertEquals(1, u.getSum());
+        Assertions.assertEquals(1, u.getSumsq());
+        Assertions.assertEquals(1, u.getMin());
+        Assertions.assertEquals(1, u.getMax());
+        Assertions.assertEquals(1, u.getSumOfLogs());
+        Assertions.assertEquals(1, u.getGeometricMean());
+        Assertions.assertEquals(1, u.getMean());
+        Assertions.assertEquals(1, u.getVariance());
+    }
+
     @Test
     public void testQuadraticMean() {
         final double[] values = { 1.2, 3.4, 5.6, 7.89 };
@@ -368,6 +441,18 @@ public class SummaryStatisticsTest {
 
     private static final class SumStat implements StorelessUnivariateStatistic {
         private double s = 0;
+
+        /** Create an instance. */
+        SumStat() {}
+
+        /**
+         * Create an instance.
+         * 
+         * @param sum the sum
+         */
+        SumStat(double sum) {
+            s = sum;
+        }
 
         @Override
         public double evaluate(double[] values) throws MathIllegalArgumentException {
