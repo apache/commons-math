@@ -692,6 +692,24 @@ public class MathArraysTest {
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
+        try {
+            MathArrays.verifyValues(testArray, testWeightsArray, 0, 7);  // end past start
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, testWeightsArray, -1, 1);  // start negative
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, testWeightsArray, 0, -1);  // length negative
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
     }
 
     @Test

@@ -1049,6 +1049,11 @@ public final class MathArrays {
 
         checkEqualLength(weights, values);
 
+        // verify range before using the range
+        if (!verifyValues(values, begin, length, allowEmpty)) {
+            return false;
+        }
+
         if (length != 0) {
             boolean containsPositiveWeight = false;
             for (int i = begin; i < begin + length; i++) {
@@ -1074,7 +1079,7 @@ public final class MathArrays {
             }
         }
 
-        return verifyValues(values, begin, length, allowEmpty);
+        return true;
     }
 
     /**
