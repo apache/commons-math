@@ -25,6 +25,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test cases for the {@link StatUtils} class.
@@ -106,6 +107,41 @@ public final class StatUtilsTest {
         } catch (RuntimeException e) {
             // expected
         }
+    }
+
+    @Test
+    public void testSum() {
+        double[] x = null;
+
+        // test null
+        try {
+            StatUtils.sum(x);
+            Assert.fail("null is not a valid data array.");
+        } catch (NullArgumentException ex) {
+            // success
+        }
+
+        try {
+            StatUtils.sum(x, 0, 4);
+            Assert.fail("null is not a valid data array.");
+        } catch (NullArgumentException ex) {
+            // success
+        }
+
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.sum(x), TOLERANCE);
+        TestUtils.assertEquals(Double.NaN, StatUtils.sum(x, 0, 0), TOLERANCE);
+
+        // test one
+        x = new double[] {TWO};
+        TestUtils.assertEquals(2, StatUtils.sum(x), TOLERANCE);
+        TestUtils.assertEquals(2, StatUtils.sum(x, 0, 1), TOLERANCE);
+
+        // test many
+        x = new double[] {ONE, TWO, TWO, THREE};
+        TestUtils.assertEquals(8, StatUtils.sum(x), TOLERANCE);
+        TestUtils.assertEquals(4, StatUtils.sum(x, 1, 2), TOLERANCE);
     }
 
     @Test
@@ -226,14 +262,17 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.mean(x), TOLERANCE);
         TestUtils.assertEquals(Double.NaN, StatUtils.mean(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
+        TestUtils.assertEquals(TWO, StatUtils.mean(x), TOLERANCE);
         TestUtils.assertEquals(TWO, StatUtils.mean(x, 0, 1), TOLERANCE);
 
         // test many
         x = new double[] {ONE, TWO, TWO, THREE};
+        TestUtils.assertEquals(2, StatUtils.mean(x), TOLERANCE);
         TestUtils.assertEquals(2.5, StatUtils.mean(x, 2, 2), TOLERANCE);
     }
 
@@ -250,14 +289,17 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.variance(x), TOLERANCE);
         TestUtils.assertEquals(Double.NaN, StatUtils.variance(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
+        TestUtils.assertEquals(0.0, StatUtils.variance(x), TOLERANCE);
         TestUtils.assertEquals(0.0, StatUtils.variance(x, 0, 1), TOLERANCE);
 
         // test many
         x = new double[] {ONE, TWO, TWO, THREE};
+        TestUtils.assertEquals(2.0 / 3, StatUtils.variance(x), TOLERANCE);
         TestUtils.assertEquals(0.5, StatUtils.variance(x, 2, 2), TOLERANCE);
     }
 
@@ -274,14 +316,17 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.populationVariance(x), TOLERANCE);
         TestUtils.assertEquals(Double.NaN, StatUtils.populationVariance(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
         TestUtils.assertEquals(0.0, StatUtils.populationVariance(x, 0, 1), TOLERANCE);
+        TestUtils.assertEquals(0.0, StatUtils.populationVariance(x, 0, 1), TOLERANCE);
 
         // test many
         x = new double[] {ONE, TWO, TWO, THREE};
+        TestUtils.assertEquals(0.5, StatUtils.populationVariance(x), TOLERANCE);
         TestUtils.assertEquals(0.25, StatUtils.populationVariance(x, 0, 2), TOLERANCE);
     }
 
@@ -299,14 +344,17 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.max(x), TOLERANCE);
         TestUtils.assertEquals(Double.NaN, StatUtils.max(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
+        TestUtils.assertEquals(TWO, StatUtils.max(x), TOLERANCE);
         TestUtils.assertEquals(TWO, StatUtils.max(x, 0, 1), TOLERANCE);
 
         // test many
         x = new double[] {ONE, TWO, TWO, THREE};
+        TestUtils.assertEquals(THREE, StatUtils.max(x), TOLERANCE);
         TestUtils.assertEquals(THREE, StatUtils.max(x, 1, 3), TOLERANCE);
 
         // Legacy behaviour
@@ -341,14 +389,17 @@ public final class StatUtilsTest {
 
         // test empty
         x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.min(x), TOLERANCE);
         TestUtils.assertEquals(Double.NaN, StatUtils.min(x, 0, 0), TOLERANCE);
 
         // test one
         x = new double[] {TWO};
+        TestUtils.assertEquals(TWO, StatUtils.min(x), TOLERANCE);
         TestUtils.assertEquals(TWO, StatUtils.min(x, 0, 1), TOLERANCE);
 
         // test many
         x = new double[] {ONE, TWO, TWO, THREE};
+        TestUtils.assertEquals(ONE, StatUtils.min(x), TOLERANCE);
         TestUtils.assertEquals(TWO, StatUtils.min(x, 1, 3), TOLERANCE);
 
         // Legacy behaviour
@@ -418,6 +469,13 @@ public final class StatUtilsTest {
                 StatUtils.variance(diff), TOLERANCE);
         try {
             StatUtils.meanDifference(sample1, small);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            double[] empty = {};
+            StatUtils.meanDifference(empty, empty);
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
@@ -539,5 +597,15 @@ public final class StatUtilsTest {
         } catch (NullArgumentException ex) {
             // Expected
         }
+
+        // Range tests
+        Assertions.assertArrayEquals(new double[] {0}, StatUtils.mode(singleMode, 0, 4));
+        Assertions.assertArrayEquals(new double[] {0, 2, 7, 11}, StatUtils.mode(singleMode, 2, 4));
+        Assertions.assertArrayEquals(new double[] {0}, StatUtils.mode(twoMode, 0, 4));
+        Assertions.assertArrayEquals(new double[] {0, 2}, StatUtils.mode(twoMode, 0, 5));
+        Assertions.assertThrows(NullArgumentException.class, () -> StatUtils.mode(null, 0, 5));
+        Assertions.assertThrows(MathIllegalArgumentException.class, () -> StatUtils.mode(singleMode, -1, 1));
+        Assertions.assertThrows(MathIllegalArgumentException.class, () -> StatUtils.mode(singleMode, 0, -1));
+        Assertions.assertThrows(MathIllegalArgumentException.class, () -> StatUtils.mode(singleMode, 0, 100));
     }
 }

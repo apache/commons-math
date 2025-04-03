@@ -21,7 +21,6 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
-import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
@@ -648,9 +647,8 @@ public final class StatUtils {
      * @since 3.3
      */
     public static double[] mode(double[] sample) throws MathIllegalArgumentException {
-        if (sample == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
+        // Zero length is allowed
+        verifyValues(sample);
         return getMode(sample, 0, sample.length);
     }
 
@@ -678,18 +676,7 @@ public final class StatUtils {
      * @since 3.3
      */
     public static double[] mode(double[] sample, final int begin, final int length) {
-        if (sample == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
-
-        if (begin < 0) {
-            throw new NotPositiveException(LocalizedFormats.START_POSITION, Integer.valueOf(begin));
-        }
-
-        if (length < 0) {
-            throw new NotPositiveException(LocalizedFormats.LENGTH, Integer.valueOf(length));
-        }
-
+        MathArrays.verifyValues(sample, begin, length);
         return getMode(sample, begin, length);
     }
 

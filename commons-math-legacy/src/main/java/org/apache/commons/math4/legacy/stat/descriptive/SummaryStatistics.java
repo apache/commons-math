@@ -179,15 +179,6 @@ public class SummaryStatistics implements StatisticalSummary {
     }
 
     /**
-     * Checks if empty.
-     *
-     * @return true if empty
-     */
-    private boolean isEmpty() {
-        return getN() == 0;
-    }
-
-    /**
      * Gets the statistic from the overridden implementation, or from the default implementation.
      *
      * @param imp Statistics implementation.
@@ -195,6 +186,9 @@ public class SummaryStatistics implements StatisticalSummary {
      * @return the value
      */
     private double getStatistic(StorelessUnivariateStatistic imp, Statistic s) {
+        if (getN() == 0) {
+            return Double.NaN;
+        }
         return imp != null ? imp.getResult() : values.getAsDouble(s);
     }
 
@@ -204,9 +198,6 @@ public class SummaryStatistics implements StatisticalSummary {
      */
     @Override
     public double getSum() {
-        if (isEmpty()) {
-            return Double.NaN;
-        }
         return getStatistic(sumImpl, Statistic.SUM);
     }
 
@@ -218,9 +209,6 @@ public class SummaryStatistics implements StatisticalSummary {
      * @return The sum of squares
      */
     public double getSumsq() {
-        if (isEmpty()) {
-            return Double.NaN;
-        }
         return getStatistic(sumsqImpl, Statistic.SUM_OF_SQUARES);
     }
 
@@ -289,9 +277,6 @@ public class SummaryStatistics implements StatisticalSummary {
      */
     @Override
     public double getMax() {
-        if (isEmpty()) {
-            return Double.NaN;
-        }
         return getStatistic(maxImpl, Statistic.MAX);
     }
 
@@ -304,9 +289,6 @@ public class SummaryStatistics implements StatisticalSummary {
      */
     @Override
     public double getMin() {
-        if (isEmpty()) {
-            return Double.NaN;
-        }
         return getStatistic(minImpl, Statistic.MIN);
     }
 
@@ -330,9 +312,6 @@ public class SummaryStatistics implements StatisticalSummary {
      * @since 1.2
      */
     public double getSumOfLogs() {
-        if (isEmpty()) {
-            return Double.NaN;
-        }
         return getStatistic(sumLogImpl, Statistic.SUM_OF_LOGS);
     }
 
