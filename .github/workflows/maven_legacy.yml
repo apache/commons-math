@@ -47,5 +47,8 @@ jobs:
         distribution: temurin
         java-version: ${{ matrix.java }}
         cache: 'maven'
+    # Ensure the legacy module dependencies are installed
+    - name: Install dependencies
+      run: mvn -V --no-transfer-progress install -pl commons-math-core,commons-math-legacy-exception,commons-math-legacy-core
     - name: Build with Maven
       run: mvn -V --no-transfer-progress clean test -pl commons-math-legacy
