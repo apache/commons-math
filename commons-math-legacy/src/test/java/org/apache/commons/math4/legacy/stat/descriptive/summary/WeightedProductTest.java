@@ -20,13 +20,13 @@ import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluationAbstractTest;
 
 /**
- * Test cases for the {@link Product} class.
+ * Test cases for the {@link WeightedProduct} class.
  */
-class ProductTest extends WeightedEvaluationAbstractTest {
+class WeightedProductTest extends WeightedEvaluationAbstractTest {
 
     @Override
     public WeightedEvaluation getWeightedEvaluation() {
-        return new Product();
+        return WeightedProduct.getInstance();
     }
 
     @Override

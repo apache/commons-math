@@ -21,35 +21,43 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
 
 /**
- * Computes the variance of the available values.  By default, the unbiased
+ * Computes the weighted variance of the available values.  By default, the unbiased
  * "sample variance" definitional formula is used:
  * <p>
- * variance = sum((x_i - mean)^2) / (n - 1) </p>
+ * variance = sum(w_i * (x_i - mean)^2) / (sum(w_i) - 1) </p>
  * <p>
- * where mean is the {@link Mean} and <code>n</code> is the number
- * of sample observations.</p>
+ * where mean is the {@link WeightedMean} and <code>w_i</code> is the weight for
+ * observation <code>x_i</code>.</p>
  * <p>
- * The "population variance"  ( sum((x_i - mean)^2) / n ) can also
+ * The "population variance" using the denominator as <code>sum(w_i)</code> can also
  * be computed using this statistic.  The <code>isBiasCorrected</code>
  * property determines whether the "population" or "sample" value is
  * returned by the <code>evaluate</code> methods.
  * To compute population variances, set this property to <code>false.</code>
  * </p>
- * <p>
-Ø */
-public class Variance implements WeightedEvaluation {
+ */
+public final class WeightedVariance implements WeightedEvaluation {
     /**
      * Whether or not bias correction is applied when computing the
      * value of the statistic. True means that bias is corrected.  See
-     * {@link Variance} for details on the formula.
+     * {@link WeightedVariance} for details on the formula.
      */
     private boolean isBiasCorrected = true;
 
     /**
      * Constructs a Variance.
      */
-    public Variance() {
+    private WeightedVariance() {
         // Do nothing
+    }
+
+    /**
+     * Gets a new instance.
+     *
+     * @return an instance
+     */
+    public static WeightedVariance getInstance() {
+        return new WeightedVariance();
     }
 
     /**
@@ -105,7 +113,7 @@ public class Variance implements WeightedEvaluation {
             if (length == 1) {
                 var = 0.0;
             } else if (length > 1) {
-                Mean mean = new Mean();
+                WeightedMean mean = WeightedMean.getInstance();
                 double m = mean.evaluate(values, weights, begin, length);
                 var = evaluate(values, weights, m, begin, length);
             }

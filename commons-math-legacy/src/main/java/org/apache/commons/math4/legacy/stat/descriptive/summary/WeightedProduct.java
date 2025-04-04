@@ -22,18 +22,28 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
 
 /**
- * Returns the product of the available values.
+ * Returns the weighted product of the available values.
  * <p>
  * If there are no values in the dataset, then 1 is returned.
  * If any of the values are
  * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  */
-public class Product implements WeightedEvaluation {
-    /**
-     * Create a Product instance.
-     */
-    public Product() {
+public final class WeightedProduct implements WeightedEvaluation {
+    /** An instance. */
+    private static final WeightedProduct INSTANCE = new WeightedProduct();
+
+    /** Create an instance. */
+    private WeightedProduct() {
         // Do nothing
+    }
+
+    /**
+     * Gets an instance.
+     *
+     * @return an instance
+     */
+    public static WeightedProduct getInstance() {
+        return INSTANCE;
     }
 
     /**
