@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-import java.util.Arrays;
-
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
@@ -793,54 +791,5 @@ class ResizableDoubleArray implements DoubleArray { // Not in public API.
      */
     public ResizableDoubleArray copy() {
         return new ResizableDoubleArray(this);
-    }
-
-    /**
-     * Returns true iff object is a ResizableDoubleArray with the same properties
-     * as this and an identical internal storage array.
-     *
-     * @param object object to be compared for equality with this
-     * @return true iff object is a ResizableDoubleArray with the same data and
-     * properties as this
-     * @since 2.0
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (object == this ) {
-            return true;
-        }
-        if (!(object instanceof ResizableDoubleArray)) {
-            return false;
-        }
-        boolean result = true;
-        final ResizableDoubleArray other = (ResizableDoubleArray) object;
-        result = result && other.contractionCriterion == contractionCriterion;
-        result = result && other.expansionFactor == expansionFactor;
-        result = result && other.expansionMode == expansionMode;
-        result = result && other.numElements == numElements;
-        result = result && other.startIndex == startIndex;
-        if (!result) {
-            return false;
-        } else {
-            return Arrays.equals(internalArray, other.internalArray);
-        }
-    }
-
-    /**
-     * Returns a hash code consistent with equals.
-     *
-     * @return the hash code representing this {@code ResizableDoubleArray}.
-     * @since 2.0
-     */
-    @Override
-    public int hashCode() {
-        final int[] hashData = new int[6];
-        hashData[0] = Double.valueOf(expansionFactor).hashCode();
-        hashData[1] = Double.valueOf(contractionCriterion).hashCode();
-        hashData[2] = expansionMode.hashCode();
-        hashData[3] = Arrays.hashCode(internalArray);
-        hashData[4] = numElements;
-        hashData[5] = startIndex;
-        return Arrays.hashCode(hashData);
     }
 }

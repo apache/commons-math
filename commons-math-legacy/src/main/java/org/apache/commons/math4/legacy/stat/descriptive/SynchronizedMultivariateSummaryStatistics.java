@@ -160,22 +160,6 @@ public class SynchronizedMultivariateSummaryStatistics
      * {@inheritDoc}
      */
     @Override
-    public synchronized boolean equals(Object object) {
-        return super.equals(object);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized int hashCode() {
-        return super.hashCode();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public synchronized StorelessUnivariateStatistic[] getSumImpl() {
         return super.getSumImpl();
     }

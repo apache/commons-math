@@ -117,9 +117,23 @@ public class AggregateSummaryStatisticsTest {
          * Note that guaranteed success of this comparison depends on the
          * fact that <aggregate> gets values in exactly the same order
          * as <totalStats>.
-         *
          */
-        Assert.assertEquals(totalStats.getSummary(), aggregate.getSummary());
+        assertEquals(totalStats.getSummary(), aggregate.getSummary());
+    }
+
+    private static void assertEquals(StatisticalSummary summary, StatisticalSummary summary2) {
+        Assert.assertArrayEquals(toArray(summary), toArray(summary2), 0);
+    }
+
+    private static double[] toArray(StatisticalSummary summary) {
+        return new double[] {
+            summary.getMean(),
+            summary.getVariance(),
+            summary.getN(),
+            summary.getMax(),
+            summary.getMin(),
+            summary.getSum(),
+        };
     }
 
     /**

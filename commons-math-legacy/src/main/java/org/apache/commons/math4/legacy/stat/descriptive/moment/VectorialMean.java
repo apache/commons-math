@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
-import java.util.Arrays;
-
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 
 /**
@@ -73,27 +71,5 @@ public class VectorialMean {
      */
     public long getN() {
         return (means.length == 0) ? 0 : n;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Arrays.hashCode(getResult());
-        return result;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof VectorialMean)) {
-            return false;
-        }
-        VectorialMean other = (VectorialMean) obj;
-        return Arrays.equals(getResult(), other.getResult());
     }
 }

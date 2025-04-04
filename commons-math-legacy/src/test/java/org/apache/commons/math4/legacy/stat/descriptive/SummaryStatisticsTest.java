@@ -143,48 +143,6 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
-        SummaryStatistics u = createSummaryStatistics();
-        SummaryStatistics t = null;
-        int emptyHash = u.hashCode();
-        Assert.assertEquals("reflexive", u, u);
-        Assert.assertNotEquals("non-null compared to null", u, t);
-        Assert.assertFalse("wrong type", u.equals(Double.valueOf(0)));
-        t = createSummaryStatistics();
-        Assert.assertEquals("empty instances should be equal", t, u);
-        Assert.assertEquals("empty instances should be equal", u, t);
-        Assert.assertEquals("empty hash code", emptyHash, t.hashCode());
-
-        // Add some data to u
-        u.addValue(2d);
-        u.addValue(1d);
-        u.addValue(3d);
-        u.addValue(4d);
-        Assert.assertNotEquals("different n's should make instances not equal", t, u);
-        Assert.assertNotEquals("different n's should make instances not equal", u, t);
-        Assert.assertTrue("different n's should make hash codes different",
-                u.hashCode() != t.hashCode());
-
-        //Add data in same order to t
-        t.addValue(2d);
-        t.addValue(1d);
-        t.addValue(3d);
-        t.addValue(4d);
-        Assert.assertEquals("summaries based on same data should be equal", t, u);
-        Assert.assertEquals("summaries based on same data should be equal", u, t);
-        Assert.assertEquals("summaries based on same data should have same hash codes",
-                u.hashCode(), t.hashCode());
-
-        // Clear and make sure summaries are indistinguishable from empty summary
-        u.clear();
-        t.clear();
-        Assert.assertEquals("empty instances should be equal", t, u);
-        Assert.assertEquals("empty instances should be equal", u, t);
-        Assert.assertEquals("empty hash code", emptyHash, t.hashCode());
-        Assert.assertEquals("empty hash code", emptyHash, u.hashCode());
-    }
-
-    @Test
     public void testCopy() {
         SummaryStatistics u = createSummaryStatistics();
         u.addValue(2d);
@@ -192,8 +150,7 @@ public class SummaryStatisticsTest {
         u.addValue(3d);
         u.addValue(4d);
         SummaryStatistics v = new SummaryStatistics(u);
-        Assert.assertEquals(u, v);
-        Assert.assertEquals(v, u);
+        assertEquals(u, v);
 
         // Make sure both behave the same with additional values added
         u.addValue(7d);
@@ -204,8 +161,7 @@ public class SummaryStatisticsTest {
         v.addValue(9d);
         v.addValue(11d);
         v.addValue(23d);
-        Assert.assertEquals(u, v);
-        Assert.assertEquals(v, u);
+        assertEquals(u, v);
 
         // Check implementation pointers are preserved
         u.clear();
@@ -215,6 +171,21 @@ public class SummaryStatisticsTest {
         // the implementation type should be the same.
         Assert.assertNotSame(u.getSumImpl(), v.getSumImpl());
         Assert.assertEquals(u.getSumImpl().getClass(), v.getSumImpl().getClass());
+    }
+
+    private static void assertEquals(SummaryStatistics summary, SummaryStatistics summary2) {
+        Assert.assertArrayEquals(toArray(summary), toArray(summary2), 0);
+    }
+
+    private static double[] toArray(SummaryStatistics summary) {
+        return new double[] {
+            summary.getMean(),
+            summary.getVariance(),
+            summary.getN(),
+            summary.getMax(),
+            summary.getMin(),
+            summary.getSum(),
+        };
     }
 
     private void verifySummary(SummaryStatistics u, StatisticalSummary s) {

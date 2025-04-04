@@ -17,11 +17,9 @@
 package org.apache.commons.math4.legacy.stat.descriptive;
 
 import org.apache.commons.math4.core.jdkmath.JdkMath;
-import org.apache.commons.numbers.core.Precision;
 
 /**
- *  Value object representing the results of a univariate statistical summary.
- *
+ * Value object representing the results of a univariate statistical summary.
  */
 public class StatisticalSummaryValues
     implements StatisticalSummary {
@@ -118,47 +116,6 @@ public class StatisticalSummaryValues
     @Override
     public double getVariance() {
         return variance;
-    }
-
-    /**
-     * Returns true iff <code>object</code> is a
-     * <code>StatisticalSummaryValues</code> instance and all statistics have
-     *  the same values as this.
-     *
-     * @param object the object to test equality against.
-     * @return true if object equals this
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (object == this ) {
-            return true;
-        }
-        if (!(object instanceof StatisticalSummaryValues)) {
-            return false;
-        }
-        StatisticalSummaryValues stat = (StatisticalSummaryValues) object;
-        return Precision.equalsIncludingNaN(stat.getMax(),      getMax())  &&
-               Precision.equalsIncludingNaN(stat.getMean(),     getMean()) &&
-               Precision.equalsIncludingNaN(stat.getMin(),      getMin())  &&
-               Precision.equalsIncludingNaN(stat.getN(),        getN())    &&
-               Precision.equalsIncludingNaN(stat.getSum(),      getSum())  &&
-               Precision.equalsIncludingNaN(stat.getVariance(), getVariance());
-    }
-
-    /**
-     * Returns hash code based on values of statistics.
-     *
-     * @return hash code
-     */
-    @Override
-    public int hashCode() {
-        int result = 31 + Double.hashCode(getMax());
-        result = result * 31 + Double.hashCode(getMean());
-        result = result * 31 + Double.hashCode(getMin());
-        result = result * 31 + Double.hashCode(getN());
-        result = result * 31 + Double.hashCode(getSum());
-        result = result * 31 + Double.hashCode(getVariance());
-        return result;
     }
 
     /**
