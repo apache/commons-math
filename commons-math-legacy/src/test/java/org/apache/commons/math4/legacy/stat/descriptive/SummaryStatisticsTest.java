@@ -54,16 +54,12 @@ public class SummaryStatisticsTest {
 
         final double[] x = {};
         Assertions.assertEquals(StatUtils.sum(x), stats.getSum());
-        Assertions.assertEquals(StatUtils.sumSq(x), stats.getSumsq());
         Assertions.assertEquals(StatUtils.mean(x), stats.getMean());
         final double v = StatUtils.variance(x);
         Assertions.assertEquals(JdkMath.sqrt(v), stats.getStandardDeviation());
-        Assertions.assertEquals(Double.NaN, stats.getQuadraticMean());
         Assertions.assertEquals(v, stats.getVariance());
         Assertions.assertEquals(StatUtils.max(x), stats.getMax());
         Assertions.assertEquals(StatUtils.min(x), stats.getMin());
-        Assertions.assertEquals(StatUtils.geometricMean(x), stats.getGeometricMean());
-        Assertions.assertEquals(StatUtils.sumLog(x), stats.getSumOfLogs());
     }
 
     /** test stats */
@@ -77,7 +73,6 @@ public class SummaryStatisticsTest {
         u.addValue(three);
         Assert.assertEquals("N",n,u.getN(),tolerance);
         Assert.assertEquals("sum",sum,u.getSum(),tolerance);
-        Assert.assertEquals("sumsq",sumSq,u.getSumsq(),tolerance);
         Assert.assertEquals("var",var,u.getVariance(),tolerance);
         Assert.assertEquals("std",std,u.getStandardDeviation(),tolerance);
         Assert.assertEquals("mean",mean,u.getMean(),tolerance);
@@ -100,7 +95,6 @@ public class SummaryStatisticsTest {
         /* n=1 */
         u.addValue(one);
         Assert.assertEquals("mean should be one (n = 1)", one, u.getMean(), 0.0);
-        Assert.assertEquals("geometric should be one (n = 1) instead it is " + u.getGeometricMean(), one, u.getGeometricMean(), 0.0);
         Assert.assertEquals("Std should be zero (n = 1)", 0.0, u.getStandardDeviation(), 0.0);
         Assert.assertEquals("variance should be zero (n = 1)", 0.0, u.getVariance(), 0.0);
 
@@ -113,30 +107,14 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testProductAndGeometricMean() {
-        SummaryStatistics u = createSummaryStatistics();
-        u.addValue( 1.0 );
-        u.addValue( 2.0 );
-        u.addValue( 3.0 );
-        u.addValue( 4.0 );
-
-        Assert.assertEquals( "Geometric mean not expected", 2.213364,
-                u.getGeometricMean(), 0.00001 );
-    }
-
-    @Test
     public void testNaNContracts() {
         SummaryStatistics u = createSummaryStatistics();
         Assert.assertTrue("sum not NaN",Double.isNaN(u.getSum()));
-        Assert.assertTrue("sum-of-squares not NaN",Double.isNaN(u.getSumsq()));
         Assert.assertTrue("mean not NaN",Double.isNaN(u.getMean()));
         Assert.assertTrue("std dev not NaN",Double.isNaN(u.getStandardDeviation()));
-        Assert.assertTrue("quadratic mean not NaN",Double.isNaN(u.getQuadraticMean()));
         Assert.assertTrue("var not NaN",Double.isNaN(u.getVariance()));
         Assert.assertTrue("max not NaN",Double.isNaN(u.getMax()));
         Assert.assertTrue("min not NaN",Double.isNaN(u.getMin()));
-        Assert.assertTrue("geom mean not NaN",Double.isNaN(u.getGeometricMean()));
-        Assert.assertTrue("sum-of-logs not NaN",Double.isNaN(u.getSumOfLogs()));
 
         u.addValue(1.0);
 
@@ -144,16 +122,6 @@ public class SummaryStatisticsTest {
                 u.getMean(), Double.MIN_VALUE);
         Assert.assertEquals( "variance not expected", 0.0,
                 u.getVariance(), Double.MIN_VALUE);
-        Assert.assertEquals( "geometric mean not expected", 1.0,
-                u.getGeometricMean(), Double.MIN_VALUE);
-
-        u.addValue(-1.0);
-
-        Assert.assertTrue("geom mean not NaN",Double.isNaN(u.getGeometricMean()));
-
-        u.addValue(0.0);
-
-        Assert.assertTrue("geom mean not NaN",Double.isNaN(u.getGeometricMean()));
 
         //FiXME: test all other NaN contract specs
     }
@@ -263,11 +231,9 @@ public class SummaryStatisticsTest {
     public void testSetterInjection() {
         SummaryStatistics u = createSummaryStatistics();
         u.setMeanImpl(new SumStat());
-        u.setSumLogImpl(new SumStat());
         u.addValue(1);
         u.addValue(3);
         Assert.assertEquals(4, u.getMean(), 1E-14);
-        Assert.assertEquals(4, u.getSumOfLogs(), 1E-14);
         u.clear();
         u.addValue(1);
         u.addValue(2);
@@ -296,88 +262,49 @@ public class SummaryStatisticsTest {
     public void testSetterAll() {
         final SummaryStatistics u = createSummaryStatistics();
         Assertions.assertThrows(NullPointerException.class, () -> u.setSumImpl(null));
-        Assertions.assertThrows(NullPointerException.class, () -> u.setSumsqImpl(null));
         Assertions.assertThrows(NullPointerException.class, () -> u.setMinImpl(null));
         Assertions.assertThrows(NullPointerException.class, () -> u.setMaxImpl(null));
-        Assertions.assertThrows(NullPointerException.class, () -> u.setSumLogImpl(null));
-        Assertions.assertThrows(NullPointerException.class, () -> u.setGeoMeanImpl(null));
         Assertions.assertThrows(NullPointerException.class, () -> u.setMeanImpl(null));
         Assertions.assertThrows(NullPointerException.class, () -> u.setVarianceImpl(null));
         // Distinct implementations
         u.setSumImpl(new SumStat(1));
-        u.setSumsqImpl(new SumStat(2));
-        u.setMinImpl(new SumStat(3));
-        u.setMaxImpl(new SumStat(4));
-        u.setSumLogImpl(new SumStat(5));
-        u.setGeoMeanImpl(new SumStat(6));
-        u.setMeanImpl(new SumStat(7));
-        u.setVarianceImpl(new SumStat(8));
+        u.setMinImpl(new SumStat(2));
+        u.setMaxImpl(new SumStat(3));
+        u.setMeanImpl(new SumStat(4));
+        u.setVarianceImpl(new SumStat(5));
         u.addValue(1);
         Assertions.assertEquals(2, u.getSum());
-        Assertions.assertEquals(3, u.getSumsq());
-        Assertions.assertEquals(4, u.getMin());
-        Assertions.assertEquals(5, u.getMax());
-        Assertions.assertEquals(6, u.getSumOfLogs());
-        Assertions.assertEquals(7, u.getGeometricMean());
-        Assertions.assertEquals(8, u.getMean());
-        Assertions.assertEquals(9, u.getVariance());
+        Assertions.assertEquals(3, u.getMin());
+        Assertions.assertEquals(4, u.getMax());
+        Assertions.assertEquals(5, u.getMean());
+        Assertions.assertEquals(6, u.getVariance());
         // Test getters return the correct implementation
         Assertions.assertEquals(2, u.getSumImpl().getResult());
-        Assertions.assertEquals(3, u.getSumsqImpl().getResult());
-        Assertions.assertEquals(4, u.getMinImpl().getResult());
-        Assertions.assertEquals(5, u.getMaxImpl().getResult());
-        Assertions.assertEquals(6, u.getSumLogImpl().getResult());
-        Assertions.assertEquals(7, u.getGeoMeanImpl().getResult());
-        Assertions.assertEquals(8, u.getMeanImpl().getResult());
-        Assertions.assertEquals(9, u.getVarianceImpl().getResult());
+        Assertions.assertEquals(3, u.getMinImpl().getResult());
+        Assertions.assertEquals(4, u.getMaxImpl().getResult());
+        Assertions.assertEquals(5, u.getMeanImpl().getResult());
+        Assertions.assertEquals(6, u.getVarianceImpl().getResult());
         // Test copy
         final SummaryStatistics v = u.copy();
         Assertions.assertEquals(2, v.getSum());
-        Assertions.assertEquals(3, v.getSumsq());
-        Assertions.assertEquals(4, v.getMin());
-        Assertions.assertEquals(5, v.getMax());
-        Assertions.assertEquals(6, v.getSumOfLogs());
-        Assertions.assertEquals(7, v.getGeometricMean());
-        Assertions.assertEquals(8, v.getMean());
-        Assertions.assertEquals(9, v.getVariance());
+        Assertions.assertEquals(3, v.getMin());
+        Assertions.assertEquals(4, v.getMax());
+        Assertions.assertEquals(5, v.getMean());
+        Assertions.assertEquals(6, v.getVariance());
         // Test the return NaN contract when empty
         u.clear();
         Assertions.assertEquals(Double.NaN, u.getSum());
-        Assertions.assertEquals(Double.NaN, u.getSumsq());
         Assertions.assertEquals(Double.NaN, u.getMin());
         Assertions.assertEquals(Double.NaN, u.getMax());
-        Assertions.assertEquals(Double.NaN, u.getSumOfLogs());
-        Assertions.assertEquals(Double.NaN, u.getGeometricMean());
         Assertions.assertEquals(Double.NaN, u.getMean());
         Assertions.assertEquals(Double.NaN, u.getVariance());
         // Test refilling
         u.addValue(1);
         Assertions.assertEquals(1, u.getSum());
-        Assertions.assertEquals(1, u.getSumsq());
         Assertions.assertEquals(1, u.getMin());
         Assertions.assertEquals(1, u.getMax());
-        Assertions.assertEquals(1, u.getSumOfLogs());
-        Assertions.assertEquals(1, u.getGeometricMean());
         Assertions.assertEquals(1, u.getMean());
         Assertions.assertEquals(1, u.getVariance());
-    }
-
-    @Test
-    public void testQuadraticMean() {
-        final double[] values = { 1.2, 3.4, 5.6, 7.89 };
-        final SummaryStatistics stats = createSummaryStatistics();
-
-        final int len = values.length;
-        double expected = 0;
-        for (int i = 0; i < len; i++) {
-            final double v = values[i];
-            expected += v * v / len;
-
-            stats.addValue(v);
-        }
-        expected = Math.sqrt(expected);
-
-        Assert.assertEquals(expected, stats.getQuadraticMean(), Math.ulp(expected));
     }
 
     /**
@@ -410,28 +337,14 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testOverrideGeoMeanWithMathClass() {
-        double[] scores = {1, 2, 3, 4};
-        SummaryStatistics stats = new SummaryStatistics();
-        stats.setGeoMeanImpl(new SumStat());
-        for(double i : scores) {
-          stats.addValue(i);
-        }
-        final double expected = new SumStat().evaluate(scores);
-        Assert.assertEquals(expected, stats.getGeometricMean(), 0);
-    }
-
-    @Test
     public void testToString() {
         SummaryStatistics u = createSummaryStatistics();
         for (int i = 0; i < 5; i++) {
             u.addValue(i);
         }
-        final String[] labels = {"min", "max", "sum", "geometric mean", "variance",
-                "sum of squares", "standard deviation", "sum of logs"};
-        final double[] values = {u.getMin(), u.getMax(), u.getSum(), u.getGeometricMean(),
-                u.getVariance(), u.getSumsq(),
-                u.getStandardDeviation(), u.getSumOfLogs()};
+        final String[] labels = {"min", "max", "sum", "variance", "standard deviation"};
+        final double[] values = {u.getMin(), u.getMax(), u.getSum(),
+                u.getVariance(), u.getStandardDeviation()};
         final String toString = u.toString();
         Assert.assertTrue(toString.indexOf("n: " + u.getN()) > 0); // getN() returns a long
         for (int i = 0; i < values.length; i++) {

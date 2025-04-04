@@ -55,8 +55,7 @@ public class SummaryStatistics implements StatisticalSummary {
 
     /** Default statistics. */
     private final EnumSet<Statistic> stats = EnumSet.of(Statistic.SUM,
-        Statistic.SUM_OF_SQUARES, Statistic.MIN, Statistic.MAX,
-        Statistic.SUM_OF_LOGS, Statistic.GEOMETRIC_MEAN, Statistic.MEAN,
+        Statistic.MIN, Statistic.MAX, Statistic.MEAN,
         Statistic.VARIANCE);
 
     /** Default statistic implementations. */
@@ -68,20 +67,11 @@ public class SummaryStatistics implements StatisticalSummary {
     /** Overridden sum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic sumImpl;
 
-    /** Overridden sum of squares statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic sumsqImpl;
-
     /** Overridden minimum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic minImpl;
 
     /** Overridden maximum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic maxImpl;
-
-    /** Overridden sum of log statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic sumLogImpl;
-
-    /** Overridden geometric mean statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic geoMeanImpl;
 
     /** Overridden mean statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic meanImpl;
@@ -142,11 +132,8 @@ public class SummaryStatistics implements StatisticalSummary {
             a = values::accept;
         }
         a = combine(a, sumImpl);
-        a = combine(a, sumsqImpl);
         a = combine(a, minImpl);
         a = combine(a, maxImpl);
-        a = combine(a, sumLogImpl);
-        a = combine(a, geoMeanImpl);
         a = combine(a, meanImpl);
         a = combine(a, varianceImpl);
         action = a;
@@ -202,17 +189,6 @@ public class SummaryStatistics implements StatisticalSummary {
     }
 
     /**
-     * Returns the sum of the squares of the values that have been added.
-     * <p>
-     * Double.NaN is returned if no values have been added.
-     * </p>
-     * @return The sum of squares
-     */
-    public double getSumsq() {
-        return getStatistic(sumsqImpl, Statistic.SUM_OF_SQUARES);
-    }
-
-    /**
      * Returns the mean of the values that have been added.
      * <p>
      * Double.NaN is returned if no values have been added.
@@ -242,18 +218,6 @@ public class SummaryStatistics implements StatisticalSummary {
             }
         }
         return stdDev;
-    }
-
-    /**
-     * Returns the quadratic mean, a.k.a.
-     * <a href="http://mathworld.wolfram.com/Root-Mean-Square.html">
-     * root-mean-square</a> of the available values
-     * @return The quadratic mean or {@code Double.NaN} if no values
-     * have been added.
-     */
-    public double getQuadraticMean() {
-        final long size = getN();
-        return size > 0 ? JdkMath.sqrt(getSumsq() / size) : Double.NaN;
     }
 
     /**
@@ -293,29 +257,6 @@ public class SummaryStatistics implements StatisticalSummary {
     }
 
     /**
-     * Returns the geometric mean of the values that have been added.
-     * <p>
-     * Double.NaN is returned if no values have been added.
-     * </p>
-     * @return the geometric mean
-     */
-    public double getGeometricMean() {
-        return getStatistic(geoMeanImpl, Statistic.GEOMETRIC_MEAN);
-    }
-
-    /**
-     * Returns the sum of the logs of the values that have been added.
-     * <p>
-     * Double.NaN is returned if no values have been added.
-     * </p>
-     * @return the sum of logs
-     * @since 1.2
-     */
-    public double getSumOfLogs() {
-        return getStatistic(sumLogImpl, Statistic.SUM_OF_LOGS);
-    }
-
-    /**
      * Generates a text report displaying summary statistics from values that
      * have been added.
      * @return String with line feeds displaying statistics
@@ -331,13 +272,9 @@ public class SummaryStatistics implements StatisticalSummary {
         outBuffer.append("max: ").append(getMax()).append(endl);
         outBuffer.append("sum: ").append(getSum()).append(endl);
         outBuffer.append("mean: ").append(getMean()).append(endl);
-        outBuffer.append("geometric mean: ").append(getGeometricMean())
-            .append(endl);
         outBuffer.append("variance: ").append(getVariance()).append(endl);
-        outBuffer.append("sum of squares: ").append(getSumsq()).append(endl);
         outBuffer.append("standard deviation: ").append(getStandardDeviation())
             .append(endl);
-        outBuffer.append("sum of logs: ").append(getSumOfLogs()).append(endl);
         return outBuffer.toString();
     }
 
@@ -353,11 +290,8 @@ public class SummaryStatistics implements StatisticalSummary {
         }
         action = null;
         clear(sumImpl);
-        clear(sumsqImpl);
         clear(minImpl);
         clear(maxImpl);
-        clear(sumLogImpl);
-        clear(geoMeanImpl);
         clear(meanImpl);
         clear(varianceImpl);
     }
@@ -389,13 +323,11 @@ public class SummaryStatistics implements StatisticalSummary {
             return false;
         }
         SummaryStatistics stat = (SummaryStatistics)object;
-        return Precision.equalsIncludingNaN(stat.getGeometricMean(), getGeometricMean()) &&
-               Precision.equalsIncludingNaN(stat.getMax(),           getMax())           &&
+        return Precision.equalsIncludingNaN(stat.getMax(),           getMax())           &&
                Precision.equalsIncludingNaN(stat.getMean(),          getMean())          &&
                Precision.equalsIncludingNaN(stat.getMin(),           getMin())           &&
                Precision.equalsIncludingNaN(stat.getN(),             getN())             &&
                Precision.equalsIncludingNaN(stat.getSum(),           getSum())           &&
-               Precision.equalsIncludingNaN(stat.getSumsq(),         getSumsq())         &&
                Precision.equalsIncludingNaN(stat.getVariance(),      getVariance());
     }
 
@@ -407,15 +339,12 @@ public class SummaryStatistics implements StatisticalSummary {
     public int hashCode() {
         // This does not have to use all the statistics.
         // Here we avoid duplicate use of stats that are related.
-        // - sum-of-logs; geometric mean
         // - mean; sum + n
-        // - variance; sum-of-squares + sum + n
-        int result = 31 + Double.hashCode(getSumOfLogs());
-        result = result * 31 + Double.hashCode(getMax());
+        int result = 31 + Double.hashCode(getMax());
         result = result * 31 + Double.hashCode(getMin());
         result = result * 31 + Double.hashCode(getN());
         result = result * 31 + Double.hashCode(getSum());
-        result = result * 31 + Double.hashCode(getSumsq());
+        result = result * 31 + Double.hashCode(getVariance());
         return result;
     }
 
@@ -449,36 +378,6 @@ public class SummaryStatistics implements StatisticalSummary {
     public void setSumImpl(StorelessUnivariateStatistic sumImpl)
     throws MathIllegalStateException {
         this.sumImpl = requireImplementation(sumImpl, Statistic.SUM);
-    }
-
-    /**
-     * Returns the currently configured sum of squares implementation.
-     * This will be null if using the default implementation.
-     * @return the StorelessUnivariateStatistic implementing the sum of squares
-     * @since 1.2
-     */
-    public StorelessUnivariateStatistic getSumsqImpl() {
-        return sumsqImpl;
-    }
-
-    /**
-     * <p>
-     * Sets the implementation for the sum of squares.
-     * </p>
-     * <p>
-     * This method cannot be activated after data has been added - i.e.,
-     * after {@link #addValue(double) addValue} has been used to add data.
-     * If it is activated after data has been added, an IllegalStateException
-     * will be thrown.
-     * </p>
-     * @param sumsqImpl the StorelessUnivariateStatistic instance to use for
-     *        computing the sum of squares
-     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
-     * @since 1.2
-     */
-    public void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl)
-    throws MathIllegalStateException {
-        this.sumsqImpl = requireImplementation(sumsqImpl, Statistic.SUM_OF_SQUARES);
     }
 
     /**
@@ -539,66 +438,6 @@ public class SummaryStatistics implements StatisticalSummary {
     public void setMaxImpl(StorelessUnivariateStatistic maxImpl)
     throws MathIllegalStateException {
         this.maxImpl = requireImplementation(maxImpl, Statistic.MAX);
-    }
-
-    /**
-     * Returns the currently configured sum of logs implementation.
-     * This will be null if using the default implementation.
-     * @return the StorelessUnivariateStatistic implementing the log sum
-     * @since 1.2
-     */
-    public StorelessUnivariateStatistic getSumLogImpl() {
-        return sumLogImpl;
-    }
-
-    /**
-     * <p>
-     * Sets the implementation for the sum of logs.
-     * </p>
-     * <p>
-     * This method cannot be activated after data has been added - i.e.,
-     * after {@link #addValue(double) addValue} has been used to add data.
-     * If it is activated after data has been added, an IllegalStateException
-     * will be thrown.
-     * </p>
-     * @param sumLogImpl the StorelessUnivariateStatistic instance to use for
-     *        computing the log sum
-     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
-     * @since 1.2
-     */
-    public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
-    throws MathIllegalStateException {
-        this.sumLogImpl = requireImplementation(sumLogImpl, Statistic.SUM_OF_LOGS);
-    }
-
-    /**
-     * Returns the currently configured geometric mean implementation.
-     * This will be null if using the default implementation.
-     * @return the StorelessUnivariateStatistic implementing the geometric mean
-     * @since 1.2
-     */
-    public StorelessUnivariateStatistic getGeoMeanImpl() {
-        return geoMeanImpl;
-    }
-
-    /**
-     * <p>
-     * Sets the implementation for the geometric mean.
-     * </p>
-     * <p>
-     * This method cannot be activated after data has been added - i.e.,
-     * after {@link #addValue(double) addValue} has been used to add data.
-     * If it is activated after data has been added, an IllegalStateException
-     * will be thrown.
-     * </p>
-     * @param geoMeanImpl the StorelessUnivariateStatistic instance to use for
-     *        computing the geometric mean
-     * @throws MathIllegalStateException if data has already been added (i.e if n &gt; 0)
-     * @since 1.2
-     */
-    public void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl)
-    throws MathIllegalStateException {
-        this.geoMeanImpl = requireImplementation(geoMeanImpl, Statistic.GEOMETRIC_MEAN);
     }
 
     /**
@@ -710,11 +549,8 @@ public class SummaryStatistics implements StatisticalSummary {
         // Set up implementations
         dest.stats.retainAll(source.stats);
         dest.sumImpl = copy(source.sumImpl);
-        dest.sumsqImpl = copy(source.sumsqImpl);
         dest.minImpl = copy(source.minImpl);
         dest.maxImpl = copy(source.maxImpl);
-        dest.sumLogImpl = copy(source.sumLogImpl);
-        dest.geoMeanImpl = copy(source.geoMeanImpl);
         dest.meanImpl = copy(source.meanImpl);
         dest.varianceImpl = copy(source.varianceImpl);
         dest.createAction();

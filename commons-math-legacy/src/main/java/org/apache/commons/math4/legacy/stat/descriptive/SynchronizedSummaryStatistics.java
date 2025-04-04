@@ -86,14 +86,6 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized double getSumsq() {
-        return super.getSumsq();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public synchronized double getMean() {
         return super.getMean();
     }
@@ -104,14 +96,6 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     @Override
     public synchronized double getStandardDeviation() {
         return super.getStandardDeviation();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized double getQuadraticMean() {
-        return super.getQuadraticMean();
     }
 
     /**
@@ -136,14 +120,6 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     @Override
     public synchronized double getMin() {
         return super.getMin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized double getGeometricMean() {
-        return super.getGeometricMean();
     }
 
     /**
@@ -199,23 +175,6 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized StorelessUnivariateStatistic getSumsqImpl() {
-        return super.getSumsqImpl();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl)
-    throws MathIllegalStateException {
-        super.setSumsqImpl(sumsqImpl);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public synchronized StorelessUnivariateStatistic getMinImpl() {
         return super.getMinImpl();
     }
@@ -244,40 +203,6 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     public synchronized void setMaxImpl(StorelessUnivariateStatistic maxImpl)
     throws MathIllegalStateException {
         super.setMaxImpl(maxImpl);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized StorelessUnivariateStatistic getSumLogImpl() {
-        return super.getSumLogImpl();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
-    throws MathIllegalStateException {
-        super.setSumLogImpl(sumLogImpl);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized StorelessUnivariateStatistic getGeoMeanImpl() {
-        return super.getGeoMeanImpl();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl)
-    throws MathIllegalStateException {
-        super.setGeoMeanImpl(geoMeanImpl);
     }
 
     /**

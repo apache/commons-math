@@ -210,42 +210,6 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
     }
 
     /**
-     * Returns the sum of the logs of all the aggregated data.
-     *
-     * @return the sum of logs
-     * @see SummaryStatistics#getSumOfLogs()
-     */
-    public double getSumOfLogs() {
-        synchronized (statistics) {
-            return statistics.getSumOfLogs();
-        }
-    }
-
-    /**
-     * Returns the geometric mean of all the aggregated data.
-     *
-     * @return the geometric mean
-     * @see SummaryStatistics#getGeometricMean()
-     */
-    public double getGeometricMean() {
-        synchronized (statistics) {
-            return statistics.getGeometricMean();
-        }
-    }
-
-    /**
-     * Returns the sum of the squares of all the aggregated data.
-     *
-     * @return The sum of squares
-     * @see SummaryStatistics#getSumsq()
-     */
-    public double getSumsq() {
-        synchronized (statistics) {
-            return statistics.getSumsq();
-        }
-    }
-
-    /**
      * Return a {@link StatisticalSummaryValues} instance reporting current
      * aggregate statistics.
      *
