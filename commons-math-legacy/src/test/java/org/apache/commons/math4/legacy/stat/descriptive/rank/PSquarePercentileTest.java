@@ -19,10 +19,6 @@ package org.apache.commons.math4.legacy.stat.descriptive.rank;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import org.apache.commons.statistics.distribution.LogNormalDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.statistics.descriptive.Quantile;
@@ -83,16 +79,14 @@ public class PSquarePercentileTest extends
         replica = master.copy();
 
         // Check same
-        Assert.assertEquals(replica, master);
-        Assert.assertEquals(master, replica);
+        Assert.assertEquals(master.getResult(), replica.getResult(), 0);
 
         // Now add second part to both and check again
         master.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
         replica.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
-        Assert.assertEquals(replica, master);
-        Assert.assertEquals(master, replica);
+        Assert.assertEquals(master.getResult(), replica.getResult(), 0);
     }
 
     /**
@@ -117,19 +111,14 @@ public class PSquarePercentileTest extends
         replica = master.copy();
 
         // Check same
-        Assert.assertEquals(replica, master);
-        Assert.assertEquals(master, replica);
+        Assert.assertEquals(master.getResult(), replica.getResult(), 0);
         // Now add second part to both and check again
         master.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
         replica.incrementAll(testArray, (int) index,
                 (int) (testArray.length - index));
         // Check same
-        // Explicit test of the equals method
-        Assert.assertTrue(master.equals(master));
-        Assert.assertTrue(replica.equals(replica));
-        Assert.assertEquals(replica, master);
-        Assert.assertEquals(master, replica);
+        Assert.assertEquals(master.getResult(), replica.getResult(), 0);
     }
 
     @Test(expected = MathIllegalArgumentException.class)
@@ -138,37 +127,6 @@ public class PSquarePercentileTest extends
         // verified
         // new Markers(null, 0, PSquarePercentile.newEstimator());
         PSquarePercentile.newMarkers(null, 0);
-    }
-
-    @Test
-    public void testEqualsInMarkers() {
-        double p = 0.5;
-        PSquareMarkers markers =
-                PSquarePercentile.newMarkers(
-                        Arrays.asList(new Double[] { 0.02, 1.18, 9.15, 21.91,
-                                38.62 }), p);
-        // Markers equality
-        Assert.assertEquals(markers, markers);
-        Assert.assertNotEquals(markers, null);
-        Assert.assertNotEquals(markers, "");
-        // Check for null markers test during equality testing
-        // Until 5 elements markers are not initialized
-        PSquarePercentile p1 = new PSquarePercentile();
-        PSquarePercentile p2 = new PSquarePercentile();
-        Assert.assertEquals(p1, p2);
-        p1.evaluate(new double[] { 1.0, 2.0, 3.0 });
-        p2.evaluate(new double[] { 1.0, 2.0, 3.0 });
-        Assert.assertEquals(p1, p2);
-        // Move p2 alone with more values just to make sure markers are not null
-        // for p2
-        p2.incrementAll(new double[] { 5.0, 7.0, 11.0 });
-        Assert.assertNotEquals(p1, p2);
-        Assert.assertNotEquals(p2, p1);
-        // Next add different data to p1 to make number of elements match and
-        // markers are not null however actual results will vary
-        p1.incrementAll(new double[] { 20, 21, 22, 23 });
-        Assert.assertNotEquals(p1, p2);// though markers are non null, N
-        // matches, results wont
     }
 
     @Test(expected = OutOfRangeException.class)
@@ -183,92 +141,6 @@ public class PSquarePercentileTest extends
         PSquarePercentile.newMarkers(
                 Arrays.asList(new Double[] { 0.02, 1.18, 9.15, 21.91, 38.62 }),
                 0.5).estimate(5);
-    }
-
-    @Test
-    public void testMarkers2() {
-        double p = 0.5;
-        PSquareMarkers markers =
-                PSquarePercentile.newMarkers(
-                        Arrays.asList(new Double[] { 0.02, 1.18, 9.15, 21.91,
-                                38.62 }), p);
-
-        PSquareMarkers markersNew =
-                PSquarePercentile.newMarkers(
-                        Arrays.asList(new Double[] { 0.02, 1.18, 9.15, 21.91,
-                                38.62 }), p);
-
-        Assert.assertEquals(markers, markersNew);
-        // If just one element of markers got changed then its still false.
-        markersNew.processDataPoint(39);
-        Assert.assertNotEquals(markers, markersNew);
-    }
-
-    @Test
-    public void testHashCodeInMarkers() {
-        PSquarePercentile p = new PSquarePercentile(95);
-        PSquarePercentile p2 = new PSquarePercentile(95);
-        Set<PSquarePercentile> s = new HashSet<>();
-        s.add(p);
-        s.add(p2);
-        Assert.assertEquals(1, s.size());
-        Assert.assertEquals(p, s.iterator().next());
-        double[] d =
-                new double[] { 95.1772, 95.1567, 95.1937, 95.1959, 95.1442,
-                        95.0610, 95.1591, 95.1195, 95.1772, 95.0925, 95.1990,
-                        95.1682 };
-        Assert.assertEquals(95.1981, p.evaluate(d), 1.0e-2); // change
-        Assert.assertEquals(95.1981, p2.evaluate(d), 1.0e-2); // change
-        s.clear();
-        s.add(p);
-        s.add(p2);
-        Assert.assertEquals(1, s.size());
-        Assert.assertEquals(p, s.iterator().next());
-
-        PSquareMarkers m1 =
-                PSquarePercentile.newMarkers(
-                        Arrays.asList(new Double[] { 95.1772, 95.1567, 95.1937,
-                                95.1959, 95.1442, 95.0610, 95.1591, 95.1195,
-                                95.1772, 95.0925, 95.1990, 95.1682 }), 0.0);
-        PSquareMarkers m2 =
-                PSquarePercentile.newMarkers(
-                        Arrays.asList(new Double[] { 95.1772, 95.1567, 95.1937,
-                                95.1959, 95.1442, 95.0610, 95.1591, 95.1195,
-                                95.1772, 95.0925, 95.1990, 95.1682 }), 0.0);
-        Assert.assertEquals(m1, m2);
-        Set<PSquareMarkers> setMarkers = new LinkedHashSet<>();
-        Assert.assertTrue(setMarkers.add(m1));
-        Assert.assertFalse(setMarkers.add(m2));
-        Assert.assertEquals(1, setMarkers.size());
-
-        PSquareMarkers mThis =
-                PSquarePercentile.newMarkers(
-                        Arrays.asList(new Double[] { 195.1772, 195.1567,
-                                195.1937, 195.1959, 95.1442, 195.0610,
-                                195.1591, 195.1195, 195.1772, 95.0925, 95.1990,
-                                195.1682 }), 0.50);
-        PSquareMarkers mThat =
-                PSquarePercentile.newMarkers(
-                        Arrays.asList(new Double[] { 95.1772, 95.1567, 95.1937,
-                                95.1959, 95.1442, 95.0610, 95.1591, 95.1195,
-                                95.1772, 95.0925, 95.1990, 95.1682 }), 0.50);
-        Assert.assertEquals(mThis, mThis);
-        Assert.assertNotEquals(mThis, mThat);
-        String s1="";
-        Assert.assertNotEquals(mThis, s1);
-        for (int i = 0; i < testArray.length; i++) {
-            mThat.processDataPoint(testArray[i]);
-        }
-        setMarkers.add(mThat);
-        setMarkers.add(mThis);
-        Assert.assertEquals(mThat, mThat);
-        Assert.assertTrue(setMarkers.contains(mThat));
-        Assert.assertTrue(setMarkers.contains(mThis));
-        Assert.assertEquals(3, setMarkers.size());
-        Iterator<PSquareMarkers> iterator=setMarkers.iterator();
-        Assert.assertEquals(m1, iterator.next());
-        Assert.assertEquals(mThat, iterator.next());
-        Assert.assertEquals(mThis, iterator.next());
     }
 
     @Test(expected = OutOfRangeException.class)

@@ -124,8 +124,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         testDa.addElement(2.0);
         testDa.addElement(3.2);
         ResizableDoubleArray copyDa = new ResizableDoubleArray(testDa);
-        Assert.assertEquals(copyDa, testDa);
-        Assert.assertEquals(testDa, copyDa);
+        Assert.assertArrayEquals(testDa.getElements(), copyDa.getElements(), 0);
 
         // JIRA: MATH-1252
         final double[] values = {1};
@@ -447,78 +446,6 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     }
 
     @Test
-    public void testEqualsAndHashCode() throws Exception {
-
-        // Wrong type
-        ResizableDoubleArray first = new ResizableDoubleArray();
-        Double other = Double.valueOf(2);
-        Assert.assertFalse(first.equals(other));
-
-        // Null
-        other = null;
-        Assert.assertFalse(first.equals(other));
-
-        // Reflexive
-        Assert.assertEquals(first, first);
-
-        // Non-argument constructor
-        ResizableDoubleArray second = new ResizableDoubleArray();
-        verifyEquality(first, second);
-
-        // Equals iff same data, same properties
-        ResizableDoubleArray third = new ResizableDoubleArray(3, 2.0, 2.0);
-        verifyInequality(third, first);
-        ResizableDoubleArray fourth = new ResizableDoubleArray(3, 2.0, 2.0);
-        ResizableDoubleArray fifth = new ResizableDoubleArray(2, 2.0, 2.0);
-        verifyEquality(third, fourth);
-        verifyInequality(third, fifth);
-        third.addElement(4.1);
-        third.addElement(4.2);
-        third.addElement(4.3);
-        fourth.addElement(4.1);
-        fourth.addElement(4.2);
-        fourth.addElement(4.3);
-        verifyEquality(third, fourth);
-
-        // expand
-        fourth.addElement(4.4);
-        verifyInequality(third, fourth);
-        third.addElement(4.4);
-        verifyEquality(third, fourth);
-        fourth.addElement(4.4);
-        verifyInequality(third, fourth);
-        third.addElement(4.4);
-        verifyEquality(third, fourth);
-        fourth.addElementRolling(4.5);
-        third.addElementRolling(4.5);
-        verifyEquality(third, fourth);
-
-        // discard
-        third.discardFrontElements(1);
-        verifyInequality(third, fourth);
-        fourth.discardFrontElements(1);
-        verifyEquality(third, fourth);
-
-        // discard recent
-        third.discardMostRecentElements(2);
-        fourth.discardMostRecentElements(2);
-        verifyEquality(third, fourth);
-
-        // wrong order
-        third.addElement(18);
-        fourth.addElement(17);
-        third.addElement(17);
-        fourth.addElement(18);
-        verifyInequality(third, fourth);
-
-        // Copy constructor
-        verifyEquality(fourth, new ResizableDoubleArray(fourth));
-
-        // Instance copy
-        verifyEquality(fourth, fourth.copy());
-    }
-
-    @Test
     public void testGetArrayRef() {
         final ResizableDoubleArray a = new ResizableDoubleArray();
 
@@ -561,17 +488,5 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         final double sum = a.compute(add);
         Assert.assertEquals(0.5 * max * (max + 1), sum, 0);
-    }
-
-    private void verifyEquality(ResizableDoubleArray a, ResizableDoubleArray b) {
-        Assert.assertEquals(b, a);
-        Assert.assertEquals(a, b);
-        Assert.assertEquals(a.hashCode(), b.hashCode());
-    }
-
-    private void verifyInequality(ResizableDoubleArray a, ResizableDoubleArray b) {
-        Assert.assertNotEquals(b, a);
-        Assert.assertNotEquals(a, b);
-        Assert.assertNotEquals(a.hashCode(), b.hashCode());
     }
 }

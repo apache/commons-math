@@ -20,7 +20,6 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.numbers.core.Precision;
 
 /**
  * Abstract base class for implementations of the
@@ -154,37 +153,5 @@ public abstract class AbstractStorelessUnivariateStatistic
                 increment(values[i]);
             }
         }
-    }
-
-    /**
-     * Returns true iff <code>object</code> is the same type of
-     * {@link StorelessUnivariateStatistic} (the object's class equals this
-     * instance) returning the same values as this for <code>getResult()</code>
-     * and <code>getN()</code>.
-     *
-     * @param object object to test equality against.
-     * @return true if object returns the same value as this
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (object == this ) {
-            return true;
-        }
-        if (object == null || object.getClass() != this.getClass()) {
-            return false;
-        }
-        StorelessUnivariateStatistic stat = (StorelessUnivariateStatistic) object;
-        return Precision.equalsIncludingNaN(stat.getResult(), this.getResult()) &&
-               Precision.equalsIncludingNaN(stat.getN(), this.getN());
-    }
-
-    /**
-     * Returns hash code based on getResult() and getN().
-     *
-     * @return hash code
-     */
-    @Override
-    public int hashCode() {
-        return 31 * (31 + Double.hashCode(getResult())) + Double.hashCode(getN());
     }
 }

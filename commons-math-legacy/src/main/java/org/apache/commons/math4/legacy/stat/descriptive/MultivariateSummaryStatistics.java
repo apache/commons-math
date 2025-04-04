@@ -31,8 +31,6 @@ import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessSum;
 import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessSumOfLogs;
 import org.apache.commons.math4.legacy.stat.descriptive.Statistics.StorelessSumOfSquares;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
-import org.apache.commons.math4.legacy.core.MathArrays;
-import org.apache.commons.numbers.core.Precision;
 
 /**
  * <p>Computes summary statistics for a stream of n-tuples added using the
@@ -360,54 +358,6 @@ public class MultivariateSummaryStatistics
             meanImpl[i].clear();
         }
         covarianceImpl.clear();
-    }
-
-    /**
-     * Returns true iff <code>object</code> is a <code>MultivariateSummaryStatistics</code>
-     * instance and all statistics have the same values as this.
-     * @param object the object to test equality against.
-     * @return true if object equals this
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (object == this ) {
-            return true;
-        }
-        if (!(object instanceof MultivariateSummaryStatistics)) {
-            return false;
-        }
-        MultivariateSummaryStatistics stat = (MultivariateSummaryStatistics) object;
-        return MathArrays.equalsIncludingNaN(stat.getGeometricMean(), getGeometricMean()) &&
-               MathArrays.equalsIncludingNaN(stat.getMax(),           getMax())           &&
-               MathArrays.equalsIncludingNaN(stat.getMean(),          getMean())          &&
-               MathArrays.equalsIncludingNaN(stat.getMin(),           getMin())           &&
-               Precision.equalsIncludingNaN(stat.getN(),             getN())             &&
-               MathArrays.equalsIncludingNaN(stat.getSum(),           getSum())           &&
-               MathArrays.equalsIncludingNaN(stat.getSumSq(),         getSumSq())         &&
-               MathArrays.equalsIncludingNaN(stat.getSumLog(),        getSumLog())        &&
-               stat.getCovariance().equals( getCovariance());
-    }
-
-    /**
-     * Returns hash code based on values of statistics.
-     *
-     * @return hash code
-     */
-    @Override
-    public int hashCode() {
-        // This does not have to use all the statistics.
-        // Here we avoid duplicate use of stats that are related.
-        // - sum-of-logs; geometric mean
-        // - mean; sum + n
-        // - variance; sum-of-squares + sum + n
-        int result = 31 + Arrays.hashCode(getSumLog());
-        result = result * 31 + Arrays.hashCode(getMax());
-        result = result * 31 + Arrays.hashCode(getMin());
-        result = result * 31 + Double.hashCode(getN());
-        result = result * 31 + Arrays.hashCode(getSum());
-        result = result * 31 + Arrays.hashCode(getSumSq());
-        result = result * 31 + getCovariance().hashCode();
-        return result;
     }
 
     // Getters and setters for statistics implementations

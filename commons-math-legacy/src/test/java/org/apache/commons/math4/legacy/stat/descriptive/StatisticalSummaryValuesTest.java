@@ -16,44 +16,25 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
-
 import java.util.Locale;
 
-import org.apache.commons.math4.legacy.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
 /**
  * Test cases for the {@link StatisticalSummaryValues} class.
- *
  */
-
 public final class StatisticalSummaryValuesTest {
 
     @Test
-    public void testEqualsAndHashCode() {
+    public void testProperties() {
         StatisticalSummaryValues u  = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
-        StatisticalSummaryValues t = null;
-        Assert.assertEquals("reflexive", u, u);
-        Assert.assertNotEquals("non-null compared to null", u, t);
-        Assert.assertFalse("wrong type", u.equals(Double.valueOf(0)));
-        t = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
-        Assert.assertEquals("instances with same data should be equal", t, u);
-        Assert.assertEquals("hash code", u.hashCode(), t.hashCode());
-
-        u = new StatisticalSummaryValues(Double.NaN, 2, 3, 4, 5, 6);
-        t = new StatisticalSummaryValues(1, Double.NaN, 3, 4, 5, 6);
-        Assert.assertFalse("instances based on different data should be different",
-                u.equals(t) ||t.equals(u));
-    }
-
-    private void verifyEquality(StatisticalSummaryValues s, StatisticalSummaryValues u) {
-        Assert.assertEquals("N",s.getN(),u.getN());
-        TestUtils.assertEquals("sum",s.getSum(),u.getSum(), 0);
-        TestUtils.assertEquals("var",s.getVariance(),u.getVariance(), 0);
-        TestUtils.assertEquals("std",s.getStandardDeviation(),u.getStandardDeviation(), 0);
-        TestUtils.assertEquals("mean",s.getMean(),u.getMean(), 0);
-        TestUtils.assertEquals("min",s.getMin(),u.getMin(), 0);
-        TestUtils.assertEquals("max",s.getMax(),u.getMax(), 0);
+        Assert.assertEquals(1, u.getMean(), 0);
+        Assert.assertEquals(2, u.getVariance(), 0);
+        Assert.assertEquals(3, u.getN());
+        Assert.assertEquals(4, u.getMax(), 0);
+        Assert.assertEquals(5, u.getMin(), 0);
+        Assert.assertEquals(6, u.getSum(), 0);
     }
 
     @Test

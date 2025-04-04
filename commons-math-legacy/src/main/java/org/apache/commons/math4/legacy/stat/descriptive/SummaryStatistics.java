@@ -23,7 +23,6 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
-import org.apache.commons.numbers.core.Precision;
 import org.apache.commons.statistics.descriptive.DoubleStatistics;
 import org.apache.commons.statistics.descriptive.Statistic;
 
@@ -305,47 +304,6 @@ public class SummaryStatistics implements StatisticalSummary {
         if (s != null) {
             s.clear();
         }
-    }
-
-    /**
-     * Returns true iff <code>object</code> is a
-     * <code>SummaryStatistics</code> instance and all statistics have the
-     * same values as this.
-     * @param object the object to test equality against.
-     * @return true if object equals this
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (object == this) {
-            return true;
-        }
-        if (!(object instanceof SummaryStatistics)) {
-            return false;
-        }
-        SummaryStatistics stat = (SummaryStatistics)object;
-        return Precision.equalsIncludingNaN(stat.getMax(),           getMax())           &&
-               Precision.equalsIncludingNaN(stat.getMean(),          getMean())          &&
-               Precision.equalsIncludingNaN(stat.getMin(),           getMin())           &&
-               Precision.equalsIncludingNaN(stat.getN(),             getN())             &&
-               Precision.equalsIncludingNaN(stat.getSum(),           getSum())           &&
-               Precision.equalsIncludingNaN(stat.getVariance(),      getVariance());
-    }
-
-    /**
-     * Returns hash code based on values of statistics.
-     * @return hash code
-     */
-    @Override
-    public int hashCode() {
-        // This does not have to use all the statistics.
-        // Here we avoid duplicate use of stats that are related.
-        // - mean; sum + n
-        int result = 31 + Double.hashCode(getMax());
-        result = result * 31 + Double.hashCode(getMin());
-        result = result * 31 + Double.hashCode(getN());
-        result = result * 31 + Double.hashCode(getSum());
-        result = result * 31 + Double.hashCode(getVariance());
-        return result;
     }
 
     // Getters and setters for statistics implementations

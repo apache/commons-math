@@ -329,34 +329,5 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
                 aggregateStatistics.addValue(value);
             }
         }
-
-        /**
-         * Returns true iff <code>object</code> is a
-         * <code>SummaryStatistics</code> instance and all statistics have the
-         * same values as this.
-         * @param object the object to test equality against.
-         * @return true if object equals this
-         */
-        @Override
-        public boolean equals(Object object) {
-            if (object == this) {
-                return true;
-            }
-            if (!(object instanceof AggregatingSummaryStatistics)) {
-                return false;
-            }
-            AggregatingSummaryStatistics stat = (AggregatingSummaryStatistics)object;
-            return super.equals(stat) &&
-                   aggregateStatistics.equals(stat.aggregateStatistics);
-        }
-
-        /**
-         * Returns hash code based on values of statistics.
-         * @return hash code
-         */
-        @Override
-        public int hashCode() {
-            return 123 + super.hashCode() + aggregateStatistics.hashCode();
-        }
     }
 }

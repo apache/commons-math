@@ -251,46 +251,4 @@ public class MultivariateSummaryStatisticsTest {
         Assert.assertFalse(Double.isNaN(u.getStandardDeviation()[0]));
         Assert.assertFalse(Double.isNaN(u.getGeometricMean()[0]));
     }
-
-    @Test
-    public void testEqualsAndHashCode() {
-        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
-        MultivariateSummaryStatistics t = null;
-        int emptyHash = u.hashCode();
-        Assert.assertEquals(u, u);
-        Assert.assertNotEquals(u, t);
-        Assert.assertFalse(u.equals(Double.valueOf(0)));
-        t = createMultivariateSummaryStatistics(2, true);
-        Assert.assertEquals(t, u);
-        Assert.assertEquals(u, t);
-        Assert.assertEquals(emptyHash, t.hashCode());
-
-        // Add some data to u
-        u.addValue(new double[] { 2d, 1d });
-        u.addValue(new double[] { 1d, 1d });
-        u.addValue(new double[] { 3d, 1d });
-        u.addValue(new double[] { 4d, 1d });
-        u.addValue(new double[] { 5d, 1d });
-        Assert.assertFalse(t.equals(u));
-        Assert.assertFalse(u.equals(t));
-        Assert.assertTrue(u.hashCode() != t.hashCode());
-
-        //Add data in same order to t
-        t.addValue(new double[] { 2d, 1d });
-        t.addValue(new double[] { 1d, 1d });
-        t.addValue(new double[] { 3d, 1d });
-        t.addValue(new double[] { 4d, 1d });
-        t.addValue(new double[] { 5d, 1d });
-        Assert.assertTrue(t.equals(u));
-        Assert.assertTrue(u.equals(t));
-        Assert.assertEquals(u.hashCode(), t.hashCode());
-
-        // Clear and make sure summaries are indistinguishable from empty summary
-        u.clear();
-        t.clear();
-        Assert.assertTrue(t.equals(u));
-        Assert.assertTrue(u.equals(t));
-        Assert.assertEquals(emptyHash, t.hashCode());
-        Assert.assertEquals(emptyHash, u.hashCode());
-    }
 }

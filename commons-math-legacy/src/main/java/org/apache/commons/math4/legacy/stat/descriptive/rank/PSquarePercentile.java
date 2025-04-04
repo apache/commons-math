@@ -18,7 +18,6 @@ package org.apache.commons.math4.legacy.stat.descriptive.rank;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -123,44 +122,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      */
     PSquarePercentile() {
         this(DEFAULT_QUANTILE_DESIRED);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        double result = getResult();
-        result = Double.isNaN(result) ? 37 : result;
-        final double markersHash = markers == null ? 0 : markers.hashCode();
-        final double[] toHash = {result, quantile, markersHash, countOfObservations};
-        return Arrays.hashCode(toHash);
-    }
-
-    /**
-     * Returns true iff {@code o} is a {@code PSquarePercentile} returning the.
-     * same values as this for {@code getResult()} and {@code getN()} and also
-     * having equal markers
-     *
-     * @param o object to compare
-     * @return true if {@code o} is a {@code PSquarePercentile} with
-     * equivalent internal state
-     */
-    @Override
-    public boolean equals(Object o) {
-        boolean result = false;
-        if (this == o) {
-            result = true;
-        } else if (o instanceof PSquarePercentile) {
-            PSquarePercentile that = (PSquarePercentile) o;
-            boolean isNotNull = markers != null && that.markers != null;
-            boolean isNull = markers == null && that.markers == null;
-            result = isNotNull ? markers.equals(that.markers) : isNull;
-            // markers as in the case of first
-            // five observations
-            result = result && getN() == that.getN();
-        }
-        return result;
     }
 
     /**
@@ -376,33 +337,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
                     new Marker(initialFive.get(2), 1 + 4 * p, p, 3),
                     new Marker(initialFive.get(3), 3 + 2 * p, (1 + p) / 2, 4),
                     new Marker(initialFive.get(4), 5, 1, 5) };
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int hashCode() {
-            return Arrays.deepHashCode(markerArray);
-        }
-
-        /**
-         * {@inheritDoc}.This equals method basically checks for marker array to
-         * be deep equals.
-         *
-         * @param o is the other object
-         * @return true if the object compares with this object are equivalent
-         */
-        @Override
-        public boolean equals(Object o) {
-            boolean result = false;
-            if (this == o) {
-                result = true;
-            } else if (o instanceof Markers) {
-                Markers that = (Markers) o;
-                result = Arrays.deepEquals(markerArray, that.markerArray);
-            }
-            return result;
         }
 
         /**
@@ -752,49 +686,6 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         }
 
         /**
-         * {@inheritDoc}<i>This equals method checks for marker attributes and
-         * as well checks if navigation pointers (next and previous) are the same
-         * between this and passed in object</i>
-         *
-         * @param o Other object
-         * @return true if this equals passed in other object o
-         */
-        @Override
-        public boolean equals(Object o) {
-            boolean result = false;
-            if (this == o) {
-                result = true;
-            } else if (o instanceof Marker) {
-                Marker that = (Marker) o;
-
-                result = Double.compare(markerHeight, that.markerHeight) == 0;
-                result =
-                        result &&
-                                Double.compare(intMarkerPosition,
-                                        that.intMarkerPosition) == 0;
-                result =
-                        result &&
-                                Double.compare(desiredMarkerPosition,
-                                        that.desiredMarkerPosition) == 0;
-                result =
-                        result &&
-                                Double.compare(desiredMarkerIncrement,
-                                        that.desiredMarkerIncrement) == 0;
-
-                result = result && next.index == that.next.index;
-                result = result && previous.index == that.previous.index;
-            }
-            return result;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public int hashCode() {
-            return Arrays.hashCode(new double[] {markerHeight, intMarkerPosition,
-                desiredMarkerIncrement, desiredMarkerPosition, previous.index, next.index});
-        }
-
-        /**
          * Copy this instance.
          *
          * @return a new instance.
@@ -878,7 +769,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
      * @param p the quantile desired
      * @return an instance of PSquareMarkers
      */
-    public static PSquareMarkers newMarkers(final List<Double> initialFive, final double p) {
+    static PSquareMarkers newMarkers(final List<Double> initialFive, final double p) {
         return new Markers(initialFive, p);
     }
 
