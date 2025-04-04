@@ -21,12 +21,11 @@ import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
 
 /**
- * Computes the arithmetic mean of a set of values. Uses the definitional
- * formula:
+ * Computes the weighted mean of a set of values. Uses the formula:
  * <p>
- * mean = sum(x_i) / n
+ * mean = sum(w_i * x_i) / sum(w_i)
  * </p>
- * <p>where <code>n</code> is the number of observations.
+ * <p>where <code>w_i</code> is the weight for observation <code>x_i</code>.
  * </p>
  * <p> If used to compute the mean of an array
  * of stored values, a two-pass, corrected algorithm is used, starting with
@@ -41,11 +40,22 @@ import org.apache.commons.math4.legacy.stat.descriptive.WeightedEvaluation;
  *  values.
  * </p>
  */
-public class Mean implements WeightedEvaluation {
+public final class WeightedMean implements WeightedEvaluation {
+    /** An instance. */
+    private static final WeightedMean INSTANCE = new WeightedMean();
 
-    /** Constructs a Mean. */
-    public Mean() {
+    /** Create an instance. */
+    private WeightedMean() {
         // Do nothing
+    }
+
+    /**
+     * Gets an instance.
+     *
+     * @return an instance
+     */
+    public static WeightedMean getInstance() {
+        return INSTANCE;
     }
 
     /**
@@ -55,7 +65,7 @@ public class Mean implements WeightedEvaluation {
      * <p>
      * Throws <code>IllegalArgumentException</code> if either array is null.</p>
      * <p>
-     * See {@link Mean} for details on the computing algorithm. The two-pass algorithm
+     * See {@link WeightedMean} for details on the computing algorithm. The two-pass algorithm
      * described above is used here, with weights applied in computing both the original
      * estimate and the correction factor.</p>
      * <p>
@@ -102,7 +112,7 @@ public class Mean implements WeightedEvaluation {
      * <p>
      * Throws <code>MathIllegalArgumentException</code> if either array is null.</p>
      * <p>
-     * See {@link Mean} for details on the computing algorithm. The two-pass algorithm
+     * See {@link WeightedMean} for details on the computing algorithm. The two-pass algorithm
      * described above is used here, with weights applied in computing both the original
      * estimate and the correction factor.</p>
      * <p>

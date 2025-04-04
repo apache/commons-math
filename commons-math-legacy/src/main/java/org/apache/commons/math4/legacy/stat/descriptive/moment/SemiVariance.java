@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.stat.descriptive.moment;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.stat.descriptive.AbstractUnivariateStatistic;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
@@ -35,8 +36,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  *
  * <p>The cutoff value defaults to the mean, bias correction defaults to <code>true</code>
  * and the "variance direction" (upside or downside) defaults to downside.  The variance direction
- * and bias correction may be set using property setters or their values can provided as
- * parameters to {@link #evaluate(double[], double, Direction, boolean, int, int)}.</p>
+ * and bias correction may be set using property setters.</p>
  *
  * <p>If the input array is null, <code>evaluate</code> methods throw
  * <code>IllegalArgumentException.</code>  If the array has length 1, <code>0</code>
@@ -50,18 +50,6 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * @since 2.1
  */
 public class SemiVariance extends AbstractUnivariateStatistic {
-
-    /**
-     * The UPSIDE Direction is used to specify that the observations above the
-     * cutoff point will be used to calculate SemiVariance.
-     */
-    public static final Direction UPSIDE_VARIANCE = Direction.UPSIDE;
-
-    /**
-     * The DOWNSIDE Direction is used to specify that the observations below.
-     * the cutoff point will be used to calculate SemiVariance
-     */
-    public static final Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
 
     /**
      * Determines whether or not bias correction is applied when computing the
@@ -79,56 +67,7 @@ public class SemiVariance extends AbstractUnivariateStatistic {
      * property and default (Downside) <code>varianceDirection</code> property.
      */
     public SemiVariance() {
-    }
-
-    /**
-     * Constructs a SemiVariance with the specified <code>biasCorrected</code>
-     * property and default (Downside) <code>varianceDirection</code> property.
-     *
-     * @param biasCorrected  setting for bias correction - true means
-     * bias will be corrected and is equivalent to using the "no arg"
-     * constructor
-     */
-    public SemiVariance(final boolean biasCorrected) {
-        this.biasCorrected = biasCorrected;
-    }
-
-    /**
-     * Constructs a SemiVariance with the specified <code>Direction</code> property.
-     * and default (true) <code>biasCorrected</code> property
-     *
-     * @param direction  setting for the direction of the SemiVariance
-     * to calculate
-     */
-    public SemiVariance(final Direction direction) {
-        this.varianceDirection = direction;
-    }
-
-    /**
-     * Constructs a SemiVariance with the specified <code>isBiasCorrected</code>
-     * property and the specified <code>Direction</code> property.
-     *
-     * @param corrected  setting for bias correction - true means
-     * bias will be corrected and is equivalent to using the "no arg"
-     * constructor
-     *
-     * @param direction  setting for the direction of the SemiVariance
-     * to calculate
-     */
-    public SemiVariance(final boolean corrected, final Direction direction) {
-        this.biasCorrected = corrected;
-        this.varianceDirection = direction;
-    }
-
-    /**
-     * Copy constructor, creates a new {@code SemiVariance} identical
-     * to the {@code original}.
-     *
-     * @param original the {@code SemiVariance} instance to copy
-     * @throws NullArgumentException  if original is null
-     */
-    public SemiVariance(final SemiVariance original) throws NullArgumentException {
-        copy(original, this);
+        // Do nothing
     }
 
     /**
@@ -137,25 +76,9 @@ public class SemiVariance extends AbstractUnivariateStatistic {
     @Override
     public SemiVariance copy() {
         SemiVariance result = new SemiVariance();
-        // No try-catch or advertised exception because args are guaranteed non-null
-        copy(this, result);
+        result.biasCorrected = biasCorrected;
+        result.varianceDirection = varianceDirection;
         return result;
-    }
-
-    /**
-     * Copies source to dest.
-     * <p>Neither source nor dest can be null.</p>
-     *
-     * @param source SemiVariance to copy
-     * @param dest SemiVariance to copy to
-     * @throws NullArgumentException if either source or dest is null
-     */
-    public static void copy(final SemiVariance source, SemiVariance dest)
-        throws NullArgumentException {
-        NullArgumentException.check(source);
-        NullArgumentException.check(dest);
-        dest.biasCorrected = source.biasCorrected;
-        dest.varianceDirection = source.varianceDirection;
     }
 
     /**
@@ -177,24 +100,7 @@ public class SemiVariance extends AbstractUnivariateStatistic {
          throws MathIllegalArgumentException {
          MathArrays.verifyValues(values, start, length);
          double m = org.apache.commons.statistics.descriptive.Mean.ofRange(values, start, start + length).getAsDouble();
-         return evaluate(values, m, varianceDirection, biasCorrected, 0, values.length);
-     }
-
-     /**
-      * This method calculates {@link SemiVariance} for the entire array against the mean, using
-      * the current value of the biasCorrection instance property.
-      *
-      * @param values the input array
-      * @param direction the {@link Direction} of the semivariance
-      * @return the SemiVariance
-      * @throws MathIllegalArgumentException if values is null
-      *
-      */
-     public double evaluate(final double[] values, Direction direction)
-         throws MathIllegalArgumentException {
-         MathArrays.verifyValues(values, 0, 0);
-         double m = org.apache.commons.statistics.descriptive.Mean.of(values).getAsDouble();
-         return evaluate(values, m, direction, biasCorrected, 0, values.length);
+         return compute(values, m, varianceDirection, biasCorrected, start, length);
      }
 
      /**
@@ -211,25 +117,10 @@ public class SemiVariance extends AbstractUnivariateStatistic {
       */
      public double evaluate(final double[] values, final double cutoff)
          throws MathIllegalArgumentException {
-         return evaluate(values, cutoff, varianceDirection, biasCorrected, 0, values.length);
-     }
-
-     /**
-      * <p>Returns the {@link SemiVariance} of the designated values against the cutoff in the
-      * given direction, using the current value of the biasCorrection instance property.</p>
-      *
-      * <p>Returns <code>NaN</code> if the array is empty and throws
-      * <code>MathIllegalArgumentException</code> if the array is null.</p>
-      *
-      * @param values the input array
-      * @param cutoff the reference point
-      * @param direction the {@link Direction} of the semivariance
-      * @return the SemiVariance
-      * @throws MathIllegalArgumentException if values is null
-      */
-     public double evaluate(final double[] values, final double cutoff, final Direction direction)
-         throws MathIllegalArgumentException {
-         return evaluate(values, cutoff, direction, biasCorrected, 0, values.length);
+         if (values == null) {
+             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+         }
+         return compute(values, cutoff, varianceDirection, biasCorrected, 0, values.length);
      }
 
      /**
@@ -241,42 +132,57 @@ public class SemiVariance extends AbstractUnivariateStatistic {
       *
       * @param values the input array
       * @param cutoff the reference point
-      * @param direction the {@link Direction} of the semivariance
-      * @param corrected the BiasCorrection flag
       * @param start index of the first array element to include
       * @param length the number of elements to include
       * @return the SemiVariance
       * @throws MathIllegalArgumentException if the parameters are not valid
       *
       */
-     public double evaluate (final double[] values, final double cutoff, final Direction direction,
-                             final boolean corrected, final int start, final int length)
+     public double evaluate(final double[] values, final double cutoff, final int start, final int length)
          throws MathIllegalArgumentException {
-
          MathArrays.verifyValues(values, start, length);
-         if (values.length == 0) {
+         return compute(values, cutoff, varianceDirection, biasCorrected, start, length);
+     }
+
+     /**
+      * <p>Returns the {@link SemiVariance} of the designated values against the cutoff
+      * in the given direction with the provided bias correction.</p>
+      *
+      * <p>Returns <code>NaN</code> if the array is empty.</p>
+      *
+      * @param values the input array
+      * @param cutoff the reference point
+      * @param direction the {@link Direction} of the semivariance
+      * @param corrected the BiasCorrection flag
+      * @param start index of the first array element to include
+      * @param length the number of elements to include
+      * @return the SemiVariance
+      */
+     private static double compute(double[] values, double cutoff, Direction direction,
+             boolean corrected, int start, int length) {
+         // Arguments must have been validated
+         if (length == 0) {
              return Double.NaN;
-         } else {
-             if (values.length == 1) {
-                 return 0.0;
-             } else {
-                 final boolean booleanDirection = direction.getDirection();
+         }
+         if (length == 1) {
+             return 0.0;
+         }
+         final boolean booleanDirection = direction.getDirection();
 
-                 double dev = 0.0;
-                 double sumsq = 0.0;
-                 for (int i = start; i < length; i++) {
-                     if ((values[i] > cutoff) == booleanDirection) {
-                         dev = values[i] - cutoff;
-                         sumsq += dev * dev;
-                     }
-                 }
-
-                 if (corrected) {
-                     return sumsq / (length - 1.0);
-                 } else {
-                     return sumsq / length;
-                 }
+         double dev = 0.0;
+         double sumsq = 0.0;
+         final int end = start + length;
+         for (int i = start; i < end; i++) {
+             if ((values[i] > cutoff) == booleanDirection) {
+                 dev = values[i] - cutoff;
+                 sumsq += dev * dev;
              }
+         }
+
+         if (corrected) {
+             return sumsq / (length - 1.0);
+         } else {
+             return sumsq / length;
          }
      }
 

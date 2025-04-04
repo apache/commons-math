@@ -228,9 +228,6 @@ public final class StatUtils {
      * is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.
-     * <p>
-     * See {@link org.apache.commons.math4.legacy.stat.descriptive.moment.Mean Mean} for
-     * details on the computing algorithm.
      *
      * @param values the input array
      * @param begin index of the first array element to include
