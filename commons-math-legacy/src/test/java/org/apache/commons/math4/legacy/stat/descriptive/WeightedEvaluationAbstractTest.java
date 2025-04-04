@@ -43,11 +43,13 @@ public abstract class WeightedEvaluationAbstractTest {
     protected double std = JdkMath.sqrt(variance);
 
     protected double product = 628096400563833396009676.9200400128d;
+    protected double sum = 272.90d;
 
     protected double weightedMean = 12.366995073891626d;
     protected double weightedVariance = 9.974760968886391d;
     protected double weightedStd = JdkMath.sqrt(weightedVariance);
     protected double weightedProduct = 8517647448765288000000d;
+    protected double weightedSum = 251.05d;
 
     protected double tolerance = 10E-12;
 
