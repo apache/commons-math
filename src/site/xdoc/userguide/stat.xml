@@ -113,8 +113,8 @@
             sum, sum of squares, standard deviation, variance, percentiles, skewness,
             kurtosis, median</td><td>Yes</td><td>Yes</td></tr><tr><td>
             <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/stat/descriptive/SummaryStatistics.html">
-            SummaryStatistics</a></td><td>min, max, mean, geometric mean, n,
-            sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
+            SummaryStatistics</a></td><td>min, max, mean, n,
+            sum, standard deviation, variance</td><td>No</td><td>No</td></tr>
           </table>
         </p>
         <p>

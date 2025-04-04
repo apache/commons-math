@@ -265,7 +265,6 @@ public class DescriptiveStatisticsTest {
             TestUtils.assertEquals(org.apache.commons.statistics.descriptive.Mean.of(values).getAsDouble(), dstats.getMean(), tol);
             TestUtils.assertEquals(dstats.getMax(), sstats.getMax(), tol);
             TestUtils.assertEquals(Arrays.stream(values).max().orElse(-1.23), dstats.getMax(), tol);
-            TestUtils.assertEquals(dstats.getGeometricMean(), sstats.getGeometricMean(), tol);
             TestUtils.assertEquals(org.apache.commons.statistics.descriptive.GeometricMean.of(values).getAsDouble(), dstats.getGeometricMean(), tol);
             TestUtils.assertEquals(dstats.getMin(), sstats.getMin(), tol);
             TestUtils.assertEquals(Arrays.stream(values).min().orElse(-1.23), dstats.getMin(), tol);
@@ -274,7 +273,6 @@ public class DescriptiveStatisticsTest {
             TestUtils.assertEquals(org.apache.commons.statistics.descriptive.Variance.of(values).getAsDouble(), dstats.getVariance(), tol);
             TestUtils.assertEquals(dstats.getSum(), sstats.getSum(), tol);
             TestUtils.assertEquals(org.apache.commons.statistics.descriptive.Sum.of(values).getAsDouble(), dstats.getSum(), tol);
-            TestUtils.assertEquals(dstats.getSumsq(), sstats.getSumsq(), tol);
             TestUtils.assertEquals(org.apache.commons.statistics.descriptive.SumOfSquares.of(values).getAsDouble(), dstats.getSumsq(), tol);
         }
     }
