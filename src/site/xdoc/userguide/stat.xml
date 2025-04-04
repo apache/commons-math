@@ -41,21 +41,24 @@
       </subsection>
       <subsection name="1.2 Descriptive statistics">
         <p>
-          The stat package includes a framework and default implementations for
-           the following Descriptive statistics:
-          <ul>
-            <li>arithmetic and geometric means</li>
-            <li>variance and standard deviation</li>
-            <li>sum, product, log sum, sum of squared values</li>
-            <li>minimum, maximum, median, and percentiles</li>
-            <li>skewness and kurtosis</li>
-            <li>first, second, third and fourth moments</li>
-          </ul>
+          Univariate statistics are now available in the
+          <a href="https://commons.apache.org/proper/commons-statistics/userguide/index.html">
+          Commons Statistics</a> component in the <code>commons-statistics-descriptive</code> module.
+          The Commons Statistics API supports Java streams for <code>double</code>, <code>int</code>
+          and <code>long</code> values and computation on corresponding data types for
+          arrays and array ranges. Integer type specialisations are used where possible
+          for increased accuracy and performance over using <code>double</code> values.
         </p>
         <p>
-          With the exception of percentiles and the median, all of these
-          statistics can be computed without maintaining the full list of input
-          data values in memory.  The stat package provides interfaces and
+          Many implementations found in previous versions of Commons Math have been removed
+          as their functionality is entirely superceded by Commons Statistics.
+          The summary statistic functionality in Commons Math now
+          uses Commons Statistics to compute the results.
+          The statistics framework is maintained to support the remaining functionality in
+          Commons Math described in the following sections.
+        </p>
+        <p>
+          The stat package provides framework interfaces for
           implementations that do not require value storage as well as
           implementations that operate on arrays of stored values.
         </p>
@@ -63,7 +66,7 @@
           The top level interface is
           <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/stat/descriptive/UnivariateStatistic.html">
           UnivariateStatistic</a>.
-          This interface, implemented by all statistics, consists of
+          This interface consists of
           <code>evaluate()</code> methods that take double[] arrays as arguments
           and return the value of the statistic.   This interface is extended by
           <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/stat/descriptive/StorelessUnivariateStatistic.html">
@@ -81,12 +84,10 @@
           AbstractStorelessUnivariateStatistic</a> respectively.
         </p>
         <p>
-          Each statistic is implemented as a separate class, in one of the
+          Statistic implementations are provided as a separate class, in one of the
           subpackages (moment, rank, summary) and each extends one of the abstract
           classes above (depending on whether or not value storage is required to
-          compute the statistic). There are several ways to instantiate and use statistics.
-          Statistics can be instantiated and used directly,  but it is generally more convenient
-          (and efficient) to access them using the provided aggregates,
+          compute the statistic). Computation of multiple statistics is performed by
           <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/stat/descriptive/DescriptiveStatistics.html">
            DescriptiveStatistics</a> and
            <a href="../commons-math-docs/apidocs/org/apache/commons/math4/legacy/stat/descriptive/SummaryStatistics.html">
@@ -115,6 +116,12 @@
             SummaryStatistics</a></td><td>min, max, mean, geometric mean, n,
             sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
           </table>
+        </p>
+        <p>
+           Both <code>DescriptiveStatistics</code> and <code>SummaryStatistics</code> allow
+           the implementation for the statistic to be changed. This requires an instance
+           of either <code>UnivariateStatistic</code> or <code>StorelessUnivariateStatistic</code>
+           respectively.
         </p>
         <p>
           <code>SummaryStatistics</code> can be aggregated using
