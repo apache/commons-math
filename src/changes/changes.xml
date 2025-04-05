@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="erans" type="add" issue="MATH-1650" due-to="Michael Scholz">
+        New class: "ClampedSplineInterpolator".
+      </action>
       <action dev="aherbert" type="update" issue="MATH-1671">
         Update o.a.c.m.legacy.stat.descriptive package. Functionality has been
         partially transferred to Commons Statistics descriptive.
