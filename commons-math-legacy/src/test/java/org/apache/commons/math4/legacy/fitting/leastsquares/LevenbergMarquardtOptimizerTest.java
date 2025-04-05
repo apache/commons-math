@@ -270,7 +270,7 @@ public class LevenbergMarquardtOptimizerTest
         // Check that the parameters are found within the assumed error bars.
         Assert.assertEquals("Delta=" + 2 * asymptoticStandardErrorFound[0], xCenter, paramFound[0], 2 * asymptoticStandardErrorFound[0]);
         Assert.assertEquals("Delta=" + 2 * asymptoticStandardErrorFound[1], yCenter, paramFound[1], 2 * asymptoticStandardErrorFound[1]);
-        Assert.assertEquals("Delta=" + 2 * asymptoticStandardErrorFound[2], radius, paramFound[2], asymptoticStandardErrorFound[2]);
+        Assert.assertEquals("Delta=" + 2 * asymptoticStandardErrorFound[2], radius, paramFound[2], 2 * asymptoticStandardErrorFound[2]);
     }
 
     @Test
