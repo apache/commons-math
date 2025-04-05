@@ -27,6 +27,7 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -36,13 +37,10 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
 import org.apache.commons.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math4.random.HaltonSequenceGenerator;
-import org.apache.commons.math4.random.RandomVectorGenerator;
-import org.apache.commons.math4.random.SobolSequenceGenerator;
-import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
-import org.apache.commons.math4.random.UniformRandomGenerator;
-import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Pair;
+import org.apache.commons.math4.legacy.random.HaltonSequenceGenerator;
+import org.apache.commons.math4.legacy.random.SobolSequenceGenerator;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
 /**
@@ -50,10 +48,10 @@ import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
  */
 public class LowDiscrepancyGeneratorComparison {
 
-    public static List<Vector2D> makeCircle(int samples, final RandomVectorGenerator generator) {
+    public static List<Vector2D> makeCircle(int samples, final Supplier<double[]> generator) {
         List<Vector2D> points = new ArrayList<>();
         for (double i = 0; i < samples; i++) {
-            double[] vector = generator.nextVector();
+            double[] vector = generator.get();
             Vector2D point = Vector2D.of(vector);
             points.add(point);
         }
@@ -64,7 +62,7 @@ public class LowDiscrepancyGeneratorComparison {
         // now test if the sample is within the unit circle
         List<Vector2D> circlePoints = new ArrayList<>();
         for (Vector2D p : points) {
-            double criteria = FastMath.pow(p.getX(), 2) + FastMath.pow(p.getY(), 2);
+            double criteria = JdkMath.pow(p.getX(), 2) + JdkMath.pow(p.getY(), 2);
             if (criteria < 1.0) {
                 circlePoints.add(p);
             }
@@ -73,10 +71,10 @@ public class LowDiscrepancyGeneratorComparison {
         return circlePoints;
     }
 
-    public static List<Vector2D> makeRandom(int samples, RandomVectorGenerator generator) {
+    public static List<Vector2D> makeRandom(int samples, Supplier<double[]> generator) {
         List<Vector2D> points = new ArrayList<>();
         for (double i = 0; i < samples; i++) {
-            double[] vector = generator.nextVector();
+            double[] vector = generator.get();
             Vector2D point = Vector2D.of(vector);
             points.add(point);
         }
@@ -89,19 +87,19 @@ public class LowDiscrepancyGeneratorComparison {
         double minX = Double.MAX_VALUE;
         double maxX = Double.MIN_VALUE;
         for (Vector2D p : input) {
-            minX = FastMath.min(minX, p.getX());
-            maxX = FastMath.max(maxX, p.getX());
+            minX = JdkMath.min(minX, p.getX());
+            maxX = JdkMath.max(maxX, p.getX());
         }
 
         double minY, maxY;
 
         // use the minimum to detect if we either have input values in the range [0, 1] or [-sqrt(3), sqrt(3)]
-        if (FastMath.abs(minX) < 0.1) {
+        if (JdkMath.abs(minX) < 0.1) {
             minX = minY = 0.0;
             maxX = maxY = 1.0;
         } else {
-            minX = minY = -FastMath.sqrt(3);
-            maxX = maxY = FastMath.sqrt(3);
+            minX = minY = -JdkMath.sqrt(3);
+            maxX = maxY = JdkMath.sqrt(3);
         }
 
         double rangeX = maxX - minX;
@@ -127,18 +125,17 @@ public class LowDiscrepancyGeneratorComparison {
             setLayout(new GridBagLayout());
 
             int[] datasets = new int[] { 256, 1000, 2500, 1000 };
-            List<Pair<String, RandomVectorGenerator>> generators = new ArrayList<Pair<String, RandomVectorGenerator>>();
+            List<Pair<String, ? extends Supplier<double[]>>> generators = new ArrayList<>();
 
-            generators.add(new Pair<>("Uncorrelated\nUniform(JDK)",
-                                      new UncorrelatedRandomVectorGenerator(2, new UniformRandomGenerator(RandomSource.create(RandomSource.JDK)))));
-            generators.add(new Pair<>("Independent\nRandom(MT)", new RandomVectorGenerator() {
+            generators.add(new Pair<>("Independent\nRandom(MT)", new Supplier<double[]>() {
 
                 final UniformRandomProvider[] rngs = new UniformRandomProvider[] {
                     RandomSource.create(RandomSource.MT, 123456789),
                     RandomSource.create(RandomSource.MT, 987654321)
                 };
 
-                public double[] nextVector() {
+                @Override
+                public double[] get() {
                     final double[] vector = new double[2];
                     vector[0] = rngs[0].nextDouble();
                     vector[1] = rngs[1].nextDouble();
@@ -155,7 +152,7 @@ public class LowDiscrepancyGeneratorComparison {
             c.gridy = 0;
             c.insets = new Insets(2, 2, 2, 2);
 
-            for (Pair<String, RandomVectorGenerator> pair : generators) {
+            for (Pair<String, ? extends Supplier<double[]>> pair : generators) {
                 JTextArea text = new JTextArea(pair.getFirst());
                 text.setEditable(false);
                 text.setOpaque(false);
@@ -176,7 +173,7 @@ public class LowDiscrepancyGeneratorComparison {
             for (int type = 0; type < 4; type++) {
                 c.gridx = 1;
 
-                for (Pair<String, RandomVectorGenerator> pair : generators) {
+                for (Pair<String, ? extends Supplier<double[]>> pair : generators) {
                     List<Vector2D> points = null;
                     int samples = datasets[type];
                     switch (type) {

@@ -24,9 +24,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.InvalidRepresentationException;
+import org.apache.commons.math4.legacy.genetics.AbstractListChromosome;
+import org.apache.commons.math4.legacy.genetics.Chromosome;
+import org.apache.commons.math4.legacy.genetics.InvalidRepresentationException;
 
 /**
  * A simple chromosome representing a list of polygons.

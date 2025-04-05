@@ -23,18 +23,18 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.genetics.AbstractListChromosome;
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ElitisticListPopulation;
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.genetics.InvalidRepresentationException;
-import org.apache.commons.math4.genetics.MutationPolicy;
-import org.apache.commons.math4.genetics.OnePointCrossover;
-import org.apache.commons.math4.genetics.Population;
-import org.apache.commons.math4.genetics.StoppingCondition;
-import org.apache.commons.math4.genetics.TournamentSelection;
-import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
+import org.apache.commons.math4.legacy.genetics.AbstractListChromosome;
+import org.apache.commons.math4.legacy.genetics.Chromosome;
+import org.apache.commons.math4.legacy.genetics.ElitisticListPopulation;
+import org.apache.commons.math4.legacy.genetics.GeneticAlgorithm;
+import org.apache.commons.math4.legacy.genetics.InvalidRepresentationException;
+import org.apache.commons.math4.legacy.genetics.MutationPolicy;
+import org.apache.commons.math4.legacy.genetics.OnePointCrossover;
+import org.apache.commons.math4.legacy.genetics.Population;
+import org.apache.commons.math4.legacy.genetics.StoppingCondition;
+import org.apache.commons.math4.legacy.genetics.TournamentSelection;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 public class HelloWorldExample {
@@ -132,7 +132,7 @@ public class HelloWorldExample {
             for (int i = 0, c = target.length(); i < c; i++) {
                 // subtract the ascii difference between the target character and the chromosome character.
                 // Thus 'c' is fitter than 'd' when compared to 'a'.
-                f -= FastMath.abs(target.charAt(i) - chromosome.get(i).charValue());
+                f -= JdkMath.abs(target.charAt(i) - chromosome.get(i).charValue());
             }
             return f;
         }

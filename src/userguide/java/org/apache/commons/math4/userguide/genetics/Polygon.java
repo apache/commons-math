@@ -23,8 +23,8 @@ import java.awt.geom.GeneralPath;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
 
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.legacy.genetics.GeneticAlgorithm;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
  * Represents a fixed size polgon with its fill color.
@@ -60,7 +60,7 @@ public class Polygon {
         p.data[0] = random.nextFloat(); // r
         p.data[1] = random.nextFloat(); // g
         p.data[2] = random.nextFloat(); // b
-        p.data[3] = FastMath.max(0.2f, random.nextFloat() * random.nextFloat()); // a
+        p.data[3] = JdkMath.max(0.2f, random.nextFloat() * random.nextFloat()); // a
 
         float px = random.nextFloat();
         float py = random.nextFloat();

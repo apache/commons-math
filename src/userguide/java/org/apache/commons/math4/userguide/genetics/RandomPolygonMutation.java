@@ -19,8 +19,8 @@ package org.apache.commons.math4.userguide.genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.MutationPolicy;
+import org.apache.commons.math4.legacy.genetics.Chromosome;
+import org.apache.commons.math4.legacy.genetics.MutationPolicy;
 
 public class RandomPolygonMutation implements MutationPolicy {
 

@@ -41,16 +41,16 @@ import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.geometry.euclidean.twod.Vector2D;
 
-import org.apache.commons.math4.ml.clustering.Cluster;
-import org.apache.commons.math4.ml.clustering.Clusterable;
-import org.apache.commons.math4.ml.clustering.Clusterer;
-import org.apache.commons.math4.ml.clustering.DBSCANClusterer;
-import org.apache.commons.math4.ml.clustering.DoublePoint;
-import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
-import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
-import org.apache.commons.math4.random.SobolSequenceGenerator;
-import org.apache.commons.math4.util.FastMath;
-import org.apache.commons.math4.util.Pair;
+import org.apache.commons.math4.legacy.ml.clustering.Cluster;
+import org.apache.commons.math4.legacy.ml.clustering.Clusterable;
+import org.apache.commons.math4.legacy.ml.clustering.Clusterer;
+import org.apache.commons.math4.legacy.ml.clustering.DBSCANClusterer;
+import org.apache.commons.math4.legacy.ml.clustering.DoublePoint;
+import org.apache.commons.math4.legacy.ml.clustering.FuzzyKMeansClusterer;
+import org.apache.commons.math4.legacy.ml.clustering.KMeansPlusPlusClusterer;
+import org.apache.commons.math4.legacy.random.SobolSequenceGenerator;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
+import org.apache.commons.math4.legacy.core.Pair;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
 /**
@@ -69,13 +69,13 @@ public class ClusterAlgorithmComparison {
             throw new IllegalArgumentException();
         }
 
-        ContinuousDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
+        ContinuousDistribution.Sampler dist = NormalDistribution.of(0.0, noise).createSampler(rng);
 
         List<Vector2D> points = new ArrayList<>();
-        double range = 2.0 * FastMath.PI;
+        double range = 2.0 * JdkMath.PI;
         double step = range / (samples / 2.0 + 1);
         for (double angle = 0; angle < range; angle += step) {
-            Vector2D outerCircle = Vector2D.of(FastMath.cos(angle), FastMath.sin(angle));
+            Vector2D outerCircle = Vector2D.of(JdkMath.cos(angle), JdkMath.sin(angle));
             Vector2D innerCircle = outerCircle.multiply(factor);
 
             points.add(outerCircle.add(generateNoiseVector(dist)));
@@ -93,22 +93,22 @@ public class ClusterAlgorithmComparison {
                                            boolean shuffle,
                                            double noise,
                                            UniformRandomProvider rng) {
-        ContinuousDistribution.Sampler dist = new NormalDistribution(0.0, noise).createSampler(rng);
+        ContinuousDistribution.Sampler dist = NormalDistribution.of(0.0, noise).createSampler(rng);
 
         int nSamplesOut = samples / 2;
         int nSamplesIn = samples - nSamplesOut;
 
         List<Vector2D> points = new ArrayList<>();
-        double range = FastMath.PI;
+        double range = JdkMath.PI;
         double step = range / (nSamplesOut / 2.0);
         for (double angle = 0; angle < range; angle += step) {
-            Vector2D outerCircle = Vector2D.of(FastMath.cos(angle), FastMath.sin(angle));
+            Vector2D outerCircle = Vector2D.of(JdkMath.cos(angle), JdkMath.sin(angle));
             points.add(outerCircle.add(generateNoiseVector(dist)));
         }
 
         step = range / (nSamplesIn / 2.0);
         for (double angle = 0; angle < range; angle += step) {
-            Vector2D innerCircle = Vector2D.of(1 - FastMath.cos(angle), 1 - FastMath.sin(angle) - 0.5);
+            Vector2D innerCircle = Vector2D.of(1 - JdkMath.cos(angle), 1 - JdkMath.sin(angle) - 0.5);
             points.add(innerCircle.add(generateNoiseVector(dist)));
         }
 
@@ -126,8 +126,8 @@ public class ClusterAlgorithmComparison {
                                            double max,
                                            boolean shuffle,
                                            UniformRandomProvider rng) {
-        ContinuousDistribution.Sampler uniform = new UniformContinuousDistribution(min, max).createSampler(rng);
-        ContinuousDistribution.Sampler gauss = new NormalDistribution(0.0, clusterStd).createSampler(rng);
+        ContinuousDistribution.Sampler uniform = UniformContinuousDistribution.of(min, max).createSampler(rng);
+        ContinuousDistribution.Sampler gauss = NormalDistribution.of(0.0, clusterStd).createSampler(rng);
 
         Vector2D[] centerPoints = new Vector2D[centers];
         for (int i = 0; i < centers; i++) {
@@ -161,7 +161,7 @@ public class ClusterAlgorithmComparison {
         generator.skipTo(999999);
         List<Vector2D> points = new ArrayList<>();
         for (double i = 0; i < samples; i++) {
-            double[] vector = generator.nextVector();
+            double[] vector = generator.get();
             vector[0] = vector[0] * 2 - 1;
             vector[1] = vector[1] * 2 - 1;
             Vector2D point = Vector2D.of(vector);
@@ -205,25 +205,20 @@ public class ClusterAlgorithmComparison {
 
             final long seed = RandomSource.createLong(); // Random seed.
             UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C, seed);
-            List<List<DoublePoint>> datasets = new ArrayList<List<DoublePoint>>();
+            List<List<DoublePoint>> datasets = new ArrayList<>();
 
             datasets.add(normalize(makeCircles(nSamples, true, 0.04, 0.5, rng), -1, 1, -1, 1));
             datasets.add(normalize(makeMoons(nSamples, true, 0.04, rng), -1, 2, -1, 1));
             datasets.add(normalize(makeBlobs(nSamples, 3, 1.0, -10, 10, true, rng), -12, 12, -12, 12));
             datasets.add(normalize(makeRandom(nSamples), -1, 1, -1, 1));
 
-            List<Pair<String, Clusterer<DoublePoint>>> algorithms = new ArrayList<>();
+            List<Pair<String, ? extends Clusterer<DoublePoint>>> algorithms = new ArrayList<>();
 
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=2)",
-                                                                    new KMeansPlusPlusClusterer<>(2)));
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("KMeans\n(k=3)",
-                                                                    new KMeansPlusPlusClusterer<>(3)));
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=2)",
-                                                                    new FuzzyKMeansClusterer<>(3, 2)));
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("FuzzyKMeans\n(k=3, fuzzy=10)",
-                                                                    new FuzzyKMeansClusterer<>(3, 10)));
-            algorithms.add(new Pair<String, Clusterer<DoublePoint>>("DBSCAN\n(eps=.1, min=3)",
-                                                                    new DBSCANClusterer<>(0.1, 3)));
+            algorithms.add(new Pair<>("KMeans\n(k=2)", new KMeansPlusPlusClusterer<DoublePoint>(2)));
+            algorithms.add(new Pair<>("KMeans\n(k=3)", new KMeansPlusPlusClusterer<DoublePoint>(3)));
+            algorithms.add(new Pair<>("FuzzyKMeans\n(k=3, fuzzy=2)", new FuzzyKMeansClusterer<DoublePoint>(3, 2)));
+            algorithms.add(new Pair<>("FuzzyKMeans\n(k=3, fuzzy=10)", new FuzzyKMeansClusterer<DoublePoint>(3, 10)));
+            algorithms.add(new Pair<>("DBSCAN\n(eps=.1, min=3)", new DBSCANClusterer<DoublePoint>(0.1, 3)));
 
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.VERTICAL;
@@ -231,7 +226,7 @@ public class ClusterAlgorithmComparison {
             c.gridy = 0;
             c.insets = new Insets(2, 2, 2, 2);
 
-            for (Pair<String, Clusterer<DoublePoint>> pair : algorithms) {
+            for (Pair<String, ? extends Clusterer<DoublePoint>> pair : algorithms) {
                 JLabel text = new JLabel("<html><body>" + pair.getFirst().replace("\n", "<br>"));
                 add(text, c);
                 c.gridx++;
@@ -240,7 +235,7 @@ public class ClusterAlgorithmComparison {
 
             for (List<DoublePoint> dataset : datasets) {
                 c.gridx = 0;
-                for (Pair<String, Clusterer<DoublePoint>> pair : algorithms) {
+                for (Pair<String, ? extends Clusterer<DoublePoint>> pair : algorithms) {
                     long start = System.currentTimeMillis();
                     List<? extends Cluster<DoublePoint>> clusters = pair.getSecond().cluster(dataset);
                     long end = System.currentTimeMillis();

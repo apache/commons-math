@@ -35,12 +35,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import org.apache.commons.math4.genetics.Chromosome;
-import org.apache.commons.math4.genetics.ElitisticListPopulation;
-import org.apache.commons.math4.genetics.GeneticAlgorithm;
-import org.apache.commons.math4.genetics.Population;
-import org.apache.commons.math4.genetics.TournamentSelection;
-import org.apache.commons.math4.genetics.UniformCrossover;
+import org.apache.commons.math4.legacy.genetics.Chromosome;
+import org.apache.commons.math4.legacy.genetics.ElitisticListPopulation;
+import org.apache.commons.math4.legacy.genetics.GeneticAlgorithm;
+import org.apache.commons.math4.legacy.genetics.Population;
+import org.apache.commons.math4.legacy.genetics.TournamentSelection;
+import org.apache.commons.math4.legacy.genetics.UniformCrossover;
 import org.apache.commons.math4.userguide.ExampleUtils;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 

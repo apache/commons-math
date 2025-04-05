@@ -27,17 +27,17 @@ import javax.swing.JPanel;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.rng.sampling.distribution.BoxMullerNormalizedGaussianSampler;
 
-import org.apache.commons.math4.filter.DefaultMeasurementModel;
-import org.apache.commons.math4.filter.DefaultProcessModel;
-import org.apache.commons.math4.filter.KalmanFilter;
-import org.apache.commons.math4.filter.MeasurementModel;
-import org.apache.commons.math4.filter.ProcessModel;
-import org.apache.commons.math4.linear.MatrixUtils;
-import org.apache.commons.math4.linear.RealMatrix;
-import org.apache.commons.math4.linear.RealVector;
-import org.apache.commons.math4.random.GaussianRandomGenerator;
-import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.legacy.filter.DefaultMeasurementModel;
+import org.apache.commons.math4.legacy.filter.DefaultProcessModel;
+import org.apache.commons.math4.legacy.filter.KalmanFilter;
+import org.apache.commons.math4.legacy.filter.MeasurementModel;
+import org.apache.commons.math4.legacy.filter.ProcessModel;
+import org.apache.commons.math4.legacy.linear.MatrixUtils;
+import org.apache.commons.math4.legacy.linear.RealMatrix;
+import org.apache.commons.math4.legacy.linear.RealVector;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.userguide.ExampleUtils;
 import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
@@ -61,21 +61,21 @@ public class CannonballExample {
         private final double timeslice;
         private final double measurementNoise;
 
-        private final GaussianRandomGenerator rng;
+        private final BoxMullerNormalizedGaussianSampler rng;
 
         public Cannonball(double timeslice, double angle, double initialVelocity, double measurementNoise, int seed) {
             this.timeslice = timeslice;
 
-            final double angleInRadians = FastMath.toRadians(angle);
+            final double angleInRadians = JdkMath.toRadians(angle);
             this.velocity = new double[] {
-                    initialVelocity * FastMath.cos(angleInRadians),
-                    initialVelocity * FastMath.sin(angleInRadians)
+                    initialVelocity * JdkMath.cos(angleInRadians),
+                    initialVelocity * JdkMath.sin(angleInRadians)
             };
 
             this.location = new double[] { 0, 0 };
 
             this.measurementNoise = measurementNoise;
-            this.rng = new GaussianRandomGenerator(RandomSource.create(RandomSource.WELL_19937_C, seed));
+            this.rng = new BoxMullerNormalizedGaussianSampler(RandomSource.create(RandomSource.WELL_19937_C, seed));
         }
 
         public double getX() {
@@ -87,11 +87,11 @@ public class CannonballExample {
         }
 
         public double getMeasuredX() {
-            return location[0] + rng.nextNormalizedDouble() * measurementNoise;
+            return location[0] + rng.sample() * measurementNoise;
         }
 
         public double getMeasuredY() {
-            return location[1] + rng.nextNormalizedDouble() * measurementNoise;
+            return location[1] + rng.sample() * measurementNoise;
         }
 
         public double getXVelocity() {

@@ -16,14 +16,13 @@
  */
 package org.apache.commons.math4.userguide;
 
-import org.apache.commons.math4.PerfTestUtils;
-import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * Performance benchmark for FastMath.
+ * Performance benchmark for JdkMath.
  *
  */
-public class FastMathTestPerformance {
+public class JdkMathTestPerformance {
     private static final int RUNS = Integer.parseInt(System.getProperty("testRuns","10000000"));
     private static final double F1 = 1d / RUNS;
 
@@ -34,7 +33,7 @@ public class FastMathTestPerformance {
 
     public static void main(String[] args) {
         System.out.println(String.format(FMT_HDR,
-                                         "Name","StrictMath","FastMath","Math",RUNS,
+                                         "Name","StrictMath","JdkMath","Math",RUNS,
                                          System.getProperty("java.version"),
                                          System.getProperty("java.runtime.version","?"),
                                          System.getProperty("java.vm.name"),
@@ -57,7 +56,7 @@ public class FastMathTestPerformance {
         testPow();
         testSin();
         testSinh();
-        testSqrt();
+        // testSqrt(); // Not implemented
         testTan();
         testTanh();
         testIEEEremainder();
@@ -93,7 +92,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.log(0.01 + i);
+            x += JdkMath.log(0.01 + i);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -119,7 +118,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.log10(0.01 + i);
+            x += JdkMath.log10(0.01 + i);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -145,7 +144,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.log1p(-0.9 + i);
+            x += JdkMath.log1p(-0.9 + i);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -171,7 +170,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.pow(0.01 + i * F1, i * F1);
+            x += JdkMath.pow(0.01 + i * F1, i * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -196,7 +195,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.exp(100 * i * F1);
+            x += JdkMath.exp(100 * i * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -222,7 +221,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.sin(100 * (i - RUNS/2) * F1);
+            x += JdkMath.sin(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -248,7 +247,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.asin(0.999 * (i - RUNS/2) * F1);
+            x += JdkMath.asin(0.999 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -274,7 +273,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.cos(100 * (i - RUNS/2) * F1);
+            x += JdkMath.cos(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -300,7 +299,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.acos(0.999 * (i - RUNS/2) * F1);
+            x += JdkMath.acos(0.999 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -325,7 +324,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.tan(100 * (i - RUNS/2) * F1);
+            x += JdkMath.tan(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -351,7 +350,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.atan(100 * (i - RUNS/2) * F1);
+            x += JdkMath.atan(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -369,7 +368,7 @@ public class FastMathTestPerformance {
     private static void testAtan2() {
         double x = 0;
         long time = System.nanoTime();
-        int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
+        int max   = (int) JdkMath.floor(Math.sqrt(RUNS));
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
                 x += StrictMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
@@ -381,7 +380,7 @@ public class FastMathTestPerformance {
         time = System.nanoTime();
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
-                x += FastMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+                x += JdkMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
             }
         }
         long fastTime = System.nanoTime() - time;
@@ -402,7 +401,7 @@ public class FastMathTestPerformance {
     private static void testHypot() {
         double x = 0;
         long time = System.nanoTime();
-        int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
+        int max   = (int) JdkMath.floor(Math.sqrt(RUNS));
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
                 x += StrictMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
@@ -414,7 +413,7 @@ public class FastMathTestPerformance {
         time = System.nanoTime();
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
-                x += FastMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+                x += JdkMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
             }
         }
         long fastTime = System.nanoTime() - time;
@@ -435,7 +434,7 @@ public class FastMathTestPerformance {
     private static void testIEEEremainder() {
         double x = 0;
         long time = System.nanoTime();
-        int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
+        int max   = (int) JdkMath.floor(Math.sqrt(RUNS));
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
                 x += StrictMath.IEEEremainder((i - max/2) * (100.0 / max), (j + 1) * (100.0 / max));
@@ -447,7 +446,7 @@ public class FastMathTestPerformance {
         time = System.nanoTime();
         for (int i = 0; i < max; i++) {
             for (int j = 0; j < max; j++) {
-                x += FastMath.IEEEremainder((i - max/2) * (100.0 / max), (j + 1) * (100.0 / max));
+                x += JdkMath.IEEEremainder((i - max/2) * (100.0 / max), (j + 1) * (100.0 / max));
             }
         }
         long fastTime = System.nanoTime() - time;
@@ -476,7 +475,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.cbrt(100 * i * F1);
+            x += JdkMath.cbrt(100 * i * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -491,31 +490,32 @@ public class FastMathTestPerformance {
         assertTrue(!Double.isNaN(x));
     }
 
-    private static void testSqrt() {
-        double x = 0;
-        long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++) {
-            x += StrictMath.sqrt(100 * i * F1);
-        }
-        long strictTime = System.nanoTime() - time;
+    // Function "sqrt" is not implemented in "JdkMath".
+    // private static void testSqrt() {
+    //     double x = 0;
+    //     long time = System.nanoTime();
+    //     for (int i = 0; i < RUNS; i++) {
+    //         x += StrictMath.sqrt(100 * i * F1);
+    //     }
+    //     long strictTime = System.nanoTime() - time;
 
-        x = 0;
-        time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++) {
-            x += FastMath.sqrt(100 * i * F1);
-        }
-        long fastTime = System.nanoTime() - time;
+    //     x = 0;
+    //     time = System.nanoTime();
+    //     for (int i = 0; i < RUNS; i++) {
+    //         x += JdkMath.sqrt(100 * i * F1); // Not implemented
+    //     }
+    //     long fastTime = System.nanoTime() - time;
 
-        x = 0;
-        time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++) {
-            x += Math.sqrt(100 * i * F1);
-        }
-        long mathTime = System.nanoTime() - time;
+    //     x = 0;
+    //     time = System.nanoTime();
+    //     for (int i = 0; i < RUNS; i++) {
+    //         x += Math.sqrt(100 * i * F1);
+    //     }
+    //     long mathTime = System.nanoTime() - time;
 
-        report("sqrt",strictTime,fastTime,mathTime);
-        assertTrue(!Double.isNaN(x));
-    }
+    //     report("sqrt",strictTime,fastTime,mathTime);
+    //     assertTrue(!Double.isNaN(x));
+    // }
 
     private static void testCosh() {
         double x = 0;
@@ -528,7 +528,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.cosh(100 * (i - RUNS/2) * F1);
+            x += JdkMath.cosh(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -554,7 +554,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.sinh(100 * (i - RUNS/2) * F1);
+            x += JdkMath.sinh(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -580,7 +580,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.tanh(100 * (i - RUNS/2) * F1);
+            x += JdkMath.tanh(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -606,7 +606,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.expm1(100 * (i - RUNS/2) * F1);
+            x += JdkMath.expm1(100 * (i - RUNS/2) * F1);
         }
         long fastTime = System.nanoTime() - time;
 
@@ -631,7 +631,7 @@ public class FastMathTestPerformance {
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++) {
-            x += FastMath.abs(i * (1 - 0.5 * RUNS));
+            x += JdkMath.abs(i * (1 - 0.5 * RUNS));
         }
         long fastTime = System.nanoTime() - time;
 
@@ -650,7 +650,7 @@ public class FastMathTestPerformance {
     private static void testSimpleBenchmark() {
         final String SM = "StrictMath";
         final String M = "Math";
-        final String FM = "FastMath";
+        final String FM = "JdkMath";
 
         final int maxWidth = 15;
         final int numStat = 100;
@@ -679,7 +679,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.log(x);
+                                            return JdkMath.log(x);
                                         }
                                     });
 
@@ -703,7 +703,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.log10(x);
+                                            return JdkMath.log10(x);
                                         }
                                     });
 
@@ -727,7 +727,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.log1p(x);
+                                            return JdkMath.log1p(x);
                                         }
                                     });
 
@@ -751,7 +751,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.pow(x, y);
+                                            return JdkMath.pow(x, y);
                                         }
                                     });
 
@@ -775,7 +775,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.exp(x);
+                                            return JdkMath.exp(x);
                                         }
                                     });
 
@@ -799,7 +799,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.sin(x);
+                                            return JdkMath.sin(x);
                                         }
                                     });
 
@@ -823,7 +823,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.asin(x);
+                                            return JdkMath.asin(x);
                                         }
                                     });
 
@@ -847,7 +847,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.cos(x);
+                                            return JdkMath.cos(x);
                                         }
                                     });
 
@@ -871,7 +871,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.acos(x);
+                                            return JdkMath.acos(x);
                                         }
                                     });
 
@@ -895,7 +895,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.tan(x);
+                                            return JdkMath.tan(x);
                                         }
                                     });
 
@@ -919,7 +919,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.atan(x);
+                                            return JdkMath.atan(x);
                                         }
                                     });
 
@@ -943,7 +943,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.atan2(x, y);
+                                            return JdkMath.atan2(x, y);
                                         }
                                     });
 
@@ -967,7 +967,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.hypot(x, y);
+                                            return JdkMath.hypot(x, y);
                                         }
                                     });
 
@@ -992,7 +992,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.cbrt(x);
+                                            return JdkMath.cbrt(x);
                                         }
                                     });
 
@@ -1016,7 +1016,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.sqrt(x);
+                                            return JdkMath.sqrt(x);
                                         }
                                     });
 
@@ -1040,7 +1040,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.cosh(x);
+                                            return JdkMath.cosh(x);
                                         }
                                     });
 
@@ -1064,7 +1064,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.sinh(x);
+                                            return JdkMath.sinh(x);
                                         }
                                     });
 
@@ -1088,7 +1088,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.tanh(x);
+                                            return JdkMath.tanh(x);
                                         }
                                     });
 
@@ -1112,7 +1112,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.expm1(x);
+                                            return JdkMath.expm1(x);
                                         }
                                     });
 
@@ -1136,7 +1136,7 @@ public class FastMathTestPerformance {
                                     new PerfTestUtils.RunTest(FM) {
                                         @Override
                                         public Double call() throws Exception {
-                                            return FastMath.abs(x);
+                                            return JdkMath.abs(x);
                                         }
                                     });
     }

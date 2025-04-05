@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math4.legacy;
+package org.apache.commons.math4.userguide;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -53,7 +53,7 @@ public final class PerfTestUtils {
     /** Default number of code repeats for computing the average run time. */
     private static final int DEFAULT_REPEAT_STAT = 10000;
     /** RNG. */
-    private static UniformRandomProvider rng = RandomSource.WELL_19937_C.create();
+    private static UniformRandomProvider rng = RandomSource.create(RandomSource.WELL_19937_C);
 
     /** No instances. */
     private PerfTestUtils() {}
