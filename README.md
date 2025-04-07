@@ -46,7 +46,7 @@ Apache Commons Math
 [![Build Status](https://github.com/apache/commons-math/actions/workflows/maven.yml/badge.svg)](https://github.com/apache/commons-math/actions/workflows/maven.yml)
 [![Coverage Status](https://codecov.io/gh/apache/commons-math/branch/master/graph/badge.svg)](https://app.codecov.io/gh/apache/commons-math)
 <!--
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math4-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-math4-parent/)
+[![Maven Central](https://img.shields.io/maven-central/v/org.apache.commons/commons-math4-bom?label=Maven%20Central)](https://search.maven.org/artifact/org.apache.commons/commons-math4-bom/)
 -->
 <!--
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-math4-parent/4.0.svg)](https://javadoc.io/doc/org.apache.commons/commons-math4-parent/4.0)
