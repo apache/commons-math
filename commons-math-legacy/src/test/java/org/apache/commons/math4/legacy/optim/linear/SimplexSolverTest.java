@@ -1047,7 +1047,6 @@ public class SimplexSolverTest {
 
         final PointValuePair resultOriginal = solve(c, constraints);
         final double z1 = resultOriginal.getValue();
-        System.out.println("z1=" + z1); // XXX REMOVE
 
         final List<LinearConstraint> shiftedConstraints = new ArrayList<>();
         for (LinearConstraint cons : constraints) {
