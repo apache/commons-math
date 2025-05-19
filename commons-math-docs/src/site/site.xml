@@ -15,9 +15,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="Math">
-  <bannerRight>
-    <name>Apache Commons Math</name>
+<site name="Math"
+  xmlns="http://maven.apache.org/SITE/2.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd">
+  <!-- Use a full URL allows a correct banner for the modules. -->
+  <bannerRight name="Apache Commons Math" href="https://commons.apache.org/proper/commons-math/index.html">
+    <image src="https://commons.apache.org/proper/commons-math/images/commons_math.small.png"/>
   </bannerRight>
 
   <body>
@@ -28,4 +32,4 @@
     </menu>
 
   </body>
-</project>
+</site>

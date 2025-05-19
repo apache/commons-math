@@ -20,7 +20,7 @@
  TODO: get this generated somehow from the "real" site.xml
  so it does not have to be maintained separately.
 -->
-<project name="Math">
+<site name="Math">
   <skin>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-skin</artifactId>
@@ -48,4 +48,4 @@
     </menu>
 
   </body>
-</project>
+</site>

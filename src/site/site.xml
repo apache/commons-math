@@ -15,11 +15,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="Math">
-  <bannerRight>
-    <name>Commons Math</name>
-    <src>https://commons.apache.org/proper/commons-math/images/commons_math.small.png</src>
-    <href>https://commons.apache.org/proper/commons-math</href>
+<site name="Math">
+  <bannerRight name="Apache Commons Math" href="/index.html">
+    <image src="/images/commons_math.small.png"/>
   </bannerRight>
 
   <body>
@@ -71,4 +69,4 @@
     </menu>
 
   </body>
-</project>
+</site>
