@@ -173,7 +173,8 @@
     <!-- Allowed for algorithm implementations. -->
     <!-- <module name="InnerAssignment" /> -->
     <!-- <module name="MagicNumber" /> -->
-    <module name="MissingSwitchDefault" />
+    <!-- Switch statements checked using PMD ExhaustiveSwitchHasDefault. -->
+    <!-- <module name="MissingSwitchDefault" /> -->
     <module name="MultipleVariableDeclarations" />
     <module name="SimplifyBooleanExpression" />
     <module name="SimplifyBooleanReturn" />
