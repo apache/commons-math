@@ -47,6 +47,13 @@
     <Class name="org.apache.commons.math4.core.jdkmath.AccurateMath$CodyWaite"/>
     <BugPattern name="CNT_ROUGH_CONSTANT_VALUE"/>
   </Match>
+  <Match>
+    <!-- The DfpField is shared by instances of Dfp computing with the same radix.
+       Any multi-threaded computations will share the same ieeeFlags used for
+       the most recent error code. -->
+    <Class name="org.apache.commons.math4.legacy.core.dfp.DfpField"/>
+    <BugPattern name="AT_STALE_THREAD_WRITE_OF_PRIMITIVE"/>
+  </Match>
 
   <!-- Disable checks for exposure of internal references.
        TODO: Revise this to use more targeted exclusions. -->
