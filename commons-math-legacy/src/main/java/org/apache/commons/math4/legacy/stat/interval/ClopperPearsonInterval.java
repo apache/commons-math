@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math4.legacy.stat.interval;
 
-import org.apache.commons.statistics.distribution.FDistribution;
+import org.apache.commons.statistics.distribution.BetaDistribution;
 
 /**
  * Implements the Clopper-Pearson method for creating a binomial proportion confidence interval.
@@ -37,22 +37,17 @@ public class ClopperPearsonInterval implements BinomialConfidenceInterval {
         double lowerBound = 0;
         double upperBound = 1;
 
-        final double alpha = 0.5 * (1 - confidenceLevel);
+        // alpha = 1 - confidence level
+        final double halfAlpha = 0.5 * (1 - confidenceLevel);
+        final int n = numberOfTrials;
+        final int x = numberOfSuccesses;
 
         if (numberOfSuccesses > 0) {
-            final FDistribution distributionLowerBound = FDistribution.of(2.0 * (numberOfTrials - numberOfSuccesses + 1),
-                                                                          2.0 * numberOfSuccesses);
-            final double fValueLowerBound = distributionLowerBound.inverseSurvivalProbability(alpha);
-            lowerBound = numberOfSuccesses /
-                (numberOfSuccesses + (numberOfTrials - numberOfSuccesses + 1) * fValueLowerBound);
+            lowerBound = BetaDistribution.of(x, n - x + 1).inverseCumulativeProbability(halfAlpha);
         }
 
         if (numberOfSuccesses < numberOfTrials) {
-            final FDistribution distributionUpperBound = FDistribution.of(2.0 * (numberOfSuccesses + 1),
-                                                                          2.0 * (numberOfTrials - numberOfSuccesses));
-            final double fValueUpperBound = distributionUpperBound.inverseSurvivalProbability(alpha);
-            upperBound = (numberOfSuccesses + 1) * fValueUpperBound /
-                (numberOfTrials - numberOfSuccesses + (numberOfSuccesses + 1) * fValueUpperBound);
+            upperBound = BetaDistribution.of(x + 1, n - x).inverseSurvivalProbability(halfAlpha);
         }
 
         return new ConfidenceInterval(lowerBound, upperBound, confidenceLevel);

@@ -92,16 +92,32 @@ public class ClopperPearsonIntervalTest extends BinomialConfidenceIntervalAbstra
         check(expected, createBinomialConfidenceInterval().createInterval(trials, successes, confidenceLevel));
     }
 
+    @Test
+    public void testCase4() {
+        final int successes = 20;
+        final int trials = 400;
+        final double confidenceLevel = 0.95;
+
+        // Check using scipy.stats.beta
+        // k, n, alpha = 20, 400, 0.05
+        // p_l, p_u = beta.ppf([alpha / 2, 1 - alpha / 2], [k, k + 1], [n - k + 1, n - k])
+        final ConfidenceInterval expected = new ConfidenceInterval(0.030805241143265938,
+                                                                   0.07616697275514255,
+                                                                   confidenceLevel);
+
+        check(expected, createBinomialConfidenceInterval().createInterval(trials, successes, confidenceLevel));
+    }
+
     private void check(ConfidenceInterval expected,
                        ConfidenceInterval actual) {
         final double relTol = 1.0e-6; // Reasonable relative tolerance for floating point comparison
         // Compare bounds using a relative tolerance
         Assert.assertEquals(expected.getLowerBound(),
                             actual.getLowerBound(),
-                            relTol * (1.0 + Math.abs(expected.getLowerBound())));
+                            relTol * expected.getLowerBound());
         Assert.assertEquals(expected.getUpperBound(),
                             actual.getUpperBound(),
-                            relTol * (1.0 + Math.abs(expected.getUpperBound())));
+                            relTol * expected.getUpperBound());
         // The confidence level must be exact
         Assert.assertEquals(expected.getConfidenceLevel(),
                             actual.getConfidenceLevel(),
