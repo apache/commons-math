@@ -36,7 +36,7 @@ public class AgrestiCoullInterval implements BinomialConfidenceInterval {
         final double alpha = (1.0 - confidenceLevel) / 2;
         final NormalDistribution normalDistribution = NormalDistribution.of(0, 1);
         final double z = normalDistribution.inverseSurvivalProbability(alpha);
-        final double zSquared = JdkMath.pow(z, 2);
+        final double zSquared = z * z;
         final double modifiedNumberOfTrials = numberOfTrials + zSquared;
         final double modifiedSuccessesRatio = (1.0 / modifiedNumberOfTrials) * (numberOfSuccesses + 0.5 * zSquared);
         final double difference = z *
