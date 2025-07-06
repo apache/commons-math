@@ -123,7 +123,7 @@
   </modules>
 
   <scm>
-    <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-math.git</connection>
+    <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-math.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-math.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf/commons-math.git</url>
   </scm>
