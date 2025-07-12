@@ -234,6 +234,10 @@ public class ElkanKMeansPlusPlusClusterer<T extends Clusterable>
             sumSqDist += minDistances[i];
         }
 
+        if (sumSqDist == 0d) { // MATH-1683.
+            throw new IllegalArgumentException("All points are identical");
+        }
+
         while (++idx < k) {
             final double p = sumSqDist * random.nextDouble();
             int next = 0;
@@ -252,7 +256,6 @@ public class ElkanKMeansPlusPlusClusterer<T extends Clusterable>
 
         return result;
     }
-
 
     /**
      * Once initial centers are chosen, we can actually go through data points and assign points to the

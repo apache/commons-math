@@ -112,6 +112,19 @@ public class ElkanKMeansPlusPlusClustererTest {
         Assert.assertArrayEquals(mean.getResult(), clusters.get(0).getCenter().getPoint(), 1e-6);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testAllPointsIdentical() {
+        final DoublePoint p = new DoublePoint(new double[] {0.0, 0.0});
+        // Create 4 identical points.
+        final List<DoublePoint> points = Arrays.asList(p, p, p, p);
+
+        // Attempt to cluster into 2 clusters.
+        ElkanKMeansPlusPlusClusterer<DoublePoint> clusterer =
+            new ElkanKMeansPlusPlusClusterer<>(2);
+
+        clusterer.cluster(points);
+    }
+
     /**
      * Generates a list of random uncorrelated points to cluster.
      *
