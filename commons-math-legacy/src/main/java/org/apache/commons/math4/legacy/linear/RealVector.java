@@ -1139,7 +1139,9 @@ public abstract class RealVector {
             dim = getDimension();
             current = new Entry();
             next = new Entry();
-            if (next.getValue() == 0) {
+
+            if (dim > 0 &&
+                next.getValue() == 0) {
                 advance(next);
             }
         }
@@ -1164,6 +1166,10 @@ public abstract class RealVector {
         /** {@inheritDoc} */
         @Override
         public boolean hasNext() {
+            if (dim <= 0) {
+                return false;
+            }
+
             return next.getIndex() >= 0;
         }
 

@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="erans" type="fix" issue="MATH-1682" due-to="Ruiqi Dong">
+        "SparseEntryIterator": Prevent exception upon iterating an empty vector.
+      </action>
       <action dev="erans" type="add" issue="MATH-1650" due-to="Michael Scholz">
         New class: "ClampedSplineInterpolator".
       </action>

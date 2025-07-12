@@ -218,6 +218,12 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
+    public void testSparseIteratorEmptyVector() {
+        final RealVector v = create(new double[0]);
+        Assert.assertFalse(v.sparseIterator().hasNext());
+    }
+
+    @Test
     @Ignore("Abstract class RealVector is not serializable.")
     @Override
     public void testSerial() {
