@@ -29,6 +29,7 @@ import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.exception.MathParseException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 public abstract class ComplexFormatAbstractTest {
@@ -405,5 +406,13 @@ public abstract class ComplexFormatAbstractTest {
         ParsePosition pos = new ParsePosition(0);
         Assert.assertNull(new ComplexFormat().parse("1 + 1", pos));
         Assert.assertEquals(5, pos.getErrorIndex());
+    }
+
+    // MATH-1681.
+    @Test(expected=MathParseException.class)
+    public void testParseMissingImaginaryCharacter() {
+        ComplexFormat format = new ComplexFormat();
+        String invalidComplex = "3 + 5";
+        format.parse(invalidComplex);
     }
 }

@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="erans" type="fix" issue="MATH-1681" due-to="Ruiqi Dong">
+        "ComplexFormat": Throw exception when parsing fails.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1683" due-to="Ruiqi Dong">
         "ElkanKMeansPlusPlusClusterer": More explicit error message.
       </action>
