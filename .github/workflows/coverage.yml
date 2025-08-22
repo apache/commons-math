@@ -53,6 +53,6 @@ jobs:
       run: mvn --show-version --batch-mode --no-transfer-progress test jacoco:report-aggregate
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
+      uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
       with:
         files: ./docs-archive/target/site/jacoco-aggregate/jacoco.xml
