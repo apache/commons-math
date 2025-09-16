@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="update">
+        Removed o.a.c.m.legacy.stat.interval package. Functionality has been
+        transferred to Commons Statistics interval.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1681" due-to="Ruiqi Dong">
         "ComplexFormat": Throw exception when parsing fails.
       </action>
