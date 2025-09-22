@@ -99,44 +99,44 @@ public class FastHadamardTransform implements RealTransform {
      * <tr>
      *     <th>x<sub>1</sub></th>
      *     <td>a<sub>1</sub> = x<sub>2</sub> + x<sub>3</sub></td>
-     *     <td>b<sub>0</sub> = a<sub>2</sub> + a<sub>3</sub></td>
-     *     <td>y<sub>0</sub> = b<sub>2</sub> + b<sub>3</sub></td>
+     *     <td>b<sub>1</sub> = a<sub>2</sub> + a<sub>3</sub></td>
+     *     <td>y<sub>1</sub> = b<sub>2</sub> + b<sub>3</sub></td>
      * </tr>
      * <tr>
      *     <th>x<sub>2</sub></th>
      *     <td>a<sub>2</sub> = x<sub>4</sub> + x<sub>5</sub></td>
-     *     <td>b<sub>0</sub> = a<sub>4</sub> + a<sub>5</sub></td>
-     *     <td>y<sub>0</sub> = b<sub>4</sub> + b<sub>5</sub></td>
+     *     <td>b<sub>2</sub> = a<sub>4</sub> + a<sub>5</sub></td>
+     *     <td>y<sub>2</sub> = b<sub>4</sub> + b<sub>5</sub></td>
      * </tr>
      * <tr>
      *     <th>x<sub>3</sub></th>
      *     <td>a<sub>3</sub> = x<sub>6</sub> + x<sub>7</sub></td>
-     *     <td>b<sub>0</sub> = a<sub>6</sub> + a<sub>7</sub></td>
-     *     <td>y<sub>0</sub> = b<sub>6</sub> + b<sub>7</sub></td>
+     *     <td>b<sub>3</sub> = a<sub>6</sub> + a<sub>7</sub></td>
+     *     <td>y<sub>3</sub> = b<sub>6</sub> + b<sub>7</sub></td>
      * </tr>
      * <tr>
      *     <th>x<sub>4</sub></th>
-     *     <td>a<sub>0</sub> = x<sub>0</sub> - x<sub>1</sub></td>
-     *     <td>b<sub>0</sub> = a<sub>0</sub> - a<sub>1</sub></td>
-     *     <td>y<sub>0</sub> = b<sub>0</sub> - b<sub>1</sub></td>
+     *     <td>a<sub>4</sub> = x<sub>0</sub> - x<sub>1</sub></td>
+     *     <td>b<sub>4</sub> = a<sub>0</sub> - a<sub>1</sub></td>
+     *     <td>y<sub>4</sub> = b<sub>0</sub> - b<sub>1</sub></td>
      * </tr>
      * <tr>
      *     <th>x<sub>5</sub></th>
-     *     <td>a<sub>1</sub> = x<sub>2</sub> - x<sub>3</sub></td>
-     *     <td>b<sub>0</sub> = a<sub>2</sub> - a<sub>3</sub></td>
-     *     <td>y<sub>0</sub> = b<sub>2</sub> - b<sub>3</sub></td>
+     *     <td>a<sub>5</sub> = x<sub>2</sub> - x<sub>3</sub></td>
+     *     <td>b<sub>5</sub> = a<sub>2</sub> - a<sub>3</sub></td>
+     *     <td>y<sub>5</sub> = b<sub>2</sub> - b<sub>3</sub></td>
      * </tr>
      * <tr>
      *     <th>x<sub>6</sub></th>
-     *     <td>a<sub>2</sub> = x<sub>4</sub> - x<sub>5</sub></td>
-     *     <td>b<sub>0</sub> = a<sub>4</sub> - a<sub>5</sub></td>
-     *     <td>y<sub>0</sub> = b<sub>4</sub> - b<sub>5</sub></td>
+     *     <td>a<sub>6</sub> = x<sub>4</sub> - x<sub>5</sub></td>
+     *     <td>b<sub>6</sub> = a<sub>4</sub> - a<sub>5</sub></td>
+     *     <td>y<sub>6</sub> = b<sub>4</sub> - b<sub>5</sub></td>
      * </tr>
      * <tr>
      *     <th>x<sub>7</sub></th>
-     *     <td>a<sub>3</sub> = x<sub>6</sub> - x<sub>7</sub></td>
-     *     <td>b<sub>0</sub> = a<sub>6</sub> - a<sub>7</sub></td>
-     *     <td>y<sub>0</sub> = b<sub>6</sub> - b<sub>7</sub></td>
+     *     <td>a<sub>7</sub> = x<sub>6</sub> - x<sub>7</sub></td>
+     *     <td>b<sub>7</sub> = a<sub>6</sub> - a<sub>7</sub></td>
+     *     <td>y<sub>7</sub> = b<sub>6</sub> - b<sub>7</sub></td>
      * </tr>
      * </tbody>
      * </table>
