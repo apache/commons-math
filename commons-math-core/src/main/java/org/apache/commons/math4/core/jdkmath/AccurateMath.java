@@ -3077,164 +3077,242 @@ public final class AccurateMath {
     }
 
     /**
-     * Multiply a double number by a power of 2.
-     * @param d number to multiply
-     * @param n power of 2
-     * @return d &times; 2<sup>n</sup>
+     * Compute <code>2<sup>scaleFactor</sup> &times; d</code>.
+     * 
+     * @param d <code>d</code>
+     * @param scaleFactor <code>scaleFactor</code>
+     * @return <code>2<sup>scaleFactor</sup> &times; d</code>
      */
-    public static double scalb(final double d, final int n) {
+    public static double scalb(final double d, final int scaleFactor) {
 
-        // first simple and fast handling when 2^n can be represented using normal numbers
-        if ((n > -1023) && (n < 1024)) {
-            return d * Double.longBitsToDouble(((long) (n + 1023)) << 52);
-        }
+        final int sizeBits = 64;
+        final int fractionBits = 52;
+        final int implicitFractionBits = fractionBits + 1;
+        final int maximumExponent = Double.MAX_EXPONENT;
+        final int minimumExponent = Double.MIN_EXPONENT;
+        final int minumumSubnormalExponent = Double.MIN_EXPONENT - fractionBits;
+        final int exponentBias = 1023;
+        
+        final long signMask = 0x8000000000000000L;
+        final long exponentMask = 0x7FF0000000000000L;
+        final long fractionMask = 0xFFFFFFFFFFFFFL;
 
-        // handle special cases
-        if (Double.isNaN(d) || Double.isInfinite(d) || (d == 0)) {
+        // bit cast d. It is OK (and faster) to use raw because we will trap special values below.
+        final long bits = Double.doubleToRawLongBits(d);
+
+        // extract the exponent field.
+        final long exponentField = bits & exponentMask;
+
+        // return special values (NaN, +/-infinity) as-is.
+        if (exponentField == exponentMask) {            
             return d;
         }
-        if (n < -2098) {
-            return (d > 0) ? 0.0 : -0.0;
-        }
-        if (n > 2097) {
-            return (d > 0) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
-        }
 
-        // decompose d
-        final long bits = Double.doubleToRawLongBits(d);
-        final long sign = bits & 0x8000000000000000L;
-        int  exponent   = ((int) (bits >>> 52)) & 0x7ff;
-        long mantissa   = bits & 0x000fffffffffffffL;
+        // get the sign and normalized fraction fields, along with the unbiased exponent value.
+        // fraction will contain the fractional field value of a normalized double, i.e. without the
+        // implicit bit, even if the input value was subnormal. Exponent will contain the unbiased
+        // exponent value, even if the input is subnormal, i.e. we could not store the (biased)
+        // value of said exponent "directly" in the exponent field position.
+        final long signField = bits & signMask;
+        long fractionField = bits & fractionMask;
+        final long unbiasedExponentValue;
 
-        // compute scaled exponent
-        int scaledExponent = exponent + n;
+        if (exponentField != 0) {
 
-        if (n < 0) {
-            // we are really in the case n <= -1023
-            if (scaledExponent > 0) {
-                // both the input and the result are normal numbers, we only adjust the exponent
-                return Double.longBitsToDouble(sign | (((long) scaledExponent) << 52) | mantissa);
-            } else if (scaledExponent > -53) {
-                // the input is a normal number and the result is a subnormal number
-
-                // recover the hidden mantissa bit
-                mantissa |= 1L << 52;
-
-                // scales down complete mantissa, hence losing least significant bits
-                final long mostSignificantLostBit = mantissa & (1L << (-scaledExponent));
-                mantissa >>>= 1 - scaledExponent;
-                if (mostSignificantLostBit != 0) {
-                    // we need to add 1 bit to round up the result
-                    mantissa++;
-                }
-                return Double.longBitsToDouble(sign | mantissa);
-            } else {
-                // no need to compute the mantissa, the number scales down to 0
-                return (sign == 0L) ? 0.0 : -0.0;
-            }
+            // get the unbiased exponent. There's nothing to do with the fraction when the input is
+            // normal.
+            unbiasedExponentValue = ((exponentField >> fractionBits) - exponentBias);
         } else {
-            // we are really in the case n >= 1024
-            if (exponent == 0) {
 
-                // the input number is subnormal, normalize it
-                while ((mantissa >>> 52) != 1) {
-                    mantissa <<= 1;
-                    --scaledExponent;
-                }
-                ++scaledExponent;
-                mantissa &= 0x000fffffffffffffL;
-
-                if (scaledExponent < 2047) {
-                    return Double.longBitsToDouble(sign | (((long) scaledExponent) << 52) | mantissa);
-                } else {
-                    return (sign == 0L) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
-                }
-            } else if (scaledExponent < 2047) {
-                return Double.longBitsToDouble(sign | (((long) scaledExponent) << 52) | mantissa);
-            } else {
-                return (sign == 0L) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+            // trap 0, making sure to preserve signed zero.
+            if (fractionField == 0) {
+                return d;
             }
+
+            // d is subnormal. determine how much we have to shift to get the leading 1 into 
+            // implicit position.
+            final int shift = Long.numberOfLeadingZeros(fractionField) - (sizeBits - implicitFractionBits);
+
+            // shift and then kill off the implicit bit. fractionField now contains a normalized
+            // value.
+            fractionField = (fractionField << shift) & fractionMask;
+
+            // but remember to back this out of the exponent.
+            unbiasedExponentValue = minimumExponent - shift;
+        }
+
+        // compute the resulting (unbiased) exponent given the input value and scale factor.
+        final long resultExponent = unbiasedExponentValue + scaleFactor;
+
+        if ((minimumExponent <= resultExponent) && (resultExponent <= maximumExponent)) {
+
+            // result is a normal number, so just load the exponent. We already have the normal
+            // fraction field (even if the input was subnormal).
+            return Double.longBitsToDouble(signField | ((resultExponent + exponentBias) << fractionBits) | fractionField);
+        } else if (resultExponent >= maximumExponent) {
+
+            // overflow. Fraction of zero with the special exponent is an infinity.
+            return Double.longBitsToDouble(signField | exponentMask);
+        } else if (resultExponent < (minumumSubnormalExponent - 1)) {
+
+            // the result is closer to 0 than Double.MIN_VALUE: We will be shifting more than 2
+            // binary places past 2^-1074, so we will be less than 1/2 of distance between 0 and
+            // Double.MIN_VALUE. We need to return an appropriately signed zero.
+            return Double.longBitsToDouble(signField);
+        } else {
+
+            // the result will be subnormal or possibly underflow to zero.
+            // We know that -1075 <= resultExponent <= -1023 inside this block.
+
+            // add the implicit bit to the fraction.
+            fractionField |= 1L << fractionBits;
+            
+            // determine the number of bits that we are going to vaporize due to rounding.
+            long bitsLost = -resultExponent + minimumExponent;
+            
+            // capture a guard bit, meaning the last bit lost to rounding; and sticky bits,
+            // meaning everything else. (Unlike an FPU, we won't convert these to individual bits,
+            // but just leave them as longs.) Note that this still works when bitsLost = 1. The
+            // sticky mask will be zero - and thus the sticky bits will always be zero - but 
+            // this is correct.
+            long guardMask = (1L << (bitsLost - 1));
+            long stickyMask = guardMask - 1L;
+            long guard = fractionField & guardMask;
+            long sticky = fractionField & stickyMask; 
+             
+            // actually perform the shift.
+            fractionField >>= bitsLost;
+   
+            if ((guard != 0L) && ((sticky != 0L) || (fractionField & 1L) == 1L)) {
+                // if the guard is non-zero, then we rounded away at least 1/2 an ulp.
+                // We need to round up when:
+                // 1. We rounded away more than 1/2 an ulp. In this case, the sticky bits will be
+                // non-zero.
+                // 2. The resulting fraction is odd, since we are in ties-to-even.
+                fractionField++;
+            }
+
+            return Double.longBitsToDouble(signField | fractionField);
         }
     }
 
     /**
-     * Multiply a float number by a power of 2.
-     * @param f number to multiply
-     * @param n power of 2
-     * @return f &times; 2<sup>n</sup>
+     * Compute <code>2<sup>scaleFactor</sup> &times; d</code>.
+     * 
+     * @param d <code>d</code>
+     * @param scaleFactor <code>scaleFactor</code>
+     * @return <code>2<sup>scaleFactor</sup> &times d</code>
      */
-    public static float scalb(final float f, final int n) {
+    public static float scalb(final float d, final int scaleFactor) {
 
-        // first simple and fast handling when 2^n can be represented using normal numbers
-        if ((n > -127) && (n < 128)) {
-            return f * Float.intBitsToFloat((n + 127) << 23);
+        final int sizeBits = 32;
+        final int fractionBits = 23;
+        final int implicitFractionBits = fractionBits + 1;
+        final int maximumExponent = Float.MAX_EXPONENT;
+        final int minimumExponent = Float.MIN_EXPONENT;
+        final int minumumSubnormalExponent = Float.MIN_EXPONENT - fractionBits;
+        final int exponentBias = 127;
+               
+        final int signMask = 0x80000000;
+        final int exponentMask = 0x7F800000;
+        final int fractionMask = 0x7FFFFF;
+
+        // bit cast d. It is OK (and faster) to use raw because we will trap special values below.
+        final int bits = Float.floatToRawIntBits(d);
+
+        // extract the exponent field.
+        final int exponentField = bits & exponentMask;
+
+        // return special values (NaN, +/-infinity) as-is.
+        if (exponentField == exponentMask) {            
+            return d;
         }
 
-        // handle special cases
-        if (Float.isNaN(f) || Float.isInfinite(f) || (f == 0f)) {
-            return f;
-        }
-        if (n < -277) {
-            return (f > 0) ? 0.0f : -0.0f;
-        }
-        if (n > 276) {
-            return (f > 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
-        }
+        // get the sign and normalized fraction fields, aint with the unbiased exponent value.
+        // fraction will contain the fractional field value of a normalized float, i.e. without the
+        // implicit bit, even if the input value was subnormal. Exponent will contain the unbiased
+        // exponent value, even if the input is subnormal, i.e. we could not store the (biased)
+        // value of said exponent "directly" in the exponent field position.
+        final int signField = bits & signMask;
+        int fractionField = bits & fractionMask;
+        final int unbiasedExponentValue;
 
-        // decompose f
-        final int bits = Float.floatToIntBits(f);
-        final int sign = bits & 0x80000000;
-        int  exponent  = (bits >>> 23) & 0xff;
-        int mantissa   = bits & 0x007fffff;
+        if (exponentField != 0) {
 
-        // compute scaled exponent
-        int scaledExponent = exponent + n;
-
-        if (n < 0) {
-            // we are really in the case n <= -127
-            if (scaledExponent > 0) {
-                // both the input and the result are normal numbers, we only adjust the exponent
-                return Float.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);
-            } else if (scaledExponent > -24) {
-                // the input is a normal number and the result is a subnormal number
-
-                // recover the hidden mantissa bit
-                mantissa |= 1 << 23;
-
-                // scales down complete mantissa, hence losing least significant bits
-                final int mostSignificantLostBit = mantissa & (1 << (-scaledExponent));
-                mantissa >>>= 1 - scaledExponent;
-                if (mostSignificantLostBit != 0) {
-                    // we need to add 1 bit to round up the result
-                    mantissa++;
-                }
-                return Float.intBitsToFloat(sign | mantissa);
-            } else {
-                // no need to compute the mantissa, the number scales down to 0
-                return (sign == 0) ? 0.0f : -0.0f;
-            }
+            // get the unbiased exponent. There's nothing to do with the fraction when the input is
+            // normal.
+            unbiasedExponentValue = ((exponentField >> fractionBits) - exponentBias);
         } else {
-            // we are really in the case n >= 128
-            if (exponent == 0) {
 
-                // the input number is subnormal, normalize it
-                while ((mantissa >>> 23) != 1) {
-                    mantissa <<= 1;
-                    --scaledExponent;
-                }
-                ++scaledExponent;
-                mantissa &= 0x007fffff;
-
-                if (scaledExponent < 255) {
-                    return Float.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);
-                } else {
-                    return (sign == 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
-                }
-            } else if (scaledExponent < 255) {
-                return Float.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);
-            } else {
-                return (sign == 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
+            // trap 0, making sure to preserve signed zero.
+            if (fractionField == 0) {
+                return d;
             }
+
+            // d is subnormal. determine how much we have to shift to get the leading 1 into 
+            // implicit position.
+            final int shift = Integer.numberOfLeadingZeros(fractionField) - (sizeBits - implicitFractionBits);
+
+            // shift and then kill off the implicit bit. fractionField now contains a normalized
+            // value.
+            fractionField = (fractionField << shift) & fractionMask;
+
+            // but remember to back this out of the exponent.
+            unbiasedExponentValue = minimumExponent - shift;
+        }
+
+        // compute the resulting (unbiased) exponent given the input value and scale factor.
+        final int resultExponent = unbiasedExponentValue + scaleFactor;
+
+        if ((minimumExponent <= resultExponent) && (resultExponent <= maximumExponent)) {
+
+            // result is a normal number, so just load the exponent. We already have the normal
+            // fraction field (even if the input was subnormal).
+            return Float.intBitsToFloat(signField | ((resultExponent + exponentBias) << fractionBits) | fractionField);
+        } else if (resultExponent >= maximumExponent) {
+
+            // overflow. Fraction of zero with the special exponent is an infinity.
+            return Float.intBitsToFloat(signField | exponentMask);
+        } else if (resultExponent < (minumumSubnormalExponent - 1)) {
+
+            // the result is closer to 0 than float.MIN_VALUE: We will be shifting more than 2
+            // binary places past 2^-150, so we will be less than 1/2 of distance between 0 and
+            // float.MIN_VALUE. We need to return an appropriately signed zero.
+            return Float.intBitsToFloat(signField);
+        } else {
+
+            // the result will be subnormal or possibly underflow to zero.
+            // We know that -151 <= resultExponent <= -127 inside this block.
+
+            // add the implicit bit to the fraction.
+            fractionField |= 1 << fractionBits;
+            
+            // determine the number of bits that we are going to vaporize due to rounding.
+            int bitsLost = -resultExponent + minimumExponent;
+            
+            // capture a guard bit, meaning the last bit lost to rounding; and sticky bits,
+            // meaning everything else. (Unlike an FPU, we won't convert these to individual bits,
+            // but just leave them as ints.) Note that this still works when bitsLost = 1. The
+            // sticky mask will be zero - and thus the sticky bits will always be zero - but 
+            // this is correct.
+            int guardMask = (1 << (bitsLost - 1));
+            int stickyMask = guardMask - 1;
+            int guard = fractionField & guardMask;
+            int sticky = fractionField & stickyMask; 
+             
+            // actually perform the shift.
+            fractionField >>= bitsLost;
+   
+            if ((guard != 0) && ((sticky != 0) || (fractionField & 1) == 1)) {
+                // if the guard is non-zero, then we rounded away at least 1/2 an ulp.
+                // We need to round up when:
+                // 1. We rounded away more than 1/2 an ulp. In this case, the sticky bits will be
+                // non-zero.
+                // 2. The resulting fraction is odd, since we are in ties-to-even.
+                fractionField++;
+            }
+
+            return Float.intBitsToFloat(signField | fractionField);
         }
     }
 
