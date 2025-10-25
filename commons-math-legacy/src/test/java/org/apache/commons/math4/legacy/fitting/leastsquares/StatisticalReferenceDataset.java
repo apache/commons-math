@@ -233,7 +233,7 @@ public abstract class StatisticalReferenceDataset {
     }
 
     /**
-     * Returns the certified values of the paramters.
+     * Returns the certified values of the parameters.
      *
      * @return the values of the parameters
      */

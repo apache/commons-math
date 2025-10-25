@@ -198,7 +198,7 @@ public class PowellOptimizerTest {
         final double funcScaledValue = funcScaled.value(funcScaledResult.getPoint());
         final int funcScaledEvaluations = optim.getEvaluations();
 
-        // Check that both minima provide the same objective funciton values,
+        // Check that both minima provide the same objective function values,
         // within the relative function tolerance.
         Assert.assertEquals(1, funcScaledValue / (scale * funcValue), relTol);
 
