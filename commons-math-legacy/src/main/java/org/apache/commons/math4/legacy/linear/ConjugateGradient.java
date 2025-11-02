@@ -60,12 +60,12 @@ import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
  * <dt><a id="BARR1994">Barret et al. (1994)</a></dt>
  * <dd>R. Barrett, M. Berry, T. F. Chan, J. Demmel, J. M. Donato, J. Dongarra,
  * V. Eijkhout, R. Pozo, C. Romine and H. Van der Vorst,
- * <a href="http://www.netlib.org/linalg/html_templates/Templates.html"><em>
+ * <a href="https://www.netlib.org/linalg/html_templates/Templates.html"><em>
  * Templates for the Solution of Linear Systems: Building Blocks for Iterative
  * Methods</em></a>, SIAM</dd>
  * <dt><a id="STRA2002">Strakos and Tichy (2002)</a></dt>
  * <dd>Z. Strakos and P. Tichy, <a
- * href="http://etna.mcs.kent.edu/vol.13.2002/pp56-80.dir/pp56-80.pdf">
+ * href="https://etna.mcs.kent.edu/vol.13.2002/pp56-80.dir/pp56-80.pdf">
  * <em>On error estimation in the conjugate gradient method and why it works
  * in finite precision computations</em></a>, Electronic Transactions on
  * Numerical Analysis 13: 56-80, 2002</dd>

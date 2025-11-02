@@ -51,7 +51,7 @@ import org.apache.commons.numbers.core.Precision;
  * are accurate to about 0.5 ulp throughout the domain range. This statement,
  * of course is only a rough global observed behavior, it is <em>not</em> a
  * guarantee for <em>every</em> double numbers input (see William Kahan's
- * <a href="http://en.wikipedia.org/wiki/Rounding#The_table-maker.27s_dilemma">
+ * <a href="https://en.wikipedia.org/wiki/Rounding#The_table-maker.27s_dilemma">
  * Table Maker's Dilemma</a>).
  * </p>
  * <p>
@@ -1413,7 +1413,7 @@ public final class AccurateMath {
     }
 
     /**
-     * Computes the <a href="http://mathworld.wolfram.com/Logarithm.html">
+     * Computes the <a href="https://mathworld.wolfram.com/Logarithm.html">
      * logarithm</a> in a given base.
      *
      * Returns {@code NaN} if either argument is negative.

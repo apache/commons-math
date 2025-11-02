@@ -156,7 +156,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * <p>The mean update formulae are based on a paper written by Philippe
      * P&eacute;bay:
      * <a
-     * href="http://prod.sandia.gov/techlib/access-control.cgi/2008/086212.pdf">
+     * href="https://prod.sandia.gov/techlib/access-control.cgi/2008/086212.pdf">
      * Formulas for Robust, One-Pass Parallel Computation of Covariances and
      * Arbitrary-Order Statistical Moments</a>, 2008, Technical Report
      * SAND2008-6212, Sandia National Laboratories.</p>
@@ -384,7 +384,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * {@link #hasIntercept()} is true; otherwise 0.
      * <p>
      * The least squares estimate of the intercept is computed using the
-     * <a href="http://www.xycoon.com/estimation4.htm">normal equations</a>.
+     * <a href="https://www.xycoon.com/estimation4.htm">normal equations</a>.
      * The intercept is sometimes denoted b0.</p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
@@ -417,7 +417,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
     * Returns the slope of the estimated regression line.
     * <p>
     * The least squares estimate of the slope is computed using the
-    * <a href="http://www.xycoon.com/estimation4.htm">normal equations</a>.
+    * <a href="https://www.xycoon.com/estimation4.htm">normal equations</a>.
     * The slope is sometimes denoted b1.</p>
     * <p>
     * <strong>Preconditions</strong>: <ul>
@@ -440,7 +440,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/SumOfSquares.htm">
+     * Returns the <a href="https://www.xycoon.com/SumOfSquares.htm">
      * sum of squared errors</a> (SSE) associated with the regression
      * model.
      * <p>
@@ -476,7 +476,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * Returns the sum of squared deviations of the y values about their mean.
      * <p>
      * This is defined as SSTO
-     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a>.</p>
+     * <a href="https://www.xycoon.com/SumOfSquares.htm">here</a>.</p>
      * <p>
      * If {@code n < 2}, this returns <code>Double.NaN</code>.</p>
      *
@@ -517,7 +517,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * their mean (which equals the mean of y).
      * <p>
      * This is usually abbreviated SSR or SSM.  It is defined as SSM
-     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a></p>
+     * <a href="https://www.xycoon.com/SumOfSquares.htm">here</a></p>
      * <p>
      * <strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
@@ -550,7 +550,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
     }
 
     /**
-     * Returns <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">
+     * Returns <a href="https://mathworld.wolfram.com/CorrelationCoefficient.html">
      * Pearson's product moment correlation coefficient</a>,
      * usually denoted r.
      * <p>
@@ -573,7 +573,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/coefficient1.htm">
+     * Returns the <a href="https://www.xycoon.com/coefficient1.htm">
      * coefficient of determination</a>,
      * usually denoted r-square.
      * <p>
@@ -592,7 +592,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/standarderrorb0.htm">
+     * Returns the <a href="https://www.xycoon.com/standarderrorb0.htm">
      * standard error of the intercept estimate</a>,
      * usually denoted s(b0).
      * <p>
@@ -612,7 +612,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/standerrorb(1).htm">standard
+     * Returns the <a href="https://www.xycoon.com/standerrorb(1).htm">standard
      * error of the slope estimate</a>,
      * usually denoted s(b1).
      * <p>
@@ -642,7 +642,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the
      * observations included in the model are drawn from a
-     * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
+     * <a href="https://mathworld.wolfram.com/BivariateNormalDistribution.html">
      * Bivariate Normal Distribution</a>.</p>
      *
      * @return half-width of 95% confidence interval for the slope estimate
@@ -667,7 +667,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the
      * observations included in the model are drawn from a
-     * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
+     * <a href="https://mathworld.wolfram.com/BivariateNormalDistribution.html">
      * Bivariate Normal Distribution</a>.</p>
      * <p>
      * <strong> Preconditions:</strong><ul>
@@ -709,7 +709,7 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * <strong>Usage Note</strong>:<br>
      * The validity of this statistic depends on the assumption that the
      * observations included in the model are drawn from a
-     * <a href="http://mathworld.wolfram.com/BivariateNormalDistribution.html">
+     * <a href="https://mathworld.wolfram.com/BivariateNormalDistribution.html">
      * Bivariate Normal Distribution</a>.</p>
      * <p>
      * If there are fewer that <strong>three</strong> observations in the

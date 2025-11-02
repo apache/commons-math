@@ -28,7 +28,7 @@ import org.apache.commons.numbers.core.Precision;
 
 /**
  * This class implements a modification of the <a
- * href="http://mathworld.wolfram.com/BrentsMethod.html"> Brent algorithm</a>.
+ * href="https://mathworld.wolfram.com/BrentsMethod.html"> Brent algorithm</a>.
  * <p>
  * The changes with respect to the original Brent algorithm are:
  * <ul>

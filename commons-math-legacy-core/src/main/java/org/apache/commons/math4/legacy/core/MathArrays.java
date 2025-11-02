@@ -824,7 +824,7 @@ public final class MathArrays {
     }
 
     /**
-     * Calculates the <a href="http://en.wikipedia.org/wiki/Convolution">
+     * Calculates the <a href="https://en.wikipedia.org/wiki/Convolution">
      * convolution</a> between two sequences.
      * <p>
      * The solution is obtained via straightforward computation of the

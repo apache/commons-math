@@ -448,7 +448,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     FieldMatrix<T> transpose();
 
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">
+     * Returns the <a href="https://mathworld.wolfram.com/MatrixTrace.html">
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return trace

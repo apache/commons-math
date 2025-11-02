@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * Implements <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
+ * Implements <a href="https://mathworld.wolfram.com/SimpsonsRule.html">
  * Simpson's Rule</a> for integration of real univariate functions.
  *
  * See <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, chapter 3.

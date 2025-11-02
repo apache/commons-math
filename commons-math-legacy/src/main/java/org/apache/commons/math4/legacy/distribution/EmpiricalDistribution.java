@@ -32,7 +32,7 @@ import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * <p>Represents an <a href="http://en.wikipedia.org/wiki/Empirical_distribution_function">
+ * <p>Represents an <a href="https://en.wikipedia.org/wiki/Empirical_distribution_function">
  * empirical probability distribution</a>: Probability distribution derived
  * from observed data without making any assumptions about the functional
  * form of the population distribution that the data come from.</p>
@@ -55,7 +55,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * the distribution of the values in the file.
  *
  * <p>The implementation uses what amounts to the
- * <a href="http://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
+ * <a href="https://nedwww.ipac.caltech.edu/level5/March02/Silverman/Silver2_6.html">
  * Variable Kernel Method</a> with Gaussian smoothing:<p>
  * <strong>Digesting the input file</strong>
  * <ol>

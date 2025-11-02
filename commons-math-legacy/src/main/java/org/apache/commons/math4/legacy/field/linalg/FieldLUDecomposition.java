@@ -35,8 +35,8 @@ import org.apache.commons.math4.legacy.linear.SingularMatrixException;
  *
  * @param <T> Type of the field elements.
  *
- * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
+ * @see <a href="https://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
  *
  * @since 4.0
  */

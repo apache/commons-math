@@ -21,7 +21,7 @@ import java.util.function.UnaryOperator;
 import org.apache.commons.numbers.core.ArithmeticUtils;
 
 /**
- * <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
+ * <a href="https://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
  * <p>
  * The FHT can also transform integer vectors into integer vectors.
  * However, this transform cannot be inverted directly, due to a scaling
@@ -171,7 +171,7 @@ public class FastHadamardTransform implements RealTransform {
      * understood with the above example (for {@code N = 8}).
      * <li>The output vector {@code y} is now in the last column of
      * {@code hadm}.</li>
-     * <li><em>Algorithm from <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">chipcenter</a>.</em></li>
+     * <li><em>Algorithm from <a href="https://www.archive.chipcenter.com/dsp/DSP000517F1.html">chipcenter</a>.</em></li>
      * </ol>
      * <h3>Visually</h3>
      * <table border="" style="text-align: center">

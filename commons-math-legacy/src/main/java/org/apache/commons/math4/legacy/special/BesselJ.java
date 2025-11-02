@@ -29,12 +29,12 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * This class provides computation methods related to Bessel
  * functions of the first kind. Detailed descriptions of these functions are
  * available in <a
- * href="http://en.wikipedia.org/wiki/Bessel_function">Wikipedia</a>, <a
- * href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun">Abrabowitz and
- * Stegun</a> (Ch. 9-11), and <a href="http://dlmf.nist.gov/">DLMF</a> (Ch. 10).
+ * href="https://en.wikipedia.org/wiki/Bessel_function">Wikipedia</a>, <a
+ * href="https://en.wikipedia.org/wiki/Abramowitz_and_Stegun">Abrabowitz and
+ * Stegun</a> (Ch. 9-11), and <a href="https://dlmf.nist.gov/">DLMF</a> (Ch. 10).
  * <p>
  * This implementation is based on the rjbesl Fortran routine at
- * <a href="http://www.netlib.org/specfun/rjbesl">Netlib</a>.</p>
+ * <a href="https://www.netlib.org/specfun/rjbesl">Netlib</a>.</p>
  * <p>
  * From the Fortran code: </p>
  * <p>

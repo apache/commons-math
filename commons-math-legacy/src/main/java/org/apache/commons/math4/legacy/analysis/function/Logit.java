@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Logit">
+ * <a href="https://en.wikipedia.org/wiki/Logit">
  *  Logit</a> function.
  * It is the inverse of the {@link Sigmoid sigmoid} function.
  *

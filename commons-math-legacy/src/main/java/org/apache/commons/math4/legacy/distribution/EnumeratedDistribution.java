@@ -34,7 +34,7 @@ import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * <p>A generic implementation of a
- * <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">
+ * <a href="https://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">
  * discrete probability distribution (Wikipedia)</a> over a finite sample space,
  * based on an enumerated list of &lt;value, probability&gt; pairs.  Input probabilities must all be non-negative,
  * but zero values are allowed and their sum does not have to equal one. Constructors will normalize input

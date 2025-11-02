@@ -37,10 +37,10 @@ import org.junit.Test;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
- * href="http://www.netlib.org/minpack/ex/file17">file17</a> and <a
- * href="http://www.netlib.org/minpack/ex/file22">file22</a> test files.
+ * href="https://www.netlib.org/minpack/ex/file17">file17</a> and <a
+ * href="https://www.netlib.org/minpack/ex/file22">file22</a> test files.
  * The redistribution policy for MINPACK is available <a
- * href="http://www.netlib.org/minpack/disclaimer">here</a>, for
+ * href="https://www.netlib.org/minpack/disclaimer">here</a>, for
  * convenience, it is reproduced below.</p>
  *
  * <table style="text-align: center; background-color: #E0E0E0" border="">

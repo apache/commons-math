@@ -42,9 +42,9 @@ import org.apache.commons.rng.UniformRandomProvider;
  * This policy works only on {@link AbstractListChromosome}, and therefore it
  * is parameterized by T. Moreover, the chromosomes must have same lengths.
  *
- * @see <a href="http://en.wikipedia.org/wiki/Crossover_%28genetic_algorithm%29">Crossover techniques (Wikipedia)</a>
- * @see <a href="http://www.obitko.com/tutorials/genetic-algorithms/crossover-mutation.php">Crossover (Obitko.com)</a>
- * @see <a href="http://www.tomaszgwiazda.com/uniformX.htm">Uniform crossover</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Crossover_%28genetic_algorithm%29">Crossover techniques (Wikipedia)</a>
+ * @see <a href="https://www.obitko.com/tutorials/genetic-algorithms/crossover-mutation.php">Crossover (Obitko.com)</a>
+ * @see <a href="https://www.tomaszgwiazda.com/uniformX.htm">Uniform crossover</a>
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
  */

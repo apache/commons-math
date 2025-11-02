@@ -23,7 +23,7 @@ package org.apache.commons.math4.legacy.stat.descriptive;
 public interface StatisticalSummary {
 
     /**
-     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
+     * Returns the <a href="https://www.xycoon.com/arithmetic_mean.htm">
      * arithmetic mean </a> of the available values.
      * @return The mean or Double.NaN if no values have been added.
      */

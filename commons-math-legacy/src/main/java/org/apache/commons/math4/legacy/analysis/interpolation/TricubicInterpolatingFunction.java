@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Function that implements the
- * <a href="http://en.wikipedia.org/wiki/Tricubic_interpolation">
+ * <a href="https://en.wikipedia.org/wiki/Tricubic_interpolation">
  * tricubic spline interpolation</a>, as proposed in
  * <blockquote>
  *  Tricubic interpolation in three dimensions<br>

@@ -338,7 +338,7 @@ public final class StatUtils {
     }
 
     /**
-     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * Returns the <a href="https://en.wikibooks.org/wiki/Statistics/Summary/Variance">
      * population variance</a> of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
@@ -359,7 +359,7 @@ public final class StatUtils {
     }
 
     /**
-     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * Returns the <a href="https://en.wikibooks.org/wiki/Statistics/Summary/Variance">
      * population variance</a> of the entries in the specified portion of
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.

@@ -19,8 +19,8 @@ package org.apache.commons.math4.legacy.core;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 
 /**
- * Interface representing a <a href="http://mathworld.wolfram.com/RealNumber.html">real</a>
- * <a href="http://mathworld.wolfram.com/Field.html">field</a>.
+ * Interface representing a <a href="https://mathworld.wolfram.com/RealNumber.html">real</a>
+ * <a href="https://mathworld.wolfram.com/Field.html">field</a>.
  * @param <T> the type of the field elements
  * @see FieldElement
  * @since 3.2

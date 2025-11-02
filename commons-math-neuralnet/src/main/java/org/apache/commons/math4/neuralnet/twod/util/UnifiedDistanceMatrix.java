@@ -22,7 +22,7 @@ import org.apache.commons.math4.neuralnet.Neuron;
 import org.apache.commons.math4.neuralnet.twod.NeuronSquareMesh2D;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/U-Matrix">U-Matrix</a>
+ * <a href="https://en.wikipedia.org/wiki/U-Matrix">U-Matrix</a>
  * visualization of high-dimensional data projection.
  * The 8 individual inter-units distances will be
  * {@link #computeImage(NeuronSquareMesh2D) computed}.  They will be

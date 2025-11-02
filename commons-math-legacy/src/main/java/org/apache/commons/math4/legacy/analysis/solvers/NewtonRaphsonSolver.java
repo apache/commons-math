@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
+ * Implements <a href="https://mathworld.wolfram.com/NewtonsMethod.html">
  * Newton's Method</a> for finding zeros of real univariate differentiable
  * functions.
  *

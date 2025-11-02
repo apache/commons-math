@@ -27,7 +27,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 /**
  * This algorithm divides the integration interval into equally-sized
  * sub-interval and on each of them performs a
- * <a href="http://mathworld.wolfram.com/Legendre-GaussQuadrature.html">
+ * <a href="https://mathworld.wolfram.com/Legendre-GaussQuadrature.html">
  * Legendre-Gauss</a> quadrature.
  * Because of its <em>non-adaptive</em> nature, this algorithm can
  * converge to a wrong value for the integral (for example, if the
@@ -35,7 +35,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * integration interval).
  * In particular, a change of variables aimed at estimating integrals
  * over infinite intervals as proposed
- * <a href="http://en.wikipedia.org/w/index.php?title=Numerical_integration#Integrals_over_infinite_intervals">
+ * <a href="https://en.wikipedia.org/w/index.php?title=Numerical_integration#Integrals_over_infinite_intervals">
  *  here</a> should be avoided when using this class.
  *
  * @since 3.1

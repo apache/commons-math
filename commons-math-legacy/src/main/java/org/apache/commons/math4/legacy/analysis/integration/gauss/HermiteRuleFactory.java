@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * Factory that creates a
- * <a href="http://en.wikipedia.org/wiki/Gauss-Hermite_quadrature">
+ * <a href="https://en.wikipedia.org/wiki/Gauss-Hermite_quadrature">
  * Gauss-type quadrature rule using Hermite polynomials</a>
  * of the first kind.
  * Such a quadrature rule allows the calculation of improper integrals
@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  *  \(f(x) e^{-x^2}\)
  * </p><p>
  * Recurrence relation and weights computation follow
- * <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun">
+ * <a href="https://en.wikipedia.org/wiki/Abramowitz_and_Stegun">
  * Abramowitz and Stegun, 1964</a>.
  * </p><p>
  * The coefficients of the standard Hermite polynomials grow very rapidly.

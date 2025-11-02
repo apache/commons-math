@@ -74,9 +74,9 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * <p>
  * For more information, please refer to the following links:
  * <ul>
- *  <li><a href="http://www.lri.fr/~hansen/cmaes.m">Matlab code</a></li>
- *  <li><a href="http://www.lri.fr/~hansen/cmaesintro.html">Introduction to CMA-ES</a></li>
- *  <li><a href="http://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
+ *  <li><a href="https://www.lri.fr/~hansen/cmaes.m">Matlab code</a></li>
+ *  <li><a href="https://www.lri.fr/~hansen/cmaesintro.html">Introduction to CMA-ES</a></li>
+ *  <li><a href="https://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
  * </ul>
  *
  * @since 3.0
@@ -117,7 +117,7 @@ public class CMAESOptimizer
      * diagonalOnly = 1 means keeping the covariance matrix always diagonal and
      * this setting also exhibits linear space complexity. This can be
      * particularly useful for dimension > 100.
-     * @see <a href="http://hal.archives-ouvertes.fr/inria-00287367/en">A Simple Modification in CMA-ES</a>
+     * @see <a href="https://hal.archives-ouvertes.fr/inria-00287367/en">A Simple Modification in CMA-ES</a>
      */
     private int diagonalOnly;
     /** Number of objective variables/problem dimension. */

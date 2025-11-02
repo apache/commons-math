@@ -23,7 +23,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Sinc_function">Sinc</a> function,
+ * <a href="https://en.wikipedia.org/wiki/Sinc_function">Sinc</a> function,
  * defined by
  * <pre><code>
  *   sinc(x) = 1            if x = 0,

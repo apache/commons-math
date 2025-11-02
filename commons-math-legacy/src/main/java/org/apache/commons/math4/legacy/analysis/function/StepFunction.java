@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Step_function">
+ * <a href="https://en.wikipedia.org/wiki/Step_function">
  *  Step function</a>.
  *
  * @since 3.0

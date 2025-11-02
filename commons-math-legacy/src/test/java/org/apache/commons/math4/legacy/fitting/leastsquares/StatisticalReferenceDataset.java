@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.analysis.MultivariateVectorFunction;
 /**
  * This class gives access to the statistical reference datasets provided by the
  * NIST (available
- * <a href="http://www.itl.nist.gov/div898/strd/general/dataarchive.html">here</a>).
+ * <a href="https://www.itl.nist.gov/div898/strd/general/dataarchive.html">here</a>).
  * Instances of this class can be created by invocation of the
  * {@link StatisticalReferenceDatasetFactory}.
  */

@@ -37,7 +37,7 @@ import org.apache.commons.math4.neuralnet.twod.util.LocationFinder;
  * Each neuron defines one surface element.
  * <br>
  * This network is primarily intended to represent a
- * <a href="http://en.wikipedia.org/wiki/Kohonen">
+ * <a href="https://en.wikipedia.org/wiki/Kohonen">
  *  Self Organizing Feature Map</a>.
  *
  * @see org.apache.commons.math4.neuralnet.sofm

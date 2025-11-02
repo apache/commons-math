@@ -32,10 +32,10 @@ import org.apache.commons.numbers.core.Precision;
  * of this explicitly limited scope, many methods directly returns references to
  * internal arrays, not copies.</p>
  * <p>This class is based on the method orthes in class EigenvalueDecomposition
- * from the <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library.</p>
+ * from the <a href="https://math.nist.gov/javanumerics/jama/">JAMA</a> library.</p>
  *
- * @see <a href="http://mathworld.wolfram.com/HessenbergDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/Householder_transformation">Householder Transformations</a>
+ * @see <a href="https://mathworld.wolfram.com/HessenbergDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Householder_transformation">Householder Transformations</a>
  * @since 3.1
  */
 class HessenbergTransformer {

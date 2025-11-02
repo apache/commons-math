@@ -40,7 +40,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * points in a space S, which are equi-distributed.
  * <p>
  * The implementation already comes with support for up to 21201 dimensions with direction numbers
- * calculated from <a href="http://web.maths.unsw.edu.au/~fkuo/sobol/">Stephen Joe and Frances Kuo</a>.
+ * calculated from <a href="https://web.maths.unsw.edu.au/~fkuo/sobol/">Stephen Joe and Frances Kuo</a>.
  * <p>
  * The generator supports two modes:
  * <ul>
@@ -48,8 +48,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  *   <li>random access to the i-th point in the sequence: {@link #skipTo(int)}</li>
  * </ul>
  *
- * @see <a href="http://en.wikipedia.org/wiki/Sobol_sequence">Sobol sequence (Wikipedia)</a>
- * @see <a href="http://web.maths.unsw.edu.au/~fkuo/sobol/">Sobol sequence direction numbers</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Sobol_sequence">Sobol sequence (Wikipedia)</a>
+ * @see <a href="https://web.maths.unsw.edu.au/~fkuo/sobol/">Sobol sequence direction numbers</a>
  *
  * @since 3.3
  */
@@ -126,7 +126,7 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
      * direction vectors loaded from the given stream.
      * <p>
      * The expected format is identical to the files available from
-     * <a href="http://web.maths.unsw.edu.au/~fkuo/sobol/">Stephen Joe and Frances Kuo</a>.
+     * <a href="https://web.maths.unsw.edu.au/~fkuo/sobol/">Stephen Joe and Frances Kuo</a>.
      * The first line will be ignored as it is assumed to contain only the column headers.
      * The columns are:
      * <ul>

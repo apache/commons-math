@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
+ * Implements the <a href="https://mathworld.wolfram.com/LaguerresMethod.html">
  * Laguerre's Method</a> for root finding of real coefficient polynomials.
  * For reference, see
  * <blockquote>

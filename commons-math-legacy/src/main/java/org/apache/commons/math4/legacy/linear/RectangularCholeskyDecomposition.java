@@ -37,8 +37,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * linear systems, so it does not provide any {@link DecompositionSolver
  * decomposition solver}.</p>
  *
- * @see <a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
+ * @see <a href="https://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class RectangularCholeskyDecomposition {
@@ -56,7 +56,7 @@ public class RectangularCholeskyDecomposition {
      * columns by proceeding with the Cholesky algorithm until a nonpositive diagonal
      * element is encountered.
      *
-     * @see <a href="http://eprints.ma.man.ac.uk/1193/01/covered/MIMS_ep2008_56.pdf">
+     * @see <a href="https://eprints.ma.man.ac.uk/1193/01/covered/MIMS_ep2008_56.pdf">
      * Analysis of the Cholesky Decomposition of a Semi-definite Matrix</a>
      *
      * @param matrix Symmetric positive semidefinite matrix.

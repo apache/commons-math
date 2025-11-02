@@ -120,7 +120,7 @@ public final class PolynomialsUtils {
 
     /**
      * Create a Hermite polynomial.
-     * <p><a href="http://mathworld.wolfram.com/HermitePolynomial.html">Hermite
+     * <p><a href="https://mathworld.wolfram.com/HermitePolynomial.html">Hermite
      * polynomials</a> are orthogonal polynomials.
      * They can be defined by the following recurrence relations:</p><p>
      * \(
@@ -149,7 +149,7 @@ public final class PolynomialsUtils {
 
     /**
      * Create a Laguerre polynomial.
-     * <p><a href="http://mathworld.wolfram.com/LaguerrePolynomial.html">Laguerre
+     * <p><a href="https://mathworld.wolfram.com/LaguerrePolynomial.html">Laguerre
      * polynomials</a> are orthogonal polynomials.
      * They can be defined by the following recurrence relations:</p><p>
      * \(
@@ -178,7 +178,7 @@ public final class PolynomialsUtils {
 
     /**
      * Create a Legendre polynomial.
-     * <p><a href="http://mathworld.wolfram.com/LegendrePolynomial.html">Legendre
+     * <p><a href="https://mathworld.wolfram.com/LegendrePolynomial.html">Legendre
      * polynomials</a> are orthogonal polynomials.
      * They can be defined by the following recurrence relations:</p><p>
      * \(
@@ -207,7 +207,7 @@ public final class PolynomialsUtils {
 
     /**
      * Create a Jacobi polynomial.
-     * <p><a href="http://mathworld.wolfram.com/JacobiPolynomial.html">Jacobi
+     * <p><a href="https://mathworld.wolfram.com/JacobiPolynomial.html">Jacobi
      * polynomials</a> are orthogonal polynomials.
      * They can be defined by the following recurrence relations:</p><p>
      * \(

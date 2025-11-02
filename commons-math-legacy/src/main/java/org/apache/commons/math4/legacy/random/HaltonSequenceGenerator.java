@@ -38,7 +38,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
  * <p>
  * Halton sequences are known to suffer from linear correlation for larger prime numbers, thus the individual digits
  * are usually scrambled. This implementation already comes with support for up to 40 dimensions with optimal weight
- * numbers from <a href="http://etd.lib.fsu.edu/theses/available/etd-07062004-140409/unrestricted/dissertation1.pdf">
+ * numbers from <a href="https://etd.lib.fsu.edu/theses/available/etd-07062004-140409/unrestricted/dissertation1.pdf">
  * H. Chi: Scrambled quasirandom sequences and their applications</a>.
  * <p>
  * The generator supports two modes:
@@ -47,7 +47,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
  *   <li>random access to the i-th point in the sequence: {@link #skipTo(int)}</li>
  * </ul>
  *
- * @see <a href="http://en.wikipedia.org/wiki/Halton_sequence">Halton sequence (Wikipedia)</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Halton_sequence">Halton sequence (Wikipedia)</a>
  * @see <a href="https://lirias.kuleuven.be/bitstream/123456789/131168/1/mcm2005_bartv.pdf">
  * On the Halton sequence and its scramblings</a>
  * @since 3.3

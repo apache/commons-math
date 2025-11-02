@@ -166,7 +166,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
 
     /**
      * Evaluate the Newton polynomial using nested multiplication. It is
-     * also called <a href="http://mathworld.wolfram.com/HornersRule.html">
+     * also called <a href="https://mathworld.wolfram.com/HornersRule.html">
      * Horner's Rule</a> and takes O(N) time.
      *
      * @param a Coefficients in Newton form formula.

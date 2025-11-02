@@ -29,7 +29,7 @@ import org.apache.commons.math4.neuralnet.Neuron;
 import org.apache.commons.math4.neuralnet.UpdateAction;
 
 /**
- * Update formula for <a href="http://en.wikipedia.org/wiki/Kohonen">
+ * Update formula for <a href="https://en.wikipedia.org/wiki/Kohonen">
  * Kohonen's Self-Organizing Map</a>.
  * <br>
  * The {@link #update(Network,double[]) update} method modifies the

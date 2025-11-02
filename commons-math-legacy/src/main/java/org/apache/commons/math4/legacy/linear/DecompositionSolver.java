@@ -69,7 +69,7 @@ public interface DecompositionSolver {
     boolean isNonSingular();
 
     /**
-     * Get the <a href="http://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_pseudoinverse">pseudo-inverse</a>
+     * Get the <a href="https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_pseudoinverse">pseudo-inverse</a>
      * of the decomposed matrix.
      * <p>
      * <em>This is equal to the inverse  of the decomposed matrix, if such an inverse exists.</em>

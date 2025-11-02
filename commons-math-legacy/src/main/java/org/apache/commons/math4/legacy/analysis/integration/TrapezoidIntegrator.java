@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
+ * Implements the <a href="https://mathworld.wolfram.com/TrapezoidalRule.html">
  * Trapezoid Rule</a> for integration of real univariate functions.
  *
  * See <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, chapter 3.

@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Function that implements the
- * <a href="http://en.wikipedia.org/wiki/Bicubic_interpolation">
+ * <a href="https://en.wikipedia.org/wiki/Bicubic_interpolation">
  * bicubic spline interpolation</a>.
  *
  * @since 3.4

@@ -28,7 +28,7 @@ import org.apache.commons.math4.legacy.core.Pair;
 /**
  * Factory that creates Gauss-type quadrature rule using Laguerre polynomials.
  *
- * @see <a href="http://en.wikipedia.org/wiki/Gauss%E2%80%93Laguerre_quadrature">Gauss-Laguerre quadrature (Wikipedia)</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Laguerre_quadrature">Gauss-Laguerre quadrature (Wikipedia)</a>
  * @since 4.0
  */
 public class LaguerreRuleFactory extends BaseRuleFactory<Double> {

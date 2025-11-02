@@ -29,7 +29,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.numbers.core.Precision;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Gaussian_function">
+ * <a href="https://en.wikipedia.org/wiki/Gaussian_function">
  *  Gaussian</a> function.
  *
  * @since 3.0

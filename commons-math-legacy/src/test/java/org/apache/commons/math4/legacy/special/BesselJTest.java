@@ -26,7 +26,7 @@ public class BesselJTest {
 
     /**
      * Reference data for the {@link BesselJ#value(double, double)} function. This data
-     * was generated with the following <a href="http://www.r-project.org/">R</a> script.
+     * was generated with the following <a href="https://www.r-project.org/">R</a> script.
      *
      * <pre>
      * smallxs = 10 ** (-(seq(0,8,.5)))

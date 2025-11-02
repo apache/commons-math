@@ -33,7 +33,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * This allows inner loop to iterate inside rows, which is much more cache-efficient
  * in Java.</p>
  * <p>This class is based on the class with similar name from the
- * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
+ * <a href="https://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
  *   <li>a {@link #getQT() getQT} method has been added,</li>
@@ -42,8 +42,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  *   provided by the returned {@link DecompositionSolver}.</li>
  * </ul>
  *
- * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
+ * @see <a href="https://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
  *
  * @since 3.2
  */

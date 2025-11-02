@@ -31,12 +31,12 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
- * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">
+ * Implements the <a href="https://en.wikipedia.org/wiki/Local_regression">
  * Local Regression Algorithm</a> (also Loess, Lowess) for interpolation of
  * real univariate functions.
  * <p>
  * For reference, see
- * <a href="http://amstat.tandfonline.com/doi/abs/10.1080/01621459.1979.10481038">
+ * <a href="https://amstat.tandfonline.com/doi/abs/10.1080/01621459.1979.10481038">
  * William S. Cleveland - Robust Locally Weighted Regression and Smoothing
  * Scatterplots</a></p>
  * <p>
@@ -444,7 +444,7 @@ public class LoessInterpolator
 
     /**
      * Compute the
-     * <a href="http://en.wikipedia.org/wiki/Local_regression#Weight_function">tricube</a>
+     * <a href="https://en.wikipedia.org/wiki/Local_regression#Weight_function">tricube</a>
      * weight function.
      *
      * @param x Argument.

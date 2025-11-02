@@ -40,7 +40,7 @@ import org.apache.commons.math4.legacy.linear.RectangularCholeskyDecomposition;
  * simulation of physical problems with several variables (for example to
  * generate error vectors to be added to a nominal vector). A particularly
  * common case is when the generated vector should be drawn from a
- * <a href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
+ * <a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution">
  * Multivariate Normal Distribution</a>, usually using Cholesky decomposition.
  * Other distributions are possible as long as the underlying sampler provides
  * normalized values (unit standard deviation).</p>

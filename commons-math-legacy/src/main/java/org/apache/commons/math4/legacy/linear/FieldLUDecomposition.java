@@ -33,7 +33,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * a zero pivot element, no attempt is done to get the largest pivot
  * element.</p>
  * <p>This class is based on the class with similar name from the
- * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library.</p>
+ * <a href="https://math.nist.gov/javanumerics/jama/">JAMA</a> library.</p>
  * <ul>
  *   <li>a {@link #getP() getP} method has been added,</li>
  *   <li>the {@code det} method has been renamed as {@link #getDeterminant()
@@ -46,8 +46,8 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * </ul>
  *
  * @param <T> the type of the field elements
- * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
+ * @see <a href="https://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class FieldLUDecomposition<T extends FieldElement<T>> {

@@ -45,7 +45,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  * EM Demystified: An Expectation-Maximization Tutorial</a> by Yihua Chen and Maya R. Gupta,
  * Department of Electrical Engineering, University of Washington, Seattle, WA 98195.
  * It was verified using external tools like <a
- * href="http://cran.r-project.org/web/packages/mixtools/index.html">CRAN Mixtools</a>
+ * href="https://cran.r-project.org/web/packages/mixtools/index.html">CRAN Mixtools</a>
  * (see the JUnit test cases) but it is <strong>not</strong> based on Mixtools code at all.
  * The discussion of the origin of this class can be seen in the comments of the <a
  * href="https://issues.apache.org/jira/browse/MATH-817">MATH-817</a> JIRA issue.

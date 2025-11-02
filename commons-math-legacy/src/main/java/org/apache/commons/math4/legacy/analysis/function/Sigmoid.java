@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Sigmoid_function">
+ * <a href="https://en.wikipedia.org/wiki/Sigmoid_function">
  *  Sigmoid</a> function.
  * It is the inverse of the {@link Logit logit} function.
  * A more flexible version, the generalised logistic, is implemented

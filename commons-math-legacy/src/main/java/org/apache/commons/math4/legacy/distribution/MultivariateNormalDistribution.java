@@ -31,9 +31,9 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 /**
  * Implementation of the multivariate normal (Gaussian) distribution.
  *
- * @see <a href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
+ * @see <a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution">
  * Multivariate normal distribution (Wikipedia)</a>
- * @see <a href="http://mathworld.wolfram.com/MultivariateNormalDistribution.html">
+ * @see <a href="https://mathworld.wolfram.com/MultivariateNormalDistribution.html">
  * Multivariate normal distribution (MathWorld)</a>
  *
  * @since 3.1

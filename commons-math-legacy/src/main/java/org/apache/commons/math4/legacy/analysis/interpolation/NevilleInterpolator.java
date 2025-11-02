@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
+ * Implements the <a href="https://mathworld.wolfram.com/NevillesAlgorithm.html">
  * Neville's Algorithm</a> for interpolation of real univariate functions. For
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 2.

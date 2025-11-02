@@ -51,7 +51,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * This policy works only on {@link AbstractListChromosome}, and therefore it
  * is parameterized by T. Moreover, the chromosomes must have same lengths.
  *
- * @see <a href="http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/Order1CrossoverOperator.aspx">
+ * @see <a href="https://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/Order1CrossoverOperator.aspx">
  * Order 1 Crossover Operator</a>
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover

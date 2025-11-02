@@ -20,7 +20,7 @@ import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
+ * Implements the <a href="https://mathworld.wolfram.com/Bisection.html">
  * bisection algorithm</a> for finding zeros of univariate real functions.
  * <p>
  * The function should be continuous but not necessarily smooth.</p>

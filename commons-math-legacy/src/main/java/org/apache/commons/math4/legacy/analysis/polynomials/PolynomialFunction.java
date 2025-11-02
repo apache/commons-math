@@ -29,7 +29,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 /**
  * Immutable representation of a real polynomial function with real coefficients.
  * <p>
- * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
+ * <a href="https://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
  * is used to evaluate the function.</p>
  *
  */

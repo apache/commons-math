@@ -50,8 +50,8 @@ import org.apache.commons.math4.legacy.ml.distance.EuclideanDistance;
  * </ul>
  *
  * @param <T> type of the points to cluster
- * @see <a href="http://en.wikipedia.org/wiki/DBSCAN">DBSCAN (wikipedia)</a>
- * @see <a href="http://www.dbs.ifi.lmu.de/Publikationen/Papers/KDD-96.final.frame.pdf">
+ * @see <a href="https://en.wikipedia.org/wiki/DBSCAN">DBSCAN (wikipedia)</a>
+ * @see <a href="https://www.dbs.ifi.lmu.de/Publikationen/Papers/KDD-96.final.frame.pdf">
  * A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</a>
  * @since 3.2
  */

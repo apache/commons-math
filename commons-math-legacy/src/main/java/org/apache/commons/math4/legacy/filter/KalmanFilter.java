@@ -68,11 +68,11 @@ import org.apache.commons.math4.legacy.linear.SingularMatrixException;
  * <li>P - error covariance matrix</li>
  * </ul>
  *
- * @see <a href="http://www.cs.unc.edu/~welch/kalman/">Kalman filter
+ * @see <a href="https://www.cs.unc.edu/~welch/kalman/">Kalman filter
  *      resources</a>
- * @see <a href="http://www.cs.unc.edu/~welch/media/pdf/kalman_intro.pdf">An
+ * @see <a href="https://www.cs.unc.edu/~welch/media/pdf/kalman_intro.pdf">An
  *      introduction to the Kalman filter by Greg Welch and Gary Bishop</a>
- * @see <a href="http://academic.csuohio.edu/simond/courses/eec644/kalman.pdf">
+ * @see <a href="https://academic.csuohio.edu/simond/courses/eec644/kalman.pdf">
  *      Kalman filter example by Dan Simon</a>
  * @see ProcessModel
  * @see MeasurementModel

@@ -66,7 +66,7 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
      * a good probability to generate vectors in the bounded domain, otherwise the
      * rejection algorithm will hit the {@link #getMaxEvaluations()} count without
      * generating a proper restart point. Users must be take great care of the <a
-     * href="http://en.wikipedia.org/wiki/Curse_of_dimensionality">curse of dimensionality</a>.
+     * href="https://en.wikipedia.org/wiki/Curse_of_dimensionality">curse of dimensionality</a>.
      * </p>
      * @param optimizer Single-start optimizer to wrap.
      * @param starts Number of starts to perform. If {@code starts == 1},

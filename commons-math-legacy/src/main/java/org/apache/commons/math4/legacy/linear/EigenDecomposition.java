@@ -34,7 +34,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * A, V and D are all m &times; m matrices.
  * <p>
  * This class is similar in spirit to the {@code EigenvalueDecomposition}
- * class from the <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a>
+ * class from the <a href="https://math.nist.gov/javanumerics/jama/">JAMA</a>
  * library, with the following changes:
  * <ul>
  *   <li>a {@link #getVT() getVt} method has been added,</li>
@@ -72,8 +72,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * Handbook for automatic computation, vol. 2, Linear algebra, Springer-Verlag,
  * New-York.
  *
- * @see <a href="http://mathworld.wolfram.com/EigenDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Wikipedia</a>
+ * @see <a href="https://mathworld.wolfram.com/EigenDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Wikipedia</a>
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class EigenDecomposition {

@@ -32,7 +32,7 @@ import org.apache.commons.numbers.core.Precision;
  * p=min(m,n).
  * </p>
  * <p>This class is similar to the class with similar name from the
- * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
+ * <a href="https://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
  *   <li>the {@code norm2} method which has been renamed as {@link #getNorm()
@@ -46,8 +46,8 @@ import org.apache.commons.numbers.core.Precision;
  *   <li>a {@link #getSolver() getSolver} method has been added,</li>
  *   <li>a {@link #getCovariance(double) getCovariance} method has been added.</li>
  * </ul>
- * @see <a href="http://mathworld.wolfram.com/SingularValueDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a>
+ * @see <a href="https://mathworld.wolfram.com/SingularValueDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a>
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class SingularValueDecomposition {

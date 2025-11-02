@@ -210,7 +210,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/arithmetic_mean.htm">
+     * Returns the <a href="https://www.xycoon.com/arithmetic_mean.htm">
      * arithmetic mean </a> of the available values.
      * @return The mean or Double.NaN if no values have been added.
      */
@@ -220,7 +220,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
+     * Returns the <a href="https://www.xycoon.com/geometric_mean.htm">
      * geometric mean </a> of the available values.
      * <p>
      * See {@link GeometricMean} for details on the computing algorithm.</p>
@@ -266,7 +266,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
 
     /**
      * Returns the quadratic mean, a.k.a.
-     * <a href="http://mathworld.wolfram.com/Root-Mean-Square.html">
+     * <a href="https://mathworld.wolfram.com/Root-Mean-Square.html">
      * root-mean-square</a> of the available values
      * @return The quadratic mean or {@code Double.NaN} if no values
      * have been added.
@@ -429,7 +429,7 @@ public class DescriptiveStatistics implements StatisticalSummary {
      * Returns an estimate for the pth percentile of the stored values.
      * <p>
      * The implementation provided here follows the first estimation procedure presented
-     * <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
+     * <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc252.htm">here.</a>
      * </p><p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>0 &lt; p &le; 100</code> (otherwise an

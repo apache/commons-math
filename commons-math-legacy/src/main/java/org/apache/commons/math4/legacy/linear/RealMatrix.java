@@ -138,7 +138,7 @@ public interface RealMatrix extends AnyMatrix {
     double[][] getData();
 
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/MaximumAbsoluteRowSumNorm.html">
+     * Returns the <a href="https://mathworld.wolfram.com/MaximumAbsoluteRowSumNorm.html">
      * maximum absolute row sum norm</a> of the matrix.
      *
      * @return norm
@@ -146,7 +146,7 @@ public interface RealMatrix extends AnyMatrix {
     double getNorm();
 
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/FrobeniusNorm.html">
+     * Returns the <a href="https://mathworld.wolfram.com/FrobeniusNorm.html">
      * Frobenius norm</a> of the matrix.
      *
      * @return norm
@@ -464,7 +464,7 @@ public interface RealMatrix extends AnyMatrix {
     RealMatrix transpose();
 
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">
+     * Returns the <a href="https://mathworld.wolfram.com/MatrixTrace.html">
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return the trace.

@@ -27,7 +27,7 @@ import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.math4.legacy.core.Pair;
 
 /**
- * Class for representing <a href="http://en.wikipedia.org/wiki/Mixture_model">
+ * Class for representing <a href="https://en.wikipedia.org/wiki/Mixture_model">
  * mixture model</a> distributions.
  *
  * @param <T> Type of the mixture components.

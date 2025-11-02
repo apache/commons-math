@@ -26,7 +26,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Generalised_logistic_function">
+ * <a href="https://en.wikipedia.org/wiki/Generalised_logistic_function">
  *  Generalised logistic</a> function.
  *
  * @since 3.0

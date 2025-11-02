@@ -62,7 +62,7 @@ public abstract class IterativeLinearSolverEvent
      * Z. Strakos, <em>Predicting the Behavior of Finite Precision Lanzos and
      * Conjugate Gradient Computations</em>, Technical Report 538, Department of
      * Computer Science, New York University, 1991 (available
-     * <a href="http://www.archive.org/details/predictingbehavi00gree">here</a>).
+     * <a href="https://www.archive.org/details/predictingbehavi00gree">here</a>).
      *
      * @return the norm of the residual, ||r||
      */

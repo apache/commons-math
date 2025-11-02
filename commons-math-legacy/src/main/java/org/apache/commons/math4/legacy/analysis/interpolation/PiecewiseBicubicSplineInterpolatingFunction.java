@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Function that implements the
- * <a href="http://www.paulinternet.nl/?page=bicubic">bicubic spline</a>
+ * <a href="https://www.paulinternet.nl/?page=bicubic">bicubic spline</a>
  * interpolation.
  * This implementation currently uses {@link AkimaSplineInterpolator} as the
  * underlying one-dimensional interpolator, which requires 5 sample points;

@@ -27,7 +27,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * matrix A consists of a lower triangular matrix L with same size such
  * that: A = LL<sup>T</sup>. In a sense, this is the square root of A.</p>
  * <p>This class is based on the class with similar name from the
- * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
+ * <a href="https://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
  *   <li>a {@link #getLT() getLT} method has been added,</li>
@@ -40,8 +40,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  *   {@link DecompositionSolver}.</li>
  * </ul>
  *
- * @see <a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
- * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
+ * @see <a href="https://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class CholeskyDecomposition {

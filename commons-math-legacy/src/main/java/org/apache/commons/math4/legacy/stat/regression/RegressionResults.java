@@ -173,7 +173,7 @@ public class RegressionResults {
     }
 
     /**
-     * Returns the <a href="http://www.xycoon.com/standerrorb(1).htm">standard
+     * Returns the <a href="https://www.xycoon.com/standerrorb(1).htm">standard
      * error of the parameter estimate at index</a>,
      * usually denoted s(b<sub>index</sub>).
      *
@@ -197,7 +197,7 @@ public class RegressionResults {
     }
 
     /**
-     * <p>Returns the <a href="http://www.xycoon.com/standerrorb(1).htm">standard
+     * <p>Returns the <a href="https://www.xycoon.com/standerrorb(1).htm">standard
      * error of the parameter estimates</a>,
      * usually denoted s(b<sub>i</sub>).</p>
      *
@@ -276,7 +276,7 @@ public class RegressionResults {
      * <p>Returns the sum of squared deviations of the y values about their mean.</p>
      *
      * <p>This is defined as SSTO
-     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a>.</p>
+     * <a href="https://www.xycoon.com/SumOfSquares.htm">here</a>.</p>
      *
      * <p>If {@code n < 2}, this returns {@code Double.NaN}.</p>
      *
@@ -291,7 +291,7 @@ public class RegressionResults {
      * their mean (which equals the mean of y).</p>
      *
      * <p>This is usually abbreviated SSR or SSM.  It is defined as SSM
-     * <a href="http://www.xycoon.com/SumOfSquares.htm">here</a></p>
+     * <a href="https://www.xycoon.com/SumOfSquares.htm">here</a></p>
      *
      * <p><strong>Preconditions</strong>: <ul>
      * <li>At least two observations (with at least two different x values)
@@ -307,7 +307,7 @@ public class RegressionResults {
     }
 
     /**
-     * <p>Returns the <a href="http://www.xycoon.com/SumOfSquares.htm">
+     * <p>Returns the <a href="https://www.xycoon.com/SumOfSquares.htm">
      * sum of squared errors</a> (SSE) associated with the regression
      * model.</p>
      *
@@ -343,7 +343,7 @@ public class RegressionResults {
     }
 
     /**
-     * <p>Returns the <a href="http://www.xycoon.com/coefficient1.htm">
+     * <p>Returns the <a href="https://www.xycoon.com/coefficient1.htm">
      * coefficient of multiple determination</a>,
      * usually denoted r-square.</p>
      *

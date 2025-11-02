@@ -50,7 +50,7 @@ import org.apache.commons.math4.legacy.optim.nonlinear.scalar.ObjectiveFunction;
  * Direct search methods only use objective function values, they do
  * not need derivatives and don't either try to compute approximation
  * of the derivatives. According to a 1996 paper by Margaret H. Wright
- * (<a href="http://cm.bell-labs.com/cm/cs/doc/96/4-02.ps.gz">Direct
+ * (<a href="https://cm.bell-labs.com/cm/cs/doc/96/4-02.ps.gz">Direct
  * Search Methods: Once Scorned, Now Respectable</a>), they are used
  * when either the computation of the derivative is impossible (noisy
  * functions, unpredictable discontinuities) or difficult (complexity,

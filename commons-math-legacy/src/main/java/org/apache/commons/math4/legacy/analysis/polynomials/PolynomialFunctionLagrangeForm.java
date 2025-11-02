@@ -27,7 +27,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 
 /**
  * Implements the representation of a real polynomial function in
- * <a href="http://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html">
+ * <a href="https://mathworld.wolfram.com/LagrangeInterpolatingPolynomial.html">
  * Lagrange Form</a>. For reference, see <b>Introduction to Numerical
  * Analysis</b>, ISBN 038795452X, chapter 2.
  * <p>
@@ -157,7 +157,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
 
     /**
      * Evaluate the Lagrange polynomial using
-     * <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
+     * <a href="https://mathworld.wolfram.com/NevillesAlgorithm.html">
      * Neville's Algorithm</a>. It takes O(n^2) time.
      *
      * @param x Interpolating points array.
@@ -191,7 +191,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
 
     /**
      * Evaluate the Lagrange polynomial using
-     * <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
+     * <a href="https://mathworld.wolfram.com/NevillesAlgorithm.html">
      * Neville's Algorithm</a>. It takes O(n^2) time.
      *
      * @param x Interpolating points array.

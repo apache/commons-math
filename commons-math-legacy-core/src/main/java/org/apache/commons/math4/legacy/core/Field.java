@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.core;
 
 /**
- * Interface representing a <a href="http://mathworld.wolfram.com/Field.html">field</a>.
+ * Interface representing a <a href="https://mathworld.wolfram.com/Field.html">field</a>.
  * <p>
  * Classes implementing this interface will often be singletons.
  * </p>

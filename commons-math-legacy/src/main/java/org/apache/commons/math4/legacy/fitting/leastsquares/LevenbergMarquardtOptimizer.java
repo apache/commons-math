@@ -40,7 +40,7 @@ import org.apache.commons.numbers.core.Precision;
  * are changed to implement this.</p>
  *
  * <p>The resolution engine is a simple translation of the MINPACK <a
- * href="http://www.netlib.org/minpack/lmder.f">lmder</a> routine with minor
+ * href="https://www.netlib.org/minpack/lmder.f">lmder</a> routine with minor
  * changes. The changes include the over-determined resolution, the use of
  * inherited convergence checker and the Q.R. decomposition which has been
  * rewritten following the algorithm described in the
@@ -54,7 +54,7 @@ import org.apache.commons.numbers.core.Precision;
  * <li>Jorge J. More</li>
  * </ul>
  * The redistribution policy for MINPACK is available <a
- * href="http://www.netlib.org/minpack/disclaimer">here</a>, for convenience, it
+ * href="https://www.netlib.org/minpack/disclaimer">here</a>, for convenience, it
  * is reproduced below.
  *
  * <table style="text-align: center; background-color: #E0E0E0" border="">
@@ -593,7 +593,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      * Determines the Levenberg-Marquardt parameter.
      *
      * <p>This implementation is a translation in Java of the MINPACK
-     * <a href="http://www.netlib.org/minpack/lmpar.f">lmpar</a>
+     * <a href="https://www.netlib.org/minpack/lmpar.f">lmpar</a>
      * routine.</p>
      * <p>This method sets the lmPar and lmDir attributes.</p>
      * <p>The authors of the original fortran function are:</p>
@@ -779,7 +779,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
     /**
      * Solve a*x = b and d*x = 0 in the least squares sense.
      * <p>This implementation is a translation in Java of the MINPACK
-     * <a href="http://www.netlib.org/minpack/qrsolv.f">qrsolv</a>
+     * <a href="https://www.netlib.org/minpack/qrsolv.f">qrsolv</a>
      * routine.</p>
      * <p>This method sets the lmDir and lmDiag attributes.</p>
      * <p>The authors of the original fortran function are:</p>

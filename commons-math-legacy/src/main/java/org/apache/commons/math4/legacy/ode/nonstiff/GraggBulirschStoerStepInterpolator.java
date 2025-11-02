@@ -36,10 +36,10 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * <p>
  * This implementation is basically a reimplementation in Java of the
  * <a
- * href="http://www.unige.ch/math/folks/hairer/prog/nonstiff/odex.f">odex</a>
+ * href="https://www.unige.ch/math/folks/hairer/prog/nonstiff/odex.f">odex</a>
  * fortran code by E. Hairer and G. Wanner. The redistribution policy
  * for this code is available <a
- * href="http://www.unige.ch/~hairer/prog/licence.txt">here</a>, for
+ * href="https://www.unige.ch/~hairer/prog/licence.txt">here</a>, for
  * convenience, it is reproduced below.</p>
  *
  * <table border="" style="text-align: center; background-color: #E0E0E0;">

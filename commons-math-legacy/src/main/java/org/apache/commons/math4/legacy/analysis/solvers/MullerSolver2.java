@@ -22,7 +22,7 @@ import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * This class implements the <a href="http://mathworld.wolfram.com/MullersMethod.html">
+ * This class implements the <a href="https://mathworld.wolfram.com/MullersMethod.html">
  * Muller's Method</a> for root finding of real univariate functions. For
  * reference, see <b>Elementary Numerical Analysis</b>, ISBN 0070124477,
  * chapter 3.

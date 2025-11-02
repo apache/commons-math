@@ -60,9 +60,9 @@ import org.apache.commons.math4.legacy.core.Pair;
  * Kendall's Tau with Ungrouped Data" in the Journal of the American
  * Statistical Association.
  *
- * @see <a href="http://en.wikipedia.org/wiki/Kendall_tau_rank_correlation_coefficient">
+ * @see <a href="https://en.wikipedia.org/wiki/Kendall_tau_rank_correlation_coefficient">
  * Kendall tau rank correlation coefficient (Wikipedia)</a>
- * @see <a href="http://www.jstor.org/stable/2282833">A Computer
+ * @see <a href="https://www.jstor.org/stable/2282833">A Computer
  * Method for Calculating Kendall's Tau with Ungrouped Data</a>
  *
  * @since 3.3

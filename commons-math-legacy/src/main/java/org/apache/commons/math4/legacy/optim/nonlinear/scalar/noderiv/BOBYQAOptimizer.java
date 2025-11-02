@@ -33,8 +33,8 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 /**
  * Powell's BOBYQA algorithm. This implementation is translated and
  * adapted from the Fortran version available
- * <a href="http://plato.asu.edu/ftp/other_software/bobyqa.zip">here</a>.
- * See <a href="http://www.optimization-online.org/DB_HTML/2010/05/2616.html">
+ * <a href="https://plato.asu.edu/ftp/other_software/bobyqa.zip">here</a>.
+ * See <a href="https://www.optimization-online.org/DB_HTML/2010/05/2616.html">
  * this paper</a> for an introduction.
  * <br>
  * BOBYQA is particularly well suited for high dimensional problems

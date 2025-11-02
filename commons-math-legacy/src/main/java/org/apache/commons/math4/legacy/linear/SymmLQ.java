@@ -27,7 +27,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * Implementation of the SYMMLQ iterative linear solver proposed by <a
  * href="#PAIG1975">Paige and Saunders (1975)</a>. This implementation is
  * largely based on the FORTRAN code by Pr. Michael A. Saunders, available <a
- * href="http://www.stanford.edu/group/SOL/software/symmlq/f77/">here</a>.
+ * href="https://www.stanford.edu/group/SOL/software/symmlq/f77/">here</a>.
  * </p>
  * <p>
  * SYMMLQ is designed to solve the system of linear equations A &middot; x = b
@@ -141,7 +141,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * <dl>
  * <dt><a id="PAIG1975">Paige and Saunders (1975)</a></dt>
  * <dd>C. C. Paige and M. A. Saunders, <a
- * href="http://www.stanford.edu/group/SOL/software/symmlq/PS75.pdf"><em>
+ * href="https://www.stanford.edu/group/SOL/software/symmlq/PS75.pdf"><em>
  * Solution of Sparse Indefinite Systems of Linear Equations</em></a>, SIAM
  * Journal on Numerical Analysis 12(4): 617-629, 1975</dd>
  * </dl>

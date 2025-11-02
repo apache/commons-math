@@ -30,7 +30,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 
  * <p>
  * This method is described in H. A. Luther 1968 paper <a
- * href="http://www.ams.org/journals/mcom/1968-22-102/S0025-5718-68-99876-1/S0025-5718-68-99876-1.pdf">
+ * href="https://www.ams.org/journals/mcom/1968-22-102/S0025-5718-68-99876-1/S0025-5718-68-99876-1.pdf">
  * An explicit Sixth-Order Runge-Kutta Formula</a>.
  * </p>
 

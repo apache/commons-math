@@ -21,7 +21,7 @@ import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/RiddersMethod.html">
+ * Implements the <a href="https://mathworld.wolfram.com/RiddersMethod.html">
  * Ridders' Method</a> for root finding of real univariate functions. For
  * reference, see C. Ridders, <i>A new algorithm for computing a single root
  * of a real continuous function </i>, IEEE Transactions on Circuits and

@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Harmonic_oscillator">
+ * <a href="https://en.wikipedia.org/wiki/Harmonic_oscillator">
  *  simple harmonic oscillator</a> function.
  *
  * @since 3.0

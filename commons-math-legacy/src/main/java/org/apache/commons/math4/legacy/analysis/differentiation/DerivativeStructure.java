@@ -31,7 +31,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * <p>This class is the workhorse of the differentiation package.</p>
  * <p>This class is an implementation of the extension to Rall's
  * numbers described in Dan Kalman's paper <a
- * href="http://www1.american.edu/cas/mathstat/People/kalman/pdffiles/mmgautodiff.pdf">Doubly
+ * href="https://www1.american.edu/cas/mathstat/People/kalman/pdffiles/mmgautodiff.pdf">Doubly
  * Recursive Multivariate Automatic Differentiation</a>, Mathematics Magazine, vol. 75,
  * no. 3, June 2002. Rall's numbers are an extension to the real numbers used
  * throughout mathematical expressions; they hold the derivative together with the
