@@ -16,3 +16,7 @@ site-content*
 *~
 /.externalToolBuilders/
 /maven-eclipse.xml
+
+# NetBeans files
+nb-configuration.xml
+nbactions.xml
