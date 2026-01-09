@@ -62,7 +62,7 @@ import org.junit.Test;
  *     with the distribution.</li>
  * <li>The end-user documentation included with the redistribution, if any,
  *     must include the following acknowledgment:
- *     <code>This product includes software developed by the University of
+ *     <code>This product includes software developed at the University of
  *           Chicago, as Operator of Argonne National Laboratory.</code>
  *     Alternately, this acknowledgment may appear in the software itself,
  *     if and wherever such third-party acknowledgments normally appear.</li>
