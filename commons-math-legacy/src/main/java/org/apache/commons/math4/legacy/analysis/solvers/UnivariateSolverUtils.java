@@ -175,7 +175,7 @@ public final class UnivariateSolverUtils {
      * with {@code q} and {@code r} set to 1.0 and {@code maximumIterations} set to {@code Integer.MAX_VALUE}.
      * <p>
      * <strong>Note: </strong> this method can take {@code Integer.MAX_VALUE}
-     * iterations to throw a {@code ConvergenceException.}  Unless you are
+     * iterations to throw a {@code ConvergenceException}.  Unless you are
      * confident that there is a root between {@code lowerBound} and
      * {@code upperBound} near {@code initial}, it is better to use
      * {@link #bracket(UnivariateFunction, double, double, double, double,double, int)

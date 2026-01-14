@@ -60,7 +60,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
  * {@code contractionFactor} properties.  If  the {@code expansionMode}
  * is {@code MULTIPLICATIVE}, contraction is triggered when the
  * ratio between storage array length and {@code numElements} exceeds
- * {@code contractionFactor.}  If the {@code expansionMode}
+ * {@code contractionFactor}.  If the {@code expansionMode}
  * is {@code ADDITIVE}, the number of excess storage locations
  * is compared to {@code contractionFactor}.
  * <p>
