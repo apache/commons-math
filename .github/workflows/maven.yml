@@ -42,7 +42,7 @@ jobs:
         java: [ 8, 11, 17 ]
 
     steps:
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # 6.0.1
       with:
         persist-credentials: false
     - name: Set up JDK ${{ matrix.java }}
