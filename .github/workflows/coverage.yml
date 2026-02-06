@@ -36,6 +36,7 @@ jobs:
 
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 20
       matrix:
         java: [ 11 ] # Use 11 rather than 8, as 8 fails currently
 

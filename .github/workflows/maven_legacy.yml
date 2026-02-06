@@ -32,6 +32,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     strategy:
+      max-parallel: 20
       fail-fast: false # Run all the versions, but show overall status as failed if one fails
       matrix:
         os: [ ubuntu-latest, macos-13, windows-latest ]
