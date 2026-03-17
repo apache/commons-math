@@ -17,8 +17,8 @@
 This document is meant as a step-by-step recipe to achieve the release of
 the Commons Math component. Note that more general instructions valid
 for all components, including [math], are available on the Apache Commons
-main site: at "http://commons.apache.org/releases/prepare.html" and
-"http://commons.apache.org/releases/release.html".
+main site: at "https://commons.apache.org/releases/prepare.html" and
+"https://commons.apache.org/releases/release.html".
 
 The files "settings-security.xml" and "settings.xml" are minimal examples
 of files used by maven to pick up authentication credentials needed to
@@ -298,7 +298,7 @@ repository.
 As a measure of sanity check,  repository must be manually "closed" before other
 people review the deliverables just created.
 How to "close" the staging repository is explained at this page:
-  http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-closing
+  https://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-closing
 
 (12)
 [Actions described in this section are now performed by the
@@ -377,7 +377,7 @@ Commit ID the tag points at:
   12ad3420a77611557603d1c7893d588610b2463a
 
 Site:
-  http://home.apache.org/~erans/commons-math-4.0-beta1-site/
+  https://home.apache.org/~erans/commons-math-4.0-beta1-site/
 
 Distribution files and release notes:
   https://dist.apache.org/repos/dist/dev/commons/math/
@@ -405,7 +405,7 @@ Distribution files and release notes:
       $ sha512sum -c sha512.txt
 
 KEYS file to check signatures:
-  http://downloads.apache.org/commons/KEYS
+  https://downloads.apache.org/commons/KEYS
 
 Maven artefacts:
   https://repository.apache.org/content/repositories/orgapachecommons-1613/
@@ -460,7 +460,7 @@ $ svnmucc -u "__Your_apache_login__" \
 
 (18)
 Release the artifacts on the Nexus server, as shown here:
-  http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-releasing
+  https://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-releasing
 
 
 (19)
@@ -502,7 +502,7 @@ the following command:
       https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/javadocs/api-4.0-beta1
 
 Wait a few minutes for the live site to fully synchronize, and then check
-    http://commons.apache.org/proper/commons-math/
+    https://commons.apache.org/proper/commons-math/
 to make sure everything looks correct.
 
 (21)
