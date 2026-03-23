@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
 
 /**
- * Goal type for an optimization problem (minimization or maximization of
+ * Enumerates goal type for an optimization problem (minimization or maximization of
  * a scalar function.
  *
  * @since 2.0

@@ -40,7 +40,7 @@ import java.util.List;
  */
 public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T> {
 
-    /** Strategies to use for replacing an empty cluster. */
+    /** Enumerates strategies to use for replacing an empty cluster. */
     public enum EmptyClusterStrategy {
 
         /** Split the cluster with largest distance variance. */

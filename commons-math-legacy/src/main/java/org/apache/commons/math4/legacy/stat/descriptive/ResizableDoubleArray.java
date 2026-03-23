@@ -126,7 +126,7 @@ class ResizableDoubleArray implements DoubleArray { // Not in public API.
     private int startIndex;
 
     /**
-     * Specification of expansion algorithm.
+     * Enumerates specifications of expansion algorithms.
      * @since 3.1
      */
     public enum ExpansionMode {

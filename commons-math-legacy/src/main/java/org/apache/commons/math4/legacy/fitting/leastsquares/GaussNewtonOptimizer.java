@@ -48,7 +48,7 @@ import org.apache.commons.math4.legacy.core.Pair;
  */
 public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
 
-    /** The decomposition algorithm to use to solve the normal equations. */
+    /** Enumerates the decomposition algorithm to use to solve the normal equations. */
     //TODO move to linear package and expand options?
     public enum Decomposition {
         /**

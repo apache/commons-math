@@ -51,7 +51,7 @@ public class NonLinearConjugateGradientOptimizer
     private final Preconditioner preconditioner;
 
     /**
-     * Available choices of update formulas for the updating the parameter
+     * Enumerates available choices of update formulas for the updating the parameter
      * that is used to compute the successive conjugate search directions.
      * For non-linear conjugate gradients, there are
      * two formulas:

@@ -19,11 +19,10 @@ package org.apache.commons.math4.legacy.ode.events;
 
 import org.apache.commons.math4.legacy.exception.MathInternalError;
 
-/** Enumerate for {@link EventFilter filtering events}.
+/** Enumerates {@link EventFilter filtering events}.
  *
  * @since 3.2
  */
-
 public enum FilterType {
 
     /** Constant for triggering only decreasing events.

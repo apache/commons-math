@@ -67,7 +67,7 @@ public class NeuronSquareMesh2D
     private final long[][] identifiers;
 
     /**
-     * Horizontal (along row) direction.
+     * Enumerates horizontal (along row) direction.
      * @since 3.6
      */
     public enum HorizontalDirection {
@@ -79,7 +79,7 @@ public class NeuronSquareMesh2D
        LEFT,
     }
     /**
-     * Vertical (along column) direction.
+     * Enumerates vertical (along column) direction.
      * @since 3.6
      */
     public enum VerticalDirection {

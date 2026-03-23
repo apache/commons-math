@@ -18,7 +18,7 @@
 package org.apache.commons.math4.neuralnet;
 
 /**
- * Defines neighbourhood types.
+ * Enumerates neighbourhood types.
  *
  * @since 3.3
  */

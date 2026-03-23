@@ -17,7 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode.sampling;
 
-/** {@link StepNormalizer Step normalizer} bounds settings. They influence
+/** Enumerates {@link StepNormalizer Step normalizer} bounds settings. They influence
  * whether the underlying fixed step size step handler is called for the first
  * and last points. Note that if the last point coincides with a normalized
  * point, then the underlying fixed step size step handler is always called,

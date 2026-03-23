@@ -286,7 +286,7 @@ public final class MathArrays {
     }
 
     /**
-     * Specification of ordering direction.
+     * Enumerates specifications of ordering directions.
      */
     public enum OrderDirection {
         /** Constant for increasing direction. */

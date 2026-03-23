@@ -25,7 +25,7 @@ import org.apache.commons.math4.legacy.core.FieldElement;
  */
 public class DfpField implements Field<Dfp> {
 
-    /** Enumerate for rounding modes. */
+    /** Enumerates rounding modes. */
     public enum RoundingMode {
 
         /** Rounds toward zero (truncation). */

@@ -21,7 +21,7 @@ import java.util.function.DoubleUnaryOperator;
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
 
 /**
- * Generators of {@link MultivariateFunction multivariate scalar functions}.
+ * Enumerates generators of {@link MultivariateFunction multivariate scalar functions}.
  * The functions are intended for testing optimizer implementations.
  * <p>
  * Note: The {@link #withDimension(int) function generators} take the space

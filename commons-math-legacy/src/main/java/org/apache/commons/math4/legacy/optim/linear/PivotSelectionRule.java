@@ -19,7 +19,7 @@ package org.apache.commons.math4.legacy.optim.linear;
 import org.apache.commons.math4.legacy.optim.OptimizationData;
 
 /**
- * Pivot selection rule to the use for a Simplex solver.
+ * Enumerates pivot selection rule to the use for a Simplex solver.
  *
  * @since 3.3
  */

@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.ode.sampling;
 
 
-/** {@link StepNormalizer Step normalizer} modes. Determines how the step size
+/** Enumerates {@link StepNormalizer Step normalizer} modes. Determines how the step size
  * is interpreted.
  * @see FieldStepNormalizer
  * @see StepNormalizer

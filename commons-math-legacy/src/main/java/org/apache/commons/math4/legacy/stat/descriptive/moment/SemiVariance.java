@@ -223,7 +223,7 @@ public class SemiVariance extends AbstractUnivariateStatistic {
      }
 
      /**
-      * The direction of the semivariance - either upside or downside. The direction
+      * Enumerates the direction of the semivariance - either upside or downside. The direction
       * is represented by boolean, with true corresponding to UPSIDE semivariance.
       */
      public enum Direction {

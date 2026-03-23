@@ -18,7 +18,7 @@
 package org.apache.commons.math4.legacy.analysis.solvers;
 
 
-/** The kinds of solutions that a {@link BracketedUnivariateSolver
+/** Enumerates the kinds of solutions that a {@link BracketedUnivariateSolver
  * (bracketed univariate real) root-finding algorithm} may accept as solutions.
  * This basically controls whether or not under-approximations and
  * over-approximations are allowed.
