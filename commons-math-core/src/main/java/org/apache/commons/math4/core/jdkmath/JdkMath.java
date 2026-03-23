@@ -209,7 +209,7 @@ public final class JdkMath {
     /** ulp(x). */
     private static final FloatUnaryOperator ULP_FLOAT;
 
-    /** Available implementations of {@link Math} functions. */
+    /** Enumerates available implementations of {@link Math} functions. */
     public enum Impl {
         /** {@link AccurateMath Commons Math}. */
         CM,
