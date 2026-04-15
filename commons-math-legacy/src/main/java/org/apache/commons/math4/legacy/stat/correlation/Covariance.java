@@ -21,6 +21,7 @@ import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
+import org.apache.commons.statistics.descriptive.Mean;
 
 /**
  * Computes covariances for pairs of arrays or columns of a matrix.
@@ -240,8 +241,8 @@ public class Covariance {
             throw new MathIllegalArgumentException(
                   LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, length, 2);
         } else {
-            double xMean = org.apache.commons.statistics.descriptive.Mean.of(xArray).getAsDouble();
-            double yMean = org.apache.commons.statistics.descriptive.Mean.of(yArray).getAsDouble();
+            double xMean = Mean.of(xArray).getAsDouble();
+            double yMean = Mean.of(yArray).getAsDouble();
             for (int i = 0; i < length; i++) {
                 double xDev = xArray[i] - xMean;
                 double yDev = yArray[i] - yMean;
