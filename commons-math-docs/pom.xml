@@ -51,6 +51,8 @@
     <checkstyle.skip>true</checkstyle.skip>
     <changes.jira.skip>true</changes.jira.skip>
     <skipSurefireReport>true</skipSurefireReport>
+    <spdx.skip>true</spdx.skip>
+    <japicmp.skip>true</japicmp.skip>
     <!-- Disable javadoc errors so an aggregate is always created. -->
     <doclint.javadoc.qualifier>-Xdoclint:none</doclint.javadoc.qualifier>
   </properties>
