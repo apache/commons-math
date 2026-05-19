@@ -125,8 +125,7 @@ public final class FieldDenseMatrix<T>
         if (this == other) {
             return true;
         } else {
-            if (other instanceof FieldDenseMatrix) {
-                final FieldDenseMatrix<?> m = (FieldDenseMatrix<?>) other;
+            if (other instanceof FieldDenseMatrix<?> m) {
                 return field.equals(m.field) &&
                     rows == m.rows &&
                     columns == m.columns &&

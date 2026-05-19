@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.optim.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -26,6 +28,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class UnboundedSolutionException extends MathIllegalStateException {
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 940539497277290619L;
 
     /**

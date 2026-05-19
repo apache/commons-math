@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.ode;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -27,6 +29,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 public class UnknownParameterException extends MathIllegalArgumentException {
 
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = 20120902L;
 
     /** Parameter name. */

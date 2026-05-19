@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -33,6 +34,7 @@ import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 public class EquationsMapper implements Serializable {
 
     /** Serializable UID. */
+    @Serial
     private static final long serialVersionUID = 20110925L;
 
     /** Index of the first equation element in complete state arrays. */

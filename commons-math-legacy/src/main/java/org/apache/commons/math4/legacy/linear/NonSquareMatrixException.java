@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -26,6 +28,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class NonSquareMatrixException extends DimensionMismatchException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -660069396594485772L;
 
     /**

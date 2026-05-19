@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.ode.AbstractIntegrator;
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
@@ -71,6 +73,7 @@ class DormandPrince54StepInterpolator
     private static final double D6 =      69997945.0 /     29380423.0;
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20111120L;
 
     /** First vector for interpolation. */

@@ -97,15 +97,14 @@ public abstract class UnivariateOptimizer
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof SearchInterval) {
-                final SearchInterval interval = (SearchInterval) data;
+            if (data instanceof SearchInterval interval) {
                 min = interval.getMin();
                 max = interval.getMax();
                 start = interval.getStartValue();
                 continue;
             }
-            if (data instanceof UnivariateObjectiveFunction) {
-                final UnivariateFunction delegate = ((UnivariateObjectiveFunction) data).getObjectiveFunction();
+            if (data instanceof UnivariateObjectiveFunction objectiveFunction) {
+                final UnivariateFunction delegate = objectiveFunction.getObjectiveFunction();
                 function = new UnivariateFunction() {
                         @Override
                         public double value(double point) {
@@ -115,8 +114,8 @@ public abstract class UnivariateOptimizer
                     };
                 continue;
             }
-            if (data instanceof GoalType) {
-                goal = (GoalType) data;
+            if (data instanceof GoalType type) {
+                goal = type;
                 continue;
             }
         }

@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -37,6 +39,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 public class NonSelfAdjointOperatorException
     extends MathIllegalArgumentException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = 1784999305030258247L;
 
     /** Creates a new instance of this class. */

@@ -294,7 +294,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
 
         // Verify that GLS is on average more efficient, lower variance
         Assertions.assertTrue(olsBetaStats.getMean() > 1.1 * glsBetaStats.getMean(), 
-            () -> String.format("OLS %s : GLS %s", olsBetaStats.getMean(), glsBetaStats.getMean()));
+            () -> "OLS %s : GLS %s".formatted(olsBetaStats.getMean(), glsBetaStats.getMean()));
         Assert.assertTrue(olsBetaStats.getStandardDeviation() > glsBetaStats.getStandardDeviation());
     }
 }

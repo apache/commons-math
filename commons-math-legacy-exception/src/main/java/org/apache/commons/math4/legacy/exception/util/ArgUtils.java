@@ -41,8 +41,8 @@ public final class ArgUtils {
         final List<Object> list = new ArrayList<>();
         if (array != null) {
             for (Object o : array) {
-                if (o instanceof Object[]) {
-                    list.addAll(Arrays.asList(flatten((Object[]) o)));
+                if (o instanceof Object[] objects) {
+                    list.addAll(Arrays.asList(flatten(objects)));
                 } else {
                     list.add(o);
                 }

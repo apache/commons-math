@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
 import org.apache.commons.math4.legacy.exception.util.ExceptionContextProvider;
 import org.apache.commons.math4.legacy.exception.util.Localizable;
@@ -38,6 +40,7 @@ public class NullArgumentException extends NullPointerException
     implements ExceptionContextProvider {
 
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = 20150225L;
 
     /** Context. */

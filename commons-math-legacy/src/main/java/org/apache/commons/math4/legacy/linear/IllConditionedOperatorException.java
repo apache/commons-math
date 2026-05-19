@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -28,6 +30,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 public class IllConditionedOperatorException
     extends MathIllegalArgumentException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -7883263944530490135L;
 
     /**

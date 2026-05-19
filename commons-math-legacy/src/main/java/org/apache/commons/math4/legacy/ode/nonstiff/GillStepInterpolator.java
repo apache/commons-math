@@ -18,7 +18,10 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
+
 import org.apache.commons.math4.core.jdkmath.JdkMath;
+
+import java.io.Serial;
 
 /**
  * This class implements a step interpolator for the Gill fourth
@@ -61,6 +64,7 @@ class GillStepInterpolator
     private static final double ONE_PLUS_INV_SQRT_2 = 1 + JdkMath.sqrt(0.5);
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20111120L;
 
   /** Simple constructor.

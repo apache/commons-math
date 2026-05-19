@@ -675,11 +675,11 @@ public class AccurateMathTest {
         if (numerator == 0) {
             // Exact including the sign.
             Assertions.assertEquals(numerator, v,
-                () -> String.format("atan2(%s, %s) should be %s but was %s", y, x, numerator, v));
+                () -> "atan2(%s, %s) should be %s but was %s".formatted(y, x, numerator, v));
         } else {
             final double expected = AccurateMath.PI * numerator / denominator;
             Assertions.assertEquals(expected, v, Precision.EPSILON,
-                () -> String.format("atan2(%s, %s) should be pi * %s / %s", y, x, numerator, denominator));
+                () -> "atan2(%s, %s) should be pi * %s / %s".formatted(y, x, numerator, denominator));
         }
     }
 

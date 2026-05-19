@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.core.Field;
@@ -45,6 +46,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     extends AbstractFieldMatrix<T>
     implements Serializable {
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 7260756672015356458L;
     /** Entries of the matrix. */
     private T[][] data;

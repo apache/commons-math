@@ -695,8 +695,8 @@ public abstract class AbstractRealMatrix
     @Override
     public RealVector operate(final RealVector v)
         throws DimensionMismatchException {
-        if (v instanceof ArrayRealVector) {
-            return new ArrayRealVector(operate(((ArrayRealVector) v).getDataRef()), false);
+        if (v instanceof ArrayRealVector vector) {
+            return new ArrayRealVector(operate(vector.getDataRef()), false);
         }
 
         final int nRows = getRowDimension();
@@ -742,8 +742,8 @@ public abstract class AbstractRealMatrix
     /** {@inheritDoc} */
     @Override
     public RealVector preMultiply(final RealVector v) throws DimensionMismatchException {
-        if (v instanceof ArrayRealVector) {
-            return new ArrayRealVector(preMultiply(((ArrayRealVector) v).getDataRef()), false);
+        if (v instanceof ArrayRealVector vector) {
+            return new ArrayRealVector(preMultiply(vector.getDataRef()), false);
         }
 
         final int nRows = getRowDimension();

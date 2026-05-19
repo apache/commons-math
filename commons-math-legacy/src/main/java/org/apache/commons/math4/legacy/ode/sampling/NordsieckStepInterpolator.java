@@ -20,6 +20,7 @@ package org.apache.commons.math4.legacy.ode.sampling;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.io.Serial;
 import java.util.Arrays;
 
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
@@ -41,6 +42,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = -7179861704951334960L;
 
     /** State variation. */

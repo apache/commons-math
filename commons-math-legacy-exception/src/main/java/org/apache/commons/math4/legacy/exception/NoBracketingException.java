@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.util.Localizable;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -27,6 +29,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class NoBracketingException extends MathIllegalArgumentException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -3629324471511904459L;
     /** Lower end of the interval. */
     private final double lo;

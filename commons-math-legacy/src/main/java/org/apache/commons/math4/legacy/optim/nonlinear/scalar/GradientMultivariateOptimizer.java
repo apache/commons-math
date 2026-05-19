@@ -91,8 +91,8 @@ public abstract class GradientMultivariateOptimizer
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if  (data instanceof ObjectiveFunctionGradient) {
-                gradient = ((ObjectiveFunctionGradient) data).getObjectiveFunctionGradient();
+            if  (data instanceof ObjectiveFunctionGradient functionGradient) {
+                gradient = functionGradient.getObjectiveFunctionGradient();
                 // If more data must be parsed, this statement _must_ be
                 // changed to "continue".
                 break;

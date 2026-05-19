@@ -852,8 +852,7 @@ class SimplexTableau {
         return true;
       }
 
-      if (other instanceof SimplexTableau) {
-          SimplexTableau rhs = (SimplexTableau) other;
+      if (other instanceof SimplexTableau rhs) {
           return restrictToNonNegative  == rhs.restrictToNonNegative &&
                  numDecisionVariables   == rhs.numDecisionVariables &&
                  numSlackVariables      == rhs.numSlackVariables &&

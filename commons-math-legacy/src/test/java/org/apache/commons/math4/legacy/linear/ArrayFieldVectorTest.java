@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.linear;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.FieldElement;
@@ -615,7 +616,7 @@ public class ArrayFieldVectorTest {
         final int n = 2;
         ArrayFieldVector<BigReal> v = new ArrayFieldVector<>(BigRealField.getInstance());
         for (int i = 0; i < n; i++) {
-            v.append(new BigReal(Math.random()));
+            v.append(new BigReal(ThreadLocalRandom.current().nextDouble()));
         }
         Assert.assertEquals(v, TestUtils.serializeAndRecover(v));
     }

@@ -155,8 +155,7 @@ public class City {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof City) {
-            final City other = (City) o;
+        if (o instanceof City other) {
             return x == other.x &&
                 y == other.y;
         }

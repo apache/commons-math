@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.exception.util;
 
+import java.io.Serial;
 import java.util.Locale;
 
 /**
@@ -26,6 +27,7 @@ import java.util.Locale;
 public class DummyLocalizable implements Localizable {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 8843275624471387299L;
 
     /** Source string. */

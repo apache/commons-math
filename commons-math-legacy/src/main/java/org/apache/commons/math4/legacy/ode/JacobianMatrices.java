@@ -162,8 +162,8 @@ public class JacobianMatrices {
         throws DimensionMismatchException, MismatchedEquations {
 
         // safety checks
-        final FirstOrderDifferentialEquations ode = (jode instanceof MainStateJacobianWrapper) ?
-                                                    ((MainStateJacobianWrapper) jode).ode :
+        final FirstOrderDifferentialEquations ode = (jode instanceof MainStateJacobianWrapper msjw) ?
+                                                    msjw.ode :
                                                     jode;
         if (expandable.getPrimary() != ode) {
             throw new MismatchedEquations();

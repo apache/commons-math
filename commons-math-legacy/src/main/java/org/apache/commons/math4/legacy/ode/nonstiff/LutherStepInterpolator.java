@@ -18,7 +18,10 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
+
 import org.apache.commons.math4.core.jdkmath.JdkMath;
+
+import java.io.Serial;
 
 /**
  * This class represents an interpolator over the last step during an
@@ -35,6 +38,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 class LutherStepInterpolator extends RungeKuttaStepInterpolator {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20140416L;
 
     /** Square root. */

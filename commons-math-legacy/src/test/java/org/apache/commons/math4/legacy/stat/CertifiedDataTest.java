@@ -99,8 +99,8 @@ public class CertifiedDataTest {
 
         DescriptiveStatistics d = null;
         SummaryStatistics s = null;
-        if (u instanceof DescriptiveStatistics) {
-            d = (DescriptiveStatistics) u;
+        if (u instanceof DescriptiveStatistics statistics) {
+            d = statistics;
         } else {
             s = (SummaryStatistics) u;
         }

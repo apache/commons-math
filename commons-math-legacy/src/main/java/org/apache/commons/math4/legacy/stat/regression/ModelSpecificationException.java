@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.stat.regression;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.Localizable;
 
@@ -26,6 +28,7 @@ import org.apache.commons.math4.legacy.exception.util.Localizable;
  */
 public class ModelSpecificationException extends MathIllegalArgumentException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = 4206514456095401070L;
 
     /**

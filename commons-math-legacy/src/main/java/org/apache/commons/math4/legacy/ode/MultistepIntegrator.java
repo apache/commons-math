@@ -227,8 +227,8 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         // start integration, expecting a InitializationCompletedMarkerException
         try {
 
-            if (starter instanceof AbstractIntegrator) {
-                ((AbstractIntegrator) starter).integrate(getExpandable(), t);
+            if (starter instanceof AbstractIntegrator integrator) {
+                integrator.integrate(getExpandable(), t);
             } else {
                 starter.integrate(new FirstOrderDifferentialEquations() {
 

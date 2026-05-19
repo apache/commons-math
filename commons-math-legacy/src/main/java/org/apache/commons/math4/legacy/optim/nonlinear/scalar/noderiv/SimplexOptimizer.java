@@ -303,14 +303,14 @@ public class SimplexOptimizer extends MultivariateOptimizer {
         // The existing values (as set by the previous call) are reused
         // if not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof Simplex) {
-                initialSimplex = (Simplex) data;
-            } else if (data instanceof Simplex.TransformFactory) {
-                updateRule = (Simplex.TransformFactory) data;
-            } else if (data instanceof SimulatedAnnealing) {
-                simulatedAnnealing = (SimulatedAnnealing) data;
-            } else if (data instanceof PopulationSize) {
-                populationSize = ((PopulationSize) data).getPopulationSize();
+            if (data instanceof Simplex simplex) {
+                initialSimplex = simplex;
+            } else if (data instanceof Simplex.TransformFactory factory) {
+                updateRule = factory;
+            } else if (data instanceof SimulatedAnnealing annealing) {
+                simulatedAnnealing = annealing;
+            } else if (data instanceof PopulationSize size) {
+                populationSize = size.getPopulationSize();
             }
         }
     }

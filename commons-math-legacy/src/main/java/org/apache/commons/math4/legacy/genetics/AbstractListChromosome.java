@@ -101,6 +101,6 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return String.format("(f=%s %s)", getFitness(), getRepresentation());
+        return "(f=%s %s)".formatted(getFitness(), getRepresentation());
     }
 }

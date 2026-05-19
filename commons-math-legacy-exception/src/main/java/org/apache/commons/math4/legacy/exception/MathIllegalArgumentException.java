@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.util.Localizable;
 
 /**
@@ -28,6 +30,7 @@ import org.apache.commons.math4.legacy.exception.util.Localizable;
  */
 public class MathIllegalArgumentException extends MathRuntimeException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -6024911025449780478L;
 
     /**

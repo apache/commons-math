@@ -21,6 +21,7 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
@@ -47,6 +48,7 @@ class OpenIntToDoubleHashMap implements Serializable { // Not in public API.
     protected static final byte REMOVED = 2;
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = -3646337053166149105L;
 
     /** Load factor for the map. */

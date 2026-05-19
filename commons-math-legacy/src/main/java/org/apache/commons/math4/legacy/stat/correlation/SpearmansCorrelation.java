@@ -66,8 +66,8 @@ public class SpearmansCorrelation {
     public SpearmansCorrelation(final RankingAlgorithm rankingAlgorithm)
         throws MathIllegalArgumentException {
 
-        if (rankingAlgorithm instanceof NaturalRanking &&
-            NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
+        if (rankingAlgorithm instanceof NaturalRanking ranking &&
+            NaNStrategy.REMOVED == ranking.getNanStrategy()) {
             throw new MathIllegalArgumentException(LocalizedFormats.NOT_SUPPORTED_NAN_STRATEGY,
                                                    NaNStrategy.REMOVED);
         }
@@ -100,8 +100,8 @@ public class SpearmansCorrelation {
     public SpearmansCorrelation(final RealMatrix dataMatrix, final RankingAlgorithm rankingAlgorithm)
         throws MathIllegalArgumentException {
 
-        if (rankingAlgorithm instanceof NaturalRanking &&
-            NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
+        if (rankingAlgorithm instanceof NaturalRanking ranking &&
+            NaNStrategy.REMOVED == ranking.getNanStrategy()) {
             throw new MathIllegalArgumentException(LocalizedFormats.NOT_SUPPORTED_NAN_STRATEGY,
                                                    NaNStrategy.REMOVED);
         }

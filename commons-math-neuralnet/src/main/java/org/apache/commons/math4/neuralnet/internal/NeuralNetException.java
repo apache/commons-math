@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.neuralnet.internal;
 
+import java.io.Serial;
 import java.text.MessageFormat;
 
 /**
@@ -40,6 +41,7 @@ public class NeuralNetException extends IllegalArgumentException {
     public static final String ID_NOT_FOUND = "Identifier not found: {0}";
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20210515L;
 
     /**

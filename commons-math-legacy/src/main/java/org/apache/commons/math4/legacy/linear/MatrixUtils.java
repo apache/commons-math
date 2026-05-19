@@ -1000,8 +1000,8 @@ public final class MatrixUtils {
                                                matrix.getColumnDimension());
         }
 
-        if (matrix instanceof DiagonalMatrix) {
-            return ((DiagonalMatrix) matrix).inverse(threshold);
+        if (matrix instanceof DiagonalMatrix diagonalMatrix) {
+            return diagonalMatrix.inverse(threshold);
         } else {
             QRDecomposition decomposition = new QRDecomposition(matrix, threshold);
             return decomposition.getSolver().getInverse();

@@ -20,6 +20,7 @@ package org.apache.commons.math4.legacy.ode.nonstiff;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.io.Serial;
 
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
 import org.apache.commons.math4.legacy.ode.sampling.AbstractStepInterpolator;
@@ -78,6 +79,7 @@ class GraggBulirschStoerStepInterpolator
   extends AbstractStepInterpolator {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20110928L;
 
     /** Slope at the beginning of the step. */

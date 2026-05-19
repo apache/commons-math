@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -39,6 +40,7 @@ import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 public class OpenMapRealMatrix extends AbstractRealMatrix
     implements SparseRealMatrix, Serializable {
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = -5962461716457143437L;
     /** Number of rows of the matrix. */
     private final int rows;
@@ -133,8 +135,8 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     @Override
     public OpenMapRealMatrix subtract(final RealMatrix m)
         throws MatrixDimensionMismatchException {
-        if (m instanceof OpenMapRealMatrix) {
-            return subtract((OpenMapRealMatrix) m);
+        if (m instanceof OpenMapRealMatrix matrix) {
+            return subtract(matrix);
         }
         return (OpenMapRealMatrix) super.subtract(m);
     }
@@ -172,8 +174,8 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     @Override
     public RealMatrix multiply(final RealMatrix m)
         throws DimensionMismatchException, NumberIsTooLargeException {
-        if (m instanceof OpenMapRealMatrix) {
-            return multiply((OpenMapRealMatrix) m);
+        if (m instanceof OpenMapRealMatrix matrix) {
+            return multiply(matrix);
         }
 
         MatrixUtils.checkMultiplicationCompatible(this, m);

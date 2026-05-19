@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +91,7 @@ public class ContinuousOutputModel
   implements StepHandler, Serializable {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = -1417964919405031606L;
 
     /** Initial integration time. */

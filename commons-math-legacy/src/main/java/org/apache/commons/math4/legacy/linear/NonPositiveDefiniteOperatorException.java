@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -34,6 +36,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 public class NonPositiveDefiniteOperatorException
     extends MathIllegalArgumentException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = 917034489420549847L;
 
     /** Creates a new instance of this class. */

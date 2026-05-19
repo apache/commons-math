@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -31,6 +32,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializable {
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = -1067294169172445528L;
 
     /** Entries of the matrix. */

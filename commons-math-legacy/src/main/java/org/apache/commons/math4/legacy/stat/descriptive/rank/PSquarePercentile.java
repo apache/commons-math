@@ -165,12 +165,12 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     public String toString() {
 
         if (markers == null) {
-            return String.format("obs=%s pValue=%s",
-                    DECIMAL_FORMAT.format(lastObservation),
-                    DECIMAL_FORMAT.format(pValue));
+            return "obs=%s pValue=%s".formatted(
+                DECIMAL_FORMAT.format(lastObservation),
+                DECIMAL_FORMAT.format(pValue));
         } else {
-            return String.format("obs=%s markers=%s",
-                    DECIMAL_FORMAT.format(lastObservation), markers.toString());
+            return "obs=%s markers=%s".formatted(
+                DECIMAL_FORMAT.format(lastObservation), markers.toString());
         }
     }
 
@@ -483,10 +483,10 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          */
         @Override
         public String toString() {
-            return String.format("m1=[%s],m2=[%s],m3=[%s],m4=[%s],m5=[%s]",
-                    markerArray[1].toString(), markerArray[2].toString(),
-                    markerArray[3].toString(), markerArray[4].toString(),
-                    markerArray[5].toString());
+            return "m1=[%s],m2=[%s],m3=[%s],m4=[%s],m5=[%s]".formatted(
+                markerArray[1].toString(), markerArray[2].toString(),
+                markerArray[3].toString(), markerArray[4].toString(),
+                markerArray[5].toString());
         }
     }
 
@@ -699,13 +699,12 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
          */
         @Override
         public String toString() {
-            return String.format(
-                    "index=%.0f,n=%.0f,np=%.2f,q=%.2f,dn=%.2f,prev=%d,next=%d",
-                    (double) index, Precision.round(intMarkerPosition, 0),
-                    Precision.round(desiredMarkerPosition, 2),
-                    Precision.round(markerHeight, 2),
-                    Precision.round(desiredMarkerIncrement, 2), previous.index,
-                    next.index);
+            return "index=%.0f,n=%.0f,np=%.2f,q=%.2f,dn=%.2f,prev=%d,next=%d".formatted(
+                (double) index, Precision.round(intMarkerPosition, 0),
+                Precision.round(desiredMarkerPosition, 2),
+                Precision.round(markerHeight, 2),
+                Precision.round(desiredMarkerIncrement, 2), previous.index,
+                next.index);
         }
     }
 

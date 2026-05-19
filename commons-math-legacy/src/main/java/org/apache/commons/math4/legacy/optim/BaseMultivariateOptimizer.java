@@ -83,12 +83,11 @@ public abstract class BaseMultivariateOptimizer<PAIR>
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof InitialGuess) {
-                start = ((InitialGuess) data).getInitialGuess();
+            if (data instanceof InitialGuess guess) {
+                start = guess.getInitialGuess();
                 continue;
             }
-            if (data instanceof SimpleBounds) {
-                final SimpleBounds bounds = (SimpleBounds) data;
+            if (data instanceof SimpleBounds bounds) {
                 lowerBound = bounds.getLower();
                 upperBound = bounds.getUpper();
                 continue;

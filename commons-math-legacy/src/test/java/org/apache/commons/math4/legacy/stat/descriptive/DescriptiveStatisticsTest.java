@@ -149,15 +149,17 @@ public class DescriptiveStatisticsTest {
         stats.addValue(3);
         Locale d = Locale.getDefault();
         Locale.setDefault(Locale.US);
-        Assert.assertEquals("DescriptiveStatistics:\n" +
-                     "n: 3\n" +
-                     "min: 1.0\n" +
-                     "max: 3.0\n" +
-                     "mean: 2.0\n" +
-                     "std dev: 1.0\n" +
-                     "median: 2.0\n" +
-                     "skewness: 0.0\n" +
-                     "kurtosis: NaN\n",  stats.toString());
+        Assert.assertEquals("""
+                     DescriptiveStatistics:
+                     n: 3
+                     min: 1.0
+                     max: 3.0
+                     mean: 2.0
+                     std dev: 1.0
+                     median: 2.0
+                     skewness: 0.0
+                     kurtosis: NaN
+                     """,  stats.toString());
         Locale.setDefault(d);
     }
 

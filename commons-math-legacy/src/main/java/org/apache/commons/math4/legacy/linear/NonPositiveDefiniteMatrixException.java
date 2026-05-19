@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.util.ExceptionContext;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
@@ -27,6 +29,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class NonPositiveDefiniteMatrixException extends NumberIsTooSmallException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = 1641613838113738061L;
     /** Index (diagonal element). */
     private final int index;

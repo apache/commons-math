@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.util.Localizable;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -26,6 +28,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class MathInternalError extends MathIllegalStateException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -6276776513966934846L;
     /** URL for reporting problems. */
     private static final String REPORT_URL = "https://issues.apache.org/jira/browse/MATH";

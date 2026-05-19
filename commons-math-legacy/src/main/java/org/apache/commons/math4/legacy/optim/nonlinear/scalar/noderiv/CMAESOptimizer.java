@@ -482,12 +482,12 @@ public class CMAESOptimizer
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof Sigma) {
-                inputSigma = ((Sigma) data).getSigma();
+            if (data instanceof Sigma sigma1) {
+                inputSigma = sigma1.getSigma();
                 continue;
             }
-            if (data instanceof PopulationSize) {
-                lambda = ((PopulationSize) data).getPopulationSize();
+            if (data instanceof PopulationSize size) {
+                lambda = size.getPopulationSize();
                 continue;
             }
         }
@@ -830,8 +830,8 @@ public class CMAESOptimizer
                 return true;
             }
 
-            if (other instanceof DoubleIndex) {
-                return Double.compare(value, ((DoubleIndex) other).value) == 0;
+            if (other instanceof DoubleIndex doubleIndex) {
+                return Double.compare(value, doubleIndex.value) == 0;
             }
 
             return false;

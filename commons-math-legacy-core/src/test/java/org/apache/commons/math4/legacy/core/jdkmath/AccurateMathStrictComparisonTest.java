@@ -107,8 +107,7 @@ public class AccurateMathStrictComparisonTest {
         String format = null;
         long actL = 0;
         long expL = 0;
-        if (expected instanceof Double) {
-            Double exp = (Double) expected;
+        if (expected instanceof Double exp) {
             Double act = (Double) actual;
             if (isNumber(exp) && isNumber(act) && exp != 0) { // show difference as hex
                 actL = Double.doubleToLongBits(act);
@@ -121,8 +120,7 @@ public class AccurateMathStrictComparisonTest {
                 }
                 format = "%016x";
             }
-        } else if (expected instanceof Float) {
-            Float exp = (Float) expected;
+        } else if (expected instanceof Float exp) {
             Float act = (Float) actual;
             if (isNumber(exp) && isNumber(act) && exp != 0) { // show difference as hex
                 actL = Float.floatToIntBits(act);
@@ -143,13 +141,13 @@ public class AccurateMathStrictComparisonTest {
         }
         sb.append(") expected ");
         if (format != null) {
-            sb.append(String.format(format, expL));
+            sb.append(format.formatted(expL));
         } else {
             sb.append(expected);
         }
         sb.append(" actual ");
         if (format != null) {
-            sb.append(String.format(format, actL));
+            sb.append(format.formatted(actL));
         } else {
             sb.append(actual);
         }

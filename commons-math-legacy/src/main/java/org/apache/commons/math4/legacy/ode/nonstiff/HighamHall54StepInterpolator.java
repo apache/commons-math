@@ -17,6 +17,8 @@
 
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
 
 /**
@@ -31,8 +33,9 @@ import org.apache.commons.math4.legacy.ode.sampling.StepInterpolator;
 class HighamHall54StepInterpolator
   extends RungeKuttaStepInterpolator {
 
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 20111120L;
+    /** Serializable version identifier. */
+    @Serial
+    private static final long serialVersionUID = 20111120L;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the

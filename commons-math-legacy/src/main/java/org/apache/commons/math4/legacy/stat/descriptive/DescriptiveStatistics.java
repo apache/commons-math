@@ -445,8 +445,8 @@ public class DescriptiveStatistics implements StatisticalSummary {
      * @throws MathIllegalArgumentException if p is not a valid quantile
      */
     public double getPercentile(double p) throws MathIllegalStateException, MathIllegalArgumentException {
-        if (percentileImpl instanceof Percentile) {
-            ((Percentile) percentileImpl).setQuantile(p);
+        if (percentileImpl instanceof Percentile percentile) {
+            percentile.setQuantile(p);
         } else {
             try {
                 percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME, Double.TYPE)

@@ -430,8 +430,8 @@ public class MultivariateNormalMixtureExpectationMaximization {
                 return true;
             }
 
-            if (other instanceof DataRow) {
-                return MathArrays.equals(row, ((DataRow) other).row);
+            if (other instanceof DataRow dataRow) {
+                return MathArrays.equals(row, dataRow.row);
             }
 
             return false;

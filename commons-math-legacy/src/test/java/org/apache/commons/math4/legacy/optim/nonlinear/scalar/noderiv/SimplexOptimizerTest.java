@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -250,7 +250,7 @@ public class SimplexOptimizerTest {
                                                                factory + sep);
 
             // Create file; write first data block (optimum) and columns header.
-            try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(name)))) {
+            try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Path.of(name)))) {
                 out.println("# Function: " + function);
                 out.println("# Transform: " + factory);
                 out.println("#");
@@ -276,7 +276,7 @@ public class SimplexOptimizerTest {
 
             // Return callback function.
             return (simplex, isInit, numEval) -> {
-                try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(name),
+                try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Path.of(name),
                                                                                StandardOpenOption.APPEND))) {
                     if (isInit) {
                         // Blank line indicating the start of an optimization
@@ -317,7 +317,7 @@ public class SimplexOptimizerTest {
         public void checkAlongLine(int numPoints) {
             if (tracePrefix != null) {
                 final String name = tracePrefix + createPlotBasename(function, start, optimum);
-                try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(name)))) {
+                try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Path.of(name)))) {
                     checkAlongLine(numPoints, out);
                 } catch (IOException e) {
                     Assertions.fail(e.getMessage());

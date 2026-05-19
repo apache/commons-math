@@ -20,6 +20,7 @@ package org.apache.commons.math4.legacy.ode.nonstiff;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.io.Serial;
 
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.ode.AbstractIntegrator;
@@ -39,6 +40,7 @@ class DormandPrince853StepInterpolator
   extends RungeKuttaStepInterpolator {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20111120L;
 
     /** Propagation weights, element 1. */

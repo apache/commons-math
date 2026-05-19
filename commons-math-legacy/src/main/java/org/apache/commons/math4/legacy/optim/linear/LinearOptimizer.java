@@ -115,16 +115,16 @@ public abstract class LinearOptimizer
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof LinearObjectiveFunction) {
-                function = (LinearObjectiveFunction) data;
+            if (data instanceof LinearObjectiveFunction objectiveFunction) {
+                function = objectiveFunction;
                 continue;
             }
-            if (data instanceof LinearConstraintSet) {
-                linearConstraints = ((LinearConstraintSet) data).getConstraints();
+            if (data instanceof LinearConstraintSet set) {
+                linearConstraints = set.getConstraints();
                 continue;
             }
-            if  (data instanceof NonNegativeConstraint) {
-                nonNegative = ((NonNegativeConstraint) data).isRestrictedToNonNegative();
+            if  (data instanceof NonNegativeConstraint constraint) {
+                nonNegative = constraint.isRestrictedToNonNegative();
                 continue;
             }
         }

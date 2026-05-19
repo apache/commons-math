@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.ode;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.core.RealFieldElement;
@@ -38,6 +39,7 @@ import org.apache.commons.math4.legacy.core.MathArrays;
 public class FieldEquationsMapper<T extends RealFieldElement<T>> implements Serializable {
 
     /** Serializable UID. */
+    @Serial
     private static final long serialVersionUID = 20151114L;
 
     /** Start indices of the components. */

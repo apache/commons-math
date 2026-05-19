@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.util.Localizable;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -26,6 +28,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class OutOfRangeException extends MathIllegalNumberException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = 111601815794403609L;
     /** Lower bound. */
     private final Number lo;

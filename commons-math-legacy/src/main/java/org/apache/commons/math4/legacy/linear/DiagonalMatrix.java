@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -34,6 +35,7 @@ import org.apache.commons.numbers.core.Precision;
 public class DiagonalMatrix extends AbstractRealMatrix
     implements Serializable {
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20121229L;
     /** Entries of the diagonal. */
     private final double[] data;
@@ -180,8 +182,8 @@ public class DiagonalMatrix extends AbstractRealMatrix
     @Override
     public RealMatrix multiply(final RealMatrix m)
         throws DimensionMismatchException {
-        if (m instanceof DiagonalMatrix) {
-            return multiply((DiagonalMatrix) m);
+        if (m instanceof DiagonalMatrix matrix) {
+            return multiply(matrix);
         } else {
             MatrixUtils.checkMultiplicationCompatible(this, m);
             final int nRows = m.getRowDimension();
@@ -299,8 +301,8 @@ public class DiagonalMatrix extends AbstractRealMatrix
     @Override
     public RealVector preMultiply(final RealVector v) throws DimensionMismatchException {
         final double[] vectorData;
-        if (v instanceof ArrayRealVector) {
-            vectorData = ((ArrayRealVector) v).getDataRef();
+        if (v instanceof ArrayRealVector vector) {
+            vectorData = vector.getDataRef();
         } else {
             vectorData = v.toArray();
         }

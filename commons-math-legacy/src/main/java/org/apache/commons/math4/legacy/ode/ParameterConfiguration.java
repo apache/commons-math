@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.ode;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /** Simple container pairing a parameter name with a step in order to compute
@@ -26,6 +27,7 @@ import java.io.Serializable;
 class ParameterConfiguration implements Serializable {
 
     /** Serializable UID. */
+    @Serial
     private static final long serialVersionUID = 2247518849090889379L;
 
     /** Parameter name. */

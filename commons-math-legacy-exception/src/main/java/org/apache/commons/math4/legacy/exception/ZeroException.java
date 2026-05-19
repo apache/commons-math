@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.util.Localizable;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -27,6 +29,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 public class ZeroException extends MathIllegalNumberException {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = -1960874856936000015L;
 
     /**

@@ -195,45 +195,45 @@ public abstract class UnmodifiableRealVectorAbstractTest {
      */
     public static boolean equals(final Object x, final Object y) {
         if (x instanceof Boolean) {
-            if (y instanceof Boolean) {
-                return ((Boolean) x).booleanValue() == ((Boolean) y)
+            if (y instanceof Boolean boolean1) {
+                return ((Boolean) x).booleanValue() == boolean1
                         .booleanValue();
             } else {
                 return false;
             }
         }
         if (x instanceof Integer) {
-            if (y instanceof Integer) {
-                return ((Integer) x).intValue() == ((Integer) y).intValue();
+            if (y instanceof Integer integer) {
+                return ((Integer) x).intValue() == integer.intValue();
             } else {
                 return false;
             }
         } else if (x instanceof Double) {
-            if (y instanceof Double) {
+            if (y instanceof Double double1) {
                 return equals(((Double) x).doubleValue(),
-                        ((Double) y).doubleValue());
+                        double1.doubleValue());
             } else {
                 return false;
             }
         } else if (x instanceof double[]) {
-            if (y instanceof double[]) {
-                return equals((double[]) x, (double[]) y);
-            } else if (y instanceof RealVector) {
-                return equals((RealVector) y, (double[]) x);
+            if (y instanceof double[] doubles) {
+                return equals((double[]) x, doubles);
+            } else if (y instanceof RealVector vector) {
+                return equals(vector, (double[]) x);
             } else {
                 return false;
             }
         } else if (x instanceof RealVector) {
-            if (y instanceof double[]) {
-                return equals((RealVector) x, (double[]) y);
-            } else if (y instanceof RealVector) {
-                return equals((RealVector) x, (RealVector) y);
+            if (y instanceof double[] doubles1) {
+                return equals((RealVector) x, doubles1);
+            } else if (y instanceof RealVector vector1) {
+                return equals((RealVector) x, vector1);
             } else {
                 return false;
             }
         } else if (x instanceof RealMatrix) {
-            if (y instanceof RealMatrix) {
-                return equals((RealMatrix) x, (RealMatrix) y);
+            if (y instanceof RealMatrix matrix) {
+                return equals((RealMatrix) x, matrix);
             } else {
                 return false;
             }

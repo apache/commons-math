@@ -61,6 +61,6 @@ public class ChromosomePair {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return String.format("(%s,%s)", getFirst(), getSecond());
+        return "(%s,%s)".formatted(getFirst(), getSecond());
     }
 }

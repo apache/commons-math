@@ -17,7 +17,10 @@
 package org.apache.commons.math4.legacy.ode.nonstiff;
 
 import org.apache.commons.numbers.core.Sum;
+
 import org.apache.commons.math4.core.jdkmath.JdkMath;
+
+import java.io.Serial;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.RealFieldElement;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
@@ -54,6 +57,7 @@ public class Decimal64 extends Number
     public static final Decimal64 NAN;
 
     /** */
+    @Serial
     private static final long serialVersionUID = 20120227L;
 
     static {
@@ -254,8 +258,7 @@ public class Decimal64 extends Number
     /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof Decimal64) {
-            final Decimal64 that = (Decimal64) obj;
+        if (obj instanceof Decimal64 that) {
             return Double.doubleToLongBits(this.value) == Double
                     .doubleToLongBits(that.value);
         }

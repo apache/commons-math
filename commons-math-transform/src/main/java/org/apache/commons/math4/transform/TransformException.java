@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.transform;
 
+import java.io.Serial;
 import java.text.MessageFormat;
 
 /**
@@ -37,6 +38,7 @@ class TransformException extends IllegalArgumentException {
     public static final String NOT_POWER_OF_TWO = "{0} is not equal to pow(2, n), for some n";
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 20210522L;
 
     /**

@@ -268,10 +268,10 @@ public class ComplexFormat {
 
         StringBuffer ret = null;
 
-        if (obj instanceof Complex) {
-            ret = format( (Complex)obj, toAppendTo, pos);
-        } else if (obj instanceof Number) {
-            ret = format(Complex.ofCartesian(((Number)obj).doubleValue(), 0.0),
+        if (obj instanceof Complex complex) {
+            ret = format( complex, toAppendTo, pos);
+        } else if (obj instanceof Number number) {
+            ret = format(Complex.ofCartesian(number.doubleValue(), 0.0),
                          toAppendTo, pos);
         } else {
             throw new MathIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_COMPLEX,

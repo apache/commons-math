@@ -99,12 +99,12 @@ public abstract class MultivariateOptimizer
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof GoalType) {
-                goal = (GoalType) data;
+            if (data instanceof GoalType type) {
+                goal = type;
                 continue;
             }
-            if (data instanceof ObjectiveFunction) {
-                final MultivariateFunction delegate = ((ObjectiveFunction) data).getObjectiveFunction();
+            if (data instanceof ObjectiveFunction objectiveFunction) {
+                final MultivariateFunction delegate = objectiveFunction.getObjectiveFunction();
                 function = new MultivariateFunction() {
                         @Override
                         public double value(double[] point) {
@@ -114,8 +114,7 @@ public abstract class MultivariateOptimizer
                     };
                 continue;
             }
-            if (data instanceof LineSearchTolerance) {
-                final LineSearchTolerance tol = (LineSearchTolerance) data;
+            if (data instanceof LineSearchTolerance tol) {
                 lineSearchRelativeTolerance = tol.getRelativeTolerance();
                 lineSearchAbsoluteTolerance = tol.getAbsoluteTolerance();
                 lineSearchInitialBracketingRange = tol.getInitialBracketingRange();

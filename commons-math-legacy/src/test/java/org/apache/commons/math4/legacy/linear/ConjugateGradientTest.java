@@ -90,7 +90,7 @@ public class ConjugateGradientTest {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
                 final double delta = 1E-10 * JdkMath.abs(expected);
-                final String msg = String.format("entry[%d][%d]", i, j);
+                final String msg = "entry[%d][%d]".formatted(i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
         }
@@ -116,7 +116,7 @@ public class ConjugateGradientTest {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
                 final double delta = 1E-10 * JdkMath.abs(expected);
-                final String msg = String.format("entry[%d][%d)", i, j);
+                final String msg = "entry[%d][%d)".formatted(i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
         }
@@ -142,7 +142,7 @@ public class ConjugateGradientTest {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
                 final double delta = 1E-10 * JdkMath.abs(expected);
-                final String msg = String.format("entry[%d][%d]", i, j);
+                final String msg = "entry[%d][%d]".formatted(i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
                 Assert.assertEquals(msg, x0.getEntry(i), 1., Math.ulp(1.));
             }
@@ -207,8 +207,8 @@ public class ConjugateGradientTest {
                     final double actual = b.getEntry(i) - y.getEntry(i);
                     final double expected = r.getEntry(i);
                     final double delta = 1E-6 * JdkMath.abs(expected);
-                    final String msg = String
-                        .format("column %d, residual %d", i, j);
+                    final String msg = "column %d, residual %d"
+                        .formatted(i, j);
                     Assert.assertEquals(msg, expected, actual, delta);
                 }
             }
@@ -323,7 +323,7 @@ public class ConjugateGradientTest {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
                 final double delta = 1E-6 * JdkMath.abs(expected);
-                final String msg = String.format("coefficient (%d, %d)", i, j);
+                final String msg = "coefficient (%d, %d)".formatted(i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
         }
@@ -383,7 +383,7 @@ public class ConjugateGradientTest {
                     final double actual = b.getEntry(i) - y.getEntry(i);
                     final double expected = r.getEntry(i);
                     final double delta = 1E-6 * JdkMath.abs(expected);
-                    final String msg = String.format("column %d, residual %d", i, j);
+                    final String msg = "column %d, residual %d".formatted(i, j);
                     Assert.assertEquals(msg, expected, actual, delta);
                 }
             }
@@ -424,10 +424,10 @@ public class ConjugateGradientTest {
             final RealVector x = cg.solve(a, b);
             final int npcg = pcg.getIterationManager().getIterations();
             final int ncg = cg.getIterationManager().getIterations();
-            msg = String.format(pattern, npcg, ncg);
+            msg = pattern.formatted(npcg, ncg);
             Assert.assertTrue(msg, npcg < ncg);
             for (int i = 0; i < n; i++) {
-                msg = String.format("row %d, column %d", i, j);
+                msg = "row %d, column %d".formatted(i, j);
                 final double expected = x.getEntry(i);
                 final double actual = px.getEntry(i);
                 final double delta = 1E-6 * JdkMath.abs(expected);
@@ -509,9 +509,9 @@ public class ConjugateGradientTest {
             b.set(0.);
             b.setEntry(j, 1.);
             solver.solve(a, b);
-            String msg = String.format("column %d (initialization)", j);
+            String msg = "column %d (initialization)".formatted(j);
             Assert.assertEquals(msg, 1, count[0]);
-            msg = String.format("column %d (finalization)", j);
+            msg = "column %d (finalization)".formatted(j);
             Assert.assertEquals(msg, 1, count[3]);
         }
     }

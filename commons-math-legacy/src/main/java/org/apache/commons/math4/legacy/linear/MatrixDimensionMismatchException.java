@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MultiDimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 
@@ -27,6 +29,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class MatrixDimensionMismatchException extends MultiDimensionMismatchException {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -8415396756375798143L;
 
     /**

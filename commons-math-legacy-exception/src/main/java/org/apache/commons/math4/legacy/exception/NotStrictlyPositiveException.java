@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.exception;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.util.Localizable;
 
 /**
@@ -26,6 +28,7 @@ import org.apache.commons.math4.legacy.exception.util.Localizable;
 public class NotStrictlyPositiveException extends NumberIsTooSmallException {
 
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -7824848630829852237L;
 
     /**

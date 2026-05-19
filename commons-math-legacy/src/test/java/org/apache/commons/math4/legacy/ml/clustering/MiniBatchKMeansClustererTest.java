@@ -84,7 +84,7 @@ public class MiniBatchKMeansClustererTest {
             double scoreDiffRatio = (kMeansScore - miniBatchKMeansScore) /
                     kMeansScore;
             // MiniBatchKMeansClusterer has few score differences between KMeansClusterer(less then 10%).
-            Assert.assertTrue(String.format("Different score ratio %f%%!, diff points ratio: %f%%", scoreDiffRatio * 100, diffPointsRatio * 100),
+            Assert.assertTrue("Different score ratio %f%%!, diff points ratio: %f%%".formatted(scoreDiffRatio * 100, diffPointsRatio * 100),
                     scoreDiffRatio < 0.1);
         }
     }
@@ -135,7 +135,7 @@ public class MiniBatchKMeansClustererTest {
     public static void assertException(Runnable block, Class<? extends Throwable> exceptionClass) {
         try {
             block.run();
-            Assert.fail(String.format("Expects %s", exceptionClass.getSimpleName()));
+            Assert.fail("Expects %s".formatted(exceptionClass.getSimpleName()));
         } catch (Throwable e) {
             if (!exceptionClass.isInstance(e)) {
                 throw e;

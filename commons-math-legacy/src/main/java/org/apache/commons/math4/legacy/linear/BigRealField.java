@@ -17,6 +17,7 @@
 
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.apache.commons.math4.legacy.core.Field;
@@ -33,6 +34,7 @@ import org.apache.commons.math4.legacy.core.FieldElement;
 public final class BigRealField implements Field<BigReal>, Serializable  {
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = 4756431066541037559L;
 
     /** Private constructor for the singleton.

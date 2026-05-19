@@ -180,8 +180,7 @@ public class LinearConstraint {
         if (this == other) {
             return true;
         }
-        if (other instanceof LinearConstraint) {
-            LinearConstraint rhs = (LinearConstraint) other;
+        if (other instanceof LinearConstraint rhs) {
             return relationship == rhs.relationship &&
                 value == rhs.value &&
                 coefficients.equals(rhs.coefficients);

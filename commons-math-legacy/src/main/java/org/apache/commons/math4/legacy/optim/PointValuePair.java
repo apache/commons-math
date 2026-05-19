@@ -79,8 +79,7 @@ public final class PointValuePair extends Pair<double[], Double> {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof PointValuePair) {
-            final PointValuePair other = (PointValuePair) o;
+        if (o instanceof PointValuePair other) {
 
             return getValue().equals(other.getValue()) &&
                 Arrays.equals(getPointRef(),

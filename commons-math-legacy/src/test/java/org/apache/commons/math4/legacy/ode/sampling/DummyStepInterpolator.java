@@ -20,6 +20,7 @@ package org.apache.commons.math4.legacy.ode.sampling;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.io.Serial;
 
 import org.apache.commons.math4.legacy.ode.EquationsMapper;
 
@@ -39,8 +40,9 @@ import org.apache.commons.math4.legacy.ode.EquationsMapper;
 public class DummyStepInterpolator
   extends AbstractStepInterpolator {
 
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 1708010296707839488L;
+    /** Serializable version identifier. */
+    @Serial
+    private static final long serialVersionUID = 1708010296707839488L;
 
   /** Current derivative. */
   private double[] currentDerivative;

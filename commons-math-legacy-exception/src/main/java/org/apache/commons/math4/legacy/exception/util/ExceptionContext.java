@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Map;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
@@ -37,6 +38,7 @@ import java.util.Locale;
  */
 public class ExceptionContext implements Serializable {
     /** Serializable version Id. */
+    @Serial
     private static final long serialVersionUID = -6024911025449780478L;
     /**
      * The throwable to which this context refers to.

@@ -235,20 +235,19 @@ public abstract class BaseOptimizer<PAIR> {
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof MaxEval) {
-                maxEvaluations = ((MaxEval) data).getMaxEval();
+            if (data instanceof MaxEval eval) {
+                maxEvaluations = eval.getMaxEval();
                 continue;
             }
-            if (data instanceof MaxIter) {
-                maxIterations = ((MaxIter) data).getMaxIter();
+            if (data instanceof MaxIter iter) {
+                maxIterations = iter.getMaxIter();
                 continue;
             }
             if (data instanceof ConvergenceChecker) {
                 checker = (ConvergenceChecker<PAIR>) data;
                 continue;
             }
-            if (data instanceof Tolerance) {
-               final Tolerance tol = (Tolerance) data;
+            if (data instanceof Tolerance tol) {
                relativeTolerance = tol.getRelativeTolerance();
                absoluteTolerance = tol.getAbsoluteTolerance();
                continue;

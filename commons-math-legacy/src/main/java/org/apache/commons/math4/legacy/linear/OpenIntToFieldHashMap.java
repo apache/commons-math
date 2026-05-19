@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.linear;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ConcurrentModificationException;
@@ -50,6 +51,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     protected static final byte REMOVED = 2;
 
     /** Serializable version identifier. */
+    @Serial
     private static final long serialVersionUID = -9179080286849120720L;
 
     /** Load factor for the map. */

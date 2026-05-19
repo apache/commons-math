@@ -884,8 +884,7 @@ public final class SparseGradient implements RealFieldElement<SparseGradient> {
             return true;
         }
 
-        if (other instanceof SparseGradient) {
-            final SparseGradient rhs = (SparseGradient)other;
+        if (other instanceof SparseGradient rhs) {
             if (!Precision.equals(value, rhs.value, 1)) {
                 return false;
             }

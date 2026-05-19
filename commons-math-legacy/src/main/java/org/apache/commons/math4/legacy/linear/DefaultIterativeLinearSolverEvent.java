@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.io.Serial;
+
 import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationException;
 
 /**
@@ -26,6 +28,7 @@ import org.apache.commons.math4.legacy.exception.MathUnsupportedOperationExcepti
 public class DefaultIterativeLinearSolverEvent extends IterativeLinearSolverEvent {
 
     /** */
+    @Serial
     private static final long serialVersionUID = 20120129L;
 
     /** The right-hand side vector. */

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math4.legacy.field.linalg;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.apache.commons.numbers.field.FP64;
@@ -274,7 +277,7 @@ public class FP64FieldDenseMatrixTest {
         final RealMatrix b = new Array2DRowRealMatrix(r, c);
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
-                final double v = scale * (2 * Math.random() - 1);
+                final double v = scale * (2 * ThreadLocalRandom.current().nextDouble() - 1);
                 a.set(i, j, FP64.of(v));
                 b.setEntry(i, j, v);
             }

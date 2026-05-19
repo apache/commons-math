@@ -185,10 +185,10 @@ public final class FastFourierTransformerTest {
             final int index = i;
             final double re = s * expected[i].getReal();
             assertEqualsRelativeOrAbsolute(re, actual[i].getReal(), tol, absTol,
-                () -> String.format("%s, %s, %d, %d", normalization, inverse, n, index));
+                () -> "%s, %s, %d, %d".formatted(normalization, inverse, n, index));
             final double im = s * expected[i].getImaginary();
             assertEqualsRelativeOrAbsolute(im, actual[i].getImaginary(), tol, absTol,
-                () -> String.format("%s, %s, %d, %d", normalization, inverse, n, index));
+                () -> "%s, %s, %d, %d".formatted(normalization, inverse, n, index));
         }
     }
 
@@ -225,10 +225,10 @@ public final class FastFourierTransformerTest {
             final int index = i;
             final double re = s * expected[i].getReal();
             assertEqualsRelativeOrAbsolute(re, actual[i].getReal(), tol, absTol,
-                () -> String.format("%s, %s, %d, %d", normalization, inverse, n, index));
+                () -> "%s, %s, %d, %d".formatted(normalization, inverse, n, index));
             final double im = s * expected[i].getImaginary();
             assertEqualsRelativeOrAbsolute(im, actual[i].getImaginary(), tol, absTol,
-                () -> String.format("%s, %s, %d, %d", normalization, inverse, n, index));
+                () -> "%s, %s, %d, %d".formatted(normalization, inverse, n, index));
         }
     }
 
@@ -268,10 +268,10 @@ public final class FastFourierTransformerTest {
             final int index = i;
             final double re = s * expected[i].getReal();
             assertEqualsRelativeOrAbsolute(re, actual[i].getReal(), tol, absTol,
-                () -> String.format("%s, %s, %d, %d", normalization, inverse, n, index));
+                () -> "%s, %s, %d, %d".formatted(normalization, inverse, n, index));
             final double im = s * expected[i].getImaginary();
             assertEqualsRelativeOrAbsolute(im, actual[i].getImaginary(), tol, absTol,
-                () -> String.format("%s, %s, %d, %d", normalization, inverse, n, index));
+                () -> "%s, %s, %d, %d".formatted(normalization, inverse, n, index));
         }
     }
 
@@ -283,7 +283,7 @@ public final class FastFourierTransformerTest {
             final double absoluteMax = Math.max(Math.abs(expected), Math.abs(actual));
             final double abs = Math.abs(expected - actual);
             final double rel = abs / absoluteMax;
-            final Supplier<String> message = () -> String.format("%s: rel=%s, abs=%s", msg.get(), rel, abs);
+            final Supplier<String> message = () -> "%s: rel=%s, abs=%s".formatted(msg.get(), rel, abs);
             // Re-use assertEquals to obtain the formatting
             Assertions.assertEquals(expected, actual, message);
         }

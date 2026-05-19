@@ -414,9 +414,8 @@ public class PSquarePercentileTest extends
             double max = JdkMath.max(a, b);
             double percentage = JdkMath.abs(a - b) / max;
             double deviation = delta;
-            Assert.assertTrue(String.format(
-                    "Deviated = %f and is beyond %f as a=%f,  b=%f",
-                    percentage, deviation, a, b), percentage < deviation);
+            Assert.assertTrue("Deviated = %f and is beyond %f as a=%f,  b=%f".formatted(
+                percentage, deviation, a, b), percentage < deviation);
         }
     }
 
@@ -570,7 +569,7 @@ public class PSquarePercentileTest extends
         // Well the values deviate in our calculation by 0.25 so its 4.25 vs
         // 4.44
         Assert.assertEquals(
-                String.format("Expected=%f, Actual=%f", expected, p2value),
+            "Expected=%f, Actual=%f".formatted(expected, p2value),
                 expected, p2value, 0.25);
     }
 
