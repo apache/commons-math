@@ -50,6 +50,8 @@ jobs:
         cache: 'maven'
     # Ensure the legacy module dependencies are installed
     - name: Install dependencies
-      run: mvn -V --no-transfer-progress install -pl commons-math-core,commons-math-legacy-exception,commons-math-legacy-core
+      run: |
+        mvn -V --no-transfer-progress install -pl commons-math-core,commons-math-legacy-exception,commons-math-legacy-core
+        mvn --no-transfer-progress install -N
     - name: Build with Maven
       run: mvn -V --no-transfer-progress clean test -pl commons-math-legacy
