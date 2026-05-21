@@ -41,7 +41,7 @@
   <!-- Sometimes parentheses can help readability -->
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]MullerSolver\.java$" lines="177-179" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]UnivariateSolverUtils\.java$" lines="123,387" />
-  <suppress checks="UnnecessaryParentheses" files=".*[/\\]SparseGradient\.java$" lines="385,396" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]SparseGradient\.java$" lines="394,405" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]DerivativeStructure\.java$" lines="468,481" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]SimpleCurveFitter\.java$" lines="321-322" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]LevenbergMarquardtOptimizer\.java$" lines="525,739" />
