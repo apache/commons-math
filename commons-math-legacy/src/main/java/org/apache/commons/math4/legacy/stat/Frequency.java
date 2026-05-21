@@ -36,6 +36,15 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  * <p>The values are ordered using the default (natural order), unless a
  * <code>Comparator</code> is supplied in the constructor.</p>
  *
+ * <p><strong>Implementation note</strong>
+ *
+ * <p>This class does not use the {@link Comparator} for the {@link #equals(Object)} or
+ * {@link #hashCode()} implementation. Equality uses the content of the underlying
+ * frequency table mapping the values to frequency counts. The result is two
+ * {@link Frequency} instances with the same observations of values are considered equal
+ * even if the cumulative frequency of a specified value is different between the two
+ * instances.
+ *
  * @param <T> a comparable type used in the frequency distribution
  */
 public class Frequency<T extends Comparable<T>> {

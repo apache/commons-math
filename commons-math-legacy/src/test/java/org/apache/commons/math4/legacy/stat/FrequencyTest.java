@@ -19,6 +19,7 @@ package org.apache.commons.math4.legacy.stat;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -341,5 +342,25 @@ public final class FrequencyTest {
         Assert.assertEquals(Float.valueOf(Float.NEGATIVE_INFINITY), mode.get(0));
         Assert.assertEquals(Float.valueOf(Float.POSITIVE_INFINITY), mode.get(1));
         Assert.assertEquals(Float.valueOf(Float.NaN), mode.get(2));
+    }
+
+    /**
+     * The Frequency class ignores the comparator for equality.
+     * See MATH-1689.
+     */
+    @Test
+    public void testEqualsIgnoresComparator() {
+        Frequency<Integer> ascending = new Frequency<>();
+        Frequency<Integer> descending = new Frequency<Integer>(Comparator.reverseOrder());
+        ascending.addValue(1);
+        ascending.addValue(2);
+        descending.addValue(1);
+        descending.addValue(2);
+
+        Assert.assertEquals(1, ascending.getCumFreq(1));
+        Assert.assertEquals(2, descending.getCumFreq(1));
+        Assert.assertEquals("[1, 2]", ascending.getMode().toString());
+        Assert.assertEquals("[2, 1]", descending.getMode().toString());
+        Assert.assertEquals(ascending, descending);
     }
 }
