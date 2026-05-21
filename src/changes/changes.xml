@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="update" issue="MATH-1690" due-to="Ruiqi Dong">
+        "SparseGradient": Document violation of equals and hashCode contract.
+      </action>
       <action dev="aherbert" type="update" issue="MATH-1689" due-to="Ruiqi Dong">
         "Frequency": Document behaviour of equals and hashCode that ignores
         the value Comparator. The comparator only affects the cumulative

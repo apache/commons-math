@@ -37,6 +37,15 @@ import org.apache.commons.math4.core.jdkmath.JdkMath;
  * {@link DerivativeStructure} and use less memory.
  * </p>
  *
+ * <p><strong>Implementation note</strong>
+ *
+ * <p>This class violates the {@link #equals(Object)} contract that equal objects must
+ * have the same {@link #hashCode()}. The gradient value and its derivatives are
+ * considered equal if they have no floating-point representations between the respective
+ * values being compared; these two objects may have non-equal hash codes. A
+ * {@link SparseGradient} should not be used as a key in a {@code HashMap} or
+ * {@code HashSet}.
+ *
  * @since 3.3
  */
 public final class SparseGradient implements RealFieldElement<SparseGradient> {
