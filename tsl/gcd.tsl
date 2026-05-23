@@ -1,0 +1,18 @@
+Category p: value of first parameter
+  p = 0                 [property zero_p]
+  p > 0                 [property positive_p]
+  p < 0, p != MIN_VALUE [property negative_p]
+  p = Integer.MIN_VALUE [property overflow_p] [error]
+
+Category q: value of second parameter
+  q = 0                 [property zero_q]
+  q > 0                 [property positive_q]
+  q < 0, q != MIN_VALUE [property negative_q]
+  q = Integer.MIN_VALUE [property overflow_q] [error]
+
+Category relationship: relationship between |p| and |q|
+  [if positive_p or negative_p] [if positive_q or negative_q]
+  gcd = 1               [property coprime]
+  |p| divides |q|       [property p_divides_q]
+  |q| divides |p|       [property q_divides_p]
+  proper common divisor [property proper_gcd]
