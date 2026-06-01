@@ -109,7 +109,7 @@ public abstract class AbstractUnivariateStatistic
             throw new NotPositiveException(LocalizedFormats.LENGTH, length);
         }
 
-        if (begin + length > values.length) {
+        if ((long) begin + length > values.length) {
             throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
                                                 begin + length, values.length, true);
         }

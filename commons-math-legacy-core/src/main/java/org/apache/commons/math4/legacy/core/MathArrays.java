@@ -962,7 +962,7 @@ public final class MathArrays {
             throw new NotPositiveException(LocalizedFormats.LENGTH, Integer.valueOf(length));
         }
 
-        if (begin + length > values.length) {
+        if ((long) begin + length > values.length) {
             throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
                     Integer.valueOf(begin + length), Integer.valueOf(values.length), true);
         }
