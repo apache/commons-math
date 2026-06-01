@@ -30,6 +30,7 @@ import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NotANumberException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
@@ -628,6 +629,18 @@ public class MathArraysTest {
         }
         Assert.assertTrue(MathArrays.verifyValues(singletonArray, 0, 1));
         Assert.assertTrue(MathArrays.verifyValues(singletonArray, 0, 0, true));
+    }
+
+    @Test
+    public void testVerifyValuesOverflow() {
+        // begin + length overflows int; the check must not be bypassed and the
+        // reported end position must be the true (long) value, not the wrapped int.
+        try {
+            MathArrays.verifyValues(testArray, 1, Integer.MAX_VALUE);
+            Assert.fail("Expecting NumberIsTooLargeException");
+        } catch (NumberIsTooLargeException ex) {
+            Assert.assertEquals(1L + Integer.MAX_VALUE, ex.getArgument().longValue());
+        }
     }
 
     @Test

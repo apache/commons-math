@@ -964,7 +964,7 @@ public final class MathArrays {
 
         if ((long) begin + length > values.length) {
             throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
-                    Integer.valueOf(begin + length), Integer.valueOf(values.length), true);
+                    Long.valueOf((long) begin + length), Integer.valueOf(values.length), true);
         }
 
         return !(length == 0 && !allowEmpty);

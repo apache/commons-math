@@ -111,7 +111,7 @@ public abstract class AbstractUnivariateStatistic
 
         if ((long) begin + length > values.length) {
             throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
-                                                begin + length, values.length, true);
+                                                (long) begin + length, values.length, true);
         }
         storedData = new double[length];
         System.arraycopy(values, begin, storedData, 0, length);
