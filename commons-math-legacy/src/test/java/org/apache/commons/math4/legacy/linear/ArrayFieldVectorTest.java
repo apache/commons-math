@@ -24,6 +24,7 @@ import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.FieldElement;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.apache.commons.math4.legacy.core.dfp.Dfp;
@@ -350,6 +351,24 @@ public class ArrayFieldVectorTest {
         ArrayFieldVector<Dfp> v9 = new ArrayFieldVector<>((FieldVector<Dfp>) v1, (FieldVector<Dfp>) v3);
         Assert.assertEquals(10, v9.getDimension());
         Assert.assertEquals(Dfp25.of(1), v9.getEntry(7));
+    }
+
+    @Test
+    public void testConstructorPosSizeOverflow() {
+        // pos + size overflows int and wraps negative; the bounds check must
+        // still reject the range and report the true value in the exception.
+        try {
+            new ArrayFieldVector<>(vec4, Integer.MAX_VALUE, 1);
+            Assert.fail("NumberIsTooLargeException expected");
+        } catch (NumberIsTooLargeException ex) {
+            Assert.assertEquals(1L + Integer.MAX_VALUE, ex.getArgument().longValue());
+        }
+        try {
+            new ArrayFieldVector<>(Dfp25.getField(), vec4, Integer.MAX_VALUE, 1);
+            Assert.fail("NumberIsTooLargeException expected");
+        } catch (NumberIsTooLargeException ex) {
+            Assert.assertEquals(1L + Integer.MAX_VALUE, ex.getArgument().longValue());
+        }
     }
 
     @Test
