@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -142,6 +143,25 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         Assert.assertEquals("testData len", 12, v14.getDimension());
         Assert.assertEquals("testData is 9.0 ", 9.0, v14.getEntry(2), 0);
         Assert.assertEquals("testData is 1.0 ", 1.0, v14.getEntry(3), 0);
+    }
+
+    @Test
+    public void testConstructorPosSizeOverflow() {
+        final double[] d = {1d, 2d, 3d};
+        // pos + size overflows int and wraps negative; the bounds check must
+        // still reject the range and report the true value in the exception.
+        try {
+            new ArrayRealVector(d, Integer.MAX_VALUE, 1);
+            Assert.fail("NumberIsTooLargeException expected");
+        } catch (NumberIsTooLargeException ex) {
+            Assert.assertEquals(1L + Integer.MAX_VALUE, ex.getArgument().longValue());
+        }
+        try {
+            new ArrayRealVector(new Double[] {1d, 2d, 3d}, Integer.MAX_VALUE, 1);
+            Assert.fail("NumberIsTooLargeException expected");
+        } catch (NumberIsTooLargeException ex) {
+            Assert.assertEquals(1L + Integer.MAX_VALUE, ex.getArgument().longValue());
+        }
     }
 
     @Test

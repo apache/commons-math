@@ -187,8 +187,9 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     public ArrayFieldVector(T[] d, int pos, int size)
             throws NullArgumentException, NumberIsTooLargeException {
         NullArgumentException.check(d);
-        if (d.length < pos + size) {
-            throw new NumberIsTooLargeException(pos + size, d.length, true);
+        if (d.length < (long) pos + size) {
+            throw new NumberIsTooLargeException(Long.valueOf((long) pos + size),
+                                                Integer.valueOf(d.length), true);
         }
         field = d[0].getField();
         data = MathArrays.buildArray(field, size);
@@ -209,8 +210,9 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     public ArrayFieldVector(Field<T> field, T[] d, int pos, int size)
             throws NullArgumentException, NumberIsTooLargeException {
         NullArgumentException.check(d);
-        if (d.length < pos + size) {
-            throw new NumberIsTooLargeException(pos + size, d.length, true);
+        if (d.length < (long) pos + size) {
+            throw new NumberIsTooLargeException(Long.valueOf((long) pos + size),
+                                                Integer.valueOf(d.length), true);
         }
         this.field = field;
         data = MathArrays.buildArray(field, size);

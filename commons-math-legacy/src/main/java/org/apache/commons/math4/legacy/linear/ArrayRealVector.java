@@ -121,8 +121,9 @@ public class ArrayRealVector extends RealVector implements Serializable {
         if (d == null) {
             throw new NullArgumentException();
         }
-        if (d.length < pos + size) {
-            throw new NumberIsTooLargeException(pos + size, d.length, true);
+        if (d.length < (long) pos + size) {
+            throw new NumberIsTooLargeException(Long.valueOf((long) pos + size),
+                                                Integer.valueOf(d.length), true);
         }
         data = new double[size];
         System.arraycopy(d, pos, data, 0, size);
@@ -155,8 +156,9 @@ public class ArrayRealVector extends RealVector implements Serializable {
         if (d == null) {
             throw new NullArgumentException();
         }
-        if (d.length < pos + size) {
-            throw new NumberIsTooLargeException(pos + size, d.length, true);
+        if (d.length < (long) pos + size) {
+            throw new NumberIsTooLargeException(Long.valueOf((long) pos + size),
+                                                Integer.valueOf(d.length), true);
         }
         data = new double[size];
         for (int i = pos; i < pos + size; i++) {
