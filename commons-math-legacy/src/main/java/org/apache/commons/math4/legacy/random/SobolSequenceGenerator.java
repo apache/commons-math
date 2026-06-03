@@ -205,6 +205,9 @@ public class SobolSequenceGenerator implements Supplier<double[]> {
                     dim = Integer.parseInt(st.nextToken());
                     if (dim >= 2 && dim <= dimension) { // we have found the right dimension
                         final int s = Integer.parseInt(st.nextToken());
+                        if (s < 1 || s > BITS) {
+                            throw new MathParseException(line, lineNumber);
+                        }
                         final int a = Integer.parseInt(st.nextToken());
                         final int[] m = new int[s + 1];
                         for (int i = 1; i <= s; i++) {
