@@ -278,6 +278,22 @@ public abstract class ComplexFormatAbstractTest {
     }
 
     @Test
+    public void testParseRealNan() {
+        // a real-only special value runs to the last character of the string
+        Complex expected = Complex.ofCartesian(Double.NaN, 0);
+        Assert.assertEquals(expected, complexFormat.parse("(NaN)"));
+        Assert.assertEquals(expected, complexFormat.parse(complexFormat.format(expected)));
+    }
+
+    @Test
+    public void testParseRealInfinity() {
+        Complex positive = Complex.ofCartesian(Double.POSITIVE_INFINITY, 0);
+        Assert.assertEquals(positive, complexFormat.parse("(Infinity)"));
+        Complex negative = Complex.ofCartesian(Double.NEGATIVE_INFINITY, 0);
+        Assert.assertEquals(negative, complexFormat.parse("(-Infinity)"));
+    }
+
+    @Test
     public void testConstructorSingleFormat() {
         NumberFormat nf = NumberFormat.getInstance();
         ComplexFormat cf = new ComplexFormat(nf);
