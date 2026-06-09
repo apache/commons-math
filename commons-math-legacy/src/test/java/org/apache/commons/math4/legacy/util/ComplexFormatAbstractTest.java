@@ -289,8 +289,21 @@ public abstract class ComplexFormatAbstractTest {
     public void testParseRealInfinity() {
         Complex positive = Complex.ofCartesian(Double.POSITIVE_INFINITY, 0);
         Assert.assertEquals(positive, complexFormat.parse("(Infinity)"));
+        Assert.assertEquals(positive, complexFormat.parse(complexFormat.format(positive)));
         Complex negative = Complex.ofCartesian(Double.NEGATIVE_INFINITY, 0);
         Assert.assertEquals(negative, complexFormat.parse("(-Infinity)"));
+        Assert.assertEquals(negative, complexFormat.parse(complexFormat.format(negative)));
+    }
+
+    @Test
+    public void testParseImaginarySpecialValue() {
+        // the special value sits in the imaginary part, ahead of the imaginary character
+        Complex nan = Complex.ofCartesian(1.23, Double.NaN);
+        Assert.assertEquals(nan, complexFormat.parse(complexFormat.format(nan)));
+        Complex positive = Complex.ofCartesian(1.23, Double.POSITIVE_INFINITY);
+        Assert.assertEquals(positive, complexFormat.parse(complexFormat.format(positive)));
+        Complex negative = Complex.ofCartesian(1.23, Double.NEGATIVE_INFINITY);
+        Assert.assertEquals(negative, complexFormat.parse(complexFormat.format(negative)));
     }
 
     @Test
