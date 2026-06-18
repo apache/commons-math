@@ -95,7 +95,7 @@ public class SobolSequenceGeneratorTest {
     }
 
     @Test
-    public void testConstructorDegreeTooLarge() {
+    public void testConstructorDegreeTooLarge() throws Exception {
         // direction number degree s = 60 exceeds the BITS (52) entries available
         // per dimension; without range validation this indexes past direction[d]
         // and throws ArrayIndexOutOfBoundsException instead of MathParseException.
