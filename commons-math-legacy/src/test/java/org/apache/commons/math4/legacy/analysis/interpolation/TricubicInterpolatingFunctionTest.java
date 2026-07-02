@@ -20,6 +20,8 @@ import org.apache.commons.math4.legacy.analysis.TrivariateFunction;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.UniformContinuousDistribution;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
+import org.apache.commons.math4.legacy.exception.NoDataException;
+
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -650,4 +652,33 @@ public final class TricubicInterpolatingFunctionTest {
                           1e-12,
                           false);
     }
+
+    /**
+     * Test for empty data.
+     */
+    @Test
+    public void testNoDataException() {
+        double[] xval = new double[] {};
+        double[] yval = new double[] {1, 2};
+        double[] zval = new double[] {1, 2};
+        double[][][] fval = new double[0][2][2];
+        double[][][] dFdX = new double[0][2][2];
+        double[][][] dFdY = new double[0][2][2];
+        double[][][] dFdZ = new double[0][2][2];
+        double[][][] d2FdXdY = new double[0][2][2];
+        double[][][] d2FdXdZ = new double[0][2][2];
+        double[][][] d2FdYdZ = new double[0][2][2];
+        double[][][] d3FdXdYdZ = new double[0][2][2];
+
+        try {
+            new TricubicInterpolatingFunction(xval, yval, zval, fval,
+                                             dFdX, dFdY, dFdZ,
+                                             d2FdXdY, d2FdXdZ, d2FdYdZ,
+                                             d3FdXdYdZ);
+            Assert.fail("an exception should have been thrown");
+        } catch (NoDataException e) {
+            // Expected
+        }
+    }
+
 }
