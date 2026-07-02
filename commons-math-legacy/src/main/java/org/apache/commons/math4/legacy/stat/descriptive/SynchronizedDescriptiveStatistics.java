@@ -89,6 +89,22 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      * {@inheritDoc}
      */
     @Override
+    public synchronized void removeMostRecentValue() {
+        super.removeMostRecentValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized double replaceMostRecentValue(double v) {
+        return super.replaceMostRecentValue(v);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized double getElement(int index) {
         return super.getElement(index);
     }
