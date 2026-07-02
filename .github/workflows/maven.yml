@@ -20,6 +20,8 @@ on:
   workflow_dispatch:
   # Don't trigger if other workfiles change
   push:
+    branches:
+      - master
     paths-ignore:
       - '**/workflows/*.yml'
       - '!**/workflows/maven.yml'
