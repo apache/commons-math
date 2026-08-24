@@ -18,8 +18,12 @@ package org.apache.commons.math4.legacy.random;
 
 import org.junit.Assert;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.math4.legacy.exception.MathParseException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +78,7 @@ public class SobolSequenceGeneratorTest {
     }
 
     @Test
-    public void testConstructor2() throws Exception{
+    public void testConstructor2() throws IOException {
         try {
             final InputStream is = getClass().getResourceAsStream(RESOURCE_NAME);
             new SobolSequenceGenerator(21202, is);
@@ -87,6 +91,39 @@ public class SobolSequenceGeneratorTest {
             new SobolSequenceGenerator(21202);
             Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testConstructorDegreeTooLarge() throws IOException {
+        // direction number degree s = 60 exceeds the BITS (52) entries available
+        // per dimension; without range validation this indexes past direction[d]
+        // and throws ArrayIndexOutOfBoundsException instead of MathParseException.
+        final StringBuilder sb = new StringBuilder("d s a m_i\n2 60 0");
+        for (int i = 0; i < 60; i++) {
+            sb.append(" 1");
+        }
+        final InputStream is = new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
+        try {
+            new SobolSequenceGenerator(2, is);
+            Assert.fail("an exception should have been thrown");
+        } catch (MathParseException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testConstructorDegreeTooSmall() throws IOException {
+        // direction number degree s = 60 exceeds the BITS (52) entries available
+        // per dimension; without range validation this indexes past direction[d]
+        // and throws ArrayIndexOutOfBoundsException instead of MathParseException.
+        final StringBuilder sb = new StringBuilder("d s a m_i\n2 0 0");
+        final InputStream is = new ByteArrayInputStream(sb.toString().getBytes(StandardCharsets.UTF_8));
+        try {
+            new SobolSequenceGenerator(2, is);
+            Assert.fail("an exception should have been thrown");
+        } catch (MathParseException e) {
             // expected
         }
     }
