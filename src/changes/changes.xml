@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" due-to="Javid Khan">
+        "SobolSequenceGenerator": Validate direction number degree in stream parser.
+      </action>
       <action dev="aherbert" type="update" issue="MATH-1690" due-to="Ruiqi Dong">
         "SparseGradient": Document violation of equals and hashCode contract.
       </action>
