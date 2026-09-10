@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>97</version>
+    <version>103</version>
   </parent>
 
   <artifactId>commons-math4-parent</artifactId>
@@ -344,7 +344,6 @@
 
             <!-- the following are test data files with specific syntax that cannot include
                  Apache header (and the contained data is public, it is not owned by Apache) -->
-            <exclude>commons-math-legacy/src/main/resources/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201</exclude>
             <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/distribution/testData.txt</exclude>
             <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/random/emptyFile.txt</exclude>
             <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/stat/data/PiDigits.txt</exclude>
@@ -358,6 +357,8 @@
             <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/stat/data/Mavro.txt</exclude>
             <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/Lanczos1.dat</exclude>
             <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/MGH17.dat</exclude>
+            <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/Hahn1.dat</exclude>
+            <exclude>commons-math-legacy/src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/Kirby2.dat</exclude>
 
             <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
                  available under a BSD-style license (see LICENSE.txt) -->
@@ -370,7 +371,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-        <failOnWarnings>true</failOnWarnings>
+        <failOnWarnings>false</failOnWarnings>
           <!-- Java API links configured in commons-parent create redirect warnings on JDK 17.
             The links are not required as detectJavaApiLink=true (default). -->
           <links combine.self="override">

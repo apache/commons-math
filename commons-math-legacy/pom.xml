@@ -222,7 +222,6 @@
             <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
             <!-- the following are test data files with specific syntax that cannot include
                  Apache header (and the contained data is public, it is not owned by Apache) -->
-            <exclude>src/main/resources/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/legacy/distribution/testData.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/legacy/random/emptyFile.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/PiDigits.txt</exclude>
@@ -236,6 +235,8 @@
             <exclude>src/test/resources/org/apache/commons/math4/legacy/stat/data/Mavro.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/Lanczos1.dat</exclude>
             <exclude>src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/MGH17.dat</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/Hahn1.dat</exclude>
+            <exclude>src/test/resources/org/apache/commons/math4/legacy/fitting/leastsquares/Kirby2.dat</exclude>
             <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
                  available under a BSD-style license (see LICENSE.txt) -->
             <exclude>src/main/resources/assets/org/apache/commons/math4/legacy/random/new-joe-kuo-6.21201</exclude>
