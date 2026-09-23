@@ -444,4 +444,19 @@ public abstract class ComplexFormatAbstractTest {
         String invalidComplex = "3 + 5";
         format.parse(invalidComplex);
     }
+
+    // MATH-1688.
+    @Test
+    public void testParseRejectsInvalidGroupingSeparators() {
+        final ComplexFormat format = new ComplexFormat();
+        final String[] invalid = {",,7+,,,2i", ",8+,,3i", ",7", "7,,8"};
+        for (final String source : invalid) {
+            try {
+                format.parse(source);
+                Assert.fail("Expected parsing to reject: " + source);
+            } catch (MathParseException expected) {
+                // Expected.
+            }
+        }
+    }
 }

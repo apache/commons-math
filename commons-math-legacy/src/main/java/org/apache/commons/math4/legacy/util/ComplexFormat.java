@@ -37,6 +37,27 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class ComplexFormat {
 
+    /**
+     * Creates the default number format used by complex values.
+     *
+     * @return a number format that does not accept grouping separators.
+     */
+    private static NumberFormat getDefaultNumberFormat() {
+        return getDefaultNumberFormat(Locale.getDefault());
+    }
+
+    /**
+     * Creates the default number format used by complex values.
+     *
+     * @param locale the locale used by the format.
+     * @return a number format that does not accept grouping separators.
+     */
+    private static NumberFormat getDefaultNumberFormat(final Locale locale) {
+        final NumberFormat format = CompositeFormat.getDefaultNumberFormat(locale);
+        format.setGroupingUsed(false);
+        return format;
+    }
+
      /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
     /** The notation used to signify the imaginary part of the complex number. */
@@ -52,7 +73,7 @@ public class ComplexFormat {
      */
     public ComplexFormat() {
         this.imaginaryCharacter = DEFAULT_IMAGINARY_CHARACTER;
-        this.imaginaryFormat = CompositeFormat.getDefaultNumberFormat();
+        this.imaginaryFormat = getDefaultNumberFormat();
         this.realFormat = imaginaryFormat;
     }
 
@@ -104,7 +125,7 @@ public class ComplexFormat {
      */
     public ComplexFormat(String imaginaryCharacter)
         throws NullArgumentException, NoDataException {
-        this(imaginaryCharacter, CompositeFormat.getDefaultNumberFormat());
+        this(imaginaryCharacter, getDefaultNumberFormat());
     }
 
     /**
@@ -311,7 +332,7 @@ public class ComplexFormat {
      * @return the complex format specific to the given locale.
      */
     public static ComplexFormat getInstance(Locale locale) {
-        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
+        NumberFormat f = getDefaultNumberFormat(locale);
         return new ComplexFormat(f);
     }
 
@@ -327,7 +348,7 @@ public class ComplexFormat {
      */
     public static ComplexFormat getInstance(String imaginaryCharacter, Locale locale)
         throws NullArgumentException, NoDataException {
-        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
+        NumberFormat f = getDefaultNumberFormat(locale);
         return new ComplexFormat(imaginaryCharacter, f);
     }
 
