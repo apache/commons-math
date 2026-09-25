@@ -37,28 +37,7 @@ import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
  */
 public class ComplexFormat {
 
-    /**
-     * Creates the default number format used by complex values.
-     *
-     * @return a number format that does not accept grouping separators.
-     */
-    private static NumberFormat getDefaultNumberFormat() {
-        return getDefaultNumberFormat(Locale.getDefault());
-    }
-
-    /**
-     * Creates the default number format used by complex values.
-     *
-     * @param locale the locale used by the format.
-     * @return a number format that does not accept grouping separators.
-     */
-    private static NumberFormat getDefaultNumberFormat(final Locale locale) {
-        final NumberFormat format = CompositeFormat.getDefaultNumberFormat(locale);
-        format.setGroupingUsed(false);
-        return format;
-    }
-
-     /** The default imaginary character. */
+    /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
     /** The notation used to signify the imaginary part of the complex number. */
     private final String imaginaryCharacter;
@@ -112,6 +91,27 @@ public class ComplexFormat {
         this.imaginaryCharacter = DEFAULT_IMAGINARY_CHARACTER;
         this.imaginaryFormat = imaginaryFormat;
         this.realFormat = realFormat;
+    }
+
+    /**
+     * Creates the default number format used by complex values.
+     *
+     * @return a number format that does not accept grouping separators.
+     */
+    private static NumberFormat getDefaultNumberFormat() {
+        return getDefaultNumberFormat(Locale.getDefault());
+    }
+
+    /**
+     * Creates the default number format used by complex values.
+     *
+     * @param locale the locale used by the format.
+     * @return a number format that does not accept grouping separators.
+     */
+    private static NumberFormat getDefaultNumberFormat(final Locale locale) {
+        final NumberFormat format = CompositeFormat.getDefaultNumberFormat(locale);
+        format.setGroupingUsed(false);
+        return format;
     }
 
     /**
