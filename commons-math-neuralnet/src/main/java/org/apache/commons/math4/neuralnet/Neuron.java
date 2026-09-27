@@ -209,7 +209,7 @@ public class Neuron {
         }
 
         for (int i = 0; i < size; i++) {
-            if (!Precision.equals(current[i], expect[i])) {
+            if (!Precision.equalsIncludingNaN(current[i], expect[i])) {
                 return false;
             }
         }
