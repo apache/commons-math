@@ -28,6 +28,20 @@ import org.apache.commons.math4.legacy.linear.Array2DRowRealMatrix;
  * Tests for {@link FieldDenseMatrix} (using {@link FP64} as field elements).
  */
 public class FP64FieldDenseMatrixTest {
+    @Test(expected=IllegalArgumentException.class)
+    public void testTooLargeAllocation() {
+        final int r = 1 << 16;
+        final int c = 1 << 15;
+        FieldDenseMatrix.create(FP64Field.get(), r, c);
+    }
+
+    @Test
+    public void testVeryLargeAllocation() {
+        final int r = 1 << 15;
+        final int c = 1 << 15;
+        final FieldDenseMatrix<FP64> a = FieldDenseMatrix.create(FP64Field.get(), r, c);
+    }
+
     @Test
     public void testGetRowDimension() {
         final int r = 6;

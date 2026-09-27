@@ -31,6 +31,8 @@ import org.apache.commons.math4.legacy.linear.AnyMatrix;
  */
 public final class FieldDenseMatrix<T>
     implements AnyMatrix {
+    /** Prevent index aliasing. */
+    private static final int MAX_ALLOC_SIZE = Integer.MAX_VALUE - 8;
     /** Field. */
     private final Field<T> field;
     /** Number of rows. */
@@ -60,11 +62,15 @@ public final class FieldDenseMatrix<T>
             c <= 0) {
             throw new IllegalArgumentException("Negative size");
         }
+        final long allocSize = (long) r * (long) c;
+        if (allocSize > MAX_ALLOC_SIZE) {
+            throw new IllegalArgumentException("Array too large");
+        }
 
         field = f;
         rows = r;
         columns = c;
-        data = (T[]) new Object[r * c];
+        data = (T[]) new Object[(int) allocSize];
     }
 
     /**
