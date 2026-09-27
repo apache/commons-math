@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math4.legacy.exception.ZeroException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
+import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math4.legacy.fitting.leastsquares.LeastSquaresProblem;
@@ -134,8 +135,14 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
 
         int count = 0;
         for (WeightedObservedPoint obs : observations) {
-            target[count]  = obs.getY();
-            weights[count] = obs.getWeight();
+            final double v = obs.getY();
+            final double w = obs.getWeight();
+
+            NotFiniteNumberException.check(v);
+            NotFiniteNumberException.check(w);
+
+            target[count]  = v;
+            weights[count] = w;
             ++count;
         }
 
@@ -318,8 +325,8 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
         private boolean isBetween(double value,
                                   double boundary1,
                                   double boundary2) {
-            return (value >= boundary1 && value <= boundary2) ||
-                (value >= boundary2 && value <= boundary1);
+            return value >= boundary1 && value <= boundary2 ||
+                value >= boundary2 && value <= boundary1;
         }
     }
 }
