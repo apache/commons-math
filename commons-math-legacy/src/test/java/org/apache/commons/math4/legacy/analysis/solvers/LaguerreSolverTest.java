@@ -20,6 +20,7 @@ import org.apache.commons.numbers.complex.Complex;
 import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 import org.apache.commons.math4.legacy.TestUtils;
 import org.junit.Assert;
@@ -167,5 +168,21 @@ public final class LaguerreSolverTest {
         } catch (NoBracketingException ex) {
             // expected
         }
+    }
+
+    @Test(expected=NotFiniteNumberException.class)
+    public void testSolveAllComplexBadCoefficient1() {
+        final double[] coefficients = { Double.POSITIVE_INFINITY, 1, 4 };
+        new LaguerreSolver().solveAllComplex(coefficients, 0);
+    }
+    @Test(expected=NotFiniteNumberException.class)
+    public void testSolveAllComplexBadCoefficient2() {
+        final double[] coefficients = { 1, Double.NEGATIVE_INFINITY, 3 };
+        new LaguerreSolver().solveAllComplex(coefficients, 0);
+    }
+    @Test(expected=NotFiniteNumberException.class)
+    public void testSolveAllComplexBadCoefficient3() {
+        final double[] coefficients = { 1, -2, Double.NaN };
+        new LaguerreSolver().solveAllComplex(coefficients, 0);
     }
 }

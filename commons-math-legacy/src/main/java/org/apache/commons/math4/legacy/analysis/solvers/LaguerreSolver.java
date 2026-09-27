@@ -21,8 +21,7 @@ import org.apache.commons.math4.legacy.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.legacy.exception.NoBracketingException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
-import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
-import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
@@ -87,10 +86,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * {@inheritDoc}
      */
     @Override
-    public double doSolve()
-        throws TooManyEvaluationsException,
-               NumberIsTooLargeException,
-               NoBracketingException {
+    public double doSolve() {
         final double min = getMin();
         final double max = getMax();
         final double initial = getStartValue();
@@ -183,10 +179,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @since 3.1
      */
     public Complex[] solveAllComplex(double[] coefficients,
-                                     double initial)
-        throws NullArgumentException,
-               NoDataException,
-               TooManyEvaluationsException {
+                                     double initial) {
         setup(Integer.MAX_VALUE,
               new PolynomialFunction(coefficients),
               Double.NEGATIVE_INFINITY,
@@ -213,10 +206,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @since 3.1
      */
     public Complex solveComplex(double[] coefficients,
-                                double initial)
-        throws NullArgumentException,
-               NoDataException,
-               TooManyEvaluationsException {
+                                double initial) {
         setup(Integer.MAX_VALUE,
               new PolynomialFunction(coefficients),
               Double.NEGATIVE_INFINITY,
@@ -261,10 +251,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws NoDataException if the {@code coefficients} array is empty.
          */
-        public Complex[] solveAll(Complex[] coefficients, Complex initial)
-            throws NullArgumentException,
-                   NoDataException,
-                   TooManyEvaluationsException {
+        public Complex[] solveAll(Complex[] coefficients,
+                                  Complex initial) {
             if (coefficients == null) {
                 throw new NullArgumentException();
             }
@@ -303,14 +291,12 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * @return the point at which the function value is zero.
          * @throws org.apache.commons.math4.legacy.exception.TooManyEvaluationsException
          * if the maximum number of evaluations is exceeded.
-         * @throws NullArgumentException if the {@code coefficients} is
+         * @throws NullArgumentException if the {@code coefficients} array is
          * {@code null}.
          * @throws NoDataException if the {@code coefficients} array is empty.
          */
-        public Complex solve(Complex[] coefficients, Complex initial)
-            throws NullArgumentException,
-                   NoDataException,
-                   TooManyEvaluationsException {
+        public Complex solve(Complex[] coefficients,
+                             Complex initial) {
             if (coefficients == null) {
                 throw new NullArgumentException();
             }
@@ -318,6 +304,11 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
             final int n = coefficients.length - 1;
             if (n == 0) {
                 throw new NoDataException(LocalizedFormats.POLYNOMIAL);
+            }
+
+            for (Complex c : coefficients) {
+                NotFiniteNumberException.check(c.real());
+                NotFiniteNumberException.check(c.imag());
             }
 
             final double absoluteAccuracy = getAbsoluteAccuracy();
@@ -329,8 +320,13 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
             Complex z = initial;
             Complex oldz = Complex.ofCartesian(Double.POSITIVE_INFINITY,
-                                       Double.POSITIVE_INFINITY);
+                                               Double.POSITIVE_INFINITY);
             while (true) {
+                if (z.isNaN()) {
+                    // Abort potentially "infinite" iteration.
+                    throw new IllegalStateException("NaN");
+                }
+
                 // Compute pv (polynomial value), dv (derivative value), and
                 // d2v (second derivative value) simultaneously.
                 Complex pv = coefficients[n];
@@ -345,7 +341,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
 
                 // Check for convergence.
                 final double tolerance = JdkMath.max(relativeAccuracy * z.abs(),
-                                                      absoluteAccuracy);
+                                                     absoluteAccuracy);
                 if ((z.subtract(oldz)).abs() <= tolerance) {
                     return z;
                 }
@@ -369,7 +365,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 if (denominator.equals(Complex.ZERO)) {
                     z = z.add(Complex.ofCartesian(absoluteAccuracy, absoluteAccuracy));
                     oldz = Complex.ofCartesian(Double.POSITIVE_INFINITY,
-                                       Double.POSITIVE_INFINITY);
+                                               Double.POSITIVE_INFINITY);
                 } else {
                     oldz = z;
                     z = z.subtract(nC.divide(denominator));
