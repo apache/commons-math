@@ -166,7 +166,7 @@ public class Network
     /**
      * @param id Identifier.
      * @param features Features.
-     * @return {@¢ode id}.
+     * @return {@code id}.
      * @throws IllegalArgumentException if the identifier is already used
      * by a neuron that belongs to this network or the features size does
      * not match the expected value.
