@@ -40,6 +40,30 @@ public class TransformUtilsTest {
     }
 
     @Test
+    public void testSampleInfiniteMinBound() {
+        assertThrows(TransformException.class, () ->
+                     TransformUtils.sample(SIN, Double.NEGATIVE_INFINITY, 1, 10));
+    }
+
+    @Test
+    public void testSampleMinBoundNaN() {
+        assertThrows(TransformException.class, () ->
+                     TransformUtils.sample(SIN, Double.NaN, 1, 10));
+    }
+
+    @Test
+    public void testSampleInfiniteMaxBound() {
+        assertThrows(TransformException.class, () ->
+                     TransformUtils.sample(SIN, 0, Double.POSITIVE_INFINITY, 10));
+    }
+
+    @Test
+    public void testSampleMaxBoundNaN() {
+        assertThrows(TransformException.class, () ->
+                     TransformUtils.sample(SIN, 0, Double.NaN, 10));
+    }
+
+    @Test
     public void testSampleNegativeNumberOfPoints() {
         assertThrows(TransformException.class, () ->
                 TransformUtils.sample(SIN, 0.0, Math.PI, -1));

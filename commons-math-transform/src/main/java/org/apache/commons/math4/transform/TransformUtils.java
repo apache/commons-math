@@ -145,6 +145,14 @@ final class TransformUtils {
             throw new TransformException(TransformException.NOT_STRICTLY_POSITIVE,
                                          Integer.valueOf(n));
         }
+        if (!Double.isFinite(min)) {
+            throw new TransformException(TransformException.NOT_FINITE, "min",
+                                         Double.valueOf(min));
+        }
+        if (!Double.isFinite(max)) {
+            throw new TransformException(TransformException.NOT_FINITE, "max",
+                                         Double.valueOf(max));
+        }
         if (min >= max) {
             throw new TransformException(TransformException.TOO_LARGE, min, max);
         }

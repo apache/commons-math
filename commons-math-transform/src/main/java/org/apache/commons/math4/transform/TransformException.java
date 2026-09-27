@@ -23,6 +23,8 @@ import java.text.MessageFormat;
  * Class is package-private (for internal use only).
  */
 class TransformException extends IllegalArgumentException {
+    /** Error message for non finite argument. */
+    public static final String NOT_FINITE = "Argument '{0}' is not finite: {1}";
     /** Error message for "out of range" condition. */
     public static final String FIRST_ELEMENT_NOT_ZERO = "First element ({0}) must be 0";
     /** Error message for "not strictly positive" condition. */
