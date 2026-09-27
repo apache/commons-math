@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.special;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -771,5 +772,31 @@ public class BesselJTest {
     @Test(expected=MathIllegalArgumentException.class)
     public void testIAEBadArgument() {
         BesselJ.value(1, 100000);
+    }
+
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotFiniteOrder1() {
+        BesselJ.value(Double.POSITIVE_INFINITY, 123.456);
+    }
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotFiniteOrder2() {
+        BesselJ.value(Double.NEGATIVE_INFINITY, 123.456);
+    }
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotFiniteOrder3() {
+        BesselJ.value(Double.NaN, 123.456);
+    }
+
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotFiniteArgument1() {
+        BesselJ.value(4.56, Double.POSITIVE_INFINITY);
+    }
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotFiniteArgument2() {
+        BesselJ.value(4.56, Double.NEGATIVE_INFINITY);
+    }
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotFiniteArgument3() {
+        BesselJ.value(4.56, Double.NaN);
     }
 }

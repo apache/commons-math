@@ -20,6 +20,7 @@ package org.apache.commons.math4.legacy.special;
 import java.util.Arrays;
 import org.apache.commons.numbers.gamma.Gamma;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
+import org.apache.commons.math4.legacy.exception.NotFiniteNumberException;
 import org.apache.commons.math4.legacy.exception.ConvergenceException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.util.LocalizedFormats;
@@ -140,8 +141,7 @@ public class BesselJ
      * @throws ConvergenceException if the algorithm fails to converge
      */
     @Override
-    public double value(double x)
-        throws MathIllegalArgumentException, ConvergenceException {
+    public double value(double x) {
         return BesselJ.value(order, x);
     }
 
@@ -153,9 +153,12 @@ public class BesselJ
      * @return Value of the Bessel function of the first kind, \(J_{order}(x)\)
      * @throws MathIllegalArgumentException if {@code x} is too large relative to {@code order}
      * @throws ConvergenceException if the algorithm fails to converge
+     * @throws NotFiniteNumberException if {@code order} or {@code x} are not finite.
      */
-    public static double value(double order, double x)
-        throws MathIllegalArgumentException, ConvergenceException {
+    public static double value(double order, double x) {
+        NotFiniteNumberException.check(order);
+        NotFiniteNumberException.check(x);
+
         final int n = (int) order;
         final double alpha = order - n;
         final int nb = n + 1;
@@ -164,7 +167,7 @@ public class BesselJ
         if (res.nVals >= nb) {
             return res.vals[n];
         } else if (res.nVals < 0) {
-            throw new MathIllegalArgumentException(LocalizedFormats.BESSEL_FUNCTION_BAD_ARGUMENT,order, x);
+            throw new MathIllegalArgumentException(LocalizedFormats.BESSEL_FUNCTION_BAD_ARGUMENT, order, x);
         } else if (JdkMath.abs(res.vals[res.nVals - 1]) < 1e-100) {
             return res.vals[n]; // underflow; return value (will be zero)
         }
