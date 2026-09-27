@@ -229,17 +229,20 @@ public final class PolynomialsUtils {
         final JacobiKey key = new JacobiKey(v, w);
 
         if (!JACOBI_COEFFICIENTS.containsKey(key)) {
+            synchronized(JACOBI_COEFFICIENTS) {
+                if (!JACOBI_COEFFICIENTS.containsKey(key)) {
+                    // allocate a new list for v, w
+                    final List<BigFraction> list = new ArrayList<>();
+                    JACOBI_COEFFICIENTS.put(key, list);
 
-            // allocate a new list for v, w
-            final List<BigFraction> list = new ArrayList<>();
-            JACOBI_COEFFICIENTS.put(key, list);
+                    // Pv,w,0(x) = 1;
+                    list.add(BigFraction.ONE);
 
-            // Pv,w,0(x) = 1;
-            list.add(BigFraction.ONE);
-
-            // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
-            list.add(BigFraction.of(v - w, 2));
-            list.add(BigFraction.of(2 + v + w, 2));
+                    // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
+                    list.add(BigFraction.of(v - w, 2));
+                    list.add(BigFraction.of(2 + v + w, 2));
+                }
+            }
         }
 
         return buildPolynomial(degree, JACOBI_COEFFICIENTS.get(key),
