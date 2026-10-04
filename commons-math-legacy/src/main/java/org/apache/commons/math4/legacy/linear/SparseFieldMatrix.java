@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.linear;
 
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.core.FieldElement;
+import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 
 /**
  * Sparse matrix implementation based on an open addressed map.
@@ -62,10 +63,17 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      * @param columnDimension Number of columns in the new matrix.
      * @throws org.apache.commons.math4.legacy.exception.NotStrictlyPositiveException
      * if row or column dimension is not positive.
+     * @throws NumberIsTooLargeException if the total number of entries of the
+     * matrix is larger than {@code Integer.MAX_VALUE}.
      */
     public SparseFieldMatrix(final Field<T> field,
                              final int rowDimension, final int columnDimension) {
         super(field, rowDimension, columnDimension);
+        final long lRow = rowDimension;
+        final long lCol = columnDimension;
+        if (lRow * lCol >= Integer.MAX_VALUE) {
+            throw new NumberIsTooLargeException(lRow * lCol, Integer.MAX_VALUE, false);
+        }
         this.rows = rowDimension;
         this.columns = columnDimension;
         entries = new OpenIntToFieldHashMap<>(field);
