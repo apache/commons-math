@@ -21,6 +21,7 @@ import org.junit.Assert;
 import org.apache.commons.math4.legacy.core.Field;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NoDataException;
+import org.apache.commons.math4.legacy.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
@@ -127,6 +128,12 @@ public class SparseFieldMatrixTest {
         Assert.assertEquals("testData2 row dimension", m2.getRowDimension(), 2);
         Assert.assertEquals("testData2 column dimension", m2.getColumnDimension(), 3);
         Assert.assertFalse("testData2 is not square", m2.isSquare());
+    }
+
+    /** test dimension product exceeding the integer range */
+    @Test(expected = NumberIsTooLargeException.class)
+    public void testDimensionOverflow() {
+        new SparseFieldMatrix<>(field, 3, Integer.MAX_VALUE);
     }
 
     /** test copy functions */
