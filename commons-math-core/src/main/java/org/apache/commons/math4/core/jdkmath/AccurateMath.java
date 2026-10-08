@@ -86,6 +86,13 @@ public final class AccurateMath {
     private static final String OVERFLOW_MSG = "Overflow";
     /** StrictMath.log(Double.MAX_VALUE): {@value}. */
     private static final double LOG_MAX_VALUE = StrictMath.log(Double.MAX_VALUE);
+    /** Threshold used in the inverse hyperbolic sine/cosine where
+     * {@code |a| = sqrt(a * a +/- 1}. 1 cannot be added to or subtracted from the square. */
+    private static final double SQUARE_PM_1 = 0x1p27;
+    /** 2^1023. Threshold where a double cannot be multiplied by 2. */
+    private static final double TWO_POW_1023 = 0x1p1023;
+    /** log(2). This is not the same as the high-bits of log(2). */
+    private static final double LN_2 = 0.6931471805599453;
 
     /** Indicator for tables initialization.
      * <p>
@@ -696,7 +703,18 @@ public final class AccurateMath {
      * @return inverse hyperbolic cosine of a
      */
     public static double acosh(final double a) {
-        return AccurateMath.log(a + Math.sqrt(a * a - 1));
+        if (a < 1.0) {
+            // a + sqrt(a * a - 1) < 0 : result is a complex number
+            return Double.NaN;
+        }
+        // Detect a = sqrt(a * a - 1) when 1 cannot be subtracted
+        if (a < SQUARE_PM_1) {
+            return AccurateMath.log(a + Math.sqrt(a * a - 1));
+        } else if (a < TWO_POW_1023) {
+            return AccurateMath.log(2 * a);
+        } else {
+            return AccurateMath.log(a) + LN_2;
+        }
     }
 
     /** Compute the inverse hyperbolic sine of a number.
@@ -712,7 +730,14 @@ public final class AccurateMath {
 
         double absAsinh;
         if (a > 0.167) {
-            absAsinh = AccurateMath.log(Math.sqrt(a * a + 1) + a);
+            // Detect a = sqrt(a * a + 1) when 1 cannot be added
+            if (a < SQUARE_PM_1) {
+                absAsinh = AccurateMath.log(a + Math.sqrt(a * a + 1));
+            } else if (a < TWO_POW_1023) {
+                absAsinh = AccurateMath.log(2 * a);
+            } else {
+                absAsinh = AccurateMath.log(a) + LN_2;
+            }
         } else {
             final double a2 = a * a;
             if (a > 0.097) {

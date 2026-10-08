@@ -251,6 +251,45 @@ public class AccurateMathTest {
     }
 
     @Test
+    public void testHyperbolicInversesSpecial() {
+        // Added to JDK 27.
+        // Special cases taken from the javadoc.
+
+        // asinh(a) = sign(a) * log(|a| + sqrt(a * a + 1))
+        // - If the argument is zero, then the result is a zero with the same sign as the argument.
+        // - If the argument is infinity, then the result is infinity with the same sign as the argument.
+        // - If the argument is NaN, then the result is NaN.
+        Assertions.assertEquals(-0.0, AccurateMath.asinh(-0.0));
+        Assertions.assertEquals(0.0, AccurateMath.asinh(0.0));
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, AccurateMath.asinh(Double.POSITIVE_INFINITY));
+        Assertions.assertEquals(Double.NEGATIVE_INFINITY, AccurateMath.asinh(Double.NEGATIVE_INFINITY));
+        Assertions.assertEquals(Double.NaN, AccurateMath.asinh(Double.NaN));
+
+        // acosh(a) = log(a + sqrt(a * a - 1))
+        // - If the argument is positive infinity, then the result is positive infinity
+        // - If the argument less than 1, then the result is NaN.
+        // - If the argument is NaN, then the result is NaN.
+        // - If the argument is 1.0, then the result is positive zero.
+
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, AccurateMath.acosh(Double.POSITIVE_INFINITY));
+        Assertions.assertEquals(Double.NaN, AccurateMath.acosh(Math.nextDown(1.0)));
+        Assertions.assertEquals(Double.NaN, AccurateMath.acosh(0.0));
+        Assertions.assertEquals(Double.NaN, AccurateMath.acosh(Double.NEGATIVE_INFINITY));
+        Assertions.assertEquals(Double.NaN, AccurateMath.acosh(Double.NaN));
+        Assertions.assertEquals(0.0, AccurateMath.acosh(1.0));
+
+        // MATH-1692: Detect overflow in sqrt(a * a +/- 1) and (2 * a)
+        Assertions.assertEquals(Double.NaN, AccurateMath.acosh(-Double.MAX_VALUE));
+        Assertions.assertEquals(-710.4758600739439, AccurateMath.asinh(-Double.MAX_VALUE));
+        Assertions.assertEquals(710.4758600739439, AccurateMath.asinh(Double.MAX_VALUE));
+        Assertions.assertEquals(710.4758600739439, AccurateMath.acosh(Double.MAX_VALUE));
+        // Value from mpmath.asinh version 1.4.1
+        Assertions.assertEquals(-461.210165779369082082748645271, AccurateMath.asinh(-1e200));
+        Assertions.assertEquals(461.210165779369082082748645271, AccurateMath.asinh(1e200));
+        Assertions.assertEquals(461.210165779369082082748645271, AccurateMath.acosh(1e200));
+    }
+
+    @Test
     public void testLogAccuracy() {
         double maxerrulp = 0.0;
 

@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbetrt" type="fix" issue="MATH-1692" due-to="Alex Herbert">
+        "AccurateMath": Avoid intermediate overflow in asinh and acosh.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1691" due-to="Security scan">
         Miscellaneous hardening fixes.
       </action>
