@@ -16,6 +16,8 @@
 github:
   description: "Apache Commons Math"
   homepage: https://commons.apache.org/math
+  autolink_jira:
+    - MATH
   labels:
     - java
     - math
