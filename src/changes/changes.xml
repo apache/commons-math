@@ -96,7 +96,7 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
-      <action type="fix" issue="MATH-1424">
+      <action dev="erans" type="fix" issue="MATH-1424" due-to="Kyosuke Saito">
         Preserve converged real eigenvalues by zeroing accepted Schur split boundaries.
       </action>
       <action dev="aherbetrt" type="fix" issue="MATH-1692" due-to="Alex Herbert">
