@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.stat.descriptive;
 
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.legacy.exception.MathIllegalStateException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 
 /**
@@ -67,6 +68,30 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     @Override
     public synchronized void addValue(double v) {
         super.addValue(v);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>This method is a mutator like {@link #addValue(double)}, so it has to take the instance lock as well:
+     * {@code DescriptiveStatistics} changes the underlying storeless statistics in place, and without the lock a
+     * concurrent {@code getValues()} could copy the store while it is being updated.</p>
+     */
+    @Override
+    public synchronized void removeMostRecentValue() throws MathIllegalStateException {
+        super.removeMostRecentValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>This method is a mutator like {@link #addValue(double)}, so it has to take the instance lock as well:
+     * {@code DescriptiveStatistics} changes the underlying storeless statistics in place, and without the lock a
+     * concurrent {@code getValues()} could copy the store while it is being updated.</p>
+     */
+    @Override
+    public synchronized double replaceMostRecentValue(double v) throws MathIllegalStateException {
+        return super.replaceMostRecentValue(v);
     }
 
     /**

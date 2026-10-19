@@ -16,14 +16,89 @@
  */
 package org.apache.commons.math4.legacy.stat.descriptive;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
- * Test cases for the {@link SynchronizedDescriptiveStatisticsTest} class.
- *          2007) $
+ * Test cases for the {@link SynchronizedDescriptiveStatistics} class.
  */
 public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStatisticsTest {
+
+    /** How long a mutator is observed while the test thread holds the instance monitor. */
+    private static final long LOCK_WAIT_MILLIS = 200;
 
     @Override
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new SynchronizedDescriptiveStatistics();
+    }
+
+    @Test
+    public void testMutatorsAreSynchronized() throws NoSuchMethodException {
+        // DescriptiveStatistics updates its storeless statistics in place, so every mutator has to take the
+        // instance lock on the wrapper; a mutator that is not overridden runs unsynchronized.
+        final Method[] mutators = {
+            DescriptiveStatistics.class.getMethod("addValue", double.class),
+            DescriptiveStatistics.class.getMethod("removeMostRecentValue"),
+            DescriptiveStatistics.class.getMethod("replaceMostRecentValue", double.class),
+            DescriptiveStatistics.class.getMethod("clear"),
+            DescriptiveStatistics.class.getMethod("setWindowSize", int.class),
+        };
+        for (final Method mutator : mutators) {
+            final Method override = SynchronizedDescriptiveStatistics.class.getDeclaredMethod(
+                    mutator.getName(), mutator.getParameterTypes());
+            Assert.assertTrue(mutator.getName() + "() must be synchronized",
+                    Modifier.isSynchronized(override.getModifiers()));
+        }
+    }
+
+    @Test
+    public void testRemoveMostRecentValueWaitsForInstanceLock() throws InterruptedException {
+        assertWaitsForInstanceLock(false);
+    }
+
+    @Test
+    public void testReplaceMostRecentValueWaitsForInstanceLock() throws InterruptedException {
+        assertWaitsForInstanceLock(true);
+    }
+
+    /**
+     * Starts a mutator while the test thread holds the instance monitor and checks that it does not finish
+     * before the monitor is released.
+     *
+     * @param replace {@code true} to call replaceMostRecentValue, {@code false} to call removeMostRecentValue
+     */
+    private void assertWaitsForInstanceLock(final boolean replace) throws InterruptedException {
+        final SynchronizedDescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
+        stats.addValue(1);
+        final CountDownLatch started = new CountDownLatch(1);
+        final CountDownLatch finished = new CountDownLatch(1);
+        final Thread mutator = new Thread(() -> {
+            started.countDown();
+            if (replace) {
+                stats.replaceMostRecentValue(2);
+            } else {
+                stats.removeMostRecentValue();
+            }
+            finished.countDown();
+        }, "mutator");
+        synchronized (stats) {
+            mutator.start();
+            Assert.assertTrue("mutator thread did not start", started.await(5, TimeUnit.SECONDS));
+            Assert.assertFalse("mutator must wait for the instance lock",
+                    finished.await(LOCK_WAIT_MILLIS, TimeUnit.MILLISECONDS));
+        }
+        Assert.assertTrue("mutator did not complete after the lock was released",
+                finished.await(5, TimeUnit.SECONDS));
+        if (replace) {
+            Assert.assertEquals(1, stats.getN());
+            Assert.assertEquals(2, stats.getElement(0), 0);
+        } else {
+            Assert.assertEquals(0, stats.getN());
+        }
     }
 }
