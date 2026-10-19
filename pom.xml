@@ -69,11 +69,6 @@
     <!-- Workaround to avoid duplicating config files. -->
     <math.parent.dir>${basedir}</math.parent.dir>
 
-    <!-- Fix to avoid JXR 3.0.0 forking the lifecycle phase 'compile' during site report
-       jxr:aggregate. If compile is forked, the dist-archive build fails when attempting
-       to collect the artifacts from other modules. -->
-    <commons.jxr.version>2.5</commons.jxr.version>
-
     <!-- Increase from commons-parent -->
     <commons.jacoco.methodRatio>1.00</commons.jacoco.methodRatio>
     <!-- Set to true when coverage goals are achieved -->
