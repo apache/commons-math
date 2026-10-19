@@ -61,6 +61,81 @@ public class EigenDecompositionTest {
     }
 
     @Test
+    public void testMath1424FiniteUnsymmetricScale() {
+        final double[][] data = {{1e7, -1e6}, {-1000000.1, 2e7}};
+        // The two roots are (a + d) / 2 +/- sqrt(((a - d) / 2)^2 + b * c).
+        final double radius = JdkMath.sqrt(5e6 * 5e6 + 1e6 * 1000000.1);
+        final double[] expected = {15e6 - radius, 15e6 + radius};
+        for (final double scale : new double[] {0x1.0p-20, 1.0}) {
+            final RealMatrix input = MatrixUtils.createRealMatrix(data).scalarMultiply(scale);
+            checkMath1424SchurResiduals(input);
+            final EigenDecomposition decomposition = new EigenDecomposition(input);
+            final double[] real = decomposition.getRealEigenvalues();
+            final double[] imaginary = decomposition.getImagEigenvalues();
+            Arrays.sort(real);
+            final String message = "scale=" + scale + ", real=" + Arrays.toString(real)
+                + ", imaginary=" + Arrays.toString(imaginary);
+            for (final double value : real) {
+                Assert.assertTrue(message, Double.isFinite(value));
+            }
+            // Infinity norm of the input times a relative error allowance.
+            final double tolerance = 1e-12 * 21000000.1 * scale;
+            Assert.assertArrayEquals(message,
+                                     new double[] {expected[0] * scale, expected[1] * scale},
+                                     real, tolerance);
+            Assert.assertArrayEquals(message, new double[] {0.0, 0.0}, imaginary, 0.0);
+            Assert.assertFalse(message, decomposition.hasComplexEigenvalues());
+        }
+    }
+
+    @Test
+    public void testMath1424ComplexBlockAndSmallSplit() {
+        for (final double boundary : new double[] {0.0, 1e-4}) {
+            final RealMatrix input = MatrixUtils.createRealMatrix(new double[][] {
+                {1e13, 0, 0}, {boundary, 2, 1}, {0, -1, 2}
+            });
+            final RealMatrix t = checkMath1424SchurResiduals(input);
+            Assert.assertEquals(0.0, t.getEntry(1, 0), 0.0);
+            Assert.assertEquals(1.0, JdkMath.abs(t.getEntry(2, 1)), 1e-14);
+            final EigenDecomposition decomposition = new EigenDecomposition(input);
+            final double[] real = decomposition.getRealEigenvalues();
+            final double[] imaginary = decomposition.getImagEigenvalues();
+            Arrays.sort(real);
+            Arrays.sort(imaginary);
+            Assert.assertArrayEquals(new double[] {2, 2, 1e13}, real, 1e-12);
+            Assert.assertArrayEquals(new double[] {-1, 0, 1}, imaginary, 1e-14);
+            Assert.assertTrue(decomposition.hasComplexEigenvalues());
+        }
+    }
+
+    @Test
+    public void testMath1424SmallOneRootBoundary() {
+        final RealMatrix input = MatrixUtils.createRealMatrix(new double[][] {
+            {1e13, 1}, {1e-4, 2e13}
+        });
+        Assert.assertEquals(0.0, checkMath1424SchurResiduals(input).getEntry(1, 0), 0.0);
+        final EigenDecomposition decomposition = new EigenDecomposition(input);
+        final double[] real = decomposition.getRealEigenvalues();
+        Arrays.sort(real);
+        Assert.assertArrayEquals(new double[] {1e13, 2e13}, real, 1e-12 * input.getNorm());
+        Assert.assertArrayEquals(new double[] {0, 0}, decomposition.getImagEigenvalues(), 0.0);
+        Assert.assertFalse(decomposition.hasComplexEigenvalues());
+    }
+
+    private RealMatrix checkMath1424SchurResiduals(final RealMatrix input) {
+        final SchurTransformer transformer = new SchurTransformer(input);
+        final RealMatrix p = transformer.getP();
+        final RealMatrix t = transformer.getT();
+        final double pNorm = p.getNorm();
+        Assert.assertEquals(0.0, input.multiply(p).subtract(p.multiply(t)).getNorm()
+                            / (input.getNorm() * pNorm), 1e-14);
+        final RealMatrix identity = MatrixUtils.createRealIdentityMatrix(input.getRowDimension());
+        Assert.assertEquals(0.0, transformer.getPT().multiply(p).subtract(identity).getNorm()
+                            / (pNorm * pNorm), 1e-14);
+        return t;
+    }
+
+    @Test
     public void testDimension3() {
         RealMatrix matrix =
             MatrixUtils.createRealMatrix(new double[][] {

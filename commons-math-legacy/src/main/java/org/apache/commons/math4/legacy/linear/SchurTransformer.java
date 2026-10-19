@@ -193,6 +193,8 @@ class SchurTransformer {
                         matrixP[i][iu - 1] = q * z + p * matrixP[i][iu];
                         matrixP[i][iu] = q * matrixP[i][iu] - p * z;
                     }
+                    // The converged real pair is triangular.
+                    matrixT[iu][iu - 1] = 0.0;
                 }
                 iu -= 2;
                 iteration = 0;
@@ -246,6 +248,8 @@ class SchurTransformer {
                 s = norm;
             }
             if (JdkMath.abs(matrixT[l][l - 1]) < epsilon * s) {
+                // Make the accepted split explicit in the Schur form.
+                matrixT[l][l - 1] = 0.0;
                 break;
             }
             l--;
