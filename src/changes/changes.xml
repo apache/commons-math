@@ -99,7 +99,7 @@ Caveat:
       <action dev="erans" type="fix" issue="MATH-1424" due-to="Kyosuke Saito">
         Preserve converged real eigenvalues by zeroing accepted Schur split boundaries.
       </action>
-      <action dev="aherbetrt" type="fix" issue="MATH-1692" due-to="Alex Herbert">
+      <action dev="aherbert" type="fix" issue="MATH-1692" due-to="Alex Herbert">
         "AccurateMath": Avoid intermediate overflow in asinh and acosh.
       </action>
       <action dev="erans" type="fix" issue="MATH-1691" due-to="Security scan">
