@@ -55,7 +55,7 @@ public final class LeastSquaresFactory {
      * @param checker        convergence checker
      * @param maxEvaluations the maximum number of times to evaluate the model
      * @param maxIterations  the maximum number to times to iterate in the algorithm
-     * @param lazyEvaluation Whether the call to {@link Evaluation#evaluate(RealVector)}
+     * @param lazyEvaluation Whether the call to {@link LeastSquaresProblem#evaluate(RealVector)}
      * will defer the evaluation until access to the value is requested.
      * @param paramValidator Model parameters validator.
      * @return the specified General Least Squares problem.
@@ -374,7 +374,7 @@ public final class LeastSquaresFactory {
          * @param checker        the convergence checker
          * @param maxEvaluations the allowed evaluations
          * @param maxIterations  the allowed iterations
-         * @param lazyEvaluation Whether the call to {@link Evaluation#evaluate(RealVector)}
+         * @param lazyEvaluation Whether the call to {@link #evaluate(RealVector)}
          * will defer the evaluation until access to the value is requested.
          * @param paramValidator Model parameters validator.
          */
