@@ -72,10 +72,6 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
 
     /**
      * {@inheritDoc}
-     *
-     * <p>This method is a mutator like {@link #addValue(double)}, so it has to take the instance lock as well:
-     * {@code DescriptiveStatistics} changes the underlying storeless statistics in place, and without the lock a
-     * concurrent {@code getValues()} could copy the store while it is being updated.</p>
      */
     @Override
     public synchronized void removeMostRecentValue() throws MathIllegalStateException {
@@ -84,10 +80,6 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
 
     /**
      * {@inheritDoc}
-     *
-     * <p>This method is a mutator like {@link #addValue(double)}, so it has to take the instance lock as well:
-     * {@code DescriptiveStatistics} changes the underlying storeless statistics in place, and without the lock a
-     * concurrent {@code getValues()} could copy the store while it is being updated.</p>
      */
     @Override
     public synchronized double replaceMostRecentValue(double v) throws MathIllegalStateException {
