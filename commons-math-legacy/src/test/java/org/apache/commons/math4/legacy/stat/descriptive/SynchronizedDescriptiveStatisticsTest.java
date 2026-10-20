@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -54,6 +55,17 @@ public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStat
             Assert.assertTrue(mutator.getName() + "() must be synchronized",
                     Modifier.isSynchronized(override.getModifiers()));
         }
+    }
+
+    @Test
+    public void testGetPercentileIsSynchronized() throws NoSuchMethodException {
+        // DescriptiveStatistics.getPercentile sets the shared percentile quantile before calling the
+        // synchronized apply, so the whole method (setQuantile + apply) has to take the instance lock;
+        // otherwise a concurrent call can swap the quantile in between the two steps.
+        final Method getPercentile = SynchronizedDescriptiveStatistics.class.getDeclaredMethod(
+                "getPercentile", double.class);
+        Assert.assertTrue("getPercentile(double) must be synchronized",
+                Modifier.isSynchronized(getPercentile.getModifiers()));
     }
 
     @Test
@@ -100,5 +112,41 @@ public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStat
         } else {
             Assert.assertEquals(0, stats.getN());
         }
+    }
+
+    @Test
+    public void testGetPercentileAppliesRequestedQuantileAtomically() throws InterruptedException {
+        final SynchronizedDescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
+        final DescriptiveStatistics reference = new DescriptiveStatistics();
+        for (int i = 1; i <= 100; i++) {
+            stats.addValue(i);
+            reference.addValue(i);
+        }
+        final double expectedQuartile = reference.getPercentile(25);
+        final double expectedTop = reference.getPercentile(90);
+        Assert.assertTrue("test setup: the two quantiles must differ", expectedQuartile != expectedTop);
+
+        final AtomicReference<Double> other = new AtomicReference<>();
+        final Thread percentileCaller = new Thread(() -> other.set(stats.getPercentile(25)), "percentile-caller");
+        synchronized (stats) {
+            percentileCaller.start();
+            // Hold the instance monitor and wait until the other thread blocks trying to acquire it.
+            // If getPercentile were not synchronized, the other thread would already have set the
+            // quantile to 25 outside the lock and be parked inside apply(); with the synchronized
+            // override it parks at the method entry, so our own call cannot disturb its quantile.
+            final long deadline = System.currentTimeMillis() + 5000;
+            while (percentileCaller.getState() != Thread.State.BLOCKED
+                    && System.currentTimeMillis() < deadline) {
+                Thread.sleep(1);
+            }
+            Assert.assertEquals("other thread should be blocked on the instance monitor",
+                    Thread.State.BLOCKED, percentileCaller.getState());
+            Assert.assertEquals("our own call must still see the requested quantile",
+                    expectedTop, stats.getPercentile(90), 0);
+        }
+        percentileCaller.join(5000);
+        Assert.assertFalse("other thread did not complete", percentileCaller.isAlive());
+        Assert.assertEquals("getPercentile must apply the requested quantile atomically",
+                expectedQuartile, other.get(), 0);
     }
 }
