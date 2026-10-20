@@ -98,6 +98,14 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      * {@inheritDoc}
      */
     @Override
+    public synchronized double getPercentile(double p) throws MathIllegalStateException, MathIllegalArgumentException {
+        return super.getPercentile(p);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized void clear() {
         super.clear();
     }
