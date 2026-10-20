@@ -37,9 +37,18 @@ public class FP64FieldDenseMatrixTest {
 
     @Test
     public void testVeryLargeAllocation() {
-        final int r = 1 << 15;
-        final int c = 1 << 15;
-        final FieldDenseMatrix<FP64> a = FieldDenseMatrix.create(FP64Field.get(), r, c);
+        try {
+            final int r = 1 << 15;
+            final int c = 1 << 15;
+            final FieldDenseMatrix<FP64> a = FieldDenseMatrix.create(FP64Field.get(), r, c);
+        } catch (OutOfMemoryError ignored) {
+            // This test may fail if run within a JVM with limited memory.
+            // Expected:
+            // - array size r*c too large for any JVM: IllegalArgumentException
+            // - array size r*c is possible: attempt to allocate array
+            // The purpose of the test is to verify an attempt will be made to allocate
+            // the array of size 2^30. If an OOM error occurred then this is a pass.
+        }
     }
 
     @Test
