@@ -96,6 +96,11 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" due-to="Lyin-OTTF">
+        "SynchronizedDescriptiveStatistics": Synchronize all mutators
+        of the internal state. Updates previously unsynchronized methods
+        removeMostRecentValue; replaceMostRecentValue; getPercentile.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1424" due-to="Kyosuke Saito">
         Preserve converged real eigenvalues by zeroing accepted Schur split boundaries.
       </action>
