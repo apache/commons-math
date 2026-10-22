@@ -38,6 +38,26 @@ import org.junit.Test;
 public class BOBYQAOptimizerTest {
     private static final int DIM = 13;
 
+    @Test(expected=IllegalArgumentException.class)
+    public void testNegativeInitialTrustRegionRadius() {
+        new BOBYQAOptimizer(5, -1.0, 0.001);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testNegativeStoppingTrustRegionRadius() {
+        new BOBYQAOptimizer(5, 1.0, -0.001);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testStoppingTrustRegionRadiusGreaterThanInitial() {
+        new BOBYQAOptimizer(5, 0.5, 1.0);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testZeroTrustRegionRadii() {
+        new BOBYQAOptimizer(5, 0.0, 0.0);
+    }
+
     @Test(expected=NumberIsTooLargeException.class)
     public void testInitOutOfBounds() {
         final int dim = 12;
