@@ -59,6 +59,7 @@ public final class IntegerSequence {
      * construction rule.
      * @param step Increment.
      * @return a range.
+     * @throws ZeroException if {@code step} is zero
      */
     public static Range range(final int start,
                               final int max,
@@ -89,10 +90,14 @@ public final class IntegerSequence {
          * @param max Last value of the range that satisfies the above
          * construction rule.
          * @param step Increment.
+         * @throws ZeroException if {@code step} is zero
          */
         public Range(int start,
                      int max,
                      int step) {
+            if (step == 0) {
+                throw new ZeroException();
+            }
             this.start = start;
             this.max = max;
             this.step = step;
@@ -113,10 +118,29 @@ public final class IntegerSequence {
         /** {@inheritDoc} */
         @Override
         public Iterator<Integer> iterator() {
-            return Incrementor.create()
-                .withStart(start)
-                .withMaximalCount(max + (step > 0 ? 1 : -1))
-                .withIncrement(step);
+            return new Iterator<Integer>() {
+                private long next = start;
+
+                @Override
+                public boolean hasNext() {
+                    return step > 0 ? next <= max : next >= max;
+                }
+
+                @Override
+                public Integer next() {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    final int value = (int) next;
+                    next += step;
+                    return value;
+                }
+
+                @Override
+                public void remove() {
+                    throw new MathUnsupportedOperationException();
+                }
+            };
         }
     }
 

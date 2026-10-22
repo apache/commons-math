@@ -18,6 +18,7 @@ package org.apache.commons.math4.legacy.core;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.apache.commons.math4.legacy.exception.MaxCountExceededException;
 import org.apache.commons.math4.legacy.exception.TooManyEvaluationsException;
@@ -169,6 +170,33 @@ public class IntegerSequenceTest {
 
         Assert.assertEquals(0, seq.size());
         Assert.assertEquals(seq.size(), r.size());
+    }
+
+    @Test
+    public void testRangeAtMaximumInteger() {
+        final IntegerSequence.Range range = IntegerSequence.range(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        final Iterator<Integer> iterator = range.iterator();
+
+        Assert.assertEquals(1, range.size());
+        Assert.assertTrue(iterator.hasNext());
+        Assert.assertEquals(Integer.MAX_VALUE, iterator.next().intValue());
+        Assert.assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void testDescendingRangeAtMinimumInteger() {
+        final IntegerSequence.Range range = IntegerSequence.range(Integer.MIN_VALUE, Integer.MIN_VALUE, -1);
+        final Iterator<Integer> iterator = range.iterator();
+
+        Assert.assertEquals(1, range.size());
+        Assert.assertTrue(iterator.hasNext());
+        Assert.assertEquals(Integer.MIN_VALUE, iterator.next().intValue());
+        Assert.assertFalse(iterator.hasNext());
+    }
+
+    @Test(expected = ZeroException.class)
+    public void testRangeZeroStep() {
+        IntegerSequence.range(1, 10, 0);
     }
 
     @Test(expected = MaxCountExceededException.class)
