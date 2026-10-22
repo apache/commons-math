@@ -95,14 +95,11 @@ public final class IntegerSequence {
         public Range(int start,
                      int max,
                      int step) {
-            if (step == 0) {
-                throw new ZeroException();
-            }
             this.start = start;
             this.max = max;
-            this.step = step;
+            this.step = Incrementor.checkIncrement(step);
 
-            final int s = (max - start) / step + 1;
+            final int s = (max - start) / this.step + 1;
             this.size = s < 0 ? 0 : s;
         }
 
@@ -118,29 +115,7 @@ public final class IntegerSequence {
         /** {@inheritDoc} */
         @Override
         public Iterator<Integer> iterator() {
-            return new Iterator<Integer>() {
-                private long next = start;
-
-                @Override
-                public boolean hasNext() {
-                    return step > 0 ? next <= max : next >= max;
-                }
-
-                @Override
-                public Integer next() {
-                    if (!hasNext()) {
-                        throw new NoSuchElementException();
-                    }
-                    final int value = (int) next;
-                    next += step;
-                    return value;
-                }
-
-                @Override
-                public void remove() {
-                    throw new MathUnsupportedOperationException();
-                }
-            };
+            return new Incrementor(start, max, step, Incrementor.CALLBACK, true);
         }
     }
 
@@ -167,12 +142,14 @@ public final class IntegerSequence {
         private final int init;
         /** Upper limit for the counter. */
         private final int maximalCount;
+        /** Whether the limit is included in the sequence. */
+        private final boolean inclusive;
         /** Increment. */
         private final int increment;
         /** Function called at counter exhaustion. */
         private final MaxCountExceededCallback maxCountCallback;
-        /** Current count. */
-        private int count;
+        /** Current count, widened to detect exhaustion without integer overflow. */
+        private long count;
 
         /**
          * Defines a method to be called at counter exhaustion.
@@ -190,25 +167,28 @@ public final class IntegerSequence {
 
         /**
          * Creates an incrementor.
-         * The counter will be exhausted either when {@code max} is reached
-         * or when {@code nTimes} increments have been performed.
+         * The counter will be exhausted when {@code max} is reached or passed,
+         * according to whether the limit is inclusive.
          *
          * @param start Initial value.
          * @param max Maximal count.
          * @param step Increment.
          * @param cb Function to be called when the maximal count has been reached.
+         * @param inclusive Whether the limit is included in the sequence.
          * @throws NullArgumentException if {@code cb} is {@code null}.
          */
         private Incrementor(int start,
                             int max,
                             int step,
-                            MaxCountExceededCallback cb)
+                            MaxCountExceededCallback cb,
+                            boolean inclusive)
             throws NullArgumentException {
             if (cb == null) {
                 throw new NullArgumentException();
             }
             this.init = start;
             this.maximalCount = max;
+            this.inclusive = inclusive;
             this.increment = step;
             this.maxCountCallback = cb;
             this.count = start;
@@ -223,7 +203,7 @@ public final class IntegerSequence {
          * @return an new instance.
          */
         public static Incrementor create() {
-            return new Incrementor(0, 0, 1, CALLBACK);
+            return new Incrementor(0, 0, 1, CALLBACK, false);
         }
 
         /**
@@ -237,7 +217,8 @@ public final class IntegerSequence {
             return new Incrementor(start,
                                    this.maximalCount,
                                    this.increment,
-                                   this.maxCountCallback);
+                                   this.maxCountCallback,
+                                   this.inclusive);
         }
 
         /**
@@ -251,7 +232,8 @@ public final class IntegerSequence {
             return new Incrementor(this.init,
                                    max,
                                    this.increment,
-                                   this.maxCountCallback);
+                                   this.maxCountCallback,
+                                   this.inclusive);
         }
 
         /**
@@ -262,13 +244,25 @@ public final class IntegerSequence {
          * @return a new instance.
          */
         public Incrementor withIncrement(int step) {
+            return new Incrementor(this.init,
+                                   this.maximalCount,
+                                   checkIncrement(step),
+                                   this.maxCountCallback,
+                                   this.inclusive);
+        }
+
+        /**
+         * Checks that an increment is nonzero.
+         *
+         * @param step Increment.
+         * @return the increment.
+         * @throws ZeroException if {@code step} is zero.
+         */
+        private static int checkIncrement(int step) {
             if (step == 0) {
                 throw new ZeroException();
             }
-            return new Incrementor(this.init,
-                                   this.maximalCount,
-                                   step,
-                                   this.maxCountCallback);
+            return step;
         }
 
         /**
@@ -282,7 +276,8 @@ public final class IntegerSequence {
             return new Incrementor(this.init,
                                    this.maximalCount,
                                    this.increment,
-                                   cb);
+                                   cb,
+                                   this.inclusive);
         }
 
         /**
@@ -300,7 +295,7 @@ public final class IntegerSequence {
          * @return the current count.
          */
         public int getCount() {
-            return count;
+            return (int) count;
         }
 
         /**
@@ -323,7 +318,12 @@ public final class IntegerSequence {
          * {@code true} otherwise.
          */
         public boolean canIncrement(int nTimes) {
-            final int finalCount = count + nTimes * increment;
+            final long finalCount = count + (long) nTimes * increment;
+            if (inclusive) {
+                return increment < 0 ?
+                    finalCount >= maximalCount :
+                    finalCount <= maximalCount;
+            }
             return increment < 0 ?
                 finalCount > maximalCount :
                 finalCount < maximalCount;
@@ -343,7 +343,7 @@ public final class IntegerSequence {
                 throw new NotStrictlyPositiveException(nTimes);
             }
 
-            count += nTimes * increment;
+            count += (long) nTimes * increment;
 
             if (!canIncrement(0)) {
                 maxCountCallback.trigger(maximalCount);
@@ -378,7 +378,7 @@ public final class IntegerSequence {
         @Override
         public Integer next() {
             if (canIncrement(0)) {
-                final int value = count;
+                final int value = (int) count;
                 count += increment;
                 return value;
             } else {

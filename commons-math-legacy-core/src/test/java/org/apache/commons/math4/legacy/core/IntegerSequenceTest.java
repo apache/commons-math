@@ -194,6 +194,109 @@ public class IntegerSequenceTest {
         Assert.assertFalse(iterator.hasNext());
     }
 
+    @Test
+    public void testRangeUsesIncrementor() {
+        Assert.assertTrue(IntegerSequence.range(0, 1).iterator() instanceof IntegerSequence.Incrementor);
+    }
+
+    @Test
+    public void testRangeIteratorExhaustion() {
+        assertIteratorSequence(IntegerSequence.range(Integer.MAX_VALUE - 2, Integer.MAX_VALUE, 2).iterator(),
+                               Integer.MAX_VALUE - 2, Integer.MAX_VALUE);
+        assertIteratorSequence(IntegerSequence.range(Integer.MIN_VALUE + 2, Integer.MIN_VALUE, -2).iterator(),
+                               Integer.MIN_VALUE + 2, Integer.MIN_VALUE);
+        assertIteratorSequence(IntegerSequence.range(Integer.MAX_VALUE - 1, Integer.MAX_VALUE, 2).iterator(),
+                               Integer.MAX_VALUE - 1);
+        assertIteratorSequence(IntegerSequence.range(Integer.MIN_VALUE + 1, Integer.MIN_VALUE, -2).iterator(),
+                               Integer.MIN_VALUE + 1);
+    }
+
+    @Test
+    public void testIncrementorIteratorOverflow() {
+        assertIteratorSequence(IntegerSequence.Incrementor.create()
+                               .withStart(Integer.MAX_VALUE - 1)
+                               .withMaximalCount(Integer.MAX_VALUE)
+                               .withIncrement(2), Integer.MAX_VALUE - 1);
+        assertIteratorSequence(IntegerSequence.Incrementor.create()
+                               .withStart(Integer.MIN_VALUE + 1)
+                               .withMaximalCount(Integer.MIN_VALUE)
+                               .withIncrement(-2), Integer.MIN_VALUE + 1);
+    }
+
+    @Test
+    public void testIncrementorCanIncrementOverflow() {
+        final IntegerSequence.Incrementor increasing = IntegerSequence.Incrementor.create()
+            .withStart(Integer.MAX_VALUE - 1)
+            .withMaximalCount(Integer.MAX_VALUE)
+            .withIncrement(2);
+        final IntegerSequence.Incrementor decreasing = IntegerSequence.Incrementor.create()
+            .withStart(Integer.MIN_VALUE + 1)
+            .withMaximalCount(Integer.MIN_VALUE)
+            .withIncrement(-2);
+
+        Assert.assertFalse(increasing.canIncrement());
+        Assert.assertFalse(decreasing.canIncrement());
+        Assert.assertFalse(increasing.canIncrement(Integer.MAX_VALUE));
+        Assert.assertFalse(decreasing.canIncrement(Integer.MAX_VALUE));
+    }
+
+    @Test
+    public void testIncrementorIncrementOverflow() {
+        assertIncrementOverflow(Integer.MAX_VALUE - 1, Integer.MAX_VALUE, 2, 1);
+        assertIncrementOverflow(Integer.MIN_VALUE + 1, Integer.MIN_VALUE, -2, 1);
+        assertIncrementOverflow(0, Integer.MAX_VALUE, 2, Integer.MAX_VALUE);
+        assertIncrementOverflow(0, Integer.MIN_VALUE, -2, Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void testIncrementorCallbackOverflow() {
+        final List<Integer> limits = new ArrayList<>();
+        final IntegerSequence.Incrementor inc = IntegerSequence.Incrementor.create()
+            .withStart(Integer.MAX_VALUE - 1)
+            .withMaximalCount(Integer.MAX_VALUE)
+            .withIncrement(2)
+            .withCallback(limits::add);
+
+        inc.increment();
+        Assert.assertEquals(1, limits.size());
+        Assert.assertEquals(Integer.MAX_VALUE, limits.get(0).intValue());
+        Assert.assertFalse(inc.hasNext());
+        inc.increment();
+        Assert.assertEquals(2, limits.size());
+        Assert.assertFalse(inc.canIncrement());
+    }
+
+    private static void assertIteratorSequence(Iterator<Integer> iterator, int... expected) {
+        for (int value : expected) {
+            Assert.assertTrue(iterator.hasNext());
+            Assert.assertEquals(value, iterator.next().intValue());
+        }
+        Assert.assertFalse(iterator.hasNext());
+        try {
+            iterator.next();
+            Assert.fail("exception expected");
+        } catch (NoSuchElementException e) {
+            // Expected.
+        }
+        Assert.assertFalse(iterator.hasNext());
+    }
+
+    private static void assertIncrementOverflow(int start, int max, int step, int nTimes) {
+        final IntegerSequence.Incrementor inc = IntegerSequence.Incrementor.create()
+            .withStart(start)
+            .withMaximalCount(max)
+            .withIncrement(step);
+
+        Assert.assertFalse(inc.canIncrement(nTimes));
+        try {
+            inc.increment(nTimes);
+            Assert.fail("exception expected");
+        } catch (MaxCountExceededException e) {
+            // Expected.
+        }
+        Assert.assertFalse(inc.hasNext());
+    }
+
     @Test(expected = ZeroException.class)
     public void testRangeZeroStep() {
         IntegerSequence.range(1, 10, 0);
