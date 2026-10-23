@@ -99,12 +99,20 @@ public final class IntegerSequence {
             this.max = max;
             this.step = Incrementor.checkIncrement(step);
 
-            final int s = (max - start) / this.step + 1;
-            this.size = s < 0 ? 0 : s;
+            final long distance = (long) max - start;
+            final long stepMagnitude = this.step < 0 ? -(long) this.step : this.step;
+            final boolean directionMatches = distance == 0 ||
+                distance > 0 && this.step > 0 ||
+                distance < 0 && this.step < 0;
+            final long s = directionMatches ?
+                (distance < 0 ? -distance : distance) / stepMagnitude + 1 : 0;
+            this.size = s > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) s;
         }
 
         /**
          * Gets the number of elements contained in the range.
+         * The value is capped at {@link Integer#MAX_VALUE} when the range
+         * contains more elements than can be represented by an {@code int}.
          *
          * @return the size of the range.
          */
@@ -150,6 +158,8 @@ public final class IntegerSequence {
         private final MaxCountExceededCallback maxCountCallback;
         /** Current count, widened to detect exhaustion without integer overflow. */
         private long count;
+        /** Whether the counter has reached its maximal value. */
+        private boolean exhausted;
 
         /**
          * Defines a method to be called at counter exhaustion.
@@ -291,10 +301,14 @@ public final class IntegerSequence {
 
         /**
          * Gets the current count.
+         * If the counter is exhausted, returns {@link #getMaximalCount()}.
          *
          * @return the current count.
          */
         public int getCount() {
+            if (exhausted) {
+                return maximalCount;
+            }
             return (int) count;
         }
 
@@ -306,7 +320,7 @@ public final class IntegerSequence {
          * {@code true} otherwise.
          */
         public boolean canIncrement() {
-            return canIncrement(1);
+            return increment < 0 ? count > maximalCount : count < maximalCount;
         }
 
         /**
@@ -343,9 +357,20 @@ public final class IntegerSequence {
                 throw new NotStrictlyPositiveException(nTimes);
             }
 
-            count += (long) nTimes * increment;
+            if (!canIncrement()) {
+                maxCountCallback.trigger(maximalCount);
+                return;
+            }
 
-            if (!canIncrement(0)) {
+            final long newCount = count + (long) nTimes * increment;
+            if (increment < 0 ? newCount <= maximalCount : newCount >= maximalCount) {
+                count = maximalCount;
+                exhausted = true;
+            } else {
+                count = newCount;
+            }
+
+            if (exhausted || !canIncrement(0)) {
                 maxCountCallback.trigger(maximalCount);
             }
         }
@@ -371,15 +396,27 @@ public final class IntegerSequence {
         /** {@inheritDoc} */
         @Override
         public boolean hasNext() {
-            return canIncrement(0);
+            if (exhausted) {
+                return false;
+            }
+            return inclusive ?
+                (increment < 0 ? count >= maximalCount : count <= maximalCount) :
+                canIncrement(0);
         }
 
         /** {@inheritDoc} */
         @Override
         public Integer next() {
-            if (canIncrement(0)) {
+            if (hasNext()) {
                 final int value = (int) count;
-                count += increment;
+                final long newCount = count + increment;
+                if (inclusive && value == maximalCount ||
+                    !inclusive && (increment < 0 ? newCount <= maximalCount : newCount >= maximalCount)) {
+                    count = maximalCount;
+                    exhausted = true;
+                } else {
+                    count = newCount;
+                }
                 return value;
             } else {
                 // Contract for "Iterator".

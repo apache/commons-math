@@ -234,8 +234,8 @@ public class IntegerSequenceTest {
             .withMaximalCount(Integer.MIN_VALUE)
             .withIncrement(-2);
 
-        Assert.assertFalse(increasing.canIncrement());
-        Assert.assertFalse(decreasing.canIncrement());
+        Assert.assertTrue(increasing.canIncrement());
+        Assert.assertTrue(decreasing.canIncrement());
         Assert.assertFalse(increasing.canIncrement(Integer.MAX_VALUE));
         Assert.assertFalse(decreasing.canIncrement(Integer.MAX_VALUE));
     }
@@ -264,6 +264,54 @@ public class IntegerSequenceTest {
         inc.increment();
         Assert.assertEquals(2, limits.size());
         Assert.assertFalse(inc.canIncrement());
+    }
+
+    @Test
+    public void testIncrementorDoesNotAdvancePastMaximum() {
+        final IntegerSequence.Incrementor inc = IntegerSequence.Incrementor.create()
+            .withStart(0)
+            .withMaximalCount(1 << 30)
+            .withIncrement(1 << 30)
+            .withCallback(i -> { });
+
+        inc.increment();
+        Assert.assertEquals(1 << 30, inc.getCount());
+        inc.increment();
+        Assert.assertEquals(1 << 30, inc.getCount());
+    }
+
+    @Test
+    public void testIncrementorGetCountAfterOverflow() {
+        final IntegerSequence.Incrementor inc = IntegerSequence.Incrementor.create()
+            .withStart(0)
+            .withMaximalCount(10)
+            .withIncrement(3)
+            .withCallback(i -> { });
+
+        inc.increment(10);
+        Assert.assertEquals(10, inc.getCount());
+    }
+
+    @Test
+    public void testIncrementorWrongDirectionStopsAtStart() {
+        final IntegerSequence.Incrementor inc = IntegerSequence.Incrementor.create()
+            .withStart(0)
+            .withMaximalCount(1)
+            .withIncrement(-1)
+            .withCallback(i -> { });
+
+        inc.increment();
+        Assert.assertEquals(0, inc.getCount());
+        Assert.assertFalse(inc.canIncrement());
+    }
+
+    @Test
+    public void testRangeSizeOverflow() {
+        Assert.assertEquals(Integer.MAX_VALUE,
+            IntegerSequence.range(Integer.MIN_VALUE, Integer.MAX_VALUE).size());
+        Assert.assertEquals(Integer.MAX_VALUE,
+            IntegerSequence.range(Integer.MAX_VALUE, Integer.MIN_VALUE, -1).size());
+        Assert.assertEquals(0, IntegerSequence.range(0, 10, -1).size());
     }
 
     private static void assertIteratorSequence(Iterator<Integer> iterator, int... expected) {
