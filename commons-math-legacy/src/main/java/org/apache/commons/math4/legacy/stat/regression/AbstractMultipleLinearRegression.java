@@ -99,7 +99,11 @@ public abstract class AbstractMultipleLinearRegression implements
      * <p>Throws IllegalArgumentException if any of the following preconditions fail:
      * <ul><li><code>data</code> cannot be null</li>
      * <li><code>data.length = nobs * (nvars + 1)</code></li>
-     * <li>{@code nobs > nvars}</li></ul>
+     * <li>{@code nobs > 0} and either {@code nobs >= nvars} when {@code noIntercept} is
+     * set, or {@code nobs > nvars} otherwise</li></ul>
+     * <p>Note that when the number of observations equals the number of design columns
+     * ({@code nobs == nvars} with {@code noIntercept} set) the error variance cannot be
+     * estimated.</p>
      *
      * @param data input data array
      * @param nobs number of observations (rows)
@@ -107,8 +111,9 @@ public abstract class AbstractMultipleLinearRegression implements
      * @throws NullArgumentException if the data array is null
      * @throws DimensionMismatchException if the length of the data array is not equal
      * to <code>nobs * (nvars + 1)</code>
-     * @throws InsufficientDataException if <code>nobs</code> is less than
-     * <code>nvars + 1</code>
+     * @throws InsufficientDataException if <code>nobs</code> is not positive, or if it is
+     * less than <code>nvars</code> when {@code noIntercept} is set, or if it is not
+     * larger than <code>nvars</code> otherwise
      */
     public void newSampleData(double[] data, int nobs, int nvars) {
         if (data == null) {
@@ -117,8 +122,9 @@ public abstract class AbstractMultipleLinearRegression implements
         if (data.length != nobs * (nvars + 1)) {
             throw new DimensionMismatchException(data.length, nobs * (nvars + 1));
         }
-        if (nobs <= nvars) {
-            throw new InsufficientDataException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, nobs, nvars + 1);
+        if (noIntercept ? (nobs < nvars || nobs == 0) : nobs <= nvars) {
+            throw new InsufficientDataException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, nobs,
+                    noIntercept ? nvars : nvars + 1);
         }
         double[] y = new double[nobs];
         final int cols = noIntercept ? nvars: nvars + 1;
@@ -205,10 +211,12 @@ public abstract class AbstractMultipleLinearRegression implements
      * Validates sample data.  Checks that
      * <ul><li>Neither x nor y is null or empty;</li>
      * <li>The length (i.e. number of rows) of x equals the length of y</li>
-     * <li>x has at least one more row than it has columns (i.e. there is
-     * sufficient data to estimate regression coefficients for each of the
-     * columns in x plus an intercept.</li>
+     * <li>x has at least as many rows as required design columns, i.e. the
+     * number of columns in x plus an intercept column when {@code noIntercept}
+     * is not set.</li>
      * </ul>
+     * <p>Note that when the number of observations equals the number of design
+     * columns the error variance cannot be estimated.</p>
      *
      * @param x the [n,k] array representing the x data
      * @param y the [n,1] array representing the y data
@@ -217,7 +225,8 @@ public abstract class AbstractMultipleLinearRegression implements
      * have the same length
      * @throws NoDataException if {@code x} or {@code y} are zero-length
      * @throws MathIllegalArgumentException if the number of rows of {@code x}
-     * is not larger than the number of columns + 1
+     * is less than the number of design columns (an equal number of rows is
+     * accepted)
      */
     protected void validateSampleData(double[][] x, double[] y) throws MathIllegalArgumentException {
         if (x == null || y == null) {
@@ -229,7 +238,8 @@ public abstract class AbstractMultipleLinearRegression implements
         if (x.length == 0) {  // Must be no y data either
             throw new NoDataException();
         }
-        if (x[0].length + 1 > x.length) {
+        final int requiredColumns = x[0].length + (noIntercept ? 0 : 1);
+        if (requiredColumns > x.length) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS,
                     x.length, x[0].length);

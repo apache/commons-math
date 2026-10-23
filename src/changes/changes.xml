@@ -104,6 +104,12 @@ Caveat:
       <action type="fix" issue="MATH-1678">
         "CanberraDistance": Avoid overflow for large finite coordinates.
       </action>
+      <action type="fix" issue="MATH-1392">
+        Sample size validation in multiple linear regression now counts the
+        design columns that are actually used, so that a model without an
+        intercept is no longer rejected when the number of observations
+        equals the number of independent variables.
+      </action>
       <action dev="aherbert" type="fix" due-to="Lyin-OTTF">
         "SynchronizedDescriptiveStatistics": Synchronize all mutators
         of the internal state. Updates previously unsynchronized methods

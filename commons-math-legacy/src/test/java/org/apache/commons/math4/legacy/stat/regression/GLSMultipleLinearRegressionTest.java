@@ -27,11 +27,13 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.statistics.distribution.ContinuousDistribution;
 import org.apache.commons.statistics.distribution.NormalDistribution;
 import org.apache.commons.math4.legacy.TestUtils;
+import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.legacy.linear.RealVector;
+import org.apache.commons.math4.legacy.linear.SingularMatrixException;
 import org.apache.commons.math4.legacy.random.CorrelatedVectorFactory;
 import org.apache.commons.math4.legacy.stat.correlation.Covariance;
 import org.apache.commons.math4.legacy.stat.descriptive.DescriptiveStatistics;
@@ -89,6 +91,48 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     @Test(expected=NullArgumentException.class)
     public void cannotAddNullYSampleData() {
         createRegression().newSampleData(null, new double[][]{}, null);
+    }
+
+    @Test
+    public void testGlsNoInterceptMatrixExactFit() {
+        final GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        final double[][] x = {{1d, 2d}, {3d, 4d}};
+        final double[] y = {5d, 11d};
+        final double[][] covariance = {{2d, 0d}, {0d, 4d}};
+        regression.newSampleData(y, x, covariance);
+        final double[] params = regression.estimateRegressionParameters();
+        Assert.assertArrayEquals(new double[] {1d, 2d}, params, 1e-10);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testGlsNoInterceptUnderdeterminedSampleDataRejected() {
+        final GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        final double[][] x = {{1d, 2d, 3d}, {4d, 5d, 6d}};
+        final double[] y = {5d, 11d};
+        final double[][] covariance = {{2d, 0d}, {0d, 4d}};
+        regression.newSampleData(y, x, covariance);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testGlsCovarianceRowCountMismatchRejected() {
+        final GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        final double[][] x = {{1d, 2d}, {3d, 4d}, {5d, 7d}};
+        final double[] y = {5d, 11d, 17d};
+        final double[][] covariance = {{2d, 0d}, {0d, 4d}};
+        regression.newSampleData(y, x, covariance);
+    }
+
+    @Test(expected=SingularMatrixException.class)
+    public void testGlsSingularCovarianceEstimateRejected() {
+        final GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
+        final double[][] x = {{1d}, {2d}, {3d}};
+        final double[] y = {5d, 11d, 17d};
+        final double[][] covariance = {{1d, 1d, 0d}, {1d, 1d, 0d}, {0d, 0d, 1d}};
+        regression.newSampleData(y, x, covariance);
+        regression.estimateRegressionParameters();
     }
 
     @Test(expected=MathIllegalArgumentException.class)
