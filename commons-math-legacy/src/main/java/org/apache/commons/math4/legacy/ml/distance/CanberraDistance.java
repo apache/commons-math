@@ -39,7 +39,7 @@ public class CanberraDistance implements DistanceMeasure {
                 // Rescale large finite coordinates to avoid intermediate overflow.
                 sum += JdkMath.abs(a[i] * 0.5 - b[i] * 0.5) / (absA * 0.5 + absB * 0.5);
             } else {
-                sum += num == 0.0 && denom == 0.0 ? 0.0 : num / denom;
+                sum += denom == 0.0 ? 0.0 : num / denom;
             }
         }
         return sum;
