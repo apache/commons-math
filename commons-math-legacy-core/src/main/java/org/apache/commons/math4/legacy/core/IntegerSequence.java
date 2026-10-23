@@ -320,6 +320,12 @@ public final class IntegerSequence {
          * {@code true} otherwise.
          */
         public boolean canIncrement() {
+            if (exhausted) {
+                return false;
+            }
+            if (inclusive) {
+                return increment < 0 ? count >= maximalCount : count <= maximalCount;
+            }
             return increment < 0 ? count > maximalCount : count < maximalCount;
         }
 
@@ -396,18 +402,13 @@ public final class IntegerSequence {
         /** {@inheritDoc} */
         @Override
         public boolean hasNext() {
-            if (exhausted) {
-                return false;
-            }
-            return inclusive ?
-                (increment < 0 ? count >= maximalCount : count <= maximalCount) :
-                canIncrement(0);
+            return canIncrement();
         }
 
         /** {@inheritDoc} */
         @Override
         public Integer next() {
-            if (hasNext()) {
+            if (canIncrement()) {
                 final int value = (int) count;
                 final long newCount = count + increment;
                 if (inclusive && value == maximalCount ||
