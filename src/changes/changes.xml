@@ -101,6 +101,9 @@ Caveat:
         Instances not cannot be constructed that would silently overwrite entries
         due to key duplication from interger overflow.
       </action>
+      <action type="fix" issue="MATH-1678">
+        "CanberraDistance": Avoid overflow for large finite coordinates.
+      </action>
       <action dev="aherbert" type="fix" due-to="Lyin-OTTF">
         "SynchronizedDescriptiveStatistics": Synchronize all mutators
         of the internal state. Updates previously unsynchronized methods
