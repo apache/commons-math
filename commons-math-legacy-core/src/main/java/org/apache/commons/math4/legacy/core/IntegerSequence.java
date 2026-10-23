@@ -111,8 +111,9 @@ public final class IntegerSequence {
 
         /**
          * Gets the number of elements contained in the range.
-         * The value is capped at {@link Integer#MAX_VALUE} when the range
-         * contains more elements than can be represented by an {@code int}.
+         * The value is in the range {@code [0, Integer.MAX_VALUE]}. It is
+         * capped at {@link Integer#MAX_VALUE} when the range contains more
+         * elements than can be represented by an {@code int}.
          *
          * @return the size of the range.
          */
