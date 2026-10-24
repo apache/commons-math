@@ -212,6 +212,23 @@ public class IntegerSequenceTest {
     }
 
     @Test
+    public void testRangeIteratorClampsCountWhenStepPassesLimit() {
+        final IntegerSequence.Incrementor increasing =
+            (IntegerSequence.Incrementor) IntegerSequence.range(0, 3, 2).iterator();
+        Assert.assertEquals(0, increasing.next().intValue());
+        Assert.assertEquals(2, increasing.next().intValue());
+        Assert.assertFalse(increasing.hasNext());
+        Assert.assertEquals(3, increasing.getCount());
+
+        final IntegerSequence.Incrementor decreasing =
+            (IntegerSequence.Incrementor) IntegerSequence.range(3, 0, -2).iterator();
+        Assert.assertEquals(3, decreasing.next().intValue());
+        Assert.assertEquals(1, decreasing.next().intValue());
+        Assert.assertFalse(decreasing.hasNext());
+        Assert.assertEquals(0, decreasing.getCount());
+    }
+
+    @Test
     public void testIncrementorIteratorOverflow() {
         assertIteratorSequence(IntegerSequence.Incrementor.create()
                                .withStart(Integer.MAX_VALUE - 1)

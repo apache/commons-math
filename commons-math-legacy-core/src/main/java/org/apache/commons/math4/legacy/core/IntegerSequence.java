@@ -412,8 +412,10 @@ public final class IntegerSequence {
             if (canIncrement()) {
                 final int value = (int) count;
                 final long newCount = count + increment;
-                if (inclusive && value == maximalCount ||
-                    !inclusive && (increment < 0 ? newCount <= maximalCount : newCount >= maximalCount)) {
+                final boolean crossedLimit = increment < 0 ?
+                    (inclusive ? newCount < maximalCount : newCount <= maximalCount) :
+                    (inclusive ? newCount > maximalCount : newCount >= maximalCount);
+                if (inclusive && value == maximalCount || crossedLimit) {
                     count = maximalCount;
                     exhausted = true;
                 } else {
