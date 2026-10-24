@@ -281,6 +281,23 @@ public class IntegerSequenceTest {
     }
 
     @Test
+    public void testIncrementorCallbackKeepsCountAtMaximumAfterRepeatedLargeSteps() {
+        final List<Integer> limits = new ArrayList<>();
+        final IntegerSequence.Incrementor inc = IntegerSequence.Incrementor.create()
+            .withStart(0)
+            .withMaximalCount(1 << 30)
+            .withIncrement(1 << 30)
+            .withCallback(limits::add);
+
+        inc.increment();
+        inc.increment();
+
+        Assert.assertEquals(1 << 30, inc.getCount());
+        Assert.assertFalse(inc.canIncrement());
+        Assert.assertEquals(2, limits.size());
+    }
+
+    @Test
     public void testIncrementorGetCountAfterOverflow() {
         final IntegerSequence.Incrementor inc = IntegerSequence.Incrementor.create()
             .withStart(0)
