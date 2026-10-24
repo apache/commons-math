@@ -66,6 +66,66 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         return y.length;
     }
 
+    @Test(expected = org.apache.commons.math4.legacy.exception.InsufficientDataException.class)
+    public void testNewSampleDataFlatWithInterceptInsufficientObservations() {
+        // nobs = 2 and nvars = 2 need 3 design columns with the default intercept.
+        final double[] data = { 1, 2, 3, 4, 5, 6 };
+        new OLSMultipleLinearRegression().newSampleData(data, 2, 2);
+    }
+
+    @Test(expected = org.apache.commons.math4.legacy.exception.InsufficientDataException.class)
+    public void testNewSampleDataFlatNoInterceptEmptyData() {
+        final OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        regression.newSampleData(new double[0], 0, 0);
+    }
+
+    @Test
+    public void testOlsNoInterceptMatrixExactFit() {
+        final OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        final double[][] x = {{1d, 2d}, {3d, 4d}};
+        final double[] y = {5d, 11d};
+        regression.newSampleData(y, x);
+        final double[] params = regression.estimateRegressionParameters();
+        Assert.assertArrayEquals(new double[] {1d, 2d}, params, 1e-12);
+    }
+
+    @Test
+    public void testOlsNoInterceptFlatExactFit() {
+        final OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        final double[] data = {5d, 1d, 2d, 11d, 3d, 4d};
+        regression.newSampleData(data, 2, 2);
+        final double[] params = regression.estimateRegressionParameters();
+        Assert.assertArrayEquals(new double[] {1d, 2d}, params, 1e-12);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testOlsNoInterceptMatrixUnderdeterminedSampleDataRejected() {
+        final OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        final double[][] x = {{1d, 2d, 3d}, {4d, 5d, 6d}};
+        final double[] y = {5d, 11d};
+        regression.newSampleData(y, x);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testOlsNoInterceptFlatUnderdeterminedSampleDataRejected() {
+        final OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        regression.setNoIntercept(true);
+        final double[] data = {5d, 1d, 2d, 3d, 11d, 4d, 5d, 6d};
+        regression.newSampleData(data, 2, 3);
+    }
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testOlsDefaultInterceptSquareSampleDataRejected() {
+        final OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        final double[][] x = {{1d, 2d}, {3d, 4d}};
+        final double[] y = {5d, 11d};
+        regression.newSampleData(y, x);
+    }
+
     @Test(expected=MathIllegalArgumentException.class)
     public void cannotAddSampleDataWithSizeMismatch() {
         double[] y = new double[]{1.0, 2.0};
