@@ -101,10 +101,11 @@ Caveat:
         Instances not cannot be constructed that would silently overwrite entries
         due to key duplication from interger overflow.
       </action>
-      <action type="fix" issue="MATH-1678">
+      <action dev="aherbert" type="fix" issue="MATH-1678" due-to="hutiefang76">
         "CanberraDistance": Avoid overflow for large finite coordinates.
       </action>
-      <action type="fix" issue="MATH-1392">
+      <action dev="aherbert" type="fix" issue="MATH-1392" due-to="hutiefang76">
+        "GLS/OLSMultipleLinearRegression":
         Sample size validation in multiple linear regression now counts the
         design columns that are actually used, so that a model without an
         intercept is no longer rejected when the number of observations
