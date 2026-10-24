@@ -31,9 +31,16 @@ public class CanberraDistance implements DistanceMeasure {
         MathArrays.checkEqualLength(a, b);
         double sum = 0;
         for (int i = 0; i < a.length; i++) {
+            final double absA = JdkMath.abs(a[i]);
+            final double absB = JdkMath.abs(b[i]);
             final double num = JdkMath.abs(a[i] - b[i]);
-            final double denom = JdkMath.abs(a[i]) + JdkMath.abs(b[i]);
-            sum += num == 0.0 && denom == 0.0 ? 0.0 : num / denom;
+            final double denom = absA + absB;
+            if (Double.isInfinite(denom) && Double.isFinite(a[i]) && Double.isFinite(b[i])) {
+                // Rescale large finite coordinates to avoid intermediate overflow.
+                sum += JdkMath.abs(a[i] * 0.5 - b[i] * 0.5) / (absA * 0.5 + absB * 0.5);
+            } else {
+                sum += denom == 0.0 ? 0.0 : num / denom;
+            }
         }
         return sum;
     }
