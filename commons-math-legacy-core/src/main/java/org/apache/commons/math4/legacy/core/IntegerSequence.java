@@ -203,6 +203,7 @@ public final class IntegerSequence {
             this.increment = step;
             this.maxCountCallback = cb;
             this.count = start;
+            this.exhausted = isExhausted(count);
         }
 
         /**
@@ -277,6 +278,18 @@ public final class IntegerSequence {
         }
 
         /**
+         * Checks whether a count has exhausted the configured limit.
+         *
+         * @param value Count to check.
+         * @return {@code true} if the count is exhausted.
+         */
+        private boolean isExhausted(long value) {
+            return increment < 0 ?
+                (inclusive ? value < maximalCount : value <= maximalCount) :
+                (inclusive ? value > maximalCount : value >= maximalCount);
+        }
+
+        /**
          * Creates a new instance with a given callback.
          * The counter is reset to the initial value.
          *
@@ -321,7 +334,7 @@ public final class IntegerSequence {
          * {@code true} otherwise.
          */
         public boolean canIncrement() {
-            return canIncrement(0);
+            return !exhausted;
         }
 
         /**
@@ -337,14 +350,7 @@ public final class IntegerSequence {
                 return false;
             }
             final long finalCount = count + (long) nTimes * increment;
-            if (inclusive) {
-                return increment < 0 ?
-                    finalCount >= maximalCount :
-                    finalCount <= maximalCount;
-            }
-            return increment < 0 ?
-                finalCount > maximalCount :
-                finalCount < maximalCount;
+            return !isExhausted(finalCount);
         }
 
         /**
@@ -361,20 +367,20 @@ public final class IntegerSequence {
                 throw new NotStrictlyPositiveException(nTimes);
             }
 
-            if (!canIncrement()) {
+            if (exhausted) {
                 maxCountCallback.trigger(maximalCount);
                 return;
             }
 
             final long newCount = count + (long) nTimes * increment;
-            if (increment < 0 ? newCount <= maximalCount : newCount >= maximalCount) {
+            if (isExhausted(newCount)) {
                 count = maximalCount;
                 exhausted = true;
             } else {
                 count = newCount;
             }
 
-            if (!canIncrement()) {
+            if (isExhausted(newCount) || isExhausted(newCount - increment)) {
                 maxCountCallback.trigger(maximalCount);
             }
         }
@@ -394,7 +400,18 @@ public final class IntegerSequence {
          * @see #increment(int)
          */
         public void increment() throws MaxCountExceededException {
-            increment(1);
+            if (exhausted) {
+                maxCountCallback.trigger(maximalCount);
+                return;
+            }
+            final long newCount = count + increment;
+            if (isExhausted(newCount)) {
+                count = maximalCount;
+                exhausted = true;
+                maxCountCallback.trigger(maximalCount);
+            } else {
+                count = newCount;
+            }
         }
 
         /** {@inheritDoc} */
@@ -409,10 +426,7 @@ public final class IntegerSequence {
             if (canIncrement()) {
                 final int value = (int) count;
                 final long newCount = count + increment;
-                final boolean crossedLimit = increment < 0 ?
-                    (inclusive ? newCount < maximalCount : newCount <= maximalCount) :
-                    (inclusive ? newCount > maximalCount : newCount >= maximalCount);
-                if (inclusive && value == maximalCount || crossedLimit) {
+                if (isExhausted(newCount)) {
                     count = maximalCount;
                     exhausted = true;
                 } else {

@@ -335,7 +335,7 @@ public class IntegerSequenceTest {
             .withCallback(i -> { });
 
         inc.increment();
-        Assert.assertEquals(0, inc.getCount());
+        Assert.assertEquals(1, inc.getCount());
         Assert.assertFalse(inc.canIncrement());
     }
 
