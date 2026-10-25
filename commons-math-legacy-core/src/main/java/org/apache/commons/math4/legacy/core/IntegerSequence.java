@@ -321,13 +321,7 @@ public final class IntegerSequence {
          * {@code true} otherwise.
          */
         public boolean canIncrement() {
-            if (exhausted) {
-                return false;
-            }
-            if (inclusive) {
-                return increment < 0 ? count >= maximalCount : count <= maximalCount;
-            }
-            return increment < 0 ? count > maximalCount : count < maximalCount;
+            return canIncrement(0);
         }
 
         /**
@@ -339,6 +333,9 @@ public final class IntegerSequence {
          * {@code true} otherwise.
          */
         public boolean canIncrement(int nTimes) {
+            if (exhausted) {
+                return false;
+            }
             final long finalCount = count + (long) nTimes * increment;
             if (inclusive) {
                 return increment < 0 ?
@@ -377,7 +374,7 @@ public final class IntegerSequence {
                 count = newCount;
             }
 
-            if (exhausted || !canIncrement(0)) {
+            if (!canIncrement()) {
                 maxCountCallback.trigger(maximalCount);
             }
         }
