@@ -94,27 +94,6 @@ public class ComplexFormat {
     }
 
     /**
-     * Creates the default number format used by complex values.
-     *
-     * @return a number format that does not accept grouping separators.
-     */
-    private static NumberFormat getDefaultNumberFormat() {
-        return getDefaultNumberFormat(Locale.getDefault());
-    }
-
-    /**
-     * Creates the default number format used by complex values.
-     *
-     * @param locale the locale used by the format.
-     * @return a number format that does not accept grouping separators.
-     */
-    private static NumberFormat getDefaultNumberFormat(final Locale locale) {
-        final NumberFormat format = CompositeFormat.getDefaultNumberFormat(locale);
-        format.setGroupingUsed(false);
-        return format;
-    }
-
-    /**
      * Create an instance with a custom imaginary character, and the default
      * number format for both real and imaginary parts.
      * @param imaginaryCharacter The custom imaginary character.
@@ -188,6 +167,27 @@ public class ComplexFormat {
      */
     public static Locale[] getAvailableLocales() {
         return NumberFormat.getAvailableLocales();
+    }
+
+    /**
+     * Creates the default number format used by complex values.
+     *
+     * @return a number format that does not accept grouping separators.
+     */
+    private static NumberFormat getDefaultNumberFormat() {
+        return getDefaultNumberFormat(Locale.getDefault());
+    }
+
+    /**
+     * Creates the default number format used by complex values.
+     *
+     * @param locale the locale used by the format.
+     * @return a number format that does not accept grouping separators.
+     */
+    private static NumberFormat getDefaultNumberFormat(final Locale locale) {
+        final NumberFormat format = CompositeFormat.getDefaultNumberFormat(locale);
+        format.setGroupingUsed(false);
+        return format;
     }
 
     /**
