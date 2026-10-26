@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" due-to="insaf021">
+        "CompositeFormat": Fix end-of-input handling to not silently ignore
+        non-whitespace characters.
+      </action>
       <action dev="aherbert" type="fix" issue="MATH-1688" due-to="Efe Gökdemir">
         "ComplexFormat": Reject malformed grouping separators.
       </action>
