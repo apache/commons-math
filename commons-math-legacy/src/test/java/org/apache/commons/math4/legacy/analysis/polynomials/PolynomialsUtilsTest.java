@@ -16,6 +16,13 @@
  */
 package org.apache.commons.math4.legacy.analysis.polynomials;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.analysis.integration.IterativeLegendreGaussIntegrator;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
@@ -288,6 +295,38 @@ public class PolynomialsUtilsTest {
                     Assert.assertTrue(Precision.equals(binomial, jacobi.value(1.0), 1));
                 }
             }
+        }
+    }
+
+    @Test
+    public void testJacobiConcurrentCreation() throws Exception {
+        final int numThreads = 8;
+        final ExecutorService exec = Executors.newFixedThreadPool(numThreads);
+        try {
+            // Exponents not used elsewhere, so that every (v, w) list is
+            // created while the threads are racing.
+            for (int v = 20; v < 40; ++v) {
+                for (int w = 20; w < 40; ++w) {
+                    final int fv = v;
+                    final int fw = w;
+                    final CyclicBarrier barrier = new CyclicBarrier(numThreads);
+                    final List<Future<Double>> results = new ArrayList<>();
+                    for (int t = 0; t < numThreads; ++t) {
+                        final int degree = 1 + t % 4;
+                        results.add(exec.submit(() -> {
+                            barrier.await();
+                            return PolynomialsUtils.createJacobiPolynomial(degree, fv, fw).value(1.0);
+                        }));
+                    }
+                    for (int t = 0; t < numThreads; ++t) {
+                        final int degree = 1 + t % 4;
+                        final double binomial = BinomialCoefficient.value(v + degree, degree);
+                        Assert.assertTrue(Precision.equals(binomial, results.get(t).get(), 1));
+                    }
+                }
+            }
+        } finally {
+            exec.shutdownNow();
         }
     }
 

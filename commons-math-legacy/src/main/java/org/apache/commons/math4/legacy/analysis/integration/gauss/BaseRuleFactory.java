@@ -52,7 +52,7 @@ public abstract class BaseRuleFactory<T extends Number> {
      * @throws DimensionMismatchException if the elements of the rule pair do not
      * have the same length.
      */
-    public Pair<double[], double[]> getRule(int numberOfPoints) {
+    public synchronized Pair<double[], double[]> getRule(int numberOfPoints) {
 
         if (numberOfPoints <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_POINTS,
