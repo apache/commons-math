@@ -459,4 +459,18 @@ public abstract class ComplexFormatAbstractTest {
             }
         }
     }
+
+    @Test
+    public void testParseRejectsTrailingCharacter() {
+        final ComplexFormat format = new ComplexFormat();
+        final String[] invalid = {"2i", "1x", "1 +"};
+        for (final String source : invalid) {
+            try {
+                format.parse(source);
+                Assert.fail("Expected parsing to reject: " + source);
+            } catch (MathParseException expected) {
+                // Expected.
+            }
+        }
+    }
 }
