@@ -17,6 +17,7 @@
 package org.apache.commons.math4.legacy.optim.nonlinear.scalar;
 
 import org.apache.commons.math4.legacy.analysis.MultivariateFunction;
+import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.optim.InitialGuess;
 import org.apache.commons.math4.legacy.optim.MaxEval;
 import org.apache.commons.math4.legacy.optim.PointValuePair;
@@ -27,6 +28,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class MultivariateFunctionMappingAdapterTest {
+    @Test(expected = NumberIsTooSmallException.class)
+    public void testEqualBoundsRejected() {
+        new MultivariateFunctionMappingAdapter(point -> 0.0,
+                                               new double[] { 2.0 },
+                                               new double[] { 2.0 });
+    }
+
     @Test
     public void testStartSimplexInsideRange() {
         final BiQuadratic biQuadratic = new BiQuadratic(2.0, 2.5, 1.0, 3.0, 2.0, 3.0);
