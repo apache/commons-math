@@ -64,8 +64,11 @@ public final class CompositeFormat {
      */
     public static void parseAndIgnoreWhitespace(final String source,
                                                 final ParsePosition pos) {
+        final int startIndex = pos.getIndex();
         parseNextCharacter(source, pos);
-        pos.setIndex(pos.getIndex() - 1);
+        if (pos.getIndex() > startIndex) {
+            pos.setIndex(pos.getIndex() - 1);
+        }
     }
 
     /**
@@ -88,7 +91,7 @@ public final class CompositeFormat {
              } while (Character.isWhitespace(c) && index < n);
              pos.setIndex(index);
 
-             if (index < n) {
+             if (!Character.isWhitespace(c)) {
                  ret = c;
              }
          }
@@ -172,8 +175,7 @@ public final class CompositeFormat {
 
         final int startIndex = pos.getIndex();
         final int endIndex = startIndex + expected.length();
-        if (startIndex >= source.length() ||
-            endIndex > source.length() ||
+        if (endIndex > source.length() ||
             source.substring(startIndex, endIndex).compareTo(expected) != 0) {
             // set index back to start, error index should be the start index
             pos.setIndex(startIndex);

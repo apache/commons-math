@@ -359,4 +359,20 @@ public abstract class RealMatrixFormatAbstractTest {
         Assert.assertNull("Should not parse <"+source+">", realMatrixFormat.parse(source, pos));
         Assert.assertEquals(9, pos.getErrorIndex());
     }
+
+    @Test
+    public void testForgottenSuffixAtEndOfInput() {
+        ParsePosition pos = new ParsePosition(0);
+        final String source = "{{1}";
+        Assert.assertNull("Should not parse <"+source+">", realMatrixFormat.parse(source, pos));
+        Assert.assertEquals(4, pos.getErrorIndex());
+    }
+
+    @Test
+    public void testParseEmptySuffixAtEndOfInput() {
+        ParsePosition pos = new ParsePosition(0);
+        final RealMatrix parsed = new RealMatrixFormat("", "", "", "", "; ", ", ").parse("1, 2; 3, 4", pos);
+        Assert.assertEquals(MatrixUtils.createRealMatrix(new double[][] {{1, 2}, {3, 4}}), parsed);
+        Assert.assertEquals(10, pos.getIndex());
+    }
 }
