@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" issue="MATH-1688" due-to="Efe Gökdemir">
+        "ComplexFormat": Reject malformed grouping separators.
+      </action>
       <action dev="aherbert" type="fix" due-to="Javid Khan">
         "SparseFieldMatrix": Reject int overflow of rows * columns.
         Instances not cannot be constructed that would silently overwrite entries
