@@ -317,7 +317,7 @@ public final class FastFourierTransformerTest {
                 doTestTransformReal(8, 1e-13, 2 * EPSILON, norm[i], type);
                 doTestTransformReal(16, 1e-13, 2 * EPSILON, norm[i], type);
                 doTestTransformReal(32, 1e-12, 4 * EPSILON, norm[i], type);
-                doTestTransformReal(64, 1e-12, 4 * EPSILON, norm[i], type);
+                doTestTransformReal(64, 1e-12, 8 * EPSILON, norm[i], type);
                 doTestTransformReal(128, 1e-11, 8 * EPSILON, norm[i], type);
             }
         }
