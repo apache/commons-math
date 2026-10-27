@@ -160,6 +160,12 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Name for traps triggered by newInstance. */
     private static final String NEW_INSTANCE_TRAP = "newInstance";
 
+    /** Largest decimal exponent accumulated when parsing a string.
+     * Any exponent beyond it overflows or underflows whatever the remaining
+     * digits are, and the bound leaves room for one more digit and for the
+     * position of the decimal point without overflowing an int. */
+    private static final int MAX_PARSED_EXP = Integer.MAX_VALUE / 16;
+
     /** Mantissa. */
     protected int[] mant;
 
@@ -382,7 +388,8 @@ public class Dfp implements RealFieldElement<Dfp> {
                     negative = true;
                     continue;
                 }
-                if (fpexp.charAt(i) >= '0' && fpexp.charAt(i) <= '9') {
+                if (fpexp.charAt(i) >= '0' && fpexp.charAt(i) <= '9' &&
+                    sciexp < MAX_PARSED_EXP) {
                     sciexp = sciexp * 10 + fpexp.charAt(i) - '0';
                 }
             }
@@ -522,9 +529,23 @@ public class Dfp implements RealFieldElement<Dfp> {
 
         exp = (decimalPos + sciexp) / rsize;
 
+        // zero is stored with a zero exponent, as the arithmetic does
+        if (mant[mant.length - 1] == 0) {
+            exp = 0;
+        }
+
         if (q < striped.length) {
             // Is there possible another digit?
-            round((striped[q] - '0') * 1000);
+            final int excp = round((striped[q] - '0') * 1000);
+            if (excp != 0) {
+                // apply the overflow or underflow handling that the
+                // arithmetic operations get from dotrap
+                final Dfp result = dotrap(excp, NEW_INSTANCE_TRAP, null, this);
+                System.arraycopy(result.mant, 0, mant, 0, mant.length);
+                sign = result.sign;
+                exp  = result.exp;
+                nans = result.nans;
+            }
         }
     }
 

@@ -558,7 +558,7 @@ public class DfpDecTest {
              new DfpDec(field, "0"),
              DfpField.FLAG_UNDERFLOW | DfpField.FLAG_INEXACT, "Next After #13");
 
-        test(new DfpDec(field, "9.9999999999999999e131078").nextAfter(pinf),
+        test(new DfpDec(field, "9.9999999999999999e131071").nextAfter(pinf),
              pinf,
              DfpField.FLAG_OVERFLOW | DfpField.FLAG_INEXACT, "Next After #14");
     }
