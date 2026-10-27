@@ -36,6 +36,21 @@ public class MultivariateFunctionMappingAdapterTest {
     }
 
     @Test
+    public void testEqualInfiniteBoundsRemainUnbounded() {
+        final MultivariateFunctionMappingAdapter negative =
+                new MultivariateFunctionMappingAdapter(point -> point[0],
+                                                       new double[] { Double.NEGATIVE_INFINITY },
+                                                       new double[] { Double.NEGATIVE_INFINITY });
+        final MultivariateFunctionMappingAdapter positive =
+                new MultivariateFunctionMappingAdapter(point -> point[0],
+                                                       new double[] { Double.POSITIVE_INFINITY },
+                                                       new double[] { Double.POSITIVE_INFINITY });
+
+        Assert.assertEquals(3.0, negative.value(new double[] { 3.0 }), 0.0);
+        Assert.assertEquals(3.0, positive.value(new double[] { 3.0 }), 0.0);
+    }
+
+    @Test
     public void testStartSimplexInsideRange() {
         final BiQuadratic biQuadratic = new BiQuadratic(2.0, 2.5, 1.0, 3.0, 2.0, 3.0);
         final MultivariateFunctionMappingAdapter wrapped
