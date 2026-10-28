@@ -25,6 +25,7 @@ import org.apache.commons.rng.simple.RandomSource;
 import org.apache.commons.math4.legacy.analysis.UnivariateFunction;
 import org.apache.commons.math4.legacy.exception.NonMonotonicSequenceException;
 import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
+import java.util.Arrays;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
 
 
@@ -37,17 +38,12 @@ public class UnivariatePeriodicInterpolatorTest {
     @Test
     public void testSine() {
         final int n = 30;
-        final double[] xval = new double[n];
-        final double[] yval = new double[n];
         final double period = 12.3;
         final double offset = 45.67;
 
-        double delta = 0;
-        for (int i = 0; i < n; i++) {
-            delta += rng.nextDouble() * period / n;
-            xval[i] = offset + delta;
-            yval[i] = JdkMath.sin(xval[i]);
-        }
+        // Sample within the period
+        final double[] xval = rng.doubles(n).map(x -> offset + x * period).sorted().toArray();
+        final double[] yval = Arrays.stream(xval).map(JdkMath::sin).toArray();
 
         final UnivariateInterpolator inter = new LinearInterpolator();
         final UnivariateFunction f = inter.interpolate(xval, yval);
@@ -65,20 +61,46 @@ public class UnivariatePeriodicInterpolatorTest {
             final double y = f.value(x);
             final double yP = fP.value(x);
 
-            Assert.assertEquals("(Delta: ulp(1)) x=" + x, y, yP, Math.ulp(1d));
+            Assert.assertEquals("Original interpolation", y, yP, 0);
         }
 
         // Test interpolation outside the primary interval.
+        // Ensure the point outside the period is exactly mapped:
+        //   xIn = offset + x * period
+        //   xOut = xIn + j * period
+        // Known offset of the period is the first value
+        final double off = xval[0];
         for (int i = 0; i < n; i++) {
-            final double xIn = offset + rng.nextDouble() * period;
-            final double xOut = xIn + rng.nextInt(123456789) * period;
+            final int j = rng.nextInt(123456789);
+            final double x = rng.nextDouble();
+            double xOut = off + (j + x) * period;
+            // xIn = off + x * period
+            // Performed from xOut so the mapping is exact
+            double xIn = (xOut - off) - j * period + off;
+            // Verify xIn
+            double expected = off + x * period;
+            // This is inexact and relative error depends on the magnitude of j
+            // which is at most a 27 bit integer. Relative tolerance ~ 26 bits
+            // for the effective round-trip x' = x + j - j.
+            Assert.assertEquals("Approximate xIn", expected, xIn, Math.abs(expected * 0x1p-26));
+            Assert.assertEquals("xOut remapped", xOut, xIn + j * period, 0);
             final double yIn = fP.value(xIn);
             final double yOut = fP.value(xOut);
 
-            Assert.assertEquals("Delta: 1e-7", yIn, yOut, 1e-7);
+            Assert.assertEquals("Interpolation", yIn, yOut, 0);
         }
     }
 
+    /**
+     * Note: This test is flaky.
+     *
+     * <p>The test only works since the period chosen 12.3 = 3.92 pi and sampling uses
+     * approximately half of the period 12.3 so covers the period of sine most of the
+     * time. If the function was not periodic within half the specific period the test
+     * would fail. The aim is to assert interpolation within the provided period using
+     * points that do not cover that period does work even if doing this is not
+     * recommended.
+     */
     @Test
     public void testLessThanOnePeriodCoverage() {
         final int n = 30;
