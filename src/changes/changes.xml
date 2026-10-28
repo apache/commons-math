@@ -97,6 +97,10 @@ Caveat:
  creating more focused components).
 ">
       <action dev="aherbert" type="fix" due-to="insaf021">
+        "Dfp": Trap out-of-range exponents in the Dfp string constructor to
+        create infinity and zero upon over/underflow.
+      </action>
+      <action dev="aherbert" type="fix" due-to="insaf021">
         "CompositeFormat": Fix end-of-input handling to not silently ignore
         non-whitespace characters.
       </action>
