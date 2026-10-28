@@ -120,6 +120,48 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
      *  Test addition
      */
     @Test
+    public void testStringConstructorExponentRange() {
+        // exponent beyond MAX_EXP: an arithmetic result would be trapped to infinity
+        Dfp x = field.newDfp("1e999999");
+        Assert.assertTrue(x.isInfinite());
+        Assert.assertEquals(1, x.sign);
+        Assert.assertEquals(DfpField.FLAG_OVERFLOW, field.getIEEEFlags());
+        field.clearIEEEFlags();
+
+        x = field.newDfp("-1e999999");
+        Assert.assertTrue(x.isInfinite());
+        Assert.assertEquals(-1, x.sign);
+        Assert.assertEquals(DfpField.FLAG_OVERFLOW, field.getIEEEFlags());
+        field.clearIEEEFlags();
+
+        // exponent below the gradual underflow range: flushed to zero
+        x = field.newDfp("1e-999999");
+        Assert.assertTrue(x.isZero());
+        Assert.assertEquals(DfpField.FLAG_UNDERFLOW, field.getIEEEFlags());
+        field.clearIEEEFlags();
+
+        // exponent digits that do not fit in an int must not wrap around
+        x = field.newDfp("1e2147483648");
+        Assert.assertTrue(x.isInfinite());
+        Assert.assertEquals("Infinity", x.toString());
+        Assert.assertTrue(field.newDfp("-1e99999999999999999999").isInfinite());
+        field.clearIEEEFlags();
+
+        // a zero mantissa is zero whatever the exponent says
+        x = field.newDfp("0e999999");
+        Assert.assertTrue(x.isZero());
+        Assert.assertEquals(0, field.getIEEEFlags());
+
+        // the largest normal and gradual underflow values are unchanged
+        x = field.newDfp("9.9999999999999999999e131071");
+        Assert.assertFalse(x.isInfinite());
+        Assert.assertEquals(0, field.getIEEEFlags());
+        test(field.newDfp("1e-131078"),
+             field.newDfp("1e-131072").divide(field.newDfp("1e6")),
+             DfpField.FLAG_UNDERFLOW, "String #1");
+    }
+
+    @Test
     public void testAdd() {
         test(field.newDfp("1").add(field.newDfp("1")),      // Basic tests   1+1 = 2
              field.newDfp("2"),
@@ -1230,7 +1272,7 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
              field.newDfp("0"),
              DfpField.FLAG_UNDERFLOW | DfpField.FLAG_INEXACT, "Next After #13");
 
-        test(field.newDfp("9.9999999999999999999e131078").nextAfter(pinf),
+        test(field.newDfp("9.9999999999999999999e131071").nextAfter(pinf),
              pinf,
              DfpField.FLAG_OVERFLOW | DfpField.FLAG_INEXACT, "Next After #14");
     }
