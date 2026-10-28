@@ -17,9 +17,9 @@
 package org.apache.commons.math4.legacy.analysis.polynomials;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.numbers.fraction.BigFraction;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
@@ -82,7 +82,7 @@ public final class PolynomialsUtils {
         LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
 
         // initialize map for Jacobi polynomials
-        JACOBI_COEFFICIENTS = new HashMap<>();
+        JACOBI_COEFFICIENTS = new ConcurrentHashMap<>();
     }
 
     /**
@@ -228,24 +228,19 @@ public final class PolynomialsUtils {
         // select the appropriate list
         final JacobiKey key = new JacobiKey(v, w);
 
-        final List<BigFraction> coefficients;
-        synchronized(JACOBI_COEFFICIENTS) {
-            List<BigFraction> list = JACOBI_COEFFICIENTS.get(key);
-            if (list == null) {
-                // allocate a new list for v, w
-                list = new ArrayList<>();
+        final List<BigFraction> coefficients = JACOBI_COEFFICIENTS.computeIfAbsent(key, k -> {
+            // allocate a new list for v, w
+            final List<BigFraction> list = new ArrayList<>();
 
-                // Pv,w,0(x) = 1;
-                list.add(BigFraction.ONE);
+            // Pv,w,0(x) = 1;
+            list.add(BigFraction.ONE);
 
-                // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
-                list.add(BigFraction.of(v - w, 2));
-                list.add(BigFraction.of(2 + v + w, 2));
+            // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
+            list.add(BigFraction.of(v - w, 2));
+            list.add(BigFraction.of(2 + v + w, 2));
 
-                JACOBI_COEFFICIENTS.put(key, list);
-            }
-            coefficients = list;
-        }
+            return list;
+        });
 
         return buildPolynomial(degree, coefficients,
                                new RecurrenceCoefficientsGenerator() {
@@ -370,6 +365,7 @@ public final class PolynomialsUtils {
         // Synchronizing on a method parameter is not safe; however, in this
         // case, the lock object is an immutable field that belongs to this
         // class.
+        final double[] a;
         synchronized (coefficients) {
             final int maxDegree = (int) JdkMath.floor(JdkMath.sqrt(2.0 * coefficients.size())) - 1;
             if (degree > maxDegree) {
@@ -386,14 +382,14 @@ public final class PolynomialsUtils {
             // ...
             final int start = degree * (degree + 1) / 2;
 
-            final double[] a = new double[degree + 1];
+            a = new double[degree + 1];
             for (int i = 0; i <= degree; ++i) {
                 a[i] = coefficients.get(start + i).doubleValue();
             }
-
-            // build the polynomial
-            return new PolynomialFunction(a);
         }
+
+        // build the polynomial
+        return new PolynomialFunction(a);
     }
 
     /** Compute polynomial coefficients up to a given degree.
