@@ -446,6 +446,18 @@ public class Dfp implements RealFieldElement<Dfp> {
 
             // Don't want to run pass the end of the array
             if (q == mant.length * rsize + offset + 1) {
+                // the digits left before the decimal point are dropped,
+                // but they still count towards the magnitude
+                if (!decimalFound) {
+                    decimalPos = significantDigits;
+                    while (p < fpdecimal.length() && fpdecimal.charAt(p) != '.') {
+                        if (fpdecimal.charAt(p) >= '0' && fpdecimal.charAt(p) <= '9') {
+                            decimalPos++;
+                        }
+                        p++;
+                    }
+                    decimalFound = true;
+                }
                 break;
             }
 
