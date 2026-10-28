@@ -162,6 +162,23 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
     }
 
     @Test
+    public void testStringConstructorDigitsBeyondPrecision() {
+        // integer digits that do not fit in the mantissa still set the magnitude
+        test(field.newDfp("123456789012345678901234567890"),
+             field.newDfp("1.2345678901234567890123e29"),
+             DfpField.FLAG_INEXACT, "String #2");
+        test(field.newDfp("-100000000000000000000000000000"),
+             field.newDfp("-1e29"),
+             0, "String #3");
+        test(field.newDfp("1234567890123456789012345678.5"),
+             field.newDfp("1.2345678901234567890123e27"),
+             DfpField.FLAG_INEXACT, "String #4");
+        test(field.newDfp("123456789012345678901234567890e-10"),
+             field.newDfp("1.2345678901234567890123e19"),
+             DfpField.FLAG_INEXACT, "String #5");
+    }
+
+    @Test
     public void testAdd() {
         test(field.newDfp("1").add(field.newDfp("1")),      // Basic tests   1+1 = 2
              field.newDfp("2"),
