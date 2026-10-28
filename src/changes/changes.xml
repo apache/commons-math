@@ -97,6 +97,11 @@ Caveat:
  creating more focused components).
 ">
       <action dev="aherbert" type="fix" due-to="insaf021">
+        "Dfp": Count the ignored integer digits (before the decimal point)
+        in the string constructor when the input digits exceed the working
+        precision to correctly maintain the magnitude.
+      </action>
+      <action dev="aherbert" type="fix" due-to="insaf021">
         "Dfp": Trap out-of-range exponents in the Dfp string constructor to
         create infinity and zero upon over/underflow.
       </action>
