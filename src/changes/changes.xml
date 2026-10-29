@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" issue="MATH-1694" due-to="insaf021">
+        "PolynomialsUtils": Fix synchronized creation of Jacobi coefficients
+        for createJacobiPolynomial.
+      </action>
       <action dev="aherbert" type="fix" due-to="insaf021">
         "Dfp": Count the ignored integer digits (before the decimal point)
         in the string constructor when the input digits exceed the working
