@@ -17,9 +17,9 @@
 package org.apache.commons.math4.legacy.analysis.polynomials;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.numbers.fraction.BigFraction;
 import org.apache.commons.numbers.combinatorics.BinomialCoefficient;
@@ -82,7 +82,7 @@ public final class PolynomialsUtils {
         LEGENDRE_COEFFICIENTS.add(BigFraction.ONE);
 
         // initialize map for Jacobi polynomials
-        JACOBI_COEFFICIENTS = new HashMap<>();
+        JACOBI_COEFFICIENTS = new ConcurrentHashMap<>();
     }
 
     /**
@@ -228,24 +228,21 @@ public final class PolynomialsUtils {
         // select the appropriate list
         final JacobiKey key = new JacobiKey(v, w);
 
-        if (!JACOBI_COEFFICIENTS.containsKey(key)) {
-            synchronized(JACOBI_COEFFICIENTS) {
-                if (!JACOBI_COEFFICIENTS.containsKey(key)) {
-                    // allocate a new list for v, w
-                    final List<BigFraction> list = new ArrayList<>();
-                    JACOBI_COEFFICIENTS.put(key, list);
+        final List<BigFraction> coefficients = JACOBI_COEFFICIENTS.computeIfAbsent(key, k -> {
+            // allocate a new list for v, w
+            final List<BigFraction> list = new ArrayList<>();
 
-                    // Pv,w,0(x) = 1;
-                    list.add(BigFraction.ONE);
+            // Pv,w,0(x) = 1;
+            list.add(BigFraction.ONE);
 
-                    // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
-                    list.add(BigFraction.of(v - w, 2));
-                    list.add(BigFraction.of(2 + v + w, 2));
-                }
-            }
-        }
+            // P1(x) = (v - w) / 2 + (2 + v + w) * X / 2
+            list.add(BigFraction.of(v - w, 2));
+            list.add(BigFraction.of(2 + v + w, 2));
 
-        return buildPolynomial(degree, JACOBI_COEFFICIENTS.get(key),
+            return list;
+        });
+
+        return buildPolynomial(degree, coefficients,
                                new RecurrenceCoefficientsGenerator() {
             /** {@inheritDoc} */
             @Override
@@ -368,26 +365,27 @@ public final class PolynomialsUtils {
         // Synchronizing on a method parameter is not safe; however, in this
         // case, the lock object is an immutable field that belongs to this
         // class.
+        final double[] a;
         synchronized (coefficients) {
             final int maxDegree = (int) JdkMath.floor(JdkMath.sqrt(2.0 * coefficients.size())) - 1;
             if (degree > maxDegree) {
                 computeUpToDegree(degree, maxDegree, generator, coefficients);
             }
-        }
 
-        // coefficient  for polynomial 0 is  l [0]
-        // coefficients for polynomial 1 are l [1] ... l [2] (degrees 0 ... 1)
-        // coefficients for polynomial 2 are l [3] ... l [5] (degrees 0 ... 2)
-        // coefficients for polynomial 3 are l [6] ... l [9] (degrees 0 ... 3)
-        // coefficients for polynomial 4 are l[10] ... l[14] (degrees 0 ... 4)
-        // coefficients for polynomial 5 are l[15] ... l[20] (degrees 0 ... 5)
-        // coefficients for polynomial 6 are l[21] ... l[27] (degrees 0 ... 6)
-        // ...
-        final int start = degree * (degree + 1) / 2;
+            // coefficient  for polynomial 0 is  l [0]
+            // coefficients for polynomial 1 are l [1] ... l [2] (degrees 0 ... 1)
+            // coefficients for polynomial 2 are l [3] ... l [5] (degrees 0 ... 2)
+            // coefficients for polynomial 3 are l [6] ... l [9] (degrees 0 ... 3)
+            // coefficients for polynomial 4 are l[10] ... l[14] (degrees 0 ... 4)
+            // coefficients for polynomial 5 are l[15] ... l[20] (degrees 0 ... 5)
+            // coefficients for polynomial 6 are l[21] ... l[27] (degrees 0 ... 6)
+            // ...
+            final int start = degree * (degree + 1) / 2;
 
-        final double[] a = new double[degree + 1];
-        for (int i = 0; i <= degree; ++i) {
-            a[i] = coefficients.get(start + i).doubleValue();
+            a = new double[degree + 1];
+            for (int i = 0; i <= degree; ++i) {
+                a[i] = coefficients.get(start + i).doubleValue();
+            }
         }
 
         // build the polynomial
