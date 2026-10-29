@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" issue="MATH-1693" due-to="insaf021">
+        "BaseRuleFactory": Synchronize getRule so concurrent requests for
+        rules do not corrupte the internal map.
+      </action>
       <action dev="aherbert" type="fix" issue="MATH-1694" due-to="insaf021">
         "PolynomialsUtils": Fix synchronized creation of Jacobi coefficients
         for createJacobiPolynomial.
