@@ -269,7 +269,7 @@ public class SimplexOptimizerTest {
                 }
                 out.println();
             } catch (IOException e) {
-                Assertions.fail(e.getMessage());
+                Assertions.fail(e);
             }
 
             final double fAtOptimum = function.value(optimum);
@@ -303,7 +303,7 @@ public class SimplexOptimizerTest {
                     // Blank line between simplexes.
                     out.println();
                 } catch (IOException e) {
-                    Assertions.fail(e.getMessage());
+                    Assertions.fail(e);
                 }
             };
         }
@@ -320,7 +320,7 @@ public class SimplexOptimizerTest {
                 try (PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(name)))) {
                     checkAlongLine(numPoints, out);
                 } catch (IOException e) {
-                    Assertions.fail(e.getMessage());
+                    Assertions.fail(e);
                 }
             } else {
                 checkAlongLine(numPoints, null);
