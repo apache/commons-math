@@ -367,7 +367,7 @@ public class Network
      */
     public Collection<Neuron> getNeighbours(Neuron neuron,
                                             Iterable<Neuron> exclude) {
-        final Set<Long> idList = linkMap.get(neuron.getIdentifier());
+        final Set<Long> idList = new HashSet<>(linkMap.get(neuron.getIdentifier()));
         if (exclude != null) {
             for (final Neuron n : exclude) {
                 idList.remove(n.getIdentifier());
