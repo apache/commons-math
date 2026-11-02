@@ -17,10 +17,13 @@
 
 package org.apache.commons.math4.legacy.core.dfp;
 
+import java.time.Duration;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 public class DfpMathTest {
 
@@ -582,6 +585,26 @@ public class DfpMathTest {
         test(DfpMath.sin(factory.newDfp("1.6")),
              factory.newDfp("0.99957360304150516323"),
              DfpField.FLAG_INEXACT, "sin #27");
+    }
+
+    @Test
+    public void testPowLargeIntegerExponent() {
+        // Exponents beyond 2^30 in magnitude overflowed the int loop control
+        // in pow(Dfp, int) and the call never returned.
+        Assertions.assertTimeoutPreemptively(Duration.ofSeconds(30), () -> {
+            final Dfp one = factory.getOne();
+            final Dfp minusOne = one.negate();
+            final Dfp two = factory.getTwo();
+
+            Assert.assertEquals(one, DfpMath.pow(one, (1 << 30) + 1));
+            Assert.assertEquals(one, DfpMath.pow(one, Integer.MIN_VALUE));
+            Assert.assertEquals(minusOne, DfpMath.pow(minusOne, Integer.MAX_VALUE));
+            Assert.assertEquals(one, DfpMath.pow(minusOne, Integer.MIN_VALUE));
+            Assert.assertTrue(DfpMath.pow(two, Integer.MAX_VALUE).isInfinite());
+            Assert.assertTrue(DfpMath.pow(two, Integer.MIN_VALUE).isZero());
+            Assert.assertTrue(one.scalb(Integer.MIN_VALUE).isZero());
+            factory.clearIEEEFlags();
+        });
     }
 
 }
