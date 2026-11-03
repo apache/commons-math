@@ -215,31 +215,34 @@ public final class DfpMath {
             return result;
         }
 
-        if (a < 0) {
+        // Use long arithmetic: -Integer.MIN_VALUE and 2 * trial for
+        // exponents above 2^30 would otherwise overflow and never terminate
+        long n = a;
+        if (n < 0) {
             invert = true;
-            a = -a;
+            n = -n;
         }
 
         // Exponentiate by successive squaring
         do {
             Dfp r = new Dfp(base);
             Dfp prevr;
-            int trial = 1;
-            int prevtrial;
+            long trial = 1;
+            long prevtrial;
 
             do {
                 prevr = new Dfp(r);
                 prevtrial = trial;
                 r = r.multiply(r);
                 trial *= 2;
-            } while (a > trial);
+            } while (n > trial);
 
             r = prevr;
             trial = prevtrial;
 
-            a -= trial;
+            n -= trial;
             result = result.multiply(r);
-        } while (a >= 1);
+        } while (n >= 1);
 
         if (invert) {
             result = base.getOne().divide(result);
