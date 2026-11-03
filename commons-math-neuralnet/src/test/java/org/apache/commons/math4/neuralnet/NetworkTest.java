@@ -108,6 +108,35 @@ public class NetworkTest {
         Assert.assertEquals(1, net.getNeighbours(net.getNeuron(3)).size());
     }
 
+    /*
+     * Test assumes that the network is
+     *
+     *  0-----1
+     *  |     |
+     *  |     |
+     *  2-----3
+     */
+    @Test
+    public void testGetNeighboursWithExcludeDoesNotModifyNetwork() {
+        final FeatureInitializer[] initArray = {init};
+        final Network net = new NeuronSquareMesh2D(2, false,
+                                                   2, false,
+                                                   SquareNeighbourhood.VON_NEUMANN,
+                                                   initArray).getNetwork();
+        final Neuron n0 = net.getNeuron(0);
+        final Neuron n1 = net.getNeuron(1);
+        final Neuron n2 = net.getNeuron(2);
+
+        // Excluded neuron is not returned.
+        final Collection<Neuron> neighbours = net.getNeighbours(n0, Arrays.asList(n1));
+        Assert.assertEquals(1, neighbours.size());
+        Assert.assertTrue(neighbours.contains(n2));
+
+        // Link from 0 to 1 still exists.
+        Assert.assertEquals(2, net.getNeighbours(n0).size());
+        Assert.assertTrue(net.getNeighbours(n0).contains(n1));
+    }
+
     @Test
     public void testIdentifierAssignment() {
         final FeatureInitializer[] initArray = {init};
