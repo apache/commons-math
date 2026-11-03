@@ -203,16 +203,18 @@ public final class MathArrays {
      *
      * @param p1 the first point
      * @param p2 the second point
-     * @return the L<sub>1</sub> distance between the two points
+     * @return the L<sub>1</sub> distance between the two points, or
+     * {@link Integer#MAX_VALUE} if the distance is too large to be
+     * represented as an {@code int}
      * @throws DimensionMismatchException if the array lengths differ.
      */
     public static int distance1(int[] p1, int[] p2) {
         checkEqualLength(p1, p2);
-        int sum = 0;
+        long sum = 0;
         for (int i = 0; i < p1.length; i++) {
-            sum += JdkMath.abs(p1[i] - p2[i]);
+            sum += JdkMath.abs((long) p1[i] - p2[i]);
         }
-        return sum;
+        return sum > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) sum;
     }
 
     /**
@@ -273,16 +275,18 @@ public final class MathArrays {
      *
      * @param p1 the first point
      * @param p2 the second point
-     * @return the L<sub>&infin;</sub> distance between the two points
+     * @return the L<sub>&infin;</sub> distance between the two points, or
+     * {@link Integer#MAX_VALUE} if the distance is too large to be
+     * represented as an {@code int}
      * @throws DimensionMismatchException if the array lengths differ.
      */
     public static int distanceInf(int[] p1, int[] p2) {
         checkEqualLength(p1, p2);
-        int max = 0;
+        long max = 0;
         for (int i = 0; i < p1.length; i++) {
-            max = JdkMath.max(max, JdkMath.abs(p1[i] - p2[i]));
+            max = JdkMath.max(max, JdkMath.abs((long) p1[i] - p2[i]));
         }
-        return max;
+        return max > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) max;
     }
 
     /**
