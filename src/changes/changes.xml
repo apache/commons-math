@@ -97,6 +97,11 @@ Caveat:
  creating more focused components).
 ">
       <action dev="aherbert" type="fix" due-to="insaf021">
+        "Network": Fix getNeighbours deleting links to excluded neurons.
+        Queries on the network no longer damage the existing network
+        links when neurons are excluded.
+      </action>
+      <action dev="aherbert" type="fix" due-to="insaf021">
         "Dfp": Fix int overflow in DfpMath.pow for exponents aboive 2^30.
       </action>
       <action dev="aherbert" type="fix" issue="MATH-1693" due-to="insaf021">
