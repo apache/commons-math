@@ -96,6 +96,9 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" due-to="insaf021">
+        "Dfp": Fix int overflow in DfpMath.pow for exponents aboive 2^30.
+      </action>
       <action dev="aherbert" type="fix" issue="MATH-1693" due-to="insaf021">
         "BaseRuleFactory": Synchronize "getRule" method to prevent internal
         map corruption.
