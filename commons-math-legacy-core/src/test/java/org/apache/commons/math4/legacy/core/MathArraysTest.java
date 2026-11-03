@@ -178,6 +178,66 @@ public class MathArraysTest {
         Assert.assertEquals(4, MathArrays.distanceInf(p1, p2));
     }
 
+    /**
+     * The difference of two {@code int} values does not always fit in an
+     * {@code int}: {@code Math.abs(Integer.MAX_VALUE - -1)} overflows to
+     * {@code Integer.MIN_VALUE}, and {@code Integer.MIN_VALUE} negated is
+     * itself. The distance must not be computed in {@code int}, otherwise a
+     * large distance is reported as a negative value or as zero.
+     */
+    @Test
+    public void testL1DistanceIntOverflow() {
+        final int[][] pairs = {
+            {Integer.MIN_VALUE, 0},
+            {Integer.MAX_VALUE, -1},
+            {Integer.MAX_VALUE, Integer.MIN_VALUE},
+            {Integer.MIN_VALUE, 1},
+        };
+        for (final int[] p : pairs) {
+            Assert.assertEquals("distance1 of " + Arrays.toString(p),
+                                Integer.MAX_VALUE,
+                                MathArrays.distance1(new int[] {p[0]}, new int[] {p[1]}));
+        }
+
+        // A distance which does not fit in an int is saturated.
+        Assert.assertEquals(Integer.MAX_VALUE,
+                            MathArrays.distance1(new int[] {Integer.MAX_VALUE, 0},
+                                                 new int[] {0, Integer.MAX_VALUE}));
+        // Distances which do fit are unchanged, including the exact boundary.
+        Assert.assertEquals(Integer.MAX_VALUE,
+                            MathArrays.distance1(new int[] {Integer.MAX_VALUE},
+                                                 new int[] {0}));
+        Assert.assertEquals(2,
+                            MathArrays.distance1(new int[] {1, 1},
+                                                 new int[] {0, 0}));
+    }
+
+    /**
+     * As {@link #testL1DistanceIntOverflow()} for {@code distanceInf}.
+     */
+    @Test
+    public void testLInfDistanceIntOverflow() {
+        final int[][] pairs = {
+            {Integer.MIN_VALUE, 0},
+            {Integer.MAX_VALUE, -1},
+            {Integer.MAX_VALUE, Integer.MIN_VALUE},
+            {Integer.MIN_VALUE, 1},
+        };
+        for (final int[] p : pairs) {
+            Assert.assertEquals("distanceInf of " + Arrays.toString(p),
+                                Integer.MAX_VALUE,
+                                MathArrays.distanceInf(new int[] {p[0]}, new int[] {p[1]}));
+        }
+
+        // The result is the largest offset, not the sum of the offsets.
+        Assert.assertEquals(Integer.MAX_VALUE,
+                            MathArrays.distanceInf(new int[] {Integer.MAX_VALUE, 0},
+                                                   new int[] {0, Integer.MAX_VALUE}));
+        Assert.assertEquals(1,
+                            MathArrays.distanceInf(new int[] {1, 1},
+                                                   new int[] {0, 0}));
+    }
+
     @Test
     public void testCheckOrder() {
         MathArrays.checkOrder(new double[] {-15, -5.5, -1, 2, 15},
