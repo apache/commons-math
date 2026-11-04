@@ -351,4 +351,17 @@ public abstract class RealVectorFormatAbstractTest {
         Assert.assertNull("Should not parse <"+source+">",new RealVectorFormat().parse(source, pos));
         Assert.assertEquals(8, pos.getErrorIndex());
     }
+
+    @Test
+    public void testParseFailureThrows() {
+        final RealVectorFormat format = new RealVectorFormat();
+        for (final String source : new String[] {"{1", "{1; 2", "{1 2}", "{1; 1 1}"}) {
+            try {
+                format.parse(source);
+                Assert.fail("Expecting MathParseException for <" + source + ">");
+            } catch (MathParseException pe) {
+                // expected behavior
+            }
+        }
+    }
 }

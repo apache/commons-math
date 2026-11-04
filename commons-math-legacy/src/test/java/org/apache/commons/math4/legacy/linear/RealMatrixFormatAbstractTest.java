@@ -375,4 +375,31 @@ public abstract class RealMatrixFormatAbstractTest {
         Assert.assertEquals(MatrixUtils.createRealMatrix(new double[][] {{1, 2}, {3, 4}}), parsed);
         Assert.assertEquals(10, pos.getIndex());
     }
+
+    @Test
+    public void testParseEmptyRow() {
+        for (final String source : new String[] {"{{1},{}}", "{{1},{}", "{{1, 2}, {}}", "{{1}, {2}, { }}"}) {
+            final ParsePosition pos = new ParsePosition(0);
+            Assert.assertNull("Should not parse <" + source + ">", realMatrixFormat.parse(source, pos));
+            Assert.assertEquals(0, pos.getIndex());
+        }
+    }
+
+    @Test
+    public void testParseEmptySuffixClosingRowSeparator() {
+        final RealMatrix parsed = new RealMatrixFormat("", "", "", "", "; ", ", ").parse("1, 2; ");
+        Assert.assertEquals(MatrixUtils.createRealMatrix(new double[][] {{1, 2}}), parsed);
+    }
+
+    @Test
+    public void testParseFailureThrows() {
+        for (final String source : new String[] {"{}", "{{1},}", "{{1},{2}", "{{1}{2}}", "{{1, 1 1}}", "{{1}"}) {
+            try {
+                realMatrixFormat.parse(source);
+                Assert.fail("Expecting MathParseException for <" + source + ">");
+            } catch (MathParseException pe) {
+                // expected behavior
+            }
+        }
+    }
 }
