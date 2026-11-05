@@ -3715,7 +3715,7 @@ public final class AccurateMath {
             // twice to round the quotient to even, as in fdlibm __ieee754_remainder.
             // All steps are exact: x + x only overflows when x + x > p holds anyway.
             final double p = Math.abs(divisor);
-            double x = Math.abs(dividend) % (p + p);
+            double x = Math.abs(dividend) % (2 * p);
             if (x + x > p) {
                 x -= p;
                 if (x + x >= p) {
