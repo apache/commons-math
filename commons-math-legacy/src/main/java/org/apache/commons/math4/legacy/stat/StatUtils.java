@@ -41,7 +41,7 @@ import org.apache.commons.statistics.descriptive.SumOfSquares;
 public final class StatUtils {
 
     /** percentile. */
-    private static final Quantile QUANTILE = Quantile.withDefaults().with(EstimationMethod.HF6).withCopy(false);
+    private static final Quantile QUANTILE = Quantile.withDefaults().with(EstimationMethod.HF6).withCopy(true);
 
     /**
      * Private Constructor.
