@@ -37,6 +37,17 @@ import org.junit.Ignore;
 
 public class AkimaSplineInterpolatorTest {
     @Test
+    public void testUnbalancedWeights() {
+        final double[] x = {0, 2, 4, 6, 8};
+        final double[] y = {1e-200, 0, 0, 1e200, 1e200};
+        for (boolean useModified : new boolean[] {false, true}) {
+            final UnivariateFunction interpolation =
+                new AkimaSplineInterpolator(useModified).interpolate(x, y);
+            assertEquals(-1.875e-201, interpolation.value(3), 1e-215);
+        }
+    }
+
+    @Test
     public void testLargeFiniteValues() {
         checkLargeFiniteValues(false);
     }
