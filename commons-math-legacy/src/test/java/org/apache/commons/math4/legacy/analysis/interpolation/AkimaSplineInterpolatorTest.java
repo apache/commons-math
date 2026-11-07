@@ -37,6 +37,54 @@ import org.junit.Ignore;
 
 public class AkimaSplineInterpolatorTest {
     @Test
+    public void testLargeFiniteValues() {
+        checkLargeFiniteValues(false);
+    }
+
+    @Test
+    public void testLargeFiniteValuesModified() {
+        checkLargeFiniteValues(true);
+    }
+
+    private void checkLargeFiniteValues(boolean useModified) {
+        final double[] x = {0, 2, 4, 6, 8};
+        final double[] y = {0, 1e200, 0, 1e200, 0};
+        final double[] expected = {0, 0.75, 1, 0.5, 0, 0.5, 1, 0.75, 0};
+        final UnivariateFunction interpolation = new AkimaSplineInterpolator(useModified).interpolate(x, y);
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(expected[i], interpolation.value(i) / 1e200, 1e-14);
+        }
+    }
+
+    @Test
+    public void testScaleInvariance() {
+        checkScaleInvariance(false);
+    }
+
+    @Test
+    public void testScaleInvarianceModified() {
+        checkScaleInvariance(true);
+    }
+
+    private void checkScaleInvariance(boolean useModified) {
+        final double[] x = {0, 2, 4, 6, 8};
+        final double[] y = {0, 1, 3, 2, 5};
+        final UnivariateFunction reference = new AkimaSplineInterpolator(useModified).interpolate(x, y);
+        for (double scale : new double[] {1e200, -1e200, 1e-200}) {
+            final double[] scaledY = new double[y.length];
+            for (int i = 0; i < y.length; i++) {
+                scaledY[i] = y[i] * scale;
+            }
+            final UnivariateFunction interpolation =
+                new AkimaSplineInterpolator(useModified).interpolate(x, scaledY);
+            for (int i = 0; i <= 16; i++) {
+                final double point = i * 0.5;
+                assertEquals(reference.value(point), interpolation.value(point) / scale, 1e-14);
+            }
+        }
+    }
+
+    @Test
     public void testIllegalArguments() {
         // Data set arrays of different size.
         UnivariateInterpolator i = new AkimaSplineInterpolator();
