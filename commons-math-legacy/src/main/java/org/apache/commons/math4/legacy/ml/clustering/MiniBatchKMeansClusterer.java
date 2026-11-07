@@ -42,7 +42,7 @@ public class MiniBatchKMeansClusterer<T extends Clusterable>
     private final int initIterations;
     /** Data size of batch to initialize the centers. */
     private final int initBatchSize;
-    /** Maximum number of iterations during which no improvement is occuring. */
+    /** Maximum number of iterations during which no improvement is occurring. */
     private final int maxNoImprovementTimes;
 
 
