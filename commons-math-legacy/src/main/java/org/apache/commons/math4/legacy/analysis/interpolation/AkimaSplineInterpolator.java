@@ -144,7 +144,23 @@ public class AkimaSplineInterpolator
                 final double xvM = xvals[i - 1];
                 firstDerivatives[i] = (((xvP - xv) * differences[i - 1]) + ((xv - xvM) * differences[i])) / (xvP - xvM);
             } else {
-                firstDerivatives[i] = ((wP * differences[i - 1]) + (wM * differences[i])) / (wP + wM);
+                final double weightedP = wP * differences[i - 1];
+                final double weightedM = wM * differences[i];
+                final double weightedSum = weightedP + weightedM;
+                final double weightSum = wP + wM;
+                if (Double.isFinite(weightedSum) && Double.isFinite(weightSum) &&
+                    (weightedP != 0.0 || weightedM != 0.0)) {
+                    // Preserve small contributions when normalizing would underflow a weight.
+                    firstDerivatives[i] = weightedSum / weightSum;
+                } else {
+                    // Avoid overflow or underflow of the intermediate weighted products.
+                    final double weightScale = JdkMath.max(wP, wM);
+                    final double scaledP = wP / weightScale;
+                    final double scaledM = wM / weightScale;
+                    final double scaledSum = scaledP + scaledM;
+                    firstDerivatives[i] = (scaledP / scaledSum) * differences[i - 1]
+                                        + (scaledM / scaledSum) * differences[i];
+                }
             }
         }
 
