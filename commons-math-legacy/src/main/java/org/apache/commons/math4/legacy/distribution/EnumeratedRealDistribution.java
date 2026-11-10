@@ -158,7 +158,9 @@ public class EnumeratedRealDistribution
 
         double probability = 0;
         double x = getSupportLowerBound();
-        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
+        final List<Pair<Double, Double>> samples = innerDistribution.getPmf();
+        samples.sort((a, b) -> Double.compare(a.getKey(), b.getKey()));
+        for (final Pair<Double, Double> sample : samples) {
             if (sample.getValue() == 0.0) {
                 continue;
             }
