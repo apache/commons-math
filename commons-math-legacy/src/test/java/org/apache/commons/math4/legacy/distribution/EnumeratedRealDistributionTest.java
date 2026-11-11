@@ -281,4 +281,12 @@ public class EnumeratedRealDistributionTest {
         assertEquals(0.5, distribution.density(2), 0);
         assertEquals(0.5, distribution.cumulativeProbability(1), 0);
     }
+
+    @Test
+    public void testQuantileUsesSameAccumulationOrderAsCdf() {
+        final EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(
+            new double[] {2, 0, 1, 3}, new double[] {1, 2, 3, 1});
+        Assert.assertEquals(2, distribution.inverseCumulativeProbability(
+            distribution.cumulativeProbability(2)), 0);
+    }
 }

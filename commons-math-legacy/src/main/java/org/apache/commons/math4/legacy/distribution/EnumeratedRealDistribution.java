@@ -17,7 +17,7 @@
 package org.apache.commons.math4.legacy.distribution;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,7 +70,9 @@ public class EnumeratedRealDistribution
                MathArithmeticException,
                NotFiniteNumberException,
                NotANumberException {
-        innerDistribution = new EnumeratedDistribution<>(createDistribution(singletons, probabilities));
+        final List<Pair<Double, Double>> samples = createDistribution(singletons, probabilities);
+        samples.sort((a, b) -> Double.compare(a.getKey(), b.getKey()));
+        innerDistribution = new EnumeratedDistribution<>(samples);
     }
 
     /**
@@ -80,7 +82,7 @@ public class EnumeratedRealDistribution
      * @param data input dataset
      */
     public EnumeratedRealDistribution(final double[] data) {
-        final Map<Double, Integer> dataMap = new LinkedHashMap<>();
+        final Map<Double, Integer> dataMap = new TreeMap<>();
         for (double value : data) {
             dataMap.merge(value, 1, Integer::sum);
         }
@@ -159,7 +161,6 @@ public class EnumeratedRealDistribution
         double probability = 0;
         double x = getSupportLowerBound();
         final List<Pair<Double, Double>> samples = innerDistribution.getPmf();
-        samples.sort((a, b) -> Double.compare(a.getKey(), b.getKey()));
         for (final Pair<Double, Double> sample : samples) {
             if (sample.getValue() == 0.0) {
                 continue;
