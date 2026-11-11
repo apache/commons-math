@@ -237,10 +237,56 @@ public class EnumeratedRealDistributionTest {
     }
 
     @Test
+    public void testInverseCumulativeProbabilityUnsortedSingletons() {
+        EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(
+                new double[] {7, 3, -1, 3, -2, 8},
+                new double[] {0.25, 0.25, 0.25, 0.25, 0, 0});
+        assertEquals(-1, distribution.inverseCumulativeProbability(0), 0);
+        assertEquals(-1, distribution.inverseCumulativeProbability(0.25), 0);
+        assertEquals(3, distribution.inverseCumulativeProbability(0.5), 0);
+        assertEquals(3, distribution.inverseCumulativeProbability(0.75), 0);
+        assertEquals(7, distribution.inverseCumulativeProbability(1), 0);
+    }
+
+    @Test
+    public void testInverseCumulativeProbabilityUnsortedData() {
+        EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(
+                new double[] {7, 3, -1, 3});
+        assertEquals(-1, distribution.inverseCumulativeProbability(0), 0);
+        assertEquals(-1, distribution.inverseCumulativeProbability(0.25), 0);
+        assertEquals(3, distribution.inverseCumulativeProbability(0.5), 0);
+        assertEquals(3, distribution.inverseCumulativeProbability(0.75), 0);
+        assertEquals(7, distribution.inverseCumulativeProbability(1), 0);
+    }
+
+    @Test
+    public void testInverseCumulativeProbabilityDoesNotChangeSampling() {
+        final double[] values = {7, 3, -1, 3};
+        EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(values);
+        EnumeratedRealDistribution control = new EnumeratedRealDistribution(values);
+        distribution.inverseCumulativeProbability(0.5);
+        final ContinuousDistribution.Sampler actual =
+                distribution.createSampler(RandomSource.WELL_512_A.create(12345L));
+        final ContinuousDistribution.Sampler expected =
+                control.createSampler(RandomSource.WELL_512_A.create(12345L));
+        for (int i = 0; i < 100; i++) {
+            assertEquals(expected.sample(), actual.sample(), 0);
+        }
+    }
+
+    @Test
     public void testCreateFromDoubles() {
         final double[] data = new double[] {0, 1, 1, 2, 2, 2};
         EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(data);
         assertEquals(0.5, distribution.density(2), 0);
         assertEquals(0.5, distribution.cumulativeProbability(1), 0);
+    }
+
+    @Test
+    public void testQuantileUsesSameAccumulationOrderAsCdf() {
+        final EnumeratedRealDistribution distribution = new EnumeratedRealDistribution(
+            new double[] {2, 0, 1, 3}, new double[] {1, 2, 3, 1});
+        Assert.assertEquals(2, distribution.inverseCumulativeProbability(
+            distribution.cumulativeProbability(2)), 0);
     }
 }
