@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" issue="MATH-1696" due-to="Parijat Biswas">
+        "EnumeratedRealDistribution": Sort enumerated real masses during construction.
+        Fixes the inverse cumulative probability function.
+      </action>
       <action dev="aherbert" type="fix" due-to="simpleqt">
         "MathArrays": Fix int overflow in the int[] L1 and Linf distance.
       </action>
