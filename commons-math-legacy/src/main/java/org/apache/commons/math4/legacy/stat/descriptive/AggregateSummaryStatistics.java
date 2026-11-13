@@ -246,6 +246,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
      * should contain the same values that would have been obtained by computing a single
      * StatisticalSummary over the combined dataset.
      * <p>
+     * Summaries with no values ({@code n = 0}) do not contribute to the result.
+     * </p>
+     * <p>
      * Returns null if the collection is empty or null.
      * </p>
      *
@@ -261,6 +264,10 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
             return null;
         }
         StatisticalSummary current = iterator.next();
+        // An empty summary reports NaN for its statistics; skip it
+        while (current.getN() == 0 && iterator.hasNext()) {
+            current = iterator.next();
+        }
         long n = current.getN();
         double min = current.getMin();
         double sum = current.getSum();
@@ -270,6 +277,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary {
         double mean = current.getMean();
         while (iterator.hasNext()) {
             current = iterator.next();
+            if (current.getN() == 0) {
+                continue;
+            }
             min = JdkMath.min(min, current.getMin());
             max = JdkMath.max(max, current.getMax());
             sum += current.getSum();
