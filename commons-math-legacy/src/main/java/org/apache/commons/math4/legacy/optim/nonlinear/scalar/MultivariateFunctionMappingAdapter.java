@@ -108,6 +108,9 @@ public class MultivariateFunctionMappingAdapter
             if (!(upper[i] >= lower[i])) {
                 throw new NumberIsTooSmallException(upper[i], lower[i], true);
             }
+            if (upper[i] == lower[i] && !Double.isInfinite(lower[i])) {
+                throw new NumberIsTooSmallException(upper[i], lower[i], false);
+            }
         }
 
         this.bounded = bounded;
