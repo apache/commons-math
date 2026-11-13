@@ -96,6 +96,12 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" due-to="insaf021">
+        "AccurateMath": Fix overflow and precision loss in IEEEremainder
+        when rint(dividend / divisor) is above 2^53 as the result is not
+        the nearest integer. The result now computes |dividend| modulo 2|divisor|
+        with the % operator, replacing the rint version.
+      </action>
       <action dev="aherbert" type="fix" issue="MATH-1696" due-to="Parijat Biswas">
         "EnumeratedRealDistribution": Sort enumerated real masses during construction.
         Fixes the inverse cumulative probability function.
