@@ -226,13 +226,29 @@ public class BOBYQAOptimizer
      * For a problem of dimension {@code n}, its value must be in the interval
      * {@code [n+2, (n+1)(n+2)/2]}.
      * Choices that exceed {@code 2n+1} are not recommended.
-     * @param initialTrustRegionRadius Initial trust region radius.
-     * @param stoppingTrustRegionRadius Stopping trust region radius.
+     * @param initialTrustRegionRadius Initial trust region radius. Must be
+     * positive.
+     * @param stoppingTrustRegionRadius Stopping trust region radius. Must be
+     * positive and no greater than {@code initialTrustRegionRadius}.
      */
     public BOBYQAOptimizer(int numberOfInterpolationPoints,
                            double initialTrustRegionRadius,
                            double stoppingTrustRegionRadius) {
         super(null); // No custom convergence criterion.
+        if (initialTrustRegionRadius <= 0) {
+            throw new IllegalArgumentException("Initial trust region radius must be positive: " +
+                                               initialTrustRegionRadius);
+        }
+        if (stoppingTrustRegionRadius <= 0) {
+            throw new IllegalArgumentException("Stopping trust region radius must be positive: " +
+                                               stoppingTrustRegionRadius);
+        }
+        if (stoppingTrustRegionRadius > initialTrustRegionRadius) {
+            throw new IllegalArgumentException("Stopping trust region radius (" +
+                                               stoppingTrustRegionRadius +
+                                               ") must not exceed initial trust region radius (" +
+                                               initialTrustRegionRadius + ")");
+        }
         this.numberOfInterpolationPoints = numberOfInterpolationPoints;
         this.initialTrustRegionRadius = initialTrustRegionRadius;
         this.stoppingTrustRegionRadius = stoppingTrustRegionRadius;
