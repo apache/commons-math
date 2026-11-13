@@ -1359,6 +1359,59 @@ public class AccurateMathTest {
     }
 
     @Test
+    public void testIEEEremainder() {
+        // Special cases taken from the javadoc
+        Assertions.assertEquals(Double.NaN, AccurateMath.IEEEremainder(Double.NaN, 1.0));
+        Assertions.assertEquals(Double.NaN, AccurateMath.IEEEremainder(1.0, Double.NaN));
+        Assertions.assertEquals(Double.NaN, AccurateMath.IEEEremainder(Double.POSITIVE_INFINITY, 1.0));
+        Assertions.assertEquals(Double.NaN, AccurateMath.IEEEremainder(1.0, -0.0));
+        Assertions.assertEquals(-1.0, AccurateMath.IEEEremainder(-1.0, Double.POSITIVE_INFINITY));
+        Assertions.assertEquals(-0.0, AccurateMath.IEEEremainder(-0.0, 1.0));
+        Assertions.assertEquals(-0.0, AccurateMath.IEEEremainder(-4.0, 2.0));
+        // Quotient rounded to the nearest even integer
+        Assertions.assertEquals(-1.0, AccurateMath.IEEEremainder(3.0, 2.0));
+        Assertions.assertEquals(1.0, AccurateMath.IEEEremainder(5.0, 2.0));
+
+        // x - y * rint(x / y) overflows, or loses the remainder when y * n is inexact
+        Assertions.assertEquals(0.5, AccurateMath.IEEEremainder(Double.MAX_VALUE, 1.5));
+        Assertions.assertEquals(1.0, AccurateMath.IEEEremainder(-Double.MAX_VALUE, 3.0));
+        Assertions.assertEquals(-0.5, AccurateMath.IEEEremainder(0x1p52, 1.5));
+        Assertions.assertEquals(1.6653345369377348E-16, AccurateMath.IEEEremainder(1.5, 0.49999999999999994));
+
+        for (int i = 0; i < NUMBER_OF_TRIALS; i++) {
+            final double y = randomFiniteDouble();
+            // Alternate between unrestricted quotients and quotients below 1000
+            final double x = (i & 1) == 0 ? randomFiniteDouble() : y * (generator.nextDouble() * 2000 - 1000);
+            if (y == 0 || !Double.isFinite(x)) {
+                continue;
+            }
+            Assertions.assertEquals(exactIEEEremainder(x, y), AccurateMath.IEEEremainder(x, y),
+                () -> "IEEEremainder(" + x + ", " + y + ")");
+        }
+    }
+
+    private double randomFiniteDouble() {
+        double x;
+        do {
+            x = Double.longBitsToDouble(generator.nextLong());
+        } while (!Double.isFinite(x));
+        return x;
+    }
+
+    /**
+     * Reference IEEE remainder {@code x - y * n} with {@code n} the integer nearest
+     * to {@code x / y} (ties to even), computed exactly.
+     */
+    private static double exactIEEEremainder(double x, double y) {
+        final BigDecimal bx = new BigDecimal(x);
+        final BigDecimal by = new BigDecimal(y);
+        final BigDecimal n = bx.divide(by, 0, RoundingMode.HALF_EVEN);
+        // The remainder is exactly representable as a double
+        final double r = bx.subtract(by.multiply(n)).doubleValue();
+        return r == 0 ? Math.copySign(0.0, x) : r;
+    }
+
+    @Test
     public void testIndicatorDouble() {
         double delta = 0.0;
         assertEquals(1.0, AccurateMath.copySign(1d, 2.0), delta);

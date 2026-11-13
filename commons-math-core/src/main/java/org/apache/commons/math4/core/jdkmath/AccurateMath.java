@@ -3691,7 +3691,7 @@ public final class AccurateMath {
      * {@code n} is the integer that is even.
      * <ul>
      * <li>If either operand is NaN, the result is NaN.</li>
-     * <li>If the result is not NaN, the sign of the result equals the sign of the dividend.</li>
+     * <li>If the result is zero, its sign equals the sign of the dividend.</li>
      * <li>If the dividend is an infinity, or the divisor is a zero, or both, the result is NaN.</li>
      * <li>If the dividend is finite and the divisor is an infinity, the result equals the dividend.</li>
      * <li>If the dividend is a zero and the divisor is finite, the result equals the dividend.</li>
@@ -3710,9 +3710,20 @@ public final class AccurateMath {
             }
         } else {
             // we are in the general case
-            final double n         = AccurateMath.rint(dividend / divisor);
-            final double remainder = Double.isInfinite(n) ? 0.0 : dividend - divisor * n;
-            return (remainder == 0) ? AccurateMath.copySign(remainder, dividend) : remainder;
+            // Reduce |dividend| modulo 2 |divisor| with the exact truncating remainder
+            // (x is unchanged if 2 |divisor| overflows), then subtract |divisor| at most
+            // twice to round the quotient to even, as in fdlibm __ieee754_remainder.
+            // All steps are exact: 2 * x only overflows when 2 * x > p holds anyway.
+            final double p = Math.abs(divisor);
+            double x = Math.abs(dividend) % (2 * p);
+            if (2 * x > p) {
+                x -= p;
+                if (2 * x >= p) {
+                    x -= p;
+                }
+            }
+            // Restore the sign of the dividend (including -0.0)
+            return Double.doubleToRawLongBits(dividend) < 0 ? -x : x;
         }
     }
 
