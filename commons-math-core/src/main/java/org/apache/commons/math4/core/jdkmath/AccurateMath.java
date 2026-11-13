@@ -3713,12 +3713,12 @@ public final class AccurateMath {
             // Reduce |dividend| modulo 2 |divisor| with the exact truncating remainder
             // (x is unchanged if 2 |divisor| overflows), then subtract |divisor| at most
             // twice to round the quotient to even, as in fdlibm __ieee754_remainder.
-            // All steps are exact: x + x only overflows when x + x > p holds anyway.
+            // All steps are exact: 2 * x only overflows when 2 * x > p holds anyway.
             final double p = Math.abs(divisor);
             double x = Math.abs(dividend) % (2 * p);
-            if (x + x > p) {
+            if (2 * x > p) {
                 x -= p;
-                if (x + x >= p) {
+                if (2 * x >= p) {
                     x -= p;
                 }
             }
