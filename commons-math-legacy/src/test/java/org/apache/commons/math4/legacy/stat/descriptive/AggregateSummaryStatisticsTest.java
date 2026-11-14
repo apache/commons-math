@@ -270,6 +270,38 @@ public class AggregateSummaryStatisticsTest {
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
     }
 
+    @Test
+    public void testAggregateEmptySummaries() {
+        double[] totalSample = {1, 2, 3, 4, 5};
+        double[][] subSamples = {{}, {1, 2}, {}, {3}, {4, 5}, {}};
+
+        // Compute combined stats directly
+        SummaryStatistics totalStats = new SummaryStatistics();
+        for (int i = 0; i < totalSample.length; i++) {
+            totalStats.addValue(totalSample[i]);
+        }
+
+        // Empty partitions contribute no values
+        Collection<SummaryStatistics> aggregate = new ArrayList<>();
+        for (int i = 0; i < subSamples.length; i++) {
+            SummaryStatistics subSampleStats = new SummaryStatistics();
+            for (int j = 0; j < subSamples[i].length; j++) {
+                subSampleStats.addValue(subSamples[i][j]);
+            }
+            aggregate.add(subSampleStats);
+        }
+
+        // Compare values
+        StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
+        assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
+
+        // All partitions empty
+        Collection<SummaryStatistics> empty = new ArrayList<>();
+        empty.add(new SummaryStatistics());
+        empty.add(new SummaryStatistics());
+        assertEquals(new SummaryStatistics().getSummary(), AggregateSummaryStatistics.aggregate(empty), 0);
+    }
+
     /**
      * Verifies that a StatisticalSummary and a StatisticalSummaryValues are equal up
      * to delta, with NaNs, infinities returned in the same spots. For max, min, n, values
