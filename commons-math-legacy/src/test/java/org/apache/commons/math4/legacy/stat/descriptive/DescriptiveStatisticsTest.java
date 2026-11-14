@@ -126,6 +126,22 @@ public class DescriptiveStatisticsTest {
     }
 
     @Test
+    public void testPercentileDoesNotReorderValues() {
+        DescriptiveStatistics stats = createDescriptiveStatistics();
+        stats.setWindowSize(5);
+        for (double v : new double[] {5, 4, 3, 2, 1}) {
+            stats.addValue(v);
+        }
+        Assert.assertEquals(3, stats.getPercentile(50), 0);
+        // toString() reports the median
+        Assert.assertNotNull(stats.toString());
+        Assert.assertArrayEquals(new double[] {5, 4, 3, 2, 1}, stats.getValues(), 0);
+        // The oldest value is discarded
+        stats.addValue(100);
+        Assert.assertArrayEquals(new double[] {4, 3, 2, 1, 100}, stats.getValues(), 0);
+    }
+
+    @Test
     public void testQuadraticMean() {
         final double[] values = { 1.2, 3.4, 5.6, 7.89 };
         final DescriptiveStatistics stats = new DescriptiveStatistics(values);
