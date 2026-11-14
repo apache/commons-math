@@ -97,6 +97,11 @@ Caveat:
  creating more focused components).
 ">
       <action dev="aherbert" type="fix" due-to="insaf021">
+        "AggregateSummaryStatistics": Summaries with getN() == 0 are now skipped
+        avoiding NaN statistics when aggregating a set of non-empty summaries
+        with at least one empty summary.
+      </action>
+      <action dev="aherbert" type="fix" due-to="insaf021">
         "AccurateMath": Fix overflow and precision loss in IEEEremainder
         when rint(dividend / divisor) is above 2^53 as the result is not
         the nearest integer. The result now computes |dividend| modulo 2|divisor|
