@@ -446,7 +446,8 @@ public final class MathArrays {
      * @param abort Whether to throw an exception if the check fails.
      * @return {@code true} if the array is sorted.
      * @throws NonMonotonicSequenceException if the array is not sorted
-     * and {@code abort} is {@code true}.
+     * and {@code abort} is {@code true}. A comparison involving {@code NaN}
+     * fails the check.
      */
     public static boolean checkOrder(double[] val, OrderDirection dir,
                                      boolean strict, boolean abort) {
@@ -456,6 +457,11 @@ public final class MathArrays {
         int index;
         ITEM:
         for (index = 1; index < max; index++) {
+            if (Double.isNaN(val[index]) ||
+                Double.isNaN(previous)) {
+                // NaN cannot be ordered.
+                break ITEM;
+            }
             switch (dir) {
             case INCREASING:
                 if (strict) {
