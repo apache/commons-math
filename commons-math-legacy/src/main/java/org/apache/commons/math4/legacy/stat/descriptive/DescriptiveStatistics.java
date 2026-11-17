@@ -437,6 +437,23 @@ public class DescriptiveStatistics implements StatisticalSummary {
      * <li>at least one value must be stored (returns <code>Double.NaN
      *     </code> otherwise)</li>
      * </ul>
+     * <p>
+     * The default implementation computes the percentile on a copy of the
+     * stored values so the order returned by {@link #getValues()} is preserved.
+     * The copy and the selection are repeated on every call, even if the stored
+     * values have not changed. To compute several percentiles of the same data,
+     * get the values once and pass all the probabilities (scaled from 0 - 1) to
+     * a single call of Commons Statistics
+     * {@link org.apache.commons.statistics.descriptive.Quantile#evaluate(double[], double...)
+     * Quantile.evaluate}. The same estimation as this method is obtained with:
+     * <pre>
+     * Quantile.withDefaults()
+     *         .with(Quantile.EstimationMethod.HF6)
+     *         .withCopy(false)
+     *         .evaluate(stats.getValues(), 0.25, 0.5, 0.75);
+     * </pre>
+     * <p>
+     * {@code withCopy(false)} is safe here since {@link #getValues()} returns a copy.
      *
      * @param p the requested percentile (scaled from 0 - 100)
      * @return An estimate for the pth percentile of the stored data

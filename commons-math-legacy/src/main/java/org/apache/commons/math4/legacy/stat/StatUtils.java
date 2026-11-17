@@ -477,6 +477,13 @@ public final class StatUtils {
      * </ul>
      * <p>
      * See Commons Statistics {@link Quantile} for a description of the percentile estimation algorithm used.
+     * <p>
+     * The percentile is computed on a copy of the input so the order of
+     * <code>values</code> is not changed. The copy is made on every call. To
+     * compute several percentiles of the same data use a single call of
+     * {@link Quantile#evaluate(double[], double...)} with all the probabilities
+     * (scaled from 0 - 1), using {@link EstimationMethod#HF6} to match this method,
+     * and {@link Quantile#withCopy(boolean) withCopy(false)} if the input may be reordered.
      *
      * @param values input array of values
      * @param p the percentile value to compute
@@ -504,6 +511,14 @@ public final class StatUtils {
      * </ul>
      * <p>
      * See Commons Statistics {@link Quantile} for a description of the percentile estimation algorithm used.
+     * <p>
+     * The percentile is computed on a copy of the specified range so the order of
+     * <code>values</code> is not changed. The copy is made on every call. To
+     * compute several percentiles of the same data use a single call of
+     * {@link Quantile#evaluateRange(double[], int, int, double...)} with all the
+     * probabilities (scaled from 0 - 1), using {@link EstimationMethod#HF6} to match
+     * this method, and {@link Quantile#withCopy(boolean) withCopy(false)} if the input
+     * may be reordered.
      *
      * @param values array of input values
      * @param p the percentile to compute
