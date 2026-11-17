@@ -89,6 +89,9 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     /** Bit mask for hash values. */
     private int mask;
 
+    /** Number of removed entries still occupying a slot. */
+    private transient int removed;
+
     /** Modifications count. */
     private transient int count;
 
@@ -151,6 +154,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         missingEntries = source.missingEntries;
         size  = source.size;
         mask  = source.mask;
+        removed = source.removed;
         count = source.count;
     }
 
@@ -401,6 +405,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         final T previous = values[index];
         values[index] = missingEntries;
         --size;
+        ++removed;
         ++count;
         return previous;
     }
@@ -419,13 +424,15 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
             index = changeIndexSign(index);
             previous = values[index];
             newMapping = false;
+        } else if (states[index] == REMOVED) {
+            --removed;
         }
         keys[index]   = key;
         states[index] = FULL;
         values[index] = value;
         if (newMapping) {
             ++size;
-            if (shouldGrowTable()) {
+            if (size + removed > (mask + 1) * LOAD_FACTOR) {
                 growTable();
             }
             ++count;
@@ -434,7 +441,8 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     }
 
     /**
-     * Grow the tables.
+     * Grow the tables, or rebuild them at the same length to discard
+     * removed entries if the live entries still fit.
      */
     private void growTable() {
 
@@ -443,7 +451,7 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         final T[] oldValues = values;
         final byte[] oldStates   = states;
 
-        final int newLength = RESIZE_MULTIPLIER * oldLength;
+        final int newLength = shouldGrowTable() ? RESIZE_MULTIPLIER * oldLength : oldLength;
         final int[] newKeys = new int[newLength];
         final T[] newValues = buildArray(newLength);
         final byte[] newStates = new byte[newLength];
@@ -462,14 +470,17 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
         keys   = newKeys;
         values = newValues;
         states = newStates;
+        removed = 0;
     }
 
     /**
-     * Check if tables should grow due to increased size.
+     * Check if tables should grow when they are rebuilt.
+     * <p>Growing only once live entries use half of the allowed load leaves
+     * room for further insertions after removed entries are discarded.</p>
      * @return true if  tables should grow
      */
     private boolean shouldGrowTable() {
-        return size > (mask + 1) * LOAD_FACTOR;
+        return size > (mask + 1) * LOAD_FACTOR / 2;
     }
 
     /**
@@ -593,6 +604,12 @@ class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
     private void readObject(final ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
+        removed = 0;
+        for (final byte state : states) {
+            if (state == REMOVED) {
+                ++removed;
+            }
+        }
         count = 0;
     }
 
