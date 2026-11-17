@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 
 /**
@@ -95,18 +96,20 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
      * The length of the bases array defines the space dimension and is required to be &gt; 0.
      *
      * @param dimension the space dimension
-     * @param bases the base number for each dimension, entries should be (pairwise) prime, may not be null
+     * @param bases the base number for each dimension, entries should be (pairwise) prime and at least 2,
+     *   may not be null
      * @param weights the weights used during scrambling, may be null in which case no scrambling will be performed
      * @throws NullArgumentException if base is null
      * @throws OutOfRangeException if the space dimension is outside the range [1, len], where
      *   len refers to the length of the bases array
      * @throws DimensionMismatchException if weights is non-null and the length of the input arrays differ
+     * @throws NumberIsTooSmallException if any of the bases is smaller than 2
      */
     public HaltonSequenceGenerator(final int dimension, final int[] bases, final int[] weights) {
         NullArgumentException.check(bases);
 
         if (dimension < 1 || dimension > bases.length) {
-            throw new OutOfRangeException(dimension, 1, PRIMES.length);
+            throw new OutOfRangeException(dimension, 1, bases.length);
         }
 
         if (weights != null && weights.length != bases.length) {
@@ -117,6 +120,12 @@ public class HaltonSequenceGenerator implements Supplier<double[]> {
         this.base = bases.clone();
         this.weight = weights == null ? null : weights.clone();
         count = 0;
+
+        for (final int b : base) {
+            if (b < 2) {
+                throw new NumberIsTooSmallException(b, 2, true);
+            }
+        }
     }
 
     /** {@inheritDoc} */
