@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.time.Duration;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import org.apache.commons.numbers.core.Precision;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 
 /**
@@ -326,5 +328,34 @@ public class OpenIntToDoubleHashMapTest {
         map.put(key2, value2);
         Assert.assertEquals(1, map.size());
         Assert.assertTrue(Precision.equals(value2, map.get(key2), 1));
+    }
+
+    /**
+     * Removed entries keep their slot, so repeatedly adding and removing
+     * distinct keys must not use up every free slot of the table.
+     */
+    @Test
+    public void testPutAndRemoveManyKeys() {
+        Assertions.assertTimeoutPreemptively(Duration.ofSeconds(30), () -> {
+            OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap();
+            for (int i = 0; i < 10000; ++i) {
+                map.put(i, i);
+                if (i % 100 != 0) {
+                    map.remove(i);
+                }
+            }
+            Assert.assertEquals(100, map.size());
+            for (int i = 0; i < 10000; ++i) {
+                if (i % 100 == 0) {
+                    Assert.assertEquals(i, map.get(i), 0);
+                } else {
+                    Assert.assertFalse(map.containsKey(i));
+                    Assert.assertTrue(Double.isNaN(map.get(i)));
+                }
+            }
+            Assert.assertTrue(Double.isNaN(map.remove(-1)));
+            map.put(-1, 1.0);
+            Assert.assertEquals(1.0, map.get(-1), 0);
+        });
     }
 }

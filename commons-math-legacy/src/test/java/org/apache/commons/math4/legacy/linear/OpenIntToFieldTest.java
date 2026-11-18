@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.legacy.linear;
 
+import java.time.Duration;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ import org.apache.commons.math4.legacy.core.dfp.DfpField;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 
 
 @SuppressWarnings("boxing")
@@ -329,5 +331,34 @@ public class OpenIntToFieldTest {
         map.put(key2, value2);
         Assert.assertEquals(1, map.size());
         Assert.assertEquals(value2, map.get(key2));
+    }
+
+    /**
+     * Removed entries keep their slot, so repeatedly adding and removing
+     * distinct keys must not use up every free slot of the table.
+     */
+    @Test
+    public void testPutAndRemoveManyKeys() {
+        Assertions.assertTimeoutPreemptively(Duration.ofSeconds(30), () -> {
+            OpenIntToFieldHashMap<Dfp> map = new OpenIntToFieldHashMap<>(field);
+            for (int i = 0; i < 10000; ++i) {
+                map.put(i, Dfp25.of(i));
+                if (i % 100 != 0) {
+                    map.remove(i);
+                }
+            }
+            Assert.assertEquals(100, map.size());
+            for (int i = 0; i < 10000; ++i) {
+                if (i % 100 == 0) {
+                    Assert.assertEquals(Dfp25.of(i), map.get(i));
+                } else {
+                    Assert.assertFalse(map.containsKey(i));
+                    Assert.assertEquals(field.getZero(), map.get(i));
+                }
+            }
+            Assert.assertEquals(field.getZero(), map.remove(-1));
+            map.put(-1, Dfp25.of(1));
+            Assert.assertEquals(Dfp25.of(1), map.get(-1));
+        });
     }
 }
