@@ -96,6 +96,10 @@ Caveat:
  to support the whole codebase (it was one of the main reasons for
  creating more focused components).
 ">
+      <action dev="aherbert" type="fix" issue="MATH-1698" due-to="insaf021">
+        "KendallsCorrelation": Avoid boxing when sorting paired double arrays
+        and document signed zero behavior.
+      </action>
       <action dev="aherbert" type="fix" due-to="insaf021">
         "AggregateSummaryStatistics": Summaries with getN() == 0 are now skipped
         avoiding NaN statistics when aggregating a set of non-empty summaries
