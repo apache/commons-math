@@ -283,7 +283,7 @@ public class RealMatrixFormat {
     public RealMatrix parse(String source) {
         final ParsePosition parsePosition = new ParsePosition(0);
         final RealMatrix result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
+        if (result == null) {
             throw new MathParseException(source,
                                          parsePosition.getErrorIndex(),
                                          Array2DRowRealMatrix.class);
@@ -348,7 +348,8 @@ public class RealMatrixFormat {
                 if (component != null) {
                     rowComponents.add(component);
                 } else {
-                    if (rowComponents.isEmpty()) {
+                    if (rowComponents.isEmpty() &&
+                        (matrix.isEmpty() || trimmedRowPrefix.isEmpty())) {
                         loop = false;
                     } else {
                         // invalid component
