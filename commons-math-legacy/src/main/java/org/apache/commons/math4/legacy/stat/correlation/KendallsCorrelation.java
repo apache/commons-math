@@ -17,14 +17,12 @@
 package org.apache.commons.math4.legacy.stat.correlation;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.linear.BlockRealMatrix;
 import org.apache.commons.math4.legacy.linear.MatrixUtils;
 import org.apache.commons.math4.legacy.linear.RealMatrix;
 import org.apache.commons.math4.core.jdkmath.JdkMath;
-import org.apache.commons.math4.legacy.core.Pair;
 
 /**
  * Implementation of Kendall's Tau-b rank correlation.
@@ -38,6 +36,10 @@ import org.apache.commons.math4.legacy.core.Pair;
  * y<sub>1</sub> &lt; y<sub>2</sub>.  If either x<sub>1</sub> = x<sub>2</sub>
  * or y<sub>1</sub> = y<sub>2</sub>, the pair is neither concordant nor
  * discordant.
+ * <p>
+ * Values are ordered using {@link Double#compare(double, double)}. Signed
+ * zeros are therefore distinct: {@code -0.0} is less than {@code 0.0} and a
+ * pair with these values is not counted as a tie.
  * <p>
  * Kendall's Tau-b is defined as:
  * <div style="white-space: pre"><code>
@@ -161,31 +163,26 @@ public class KendallsCorrelation {
         final int n = xArray.length;
         final long numPairs = sum(n - 1);
 
-        @SuppressWarnings("unchecked")
-        Pair<Double, Double>[] pairs = new Pair[n];
+        double[][] pairs = new double[n][];
         for (int i = 0; i < n; i++) {
-            pairs[i] = new Pair<>(xArray[i], yArray[i]);
+            pairs[i] = new double[] {xArray[i], yArray[i]};
         }
 
-        Arrays.sort(pairs, new Comparator<Pair<Double, Double>>() {
-            /** {@inheritDoc} */
-            @Override
-            public int compare(Pair<Double, Double> pair1, Pair<Double, Double> pair2) {
-                int compareFirst = pair1.getFirst().compareTo(pair2.getFirst());
-                return compareFirst != 0 ? compareFirst : pair1.getSecond().compareTo(pair2.getSecond());
-            }
+        Arrays.sort(pairs, (pair1, pair2) -> {
+            final int compareFirst = Double.compare(pair1[0], pair2[0]);
+            return compareFirst != 0 ? compareFirst : Double.compare(pair1[1], pair2[1]);
         });
 
         long tiedXPairs = 0;
         long tiedXYPairs = 0;
         long consecutiveXTies = 1;
         long consecutiveXYTies = 1;
-        Pair<Double, Double> prev = pairs[0];
+        double[] prev = pairs[0];
         for (int i = 1; i < n; i++) {
-            final Pair<Double, Double> curr = pairs[i];
-            if (curr.getFirst().equals(prev.getFirst())) {
+            final double[] curr = pairs[i];
+            if (Double.compare(curr[0], prev[0]) == 0) {
                 consecutiveXTies++;
-                if (curr.getSecond().equals(prev.getSecond())) {
+                if (Double.compare(curr[1], prev[1]) == 0) {
                     consecutiveXYTies++;
                 } else {
                     tiedXYPairs += sum(consecutiveXYTies - 1);
@@ -203,8 +200,7 @@ public class KendallsCorrelation {
         tiedXYPairs += sum(consecutiveXYTies - 1);
 
         long swaps = 0;
-        @SuppressWarnings("unchecked")
-        Pair<Double, Double>[] pairsDestination = new Pair[n];
+        double[][] pairsDestination = new double[n][];
         for (int segmentSize = 1; segmentSize < n; segmentSize <<= 1) {
             for (int offset = 0; offset < n; offset += 2 * segmentSize) {
                 int i = offset;
@@ -216,7 +212,7 @@ public class KendallsCorrelation {
                 while (i < iEnd || j < jEnd) {
                     if (i < iEnd) {
                         if (j < jEnd) {
-                            if (pairs[i].getSecond().compareTo(pairs[j].getSecond()) <= 0) {
+                            if (Double.compare(pairs[i][1], pairs[j][1]) <= 0) {
                                 pairsDestination[copyLocation] = pairs[i];
                                 i++;
                             } else {
@@ -235,7 +231,7 @@ public class KendallsCorrelation {
                     copyLocation++;
                 }
             }
-            final Pair<Double, Double>[] pairsTemp = pairs;
+            final double[][] pairsTemp = pairs;
             pairs = pairsDestination;
             pairsDestination = pairsTemp;
         }
@@ -244,8 +240,8 @@ public class KendallsCorrelation {
         long consecutiveYTies = 1;
         prev = pairs[0];
         for (int i = 1; i < n; i++) {
-            final Pair<Double, Double> curr = pairs[i];
-            if (curr.getSecond().equals(prev.getSecond())) {
+            final double[] curr = pairs[i];
+            if (Double.compare(curr[1], prev[1]) == 0) {
                 consecutiveYTies++;
             } else {
                 tiedYPairs += sum(consecutiveYTies - 1);
