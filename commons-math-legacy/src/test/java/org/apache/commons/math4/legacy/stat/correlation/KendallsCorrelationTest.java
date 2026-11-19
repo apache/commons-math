@@ -217,6 +217,16 @@ public class KendallsCorrelationTest extends PearsonsCorrelationTest {
     }
 
     @Test
+    public void testSignedZeros() {
+        // -0.0 is ordered below 0.0 and the two are not a tie
+        final double[] xArray = new double[] {0.0, -0.0, 1.0};
+        final double[] yArray = new double[] {1.0, 2.0, 3.0};
+        Assert.assertEquals(1.0 / 3.0, correlation.correlation(xArray, yArray), 1e-15);
+        Assert.assertEquals(1.0 / 3.0, correlation.correlation(yArray, xArray), 1e-15);
+        Assert.assertEquals(-1.0, correlation.correlation(new double[] {0.0, -0.0}, new double[] {1.0, 2.0}), 0);
+    }
+
+    @Test
     public void test2dDoubleArray() {
         final double[][] input = new double[][] {
                 new double[] {2.0, 1.0, 2.0},
