@@ -116,6 +116,24 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         Assert.assertEquals("9223372036854775807.", new Dfp(field, Long.MAX_VALUE).toString());
     }
 
+    @Test
+    public void testLongConstructorBeyondPrecision() {
+        // 4 radix digits (16 decimal digits) cannot hold every long
+        final DfpField small = new DfpField(10);
+        Assert.assertEquals(4, small.getRadixDigits());
+        final long[] values = {
+            10000000000000000L, 12345678901234567L, -12345678901234567L,
+            9999999999999999L, 99999999999999999L, -99999999999999999L,
+            Long.MAX_VALUE, Long.MIN_VALUE, Long.MIN_VALUE + 1
+        };
+        for (final long x : values) {
+            Assert.assertEquals(Long.toString(x), small.newDfp(Long.toString(x)), small.newDfp(x));
+        }
+        Assert.assertEquals("9.22337203685478e18", small.newDfp(Long.MAX_VALUE).toString());
+        Assert.assertEquals("-9.22337203685478e18", small.newDfp(Long.MIN_VALUE).toString());
+        Assert.assertEquals("1.23456789012346e18", small.newDfp(1234567890123456789L).toString());
+    }
+
     /*
      *  Test addition
      */
