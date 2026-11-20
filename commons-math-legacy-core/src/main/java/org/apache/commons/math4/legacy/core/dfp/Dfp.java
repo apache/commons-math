@@ -236,14 +236,27 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         exp = 0;
+        int lostdigit = 0;
         while (x != 0) {
-            System.arraycopy(mant, mant.length - exp, mant, mant.length - 1 - exp, exp);
+            if (exp < mant.length) {
+                System.arraycopy(mant, mant.length - exp, mant, mant.length - 1 - exp, exp);
+            } else {
+                // the mantissa is full, the least significant digit is shifted out
+                // (a long has at most 5 radix digits and a field at least 4,
+                // so at most one digit is lost)
+                lostdigit = mant[0];
+                System.arraycopy(mant, 1, mant, 0, mant.length - 1);
+            }
             mant[mant.length - 1] = (int) (x % RADIX);
             x /= RADIX;
             exp++;
         }
 
-        if (isLongMin) {
+        if (isLongMin && lostdigit != 0) {
+            // remove the shift added for Long.MIN_VALUE
+            // the last digit is the one that was shifted out
+            lostdigit++;
+        } else if (isLongMin) {
             // remove the shift added for Long.MIN_VALUE
             // we know in this case that fixing the last digit is sufficient
             for (int i = 0; i < mant.length - 1; i++) {
@@ -252,6 +265,10 @@ public class Dfp implements RealFieldElement<Dfp> {
                     break;
                 }
             }
+        }
+
+        if (lostdigit != 0) {
+            round(lostdigit);
         }
     }
 
