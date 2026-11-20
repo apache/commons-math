@@ -46,7 +46,7 @@
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]SimpleCurveFitter\.java$" lines="321-322" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]LevenbergMarquardtOptimizer\.java$" lines="525,739" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]EnumeratedDistribution\.java$" lines="128-129" />
-  <suppress checks="UnnecessaryParentheses" files=".*[/\\]SimpleRegression\.java$" lines="823" />
+  <suppress checks="UnnecessaryParentheses" files=".*[/\\]SimpleRegression\.java$" lines="827" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]MillerUpdatingRegression\.java$" lines="172-173" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]GraggBulirschStoerIntegrator\.java$" lines="638-639,679,767" />
   <suppress checks="UnnecessaryParentheses" files=".*[/\\]MultiDirectionalTransform\.java$" lines="94" />
