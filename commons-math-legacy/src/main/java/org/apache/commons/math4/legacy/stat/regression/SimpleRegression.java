@@ -207,7 +207,11 @@ public class SimpleRegression implements UpdatingMultipleLinearRegression {
      * @param y dependent variable value
      */
     public void removeData(final double x,final double y) {
-        if (n > 0) {
+        if (n == 1) {
+            // Removing the last observation empties the model; the updating
+            // formulas below would divide by n - 1 = 0.
+            clear();
+        } else if (n > 0) {
             if (hasIntercept) {
                 final double fact1 = n - 1.0;
                 final double fact2 = n / (n - 1.0);
