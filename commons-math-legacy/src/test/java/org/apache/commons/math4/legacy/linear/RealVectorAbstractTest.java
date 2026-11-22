@@ -723,6 +723,17 @@ public abstract class RealVectorAbstractTest {
         doTestGetLInfDistance(true);
     }
 
+    @Test
+    public void testGetLInfDistanceWithNegativeEntries() {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = new double[] { x, x };
+        final double[] data2 = new double[] { x, -5d };
+        final RealVector v1 = create(data1);
+        final RealVector v2 = create(data2);
+        Assert.assertEquals("", 5d, v1.getLInfDistance(v2), 0d);
+        Assert.assertEquals("", 5d, v1.getLInfDistance(createAlien(data2)), 0d);
+    }
+
     @Test(expected = DimensionMismatchException.class)
     public void testGetLInfDistanceDimensionMismatch() {
         create(new double[4]).getLInfDistance(createAlien(new double[5]));
