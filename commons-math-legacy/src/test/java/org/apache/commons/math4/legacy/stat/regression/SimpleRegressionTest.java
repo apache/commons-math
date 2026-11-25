@@ -687,4 +687,29 @@ public final class SimpleRegressionTest {
         regression.removeData(removeMultiple);
         Assert.assertEquals(regression.getN(), 0);
     }
+
+    // Remove multiple observations to empty, then reuse the instance
+    @Test
+    public void testRemoveToEmptyThenReuse() {
+        final SimpleRegression expected = new SimpleRegression();
+        expected.addData(infData);
+
+        final SimpleRegression regression = new SimpleRegression();
+        regression.addData(removeMultiple);
+        regression.removeData(removeMultiple);
+        Assert.assertEquals(0, regression.getN());
+        Assert.assertEquals(0, regression.getSumOfCrossProducts(), 0);
+
+        // Appending the emptied instance must not change the target
+        final SimpleRegression appended = new SimpleRegression();
+        appended.addData(infData);
+        appended.append(regression);
+        Assert.assertEquals(expected.getSlope(), appended.getSlope(), 0);
+        Assert.assertEquals(expected.getIntercept(), appended.getIntercept(), 0);
+
+        regression.addData(infData);
+        Assert.assertEquals(expected.getSlope(), regression.getSlope(), 0);
+        Assert.assertEquals(expected.getIntercept(), regression.getIntercept(), 0);
+        Assert.assertEquals(expected.getRSquare(), regression.getRSquare(), 0);
+    }
 }
