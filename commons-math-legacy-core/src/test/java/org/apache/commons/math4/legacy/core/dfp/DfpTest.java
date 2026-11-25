@@ -116,6 +116,60 @@ public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
         Assert.assertEquals("9223372036854775807.", new Dfp(field, Long.MAX_VALUE).toString());
     }
 
+    @Test
+    public void testLongConstructorBeyondPrecision() {
+        // Fewer than 13 decimal digits still gives 4 radix digits, i.e. 16 decimal
+        // digits of mantissa. The decimal point sits on a radix boundary, so a value
+        // of 17 to 19 digits spends its leading radix digit on 1, 2 or 3 decimal
+        // digits and keeps 13, 14 or 15 of them; the fifth radix digit is rounded off.
+        final DfpField small = new DfpField(10);
+        Assert.assertEquals(4, small.getRadixDigits());
+        Assert.assertEquals(DfpField.RoundingMode.ROUND_HALF_EVEN, small.getRoundingMode());
+
+        // 16 digits fill the mantissa exactly, nothing to round
+        Assert.assertEquals("1000000000000000.", small.newDfp(1000000000000000L).toString());
+        Assert.assertEquals("9999999999999999.", small.newDfp(9999999999999999L).toString());
+        Assert.assertEquals("-9999999999999999.", small.newDfp(-9999999999999999L).toString());
+
+        // 17 digits, 13 kept
+        Assert.assertEquals("1.000000000000e16", small.newDfp(10000000000000000L).toString());
+        // 4567 rounds down, 5567 rounds up
+        Assert.assertEquals("1.234567890123e16", small.newDfp(12345678901234567L).toString());
+        Assert.assertEquals("-1.234567890123e16", small.newDfp(-12345678901234567L).toString());
+        Assert.assertEquals("1.234567890124e16", small.newDfp(12345678901235567L).toString());
+        Assert.assertEquals("-1.234567890124e16", small.newDfp(-12345678901235567L).toString());
+        // halfway cases go to even: ...123 is odd so it rounds up, ...124 stays
+        Assert.assertEquals("1.234567890124e16", small.newDfp(12345678901235000L).toString());
+        Assert.assertEquals("1.234567890124e16", small.newDfp(12345678901245000L).toString());
+        // rounding up carries through the whole mantissa
+        Assert.assertEquals("1.0000000000000e17", small.newDfp(99999999999999999L).toString());
+        Assert.assertEquals("-1.0000000000000e17", small.newDfp(-99999999999999999L).toString());
+
+        // 18 digits, 14 kept: 4678 rounds down, 5678 rounds up
+        Assert.assertEquals("1.2345678901234e17", small.newDfp(123456789012344678L).toString());
+        Assert.assertEquals("-1.2345678901234e17", small.newDfp(-123456789012344678L).toString());
+        Assert.assertEquals("1.2345678901235e17", small.newDfp(123456789012345678L).toString());
+        Assert.assertEquals("-1.2345678901235e17", small.newDfp(-123456789012345678L).toString());
+        Assert.assertEquals("1.00000000000000e18", small.newDfp(999999999999999999L).toString());
+
+        // 19 digits, 15 kept: 1789 rounds down, 6789 rounds up
+        Assert.assertEquals("1.23456789012345e18", small.newDfp(1234567890123451789L).toString());
+        Assert.assertEquals("-1.23456789012345e18", small.newDfp(-1234567890123451789L).toString());
+        Assert.assertEquals("1.23456789012346e18", small.newDfp(1234567890123456789L).toString());
+        Assert.assertEquals("-1.23456789012346e18", small.newDfp(-1234567890123456789L).toString());
+
+        // the values that used to throw ArrayIndexOutOfBoundsException
+        Assert.assertEquals("9.22337203685478e18", small.newDfp(Long.MAX_VALUE).toString());
+        Assert.assertEquals("-9.22337203685478e18", small.newDfp(Long.MIN_VALUE).toString());
+        Assert.assertEquals("-9.22337203685478e18", small.newDfp(Long.MIN_VALUE + 1).toString());
+
+        // the long and the string constructor agree on the rounded value
+        Assert.assertEquals(small.newDfp("9223372036854775807"), small.newDfp(Long.MAX_VALUE));
+        Assert.assertEquals(small.newDfp("-9223372036854775808"), small.newDfp(Long.MIN_VALUE));
+        Assert.assertEquals(small.newDfp("12345678901234567"), small.newDfp(12345678901234567L));
+        Assert.assertEquals(small.newDfp("1234567890123456789"), small.newDfp(1234567890123456789L));
+    }
+
     /*
      *  Test addition
      */
