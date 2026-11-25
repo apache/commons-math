@@ -457,6 +457,14 @@ public final class StatUtilsTest {
     }
 
     @Test
+    public void testPercentileDoesNotModifyInput() {
+        final double[] x = {THREE, ONE, TWO, TWO};
+        StatUtils.percentile(x, 50);
+        StatUtils.percentile(x, 1, 3, 50);
+        Assert.assertArrayEquals(new double[] {THREE, ONE, TWO, TWO}, x, 0);
+    }
+
+    @Test
     public void testDifferenceStats() {
         double sample1[] = {1d, 2d, 3d, 4d};
         double sample2[] = {1d, 3d, 4d, 2d};

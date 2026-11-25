@@ -316,7 +316,7 @@ final class Statistics {
     static final class Percentile implements UnivariateStatistic {
         /** Delegate percentile implementation. */
         private static final Quantile QUANTILE =
-            Quantile.withDefaults().with(EstimationMethod.HF6).withCopy(false);
+            Quantile.withDefaults().with(EstimationMethod.HF6).withCopy(true);
 
         /** Probability. */
         private double p;
