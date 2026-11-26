@@ -287,6 +287,27 @@ public class MathArraysTest {
     }
 
     @Test
+    public void testCheckOrderNaN() {
+        final double nan = Double.NaN;
+        for (final MathArrays.OrderDirection dir : MathArrays.OrderDirection.values()) {
+            for (final boolean strict : new boolean[] {true, false}) {
+                Assert.assertFalse(MathArrays.checkOrder(new double[] {1, nan, 0}, dir, strict, false));
+                Assert.assertFalse(MathArrays.checkOrder(new double[] {0, nan, 1}, dir, strict, false));
+                Assert.assertFalse(MathArrays.checkOrder(new double[] {nan, 0}, dir, strict, false));
+                Assert.assertFalse(MathArrays.checkOrder(new double[] {0, nan}, dir, strict, false));
+                Assert.assertFalse(MathArrays.isMonotonic(new double[] {1, nan, 0}, dir, strict));
+                Assert.assertFalse(MathArrays.isMonotonic(new double[] {0, nan, 1}, dir, strict));
+            }
+        }
+        try {
+            MathArrays.checkOrder(new double[] {0, 2, nan, 1, 3});
+            Assert.fail("an exception should have been thrown");
+        } catch (NonMonotonicSequenceException e) {
+            // Expected
+        }
+    }
+
+    @Test
     public void testIsMonotonic() {
         Assert.assertFalse(MathArrays.isMonotonic(new double[] {-15, -5.5, -1, -1, 2, 15},
                                                   MathArrays.OrderDirection.INCREASING, true));
