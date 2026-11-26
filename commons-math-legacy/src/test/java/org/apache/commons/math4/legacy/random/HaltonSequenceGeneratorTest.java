@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.apache.commons.math4.legacy.exception.DimensionMismatchException;
 import org.apache.commons.math4.legacy.exception.NotPositiveException;
 import org.apache.commons.math4.legacy.exception.NullArgumentException;
+import org.apache.commons.math4.legacy.exception.NumberIsTooSmallException;
 import org.apache.commons.math4.legacy.exception.OutOfRangeException;
 import org.junit.Before;
 import org.junit.Test;
@@ -116,6 +117,27 @@ public class HaltonSequenceGeneratorTest {
             Assert.fail("an exception should have been thrown");
         } catch (DimensionMismatchException e) {
             // expected
+        }
+
+        try {
+            new HaltonSequenceGenerator(3, new int[] { 2, 3 }, null);
+            Assert.fail("an exception should have been thrown");
+        } catch (OutOfRangeException e) {
+            Assert.assertEquals(2, e.getHi());
+        }
+    }
+
+    @Test
+    public void testConstructorInvalidBase() {
+        // A base of 1 never reduces the index (infinite loop), 0 divides by zero
+        // and a negative base yields points outside [0, 1].
+        for (int b : new int[] { 1, 0, -2 }) {
+            try {
+                new HaltonSequenceGenerator(2, new int[] { 2, b }, null);
+                Assert.fail("an exception should have been thrown for base " + b);
+            } catch (NumberIsTooSmallException e) {
+                // expected
+            }
         }
     }
 
