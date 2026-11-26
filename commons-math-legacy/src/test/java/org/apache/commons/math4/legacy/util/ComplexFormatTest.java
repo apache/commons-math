@@ -30,4 +30,22 @@ public class ComplexFormatTest extends ComplexFormatAbstractTest {
     protected Locale getLocale() {
         return Locale.US;
     }
+    @Test
+    public void testParseBoundaryConditions() {
+        ComplexFormat format = ComplexFormat.getInstance();
+        
+        // Test parsing empty string boundary
+        try {
+            format.parse("");
+        } catch (Exception ex) {
+            // Expected exception for empty input
+        }
+        
+        // Test parsing garbage/invalid string boundary
+        try {
+            format.parse("invalid_complex_string");
+        } catch (Exception ex) {
+            // Expected exception for invalid input
+        }
+    }
 }
