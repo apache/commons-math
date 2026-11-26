@@ -222,7 +222,7 @@ public class RealVectorFormat {
     public ArrayRealVector parse(String source) {
         final ParsePosition parsePosition = new ParsePosition(0);
         final ArrayRealVector result = parse(source, parsePosition);
-        if (parsePosition.getIndex() == 0) {
+        if (result == null) {
             throw new MathParseException(source,
                                          parsePosition.getErrorIndex(),
                                          ArrayRealVector.class);
